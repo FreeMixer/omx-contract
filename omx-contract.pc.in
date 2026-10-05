@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+prefix=@PREFIX@
+includedir=@INCLUDEDIR@
+datadir=@DATADIR@/omx-contract
+
+Name: omx-contract
+Description: The FreeMixer declarations as data, rendered as C headers (omxcontract/)
+Version: @VERSION@
+Cflags: -I${includedir}

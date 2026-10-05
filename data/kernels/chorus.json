@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "CHORUS_SPREAD_RANGE": {
+    "kind": "travels",
+    "doc": "The chorus's right-leg phase offset, in TURNS of its one oscillator (§2, §3a; the native-FX catalogue's M32 Dimension row). The right leg's voice k reads the LFO at k/N + spread: 0 is both legs one phase (the stage without the field, bit for bit), 0.25 quadrature, 0.5 the Dimension's opposed sweep. A fraction of a cycle carries no engineering symbol, so the unit is ''.",
+    "travel": {
+      "min": 0,
+      "max": 0.5,
+      "step": 0.01,
+      "unit": "",
+      "default": 0,
+      "defaultFrom": "desk"
+    }
+  }
+}
