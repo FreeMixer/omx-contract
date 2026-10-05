@@ -1,0 +1,3723 @@
+{
+ "about": "Frozen export of openmixer's whole contract-limits sheet at the pin f98836216b53 and its delay plugin selection, for the round-trip proof (omx-contract spec §4.4 step 1). Test input only, never shipped data. Built from openmixer 6c6e709f4429 (input/openmixer-snapshot) by tools/seed/seed-from-openmixer.mjs, rewound to the pin by: scalars added after it removed (CUE_FADE_MS_RANGE_MAX, CUE_FADE_MS_RANGE_MIN, CUE_FADE_TICK_MS, CUE_GO_GUARD_MS, CUE_HAND_EPSILON, CUE_RESTORE_RING, ROOM_PROFILE_SCHEMA_VERSION); scalars moved after it at the pin's value (CONTRACT_VERSION_MINOR); the CLAP host extension ids read off the pinned header.",
+ "sheet": {
+  "CHANNEL_CONTRACT": {
+   "fader": {
+    "laws": []
+   },
+   "mute": {
+    "laws": []
+   },
+   "solo": {
+    "laws": []
+   },
+   "soloSafe": {
+    "laws": []
+   },
+   "pan": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "constant-power-pan"
+     }
+    ]
+   },
+   "divergence": {
+    "laws": []
+   },
+   "gain": {
+    "laws": []
+   },
+   "trim": {
+    "laws": []
+   },
+   "align": {
+    "laws": []
+   },
+   "polarity": {
+    "laws": []
+   },
+   "name": {
+    "laws": []
+   },
+   "colour": {
+    "laws": []
+   },
+   "instrument": {
+    "laws": []
+   },
+   "width": {
+    "laws": []
+   },
+   "link": {
+    "laws": []
+   },
+   "headAmp": {
+    "laws": []
+   },
+   "eq": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "no-denormal-state"
+     },
+     {
+      "law": "bypass-identity"
+     }
+    ]
+   },
+   "gate": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "no-denormal-state"
+     },
+     {
+      "law": "bypass-identity"
+     },
+     {
+      "law": "no-gain-added"
+     },
+     {
+      "law": "unity-at-default"
+     }
+    ]
+   },
+   "gateKey": {
+    "laws": []
+   },
+   "dynamics": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "no-denormal-state"
+     },
+     {
+      "law": "bypass-identity"
+     },
+     {
+      "law": "output-le-input-plus"
+     },
+     {
+      "law": "unity-at-default"
+     }
+    ]
+   },
+   "delay": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "bypass-identity"
+     },
+     {
+      "law": "delayed-copy"
+     }
+    ]
+   },
+   "reverb": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "no-denormal-state"
+     },
+     {
+      "law": "bypass-identity"
+     },
+     {
+      "law": "tail-decays"
+     }
+    ]
+   },
+   "drive": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "bypass-identity"
+     },
+     {
+      "law": "unity-at-default"
+     }
+    ]
+   },
+   "deEsser": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "no-denormal-state"
+     },
+     {
+      "law": "bypass-identity"
+     },
+     {
+      "law": "no-gain-added"
+     }
+    ]
+   },
+   "chorus": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "bypass-identity"
+     }
+    ]
+   },
+   "flanger": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "no-denormal-state"
+     },
+     {
+      "law": "bypass-identity"
+     }
+    ]
+   },
+   "limiter": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "bypass-identity"
+     }
+    ]
+   },
+   "order": {
+    "laws": []
+   },
+   "chain": {
+    "laws": []
+   },
+   "inserts": {
+    "laws": []
+   },
+   "sends": {
+    "laws": []
+   },
+   "meter": {
+    "laws": []
+   },
+   "rta": {
+    "laws": []
+   },
+   "hrp": {
+    "laws": []
+   },
+   "fbs": {
+    "laws": []
+   },
+   "recallSafe": {
+    "laws": []
+   },
+   "clip": {
+    "laws": []
+   },
+   "members": {
+    "laws": []
+   },
+   "parents": {
+    "laws": []
+   },
+   "toMain": {
+    "laws": [
+     {
+      "law": "finite"
+     },
+     {
+      "law": "linear-sum"
+     }
+    ]
+   },
+   "sources": {
+    "laws": []
+   },
+   "sourceStereo": {
+    "laws": []
+   },
+   "sourceRef": {
+    "laws": []
+   },
+   "record": {
+    "laws": []
+   },
+   "source": {
+    "laws": []
+   }
+  },
+  "LAW_KINDS": [
+   "no-gain-added",
+   "output-le-input-plus",
+   "unity-at-default",
+   "delayed-copy",
+   "bypass-identity",
+   "tail-decays",
+   "constant-power-pan",
+   "linear-sum",
+   "finite",
+   "no-denormal-state"
+  ],
+  "NATIVE_LIMIT_TABLES": [
+   [
+    "COMP",
+    {
+     "thresholdDb": {
+      "min": -60,
+      "max": 0,
+      "step": 1,
+      "unit": "dB",
+      "default": -18,
+      "defaultFrom": "desk"
+     },
+     "ratio": {
+      "min": 1,
+      "max": 20,
+      "step": 0.5,
+      "unit": "",
+      "default": 4,
+      "defaultFrom": "desk"
+     },
+     "kneeDb": {
+      "min": 0,
+      "max": 24,
+      "step": 0.5,
+      "unit": "dB",
+      "default": 6,
+      "defaultFrom": "desk"
+     },
+     "attackMs": {
+      "min": 0.1,
+      "max": 100,
+      "step": 1,
+      "unit": "ms",
+      "default": 5,
+      "defaultFrom": "desk"
+     },
+     "releaseMs": {
+      "min": 5,
+      "max": 3000,
+      "step": 10,
+      "unit": "ms",
+      "default": 200,
+      "defaultFrom": "desk"
+     },
+     "makeupDb": {
+      "min": 0,
+      "max": 24,
+      "step": 0.5,
+      "unit": "dB",
+      "default": 0,
+      "defaultFrom": "desk"
+     },
+     "mixPct": {
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100,
+      "defaultFrom": "desk"
+     }
+    }
+   ],
+   [
+    "GATE",
+    {
+     "thresholdDb": {
+      "min": -80,
+      "max": 0,
+      "step": 1,
+      "unit": "dB",
+      "default": -40,
+      "defaultFrom": "desk"
+     },
+     "rangeDb": {
+      "min": -90,
+      "max": 0,
+      "step": 1,
+      "unit": "dB",
+      "default": -90,
+      "defaultFrom": "desk"
+     },
+     "kneeStartDb": {
+      "min": -80,
+      "max": 0,
+      "step": 1,
+      "unit": "dB",
+      "default": -43,
+      "defaultFrom": "desk"
+     },
+     "kneeEndDb": {
+      "min": -80,
+      "max": 0,
+      "step": 1,
+      "unit": "dB",
+      "default": -37,
+      "defaultFrom": "desk"
+     },
+     "attackMs": {
+      "min": 0,
+      "max": 500,
+      "step": 0.5,
+      "unit": "ms",
+      "default": 1,
+      "defaultFrom": "desk"
+     },
+     "holdMs": {
+      "min": 0,
+      "max": 2000,
+      "step": 5,
+      "unit": "ms",
+      "default": 10,
+      "defaultFrom": "desk"
+     },
+     "releaseMs": {
+      "min": 0,
+      "max": 5000,
+      "step": 10,
+      "unit": "ms",
+      "default": 100,
+      "defaultFrom": "desk"
+     },
+     "hysteresisDb": {
+      "min": 0,
+      "max": 24,
+      "step": 0.5,
+      "unit": "dB",
+      "default": 3,
+      "defaultFrom": "desk"
+     },
+     "ratio": {
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "",
+      "default": 16,
+      "defaultFrom": "desk"
+     }
+    }
+   ],
+   [
+    "LIMITER",
+    {
+     "ceilingDb": {
+      "min": -12,
+      "max": 0,
+      "step": 0.1,
+      "unit": "dBFS",
+      "default": -1,
+      "defaultFrom": "desk"
+     },
+     "lookaheadMs": {
+      "min": 0.5,
+      "max": 5,
+      "step": 0.1,
+      "unit": "ms",
+      "default": 1.5,
+      "defaultFrom": "desk"
+     },
+     "releaseMs": {
+      "min": 1,
+      "max": 1000,
+      "step": 1,
+      "unit": "ms",
+      "default": 50,
+      "defaultFrom": "desk"
+     }
+    }
+   ],
+   [
+    "PITCH",
+    {
+     "semitones": {
+      "min": -12,
+      "max": 12,
+      "default": 0
+     },
+     "cents": {
+      "min": -50,
+      "max": 50,
+      "default": 0
+     },
+     "mix": {
+      "min": 0,
+      "max": 100,
+      "default": 100
+     }
+    }
+   ],
+   [
+    "TRANSIENT",
+    {
+     "attackDb": {
+      "min": -24,
+      "max": 24,
+      "step": 0.1,
+      "unit": "dB",
+      "default": 0,
+      "defaultFrom": "desk"
+     },
+     "sustainDb": {
+      "min": -24,
+      "max": 24,
+      "step": 0.1,
+      "unit": "dB",
+      "default": 0,
+      "defaultFrom": "desk"
+     },
+     "attackTimeMs": {
+      "min": 2,
+      "max": 50,
+      "step": 0.1,
+      "unit": "ms",
+      "default": 10,
+      "defaultFrom": "desk"
+     },
+     "sustainTimeMs": {
+      "min": 50,
+      "max": 2000,
+      "step": 1,
+      "unit": "ms",
+      "default": 250,
+      "defaultFrom": "desk"
+     },
+     "outputDb": {
+      "min": -24,
+      "max": 12,
+      "step": 0.1,
+      "unit": "dB",
+      "default": 0,
+      "defaultFrom": "desk"
+     }
+    }
+   ]
+  ],
+  "CORE_LIMITS": {
+   "pan": {
+    "pan": {
+     "min": -1,
+     "max": 1,
+     "step": 0,
+     "unit": ""
+    }
+   },
+   "delay": {
+    "timeMs": {
+     "min": 0,
+     "max": 2000,
+     "step": 1,
+     "unit": "ms",
+     "default": 300,
+     "defaultFrom": "desk"
+    }
+   },
+   "reverb": {
+    "lowcut": {
+     "min": 0,
+     "max": 20000,
+     "step": 10,
+     "unit": "Hz"
+    },
+    "highcut": {
+     "min": 0,
+     "max": 20000,
+     "step": 10,
+     "unit": "Hz"
+    }
+   },
+   "drive": {
+    "driveDb": {
+     "min": 0,
+     "max": 36,
+     "step": 0.1,
+     "unit": "dB",
+     "default": 0,
+     "defaultFrom": "desk"
+    },
+    "character": {
+     "min": -1,
+     "max": 1,
+     "step": 0.01,
+     "unit": "",
+     "default": 0,
+     "defaultFrom": "desk"
+    },
+    "bandHz": {
+     "min": 20,
+     "max": 20000,
+     "step": 1,
+     "unit": "Hz",
+     "default": 2000,
+     "defaultFrom": "desk"
+    },
+    "mix": {
+     "min": 0,
+     "max": 100,
+     "step": 0.1,
+     "unit": "%",
+     "default": 100,
+     "defaultFrom": "desk"
+    },
+    "trimDb": {
+     "min": -24,
+     "max": 12,
+     "step": 0.1,
+     "unit": "dB",
+     "default": 0,
+     "defaultFrom": "desk"
+    }
+   }
+  },
+  "DECLARED_SCALARS": [
+   {
+    "path": "ALIGN_TRUST_COHERENCE",
+    "macro": "ALIGN_TRUST_COHERENCE",
+    "value": 0.5
+   },
+   {
+    "path": "ALLPASS_LIMITS.unityTolerance",
+    "macro": "ALLPASS_UNITY_TOLERANCE",
+    "value": 0.0001
+   },
+   {
+    "path": "ANALYSIS_FLOOR_DB",
+    "macro": "ANALYSIS_FLOOR_DB",
+    "value": -240
+   },
+   {
+    "path": "BAND_F_MAX_CAP",
+    "macro": "BAND_F_MAX_CAP",
+    "value": 20000
+   },
+   {
+    "path": "BAND_F_MIN",
+    "macro": "BAND_F_MIN",
+    "value": 20
+   },
+   {
+    "path": "BAND_GATE_DB",
+    "macro": "BAND_GATE_DB",
+    "value": -60
+   },
+   {
+    "path": "BPM_MAX",
+    "macro": "BPM_MAX",
+    "value": 300
+   },
+   {
+    "path": "BPM_MIN",
+    "macro": "BPM_MIN",
+    "value": 30
+   },
+   {
+    "path": "BUS_INPUT_CAP",
+    "macro": "BUS_INPUT_CAP",
+    "value": 128
+   },
+   {
+    "path": "BUTTERWORTH_Q",
+    "macro": "BUTTERWORTH_Q",
+    "value": 0.7071067811865476
+   },
+   {
+    "path": "CENTRE_WINDOW_HALF_WIDTH",
+    "macro": "CENTRE_WINDOW_HALF_WIDTH",
+    "value": 0.5
+   },
+   {
+    "path": "CHAIN_INPUT",
+    "macro": "CHAIN_INPUT",
+    "value": -1
+   },
+   {
+    "path": "CHANNEL_CONFIG_SCHEMA_VERSION",
+    "macro": "CHANNEL_CONFIG_SCHEMA_VERSION",
+    "value": 1
+   },
+   {
+    "path": "CHORUS_DEPTH_RANGE.default",
+    "macro": "CHORUS_DEPTH_RANGE_DEFAULT",
+    "value": 4
+   },
+   {
+    "path": "CHORUS_DEPTH_RANGE.max",
+    "macro": "CHORUS_DEPTH_RANGE_MAX",
+    "value": 12
+   },
+   {
+    "path": "CHORUS_DEPTH_RANGE.min",
+    "macro": "CHORUS_DEPTH_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "CHORUS_DEPTH_RANGE.step",
+    "macro": "CHORUS_DEPTH_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "CHORUS_MIX_RANGE.default",
+    "macro": "CHORUS_MIX_RANGE_DEFAULT",
+    "value": 35
+   },
+   {
+    "path": "CHORUS_MIX_RANGE.max",
+    "macro": "CHORUS_MIX_RANGE_MAX",
+    "value": 100
+   },
+   {
+    "path": "CHORUS_MIX_RANGE.min",
+    "macro": "CHORUS_MIX_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "CHORUS_MIX_RANGE.step",
+    "macro": "CHORUS_MIX_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "CHORUS_RATE_RANGE.default",
+    "macro": "CHORUS_RATE_RANGE_DEFAULT",
+    "value": 0.6
+   },
+   {
+    "path": "CHORUS_RATE_RANGE.max",
+    "macro": "CHORUS_RATE_RANGE_MAX",
+    "value": 8
+   },
+   {
+    "path": "CHORUS_RATE_RANGE.min",
+    "macro": "CHORUS_RATE_RANGE_MIN",
+    "value": 0.05
+   },
+   {
+    "path": "CHORUS_RATE_RANGE.step",
+    "macro": "CHORUS_RATE_RANGE_STEP",
+    "value": 0.01
+   },
+   {
+    "path": "CHORUS_SPREAD_RANGE.default",
+    "macro": "CHORUS_SPREAD_RANGE_DEFAULT",
+    "value": 0
+   },
+   {
+    "path": "CHORUS_SPREAD_RANGE.max",
+    "macro": "CHORUS_SPREAD_RANGE_MAX",
+    "value": 0.5
+   },
+   {
+    "path": "CHORUS_SPREAD_RANGE.min",
+    "macro": "CHORUS_SPREAD_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "CHORUS_SPREAD_RANGE.step",
+    "macro": "CHORUS_SPREAD_RANGE_STEP",
+    "value": 0.01
+   },
+   {
+    "path": "CHORUS_VOICES_RANGE.default",
+    "macro": "CHORUS_VOICES_RANGE_DEFAULT",
+    "value": 3
+   },
+   {
+    "path": "CHORUS_VOICES_RANGE.max",
+    "macro": "CHORUS_VOICES_RANGE_MAX",
+    "value": 4
+   },
+   {
+    "path": "CHORUS_VOICES_RANGE.min",
+    "macro": "CHORUS_VOICES_RANGE_MIN",
+    "value": 1
+   },
+   {
+    "path": "CHORUS_VOICES_RANGE.step",
+    "macro": "CHORUS_VOICES_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "CONTINUOUS",
+    "macro": "CONTINUOUS",
+    "value": 0
+   },
+   {
+    "path": "CONTRACT_VERSION.major",
+    "macro": "CONTRACT_VERSION_MAJOR",
+    "value": 2
+   },
+   {
+    "path": "CONTRACT_VERSION.minor",
+    "macro": "CONTRACT_VERSION_MINOR",
+    "value": 12
+   },
+   {
+    "path": "CYCLE_FIXED_NS.176400",
+    "macro": "CYCLE_FIXED_NS_176400",
+    "value": 9382.1
+   },
+   {
+    "path": "CYCLE_FIXED_NS.192000",
+    "macro": "CYCLE_FIXED_NS_192000",
+    "value": 9382.1
+   },
+   {
+    "path": "CYCLE_FIXED_NS.44100",
+    "macro": "CYCLE_FIXED_NS_44100",
+    "value": 9309.2
+   },
+   {
+    "path": "CYCLE_FIXED_NS.48000",
+    "macro": "CYCLE_FIXED_NS_48000",
+    "value": 9309.2
+   },
+   {
+    "path": "CYCLE_FIXED_NS.88200",
+    "macro": "CYCLE_FIXED_NS_88200",
+    "value": 9309.2
+   },
+   {
+    "path": "CYCLE_FIXED_NS.96000",
+    "macro": "CYCLE_FIXED_NS_96000",
+    "value": 9309.2
+   },
+   {
+    "path": "DEEP_PLATEAU_FRAMES",
+    "macro": "DEEP_PLATEAU_FRAMES",
+    "value": 20
+   },
+   {
+    "path": "DEESS_ATTACK_RANGE.default",
+    "macro": "DEESS_ATTACK_RANGE_DEFAULT",
+    "value": 1
+   },
+   {
+    "path": "DEESS_ATTACK_RANGE.max",
+    "macro": "DEESS_ATTACK_RANGE_MAX",
+    "value": 50
+   },
+   {
+    "path": "DEESS_ATTACK_RANGE.min",
+    "macro": "DEESS_ATTACK_RANGE_MIN",
+    "value": 0.1
+   },
+   {
+    "path": "DEESS_ATTACK_RANGE.step",
+    "macro": "DEESS_ATTACK_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "DEESS_FREQ_RANGE.default",
+    "macro": "DEESS_FREQ_RANGE_DEFAULT",
+    "value": 7000
+   },
+   {
+    "path": "DEESS_FREQ_RANGE.max",
+    "macro": "DEESS_FREQ_RANGE_MAX",
+    "value": 16000
+   },
+   {
+    "path": "DEESS_FREQ_RANGE.min",
+    "macro": "DEESS_FREQ_RANGE_MIN",
+    "value": 2000
+   },
+   {
+    "path": "DEESS_FREQ_RANGE.step",
+    "macro": "DEESS_FREQ_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "DEESS_KNEE_DB",
+    "macro": "DEESS_KNEE_DB",
+    "value": 6
+   },
+   {
+    "path": "DEESS_RANGE_RANGE.default",
+    "macro": "DEESS_RANGE_RANGE_DEFAULT",
+    "value": -12
+   },
+   {
+    "path": "DEESS_RANGE_RANGE.max",
+    "macro": "DEESS_RANGE_RANGE_MAX",
+    "value": 0
+   },
+   {
+    "path": "DEESS_RANGE_RANGE.min",
+    "macro": "DEESS_RANGE_RANGE_MIN",
+    "value": -24
+   },
+   {
+    "path": "DEESS_RANGE_RANGE.step",
+    "macro": "DEESS_RANGE_RANGE_STEP",
+    "value": 0.5
+   },
+   {
+    "path": "DEESS_RATIO_RANGE.default",
+    "macro": "DEESS_RATIO_RANGE_DEFAULT",
+    "value": 4
+   },
+   {
+    "path": "DEESS_RATIO_RANGE.max",
+    "macro": "DEESS_RATIO_RANGE_MAX",
+    "value": 20
+   },
+   {
+    "path": "DEESS_RATIO_RANGE.min",
+    "macro": "DEESS_RATIO_RANGE_MIN",
+    "value": 1
+   },
+   {
+    "path": "DEESS_RATIO_RANGE.step",
+    "macro": "DEESS_RATIO_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "DEESS_RELEASE_RANGE.default",
+    "macro": "DEESS_RELEASE_RANGE_DEFAULT",
+    "value": 60
+   },
+   {
+    "path": "DEESS_RELEASE_RANGE.max",
+    "macro": "DEESS_RELEASE_RANGE_MAX",
+    "value": 500
+   },
+   {
+    "path": "DEESS_RELEASE_RANGE.min",
+    "macro": "DEESS_RELEASE_RANGE_MIN",
+    "value": 5
+   },
+   {
+    "path": "DEESS_RELEASE_RANGE.step",
+    "macro": "DEESS_RELEASE_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "DEESS_THRESHOLD_RANGE.default",
+    "macro": "DEESS_THRESHOLD_RANGE_DEFAULT",
+    "value": -30
+   },
+   {
+    "path": "DEESS_THRESHOLD_RANGE.max",
+    "macro": "DEESS_THRESHOLD_RANGE_MAX",
+    "value": 0
+   },
+   {
+    "path": "DEESS_THRESHOLD_RANGE.min",
+    "macro": "DEESS_THRESHOLD_RANGE_MIN",
+    "value": -60
+   },
+   {
+    "path": "DEESS_THRESHOLD_RANGE.step",
+    "macro": "DEESS_THRESHOLD_RANGE_STEP",
+    "value": 0.5
+   },
+   {
+    "path": "DEESS_WIDTH_RANGE.default",
+    "macro": "DEESS_WIDTH_RANGE_DEFAULT",
+    "value": 1
+   },
+   {
+    "path": "DEESS_WIDTH_RANGE.max",
+    "macro": "DEESS_WIDTH_RANGE_MAX",
+    "value": 4
+   },
+   {
+    "path": "DEESS_WIDTH_RANGE.min",
+    "macro": "DEESS_WIDTH_RANGE_MIN",
+    "value": 0.25
+   },
+   {
+    "path": "DEESS_WIDTH_RANGE.step",
+    "macro": "DEESS_WIDTH_RANGE_STEP",
+    "value": 0.05
+   },
+   {
+    "path": "DEFAULT_BAND.highHz",
+    "macro": "DEFAULT_BAND_HIGH_HZ",
+    "value": 4000
+   },
+   {
+    "path": "DEFAULT_BAND.lowHz",
+    "macro": "DEFAULT_BAND_LOW_HZ",
+    "value": 60
+   },
+   {
+    "path": "DEFAULT_FADE_FRACTION",
+    "macro": "DEFAULT_FADE_FRACTION",
+    "value": 0.02
+   },
+   {
+    "path": "DEFAULT_FREQ_HZ",
+    "macro": "DEFAULT_FREQ_HZ",
+    "value": 1000
+   },
+   {
+    "path": "DEFAULT_HEAD_AMP_GAIN_DB",
+    "macro": "DEFAULT_HEAD_AMP_GAIN_DB",
+    "value": 32
+   },
+   {
+    "path": "DEFAULT_INPUT_CHANNELS",
+    "macro": "DEFAULT_INPUT_CHANNELS",
+    "value": 16
+   },
+   {
+    "path": "DEFAULT_LATENCY_BUDGET_MS.effects",
+    "macro": "DEFAULT_LATENCY_BUDGET_MS_EFFECTS",
+    "value": 60
+   },
+   {
+    "path": "DEFAULT_LATENCY_BUDGET_MS.monitor",
+    "macro": "DEFAULT_LATENCY_BUDGET_MS_MONITOR",
+    "value": 5
+   },
+   {
+    "path": "DEFAULT_LATENCY_BUDGET_MS.program",
+    "macro": "DEFAULT_LATENCY_BUDGET_MS_PROGRAM",
+    "value": 100
+   },
+   {
+    "path": "DEFAULT_LEVEL",
+    "macro": "DEFAULT_LEVEL",
+    "value": 0.5
+   },
+   {
+    "path": "DEFAULT_PRESET.inputs",
+    "macro": "DEFAULT_PRESET_INPUTS",
+    "value": 16
+   },
+   {
+    "path": "DEFAULT_PRESET.outputs",
+    "macro": "DEFAULT_PRESET_OUTPUTS",
+    "value": 8
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.growthConfirmFrames",
+    "macro": "DEFAULT_THRESHOLDS_GROWTH_CONFIRM_FRAMES",
+    "value": 2
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.growthMaxDipDb",
+    "macro": "DEFAULT_THRESHOLDS_GROWTH_MAX_DIP_DB",
+    "value": 0.5
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.growthMaxSingleFrameShare",
+    "macro": "DEFAULT_THRESHOLDS_GROWTH_MAX_SINGLE_FRAME_SHARE",
+    "value": 0.5
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.growthMinDbPerFrame",
+    "macro": "DEFAULT_THRESHOLDS_GROWTH_MIN_DB_PER_FRAME",
+    "value": 0.8
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.growthMinTotalRiseDb",
+    "macro": "DEFAULT_THRESHOLDS_GROWTH_MIN_TOTAL_RISE_DB",
+    "value": 6
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.paprDb",
+    "macro": "DEFAULT_THRESHOLDS_PAPR_DB",
+    "value": 18
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.persistFrames",
+    "macro": "DEFAULT_THRESHOLDS_PERSIST_FRAMES",
+    "value": 5
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.phprDb",
+    "macro": "DEFAULT_THRESHOLDS_PHPR_DB",
+    "value": 9
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.pnprDb",
+    "macro": "DEFAULT_THRESHOLDS_PNPR_DB",
+    "value": 12
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.pshrMinDb",
+    "macro": "DEFAULT_THRESHOLDS_PSHR_MIN_DB",
+    "value": 10
+   },
+   {
+    "path": "DEFAULT_THRESHOLDS.subCleanFrames",
+    "macro": "DEFAULT_THRESHOLDS_SUB_CLEAN_FRAMES",
+    "value": 5
+   },
+   {
+    "path": "DEFAULT_WEB_PORT",
+    "macro": "DEFAULT_WEB_PORT",
+    "value": 8080
+   },
+   {
+    "path": "DELAY_MIX_RANGE.byKind.fxReturn",
+    "macro": "DELAY_MIX_RANGE_BY_KIND_FX_RETURN",
+    "value": 1
+   },
+   {
+    "path": "DELAY_MIX_RANGE.default",
+    "macro": "DELAY_MIX_RANGE_DEFAULT",
+    "value": 0.3
+   },
+   {
+    "path": "DELAY_MIX_RANGE.max",
+    "macro": "DELAY_MIX_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "DELAY_MIX_RANGE.min",
+    "macro": "DELAY_MIX_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "DELAY_MIX_RANGE.step",
+    "macro": "DELAY_MIX_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "DELAY_TONE_RANGE.default",
+    "macro": "DELAY_TONE_RANGE_DEFAULT",
+    "value": 0.3
+   },
+   {
+    "path": "DELAY_TONE_RANGE.max",
+    "macro": "DELAY_TONE_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "DELAY_TONE_RANGE.min",
+    "macro": "DELAY_TONE_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "DELAY_TONE_RANGE.step",
+    "macro": "DELAY_TONE_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "DESK_GAIN_RANGE.maxDb",
+    "macro": "DESK_GAIN_RANGE_MAX_DB",
+    "value": 55
+   },
+   {
+    "path": "DESK_GAIN_RANGE.minDb",
+    "macro": "DESK_GAIN_RANGE_MIN_DB",
+    "value": -24
+   },
+   {
+    "path": "DESK_GAIN_RANGE.stepDb",
+    "macro": "DESK_GAIN_RANGE_STEP_DB",
+    "value": 1
+   },
+   {
+    "path": "DETECTOR_OVERSAMPLE_AUTO_MS",
+    "macro": "DETECTOR_OVERSAMPLE_AUTO_MS",
+    "value": 0.5
+   },
+   {
+    "path": "DETECTOR_OVERSAMPLE_LATENCY_SAMPLES",
+    "macro": "DETECTOR_OVERSAMPLE_LATENCY_SAMPLES",
+    "value": 72
+   },
+   {
+    "path": "DIVERGENCE_RANGE.max",
+    "macro": "DIVERGENCE_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "DIVERGENCE_RANGE.min",
+    "macro": "DIVERGENCE_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "DIVERGENCE_RANGE.step",
+    "macro": "DIVERGENCE_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "DRIVE_AMOUNT_RANGE.default",
+    "macro": "DRIVE_AMOUNT_RANGE_DEFAULT",
+    "value": 0
+   },
+   {
+    "path": "DRIVE_AMOUNT_RANGE.max",
+    "macro": "DRIVE_AMOUNT_RANGE_MAX",
+    "value": 36
+   },
+   {
+    "path": "DRIVE_AMOUNT_RANGE.min",
+    "macro": "DRIVE_AMOUNT_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "DRIVE_AMOUNT_RANGE.step",
+    "macro": "DRIVE_AMOUNT_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "DRIVE_BAND_FREQ_RANGE.default",
+    "macro": "DRIVE_BAND_FREQ_RANGE_DEFAULT",
+    "value": 2000
+   },
+   {
+    "path": "DRIVE_BAND_FREQ_RANGE.max",
+    "macro": "DRIVE_BAND_FREQ_RANGE_MAX",
+    "value": 20000
+   },
+   {
+    "path": "DRIVE_BAND_FREQ_RANGE.min",
+    "macro": "DRIVE_BAND_FREQ_RANGE_MIN",
+    "value": 20
+   },
+   {
+    "path": "DRIVE_BAND_FREQ_RANGE.step",
+    "macro": "DRIVE_BAND_FREQ_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "DRIVE_BIAS_MAX",
+    "macro": "DRIVE_BIAS_MAX",
+    "value": 0.7071067811865476
+   },
+   {
+    "path": "DRIVE_CHARACTER_RANGE.default",
+    "macro": "DRIVE_CHARACTER_RANGE_DEFAULT",
+    "value": 0
+   },
+   {
+    "path": "DRIVE_CHARACTER_RANGE.max",
+    "macro": "DRIVE_CHARACTER_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "DRIVE_CHARACTER_RANGE.min",
+    "macro": "DRIVE_CHARACTER_RANGE_MIN",
+    "value": -1
+   },
+   {
+    "path": "DRIVE_CHARACTER_RANGE.step",
+    "macro": "DRIVE_CHARACTER_RANGE_STEP",
+    "value": 0.01
+   },
+   {
+    "path": "DRIVE_MIX_RANGE.default",
+    "macro": "DRIVE_MIX_RANGE_DEFAULT",
+    "value": 100
+   },
+   {
+    "path": "DRIVE_MIX_RANGE.max",
+    "macro": "DRIVE_MIX_RANGE_MAX",
+    "value": 100
+   },
+   {
+    "path": "DRIVE_MIX_RANGE.min",
+    "macro": "DRIVE_MIX_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "DRIVE_MIX_RANGE.step",
+    "macro": "DRIVE_MIX_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "DRIVE_TRIM_RANGE.default",
+    "macro": "DRIVE_TRIM_RANGE_DEFAULT",
+    "value": 0
+   },
+   {
+    "path": "DRIVE_TRIM_RANGE.max",
+    "macro": "DRIVE_TRIM_RANGE_MAX",
+    "value": 12
+   },
+   {
+    "path": "DRIVE_TRIM_RANGE.min",
+    "macro": "DRIVE_TRIM_RANGE_MIN",
+    "value": -24
+   },
+   {
+    "path": "DRIVE_TRIM_RANGE.step",
+    "macro": "DRIVE_TRIM_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "DSP_KNOB_REFERENCE_RATE",
+    "macro": "DSP_KNOB_REFERENCE_RATE",
+    "value": 96000
+   },
+   {
+    "path": "EARLY_REFLECTION_FLOOR_DB",
+    "macro": "EARLY_REFLECTION_FLOOR_DB",
+    "value": -30
+   },
+   {
+    "path": "EARLY_REFLECTION_WINDOW_MS",
+    "macro": "EARLY_REFLECTION_WINDOW_MS",
+    "value": 80
+   },
+   {
+    "path": "EQ_DEFAULT_SAMPLE_RATE",
+    "macro": "EQ_DEFAULT_SAMPLE_RATE",
+    "value": 48000
+   },
+   {
+    "path": "EQ_FREQ_RANGE.max",
+    "macro": "EQ_FREQ_RANGE_MAX",
+    "value": 20000
+   },
+   {
+    "path": "EQ_FREQ_RANGE.min",
+    "macro": "EQ_FREQ_RANGE_MIN",
+    "value": 20
+   },
+   {
+    "path": "EQ_FREQ_RANGE.step",
+    "macro": "EQ_FREQ_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "EQ_GAIN_LIMIT_DB",
+    "macro": "EQ_GAIN_LIMIT_DB",
+    "value": 15
+   },
+   {
+    "path": "EQ_GAIN_RANGE.max",
+    "macro": "EQ_GAIN_RANGE_MAX",
+    "value": 15
+   },
+   {
+    "path": "EQ_GAIN_RANGE.min",
+    "macro": "EQ_GAIN_RANGE_MIN",
+    "value": -15
+   },
+   {
+    "path": "EQ_GAIN_RANGE.step",
+    "macro": "EQ_GAIN_RANGE_STEP",
+    "value": 0.5
+   },
+   {
+    "path": "EQ_MAX_BANDS",
+    "macro": "EQ_MAX_BANDS",
+    "value": 24
+   },
+   {
+    "path": "EQ_NOTCH_Q_RANGE.max",
+    "macro": "EQ_NOTCH_Q_RANGE_MAX",
+    "value": 116
+   },
+   {
+    "path": "EQ_NOTCH_Q_RANGE.min",
+    "macro": "EQ_NOTCH_Q_RANGE_MIN",
+    "value": 0.3
+   },
+   {
+    "path": "EQ_NOTCH_Q_RANGE.step",
+    "macro": "EQ_NOTCH_Q_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "EQ_Q_RANGE.max",
+    "macro": "EQ_Q_RANGE_MAX",
+    "value": 8
+   },
+   {
+    "path": "EQ_Q_RANGE.min",
+    "macro": "EQ_Q_RANGE_MIN",
+    "value": 0.3
+   },
+   {
+    "path": "EQ_Q_RANGE.step",
+    "macro": "EQ_Q_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.bass.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_BASS_MAX",
+    "value": 4
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.bass.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_BASS_MIN",
+    "value": 3
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.brass.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_BRASS_MAX",
+    "value": 4
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.brass.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_BRASS_MIN",
+    "value": 3
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.drums.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_DRUMS_MAX",
+    "value": 6
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.drums.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_DRUMS_MIN",
+    "value": 4
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.guitar.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_GUITAR_MAX",
+    "value": 3
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.guitar.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_GUITAR_MIN",
+    "value": 2
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.keys.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_KEYS_MAX",
+    "value": 3
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.keys.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_KEYS_MIN",
+    "value": 2
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.percussion.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_PERCUSSION_MAX",
+    "value": 4
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.percussion.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_PERCUSSION_MIN",
+    "value": 2
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.playback.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_PLAYBACK_MAX",
+    "value": 12
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.playback.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_PLAYBACK_MIN",
+    "value": 8
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.strings.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_STRINGS_MAX",
+    "value": 3
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.strings.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_STRINGS_MIN",
+    "value": 2
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.vocals.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_VOCALS_MAX",
+    "value": 3
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.vocals.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_VOCALS_MIN",
+    "value": 2
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.wind.max",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_WIND_MAX",
+    "value": 4
+   },
+   {
+    "path": "FAMILY_COMP_RATIO_BOUNDS.wind.min",
+    "macro": "FAMILY_COMP_RATIO_BOUNDS_WIND_MIN",
+    "value": 3
+   },
+   {
+    "path": "FBS_AUTO_BANDS_RANGE.max",
+    "macro": "FBS_AUTO_BANDS_RANGE_MAX",
+    "value": 24
+   },
+   {
+    "path": "FBS_AUTO_BANDS_RANGE.min",
+    "macro": "FBS_AUTO_BANDS_RANGE_MIN",
+    "value": 1
+   },
+   {
+    "path": "FBS_AUTO_BANDS_RANGE.step",
+    "macro": "FBS_AUTO_BANDS_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "FBS_COOLDOWN_MINUTES_RANGE.max",
+    "macro": "FBS_COOLDOWN_MINUTES_RANGE_MAX",
+    "value": 120
+   },
+   {
+    "path": "FBS_COOLDOWN_MINUTES_RANGE.min",
+    "macro": "FBS_COOLDOWN_MINUTES_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "FBS_COOLDOWN_MINUTES_RANGE.step",
+    "macro": "FBS_COOLDOWN_MINUTES_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "FBS_DEFAULT_COOLDOWN_MINUTES",
+    "macro": "FBS_DEFAULT_COOLDOWN_MINUTES",
+    "value": 10
+   },
+   {
+    "path": "FBS_DEFAULT_HOLD_SECONDS",
+    "macro": "FBS_DEFAULT_HOLD_SECONDS",
+    "value": 5
+   },
+   {
+    "path": "FBS_DEFAULT_MAX_AUTO_BANDS",
+    "macro": "FBS_DEFAULT_MAX_AUTO_BANDS",
+    "value": 6
+   },
+   {
+    "path": "FBS_DEFAULT_MERGE_CENTS",
+    "macro": "FBS_DEFAULT_MERGE_CENTS",
+    "value": 100
+   },
+   {
+    "path": "FBS_DEFAULT_NOTCH_Q",
+    "macro": "FBS_DEFAULT_NOTCH_Q",
+    "value": 116
+   },
+   {
+    "path": "FBS_DEFAULT_SENSITIVITY",
+    "macro": "FBS_DEFAULT_SENSITIVITY",
+    "value": 0
+   },
+   {
+    "path": "FBS_FLOOR_LIN",
+    "macro": "FBS_FLOOR_LIN",
+    "value": 1e-12
+   },
+   {
+    "path": "FBS_HOLD_SECONDS_RANGE.max",
+    "macro": "FBS_HOLD_SECONDS_RANGE_MAX",
+    "value": 300
+   },
+   {
+    "path": "FBS_HOLD_SECONDS_RANGE.min",
+    "macro": "FBS_HOLD_SECONDS_RANGE_MIN",
+    "value": 1
+   },
+   {
+    "path": "FBS_HOLD_SECONDS_RANGE.step",
+    "macro": "FBS_HOLD_SECONDS_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "FBS_LIFT_RAMP_MS",
+    "macro": "FBS_LIFT_RAMP_MS",
+    "value": 3000
+   },
+   {
+    "path": "FBS_MAX_CUT_DB",
+    "macro": "FBS_MAX_CUT_DB",
+    "value": -24
+   },
+   {
+    "path": "FBS_MAX_NOTCH_DEPTH_DB",
+    "macro": "FBS_MAX_NOTCH_DEPTH_DB",
+    "value": 18
+   },
+   {
+    "path": "FBS_MERGE_CENTS_RANGE.max",
+    "macro": "FBS_MERGE_CENTS_RANGE_MAX",
+    "value": 600
+   },
+   {
+    "path": "FBS_MERGE_CENTS_RANGE.min",
+    "macro": "FBS_MERGE_CENTS_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "FBS_MERGE_CENTS_RANGE.step",
+    "macro": "FBS_MERGE_CENTS_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "FBS_PAPR_GUARD_BINS",
+    "macro": "FBS_PAPR_GUARD_BINS",
+    "value": 2
+   },
+   {
+    "path": "FBS_PHPR_HARMONICS",
+    "macro": "FBS_PHPR_HARMONICS",
+    "value": 3
+   },
+   {
+    "path": "FBS_PNPR_GUARD_BINS",
+    "macro": "FBS_PNPR_GUARD_BINS",
+    "value": 1
+   },
+   {
+    "path": "FBS_PNPR_RADIUS_BINS",
+    "macro": "FBS_PNPR_RADIUS_BINS",
+    "value": 3
+   },
+   {
+    "path": "FBS_PSHR_SELF_SKIP_BINS",
+    "macro": "FBS_PSHR_SELF_SKIP_BINS",
+    "value": 3
+   },
+   {
+    "path": "FBS_RECLAMP_BACKOFF_CAP",
+    "macro": "FBS_RECLAMP_BACKOFF_CAP",
+    "value": 3
+   },
+   {
+    "path": "FBS_RECLAMP_DEEPEN_DB",
+    "macro": "FBS_RECLAMP_DEEPEN_DB",
+    "value": 3
+   },
+   {
+    "path": "FBS_RELEASE_DONE_DB",
+    "macro": "FBS_RELEASE_DONE_DB",
+    "value": 1
+   },
+   {
+    "path": "FBS_RELEASE_DWELL_MS",
+    "macro": "FBS_RELEASE_DWELL_MS",
+    "value": 8000
+   },
+   {
+    "path": "FBS_RELEASE_RATIO",
+    "macro": "FBS_RELEASE_RATIO",
+    "value": 0.6666666666666666
+   },
+   {
+    "path": "FBS_RING_HZ_MAX",
+    "macro": "FBS_RING_HZ_MAX",
+    "value": 16000
+   },
+   {
+    "path": "FBS_RING_HZ_MIN",
+    "macro": "FBS_RING_HZ_MIN",
+    "value": 60
+   },
+   {
+    "path": "FBS_SENSITIVITY_RANGE.max",
+    "macro": "FBS_SENSITIVITY_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "FBS_SENSITIVITY_RANGE.min",
+    "macro": "FBS_SENSITIVITY_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "FBS_SENSITIVITY_RANGE.step",
+    "macro": "FBS_SENSITIVITY_RANGE_STEP",
+    "value": 0.05
+   },
+   {
+    "path": "FBS_TRACK_SLOTS",
+    "macro": "FBS_TRACK_SLOTS",
+    "value": 512
+   },
+   {
+    "path": "FDELAY_MOD_READ_ORDER",
+    "macro": "FDELAY_MOD_READ_ORDER",
+    "value": 3
+   },
+   {
+    "path": "FDELAY_READ_L1_NORM",
+    "macro": "FDELAY_READ_L1_NORM",
+    "value": 1.25
+   },
+   {
+    "path": "FLANGER_DEPTH_RANGE.default",
+    "macro": "FLANGER_DEPTH_RANGE_DEFAULT",
+    "value": 2
+   },
+   {
+    "path": "FLANGER_DEPTH_RANGE.max",
+    "macro": "FLANGER_DEPTH_RANGE_MAX",
+    "value": 5
+   },
+   {
+    "path": "FLANGER_DEPTH_RANGE.min",
+    "macro": "FLANGER_DEPTH_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "FLANGER_DEPTH_RANGE.step",
+    "macro": "FLANGER_DEPTH_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "FLANGER_FEEDBACK_RANGE.default",
+    "macro": "FLANGER_FEEDBACK_RANGE_DEFAULT",
+    "value": 0.6
+   },
+   {
+    "path": "FLANGER_FEEDBACK_RANGE.max",
+    "macro": "FLANGER_FEEDBACK_RANGE_MAX",
+    "value": 0.95
+   },
+   {
+    "path": "FLANGER_FEEDBACK_RANGE.min",
+    "macro": "FLANGER_FEEDBACK_RANGE_MIN",
+    "value": -0.95
+   },
+   {
+    "path": "FLANGER_FEEDBACK_RANGE.step",
+    "macro": "FLANGER_FEEDBACK_RANGE_STEP",
+    "value": 0.01
+   },
+   {
+    "path": "FLANGER_MIX_RANGE.default",
+    "macro": "FLANGER_MIX_RANGE_DEFAULT",
+    "value": 50
+   },
+   {
+    "path": "FLANGER_MIX_RANGE.max",
+    "macro": "FLANGER_MIX_RANGE_MAX",
+    "value": 100
+   },
+   {
+    "path": "FLANGER_MIX_RANGE.min",
+    "macro": "FLANGER_MIX_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "FLANGER_MIX_RANGE.step",
+    "macro": "FLANGER_MIX_RANGE_STEP",
+    "value": 0.1
+   },
+   {
+    "path": "FLANGER_RATE_RANGE.default",
+    "macro": "FLANGER_RATE_RANGE_DEFAULT",
+    "value": 0.25
+   },
+   {
+    "path": "FLANGER_RATE_RANGE.max",
+    "macro": "FLANGER_RATE_RANGE_MAX",
+    "value": 5
+   },
+   {
+    "path": "FLANGER_RATE_RANGE.min",
+    "macro": "FLANGER_RATE_RANGE_MIN",
+    "value": 0.05
+   },
+   {
+    "path": "FLANGER_RATE_RANGE.step",
+    "macro": "FLANGER_RATE_RANGE_STEP",
+    "value": 0.01
+   },
+   {
+    "path": "FX_DELAY_FEEDBACK_RANGE.default",
+    "macro": "FX_DELAY_FEEDBACK_RANGE_DEFAULT",
+    "value": 0.3
+   },
+   {
+    "path": "FX_DELAY_FEEDBACK_RANGE.max",
+    "macro": "FX_DELAY_FEEDBACK_RANGE_MAX",
+    "value": 0.99
+   },
+   {
+    "path": "FX_DELAY_FEEDBACK_RANGE.min",
+    "macro": "FX_DELAY_FEEDBACK_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "FX_DELAY_FEEDBACK_RANGE.step",
+    "macro": "FX_DELAY_FEEDBACK_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "FX_DELAY_TIME_RANGE.default",
+    "macro": "FX_DELAY_TIME_RANGE_DEFAULT",
+    "value": 300
+   },
+   {
+    "path": "FX_DELAY_TIME_RANGE.max",
+    "macro": "FX_DELAY_TIME_RANGE_MAX",
+    "value": 2000
+   },
+   {
+    "path": "FX_DELAY_TIME_RANGE.min",
+    "macro": "FX_DELAY_TIME_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "FX_DELAY_TIME_RANGE.step",
+    "macro": "FX_DELAY_TIME_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "GATE_KEY_VOICE_BAND.hpHz",
+    "macro": "GATE_KEY_VOICE_BAND_HP_HZ",
+    "value": 120
+   },
+   {
+    "path": "GATE_KEY_VOICE_BAND.lpHz",
+    "macro": "GATE_KEY_VOICE_BAND_LP_HZ",
+    "value": 8000
+   },
+   {
+    "path": "GATE_RANGE_FLOOR_DB",
+    "macro": "GATE_RANGE_FLOOR_DB",
+    "value": -90
+   },
+   {
+    "path": "GEQ_BANDS",
+    "macro": "GEQ_BANDS",
+    "value": 31
+   },
+   {
+    "path": "GEQ_BAND_Q",
+    "macro": "GEQ_BAND_Q",
+    "value": 4.3
+   },
+   {
+    "path": "GROWTH_CONFIRM_FRAMES",
+    "macro": "GROWTH_CONFIRM_FRAMES",
+    "value": 2
+   },
+   {
+    "path": "GROWTH_MAX_DIP_DB",
+    "macro": "GROWTH_MAX_DIP_DB",
+    "value": 0.5
+   },
+   {
+    "path": "GROWTH_MAX_SINGLE_FRAME_SHARE",
+    "macro": "GROWTH_MAX_SINGLE_FRAME_SHARE",
+    "value": 0.5
+   },
+   {
+    "path": "GROWTH_MIN_DB_PER_FRAME",
+    "macro": "GROWTH_MIN_DB_PER_FRAME",
+    "value": 0.8
+   },
+   {
+    "path": "GROWTH_MIN_TOTAL_RISE_DB",
+    "macro": "GROWTH_MIN_TOTAL_RISE_DB",
+    "value": 6
+   },
+   {
+    "path": "GROWTH_WINDOW_FRAMES",
+    "macro": "GROWTH_WINDOW_FRAMES",
+    "value": 5
+   },
+   {
+    "path": "HEAD_AMP_GAIN_MAX_DB",
+    "macro": "HEAD_AMP_GAIN_MAX_DB",
+    "value": 55
+   },
+   {
+    "path": "HEAD_AMP_GAIN_MIN_DB",
+    "macro": "HEAD_AMP_GAIN_MIN_DB",
+    "value": 0
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.clampDbfs",
+    "macro": "HOSTED_STAGE_CLAMP_DBFS",
+    "value": 24
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.eventsPerBlock",
+    "macro": "HOSTED_STAGE_EVENTS_PER_BLOCK",
+    "value": 64
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.nonFiniteStrikes",
+    "macro": "HOSTED_STAGE_NON_FINITE_STRIKES",
+    "value": 3
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.paramQueueDepth",
+    "macro": "HOSTED_STAGE_PARAM_QUEUE_DEPTH",
+    "value": 256
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.unpublishPollUs",
+    "macro": "HOSTED_STAGE_UNPUBLISH_POLL_US",
+    "value": 100
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.unpublishTimeoutUs",
+    "macro": "HOSTED_STAGE_UNPUBLISH_TIMEOUT_US",
+    "value": 2000000
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.warmupBlocks",
+    "macro": "HOSTED_STAGE_WARMUP_BLOCKS",
+    "value": 64
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.warmupLevelDbfs",
+    "macro": "HOSTED_STAGE_WARMUP_LEVEL_DBFS",
+    "value": -6
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.workerPollUs",
+    "macro": "HOSTED_STAGE_WORKER_POLL_US",
+    "value": 1000
+   },
+   {
+    "path": "HOSTED_STAGE_LIMITS.workerRingBytes",
+    "macro": "HOSTED_STAGE_WORKER_RING_BYTES",
+    "value": 16384
+   },
+   {
+    "path": "HPF_FREQ_RANGE.max",
+    "macro": "HPF_FREQ_RANGE_MAX",
+    "value": 1000
+   },
+   {
+    "path": "HPF_FREQ_RANGE.min",
+    "macro": "HPF_FREQ_RANGE_MIN",
+    "value": 20
+   },
+   {
+    "path": "HPF_FREQ_RANGE.step",
+    "macro": "HPF_FREQ_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "HRP_AMOUNT_RANGE.max",
+    "macro": "HRP_AMOUNT_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "HRP_AMOUNT_RANGE.min",
+    "macro": "HRP_AMOUNT_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "HRP_AMOUNT_RANGE.step",
+    "macro": "HRP_AMOUNT_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "HRP_ATTRIBUTION_CENTS",
+    "macro": "HRP_ATTRIBUTION_CENTS",
+    "value": 60
+   },
+   {
+    "path": "HRP_AUTO_BANDS_RANGE.max",
+    "macro": "HRP_AUTO_BANDS_RANGE_MAX",
+    "value": 24
+   },
+   {
+    "path": "HRP_AUTO_BANDS_RANGE.min",
+    "macro": "HRP_AUTO_BANDS_RANGE_MIN",
+    "value": 1
+   },
+   {
+    "path": "HRP_AUTO_BANDS_RANGE.step",
+    "macro": "HRP_AUTO_BANDS_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "HRP_BAND_Q",
+    "macro": "HRP_BAND_Q",
+    "value": 5
+   },
+   {
+    "path": "HRP_COLLISION_CENTS",
+    "macro": "HRP_COLLISION_CENTS",
+    "value": 100
+   },
+   {
+    "path": "HRP_DEFAULT_MAX_AUTO_BANDS",
+    "macro": "HRP_DEFAULT_MAX_AUTO_BANDS",
+    "value": 8
+   },
+   {
+    "path": "HRP_EXCESS_THRESHOLD_DB",
+    "macro": "HRP_EXCESS_THRESHOLD_DB",
+    "value": 3
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.bass.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_BASS_F0_MAX_HZ",
+    "value": 400
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.bass.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_BASS_F0_MIN_HZ",
+    "value": 25
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.bass.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_BASS_MAX_VOICES",
+    "value": 2
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.brass.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_BRASS_F0_MAX_HZ",
+    "value": 1400
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.brass.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_BRASS_F0_MIN_HZ",
+    "value": 40
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.brass.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_BRASS_MAX_VOICES",
+    "value": 2
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.drums.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_DRUMS_F0_MAX_HZ",
+    "value": 400
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.drums.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_DRUMS_F0_MIN_HZ",
+    "value": 35
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.drums.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_DRUMS_MAX_VOICES",
+    "value": 1
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.guitar.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_GUITAR_F0_MAX_HZ",
+    "value": 1400
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.guitar.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_GUITAR_F0_MIN_HZ",
+    "value": 60
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.guitar.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_GUITAR_MAX_VOICES",
+    "value": 6
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.keys.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_KEYS_F0_MAX_HZ",
+    "value": 4200
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.keys.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_KEYS_F0_MIN_HZ",
+    "value": 27.5
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.keys.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_KEYS_MAX_VOICES",
+    "value": 8
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.percussion.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_PERCUSSION_F0_MAX_HZ",
+    "value": 1200
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.percussion.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_PERCUSSION_F0_MIN_HZ",
+    "value": 60
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.percussion.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_PERCUSSION_MAX_VOICES",
+    "value": 1
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.playback.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_PLAYBACK_F0_MAX_HZ",
+    "value": 2100
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.playback.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_PLAYBACK_F0_MIN_HZ",
+    "value": 25
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.playback.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_PLAYBACK_MAX_VOICES",
+    "value": 8
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.strings.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_STRINGS_F0_MAX_HZ",
+    "value": 2800
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.strings.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_STRINGS_F0_MIN_HZ",
+    "value": 40
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.strings.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_STRINGS_MAX_VOICES",
+    "value": 8
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.vocals.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_VOCALS_F0_MAX_HZ",
+    "value": 1200
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.vocals.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_VOCALS_F0_MIN_HZ",
+    "value": 80
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.vocals.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_VOCALS_MAX_VOICES",
+    "value": 2
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.wind.f0MaxHz",
+    "macro": "HRP_FAMILY_SEARCH_WIND_F0_MAX_HZ",
+    "value": 2600
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.wind.f0MinHz",
+    "macro": "HRP_FAMILY_SEARCH_WIND_F0_MIN_HZ",
+    "value": 55
+   },
+   {
+    "path": "HRP_FAMILY_SEARCH.wind.maxVoices",
+    "macro": "HRP_FAMILY_SEARCH_WIND_MAX_VOICES",
+    "value": 2
+   },
+   {
+    "path": "HRP_GAIN_STEP_DB",
+    "macro": "HRP_GAIN_STEP_DB",
+    "value": 2
+   },
+   {
+    "path": "HRP_HARMONIC_COUNT",
+    "macro": "HRP_HARMONIC_COUNT",
+    "value": 12
+   },
+   {
+    "path": "HRP_MAX_BOOST_DB",
+    "macro": "HRP_MAX_BOOST_DB",
+    "value": 0
+   },
+   {
+    "path": "HRP_MAX_CUT_DB",
+    "macro": "HRP_MAX_CUT_DB",
+    "value": 6
+   },
+   {
+    "path": "HRP_MAX_VOICES",
+    "macro": "HRP_MAX_VOICES",
+    "value": 8
+   },
+   {
+    "path": "HRP_TIER_CROSSOVER_HZ",
+    "macro": "HRP_TIER_CROSSOVER_HZ",
+    "value": 1000
+   },
+   {
+    "path": "INPUT_ALIGN_DELAY_RANGE.max",
+    "macro": "INPUT_ALIGN_DELAY_RANGE_MAX",
+    "value": 100
+   },
+   {
+    "path": "INPUT_ALIGN_DELAY_RANGE.min",
+    "macro": "INPUT_ALIGN_DELAY_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "INPUT_ALIGN_DELAY_RANGE.step",
+    "macro": "INPUT_ALIGN_DELAY_RANGE_STEP",
+    "value": 0.01
+   },
+   {
+    "path": "JOIN_LANE_NS.176400",
+    "macro": "JOIN_LANE_NS_176400",
+    "value": 0.261
+   },
+   {
+    "path": "JOIN_LANE_NS.192000",
+    "macro": "JOIN_LANE_NS_192000",
+    "value": 0.261
+   },
+   {
+    "path": "JOIN_LANE_NS.44100",
+    "macro": "JOIN_LANE_NS_44100",
+    "value": 0.25
+   },
+   {
+    "path": "JOIN_LANE_NS.48000",
+    "macro": "JOIN_LANE_NS_48000",
+    "value": 0.25
+   },
+   {
+    "path": "JOIN_LANE_NS.88200",
+    "macro": "JOIN_LANE_NS_88200",
+    "value": 0.25
+   },
+   {
+    "path": "JOIN_LANE_NS.96000",
+    "macro": "JOIN_LANE_NS_96000",
+    "value": 0.25
+   },
+   {
+    "path": "LANE_WALK_NS.176400",
+    "macro": "LANE_WALK_NS_176400",
+    "value": 172.9
+   },
+   {
+    "path": "LANE_WALK_NS.192000",
+    "macro": "LANE_WALK_NS_192000",
+    "value": 172.9
+   },
+   {
+    "path": "LANE_WALK_NS.44100",
+    "macro": "LANE_WALK_NS_44100",
+    "value": 173.1
+   },
+   {
+    "path": "LANE_WALK_NS.48000",
+    "macro": "LANE_WALK_NS_48000",
+    "value": 173.1
+   },
+   {
+    "path": "LANE_WALK_NS.88200",
+    "macro": "LANE_WALK_NS_88200",
+    "value": 173.1
+   },
+   {
+    "path": "LANE_WALK_NS.96000",
+    "macro": "LANE_WALK_NS_96000",
+    "value": 173.1
+   },
+   {
+    "path": "LPF_FREQ_RANGE.max",
+    "macro": "LPF_FREQ_RANGE_MAX",
+    "value": 20000
+   },
+   {
+    "path": "LPF_FREQ_RANGE.min",
+    "macro": "LPF_FREQ_RANGE_MIN",
+    "value": 1000
+   },
+   {
+    "path": "LPF_FREQ_RANGE.step",
+    "macro": "LPF_FREQ_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "MACHINE_BANDS_RANGE.max",
+    "macro": "MACHINE_BANDS_RANGE_MAX",
+    "value": 24
+   },
+   {
+    "path": "MACHINE_BANDS_RANGE.min",
+    "macro": "MACHINE_BANDS_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "MACHINE_BANDS_RANGE.step",
+    "macro": "MACHINE_BANDS_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "MAX_FREQ_HZ",
+    "macro": "MAX_FREQ_HZ",
+    "value": 20000
+   },
+   {
+    "path": "MAX_INPUT_CHANNELS",
+    "macro": "MAX_INPUT_CHANNELS",
+    "value": 128
+   },
+   {
+    "path": "MAX_SYNC_DIVISION",
+    "macro": "MAX_SYNC_DIVISION",
+    "value": 16
+   },
+   {
+    "path": "METER_FLAG_LIMIT.max",
+    "macro": "METER_FLAG_LIMIT_MAX",
+    "value": 1
+   },
+   {
+    "path": "METER_FLAG_LIMIT.min",
+    "macro": "METER_FLAG_LIMIT_MIN",
+    "value": 0
+   },
+   {
+    "path": "METER_FLAG_LIMIT.step",
+    "macro": "METER_FLAG_LIMIT_STEP",
+    "value": 0.00392156862745098
+   },
+   {
+    "path": "METER_FLOOR_DB",
+    "macro": "METER_FLOOR_DB",
+    "value": -60
+   },
+   {
+    "path": "METER_LEVEL_LIMIT.max",
+    "macro": "METER_LEVEL_LIMIT_MAX",
+    "value": 0
+   },
+   {
+    "path": "METER_LEVEL_LIMIT.min",
+    "macro": "METER_LEVEL_LIMIT_MIN",
+    "value": -96
+   },
+   {
+    "path": "METER_LEVEL_LIMIT.step",
+    "macro": "METER_LEVEL_LIMIT_STEP",
+    "value": 0.3764705882352941
+   },
+   {
+    "path": "METER_REDUCTION_LIMIT.max",
+    "macro": "METER_REDUCTION_LIMIT_MAX",
+    "value": 0
+   },
+   {
+    "path": "METER_REDUCTION_LIMIT.min",
+    "macro": "METER_REDUCTION_LIMIT_MIN",
+    "value": -60
+   },
+   {
+    "path": "METER_REDUCTION_LIMIT.step",
+    "macro": "METER_REDUCTION_LIMIT_STEP",
+    "value": 0.23529411764705882
+   },
+   {
+    "path": "METER_RELEASE_PER_FRAME",
+    "macro": "METER_RELEASE_PER_FRAME",
+    "value": 0.012
+   },
+   {
+    "path": "METER_STEP_HYSTERESIS",
+    "macro": "METER_STEP_HYSTERESIS",
+    "value": 0.25
+   },
+   {
+    "path": "MIN_FRAMES",
+    "macro": "MIN_FRAMES",
+    "value": 4
+   },
+   {
+    "path": "MIN_FREQ_HZ",
+    "macro": "MIN_FREQ_HZ",
+    "value": 20
+   },
+   {
+    "path": "MIN_INPUT_CHANNELS",
+    "macro": "MIN_INPUT_CHANNELS",
+    "value": 8
+   },
+   {
+    "path": "MIN_SYNC_DIVISION",
+    "macro": "MIN_SYNC_DIVISION",
+    "value": 0.0625
+   },
+   {
+    "path": "MONO_FOLD_COEF",
+    "macro": "MONO_FOLD_COEF",
+    "value": 0.5
+   },
+   {
+    "path": "NATIVE_INSERT_STAGE",
+    "macro": "NATIVE_INSERT_STAGE",
+    "value": 9
+   },
+   {
+    "path": "NATIVE_STAGE_ID.chorus",
+    "macro": "NATIVE_STAGE_ID_CHORUS",
+    "value": 6
+   },
+   {
+    "path": "NATIVE_STAGE_ID.delay",
+    "macro": "NATIVE_STAGE_ID_DELAY",
+    "value": 4
+   },
+   {
+    "path": "NATIVE_STAGE_ID.deEsser",
+    "macro": "NATIVE_STAGE_ID_DE_ESSER",
+    "value": 8
+   },
+   {
+    "path": "NATIVE_STAGE_ID.drive",
+    "macro": "NATIVE_STAGE_ID_DRIVE",
+    "value": 3
+   },
+   {
+    "path": "NATIVE_STAGE_ID.dynamics",
+    "macro": "NATIVE_STAGE_ID_DYNAMICS",
+    "value": 2
+   },
+   {
+    "path": "NATIVE_STAGE_ID.eq",
+    "macro": "NATIVE_STAGE_ID_EQ",
+    "value": 1
+   },
+   {
+    "path": "NATIVE_STAGE_ID.flanger",
+    "macro": "NATIVE_STAGE_ID_FLANGER",
+    "value": 7
+   },
+   {
+    "path": "NATIVE_STAGE_ID.gate",
+    "macro": "NATIVE_STAGE_ID_GATE",
+    "value": 0
+   },
+   {
+    "path": "NATIVE_STAGE_ID.reverb",
+    "macro": "NATIVE_STAGE_ID_REVERB",
+    "value": 5
+   },
+   {
+    "path": "NORMALIZED_RANGE.max",
+    "macro": "NORMALIZED_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "NORMALIZED_RANGE.min",
+    "macro": "NORMALIZED_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "NORMALIZED_RANGE.step",
+    "macro": "NORMALIZED_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "NO_BUSES.aux",
+    "macro": "NO_BUSES_AUX",
+    "value": 0
+   },
+   {
+    "path": "NO_BUSES.dca",
+    "macro": "NO_BUSES_DCA",
+    "value": 0
+   },
+   {
+    "path": "NO_BUSES.fxReturn",
+    "macro": "NO_BUSES_FX_RETURN",
+    "value": 0
+   },
+   {
+    "path": "NO_BUSES.group",
+    "macro": "NO_BUSES_GROUP",
+    "value": 0
+   },
+   {
+    "path": "NO_BUSES.main",
+    "macro": "NO_BUSES_MAIN",
+    "value": 0
+   },
+   {
+    "path": "NO_BUSES.matrix",
+    "macro": "NO_BUSES_MATRIX",
+    "value": 0
+   },
+   {
+    "path": "NO_BUSES.mixMinus",
+    "macro": "NO_BUSES_MIX_MINUS",
+    "value": 0
+   },
+   {
+    "path": "OPERATOR_EQ_BANDS_RESERVE",
+    "macro": "OPERATOR_EQ_BANDS_RESERVE",
+    "value": 9
+   },
+   {
+    "path": "OSCILLATOR_FREQ_RANGE.max",
+    "macro": "OSCILLATOR_FREQ_RANGE_MAX",
+    "value": 20000
+   },
+   {
+    "path": "OSCILLATOR_FREQ_RANGE.min",
+    "macro": "OSCILLATOR_FREQ_RANGE_MIN",
+    "value": 20
+   },
+   {
+    "path": "OSCILLATOR_FREQ_RANGE.step",
+    "macro": "OSCILLATOR_FREQ_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "OUTPUT_DELAY_RANGE.max",
+    "macro": "OUTPUT_DELAY_RANGE_MAX",
+    "value": 1000
+   },
+   {
+    "path": "OUTPUT_DELAY_RANGE.min",
+    "macro": "OUTPUT_DELAY_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "OUTPUT_DELAY_RANGE.step",
+    "macro": "OUTPUT_DELAY_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "OUTPUT_TRIM_RANGE.max",
+    "macro": "OUTPUT_TRIM_RANGE_MAX",
+    "value": 12
+   },
+   {
+    "path": "OUTPUT_TRIM_RANGE.min",
+    "macro": "OUTPUT_TRIM_RANGE_MIN",
+    "value": -40
+   },
+   {
+    "path": "OUTPUT_TRIM_RANGE.step",
+    "macro": "OUTPUT_TRIM_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "PAN_RANGE.max",
+    "macro": "PAN_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "PAN_RANGE.min",
+    "macro": "PAN_RANGE_MIN",
+    "value": -1
+   },
+   {
+    "path": "PAN_RANGE.step",
+    "macro": "PAN_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "PATCH_SCHEMA_VERSION",
+    "macro": "PATCH_SCHEMA_VERSION",
+    "value": 1
+   },
+   {
+    "path": "PERF_REFRESH_LIMIT.max",
+    "macro": "PERF_REFRESH_LIMIT_MAX",
+    "value": 60000
+   },
+   {
+    "path": "PERF_REFRESH_LIMIT.min",
+    "macro": "PERF_REFRESH_LIMIT_MIN",
+    "value": 250
+   },
+   {
+    "path": "PERF_REFRESH_LIMIT.step",
+    "macro": "PERF_REFRESH_LIMIT_STEP",
+    "value": 0
+   },
+   {
+    "path": "PITCH_KERNEL.prefilterCeilingHz",
+    "macro": "PITCH_PREFILTER_CEILING_HZ",
+    "value": 20000
+   },
+   {
+    "path": "PITCH_KERNEL.prefilterQ",
+    "macro": "PITCH_PREFILTER_Q",
+    "value": 0.7071067811865476
+   },
+   {
+    "path": "PITCH_KERNEL.windowMs",
+    "macro": "PITCH_WINDOW_MS",
+    "value": 40
+   },
+   {
+    "path": "PROGRAM_RELEASE.chargeMs",
+    "macro": "PROGRAM_RELEASE_CHARGE_MS",
+    "value": 1000
+   },
+   {
+    "path": "PROGRAM_RELEASE.dischargeMs",
+    "macro": "PROGRAM_RELEASE_DISCHARGE_MS",
+    "value": 5000
+   },
+   {
+    "path": "PROGRAM_RELEASE.profiles.opto.fastMs",
+    "macro": "PROGRAM_RELEASE_PROFILES_OPTO_FAST_MS",
+    "value": 70
+   },
+   {
+    "path": "PROGRAM_RELEASE.profiles.opto.share",
+    "macro": "PROGRAM_RELEASE_PROFILES_OPTO_SHARE",
+    "value": 0.5
+   },
+   {
+    "path": "PROGRAM_RELEASE.profiles.opto.slowMaxMs",
+    "macro": "PROGRAM_RELEASE_PROFILES_OPTO_SLOW_MAX_MS",
+    "value": 1100
+   },
+   {
+    "path": "PROGRAM_RELEASE.profiles.opto.slowMinMs",
+    "macro": "PROGRAM_RELEASE_PROFILES_OPTO_SLOW_MIN_MS",
+    "value": 110
+   },
+   {
+    "path": "PSHR_MIN_DB",
+    "macro": "PSHR_MIN_DB",
+    "value": 10
+   },
+   {
+    "path": "REAC_AUDIO_FABRIC_CEILING",
+    "macro": "REAC_AUDIO_FABRIC_CEILING",
+    "value": 39
+   },
+   {
+    "path": "REAC_AUDIO_FABRIC_SLOTS",
+    "macro": "REAC_AUDIO_FABRIC_SLOTS",
+    "value": 40
+   },
+   {
+    "path": "REAC_CFG_RATE_44100",
+    "macro": "REAC_CFG_RATE_44100",
+    "value": 44100
+   },
+   {
+    "path": "REAC_CFG_RATE_48000",
+    "macro": "REAC_CFG_RATE_48000",
+    "value": 48000
+   },
+   {
+    "path": "REAC_CFG_RATE_96000",
+    "macro": "REAC_CFG_RATE_96000",
+    "value": 96000
+   },
+   {
+    "path": "REAC_CFG_RATE_COUNT",
+    "macro": "REAC_CFG_RATE_COUNT",
+    "value": 3
+   },
+   {
+    "path": "REAC_CFG_ROLE_MASTER",
+    "macro": "REAC_CFG_ROLE_MASTER",
+    "value": 0
+   },
+   {
+    "path": "REAC_CFG_ROLE_SLAVE",
+    "macro": "REAC_CFG_ROLE_SLAVE",
+    "value": 1
+   },
+   {
+    "path": "REAC_HEADAMP_CEILING",
+    "macro": "REAC_HEADAMP_CEILING",
+    "value": 47
+   },
+   {
+    "path": "REAC_HEADAMP_RING",
+    "macro": "REAC_HEADAMP_RING",
+    "value": 49
+   },
+   {
+    "path": "REAC_HEADAMP_SLOTS",
+    "macro": "REAC_HEADAMP_SLOTS",
+    "value": 48
+   },
+   {
+    "path": "REAC_HEAD_AMP_GAIN_RANGE.maxDb",
+    "macro": "REAC_HEAD_AMP_GAIN_RANGE_MAX_DB",
+    "value": 55
+   },
+   {
+    "path": "REAC_HEAD_AMP_GAIN_RANGE.minDb",
+    "macro": "REAC_HEAD_AMP_GAIN_RANGE_MIN_DB",
+    "value": 0
+   },
+   {
+    "path": "REAC_HEAD_AMP_GAIN_RANGE.stepDb",
+    "macro": "REAC_HEAD_AMP_GAIN_RANGE_STEP_DB",
+    "value": 1
+   },
+   {
+    "path": "REVERB_CUT_RANGE.max",
+    "macro": "REVERB_CUT_RANGE_MAX",
+    "value": 20000
+   },
+   {
+    "path": "REVERB_CUT_RANGE.min",
+    "macro": "REVERB_CUT_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_CUT_RANGE.step",
+    "macro": "REVERB_CUT_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "REVERB_DAMPING_RANGE.default",
+    "macro": "REVERB_DAMPING_RANGE_DEFAULT",
+    "value": 0.5
+   },
+   {
+    "path": "REVERB_DAMPING_RANGE.max",
+    "macro": "REVERB_DAMPING_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "REVERB_DAMPING_RANGE.min",
+    "macro": "REVERB_DAMPING_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_DAMPING_RANGE.step",
+    "macro": "REVERB_DAMPING_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "REVERB_GATE_THRESHOLD_RANGE.default",
+    "macro": "REVERB_GATE_THRESHOLD_RANGE_DEFAULT",
+    "value": -40
+   },
+   {
+    "path": "REVERB_GATE_THRESHOLD_RANGE.max",
+    "macro": "REVERB_GATE_THRESHOLD_RANGE_MAX",
+    "value": 0
+   },
+   {
+    "path": "REVERB_GATE_THRESHOLD_RANGE.min",
+    "macro": "REVERB_GATE_THRESHOLD_RANGE_MIN",
+    "value": -80
+   },
+   {
+    "path": "REVERB_GATE_THRESHOLD_RANGE.step",
+    "macro": "REVERB_GATE_THRESHOLD_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "REVERB_HIGHCUT_RANGE.default",
+    "macro": "REVERB_HIGHCUT_RANGE_DEFAULT",
+    "value": 20000
+   },
+   {
+    "path": "REVERB_HIGHCUT_RANGE.max",
+    "macro": "REVERB_HIGHCUT_RANGE_MAX",
+    "value": 20000
+   },
+   {
+    "path": "REVERB_HIGHCUT_RANGE.min",
+    "macro": "REVERB_HIGHCUT_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_HIGHCUT_RANGE.step",
+    "macro": "REVERB_HIGHCUT_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "REVERB_HOLD_RANGE.default",
+    "macro": "REVERB_HOLD_RANGE_DEFAULT",
+    "value": 120
+   },
+   {
+    "path": "REVERB_HOLD_RANGE.max",
+    "macro": "REVERB_HOLD_RANGE_MAX",
+    "value": 2000
+   },
+   {
+    "path": "REVERB_HOLD_RANGE.min",
+    "macro": "REVERB_HOLD_RANGE_MIN",
+    "value": 10
+   },
+   {
+    "path": "REVERB_HOLD_RANGE.step",
+    "macro": "REVERB_HOLD_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "REVERB_LOWCUT_RANGE.default",
+    "macro": "REVERB_LOWCUT_RANGE_DEFAULT",
+    "value": 0
+   },
+   {
+    "path": "REVERB_LOWCUT_RANGE.max",
+    "macro": "REVERB_LOWCUT_RANGE_MAX",
+    "value": 20000
+   },
+   {
+    "path": "REVERB_LOWCUT_RANGE.min",
+    "macro": "REVERB_LOWCUT_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_LOWCUT_RANGE.step",
+    "macro": "REVERB_LOWCUT_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "REVERB_MIX_RANGE.byKind.fxReturn",
+    "macro": "REVERB_MIX_RANGE_BY_KIND_FX_RETURN",
+    "value": 1
+   },
+   {
+    "path": "REVERB_MIX_RANGE.default",
+    "macro": "REVERB_MIX_RANGE_DEFAULT",
+    "value": 0.3
+   },
+   {
+    "path": "REVERB_MIX_RANGE.max",
+    "macro": "REVERB_MIX_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "REVERB_MIX_RANGE.min",
+    "macro": "REVERB_MIX_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_MIX_RANGE.step",
+    "macro": "REVERB_MIX_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "REVERB_PLATE_MOD_DEPTH_RANGE.default",
+    "macro": "REVERB_PLATE_MOD_DEPTH_RANGE_DEFAULT",
+    "value": 100
+   },
+   {
+    "path": "REVERB_PLATE_MOD_DEPTH_RANGE.max",
+    "macro": "REVERB_PLATE_MOD_DEPTH_RANGE_MAX",
+    "value": 400
+   },
+   {
+    "path": "REVERB_PLATE_MOD_DEPTH_RANGE.min",
+    "macro": "REVERB_PLATE_MOD_DEPTH_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_PLATE_MOD_DEPTH_RANGE.step",
+    "macro": "REVERB_PLATE_MOD_DEPTH_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "REVERB_PREDELAY_RANGE.default",
+    "macro": "REVERB_PREDELAY_RANGE_DEFAULT",
+    "value": 0
+   },
+   {
+    "path": "REVERB_PREDELAY_RANGE.max",
+    "macro": "REVERB_PREDELAY_RANGE_MAX",
+    "value": 100
+   },
+   {
+    "path": "REVERB_PREDELAY_RANGE.min",
+    "macro": "REVERB_PREDELAY_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_PREDELAY_RANGE.step",
+    "macro": "REVERB_PREDELAY_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "REVERB_RELEASE_RANGE.default",
+    "macro": "REVERB_RELEASE_RANGE_DEFAULT",
+    "value": 20
+   },
+   {
+    "path": "REVERB_RELEASE_RANGE.max",
+    "macro": "REVERB_RELEASE_RANGE_MAX",
+    "value": 500
+   },
+   {
+    "path": "REVERB_RELEASE_RANGE.min",
+    "macro": "REVERB_RELEASE_RANGE_MIN",
+    "value": 1
+   },
+   {
+    "path": "REVERB_RELEASE_RANGE.step",
+    "macro": "REVERB_RELEASE_RANGE_STEP",
+    "value": 1
+   },
+   {
+    "path": "REVERB_REVERSE_RANGE.default",
+    "macro": "REVERB_REVERSE_RANGE_DEFAULT",
+    "value": 300
+   },
+   {
+    "path": "REVERB_REVERSE_RANGE.max",
+    "macro": "REVERB_REVERSE_RANGE_MAX",
+    "value": 500
+   },
+   {
+    "path": "REVERB_REVERSE_RANGE.min",
+    "macro": "REVERB_REVERSE_RANGE_MIN",
+    "value": 50
+   },
+   {
+    "path": "REVERB_REVERSE_RANGE.step",
+    "macro": "REVERB_REVERSE_RANGE_STEP",
+    "value": 10
+   },
+   {
+    "path": "REVERB_SIZE_RANGE.default",
+    "macro": "REVERB_SIZE_RANGE_DEFAULT",
+    "value": 0.7
+   },
+   {
+    "path": "REVERB_SIZE_RANGE.max",
+    "macro": "REVERB_SIZE_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "REVERB_SIZE_RANGE.min",
+    "macro": "REVERB_SIZE_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_SIZE_RANGE.step",
+    "macro": "REVERB_SIZE_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "REVERB_WIDTH_RANGE.default",
+    "macro": "REVERB_WIDTH_RANGE_DEFAULT",
+    "value": 1
+   },
+   {
+    "path": "REVERB_WIDTH_RANGE.max",
+    "macro": "REVERB_WIDTH_RANGE_MAX",
+    "value": 1
+   },
+   {
+    "path": "REVERB_WIDTH_RANGE.min",
+    "macro": "REVERB_WIDTH_RANGE_MIN",
+    "value": 0
+   },
+   {
+    "path": "REVERB_WIDTH_RANGE.step",
+    "macro": "REVERB_WIDTH_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "RME_PHONES_BALANCE_RANGE.max",
+    "macro": "RME_PHONES_BALANCE_RANGE_MAX",
+    "value": 6
+   },
+   {
+    "path": "RME_PHONES_BALANCE_RANGE.min",
+    "macro": "RME_PHONES_BALANCE_RANGE_MIN",
+    "value": -6
+   },
+   {
+    "path": "RME_PHONES_BALANCE_RANGE.step",
+    "macro": "RME_PHONES_BALANCE_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "RME_TRIM_RANGE.max",
+    "macro": "RME_TRIM_RANGE_MAX",
+    "value": 6
+   },
+   {
+    "path": "RME_TRIM_RANGE.min",
+    "macro": "RME_TRIM_RANGE_MIN",
+    "value": -60
+   },
+   {
+    "path": "RME_TRIM_RANGE.step",
+    "macro": "RME_TRIM_RANGE_STEP",
+    "value": 0
+   },
+   {
+    "path": "ROOM_MODE_BAND.highHz",
+    "macro": "ROOM_MODE_BAND_HIGH_HZ",
+    "value": 300
+   },
+   {
+    "path": "ROOM_MODE_BAND.lowHz",
+    "macro": "ROOM_MODE_BAND_LOW_HZ",
+    "value": 20
+   },
+   {
+    "path": "ROOM_MODE_MAX_CUT_DB",
+    "macro": "ROOM_MODE_MAX_CUT_DB",
+    "value": 15
+   },
+   {
+    "path": "ROOM_MODE_MIN_ABOVE_MEDIAN_DB",
+    "macro": "ROOM_MODE_MIN_ABOVE_MEDIAN_DB",
+    "value": 6
+   },
+   {
+    "path": "ROOM_MODE_MIN_POSITIONS",
+    "macro": "ROOM_MODE_MIN_POSITIONS",
+    "value": 2
+   },
+   {
+    "path": "ROTARY_BASE_MS",
+    "macro": "ROTARY_BASE_MS",
+    "value": 0.1
+   },
+   {
+    "path": "ROTARY_CROSSOVER_HZ",
+    "macro": "ROTARY_CROSSOVER_HZ",
+    "value": 800
+   },
+   {
+    "path": "ROTARY_DRUM_ACCEL_MS",
+    "macro": "ROTARY_DRUM_ACCEL_MS",
+    "value": 1700
+   },
+   {
+    "path": "ROTARY_DRUM_AM",
+    "macro": "ROTARY_DRUM_AM",
+    "value": 0.3
+   },
+   {
+    "path": "ROTARY_DRUM_DECEL_MS",
+    "macro": "ROTARY_DRUM_DECEL_MS",
+    "value": 1800
+   },
+   {
+    "path": "ROTARY_DRUM_DOPPLER_MS",
+    "macro": "ROTARY_DRUM_DOPPLER_MS",
+    "value": 0.29
+   },
+   {
+    "path": "ROTARY_HORN_ACCEL_MS",
+    "macro": "ROTARY_HORN_ACCEL_MS",
+    "value": 330
+   },
+   {
+    "path": "ROTARY_HORN_AM",
+    "macro": "ROTARY_HORN_AM",
+    "value": 0.5
+   },
+   {
+    "path": "ROTARY_HORN_DECEL_MS",
+    "macro": "ROTARY_HORN_DECEL_MS",
+    "value": 500
+   },
+   {
+    "path": "ROTARY_HORN_DOPPLER_MS",
+    "macro": "ROTARY_HORN_DOPPLER_MS",
+    "value": 0.44
+   },
+   {
+    "path": "ROTARY_RING_FLOATS",
+    "macro": "ROTARY_RING_FLOATS",
+    "value": 256
+   },
+   {
+    "path": "ROTARY_STOP_EPS",
+    "macro": "ROTARY_STOP_EPS",
+    "value": 0.0001
+   },
+   {
+    "path": "RTA_FFT_SIZE_MAX",
+    "macro": "RTA_FFT_SIZE_MAX",
+    "value": 32768
+   },
+   {
+    "path": "RTA_TAP_GATE_DB",
+    "macro": "RTA_TAP_GATE_DB",
+    "value": -60
+   },
+   {
+    "path": "RTA_TARGET_BIN_HZ",
+    "macro": "RTA_TARGET_BIN_HZ",
+    "value": 5.9
+   },
+   {
+    "path": "RT_ADMISSION_CEILING_RATIO",
+    "macro": "RT_ADMISSION_CEILING_RATIO",
+    "value": 0.6
+   },
+   {
+    "path": "RT_CAPACITY_TOLERANCE",
+    "macro": "RT_CAPACITY_TOLERANCE",
+    "value": 0.1
+   },
+   {
+    "path": "RT_HARD_TARGET.quantum",
+    "macro": "RT_HARD_TARGET_QUANTUM",
+    "value": 128
+   },
+   {
+    "path": "RT_HARD_TARGET.rate",
+    "macro": "RT_HARD_TARGET_RATE",
+    "value": 192000
+   },
+   {
+    "path": "RT_HEADROOM_REFUSE_RATIO",
+    "macro": "RT_HEADROOM_REFUSE_RATIO",
+    "value": 0.8
+   },
+   {
+    "path": "RT_HEADROOM_WARN_RATIO",
+    "macro": "RT_HEADROOM_WARN_RATIO",
+    "value": 0.6
+   },
+   {
+    "path": "RT_PREDICTION_TOLERANCE",
+    "macro": "RT_PREDICTION_TOLERANCE",
+    "value": 0.1
+   },
+   {
+    "path": "RT_SPLIT_ECORE_WEIGHT_SEED",
+    "macro": "RT_SPLIT_ECORE_WEIGHT_SEED",
+    "value": 0.5
+   },
+   {
+    "path": "RT_STAGE_MAX_FACTOR",
+    "macro": "RT_STAGE_MAX_FACTOR",
+    "value": 2
+   },
+   {
+    "path": "SCENE_SCHEMA_VERSION",
+    "macro": "SCENE_SCHEMA_VERSION",
+    "value": 1
+   },
+   {
+    "path": "SEND_NS_PER_SAMPLE.176400",
+    "macro": "SEND_NS_PER_SAMPLE_176400",
+    "value": 0.193
+   },
+   {
+    "path": "SEND_NS_PER_SAMPLE.192000",
+    "macro": "SEND_NS_PER_SAMPLE_192000",
+    "value": 0.193
+   },
+   {
+    "path": "SEND_NS_PER_SAMPLE.44100",
+    "macro": "SEND_NS_PER_SAMPLE_44100",
+    "value": 0.193
+   },
+   {
+    "path": "SEND_NS_PER_SAMPLE.48000",
+    "macro": "SEND_NS_PER_SAMPLE_48000",
+    "value": 0.193
+   },
+   {
+    "path": "SEND_NS_PER_SAMPLE.88200",
+    "macro": "SEND_NS_PER_SAMPLE_88200",
+    "value": 0.193
+   },
+   {
+    "path": "SEND_NS_PER_SAMPLE.96000",
+    "macro": "SEND_NS_PER_SAMPLE_96000",
+    "value": 0.193
+   },
+   {
+    "path": "SENS_VALUE_MAX",
+    "macro": "SENS_VALUE_MAX",
+    "value": 55
+   },
+   {
+    "path": "SENS_VALUE_MIN",
+    "macro": "SENS_VALUE_MIN",
+    "value": 0
+   },
+   {
+    "path": "SESSION_SCHEMA_VERSION",
+    "macro": "SESSION_SCHEMA_VERSION",
+    "value": 1
+   },
+   {
+    "path": "SPEAKER_ALIGN_BAND.highHz",
+    "macro": "SPEAKER_ALIGN_BAND_HIGH_HZ",
+    "value": 4000
+   },
+   {
+    "path": "SPEAKER_ALIGN_BAND.lowHz",
+    "macro": "SPEAKER_ALIGN_BAND_LOW_HZ",
+    "value": 125
+   },
+   {
+    "path": "SPECTRUM_LEVEL_LIMIT.max",
+    "macro": "SPECTRUM_LEVEL_LIMIT_MAX",
+    "value": 0
+   },
+   {
+    "path": "SPECTRUM_LEVEL_LIMIT.min",
+    "macro": "SPECTRUM_LEVEL_LIMIT_MIN",
+    "value": -100
+   },
+   {
+    "path": "SPECTRUM_LEVEL_LIMIT.step",
+    "macro": "SPECTRUM_LEVEL_LIMIT_STEP",
+    "value": 0.39215686274509803
+   },
+   {
+    "path": "SPEED_OF_SOUND_M_S",
+    "macro": "SPEED_OF_SOUND_M_S",
+    "value": 343
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.chorus.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_CHORUS_176400",
+    "value": 57.1
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.chorus.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_CHORUS_192000",
+    "value": 57.1
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.chorus.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_CHORUS_44100",
+    "value": 57.179
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.chorus.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_CHORUS_48000",
+    "value": 57.179
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.chorus.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_CHORUS_88200",
+    "value": 57.179
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.chorus.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_CHORUS_96000",
+    "value": 57.179
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.delay.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DELAY_176400",
+    "value": 2.424
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.delay.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DELAY_192000",
+    "value": 2.424
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.delay.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DELAY_44100",
+    "value": 2.422
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.delay.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DELAY_48000",
+    "value": 2.422
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.delay.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DELAY_88200",
+    "value": 2.422
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.delay.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DELAY_96000",
+    "value": 2.422
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.deEsser.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DE_ESSER_176400",
+    "value": 16.954
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.deEsser.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DE_ESSER_192000",
+    "value": 16.954
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.deEsser.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DE_ESSER_44100",
+    "value": 16.861
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.deEsser.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DE_ESSER_48000",
+    "value": 16.861
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.deEsser.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DE_ESSER_88200",
+    "value": 16.861
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.deEsser.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DE_ESSER_96000",
+    "value": 16.861
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.drive.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DRIVE_176400",
+    "value": 58.135
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.drive.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DRIVE_192000",
+    "value": 58.135
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.drive.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DRIVE_44100",
+    "value": 58.348
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.drive.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DRIVE_48000",
+    "value": 58.348
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.drive.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DRIVE_88200",
+    "value": 58.348
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.drive.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DRIVE_96000",
+    "value": 58.348
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.dynamics.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DYNAMICS_176400",
+    "value": 89.678
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.dynamics.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DYNAMICS_192000",
+    "value": 89.678
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.dynamics.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DYNAMICS_44100",
+    "value": 89.839
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.dynamics.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DYNAMICS_48000",
+    "value": 89.839
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.dynamics.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DYNAMICS_88200",
+    "value": 89.839
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.dynamics.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_DYNAMICS_96000",
+    "value": 89.839
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.eq.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_EQ_176400",
+    "value": 20.867
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.eq.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_EQ_192000",
+    "value": 20.867
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.eq.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_EQ_44100",
+    "value": 20.839
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.eq.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_EQ_48000",
+    "value": 20.839
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.eq.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_EQ_88200",
+    "value": 20.839
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.eq.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_EQ_96000",
+    "value": 20.839
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.flanger.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_FLANGER_176400",
+    "value": 32.049
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.flanger.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_FLANGER_192000",
+    "value": 32.049
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.flanger.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_FLANGER_44100",
+    "value": 32.093
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.flanger.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_FLANGER_48000",
+    "value": 32.093
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.flanger.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_FLANGER_88200",
+    "value": 32.093
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.flanger.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_FLANGER_96000",
+    "value": 32.093
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.gate.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_GATE_176400",
+    "value": 9.507
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.gate.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_GATE_192000",
+    "value": 9.507
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.gate.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_GATE_44100",
+    "value": 9.497
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.gate.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_GATE_48000",
+    "value": 9.497
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.gate.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_GATE_88200",
+    "value": 9.497
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.gate.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_GATE_96000",
+    "value": 9.497
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.reverb.176400",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_REVERB_176400",
+    "value": 20.897
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.reverb.192000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_REVERB_192000",
+    "value": 20.897
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.reverb.44100",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_REVERB_44100",
+    "value": 20.117
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.reverb.48000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_REVERB_48000",
+    "value": 20.117
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.reverb.88200",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_REVERB_88200",
+    "value": 20.117
+   },
+   {
+    "path": "STAGE_COST_NS_PER_SAMPLE.reverb.96000",
+    "macro": "STAGE_COST_NS_PER_SAMPLE_REVERB_96000",
+    "value": 20.117
+   },
+   {
+    "path": "STRIP_QUANTUM",
+    "macro": "STRIP_QUANTUM",
+    "value": 4
+   },
+   {
+    "path": "SUBHARMONIC_RADIUS_BINS",
+    "macro": "SUBHARMONIC_RADIUS_BINS",
+    "value": 2
+   },
+   {
+    "path": "SURFACE_BANK_WIDTH",
+    "macro": "SURFACE_BANK_WIDTH",
+    "value": 8
+   },
+   {
+    "path": "SYNC_NS.176400",
+    "macro": "SYNC_NS_176400",
+    "value": 4122
+   },
+   {
+    "path": "SYNC_NS.192000",
+    "macro": "SYNC_NS_192000",
+    "value": 4122
+   },
+   {
+    "path": "SYNC_NS.44100",
+    "macro": "SYNC_NS_44100",
+    "value": 4112
+   },
+   {
+    "path": "SYNC_NS.48000",
+    "macro": "SYNC_NS_48000",
+    "value": 4112
+   },
+   {
+    "path": "SYNC_NS.88200",
+    "macro": "SYNC_NS_88200",
+    "value": 4112
+   },
+   {
+    "path": "SYNC_NS.96000",
+    "macro": "SYNC_NS_96000",
+    "value": 4112
+   },
+   {
+    "path": "T20_LOWER_DB",
+    "macro": "T20_LOWER_DB",
+    "value": -25
+   },
+   {
+    "path": "T20_UPPER_DB",
+    "macro": "T20_UPPER_DB",
+    "value": -5
+   },
+   {
+    "path": "TAKE_RENDER_SCHEMA_VERSION",
+    "macro": "TAKE_RENDER_SCHEMA_VERSION",
+    "value": 1
+   },
+   {
+    "path": "TAKE_REVERSE_RENDER_SCHEMA_VERSION",
+    "macro": "TAKE_REVERSE_RENDER_SCHEMA_VERSION",
+    "value": 1
+   },
+   {
+    "path": "TAKE_SCHEMA_VERSION",
+    "macro": "TAKE_SCHEMA_VERSION",
+    "value": 1
+   },
+   {
+    "path": "TAPER_FLOOR_DB",
+    "macro": "TAPER_FLOOR_DB",
+    "value": -90
+   },
+   {
+    "path": "TAP_AT_CHAIN_INPUT",
+    "macro": "TAP_AT_CHAIN_INPUT",
+    "value": -1
+   },
+   {
+    "path": "TAP_RESET_MS",
+    "macro": "TAP_RESET_MS",
+    "value": 2000
+   },
+   {
+    "path": "TAP_WINDOW",
+    "macro": "TAP_WINDOW",
+    "value": 4
+   },
+   {
+    "path": "TIER_CROSSOVER_HZ",
+    "macro": "TIER_CROSSOVER_HZ",
+    "value": 300
+   },
+   {
+    "path": "TRANSIENT_FAST_ATTACK_MS",
+    "macro": "TRANSIENT_FAST_ATTACK_MS",
+    "value": 0.5
+   },
+   {
+    "path": "TRANSIENT_FAST_RELEASE_MS",
+    "macro": "TRANSIENT_FAST_RELEASE_MS",
+    "value": 20
+   },
+   {
+    "path": "TRANSIENT_FLOOR_LIN",
+    "macro": "TRANSIENT_FLOOR_LIN",
+    "value": 0.00001
+   },
+   {
+    "path": "TRANSIENT_REF_DB",
+    "macro": "TRANSIENT_REF_DB",
+    "value": 6
+   },
+   {
+    "path": "TRIM_RANGE.maxDb",
+    "macro": "TRIM_RANGE_MAX_DB",
+    "value": 24
+   },
+   {
+    "path": "TRIM_RANGE.minDb",
+    "macro": "TRIM_RANGE_MIN_DB",
+    "value": -24
+   },
+   {
+    "path": "TRIM_RANGE.stepDb",
+    "macro": "TRIM_RANGE_STEP_DB",
+    "value": 0.1
+   },
+   {
+    "path": "UNITY_POSITION",
+    "macro": "UNITY_POSITION",
+    "value": 0.75
+   },
+   {
+    "path": "XOVER_LIMITS.lr2SectionQ",
+    "macro": "XOVER_LR2_SECTION_Q",
+    "value": 0.5
+   },
+   {
+    "path": "XOVER_LIMITS.lr4SectionQ",
+    "macro": "XOVER_LR4_SECTION_Q",
+    "value": 0.7071067811865476
+   },
+   {
+    "path": "XOVER_LIMITS.partitionTolerance",
+    "macro": "XOVER_PARTITION_TOLERANCE",
+    "value": 0.00001
+   }
+  ],
+  "OMX_CLAP_HOST_EXTENSIONS": [
+   "clap.log",
+   "clap.thread-check",
+   "clap.latency",
+   "clap.params",
+   "clap.audio-ports",
+   "clap.state"
+  ],
+  "STANDARD_SAMPLE_RATES": [
+   44100,
+   48000,
+   88200,
+   96000,
+   176400,
+   192000
+  ],
+  "DECLARED_SETS": [
+   {
+    "name": "HOST_VERBS",
+    "fields": [
+     "wire",
+     "backend"
+    ],
+    "rows": [
+     [
+      "add",
+      true
+     ],
+     [
+      "remove",
+      true
+     ],
+     [
+      "bypass",
+      true
+     ],
+     [
+      "param_set",
+      true
+     ],
+     [
+      "param_get",
+      true
+     ],
+     [
+      "patch_set",
+      false
+     ],
+     [
+      "preset_load",
+      true
+     ],
+     [
+      "connect",
+      true
+     ],
+     [
+      "disconnect",
+      true
+     ]
+    ]
+   }
+  ],
+  "DECLARED_LISTS": [
+   {
+    "name": "LATENCY_QUANTA",
+    "values": [
+     32,
+     64,
+     128,
+     256,
+     512,
+     1024
+    ]
+   },
+   {
+    "name": "STANDARD_SAMPLE_RATES",
+    "values": [
+     44100,
+     48000,
+     88200,
+     96000,
+     176400,
+     192000
+    ]
+   }
+  ]
+ },
+ "plugins": [
+  {
+   "header": "omx_delay_params.h",
+   "prefix": "OMX_DELAY",
+   "source": "CONSOLE_TRAVEL_DECLS['/channel/{kind}/{index}/delay'], limitForKind(DELAY_MIX_RANGE, 'input'), FX_DELAY_PINGPONG_DEFAULT",
+   "params": [
+    {
+     "symbol": "timeMs",
+     "min": 0,
+     "max": 2000,
+     "def": 300,
+     "step": 1,
+     "unit": "ms",
+     "toggle": false
+    },
+    {
+     "symbol": "feedback",
+     "min": 0,
+     "max": 0.99,
+     "def": 0.3,
+     "step": 0,
+     "unit": "",
+     "toggle": false
+    },
+    {
+     "symbol": "mix",
+     "min": 0,
+     "max": 1,
+     "def": 0.3,
+     "step": 0,
+     "unit": "",
+     "toggle": false
+    },
+    {
+     "symbol": "tone",
+     "min": 0,
+     "max": 1,
+     "def": 0.3,
+     "step": 0,
+     "unit": "",
+     "toggle": false
+    },
+    {
+     "symbol": "pingpong",
+     "min": 0,
+     "max": 1,
+     "def": 0,
+     "step": 1,
+     "unit": "",
+     "toggle": true
+    }
+   ]
+  }
+ ]
+}

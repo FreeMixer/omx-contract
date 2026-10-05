@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/FreeMixer/omx-contract/raw/main/schema/omx-contract.schema.json",
+  "title": "omx-contract data file",
+  "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet, a list or a plugin's parameter selection. GPL-3.0-or-later.",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" }
+  },
+  "propertyNames": { "anyOf": [{ "const": "$schema" }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
+  "additionalProperties": { "$ref": "#/$defs/item" },
+  "$defs": {
+    "unit": {
+      "description": "The closed list of units the items use; \"\" is a ratio or a fraction.",
+      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "%", ""]
+    },
+    "text": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+    "ref": {
+      "type": "object",
+      "properties": { "ref": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*(\\.[A-Za-z][A-Za-z0-9]*)*$" } },
+      "required": ["ref"],
+      "additionalProperties": false
+    },
+    "derive": {
+      "description": "The closed list of derivations; a new one is a renderer change with its own test.",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": { "derive": { "const": "count" }, "of": { "$ref": "#/$defs/name" } },
+          "required": ["derive", "of"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": { "derive": { "const": "sqrt" }, "of": { "$ref": "#/$defs/number" } },
+          "required": ["derive", "of"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "derive": { "const": "lagrangeReadL1" },
+            "order": { "oneOf": [{ "type": "integer", "minimum": 1 }, { "$ref": "#/$defs/ref" }] }
+          },
+          "required": ["derive", "order"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "number": { "oneOf": [{ "type": "number" }, { "$ref": "#/$defs/ref" }, { "$ref": "#/$defs/derive" }] },
+    "travel": {
+      "type": "object",
+      "properties": {
+        "min": { "$ref": "#/$defs/number" },
+        "max": { "$ref": "#/$defs/number" },
+        "step": { "$ref": "#/$defs/number" },
+        "unit": { "$ref": "#/$defs/unit" },
+        "default": { "$ref": "#/$defs/number" },
+        "defaultFrom": { "enum": ["desk"] },
+        "byKind": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
+          "additionalProperties": { "$ref": "#/$defs/number" },
+          "minProperties": 1
+        },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" }
+      },
+      "required": ["min", "max"],
+      "additionalProperties": false
+    },
+    "sheetValue": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
+      "additionalProperties": { "oneOf": [{ "$ref": "#/$defs/number" }, { "$ref": "#/$defs/sheetValue" }] },
+      "minProperties": 1
+    },
+    "scalar": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "scalar" },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" },
+        "unit": { "$ref": "#/$defs/unit" },
+        "value": { "oneOf": [{ "$ref": "#/$defs/number" }, { "type": "boolean" }] }
+      },
+      "required": ["kind", "doc", "unit", "value"],
+      "additionalProperties": false
+    },
+    "travels": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "travels" },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" },
+        "fields": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
+          "additionalProperties": { "$ref": "#/$defs/travel" },
+          "minProperties": 1
+        },
+        "travel": { "$ref": "#/$defs/travel" },
+        "c": {
+          "type": "object",
+          "properties": {
+            "alias": {
+              "type": "object",
+              "properties": {
+                "fact": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
+                "field": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" }
+              },
+              "required": ["fact", "field"],
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["kind", "doc"],
+      "oneOf": [{ "required": ["fields"] }, { "required": ["travel"] }],
+      "additionalProperties": false
+    },
+    "sheet": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "sheet" },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" },
+        "value": { "$ref": "#/$defs/sheetValue" }
+      },
+      "required": ["kind", "doc", "value"],
+      "additionalProperties": false
+    },
+    "list": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "list" },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" },
+        "unit": { "$ref": "#/$defs/unit" },
+        "values": { "type": "array", "items": { "type": "number" }, "minItems": 1 },
+        "c": {
+          "type": "object",
+          "properties": { "render": { "type": "boolean" } },
+          "additionalProperties": false
+        }
+      },
+      "required": ["kind", "doc", "unit", "values"],
+      "additionalProperties": false
+    },
+    "param": {
+      "type": "object",
+      "properties": {
+        "symbol": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
+        "from": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*(\\.[a-z][A-Za-z0-9]*)?$" },
+        "forKind": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
+        "flags": { "type": "array", "items": { "enum": ["toggle"] }, "uniqueItems": true },
+        "scale": { "enum": ["linear", "log"] },
+        "since": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "doc": { "$ref": "#/$defs/text" }
+      },
+      "required": ["symbol", "from", "scale", "since"],
+      "additionalProperties": false
+    },
+    "plugin": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "plugin" },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" },
+        "plugin": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "header": { "type": "string", "pattern": "^omx_[a-z0-9_]+_params\\.h$" },
+        "prefix": { "type": "string", "pattern": "^OMX_[A-Z0-9_]+$" },
+        "source": { "$ref": "#/$defs/text" },
+        "params": { "type": "array", "items": { "$ref": "#/$defs/param" }, "minItems": 1 }
+      },
+      "required": ["kind", "doc", "plugin", "header", "prefix", "source", "params"],
+      "additionalProperties": false
+    },
+    "item": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": { "kind": { "enum": ["scalar", "travels", "sheet", "list", "plugin"] } },
+      "allOf": [
+        { "if": { "properties": { "kind": { "const": "scalar" } } }, "then": { "$ref": "#/$defs/scalar" } },
+        { "if": { "properties": { "kind": { "const": "travels" } } }, "then": { "$ref": "#/$defs/travels" } },
+        { "if": { "properties": { "kind": { "const": "sheet" } } }, "then": { "$ref": "#/$defs/sheet" } },
+        { "if": { "properties": { "kind": { "const": "list" } } }, "then": { "$ref": "#/$defs/list" } },
+        { "if": { "properties": { "kind": { "const": "plugin" } } }, "then": { "$ref": "#/$defs/plugin" } }
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "STANDARD_SAMPLE_RATES": {
+    "kind": "list",
+    "doc": "The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` (`2026-07-15-clock-rate-honest-force-rate.md`) — this is the ceiling a write is refused by, never a menu.",
+    "unit": "Hz",
+    "values": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ]
+  },
+  "RT_HARD_TARGET": {
+    "kind": "sheet",
+    "doc": "THE declaration: 192 kHz at quantum 128.",
+    "value": {
+      "rate": 192000,
+      "quantum": 128
+    }
+  },
+  "DSP_KNOB_REFERENCE_RATE": {
+    "kind": "scalar",
+    "doc": "The rate a unit-range DSP knob is quoted at (R-058): the rate this desk runs (ruling 2026-09-14). A kernel raises the knob to `REF / sr`, so at this rate the exponent is exactly 1 and the response is bit-for-bit the one cut before the law. Emitted to C as `OMX_DSP_KNOB_REFERENCE_RATE`; the reverb damping and FX-delay tone references `#define` from it.",
+    "unit": "Hz",
+    "value": 96000
+  }
+}

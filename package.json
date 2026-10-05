@@ -1,0 +1,49 @@
+{
+  "name": "@openmixer/omx-contract",
+  "version": "1.0.0",
+  "description": "The FreeMixer declarations as data: a JSON Schema, the data, and one CLI that renders them into C, TypeScript and JSON",
+  "type": "module",
+  "license": "GPL-3.0-or-later",
+  "author": "Pau Aliagas <linuxnow@gmail.com>",
+  "homepage": "https://github.com/FreeMixer/omx-contract",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FreeMixer/omx-contract.git"
+  },
+  "bin": {
+    "omx-contract": "bin/omx-contract.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/ts/omx-contract.d.ts",
+      "import": "./dist/ts/omx-contract.js"
+    },
+    "./resolved.json": "./share/omx-contract/omx-contract.json",
+    "./schema.json": "./schema/omx-contract.schema.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "render/",
+    "data/",
+    "schema/",
+    "include/",
+    "share/",
+    "dist/ts/"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "prepack": "node bin/omx-contract.mjs render --target ts --out dist/ts"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

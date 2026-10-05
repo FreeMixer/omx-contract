@@ -1,0 +1,48 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "DELAY_PLUGIN": {
+    "kind": "plugin",
+    "doc": "The delay plugin's parameters, in append-only order: DPF's parameter index is the CLAP param id and the LV2 port order (omx-plugins-dpf §3b). Moved from openmixer's packages/omx-plugins/tools/params-gen.mjs PLUGINS.delay.",
+    "why": "mix is per instance on the desk (insert or fxReturn); a plugin racked in a foreign host is an INSERT, so it reads the input kind's default (omx-plugins-dpf §3a).",
+    "plugin": "delay",
+    "header": "omx_delay_params.h",
+    "prefix": "OMX_DELAY",
+    "source": "FX_DELAY_TIME_RANGE, FX_DELAY_FEEDBACK_RANGE, DELAY_MIX_RANGE for kind input, DELAY_TONE_RANGE, FX_DELAY_PINGPONG_DEFAULT",
+    "params": [
+      {
+        "symbol": "timeMs",
+        "from": "FX_DELAY_TIME_RANGE",
+        "scale": "linear",
+        "since": "1.0.0"
+      },
+      {
+        "symbol": "feedback",
+        "from": "FX_DELAY_FEEDBACK_RANGE",
+        "scale": "linear",
+        "since": "1.0.0"
+      },
+      {
+        "symbol": "mix",
+        "from": "DELAY_MIX_RANGE",
+        "forKind": "input",
+        "scale": "linear",
+        "since": "1.0.0"
+      },
+      {
+        "symbol": "tone",
+        "from": "DELAY_TONE_RANGE",
+        "scale": "linear",
+        "since": "1.0.0"
+      },
+      {
+        "symbol": "pingpong",
+        "from": "FX_DELAY_PINGPONG_DEFAULT",
+        "flags": [
+          "toggle"
+        ],
+        "scale": "linear",
+        "since": "1.0.0"
+      }
+    ]
+  }
+}

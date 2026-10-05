@@ -1,0 +1,201 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+#ifndef OMX_CONTRACT_LIMITS_H
+#define OMX_CONTRACT_LIMITS_H
+/*
+ * GENERATED — DO NOT EDIT BY HAND.
+ * Produced by `omx-contract render --target c` from FreeMixer/omx-contract's data/, the declaration
+ * as data (each item's reason is its `doc`). Change the data, never this file: a consumer builds
+ * against the render of the omx-contract version it pins and commits none.
+ *
+ * A C contract (OMX_PRE/OMX_POST/OMX_INVARIANT) reads a limit from HERE, never a literal.
+ */
+
+/* Per-parameter numeric travel, one block per `travels` table named <PREFIX>_LIMITS:
+ * OMX_<PREFIX>_<FIELD>_MIN/_MAX/_DEFAULT, float literals. */
+#define OMX_COMP_THRESHOLD_DB_MIN -60.0f
+#define OMX_COMP_THRESHOLD_DB_MAX 0.0f
+#define OMX_COMP_THRESHOLD_DB_DEFAULT -18.0f
+#define OMX_COMP_RATIO_MIN 1.0f
+#define OMX_COMP_RATIO_MAX 20.0f
+#define OMX_COMP_RATIO_DEFAULT 4.0f
+#define OMX_COMP_KNEE_DB_MIN 0.0f
+#define OMX_COMP_KNEE_DB_MAX 24.0f
+#define OMX_COMP_KNEE_DB_DEFAULT 6.0f
+#define OMX_COMP_ATTACK_MS_MIN 0.1f
+#define OMX_COMP_ATTACK_MS_MAX 100.0f
+#define OMX_COMP_ATTACK_MS_DEFAULT 5.0f
+#define OMX_COMP_RELEASE_MS_MIN 5.0f
+#define OMX_COMP_RELEASE_MS_MAX 3000.0f
+#define OMX_COMP_RELEASE_MS_DEFAULT 200.0f
+#define OMX_COMP_MAKEUP_DB_MIN 0.0f
+#define OMX_COMP_MAKEUP_DB_MAX 24.0f
+#define OMX_COMP_MAKEUP_DB_DEFAULT 0.0f
+#define OMX_COMP_MIX_PCT_MIN 0.0f
+#define OMX_COMP_MIX_PCT_MAX 100.0f
+#define OMX_COMP_MIX_PCT_DEFAULT 100.0f
+
+#define OMX_GATE_THRESHOLD_DB_MIN -80.0f
+#define OMX_GATE_THRESHOLD_DB_MAX 0.0f
+#define OMX_GATE_THRESHOLD_DB_DEFAULT -40.0f
+#define OMX_GATE_RANGE_DB_MIN -90.0f
+#define OMX_GATE_RANGE_DB_MAX 0.0f
+#define OMX_GATE_RANGE_DB_DEFAULT -90.0f
+#define OMX_GATE_KNEE_START_DB_MIN -80.0f
+#define OMX_GATE_KNEE_START_DB_MAX 0.0f
+#define OMX_GATE_KNEE_START_DB_DEFAULT -43.0f
+#define OMX_GATE_KNEE_END_DB_MIN -80.0f
+#define OMX_GATE_KNEE_END_DB_MAX 0.0f
+#define OMX_GATE_KNEE_END_DB_DEFAULT -37.0f
+#define OMX_GATE_ATTACK_MS_MIN 0.0f
+#define OMX_GATE_ATTACK_MS_MAX 500.0f
+#define OMX_GATE_ATTACK_MS_DEFAULT 1.0f
+#define OMX_GATE_HOLD_MS_MIN 0.0f
+#define OMX_GATE_HOLD_MS_MAX 2000.0f
+#define OMX_GATE_HOLD_MS_DEFAULT 10.0f
+#define OMX_GATE_RELEASE_MS_MIN 0.0f
+#define OMX_GATE_RELEASE_MS_MAX 5000.0f
+#define OMX_GATE_RELEASE_MS_DEFAULT 100.0f
+#define OMX_GATE_HYSTERESIS_DB_MIN 0.0f
+#define OMX_GATE_HYSTERESIS_DB_MAX 24.0f
+#define OMX_GATE_HYSTERESIS_DB_DEFAULT 3.0f
+#define OMX_GATE_RATIO_MIN 1.0f
+#define OMX_GATE_RATIO_MAX 100.0f
+#define OMX_GATE_RATIO_DEFAULT 16.0f
+
+#define OMX_LIMITER_CEILING_DB_MIN -12.0f
+#define OMX_LIMITER_CEILING_DB_MAX 0.0f
+#define OMX_LIMITER_CEILING_DB_DEFAULT -1.0f
+#define OMX_LIMITER_LOOKAHEAD_MS_MIN 0.5f
+#define OMX_LIMITER_LOOKAHEAD_MS_MAX 5.0f
+#define OMX_LIMITER_LOOKAHEAD_MS_DEFAULT 1.5f
+#define OMX_LIMITER_RELEASE_MS_MIN 1.0f
+#define OMX_LIMITER_RELEASE_MS_MAX 1000.0f
+#define OMX_LIMITER_RELEASE_MS_DEFAULT 50.0f
+
+#define OMX_PITCH_SEMITONES_MIN -12.0f
+#define OMX_PITCH_SEMITONES_MAX 12.0f
+#define OMX_PITCH_SEMITONES_DEFAULT 0.0f
+#define OMX_PITCH_CENTS_MIN -50.0f
+#define OMX_PITCH_CENTS_MAX 50.0f
+#define OMX_PITCH_CENTS_DEFAULT 0.0f
+#define OMX_PITCH_MIX_MIN 0.0f
+#define OMX_PITCH_MIX_MAX 100.0f
+#define OMX_PITCH_MIX_DEFAULT 100.0f
+
+#define OMX_TRANSIENT_ATTACK_DB_MIN -24.0f
+#define OMX_TRANSIENT_ATTACK_DB_MAX 24.0f
+#define OMX_TRANSIENT_ATTACK_DB_DEFAULT 0.0f
+#define OMX_TRANSIENT_SUSTAIN_DB_MIN -24.0f
+#define OMX_TRANSIENT_SUSTAIN_DB_MAX 24.0f
+#define OMX_TRANSIENT_SUSTAIN_DB_DEFAULT 0.0f
+#define OMX_TRANSIENT_ATTACK_TIME_MS_MIN 2.0f
+#define OMX_TRANSIENT_ATTACK_TIME_MS_MAX 50.0f
+#define OMX_TRANSIENT_ATTACK_TIME_MS_DEFAULT 10.0f
+#define OMX_TRANSIENT_SUSTAIN_TIME_MS_MIN 50.0f
+#define OMX_TRANSIENT_SUSTAIN_TIME_MS_MAX 2000.0f
+#define OMX_TRANSIENT_SUSTAIN_TIME_MS_DEFAULT 250.0f
+#define OMX_TRANSIENT_OUTPUT_DB_MIN -24.0f
+#define OMX_TRANSIENT_OUTPUT_DB_MAX 12.0f
+#define OMX_TRANSIENT_OUTPUT_DB_DEFAULT 0.0f
+
+/* The second C spelling of a travel, its item's `c.alias` { fact, field }:
+ * OMX_<FACT>_<FIELD>_MIN/_MAX/_DEFAULT. Removed by a MAJOR release once no consumer reads it. */
+#define OMX_DELAY_TIME_MS_MIN 0.0f
+#define OMX_DELAY_TIME_MS_MAX 2000.0f
+#define OMX_DELAY_TIME_MS_DEFAULT 300.0f
+
+/* Every scalar, sheet leaf and single travel's numbers, one block sorted by macro. An integer value
+ * is an integer literal, any other a float literal AND its OMX_<macro>_DOUBLE spelling. */
+#define OMX_ALLPASS_UNITY_TOLERANCE 0.0001f
+#define OMX_ALLPASS_UNITY_TOLERANCE_DOUBLE 0.0001
+#define OMX_BUTTERWORTH_Q 0.7071067811865476f
+#define OMX_BUTTERWORTH_Q_DOUBLE 0.7071067811865476
+#define OMX_CHORUS_SPREAD_RANGE_DEFAULT 0
+#define OMX_CHORUS_SPREAD_RANGE_MAX 0.5f
+#define OMX_CHORUS_SPREAD_RANGE_MAX_DOUBLE 0.5
+#define OMX_CHORUS_SPREAD_RANGE_MIN 0
+#define OMX_CHORUS_SPREAD_RANGE_STEP 0.01f
+#define OMX_CHORUS_SPREAD_RANGE_STEP_DOUBLE 0.01
+#define OMX_DELAY_MIX_RANGE_BY_KIND_FX_RETURN 1
+#define OMX_DELAY_MIX_RANGE_DEFAULT 0.3f
+#define OMX_DELAY_MIX_RANGE_DEFAULT_DOUBLE 0.3
+#define OMX_DELAY_MIX_RANGE_MAX 1
+#define OMX_DELAY_MIX_RANGE_MIN 0
+#define OMX_DELAY_MIX_RANGE_STEP 0
+#define OMX_DELAY_TONE_RANGE_DEFAULT 0.3f
+#define OMX_DELAY_TONE_RANGE_DEFAULT_DOUBLE 0.3
+#define OMX_DELAY_TONE_RANGE_MAX 1
+#define OMX_DELAY_TONE_RANGE_MIN 0
+#define OMX_DELAY_TONE_RANGE_STEP 0
+#define OMX_DRIVE_BIAS_MAX 0.7071067811865476f
+#define OMX_DRIVE_BIAS_MAX_DOUBLE 0.7071067811865476
+#define OMX_DSP_KNOB_REFERENCE_RATE 96000
+#define OMX_EQ_MAX_BANDS 24
+#define OMX_FDELAY_MOD_READ_ORDER 3
+#define OMX_FDELAY_READ_L1_NORM 1.25f
+#define OMX_FDELAY_READ_L1_NORM_DOUBLE 1.25
+#define OMX_FX_DELAY_FEEDBACK_RANGE_DEFAULT 0.3f
+#define OMX_FX_DELAY_FEEDBACK_RANGE_DEFAULT_DOUBLE 0.3
+#define OMX_FX_DELAY_FEEDBACK_RANGE_MAX 0.99f
+#define OMX_FX_DELAY_FEEDBACK_RANGE_MAX_DOUBLE 0.99
+#define OMX_FX_DELAY_FEEDBACK_RANGE_MIN 0
+#define OMX_FX_DELAY_FEEDBACK_RANGE_STEP 0
+#define OMX_FX_DELAY_TIME_RANGE_DEFAULT 300
+#define OMX_FX_DELAY_TIME_RANGE_MAX 2000
+#define OMX_FX_DELAY_TIME_RANGE_MIN 0
+#define OMX_FX_DELAY_TIME_RANGE_STEP 1
+#define OMX_GEQ_BANDS 31
+#define OMX_PITCH_PREFILTER_CEILING_HZ 20000
+#define OMX_PITCH_PREFILTER_Q 0.7071067811865476f
+#define OMX_PITCH_PREFILTER_Q_DOUBLE 0.7071067811865476
+#define OMX_PITCH_WINDOW_MS 40
+#define OMX_PROGRAM_RELEASE_CHARGE_MS 1000
+#define OMX_PROGRAM_RELEASE_DISCHARGE_MS 5000
+#define OMX_PROGRAM_RELEASE_PROFILES_OPTO_FAST_MS 70
+#define OMX_PROGRAM_RELEASE_PROFILES_OPTO_SHARE 0.5f
+#define OMX_PROGRAM_RELEASE_PROFILES_OPTO_SHARE_DOUBLE 0.5
+#define OMX_PROGRAM_RELEASE_PROFILES_OPTO_SLOW_MAX_MS 1100
+#define OMX_PROGRAM_RELEASE_PROFILES_OPTO_SLOW_MIN_MS 110
+#define OMX_REVERB_PLATE_MOD_DEPTH_RANGE_DEFAULT 100
+#define OMX_REVERB_PLATE_MOD_DEPTH_RANGE_MAX 400
+#define OMX_REVERB_PLATE_MOD_DEPTH_RANGE_MIN 0
+#define OMX_REVERB_PLATE_MOD_DEPTH_RANGE_STEP 1
+#define OMX_RT_HARD_TARGET_QUANTUM 128
+#define OMX_RT_HARD_TARGET_RATE 192000
+#define OMX_TRANSIENT_FAST_ATTACK_MS 0.5f
+#define OMX_TRANSIENT_FAST_ATTACK_MS_DOUBLE 0.5
+#define OMX_TRANSIENT_FAST_RELEASE_MS 20
+#define OMX_TRANSIENT_FLOOR_LIN 0.00001f
+#define OMX_TRANSIENT_FLOOR_LIN_DOUBLE 0.00001
+#define OMX_TRANSIENT_REF_DB 6
+#define OMX_XOVER_LR2_SECTION_Q 0.5f
+#define OMX_XOVER_LR2_SECTION_Q_DOUBLE 0.5
+#define OMX_XOVER_LR4_SECTION_Q 0.7071067811865476f
+#define OMX_XOVER_LR4_SECTION_Q_DOUBLE 0.7071067811865476
+#define OMX_XOVER_PARTITION_TOLERANCE 0.00001f
+#define OMX_XOVER_PARTITION_TOLERANCE_DOUBLE 0.00001
+
+/* Every list rendered to C, sorted by list: OMX_<LIST>_COUNT and OMX_<LIST>_INIT { a, b, … }. */
+#define OMX_STANDARD_SAMPLE_RATES_COUNT 6u
+#define OMX_STANDARD_SAMPLE_RATES_INIT { 44100, 48000, 88200, 96000, 176400, 192000 }
+
+#endif /* OMX_CONTRACT_LIMITS_H */
+
+/* The sample rates the console declares (core's STANDARD_SAMPLE_RATES, row-codecs.ts): the set a
+ * contract's rate-is-declared precondition accepts, through omx_rate_is_declared(), and the grid a
+ * native tool iterates. Guarded on its own so a tool built against a pinned copy of this header
+ * (lv2-inprocess-pin.sh) can include this tree's copy after it and gain the rates without mixing
+ * the pin's limits. */
+#ifndef OMX_DECLARED_RATE_COUNT
+#define OMX_DECLARED_RATE_COUNT 6u
+static const float OMX_DECLARED_RATES[OMX_DECLARED_RATE_COUNT] = { 44100.0f, 48000.0f, 88200.0f, 96000.0f, 176400.0f, 192000.0f };
+/* The declared rates that are whole multiples of `base` (a tool's default grid: the 48 kHz family),
+ * in declaration order, at most `cap` of them; returns how many were written to `out`. */
+static inline int omx_declared_rates_multiple_of(unsigned base, int *out, int cap) {
+  int n = 0;
+  for (unsigned k = 0; k < OMX_DECLARED_RATE_COUNT && n < cap; k++)
+    if ((unsigned)OMX_DECLARED_RATES[k] % base == 0) out[n++] = (int)OMX_DECLARED_RATES[k];
+  return n;
+}
+#endif

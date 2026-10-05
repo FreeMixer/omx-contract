@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "REVERB_PLATE_MOD_DEPTH_RANGE": {
+    "kind": "travels",
+    "doc": "PLATE's tank MODULATION DEPTH, in percent of Dattorro's own excursion (±8 samples at his 29 761 Hz tuning rate, scaled to the live rate the way the tank lengths are). 100 is the depth the plate has always run at, so the come-up is bit-identical to the plate before the field; 0 brings back the unmodulated tank's ring; 400 is the wide, chorused EMT-style swing. The rate stays 1 Hz. Only PLATE reads it (`2026-09-26-native-fx-catalogue.md` §2, Reverb).",
+    "travel": {
+      "min": 0,
+      "max": 400,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "defaultFrom": "desk"
+    }
+  }
+}
