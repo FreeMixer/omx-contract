@@ -33,7 +33,7 @@
     "dist/ts/"
   ],
   "scripts": {
-    "test": "node --test test/",
+    "test": "node --test test/*.test.mjs",
     "prepack": "node bin/omx-contract.mjs render --target ts --out dist/ts"
   },
   "dependencies": {
