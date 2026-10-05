@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "PITCH_LIMITS": {
+    "kind": "travels",
+    "doc": "PITCH_LIMITS, moved from openmixer.",
+    "fields": {
+      "semitones": {
+        "min": -12,
+        "max": 12,
+        "default": 0
+      },
+      "cents": {
+        "min": -50,
+        "max": 50,
+        "default": 0
+      },
+      "mix": {
+        "min": 0,
+        "max": 100,
+        "default": 100
+      }
+    }
+  },
+  "PITCH_KERNEL": {
+    "kind": "sheet",
+    "doc": "PITCH_KERNEL, moved from openmixer.",
+    "value": {
+      "windowMs": 40,
+      "prefilterCeilingHz": 20000,
+      "prefilterQ": {
+        "ref": "BUTTERWORTH_Q"
+      }
+    }
+  }
+}

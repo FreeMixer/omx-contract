@@ -1,0 +1,597 @@
+{
+  "name": "@openmixer/omx-contract",
+  "version": "1.0.0",
+  "items": {
+    "CHORUS_SPREAD_RANGE": {
+      "rel": "data/kernels/chorus.json",
+      "kind": "travels",
+      "doc": "The chorus's right-leg phase offset, in TURNS of its one oscillator (§2, §3a; the native-FX catalogue's M32 Dimension row). The right leg's voice k reads the LFO at k/N + spread: 0 is both legs one phase (the stage without the field, bit for bit), 0.25 quadrature, 0.5 the Dimension's opposed sweep. A fraction of a cycle carries no engineering symbol, so the unit is ''.",
+      "shape": "travel",
+      "value": {
+        "min": 0,
+        "max": 0.5,
+        "step": 0.01,
+        "unit": "",
+        "default": 0,
+        "defaultFrom": "desk"
+      }
+    },
+    "COMP_LIMITS": {
+      "rel": "data/kernels/comp.json",
+      "kind": "travels",
+      "doc": "The legal range of each compressor field (engineering units). The widget clamps drags to these, `normalizeComp` enforces them, the row's codec refuses by them and the travel sheet publishes them. `default`/`defaultFrom` are the come-up values `defaultCompState` seeds a fresh strip with, read BACK from here rather than restated there.",
+      "shape": "table",
+      "value": {
+        "thresholdDb": {
+          "min": -60,
+          "max": 0,
+          "step": 1,
+          "unit": "dB",
+          "default": -18,
+          "defaultFrom": "desk"
+        },
+        "ratio": {
+          "min": 1,
+          "max": 20,
+          "step": 0.5,
+          "unit": "",
+          "default": 4,
+          "defaultFrom": "desk"
+        },
+        "kneeDb": {
+          "min": 0,
+          "max": 24,
+          "step": 0.5,
+          "unit": "dB",
+          "default": 6,
+          "defaultFrom": "desk"
+        },
+        "attackMs": {
+          "min": 0.1,
+          "max": 100,
+          "step": 1,
+          "unit": "ms",
+          "default": 5,
+          "defaultFrom": "desk"
+        },
+        "releaseMs": {
+          "min": 5,
+          "max": 3000,
+          "step": 10,
+          "unit": "ms",
+          "default": 200,
+          "defaultFrom": "desk"
+        },
+        "makeupDb": {
+          "min": 0,
+          "max": 24,
+          "step": 0.5,
+          "unit": "dB",
+          "default": 0,
+          "defaultFrom": "desk"
+        },
+        "mixPct": {
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "defaultFrom": "desk"
+        }
+      }
+    },
+    "PROGRAM_RELEASE": {
+      "rel": "data/kernels/comp.json",
+      "kind": "sheet",
+      "doc": "The program-dependent release's model constants — the LA-2A's opto cell as DATA (`docs/design/specs/2026-09-26-compressor-models.md` §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.",
+      "value": {
+        "chargeMs": 1000,
+        "dischargeMs": 5000,
+        "profiles": {
+          "opto": {
+            "fastMs": 70,
+            "slowMinMs": 110,
+            "slowMaxMs": 1100,
+            "share": 0.5
+          }
+        }
+      }
+    },
+    "FX_DELAY_TIME_RANGE": {
+      "rel": "data/kernels/delay.json",
+      "kind": "travels",
+      "doc": "The FX delay's time travel. `max` is the NATIVE ring's ceiling — the same number as `OMX_FXDELAY_MAX_MS` in `omx_delay.h`, pinned to it by `output-delay-ceiling.test.ts`. Distinct from the per-route ALIGNMENT delay (`OUTPUT_DELAY_RANGE`, 1 s, `OMX_DELAY_MAX_MS`): one is a musical echo with feedback and mix, the other is a pure latency. Two facts, two rings, two ceilings — sharing the word \"delay\" is why they keep being confused for each other.",
+      "c": {
+        "alias": {
+          "fact": "delay",
+          "field": "timeMs"
+        }
+      },
+      "shape": "travel",
+      "value": {
+        "min": 0,
+        "max": 2000,
+        "step": 1,
+        "unit": "ms",
+        "default": 300,
+        "defaultFrom": "desk"
+      }
+    },
+    "FX_DELAY_FEEDBACK_RANGE": {
+      "rel": "data/kernels/delay.json",
+      "kind": "travels",
+      "doc": "The FX delay's REGENERATION travel — how much of the wet tail feeds back in. Stops short of 1: unity feedback is a runaway the kernel hard-clamps anyway, so offering it would draw travel the DSP refuses. Not NORMALIZED_RANGE for exactly that reason — it is a 0..1 quantity whose top the DSP does not accept, and a control must not offer a value its actuator will eat.",
+      "shape": "travel",
+      "value": {
+        "min": 0,
+        "max": 0.99,
+        "step": 0,
+        "unit": "",
+        "default": 0.3,
+        "defaultFrom": "desk"
+      }
+    },
+    "DELAY_TONE_RANGE": {
+      "rel": "data/kernels/delay.json",
+      "kind": "travels",
+      "doc": "The FX delay's TONE — a NORMALIZED_RANGE instance with its own come-up value, matching `DEFAULT_DELAY_STATE.tone`. See REVERB_SIZE_RANGE for why this is a named constant rather than a default on the shared shape.",
+      "shape": "travel",
+      "value": {
+        "min": 0,
+        "max": 1,
+        "step": 0,
+        "unit": "",
+        "default": 0.3,
+        "defaultFrom": "desk"
+      }
+    },
+    "DELAY_MIX_RANGE": {
+      "rel": "data/kernels/delay.json",
+      "kind": "travels",
+      "doc": "The FX DELAY's wet/dry — the same split as REVERB_MIX_RANGE, its own declaration.",
+      "shape": "travel",
+      "value": {
+        "min": 0,
+        "max": 1,
+        "step": 0,
+        "unit": "",
+        "default": 0.3,
+        "defaultFrom": "desk",
+        "byKind": {
+          "fxReturn": 1
+        }
+      }
+    },
+    "FX_DELAY_PINGPONG_DEFAULT": {
+      "rel": "data/kernels/delay.json",
+      "kind": "scalar",
+      "doc": "The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the server's `DEFAULT_DELAY_STATE` (which now reads it) so the DPF plugin generator (`packages/omx-plugins/tools/params-gen.mjs`, `2026-09-25-omx-plugins-dpf.md` §3a) reads the same fact the desk seeds a fresh strip with.",
+      "unit": "",
+      "value": false
+    },
+    "DRIVE_BIAS_MAX": {
+      "rel": "data/kernels/drive.json",
+      "kind": "scalar",
+      "doc": "The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.",
+      "unit": "",
+      "value": 0.7071067811865476
+    },
+    "EQ_MAX_BANDS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "scalar",
+      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
+      "unit": "",
+      "value": 24
+    },
+    "ISO_THIRD_OCTAVE_CENTRES_HZ": {
+      "rel": "data/kernels/eq.json",
+      "kind": "list",
+      "doc": "The standard ISO 266 one-third-octave centre frequencies, 20 Hz–20 kHz (31 bands) — the classic 31-band graphic-EQ layout's centres.",
+      "unit": "Hz",
+      "c": {
+        "render": false
+      },
+      "value": [
+        20,
+        25,
+        31.5,
+        40,
+        50,
+        63,
+        80,
+        100,
+        125,
+        160,
+        200,
+        250,
+        315,
+        400,
+        500,
+        630,
+        800,
+        1000,
+        1250,
+        1600,
+        2000,
+        2500,
+        3150,
+        4000,
+        5000,
+        6300,
+        8000,
+        10000,
+        12500,
+        16000,
+        20000
+      ]
+    },
+    "GEQ_BANDS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "scalar",
+      "doc": "The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (graphic-eq-31 spec §3, roster ruling 3).",
+      "unit": "",
+      "value": 31
+    },
+    "GATE_LIMITS": {
+      "rel": "data/kernels/gate.json",
+      "kind": "travels",
+      "doc": "The legal range of each gate field (engineering units). The widget clamps drags to these, `normalizeGate` enforces them, the row's codec refuses by them and the travel sheet publishes them — one source of truth. `rangeDb` reaches GATE_RANGE_FLOOR_DB, shown as \"−∞\" in readouts (a gate fully closed is silence).",
+      "shape": "table",
+      "value": {
+        "thresholdDb": {
+          "min": -80,
+          "max": 0,
+          "step": 1,
+          "unit": "dB",
+          "default": -40,
+          "defaultFrom": "desk"
+        },
+        "rangeDb": {
+          "min": -90,
+          "max": 0,
+          "step": 1,
+          "unit": "dB",
+          "default": -90,
+          "defaultFrom": "desk"
+        },
+        "kneeStartDb": {
+          "min": -80,
+          "max": 0,
+          "step": 1,
+          "unit": "dB",
+          "default": -43,
+          "defaultFrom": "desk"
+        },
+        "kneeEndDb": {
+          "min": -80,
+          "max": 0,
+          "step": 1,
+          "unit": "dB",
+          "default": -37,
+          "defaultFrom": "desk"
+        },
+        "attackMs": {
+          "min": 0,
+          "max": 500,
+          "step": 0.5,
+          "unit": "ms",
+          "default": 1,
+          "defaultFrom": "desk"
+        },
+        "holdMs": {
+          "min": 0,
+          "max": 2000,
+          "step": 5,
+          "unit": "ms",
+          "default": 10,
+          "defaultFrom": "desk"
+        },
+        "releaseMs": {
+          "min": 0,
+          "max": 5000,
+          "step": 10,
+          "unit": "ms",
+          "default": 100,
+          "defaultFrom": "desk"
+        },
+        "hysteresisDb": {
+          "min": 0,
+          "max": 24,
+          "step": 0.5,
+          "unit": "dB",
+          "default": 3,
+          "defaultFrom": "desk"
+        },
+        "ratio": {
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "",
+          "default": 16,
+          "defaultFrom": "desk"
+        }
+      }
+    },
+    "LIMITER_LIMITS": {
+      "rel": "data/kernels/limiter.json",
+      "kind": "travels",
+      "doc": "The precision limiter's travels (`2026-09-27-precision-limiter.md` §2), rendered into `omx_contract_limits.h` as `OMX_LIMITER_*` by `harness/contract-limits-gen.mjs`, so `mix_limiter.h` reads them and never restates one (R-094). The ceiling is a TRUE peak in dBFS (the ×4 detector); the look-ahead sets the declared latency; the release is the envelope's time constant on the gain depth.",
+      "shape": "table",
+      "value": {
+        "ceilingDb": {
+          "min": -12,
+          "max": 0,
+          "step": 0.1,
+          "unit": "dBFS",
+          "default": -1,
+          "defaultFrom": "desk"
+        },
+        "lookaheadMs": {
+          "min": 0.5,
+          "max": 5,
+          "step": 0.1,
+          "unit": "ms",
+          "default": 1.5,
+          "defaultFrom": "desk"
+        },
+        "releaseMs": {
+          "min": 1,
+          "max": 1000,
+          "step": 1,
+          "unit": "ms",
+          "default": 50,
+          "defaultFrom": "desk"
+        }
+      }
+    },
+    "PITCH_LIMITS": {
+      "rel": "data/kernels/pitch.json",
+      "kind": "travels",
+      "doc": "PITCH_LIMITS, moved from openmixer.",
+      "shape": "table",
+      "value": {
+        "semitones": {
+          "min": -12,
+          "max": 12,
+          "default": 0
+        },
+        "cents": {
+          "min": -50,
+          "max": 50,
+          "default": 0
+        },
+        "mix": {
+          "min": 0,
+          "max": 100,
+          "default": 100
+        }
+      }
+    },
+    "PITCH_KERNEL": {
+      "rel": "data/kernels/pitch.json",
+      "kind": "sheet",
+      "doc": "PITCH_KERNEL, moved from openmixer.",
+      "value": {
+        "windowMs": 40,
+        "prefilterCeilingHz": 20000,
+        "prefilterQ": 0.7071067811865476
+      }
+    },
+    "REVERB_PLATE_MOD_DEPTH_RANGE": {
+      "rel": "data/kernels/reverb.json",
+      "kind": "travels",
+      "doc": "PLATE's tank MODULATION DEPTH, in percent of Dattorro's own excursion (±8 samples at his 29 761 Hz tuning rate, scaled to the live rate the way the tank lengths are). 100 is the depth the plate has always run at, so the come-up is bit-identical to the plate before the field; 0 brings back the unmodulated tank's ring; 400 is the wide, chorused EMT-style swing. The rate stays 1 Hz. Only PLATE reads it (`2026-09-26-native-fx-catalogue.md` §2, Reverb).",
+      "shape": "travel",
+      "value": {
+        "min": 0,
+        "max": 400,
+        "step": 1,
+        "unit": "%",
+        "default": 100,
+        "defaultFrom": "desk"
+      }
+    },
+    "TRANSIENT_LIMITS": {
+      "rel": "data/kernels/transient.json",
+      "kind": "travels",
+      "doc": "The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. `harness/contract-limits-gen.mjs` emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921).",
+      "shape": "table",
+      "value": {
+        "attackDb": {
+          "min": -24,
+          "max": 24,
+          "step": 0.1,
+          "unit": "dB",
+          "default": 0,
+          "defaultFrom": "desk"
+        },
+        "sustainDb": {
+          "min": -24,
+          "max": 24,
+          "step": 0.1,
+          "unit": "dB",
+          "default": 0,
+          "defaultFrom": "desk"
+        },
+        "attackTimeMs": {
+          "min": 2,
+          "max": 50,
+          "step": 0.1,
+          "unit": "ms",
+          "default": 10,
+          "defaultFrom": "desk"
+        },
+        "sustainTimeMs": {
+          "min": 50,
+          "max": 2000,
+          "step": 1,
+          "unit": "ms",
+          "default": 250,
+          "defaultFrom": "desk"
+        },
+        "outputDb": {
+          "min": -24,
+          "max": 12,
+          "step": 0.1,
+          "unit": "dB",
+          "default": 0,
+          "defaultFrom": "desk"
+        }
+      }
+    },
+    "TRANSIENT_FAST_ATTACK_MS": {
+      "rel": "data/kernels/transient.json",
+      "kind": "scalar",
+      "doc": "The fast follower's attack, ms: exactly the dynamics detector's no-oversampling line (transient spec §3, L7).",
+      "unit": "ms",
+      "value": 0.5
+    },
+    "TRANSIENT_FAST_RELEASE_MS": {
+      "rel": "data/kernels/transient.json",
+      "kind": "scalar",
+      "doc": "The fast follower's release, ms: one 50 Hz cycle held, a 180 bpm sixteenth forgotten (transient spec §3).",
+      "unit": "ms",
+      "value": 20
+    },
+    "TRANSIENT_REF_DB": {
+      "rel": "data/kernels/transient.json",
+      "kind": "scalar",
+      "doc": "The contrast, dB, at which a knob reaches its full value (transient spec §2, §3).",
+      "unit": "dB",
+      "value": 6
+    },
+    "TRANSIENT_FLOOR_LIN": {
+      "rel": "data/kernels/transient.json",
+      "kind": "scalar",
+      "doc": "The detector floor, linear (−100 dBFS): below it both envelopes read the floor and the stage is unity (transient spec §3).",
+      "unit": "",
+      "value": 0.00001
+    },
+    "DELAY_PLUGIN": {
+      "rel": "data/plugins/delay.json",
+      "kind": "plugin",
+      "doc": "The delay plugin's parameters, in append-only order: DPF's parameter index is the CLAP param id and the LV2 port order (omx-plugins-dpf §3b). Moved from openmixer's packages/omx-plugins/tools/params-gen.mjs PLUGINS.delay.",
+      "why": "mix is per instance on the desk (insert or fxReturn); a plugin racked in a foreign host is an INSERT, so it reads the input kind's default (omx-plugins-dpf §3a).",
+      "plugin": "delay",
+      "header": "omx_delay_params.h",
+      "prefix": "OMX_DELAY",
+      "source": "FX_DELAY_TIME_RANGE, FX_DELAY_FEEDBACK_RANGE, DELAY_MIX_RANGE for kind input, DELAY_TONE_RANGE, FX_DELAY_PINGPONG_DEFAULT",
+      "value": [
+        {
+          "symbol": "timeMs",
+          "min": 0,
+          "max": 2000,
+          "def": 300,
+          "step": 1,
+          "unit": "ms",
+          "toggle": false
+        },
+        {
+          "symbol": "feedback",
+          "min": 0,
+          "max": 0.99,
+          "def": 0.3,
+          "step": 0,
+          "unit": "",
+          "toggle": false
+        },
+        {
+          "symbol": "mix",
+          "min": 0,
+          "max": 1,
+          "def": 0.3,
+          "step": 0,
+          "unit": "",
+          "toggle": false
+        },
+        {
+          "symbol": "tone",
+          "min": 0,
+          "max": 1,
+          "def": 0.3,
+          "step": 0,
+          "unit": "",
+          "toggle": false
+        },
+        {
+          "symbol": "pingpong",
+          "min": 0,
+          "max": 1,
+          "def": 0,
+          "step": 1,
+          "unit": "",
+          "toggle": true
+        }
+      ]
+    },
+    "BUTTERWORTH_Q": {
+      "rel": "data/primitives.json",
+      "kind": "scalar",
+      "doc": "The Q of a second-order Butterworth section, 1/√2 — maximally flat, the one value every Butterworth biquad in the tree designs at: the LR4 crossover section, the pitch pre-filter and the drive's tilt / band / HF sections, in TS and (as `OMX_BUTTERWORTH_Q`) in C (§7, the scalar door).",
+      "unit": "",
+      "value": 0.7071067811865476
+    },
+    "ALLPASS_LIMITS": {
+      "rel": "data/primitives.json",
+      "kind": "sheet",
+      "doc": "ALLPASS_LIMITS, moved from openmixer.",
+      "value": {
+        "unityTolerance": 0.0001
+      }
+    },
+    "XOVER_LIMITS": {
+      "rel": "data/primitives.json",
+      "kind": "sheet",
+      "doc": "XOVER_LIMITS, moved from openmixer.",
+      "value": {
+        "lr2SectionQ": 0.5,
+        "lr4SectionQ": 0.7071067811865476,
+        "partitionTolerance": 0.00001
+      }
+    },
+    "FDELAY_MOD_READ_ORDER": {
+      "rel": "data/primitives.json",
+      "kind": "scalar",
+      "doc": "The order the chorus and flanger construct their lines with (four taps; the fdelay spec §1).",
+      "unit": "",
+      "value": 3
+    },
+    "FDELAY_READ_L1_NORM": {
+      "rel": "data/primitives.json",
+      "kind": "scalar",
+      "doc": "`Λ` for the chorus/flanger read — ONE value; the header and every law read this.",
+      "unit": "",
+      "value": 1.25
+    },
+    "STANDARD_SAMPLE_RATES": {
+      "rel": "data/rates.json",
+      "kind": "list",
+      "doc": "The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` (`2026-07-15-clock-rate-honest-force-rate.md`) — this is the ceiling a write is refused by, never a menu.",
+      "unit": "Hz",
+      "value": [
+        44100,
+        48000,
+        88200,
+        96000,
+        176400,
+        192000
+      ]
+    },
+    "RT_HARD_TARGET": {
+      "rel": "data/rates.json",
+      "kind": "sheet",
+      "doc": "THE declaration: 192 kHz at quantum 128.",
+      "value": {
+        "rate": 192000,
+        "quantum": 128
+      }
+    },
+    "DSP_KNOB_REFERENCE_RATE": {
+      "rel": "data/rates.json",
+      "kind": "scalar",
+      "doc": "The rate a unit-range DSP knob is quoted at (R-058): the rate this desk runs (ruling 2026-09-14). A kernel raises the knob to `REF / sr`, so at this rate the exponent is exactly 1 and the response is bit-for-bit the one cut before the law. Emitted to C as `OMX_DSP_KNOB_REFERENCE_RATE`; the reverb damping and FX-delay tone references `#define` from it.",
+      "unit": "Hz",
+      "value": 96000
+    }
+  }
+}

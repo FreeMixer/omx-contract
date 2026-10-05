@@ -1,0 +1,47 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "BUTTERWORTH_Q": {
+    "kind": "scalar",
+    "doc": "The Q of a second-order Butterworth section, 1/√2 — maximally flat, the one value every Butterworth biquad in the tree designs at: the LR4 crossover section, the pitch pre-filter and the drive's tilt / band / HF sections, in TS and (as `OMX_BUTTERWORTH_Q`) in C (§7, the scalar door).",
+    "unit": "",
+    "value": {
+      "derive": "sqrt",
+      "of": 0.5
+    }
+  },
+  "ALLPASS_LIMITS": {
+    "kind": "sheet",
+    "doc": "ALLPASS_LIMITS, moved from openmixer.",
+    "value": {
+      "unityTolerance": 0.0001
+    }
+  },
+  "XOVER_LIMITS": {
+    "kind": "sheet",
+    "doc": "XOVER_LIMITS, moved from openmixer.",
+    "value": {
+      "lr2SectionQ": 0.5,
+      "lr4SectionQ": {
+        "ref": "BUTTERWORTH_Q"
+      },
+      "partitionTolerance": 0.00001
+    }
+  },
+  "FDELAY_MOD_READ_ORDER": {
+    "kind": "scalar",
+    "doc": "The order the chorus and flanger construct their lines with (four taps; the fdelay spec §1).",
+    "unit": "",
+    "value": 3
+  },
+  "FDELAY_READ_L1_NORM": {
+    "kind": "scalar",
+    "doc": "`Λ` for the chorus/flanger read — ONE value; the header and every law read this.",
+    "unit": "",
+    "value": {
+      "derive": "lagrangeReadL1",
+      "order": {
+        "ref": "FDELAY_MOD_READ_ORDER"
+      }
+    }
+  }
+}
