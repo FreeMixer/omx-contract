@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+name: Publish to npm
+
+# Publishes @openmixer/omx-contract to npmjs.org by npm trusted publishing (OIDC, no token anywhere). npmjs.com
+# trusts the CALLER of the publish by repository + workflow filename + environment, so these three are fixed:
+#   Repository: FreeMixer/omx-contract    Workflow filename: publish.yml    Environment: npm-publish
+# A version tag publishes; a manual dispatch is a dry run unless asked otherwise. Only the public repository
+# publishes: a tag on any other copy of this tree stops before npm.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Pack and run `npm publish --dry-run` only (npm skips the OIDC exchange on a dry run)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.repository == 'FreeMixer/omx-contract'
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    # job-level: a workflow-level id-token grant does not reliably reach the job, and without the token npm never
+    # attempts the OIDC exchange and fails with ENEEDAUTH
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+      - name: npm 11 (trusted publishing needs >= 11.5.1)
+        run: |
+          npm install -g npm@'^11'
+          npm --version
+      - run: npm ci
+      - name: The data is proven before it is published
+        run: |
+          set -o pipefail
+          node bin/omx-contract.mjs validate
+          node bin/omx-contract.mjs render --target c --out include --check
+          node bin/omx-contract.mjs render --target json --out share/omx-contract --check
+          node bin/omx-contract.mjs render --target ts --out test/golden/ts --check
+          npm test
+          node tools/proof/round-trip.mjs --quiet
+      - name: The tag is the package version
+        if: github.ref_type == 'tag'
+        run: |
+          v=$(node -p "require('./package.json').version")
+          [ "${GITHUB_REF_NAME}" = "v$v" ] || { echo "tag ${GITHUB_REF_NAME} is not v$v"; exit 1; }
+      - name: Publish @openmixer/omx-contract
+        env:
+          DRY: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run && '--dry-run' || '' }}
+        run: npm publish --provenance --access public $DRY

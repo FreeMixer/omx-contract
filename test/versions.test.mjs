@@ -17,10 +17,14 @@ test('versions: package.json, the RPM spec and the debian changelog name one ver
   assert.equal(JSON.parse(read('package-lock.json')).version, v);
 });
 
-test('versions: the release publishes from the job named publish in release.yml, by OIDC with no token', () => {
-  const y = read('.github/workflows/release.yml');
-  assert.match(y, /\n {2}publish:\n {4}name: publish\n/);
-  assert.match(y, /\n {2}publish:[\s\S]*?permissions:\n {6}contents: read\n {6}id-token: write\n/);
-  assert.match(y, /npm publish "\$tgz" --provenance --access public\n/);
+test('versions: npm publishes from publish.yml, environment npm-publish, by OIDC with no token', () => {
+  // npmjs.com's trusted publisher names exactly these: FreeMixer/omx-contract, publish.yml, npm-publish
+  const y = read('.github/workflows/publish.yml');
+  assert.match(y, /\n {2}publish:\n {4}if: github\.repository == 'FreeMixer\/omx-contract'\n/);
+  assert.match(y, /\n {4}environment: npm-publish\n/);
+  assert.match(y, /\n {4}permissions:\n {6}contents: read\n {6}id-token: write\n/);  // job-level, not workflow-level
+  assert.match(y, /npm publish --provenance --access public/);
   assert.doesNotMatch(y, /NPM_TOKEN|NODE_AUTH_TOKEN/);
+  // release.yml no longer publishes to npm: one publisher, the one npmjs.com trusts
+  assert.doesNotMatch(read('.github/workflows/release.yml'), /npm publish/);
 });
