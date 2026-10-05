@@ -1,0 +1,156 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+name: release
+
+# A version tag v<package.json version> proves the data (tests, the round-trip proof, the semver
+# class against the previous tag), builds omx-contract-devel (RPM) and libomx-contract-dev (DEB)
+# through FreeMixer/.github's shared workflows, attaches them and the `npm pack` tarball to the
+# GitHub release, and publishes @openmixer/omx-contract to npmjs.org by npm trusted publishing (OIDC,
+# no token anywhere). The publish job is `publish` in THIS file: npmjs.com trusts release.yml by name.
+# Until the operator sets the repository variable NPM_TRUSTED=true, it runs `npm publish --dry-run`.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Sign and publish the packages; only a run on a tag publishes'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    name: Prove the release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: The tag names the package version
+        if: github.ref_type == 'tag'
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          want="v$(node -p 'require("./package.json").version')"
+          [ "$TAG" = "$want" ] || { echo "::error::tag $TAG is not $want (package.json)"; exit 1; }
+      - run: npm test
+      - run: node tools/proof/round-trip.mjs --quiet
+      - name: The bump covers every change since the previous tag
+        run: |
+          prev=$(git tag --list 'v*' --sort=-v:refname --merged HEAD | grep -vx "v$(node -p 'require("./package.json").version')" | head -1)
+          if [ -n "$prev" ]; then node bin/omx-contract.mjs semver "$prev"; else echo "first release: no previous tag"; fi
+
+  rpm:
+    needs: check
+    uses: FreeMixer/.github/.github/workflows/build-rpm.yml@main
+    with:
+      package-name: omx-contract
+      binary-names: omx-contract-devel
+      publish: ${{ github.event_name == 'push' || inputs.publish == true }}
+      needs-mod-host: false
+      channel-deps: false
+    secrets: inherit
+
+  # after the RPMs: both publish into one tree, and a push that loses a race is refused
+  deb:
+    needs: rpm
+    if: ${{ !cancelled() && needs.rpm.result == 'success' }}
+    uses: FreeMixer/.github/.github/workflows/build-deb.yml@main
+    with:
+      package-name: omx-contract
+      binary-names: libomx-contract-dev
+      publish: ${{ github.event_name == 'push' || inputs.publish == true }}
+      dependencies: ''
+      requires: ''
+      channel-deps: false
+    secrets: inherit
+
+  pack:
+    name: npm pack
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Pack the tarball the registry and the release both carry
+        run: |
+          mkdir -p pack
+          npm pack --pack-destination pack
+          ls -l pack
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-pack
+          path: pack/*.tgz
+
+  attach:
+    name: Attach the npm tarball to the GitHub release
+    needs: [pack, deb]
+    if: ${{ !cancelled() && github.ref_type == 'tag' && needs.pack.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-pack
+          path: pack
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" pack/*.tgz --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" pack/*.tgz --title "$TAG" --generate-notes --repo "$GITHUB_REPOSITORY"
+          fi
+
+  # npm trusted publishing: the job itself declares id-token: write (a workflow-level grant is not
+  # reliably inherited, and the OIDC exchange then fails silently), and a standalone npm >= 11.5
+  # publishes from this job of release.yml, never through a reusable workflow.
+  publish:
+    name: publish
+    needs: [check, pack]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+      - name: npm >= 11.5 (trusted publishing)
+        run: |
+          npm install -g npm@'^11.5'
+          npm --version
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-pack
+          path: pack
+      - name: Publish @openmixer/omx-contract (a dry run until NPM_TRUSTED is true)
+        env:
+          LIVE: ${{ github.ref_type == 'tag' && vars.NPM_TRUSTED == 'true' }}
+        run: |
+          tgz=$(ls pack/*.tgz)
+          if [ "$LIVE" = "true" ]; then
+            npm publish "$tgz" --provenance --access public
+          else
+            echo "NPM_TRUSTED is not true or this is not a tag: dry run"
+            npm publish "$tgz" --access public --dry-run
+          fi

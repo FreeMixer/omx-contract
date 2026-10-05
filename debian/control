@@ -1,0 +1,21 @@
+Source: omx-contract
+Section: libdevel
+Priority: optional
+Maintainer: Pau Aliagas <linuxnow@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/FreeMixer/omx-contract
+Rules-Requires-Root: no
+
+Package: libomx-contract-dev
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Description: FreeMixer declarations as data, rendered as C headers
+ omx-contract holds the declarations the FreeMixer DSP library and plugins
+ build against (travels, defaults, kernel constants, rates and plugin
+ parameter selections) as JSON data with a JSON Schema, and their renders.
+ .
+ This package holds the c render under /usr/include/omxcontract, the
+ resolved json render and the schema under /usr/share/omx-contract, and
+ omx-contract.pc. A consumer requires it at exactly the version it pins.
