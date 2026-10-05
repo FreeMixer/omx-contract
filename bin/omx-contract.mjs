@@ -109,7 +109,7 @@ function cmdRender(argv) {
     const scope = target === 'c' ? 'omxcontract' : '';
     const named = new Set(files.map((f) => f.path));
     for (const rel of filesUnder(join(dir, scope))) if (!named.has(join(scope, rel))) bad.push(`${join(scope, rel)} is extra`);
-    for (const b of bad) console.error(`omx-contract render --check: ${join(out, '')}${b}`);
+    for (const b of bad) console.error(`omx-contract render --check: ${out.replace(/\/$/, '')}/${b}`);
     if (bad.length) return 1;
     console.log(`omx-contract render --target ${target} --check: ${files.length} files byte-identical under ${out}`);
     return 0;
