@@ -3,7 +3,7 @@
 What changed in each release of omx-contract, in plain words. The RPM and Debian changelogs and the
 GitHub release notes are generated from this file.
 
-## Unreleased
+## 1.2.0 - 2026-10-07
 
 - omx-dsp can build against the C header rendered here: every limit its code reads is now in
   it, with the value omx-dsp uses today. The only ones left out are the three EQ band budget
