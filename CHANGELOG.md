@@ -3,7 +3,7 @@
 What changed in each release of omx-contract, in plain words. The RPM and Debian changelogs and the
 GitHub release notes are generated from this file.
 
-## 1.2.1 - 2026-10-07
+## 1.2.1 - 2026-10-08
 
 - 1.2.1 repackages 1.2.0 with no data change. The 1.2.0 Debian changelog carried the same date as
   1.1.0, which lintian refuses, so the Debian packages of 1.2.0 were never built.
