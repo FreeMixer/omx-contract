@@ -53,5 +53,7 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 
 %changelog
 * Mon Oct 05 2026 Pau Aliagas <linuxnow@gmail.com> - 1.0.0-1
-- First release: the phase-1 declarations omx-dsp needs (omx-contract spec 4.1),
-  rendered unit for unit as omx-dsp 0.1.3's committed headers.
+- First release: the shared declarations the FreeMixer DSP library needs
+  (value ranges, defaults, kernel constants, sample rates and plugin parameter
+  choices), as JSON data with a JSON Schema and as C headers. The headers
+  match the ones omx-dsp 0.1.3 shipped, unit for unit.
