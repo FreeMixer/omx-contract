@@ -9,6 +9,12 @@ GitHub release notes are generated from this file.
   `make completeness` checks each kernel against the kernel recipe: its file, the citations, the
   renders and the changelog. `tools/omx-new-kernel.mjs` adds a kernel by reading its values from
   the engine's own code.
+- The flanger kernel: 4 values, read from the engine where it declares them.
+- The deesser kernel: 8 values, read from the engine where it declares them.
+- The geq kernel: 4 values, read from the engine where it declares them.
+- The phaser kernel: 8 values, read from the engine where it declares them.
+- The rotary kernel: 20 values, read from the engine where it declares them.
+- The tremolo kernel: 4 values, read from the engine where it declares them.
 
 ## 1.0.0 - 2026-10-05
 
