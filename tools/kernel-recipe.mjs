@@ -198,9 +198,9 @@ export const CHECKERS = {
         sections.set(cur, '');
       } else if (cur) sections.set(cur, `${sections.get(cur)}${line}\n`);
     }
-    const re = new RegExp(`^- The ${kernel} kernel:`, 'm');
+    const re = new RegExp(`^- The ${kernel} kernel\\b`, 'm');
     for (const s of ['Unreleased', since]) if (s && re.test(sections.get(s) ?? '')) return ok(`named under ## ${s}`);
-    return missing(`${recipe.tree.changelog} has no '- The ${kernel} kernel:' line under ## Unreleased${since ? ` or ## ${since}` : ''}`);
+    return missing(`${recipe.tree.changelog} has no '- The ${kernel} kernel' line under ## Unreleased${since ? ` or ## ${since}` : ''}`);
   },
 
   ownItemsOnly(facts, recipe, kernel) {

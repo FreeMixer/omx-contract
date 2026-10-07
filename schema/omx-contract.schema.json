@@ -11,8 +11,8 @@
   "additionalProperties": { "$ref": "#/$defs/item" },
   "$defs": {
     "unit": {
-      "description": "The closed list of units the items use; \"\" is a ratio or a fraction.",
-      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "%", ""]
+      "description": "The closed list of units the items use; \"x\" is a multiplier, \"\" is a ratio or a fraction.",
+      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "%", "x", ""]
     },
     "text": { "type": "string", "minLength": 1 },
     "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
@@ -97,7 +97,7 @@
         "fields": {
           "type": "object",
           "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
-          "additionalProperties": { "$ref": "#/$defs/travel" },
+          "additionalProperties": { "oneOf": [{ "$ref": "#/$defs/travel" }, { "$ref": "#/$defs/ref" }] },
           "minProperties": 1
         },
         "travel": { "$ref": "#/$defs/travel" },
