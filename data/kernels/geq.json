@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "GEQ_BAND_RANGE": {
+    "kind": "travels",
+    "doc": "One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB (graphic-eq-31 spec §3).",
+    "travel": {
+      "min": -15,
+      "max": 15,
+      "step": 0.5,
+      "unit": "dB",
+      "default": 0,
+      "defaultFrom": "desk"
+    }
+  },
+  "GEQ_BAND_Q": {
+    "kind": "scalar",
+    "doc": "The graphic EQ's band Q: the ISO third-octave bandwidth, `2^(1/6)/(2^(1/3) − 1) ≈ 4.318`, to one decimal as the M32 GEQ carries it. Read by the `geq31` preset and the graphic EQ's section design (graphic-eq-31 spec §3).",
+    "unit": "",
+    "value": 4.3
+  },
+  "GEQ_PROTO_DB": {
+    "kind": "scalar",
+    "doc": "The prototype gain the `true` solve's first interaction matrix is evaluated at (spec §2, §3): the middle of the travel's magnitude, where a matched-Z section's dB response per dB of gain is closest to its average.",
+    "unit": "dB",
+    "value": 12
+  },
+  "GEQ_DESIGN_GAIN_MAX_DB": {
+    "kind": "scalar",
+    "doc": "The ceiling on a section gain the `true` solve may ask for (spec §3): above the travel's worst case (26.0 dB, the alternating ±15 set) with margin. A solve past it clamps and the row says so (`designClamped`), never silently.",
+    "unit": "dB",
+    "value": 30
+  }
+}
