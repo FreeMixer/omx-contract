@@ -29,7 +29,7 @@
       "type": "string",
       "pattern": "^\\d+\\.\\d+\\.\\d+$",
       "title": "Since",
-      "description": "The omx-contract release that first carries the kernel."
+      "description": "The omx-contract release that first carries the kernel. For a kernel already answered, the release that first carries the items the import adds: the kernel keeps its own since, and each added item carries this one."
     },
     "engine": {
       "type": "object",
@@ -39,7 +39,7 @@
     "items": {
       "type": "array",
       "title": "Items",
-      "description": "One entry per item, in the kernel file's order: its name, its source (path and export, or path and C define), the value the importer read there, its doc, its unit when it is not a travel, and, when the engine derives it, the derivation. Written by the importer, never typed."
+      "description": "One entry per item, in the kernel file's order: its name, its source (path and export, or path and C define), the value the importer read there, its doc, its unit when it is not a travel, when the engine derives it, the derivation, and, for an item a later release added to the kernel, that release as its own since. Written by the importer, never typed."
     }
   },
   "rules": {
@@ -154,7 +154,7 @@
     },
     {
       "id": "changelog",
-      "what": "the kernel named in CHANGELOG.md, under Unreleased or the section of the release that first carries it (the first release's entry covers every kernel it shipped)",
+      "what": "the kernel named in CHANGELOG.md, under Unreleased or the section of the release that first carries it, and again for each later release that adds items to it (the first release's entry covers every kernel it shipped)",
       "step": "docs",
       "layer": "docs",
       "made": "TEMPLATED",
@@ -165,6 +165,7 @@
       "template": {
         "file": "CHANGELOG.md",
         "line": "- The {kernel} kernel: {count} values, read from the engine where it declares them.",
+        "lineAdded": "- The {kernel} kernel: {count} more values, read from the engine where it declares them.",
         "after": "^## Unreleased$",
         "create": "## Unreleased",
         "createBefore": "^## "
