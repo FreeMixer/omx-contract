@@ -1,0 +1,1328 @@
+{
+ "omxdsp": "v0.1.5-8-g4108494",
+ "units": 905,
+ "read": [
+  {
+   "key": "OMX_COMP_THRESHOLD_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_THRESHOLD_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_THRESHOLD_DB_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_RATIO_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_RATIO_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_RATIO_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_KNEE_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_KNEE_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_KNEE_DB_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_ATTACK_MS_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_ATTACK_MS_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_ATTACK_MS_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_RELEASE_MS_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_RELEASE_MS_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_RELEASE_MS_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_MAKEUP_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_MAKEUP_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_COMP_MAKEUP_DB_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_THRESHOLD_DB_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_GATE_THRESHOLD_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_THRESHOLD_DB_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RANGE_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RANGE_DB_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RANGE_DB_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_ATTACK_MS_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_ATTACK_MS_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_GATE_ATTACK_MS_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RELEASE_MS_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RELEASE_MS_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RELEASE_MS_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RATIO_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RATIO_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GATE_RATIO_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_CEILING_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_CEILING_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_CEILING_DB_DEFAULT",
+   "readBy": [
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_LOOKAHEAD_MS_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_LOOKAHEAD_MS_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_LOOKAHEAD_MS_DEFAULT",
+   "readBy": [
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_RELEASE_MS_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_RELEASE_MS_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LIMITER_RELEASE_MS_DEFAULT",
+   "readBy": [
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_SEMITONES_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_SEMITONES_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_CENTS_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_CENTS_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_MIX_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_MIX_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_ATTACK_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_ATTACK_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_ATTACK_DB_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_SUSTAIN_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_SUSTAIN_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_SUSTAIN_DB_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_ATTACK_TIME_MS_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_ATTACK_TIME_MS_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_ATTACK_TIME_MS_DEFAULT",
+   "readBy": [
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_SUSTAIN_TIME_MS_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_SUSTAIN_TIME_MS_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_SUSTAIN_TIME_MS_DEFAULT",
+   "readBy": [
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_OUTPUT_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_OUTPUT_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_OUTPUT_DB_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_PAN_PAN_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PAN_PAN_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DELAY_TIME_MS_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_DRIVE_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_DRIVE_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_DRIVE_DB_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_CHARACTER_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_CHARACTER_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_CHARACTER_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_BAND_HZ_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_BAND_HZ_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_BAND_HZ_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_MIX_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_MIX_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_MIX_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_TRIM_DB_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_TRIM_DB_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_TRIM_DB_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_ALLPASS_UNITY_TOLERANCE",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_BUTTERWORTH_Q_DOUBLE",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_DEPTH_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_DEPTH_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_DEPTH_RANGE_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_MIX_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_MIX_RANGE_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_MIX_RANGE_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_RATE_RANGE_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_RATE_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_RATE_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_SPREAD_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_SPREAD_RANGE_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_SPREAD_RANGE_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_VOICES_RANGE_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_VOICES_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_CHORUS_VOICES_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DRIVE_BIAS_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_DSP_KNOB_REFERENCE_RATE",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_EQ_FREQ_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_EQ_FREQ_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_EQ_GAIN_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_EQ_GAIN_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_EQ_MAX_BANDS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_EQ_NOTCH_Q_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_EQ_NOTCH_Q_RANGE_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_EQ_Q_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_EQ_Q_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FBS_DEFAULT_MAX_AUTO_BANDS",
+   "readBy": [
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FDELAY_READ_L1_NORM",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_DEPTH_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_DEPTH_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_DEPTH_RANGE_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_FEEDBACK_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_FEEDBACK_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_FEEDBACK_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_MIX_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_MIX_RANGE_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_MIX_RANGE_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_RATE_RANGE_DEFAULT",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_RATE_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FLANGER_RATE_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_FX_DELAY_FEEDBACK_RANGE_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_FX_DELAY_FEEDBACK_RANGE_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_GEQ_BANDS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_GEQ_BAND_Q_DOUBLE",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_HPF_FREQ_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_HPF_FREQ_RANGE_MIN",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_HRP_DEFAULT_MAX_AUTO_BANDS",
+   "readBy": [
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_LPF_FREQ_RANGE_MAX",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_LPF_FREQ_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_OPERATOR_EQ_BANDS_RESERVE",
+   "readBy": [
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_PREFILTER_CEILING_HZ",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_PREFILTER_Q",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PITCH_WINDOW_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PROGRAM_RELEASE_CHARGE_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PROGRAM_RELEASE_DISCHARGE_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PROGRAM_RELEASE_PROFILES_OPTO_FAST_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PROGRAM_RELEASE_PROFILES_OPTO_SHARE",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PROGRAM_RELEASE_PROFILES_OPTO_SLOW_MAX_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_PROGRAM_RELEASE_PROFILES_OPTO_SLOW_MIN_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_DAMPING_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_DAMPING_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_DAMPING_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_GATE_THRESHOLD_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_GATE_THRESHOLD_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_GATE_THRESHOLD_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_HIGHCUT_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_HIGHCUT_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_HIGHCUT_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_HOLD_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_HOLD_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_HOLD_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_LOWCUT_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_LOWCUT_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_LOWCUT_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_MIX_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_MIX_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_MIX_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_PLATE_MOD_DEPTH_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_PLATE_MOD_DEPTH_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_PLATE_MOD_DEPTH_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_PREDELAY_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_PREDELAY_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_PREDELAY_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_RELEASE_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_RELEASE_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_RELEASE_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_REVERSE_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_REVERSE_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_REVERSE_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_SIZE_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_SIZE_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_SIZE_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_WIDTH_RANGE_DEFAULT",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_WIDTH_RANGE_MAX",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_REVERB_WIDTH_RANGE_MIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_BASE_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_CROSSOVER_HZ",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_DRUM_ACCEL_MS",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_DRUM_AM",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_DRUM_DECEL_MS",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_DRUM_DOPPLER_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_HORN_ACCEL_MS",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_HORN_AM",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_HORN_DECEL_MS",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_HORN_DOPPLER_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_RING_FLOATS",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_ROTARY_STOP_EPS",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_RT_HARD_TARGET_RATE",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_FAST_ATTACK_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_FAST_RELEASE_MS",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_FLOOR_LIN",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_TRANSIENT_REF_DB",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_XOVER_LR2_SECTION_Q_DOUBLE",
+   "readBy": [
+    "include"
+   ]
+  },
+  {
+   "key": "OMX_XOVER_LR4_SECTION_Q_DOUBLE",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_XOVER_PARTITION_TOLERANCE",
+   "readBy": [
+    "include",
+    "test"
+   ]
+  },
+  {
+   "key": "OMX_DECLARED_RATE_COUNT",
+   "readBy": [
+    "Makefile",
+    "include",
+    "test",
+    "tools"
+   ]
+  }
+ ]
+}

@@ -10,6 +10,7 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { ROOT, completeness, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
 import { asData, changelogWith, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
+import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
 
 /** A scratch copy of everything the recipe's checkers read. */
 function scratchTree() {
@@ -180,6 +181,38 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   const { plan, stray } = commitPlan(loadRecipe(root), ['recipes/answers/wobble.json', ...written], { kernel: 'wobble', repo: 'r', commit12: 'c' });
   assert.deepEqual(plan.map((c) => c.layer), ['answers', 'data', 'render', 'docs']);
   assert.deepEqual(stray, []);
+});
+
+test('items added to a released kernel carry their own since, are appended to its file and get their CHANGELOG line', async () => {
+  const root = scratchTree();
+  const engine = engineCheckout();
+  const base = { kernel: 'wobble', engine, ref: 'HEAD' };
+  await importKernel({ ...base, since: '1.8.0', names: 'WOBBLE_RATE_RANGE' }, root);
+  declare(join(root, 'recipes/answers/wobble.json'), root);
+  const before = readFileSync(join(root, 'data/kernels/wobble.json'), 'utf8');
+
+  const { answers } = await importKernel({ ...base, since: '1.9.0', names: 'WOBBLE_RATE_RANGE,WOBBLE_RING', unit: ['WOBBLE_RING='] }, root);
+  assert.equal(answers.since, '1.8.0', 'the kernel keeps the release that first carried it');
+  assert.deepEqual(answers.items.map((i) => [i.name, i.since]), [['WOBBLE_RATE_RANGE', undefined], ['WOBBLE_RING', '1.9.0']]);
+  assert.ok(addedAfterFirstRelease(root).has('WOBBLE_RING'), 'the proof reads the item\'s own since');
+
+  const { written } = declare(join(root, 'recipes/answers/wobble.json'), root);
+  assert.ok(written.includes('data/kernels/wobble.json'));
+  const k = JSON.parse(readFileSync(join(root, 'data/kernels/wobble.json'), 'utf8'));
+  assert.deepEqual(Object.keys(k), ['$schema', 'WOBBLE_RATE_RANGE', 'WOBBLE_RING'], 'appended after the released items');
+  assert.deepEqual(k.WOBBLE_RATE_RANGE, JSON.parse(before).WOBBLE_RATE_RANGE, 'a released item is kept as written');
+  assert.match(readFileSync(join(root, 'CHANGELOG.md'), 'utf8'), /^- The wobble kernel: 1 more values, read from the engine where it declares them\.$/m);
+  assert.deepEqual(completeness(root, ['wobble']).gaps, []);
+
+  // the CHANGELOG must name the kernel for the release that added the items too
+  const cl = join(root, 'CHANGELOG.md');
+  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## Unreleased', '## 1.8.0 - 2026-10-07'));
+  assert.match(completeness(root, ['wobble']).gaps.join('\n'), /wobble: artifact changelog .*no '- The wobble kernel' line under ## Unreleased or ## 1\.9\.0/);
+  writeFileSync(cl, readFileSync(cl, 'utf8').replace(/^## 1\.8\.0/m, '## 1.9.0 - 2026-10-08\n\n- The wobble kernel: the ring.\n\n## 1.8.0'));
+  assert.deepEqual(completeness(root, ['wobble']).gaps, []);
+
+  edit(root, 'recipes/answers/wobble.json', (a) => { a.items[1].since = '1.8.0'; });
+  assert.match(completeness(root, ['wobble']).gaps.join('\n'), /WOBBLE_RING: since 1\.8\.0 is not later than the kernel's 1\.8\.0; leave it out/);
 });
 
 test('the importer refuses what it cannot read, naming the item', async () => {
