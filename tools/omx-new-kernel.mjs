@@ -13,12 +13,14 @@
  *       reference or a derivation gives the value the engine computes; a C #define is read when it is
  *       one plain number. No value is typed here. When data/kernels/<k>.json exists, the names, units,
  *       references, derivations and `c` blocks are read from it, so a released kernel is cited without
- *       being rewritten.
+ *       being rewritten. When the kernel is already answered it keeps its `since`, and a name it did
+ *       not answer before is an item added by the release --since names, which it carries as its own.
  *   node tools/omx-new-kernel.mjs --verify --engine <checkout> [<answers file> ...]
  *       reads every cited value again at its answers' commit and compares (all answers by default)
  *   node tools/omx-new-kernel.mjs --answers recipes/answers/<k>.json
- *       writes the kernel file from the answers (a new kernel only: a released file is kept), the
- *       committed renders and the CHANGELOG line, runs the completeness check over the kernel and
+ *       writes the kernel file from the answers (a released file keeps its items as written and gains
+ *       the answered items it lacks), the committed renders and the CHANGELOG line (for a released
+ *       kernel, the line of the items added to it), runs the completeness check over the kernel and
  *       prints the commit plan, one commit per layer of the recipe.
  *
  * Exit 0 done; 1 a refusal, named; 2 usage. Needs node >= 22.18 for --import (type stripping).
@@ -34,7 +36,7 @@ import { formatDoc } from '../lib/fmt.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { ROOT, answersProblems, completeness, fill, layerOfPath, loadRecipe } from './kernel-recipe.mjs';
+import { ROOT, answersProblems, completeness, fill, itemSince, layerOfPath, loadRecipe, readAnswers } from './kernel-recipe.mjs';
 
 class Refusal extends Error {}
 const refuse = (m) => { throw new Refusal(m); };
@@ -207,6 +209,14 @@ export async function importKernel(o, root = ROOT) {
   const checkout = resolve(o.engine ?? refuse('--engine <checkout> is required'));
   const ref = o.ref ?? refuse('--ref <git ref> is required');
   const kept = keptFacts(root, recipe, kernel);
+  // A kernel already answered keeps its own `since`; an item it did not answer before is added by
+  // the release `--since` names, and carries it.
+  const prior = readAnswers(root, recipe, kernel).answers;
+  const kernelSince = prior?.since ?? since;
+  const sinceOf = (name) => {
+    const was = prior?.items?.find((it) => it.name === name);
+    return was ? itemSince(prior, was) : since;
+  };
   const names = o.names ? o.names.split(',') : kept ? [...kept.keys()] : refuse('--names is required for a new kernel');
   const units = pairs(o.unit);
   const sets = pairs(o.set, true);
@@ -238,6 +248,7 @@ export async function importKernel(o, root = ROOT) {
       }
       if (Object.keys(set).length) it.set = set;
       if (cs.has(name) || k.c) it.c = cs.get(name) ?? k.c;
+      if (sinceOf(name) !== kernelSince) it.since = sinceOf(name);
       items.push(it);
     }
     // A table whose field IS another imported item (the same object in the engine) refers to it, so
@@ -253,7 +264,7 @@ export async function importKernel(o, root = ROOT) {
         }
       }
     }
-    const answers = { kernel, since, engine: { repo: recipe.engine.repo, ref, commit: eng.commit }, items };
+    const answers = { kernel, since: kernelSince, engine: { repo: recipe.engine.repo, ref, commit: eng.commit }, items };
     const bad = answersProblems(answers, kernel);
     if (bad.length) refuse(bad.join('; '));
     const rel = fill(recipe.tree.answers, { kernel });
@@ -305,10 +316,13 @@ export function kernelText(recipe, answers) {
   return formatDoc(doc);
 }
 
-/** The CHANGELOG with the kernel's line under ## Unreleased (created above the first release). */
-export function changelogWith(text, recipe, answers) {
+/**
+ * The CHANGELOG with the kernel's line under ## Unreleased (created above the first release); with
+ * `added`, the line for that many items added to a released kernel.
+ */
+export function changelogWith(text, recipe, answers, { added } = {}) {
   const t = recipe.artifacts.find((a) => a.id === 'changelog').template;
-  const line = fill(t.line, { kernel: answers.kernel, count: answers.items.length });
+  const line = added ? fill(t.lineAdded, { kernel: answers.kernel, count: added }) : fill(t.line, { kernel: answers.kernel, count: answers.items.length });
   if (text.includes(line)) return text;
   const lines = text.split('\n');
   let at = lines.findIndex((l) => new RegExp(t.after).test(l));
@@ -333,7 +347,17 @@ export function declare(answersPath, root = ROOT) {
   const written = [];
   const kfile = fill(recipe.tree.kernelFile, { kernel: answers.kernel });
   if (existsSync(join(root, kfile))) {
-    console.log(`${kfile} exists: kept as written (the completeness check holds it to the answers)`);
+    // a released kernel: its items are kept as written, and the answered items it lacks are appended
+    const doc = JSON.parse(readFileSync(join(root, kfile), 'utf8'));
+    const all = loadData(join(root, 'data'));
+    const fresh = answers.items.filter((a) => !(a.name in doc));
+    for (const a of fresh) if (all.items.has(a.name)) refuse(`${a.name} is already declared in ${all.items.get(a.name).rel}`);
+    if (fresh.length) {
+      for (const a of fresh) doc[a.name] = itemOf(a);
+      writeFileSync(join(root, kfile), formatDoc(doc));
+      written.push(kfile);
+    }
+    console.log(`${kfile} exists: kept as written${fresh.length ? `, ${fresh.length} answered items appended` : ''} (the completeness check holds it to the answers)`);
   } else {
     const all = loadData(join(root, 'data'));
     for (const a of answers.items) if (all.items.has(a.name)) refuse(`${a.name} is already declared in ${all.items.get(a.name).rel}`);
@@ -352,12 +376,13 @@ export function declare(answersPath, root = ROOT) {
       written.push(join(dir, f.path));
     }
   }
-  if (answers.since !== recipe.tree.firstRelease) {
-    const cl = join(root, recipe.tree.changelog);
-    const before = readFileSync(cl, 'utf8');
-    const after = changelogWith(before, recipe, answers);
-    if (after !== before) { writeFileSync(cl, after); written.push(recipe.tree.changelog); }
-  }
+  const cl = join(root, recipe.tree.changelog);
+  const before = readFileSync(cl, 'utf8');
+  let after = before;
+  if (answers.since !== recipe.tree.firstRelease) after = changelogWith(after, recipe, answers);
+  const added = answers.items.filter((a) => itemSince(answers, a) !== answers.since).length;
+  if (added) after = changelogWith(after, recipe, answers, { added });
+  if (after !== before) { writeFileSync(cl, after); written.push(recipe.tree.changelog); }
   return { answers, written };
 }
 

@@ -82,6 +82,17 @@ export function readAnswers(root, recipe, kernel) {
   }
 }
 
+/** -1, 0 or 1, comparing two x.y.z versions. */
+export function compareVersions(a, b) {
+  const pa = a.split('.').map(Number);
+  const pb = b.split('.').map(Number);
+  for (let i = 0; i < 3; i++) if (pa[i] !== pb[i]) return pa[i] < pb[i] ? -1 : 1;
+  return 0;
+}
+
+/** The release that first carries an answered item: its own `since`, else its kernel's. */
+export const itemSince = (answers, it) => it.since ?? answers.since;
+
 /** The problems of one answers file, as sentences; empty is valid. */
 export function answersProblems(answers, kernel) {
   const bad = [];
@@ -98,6 +109,12 @@ export function answersProblems(answers, kernel) {
     const s = it?.source;
     if (typeof s?.path !== 'string' || !s.path || (typeof s.export !== 'string') === (typeof s.define !== 'string')) {
       bad.push(`${at}: source must name a path and one of export or define`);
+    }
+    if (it?.since !== undefined) {
+      if (!/^\d+\.\d+\.\d+$/.test(it.since)) bad.push(`${at}: since '${it.since}' is not x.y.z`);
+      else if (/^\d+\.\d+\.\d+$/.test(answers.since ?? '') && compareVersions(it.since, answers.since) <= 0) {
+        bad.push(`${at}: since ${it.since} is not later than the kernel's ${answers.since}; leave it out`);
+      }
     }
     if (!('value' in (it ?? {}))) bad.push(`${at}: no value read from the source`);
     if (typeof it?.doc !== 'string' || !it.doc.trim()) bad.push(`${at}: no doc`);
@@ -188,7 +205,10 @@ export const CHECKERS = {
     if (!existsSync(file)) return missing(`${recipe.tree.changelog} is missing`);
     const a = readAnswers(facts.root, recipe, kernel);
     const since = a.answers?.since;
-    if (since === recipe.tree.firstRelease) return ok(`shipped in the first release, ${since}, whose entry covers it`);
+    // the release that first carries the kernel, and each later release that adds items to it
+    const releases = [...new Set([since, ...(a.answers?.items ?? []).map((it) => itemSince(a.answers, it))])]
+      .filter((s) => s !== recipe.tree.firstRelease);
+    if (!releases.length) return ok(`shipped in the first release, ${since}, whose entry covers it`);
     const sections = new Map();
     let cur;
     for (const line of readFileSync(file, 'utf8').split('\n')) {
@@ -199,8 +219,10 @@ export const CHECKERS = {
       } else if (cur) sections.set(cur, `${sections.get(cur)}${line}\n`);
     }
     const re = new RegExp(`^- The ${kernel} kernel\\b`, 'm');
-    for (const s of ['Unreleased', since]) if (s && re.test(sections.get(s) ?? '')) return ok(`named under ## ${s}`);
-    return missing(`${recipe.tree.changelog} has no '- The ${kernel} kernel' line under ## Unreleased${since ? ` or ## ${since}` : ''}`);
+    const named = (s) => ['Unreleased', s].find((h) => h && re.test(sections.get(h) ?? ''));
+    const bad = releases.filter((s) => !named(s));
+    if (bad.length) return missing(bad.map((s) => `${recipe.tree.changelog} has no '- The ${kernel} kernel' line under ## Unreleased${s ? ` or ## ${s}` : ''}`).join('; '));
+    return ok(releases.map((s) => `named under ## ${named(s)}`).join(', '));
   },
 
   ownItemsOnly(facts, recipe, kernel) {

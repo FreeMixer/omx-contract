@@ -1,0 +1,31 @@
+{
+  "kernel": "balance",
+  "since": "1.2.0",
+  "engine": {
+    "repo": "FreeMixer/openmixer",
+    "ref": "origin/main",
+    "commit": "964a798356925f6bc3774459d9904362b9d3f986"
+  },
+  "items": [
+    {
+      "name": "PAN_RANGE",
+      "source": {
+        "path": "packages/declarations/src/index.ts",
+        "export": "PAN_RANGE"
+      },
+      "value": {
+        "min": -1,
+        "max": 1,
+        "step": 0,
+        "unit": ""
+      },
+      "doc": "The PAN travel — −1 (hard left) … 0 (center) … +1 (hard right). A property of the pan law itself, not of any desk, so it is declared once. Continuous: a pan position has no quantum, and panGains clamps to these bounds.",
+      "c": {
+        "alias": {
+          "fact": "pan",
+          "field": "pan"
+        }
+      }
+    }
+  ]
+}

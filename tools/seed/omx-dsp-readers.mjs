@@ -2,16 +2,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * ONE-TIME: the units of omx-dsp's committed limits header that an omx-dsp file names (its include/,
- * test/, tools/ and Makefile, comments stripped, the header itself excluded), frozen as
- * test/fixtures/omx-dsp-v0.1.3/read-units.json for the round-trip proof (spec §2.3, §4.4 step 2).
- * Usage: node tools/seed/omx-dsp-readers.mjs <omx-dsp checkout at v0.1.3> > test/fixtures/omx-dsp-v0.1.3/read-units.json
+ * ONE-TIME per frozen omx-dsp: the units of omx-dsp's committed limits header that an omx-dsp file
+ * names (its include/, test/, tools/ and Makefile, comments stripped, the header itself excluded),
+ * frozen as test/fixtures/omx-dsp-<label>/read-units.json: v0.1.3's for the round-trip proof (spec
+ * §2.3, §4.4 step 2), and a later one's for test/omx-dsp-reads.test.mjs.
+ * Usage: node tools/seed/omx-dsp-readers.mjs <omx-dsp checkout> [<label, default v0.1.3>] > test/fixtures/omx-dsp-<label>/read-units.json
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { limitUnits } from '../proof/limit-units.mjs';
 
 const root = process.argv[2];
+const label = process.argv[3] ?? 'v0.1.3';
 const header = join(root, 'include/omxdsp/omx_contract_limits.h');
 const units = limitUnits(readFileSync(header, 'utf8')).filter((u) => u.frame === undefined);
 const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
@@ -31,4 +33,4 @@ const walk = (d) => {
 walk(root);
 const read = units.filter((u) => u.names.some((n) => where.has(n)))
   .map((u) => ({ key: u.key, readBy: [...new Set(u.names.flatMap((n) => [...(where.get(n) ?? [])]))].sort() }));
-process.stdout.write(`${JSON.stringify({ omxdsp: 'v0.1.3', units: units.length, read }, null, 1)}\n`);
+process.stdout.write(`${JSON.stringify({ omxdsp: label, units: units.length, read }, null, 1)}\n`);
