@@ -1390,6 +1390,83 @@ export declare const FDELAY_MOD_READ_ORDER: 3;
 export declare const FDELAY_READ_L1_NORM: 1.25;
 
 /**
+ * The gate's threshold, range, release and ratio as a plugin host draws them: GATE_LIMITS' bounds, units and defaults with no step. The console's row quantises these four to whole steps (1 dB, 10 ms, 1:1), and a travel whose step is 1 or more reads as an integer control; the omx-strip plugin has always offered them continuous, so it reads this table instead. Every number but the step is GATE_LIMITS', held equal by test/continuous-travels.test.mjs. Not rendered to C: no C reader needs a second spelling of the gate's bounds.
+ * @see data/primitives.json
+ */
+export declare const GATE_CONTINUOUS_TRAVELS: {
+  readonly thresholdDb: {
+    readonly min: -80;
+    readonly max: 0;
+    readonly step: 0;
+    readonly unit: "dB";
+    readonly default: -40;
+    readonly defaultFrom: "desk";
+  };
+  readonly rangeDb: {
+    readonly min: -90;
+    readonly max: 0;
+    readonly step: 0;
+    readonly unit: "dB";
+    readonly default: -90;
+    readonly defaultFrom: "desk";
+  };
+  readonly releaseMs: {
+    readonly min: 0;
+    readonly max: 5000;
+    readonly step: 0;
+    readonly unit: "ms";
+    readonly default: 100;
+    readonly defaultFrom: "desk";
+  };
+  readonly ratio: {
+    readonly min: 1;
+    readonly max: 100;
+    readonly step: 0;
+    readonly unit: "";
+    readonly default: 16;
+    readonly defaultFrom: "desk";
+  };
+};
+
+/**
+ * The compressor's threshold and release as a plugin host draws them: COMP_LIMITS' bounds, units and defaults with no step. The console's row quantises them to whole steps (1 dB, 10 ms), and a travel whose step is 1 or more reads as an integer control; the omx-strip plugin has always offered them continuous, so it reads this table instead. Every number but the step is COMP_LIMITS', held equal by test/continuous-travels.test.mjs. Not rendered to C: no C reader needs a second spelling of the compressor's bounds.
+ * @see data/primitives.json
+ */
+export declare const COMP_CONTINUOUS_TRAVELS: {
+  readonly thresholdDb: {
+    readonly min: -60;
+    readonly max: 0;
+    readonly step: 0;
+    readonly unit: "dB";
+    readonly default: -18;
+    readonly defaultFrom: "desk";
+  };
+  readonly releaseMs: {
+    readonly min: 5;
+    readonly max: 3000;
+    readonly step: 0;
+    readonly unit: "ms";
+    readonly default: 200;
+    readonly defaultFrom: "desk";
+  };
+};
+
+/**
+ * The digital input trim as a travel: openmixer's TRIM_RANGE (packages/declarations, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there and OMX_TRIM_RANGE_*_DB in omx-dsp's header), coming up at 0 dB, the trim a channel has when none is set. The omx-strip plugin's trim reads it. A table with the one field `trimDb`, the name the trim row and the plugin store; not rendered to C, which already spells TRIM_RANGE its own way.
+ * @see data/primitives.json
+ */
+export declare const TRIM_TRAVELS: {
+  readonly trimDb: {
+    readonly min: -24;
+    readonly max: 24;
+    readonly step: 0.1;
+    readonly unit: "dB";
+    readonly default: 0;
+    readonly defaultFrom: "desk";
+  };
+};
+
+/**
  * The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` (`2026-07-15-clock-rate-honest-force-rate.md`) — this is the ceiling a write is refused by, never a menu.
  * @see data/rates.json
  */
