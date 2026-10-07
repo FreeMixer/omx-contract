@@ -45,6 +45,9 @@ jobs:
       - id: handback-test
         name: Tests (schema, semantic checks, goldens, perturbation, semver, round trip)
         run: npm test
+      - id: handback-completeness
+        name: Every kernel has every artifact of the kernel recipe, its values cited from the engine
+        run: make completeness
       - id: handback-round-trip
         name: The round-trip proof against omx-dsp v0.1.3's headers (spec 4.4 steps 1 and 2)
         run: node tools/proof/round-trip.mjs --quiet

@@ -1,0 +1,189 @@
+{
+  "$comment": "The kernel recipe: every artifact a complete kernel needs in omx-contract, each with the wizard step that writes it, its commit layer, how it is made, its paths and its CHECKER: the name of one function in tools/kernel-recipe.mjs and its arguments, reading the real files. Plus the LAWS every kernel keeps. Read by tools/omx-new-kernel.mjs (the importer, the questions it validates, the files it writes, the commit plan) and by tools/kernel-recipe.mjs (`make completeness`: every kernel, the ones already released included, has every artifact and keeps every law). Adding a required artifact is one entry here: the wizard then writes it and the completeness check requires it of every kernel.",
+  "item": "kernel",
+  "tree": {
+    "kernelsDir": "data/kernels",
+    "kernelFile": "data/kernels/{kernel}.json",
+    "answersDir": "recipes/answers",
+    "answers": "recipes/answers/{kernel}.json",
+    "changelog": "CHANGELOG.md",
+    "firstRelease": "1.0.0"
+  },
+  "engine": {
+    "repo": "FreeMixer/openmixer",
+    "archive": [
+      "packages/core/src",
+      "packages/declarations/src",
+      "packages/pipewire-native/src"
+    ],
+    "sources": "the TypeScript module or C header where the engine declares the value today: packages/core/src/*.ts, packages/declarations/src/*.ts (an export), packages/pipewire-native/src/mix_*.h (a #define of a plain number)"
+  },
+  "questions": {
+    "kernel": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*$",
+      "title": "Kernel",
+      "description": "The kernel's name: its file data/kernels/<kernel>.json, the name a stage's `kernel` and a plugin's `kernels` reference. Unique among the kernels."
+    },
+    "since": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Since",
+      "description": "The omx-contract release that first carries the kernel."
+    },
+    "engine": {
+      "type": "object",
+      "title": "Engine",
+      "description": "Where the values were read: the engine repository and the commit (40 hex digits) every item's source is read at."
+    },
+    "items": {
+      "type": "array",
+      "title": "Items",
+      "description": "One entry per item, in the kernel file's order: its name, its source (path and export, or path and C define), the value the importer read there, its doc, its unit when it is not a travel, and, when the engine derives it, the derivation. Written by the importer, never typed."
+    }
+  },
+  "rules": {
+    "always": "every kernel"
+  },
+  "steps": {
+    "import": "the answers: every item read from the engine source where it is declared today, with its citation (omx-new-kernel.mjs --import)",
+    "declare": "the kernel file, written from the answers (omx-new-kernel.mjs --answers)",
+    "render": "the committed renders, written by omx-contract render from the data",
+    "docs": "the CHANGELOG entry"
+  },
+  "layers": [
+    {
+      "id": "answers",
+      "what": "the engine's values for the kernel, read by the importer with each source cited",
+      "message": "recipes: the {kernel} kernel's answers, imported from {repo} {commit12}"
+    },
+    {
+      "id": "data",
+      "what": "the declaration: the kernel's file, and the file an item moves out of",
+      "message": "data: the {kernel} kernel"
+    },
+    {
+      "id": "render",
+      "what": "every file rendered from the data",
+      "message": "render: the {kernel} kernel in the c, json and ts renders"
+    },
+    {
+      "id": "docs",
+      "what": "the changelog",
+      "message": "CHANGELOG: the {kernel} kernel"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "answers",
+      "what": "the kernel's answers: every item with its engine source cited and the value read there, by the importer",
+      "step": "import",
+      "layer": "answers",
+      "made": "IMPORTED",
+      "target": "recipes/answers/{kernel}.json",
+      "paths": [
+        "recipes/answers/{kernel}.json"
+      ],
+      "when": "always",
+      "checker": {
+        "fn": "answersValid"
+      }
+    },
+    {
+      "id": "kernel-file",
+      "what": "the kernel's ONE data file: valid against the schema and the semantic checks, in the one formatting",
+      "step": "declare",
+      "layer": "data",
+      "made": "GENERATED",
+      "target": "data/kernels/{kernel}.json",
+      "paths": [
+        "data/kernels/{kernel}.json"
+      ],
+      "when": "always",
+      "checker": {
+        "fn": "kernelFile"
+      }
+    },
+    {
+      "id": "value-citations",
+      "what": "every item of the kernel file is cited in the answers, and its resolved value is the value read from the engine source; every answered item is in the kernel file",
+      "step": "declare",
+      "layer": "data",
+      "made": "CHECKED",
+      "target": "data/kernels/{kernel}.json against recipes/answers/{kernel}.json",
+      "paths": [],
+      "when": "always",
+      "checker": {
+        "fn": "valuesCited"
+      }
+    },
+    {
+      "id": "round-trip",
+      "what": "the kernel's items survive the round trip: the json render read back gives every item's resolved value, and the kernel file re-formatted is itself",
+      "step": "declare",
+      "layer": "data",
+      "made": "CHECKED",
+      "target": "data/kernels/{kernel}.json through render --target json",
+      "paths": [],
+      "when": "always",
+      "checker": {
+        "fn": "roundTrip"
+      }
+    },
+    {
+      "id": "renders",
+      "what": "the committed c, json and ts renders are the render of the data, and the json render carries every item of the kernel",
+      "step": "render",
+      "layer": "render",
+      "made": "GENERATED",
+      "target": "include/omxcontract/, share/omx-contract/omx-contract.json, test/golden/ts/",
+      "paths": [
+        "include/omxcontract/**",
+        "share/omx-contract/omx-contract.json",
+        "test/golden/ts/**"
+      ],
+      "when": "always",
+      "checker": {
+        "fn": "rendered",
+        "targets": {
+          "c": "include",
+          "json": "share/omx-contract",
+          "ts": "test/golden/ts"
+        }
+      }
+    },
+    {
+      "id": "changelog",
+      "what": "the kernel named in CHANGELOG.md, under Unreleased or the section of the release that first carries it (the first release's entry covers every kernel it shipped)",
+      "step": "docs",
+      "layer": "docs",
+      "made": "TEMPLATED",
+      "target": "CHANGELOG.md#Unreleased",
+      "paths": [
+        "CHANGELOG.md"
+      ],
+      "template": {
+        "file": "CHANGELOG.md",
+        "line": "- The {kernel} kernel: {itemList}, read from the engine where it declares them.",
+        "after": "^## Unreleased$",
+        "create": "## Unreleased",
+        "createBefore": "^## "
+      },
+      "when": "always",
+      "checker": {
+        "fn": "changelogNames"
+      }
+    }
+  ],
+  "laws": [
+    {
+      "id": "own-items-only",
+      "what": "a kernel's file holds its own items: no name also declared in another data file, and no plugin item",
+      "step": "declare",
+      "when": "always",
+      "checker": {
+        "fn": "ownItemsOnly"
+      }
+    }
+  ]
+}

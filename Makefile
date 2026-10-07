@@ -12,7 +12,7 @@ PKGCONFIGDIR ?= $(DATADIR)/pkgconfig
 CC ?= cc
 VERSION := $(shell sed -n 's/^  "version": "\(.*\)",$$/\1/p' package.json)
 
-.PHONY: all check install test
+.PHONY: all check completeness install test
 
 all:
 	@test -n "$(VERSION)" || { echo "no version in package.json" >&2; exit 1; }
@@ -35,3 +35,7 @@ install: all
 
 test:
 	npm test
+
+# Every kernel, the released ones included, has every artifact recipes/kernel.recipe.json lists.
+completeness:
+	node tools/kernel-recipe.mjs
