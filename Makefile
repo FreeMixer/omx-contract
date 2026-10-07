@@ -17,17 +17,16 @@ VERSION := $(shell sed -n 's/^  "version": "\(.*\)",$$/\1/p' package.json)
 all:
 	@test -n "$(VERSION)" || { echo "no version in package.json" >&2; exit 1; }
 
-# The headers compile on their own and together, warnings as errors.
+# The header compiles on its own, warnings as errors.
 check: all
-	printf '#include <omxcontract/omx_contract_limits.h>\n#include <omxcontract/params/omx_delay_params.h>\nint main(void) { return OMX_DELAY_PARAMS[0].max > 0.0f && OMX_DECLARED_RATE_COUNT > 0 ? 0 : 1; }\n' > check-headers.c
+	printf '#include <omxcontract/omx_contract_limits.h>\nint main(void) { return OMX_FX_DELAY_TIME_RANGE_MAX > 0 && OMX_DECLARED_RATE_COUNT > 0 ? 0 : 1; }\n' > check-headers.c
 	$(CC) -std=c11 -Wall -Wextra -Werror -Wno-unused-function -Iinclude check-headers.c -o check-headers
 	./check-headers
 	rm -f check-headers check-headers.c
 
 install: all
-	install -d $(DESTDIR)$(INCLUDEDIR)/omxcontract/params $(DESTDIR)$(DATADIR)/omx-contract $(DESTDIR)$(PKGCONFIGDIR)
+	install -d $(DESTDIR)$(INCLUDEDIR)/omxcontract $(DESTDIR)$(DATADIR)/omx-contract $(DESTDIR)$(PKGCONFIGDIR)
 	install -m 0644 include/omxcontract/*.h $(DESTDIR)$(INCLUDEDIR)/omxcontract/
-	install -m 0644 include/omxcontract/params/*.h $(DESTDIR)$(INCLUDEDIR)/omxcontract/params/
 	install -m 0644 share/omx-contract/omx-contract.json schema/omx-contract.schema.json $(DESTDIR)$(DATADIR)/omx-contract/
 	sed -e 's|@PREFIX@|$(PREFIX)|' -e 's|@INCLUDEDIR@|$(INCLUDEDIR)|' -e 's|@DATADIR@|$(DATADIR)|' -e 's|@VERSION@|$(VERSION)|' \
 	  omx-contract.pc.in > $(DESTDIR)$(PKGCONFIGDIR)/omx-contract.pc

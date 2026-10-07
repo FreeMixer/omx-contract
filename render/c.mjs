@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * The `c` target: `omxcontract/omx_contract_limits.h`, one `omxcontract/params/omx_<plugin>_params.h`
- * per plugin item and the shape they fill, `omxcontract/params/omx_plugin_param.h`. Every define is
- * spelled by openmixer's renderer, moved unchanged (c/contract-limits-render.mjs,
- * c/params-generate.mjs); only the frame (banner, section comments) is this repository's.
+ * The `c` target: `omxcontract/omx_contract_limits.h`. Every define is spelled by openmixer's
+ * renderer, moved unchanged (c/contract-limits-render.mjs); only the frame (banner, section
+ * comments) is this repository's. A plugin's parameter header is rendered by omx-plugins from its
+ * declaration; c/params-generate.mjs stays here only for renderSheetC, the frozen fixture of the
+ * round-trip proof.
  */
 import { readFileSync } from 'node:fs';
 import {
@@ -75,20 +76,9 @@ ${sections.map(([body, comment]) => `${comment}\n${body}`).join('\n\n')}
 ${d.STANDARD_SAMPLE_RATES ? ratesTail(d.STANDARD_SAMPLE_RATES) : ''}`;
 }
 
-/** The banner lines of a plugin's params header rendered from the data. */
-const producedBy = (r) => ` * Produced by \`omx-contract render --target c\` from FreeMixer/omx-contract's ${r.rel}
- * (${r.name}): ${r.source}.
- * Change the data, never this file. Order is append-only (omx-contract spec §3.3).`;
-
 /** Every file of the `c` target: `[{ path, text }]`, paths relative to the output directory. */
 export function renderC(resolved) {
-  const files = [{ path: 'omxcontract/omx_contract_limits.h', text: renderLimitsHeader(resolved) }];
-  const plugins = doors(resolved).PLUGINS;
-  for (const r of plugins) {
-    files.push({ path: `omxcontract/params/${r.header}`, text: generate({ header: r.header, prefix: r.prefix, source: r.source, producedBy: producedBy(r) }, r.value) });
-  }
-  if (plugins.length) files.push({ path: 'omxcontract/params/omx_plugin_param.h', text: PLUGIN_PARAM_H });
-  return files;
+  return [{ path: 'omxcontract/omx_contract_limits.h', text: renderLimitsHeader(resolved) }];
 }
 
 /**

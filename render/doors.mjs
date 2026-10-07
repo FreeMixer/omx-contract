@@ -38,7 +38,7 @@ export function doors(resolved) {
     .sort(([a], [b]) => a.localeCompare(b));
   const byMacro = new Map();
   for (const r of items) {
-    if (isNativeTable(r) || r.kind === 'plugin' || r.kind === 'list') continue;
+    if (isNativeTable(r) || r.kind === 'list') continue;
     const leaves = numberLeaves(r.value, r.name, r.name.replace(/_(KERNEL|LIMITS)$/, ''));
     if (leaves === undefined) continue;
     for (const s of leaves) {
@@ -58,7 +58,6 @@ export function doors(resolved) {
     if (!ALIASES.has(fact)) ALIASES.set(fact, {});
     ALIASES.get(fact)[field] = r.value;
   }
-  const PLUGINS = items.filter((r) => r.kind === 'plugin');
   const STANDARD_SAMPLE_RATES = resolved.get('STANDARD_SAMPLE_RATES')?.value;
-  return { NATIVE_LIMIT_TABLES, DECLARED_SCALARS, DECLARED_LISTS, ALIASES, PLUGINS, STANDARD_SAMPLE_RATES };
+  return { NATIVE_LIMIT_TABLES, DECLARED_SCALARS, DECLARED_LISTS, ALIASES, STANDARD_SAMPLE_RATES };
 }

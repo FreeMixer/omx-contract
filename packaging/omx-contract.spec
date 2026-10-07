@@ -27,8 +27,7 @@ Summary: Headers, JSON data and schema to build on the FreeMixer declarations
 Provides: %{name}-static = %{version}-%{release}
 
 %description devel
-Everything you need to build against omx-contract: the C render of omx-contract under include/omxcontract (the limits header,
-the plugin parameter tables and omx_plugin_param.h), the resolved json
+Everything you need to build against omx-contract: the C render of omx-contract under include/omxcontract (the limits header), the resolved json
 render and the JSON Schema under share/omx-contract, and omx-contract.pc
 (version, datadir). A consumer requires it at exactly the version it pins.
 

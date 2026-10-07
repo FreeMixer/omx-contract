@@ -1014,59 +1014,6 @@ export declare const TREMOLO_TRAVELS: {
 };
 
 /**
- * The delay plugin's parameters, in append-only order: DPF's parameter index is the CLAP param id and the LV2 port order (omx-plugins-dpf §3b). Moved from openmixer's packages/omx-plugins/tools/params-gen.mjs PLUGINS.delay.
- *
- * Why: mix is per instance on the desk (insert or fxReturn); a plugin racked in a foreign host is an INSERT, so it reads the input kind's default (omx-plugins-dpf §3a).
- * @see data/plugins/delay.json
- */
-export declare const DELAY_PLUGIN: {
-  readonly plugin: "delay";
-  readonly header: "omx_delay_params.h";
-  readonly prefix: "OMX_DELAY";
-  readonly params: readonly [{
-    readonly symbol: "timeMs";
-    readonly min: 0;
-    readonly max: 2000;
-    readonly def: 300;
-    readonly step: 1;
-    readonly unit: "ms";
-    readonly toggle: false;
-  }, {
-    readonly symbol: "feedback";
-    readonly min: 0;
-    readonly max: 0.99;
-    readonly def: 0.3;
-    readonly step: 0;
-    readonly unit: "";
-    readonly toggle: false;
-  }, {
-    readonly symbol: "mix";
-    readonly min: 0;
-    readonly max: 1;
-    readonly def: 0.3;
-    readonly step: 0;
-    readonly unit: "";
-    readonly toggle: false;
-  }, {
-    readonly symbol: "tone";
-    readonly min: 0;
-    readonly max: 1;
-    readonly def: 0.3;
-    readonly step: 0;
-    readonly unit: "";
-    readonly toggle: false;
-  }, {
-    readonly symbol: "pingpong";
-    readonly min: 0;
-    readonly max: 1;
-    readonly def: 0;
-    readonly step: 1;
-    readonly unit: "";
-    readonly toggle: true;
-  }];
-};
-
-/**
  * The Q of a second-order Butterworth section, 1/√2 — maximally flat, the one value every Butterworth biquad in the tree designs at: the LR4 crossover section, the pitch pre-filter and the drive's tilt / band / HF sections, in TS and (as `OMX_BUTTERWORTH_Q`) in C (§7, the scalar door).
  * @see data/primitives.json
  */

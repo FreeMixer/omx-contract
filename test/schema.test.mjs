@@ -19,7 +19,7 @@ test('the shipped data holds exactly the spec §4.1 items and the items of the k
     'ALLPASS_LIMITS', 'XOVER_LIMITS', 'FDELAY_MOD_READ_ORDER', 'FDELAY_READ_L1_NORM', 'FX_DELAY_TIME_RANGE', 'FX_DELAY_FEEDBACK_RANGE',
     'DELAY_TONE_RANGE', 'DELAY_MIX_RANGE', 'FX_DELAY_PINGPONG_DEFAULT', 'CHORUS_SPREAD_RANGE', 'REVERB_PLATE_MOD_DEPTH_RANGE',
     'DRIVE_BIAS_MAX', 'DSP_KNOB_REFERENCE_RATE', 'EQ_MAX_BANDS', 'ISO_THIRD_OCTAVE_CENTRES_HZ', 'GEQ_BANDS', 'STANDARD_SAMPLE_RATES',
-    'RT_HARD_TARGET', 'DELAY_PLUGIN'];
+    'RT_HARD_TARGET'];
   for (const n of addedAfterFirstRelease(ROOT)) want.push(n);
   assert.deepEqual([...loadData(DATA).items.keys()].sort(), want.sort());
 });

@@ -17,17 +17,17 @@ test('a travel narrowed is MAJOR', () => assert.equal(level((d) => { d['data/ker
 test('a unit changed is MAJOR', () => assert.equal(level((d) => { d['data/kernels/gate.json'].GATE_LIMITS.fields.ratio.unit = '%'; }), 'major'));
 test('a kernel constant changed is MAJOR', () => assert.equal(level((d) => { d['data/kernels/transient.json'].TRANSIENT_REF_DB.value = 7; }), 'major'));
 test('a derived constant changed is MAJOR', () => assert.equal(level((d) => { d['data/primitives.json'].FDELAY_MOD_READ_ORDER.value = 5; }), 'major'));
-test('an item added is MINOR, removed is MAJOR', () => {
+test('an item added is MINOR, removed is MINOR in the development phase and MAJOR after it', () => {
   assert.equal(level((d) => { d['data/rates.json'].NEW_RATE = { kind: 'scalar', doc: 'new', unit: 'Hz', value: 1 }; }), 'minor');
-  assert.equal(level((d) => { delete d['data/kernels/chorus.json'].CHORUS_SPREAD_RANGE; }), 'major');
+  const gone = texts((d) => { delete d['data/kernels/chorus.json'].CHORUS_SPREAD_RANGE; });
+  const r = classify(resolvedOf(texts()), resolvedOf(gone));
+  assert.equal(r.level, 'minor');
+  assert.match(r.changes[0].what, /development phase: every consumer is omx-dsp, omx-plugins, openmixer/);
+  assert.equal(classify(resolvedOf(texts()), resolvedOf(gone), { developmentPhase: null }).level, 'major');
 });
 test('a list member appended is MINOR, changed is MAJOR', () => {
   assert.equal(level((d) => { d['data/rates.json'].STANDARD_SAMPLE_RATES.values.push(384000); }), 'minor');
   assert.equal(level((d) => { d['data/rates.json'].STANDARD_SAMPLE_RATES.values[0] = 32000; }), 'major');
-});
-test("a plugin parameter appended is MINOR, reordered is MAJOR", () => {
-  assert.equal(level((d) => { d['data/plugins/delay.json'].DELAY_PLUGIN.params.push({ symbol: 'spread', from: 'CHORUS_SPREAD_RANGE', scale: 'linear', since: '1.1.0' }); }), 'minor');
-  assert.equal(level((d) => { const p = d['data/plugins/delay.json'].DELAY_PLUGIN.params; [p[0], p[1]] = [p[1], p[0]]; }), 'major');
 });
 test('an alias removed is MAJOR', () => assert.equal(level((d) => { delete d['data/kernels/delay.json'].FX_DELAY_TIME_RANGE.c; }), 'major'));
 

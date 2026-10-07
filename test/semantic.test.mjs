@@ -39,16 +39,6 @@ test('two items rendering one C name are refused', () => {
   assert.ok(problems(t).some((p) => p.rule === 'render-c' && /OMX_XOVER_LR2_SECTION_Q/.test(p.message)));
 });
 
-test("a plugin's parameters only grow at the end", () => {
-  const t = texts((d) => { d['data/plugins/delay.json'].DELAY_PLUGIN.params[1].since = '1.1.0'; });
-  assert.ok(has(t, 'DELAY_PLUGIN', 'append-only'));
-});
-
-test('a toggle must read a boolean, a travel must read a travel', () => {
-  assert.ok(problems(texts((d) => { d['data/plugins/delay.json'].DELAY_PLUGIN.params[4].from = 'EQ_MAX_BANDS'; })).length > 0);
-  assert.ok(problems(texts((d) => { d['data/plugins/delay.json'].DELAY_PLUGIN.params[0].from = 'EQ_MAX_BANDS'; })).length > 0);
-});
-
 test('the derivations evaluate to the built values openmixer computes', () => {
   const r = resolvedOf(texts());
   assert.equal(r.get('BUTTERWORTH_Q').value, Math.SQRT1_2);

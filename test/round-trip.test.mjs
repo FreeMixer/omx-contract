@@ -36,7 +36,6 @@ test('step 2: a unit omx-dsp lacks is refused when its item shipped in the first
 test('step 2: the 64 units omx-dsp reads are among them, but the three ruling (h) keeps in openmixer', () => {
   assert.equal(r.step2.read, 64);
   assert.deepEqual([...r.step2.readMissing].sort(), [...RULING_H].sort());
-  assert.equal(r.step2.delayIdentical, true);
 });
 
 test('the moved renderer is openmixer\'s, line for line', () => {
