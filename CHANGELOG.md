@@ -3,6 +3,13 @@
 What changed in each release of omx-contract, in plain words. The RPM and Debian changelogs and the
 GitHub release notes are generated from this file.
 
+## Unreleased
+
+- Every kernel cites where the engine declares each of its values (`recipes/answers/`), and
+  `make completeness` checks each kernel against the kernel recipe: its file, the citations, the
+  renders and the changelog. `tools/omx-new-kernel.mjs` adds a kernel by reading its values from
+  the engine's own code.
+
 ## 1.0.0 - 2026-10-05
 
 - First release: the shared declarations the FreeMixer DSP library needs (value ranges, defaults,

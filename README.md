@@ -18,6 +18,8 @@ include/omxcontract/         the committed c render (what omx-contract-devel ins
 share/omx-contract/          the committed json render (resolved data)
 test/                        schema, semantic checks, goldens, perturbation, semver, round trip
 tools/proof/round-trip.mjs   the spec §4.4 steps 1 and 2 proof against omx-dsp v0.1.3
+recipes/kernel.recipe.json   what a complete kernel has; recipes/answers/ cites each value in the engine
+tools/omx-new-kernel.mjs     the kernel wizard and importer; tools/kernel-recipe.mjs is `make completeness`
 tools/seed/                  the one-time seed from openmixer's built core (provenance; never run by CI)
 packaging/ debian/           omx-contract-devel (RPM), libomx-contract-dev (deb)
 ```
