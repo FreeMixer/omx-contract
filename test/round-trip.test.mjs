@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { RULING_H, roundTrip } from '../tools/proof/round-trip.mjs';
+import { loadData, resolveData } from '../lib/data.mjs';
 import { ROOT } from './helpers.mjs';
 
 const r = roundTrip();
@@ -14,13 +15,22 @@ test('step 1: the frozen openmixer sheet renders omx-dsp v0.1.3\'s headers byte 
   assert.deepEqual(r.step1, { limits: true, delay: true });
 });
 
-test('step 2: every shipped unit is byte-identical to omx-dsp\'s, in the same order', () => {
+test('step 2: every shipped unit is byte-identical to omx-dsp\'s, in the same order, but the units of later items it lacks', () => {
   assert.deepEqual(r.step2.differing, []);
   assert.deepEqual(r.step2.notInPin, []);
   assert.equal(r.step2.inOrder, true);
-  assert.equal(r.step2.identical, r.step2.units);
+  assert.equal(r.step2.identical, r.step2.units - r.step2.addedLater.length);
   assert.equal(r.step2.pinUnits, 905);
-  assert.equal(r.step2.residue.length, r.step2.pinUnits - r.step2.units);
+  assert.equal(r.step2.residue.length, r.step2.pinUnits - r.step2.identical);
+});
+
+test('step 2: a unit omx-dsp lacks is refused when its item shipped in the first release', () => {
+  const resolved = resolveData(loadData(join(ROOT, 'data')));
+  const g = resolved.get('GATE_LIMITS');
+  resolved.set('GATE_EXTRA_MS', { name: 'GATE_EXTRA_MS', rel: g.rel, kind: 'scalar', doc: 'x', unit: 'ms', value: 1 });
+  const bad = roundTrip(resolved);
+  assert.deepEqual(bad.step2.notInPin, ['OMX_GATE_EXTRA_MS']);
+  assert.equal(bad.ok, false);
 });
 
 test('step 2: the 64 units omx-dsp reads are among them, but the three ruling (h) keeps in openmixer', () => {

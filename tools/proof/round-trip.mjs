@@ -11,10 +11,13 @@
  *      the same key in omx-dsp's header, in the same order, and no unit the header lacks; the units
  *      omx-dsp reads are among them except the three ruling (h) leaves in openmixer; the delay
  *      table's enum, rows and macros are byte-identical. It prints the residue and the banner diff.
+ *      A unit omx-dsp's header lacks is allowed only when it belongs to an item a later release
+ *      added (its kernel's answers say `since` after the first release); a unit of a later item
+ *      that omx-dsp's header does hold must still be byte-identical to it.
  *
  * Usage: node tools/proof/round-trip.mjs [--quiet]; exit 1 when a step fails.
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadData, resolveData } from '../../lib/data.mjs';
@@ -29,6 +32,18 @@ export const RULING_H = ['OMX_OPERATOR_EQ_BANDS_RESERVE', 'OMX_FBS_DEFAULT_MAX_A
 const text = (u) => u.lines.join('\n');
 const units = (t) => limitUnits(t).filter((u) => u.frame === undefined);
 const frames = (t) => limitUnits(t).filter((u) => u.frame !== undefined).map((u) => u.frame);
+
+/** The items added after the first release: those of every kernel whose answers carry a later `since`. */
+export function addedAfterFirstRelease(root = ROOT) {
+  const recipe = JSON.parse(readFileSync(join(root, 'recipes/kernel.recipe.json'), 'utf8'));
+  const dir = join(root, recipe.tree.answersDir);
+  const out = new Set();
+  for (const f of existsSync(dir) ? readdirSync(dir) : []) {
+    const a = JSON.parse(readFileSync(join(dir, f), 'utf8'));
+    if (a.since !== recipe.tree.firstRelease) for (const it of a.items) out.add(it.name);
+  }
+  return out;
+}
 
 /** The proof over `resolved` (default: the shipped data). Returns the report; `ok` is the verdict. */
 export function roundTrip(resolved = resolveData(loadData(join(ROOT, 'data')))) {
@@ -52,7 +67,11 @@ export function roundTrip(resolved = resolveData(loadData(join(ROOT, 'data')))) 
   const pin = new Map(P.map((u) => [u.key, u]));
   const ours = new Set(S.map((u) => u.key));
   const differing = S.filter((u) => pin.has(u.key) && text(pin.get(u.key)) !== text(u)).map((u) => u.key);
-  const notInPin = S.filter((u) => !pin.has(u.key)).map((u) => u.key);
+  const added = addedAfterFirstRelease();
+  const firstRelease = new Set(units(renderC(new Map([...resolved].filter(([n]) => !added.has(n))))
+    .find((f) => f.path === 'omxcontract/omx_contract_limits.h').text).map((u) => u.key));
+  const addedLater = S.filter((u) => !pin.has(u.key) && !firstRelease.has(u.key)).map((u) => u.key);
+  const notInPin = S.filter((u) => !pin.has(u.key) && firstRelease.has(u.key)).map((u) => u.key);
   const order = P.filter((u) => ours.has(u.key)).map((u) => u.key);
   const inOrder = JSON.stringify(order) === JSON.stringify(S.filter((u) => pin.has(u.key)).map((u) => u.key));
   const residue = P.filter((u) => !ours.has(u.key)).map((u) => u.key);
@@ -63,13 +82,13 @@ export function roundTrip(resolved = resolveData(loadData(join(ROOT, 'data')))) 
   const sf = new Set(frames(shipped));
   const banner = { removed: [...pf].filter((l) => !sf.has(l)), added: [...sf].filter((l) => !pf.has(l)) };
   const step2 = {
-    units: S.length, pinUnits: P.length, identical: S.length - differing.length - notInPin.length, differing, notInPin, inOrder,
+    units: S.length, pinUnits: P.length, identical: S.length - differing.length - notInPin.length - addedLater.length, differing, notInPin, inOrder,
     read: readUnits.length, readAmong: readUnits.length - readMissing.length, readMissing,
     readMissingIsRulingH: JSON.stringify([...readMissing].sort()) === JSON.stringify([...RULING_H].sort()),
-    residue, delayIdentical, banner,
+    residue, delayIdentical, banner, addedLater,
   };
   const ok = step1.limits && step1.delay && !differing.length && !notInPin.length && inOrder && step2.readMissingIsRulingH && delayIdentical
-    && residue.length === P.length - S.length;
+    && residue.length === P.length - (S.length - addedLater.length);
   return { ok, step1, step2 };
 }
 
@@ -87,7 +106,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   console.log(`step 1: omx_contract_limits.h ${r.step1.limits ? 'BYTE-IDENTICAL' : 'DIFFERS'}, omx_delay_params.h ${r.step1.delay ? 'BYTE-IDENTICAL' : 'DIFFERS'}`);
   console.log(`step 2: ${s.identical}/${s.units} units byte-identical to omx-dsp's (of ${s.pinUnits}), order ${s.inOrder ? 'kept' : 'BROKEN'}, ` +
     `${s.readAmong}/${s.read} read units among them (missing: ${s.readMissing.join(', ') || 'none'}${s.readMissingIsRulingH ? ', ruling (h)' : ''}), ` +
-    `delay rows and macros ${s.delayIdentical ? 'identical' : 'DIFFER'}, residue ${s.residue.length}`);
+    `delay rows and macros ${s.delayIdentical ? 'identical' : 'DIFFER'}, residue ${s.residue.length}, ${s.addedLater.length} units of later items`);
   if (s.differing.length || s.notInPin.length) console.log(`  differing: ${s.differing.join(', ')}; not in omx-dsp's header: ${s.notInPin.join(', ')}`);
   console.log(`ROUND-TRIP-JSON ${JSON.stringify({ ok: r.ok, step1: r.step1, units: s.units, identical: s.identical, pinUnits: s.pinUnits, read: s.read, readAmong: s.readAmong, residue: s.residue.length, bannerLines: s.banner.removed.length + s.banner.added.length })}`);
   process.exitCode = r.ok ? 0 : 1;
