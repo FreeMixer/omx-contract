@@ -1,3 +1,11 @@
+omx-contract (1.2.1) unstable; urgency=medium
+
+  * 1.2.1 repackages 1.2.0 with no data change. The 1.2.0 Debian changelog
+    carried the same date as 1.1.0, which lintian refuses, so the Debian
+    packages of 1.2.0 were never built.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Wed, 07 Oct 2026 22:11:42 +0200
+
 omx-contract (1.2.0) unstable; urgency=medium
 
   * omx-dsp can build against the C header rendered here: every limit its code
