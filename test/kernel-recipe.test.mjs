@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { ROOT, completeness, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
-import { changelogWith, commitPlan, declare, defineValue, importKernel } from '../tools/omx-new-kernel.mjs';
+import { asData, changelogWith, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
 
 /** A scratch copy of everything the recipe's checkers read. */
 function scratchTree() {
@@ -69,7 +69,28 @@ test('a hand-formatted kernel file is a gap', () => {
 test('a kernel released after the first release needs its CHANGELOG line', () => {
   const root = scratchTree();
   edit(root, 'recipes/answers/reverb.json', (a) => { a.since = '1.1.0'; });
-  assert.match(gapsOf(root), /reverb: artifact changelog \(wizard step 'docs'\): CHANGELOG\.md names no 'reverb'/);
+  assert.match(gapsOf(root), /reverb: artifact changelog \(wizard step 'docs'\): CHANGELOG\.md has no '- The reverb kernel:' line/);
+  const cl = join(root, 'CHANGELOG.md');
+  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## Unreleased\n', '## [Unreleased]\n\n- The reverb tail is longer now.\n'));
+  assert.match(gapsOf(root), /CHANGELOG\.md has no '- The reverb kernel:' line/, 'the word in other prose is not the entry');
+  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## [Unreleased]\n', '## [Unreleased]\n\n- The reverb kernel: `REVERB_PLATE_MOD_DEPTH_RANGE`.\n'));
+  assert.doesNotMatch(gapsOf(root), /reverb: artifact changelog/, 'a bracketed heading is read');
+});
+
+test('a unit or c block that differs between the kernel file and the answers is a gap', () => {
+  const root = scratchTree();
+  edit(root, 'recipes/answers/transient.json', (a) => { a.items.find((i) => i.name === 'TRANSIENT_FAST_ATTACK_MS').unit = 's'; });
+  edit(root, 'recipes/answers/delay.json', (a) => { delete a.items.find((i) => i.name === 'FX_DELAY_TIME_RANGE').c; });
+  const g = gapsOf(root);
+  assert.match(g, /TRANSIENT_FAST_ATTACK_MS: unit "ms" in the kernel file, "s" in the answers/);
+  assert.match(g, /FX_DELAY_TIME_RANGE: c .* in the kernel file, undefined in the answers/);
+});
+
+test('a value JSON cannot carry unchanged is refused, not recorded', () => {
+  assert.throws(() => asData('X', { min: -Infinity, max: 0 }), /X\.min: -Infinity is not a finite number/);
+  assert.throws(() => asData('Y', () => 1), /Y: a function is not data/);
+  assert.throws(() => asData('Z', { a: undefined }), /Z\.a: a undefined is not data/);
+  assert.deepEqual(asData('W', { a: [1, 0.5] }), { a: [1, 0.5] });
 });
 
 test('an entry added to the recipe is required of every kernel at once', () => {
@@ -147,6 +168,10 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   assert.deepEqual(completeness(root, ['wobble']).gaps, []);
   assert.deepEqual(completeness(root).gaps, [], 'the released kernels stay complete');
 
+  assert.deepEqual(await verifyAnswers(answers, engine, root), [], 'the answers read again at their commit');
+  const tampered = { ...answers, items: answers.items.map((i) => (i.name === 'WOBBLE_RING' ? { ...i, value: 4097 } : i)) };
+  assert.deepEqual(await verifyAnswers(tampered, engine, root), ['WOBBLE_RING: the answers hold 4097, packages/pipewire-native/src/mix_wobble.h gives 4096']);
+
   const { plan, stray } = commitPlan(loadRecipe(root), ['recipes/answers/wobble.json', ...written], { kernel: 'wobble', repo: 'r', commit12: 'c' });
   assert.deepEqual(plan.map((c) => c.layer), ['answers', 'data', 'render', 'docs']);
   assert.deepEqual(stray, []);
@@ -159,4 +184,5 @@ test('the importer refuses what it cannot read, naming the item', async () => {
   await assert.rejects(importKernel({ ...base, names: 'WOBBLE_NOWHERE' }, root), /WOBBLE_NOWHERE: the engine declares no export const or #define/);
   await assert.rejects(importKernel({ ...base, names: 'WOBBLE_UNDOCUMENTED', unit: ['WOBBLE_UNDOCUMENTED='] }, root), /WOBBLE_UNDOCUMENTED: .* has no doc comment/);
   await assert.rejects(importKernel({ ...base, names: 'WOBBLE_DEPTH_MAX' }, root), /WOBBLE_DEPTH_MAX: a scalar carries a unit the engine does not declare/);
+  await assert.rejects(importKernel({ ...base, names: 'WOBBLE_RING', from: ['WOBBLE_RING=packages/pipewire-native/src/mix_wobble.h'] }, root), /--from WOBBLE_RING=.*: give <path>:<export or define>/);
 });

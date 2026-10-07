@@ -138,6 +138,10 @@ export const CHECKERS = {
       if (!it) bad.push(`${n} has no citation`);
       else if (!isDeepStrictEqual(facts.resolved.get(n).value, it.value)) {
         bad.push(`${n} resolves to ${JSON.stringify(facts.resolved.get(n).value)}, the engine's ${it.source.path} ${it.source.export ?? it.source.define} is ${JSON.stringify(it.value)}`);
+      } else {
+        const r = facts.resolved.get(n);
+        if ((r.unit ?? null) !== (it.unit ?? null) && r.kind !== 'travels') bad.push(`${n}: unit ${JSON.stringify(r.unit)} in the kernel file, ${JSON.stringify(it.unit)} in the answers`);
+        if (!isDeepStrictEqual(r.c ?? null, it.c ?? null)) bad.push(`${n}: c ${JSON.stringify(r.c)} in the kernel file, ${JSON.stringify(it.c)} in the answers`);
       }
     }
     for (const n of cited.keys()) if (!names.includes(n)) bad.push(`${n} is answered but not in the kernel file`);
@@ -188,15 +192,15 @@ export const CHECKERS = {
     const sections = new Map();
     let cur;
     for (const line of readFileSync(file, 'utf8').split('\n')) {
-      const h = /^## (\S+)/.exec(line);
+      const h = /^## \[?([^\]\s]+)\]?/.exec(line);
       if (h) {
         cur = h[1];
         sections.set(cur, '');
       } else if (cur) sections.set(cur, `${sections.get(cur)}${line}\n`);
     }
-    const re = new RegExp(`\\b${kernel}\\b`, 'i');
+    const re = new RegExp(`^- The ${kernel} kernel:`, 'm');
     for (const s of ['Unreleased', since]) if (s && re.test(sections.get(s) ?? '')) return ok(`named under ## ${s}`);
-    return missing(`${recipe.tree.changelog} names no '${kernel}' under ## Unreleased${since ? ` or ## ${since}` : ''}`);
+    return missing(`${recipe.tree.changelog} has no '- The ${kernel} kernel:' line under ## Unreleased${since ? ` or ## ${since}` : ''}`);
   },
 
   ownItemsOnly(facts, recipe, kernel) {

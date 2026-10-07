@@ -14,6 +14,8 @@
  *       one plain number. No value is typed here. When data/kernels/<k>.json exists, the names, units,
  *       references, derivations and `c` blocks are read from it, so a released kernel is cited without
  *       being rewritten.
+ *   node tools/omx-new-kernel.mjs --verify --engine <checkout> [<answers file> ...]
+ *       reads every cited value again at its answers' commit and compares (all answers by default)
  *   node tools/omx-new-kernel.mjs --answers recipes/answers/<k>.json
  *       writes the kernel file from the answers (a new kernel only: a released file is kept), the
  *       committed renders and the CHANGELOG line, runs the completeness check over the kernel and
@@ -37,6 +39,17 @@ import { ROOT, answersProblems, completeness, fill, layerOfPath, loadRecipe } fr
 class Refusal extends Error {}
 const refuse = (m) => { throw new Refusal(m); };
 const plain = (v) => JSON.parse(JSON.stringify(v));
+
+/** The engine value as JSON data; refused when JSON cannot carry it unchanged (a function, a non-finite number, an undefined member). */
+export function asData(name, v) {
+  const walk = (x, at) => {
+    if (typeof x === 'number' && !Number.isFinite(x)) refuse(`${name}${at}: ${x} is not a finite number`);
+    if (x === undefined || typeof x === 'function' || typeof x === 'symbol' || typeof x === 'bigint') refuse(`${name}${at}: a ${typeof x} is not data`);
+    if (x !== null && typeof x === 'object') for (const [k, y] of Object.entries(x)) walk(y, `${at}.${k}`);
+  };
+  walk(v, '');
+  return plain(v);
+}
 const isObj = (v) => typeof v === 'object' && v !== null && !Array.isArray(v);
 const isTravel = (v) => isObj(v) && typeof v.min === 'number' && typeof v.max === 'number';
 
@@ -47,7 +60,7 @@ export function parseArgs(argv) {
     const a = argv[i];
     if (!a.startsWith('--')) { o._.push(a); continue; }
     const k = a.slice(2);
-    const flag = ['questions', 'import'].includes(k);
+    const flag = ['questions', 'import', 'verify'].includes(k);
     const v = flag ? true : argv[++i];
     if (v === undefined) refuse(`--${k} needs a value`);
     if (['unit', 'set', 'c', 'from'].includes(k)) (o[k] ??= []).push(v);
@@ -80,9 +93,9 @@ function walk(dir, base, keep, out = []) {
 /** The engine's sources at a commit, extracted from the checkout: `{ tree, commit, cleanup }`. */
 export function extractEngine(checkout, ref, dirs) {
   const commit = execFileSync('git', ['-C', checkout, 'rev-parse', '--verify', `${ref}^{commit}`], { encoding: 'utf8' }).trim();
-  const tree = mkdtempSync(join(tmpdir(), 'omx-new-kernel-'));
   const present = dirs.filter((d) => { try { execFileSync('git', ['-C', checkout, 'cat-file', '-e', `${commit}:${d}`], { stdio: 'ignore' }); return true; } catch { return false; } });
   if (!present.length) refuse(`${ref} has none of ${dirs.join(', ')}`);
+  const tree = mkdtempSync(join(tmpdir(), 'omx-new-kernel-'));
   const tar = execFileSync('git', ['-C', checkout, 'archive', '--format=tar', commit, ...present], { maxBuffer: 1 << 30 });
   execFileSync('tar', ['-x', '-C', tree], { input: tar });
   writeFileSync(join(tree, '.engine-checkout'), `${checkout}\n`);
@@ -155,6 +168,36 @@ function keptFacts(root, recipe, kernel) {
   return out;
 }
 
+/** One cited value, read at the extracted engine: `{ text, value }`. */
+async function readSource(eng, ref, name, source) {
+  if (!existsSync(join(eng.tree, source.path))) refuse(`${name}: ${source.path} is not in ${ref}`);
+  const text = readFileSync(join(eng.tree, source.path), 'utf8');
+  if (source.define) return { text, value: defineValue(text, source.define) };
+  const mod = await evaluate(eng.tree, source.path);
+  if (!(source.export in mod)) refuse(`${name}: ${source.path} exports no ${source.export}`);
+  return { text, value: asData(name, mod[source.export]) };
+}
+
+/**
+ * Read every answered value again at the answers' own commit and compare: the completeness check
+ * holds the kernel file to the answers, this holds the answers to the engine. Returns the
+ * differences, one sentence each; empty is a match.
+ */
+export async function verifyAnswers(answers, checkout, root = ROOT) {
+  const recipe = loadRecipe(root);
+  const eng = extractEngine(resolve(checkout), answers.engine.commit, recipe.engine.archive);
+  try {
+    const bad = [];
+    for (const it of answers.items) {
+      const { value } = await readSource(eng, answers.engine.commit, it.name, it.source);
+      if (JSON.stringify(value) !== JSON.stringify(it.value)) bad.push(`${it.name}: the answers hold ${JSON.stringify(it.value)}, ${it.source.path} gives ${JSON.stringify(value)}`);
+    }
+    return bad;
+  } finally {
+    eng.cleanup();
+  }
+}
+
 /** The importer: every item read from the engine, cited, into the answers. */
 export async function importKernel(o, root = ROOT) {
   const recipe = loadRecipe(root);
@@ -176,17 +219,10 @@ export async function importKernel(o, root = ROOT) {
       let source;
       if (froms.has(name)) {
         const [path, sym] = froms.get(name).split(':');
+        if (!path || !sym) refuse(`--from ${name}=${froms.get(name)}: give <path>:<export or define>`);
         source = path.endsWith('.h') ? { path, define: sym } : { path, export: sym };
       } else source = findSource(eng.tree, recipe.engine.archive, name);
-      if (!existsSync(join(eng.tree, source.path))) refuse(`${name}: ${source.path} is not in ${ref}`);
-      const text = readFileSync(join(eng.tree, source.path), 'utf8');
-      let value;
-      if (source.define) value = defineValue(text, source.define);
-      else {
-        const mod = await evaluate(eng.tree, source.path);
-        if (!(source.export in mod)) refuse(`${name}: ${source.path} exports no ${source.export}`);
-        value = plain(mod[source.export]);
-      }
+      const { text, value } = await readSource(eng, ref, name, source);
       const k = kept?.get(name) ?? {};
       const it = { name, source, value, doc: docAt(text, source) ?? k.doc ?? refuse(`${name}: ${source.path} has no doc comment above it; write one in the engine`) };
       const unit = units.get(name) ?? k.unit;
@@ -233,6 +269,7 @@ export function itemOf(a) {
   if (typeof v === 'number' || typeof v === 'boolean' || typeof v === 'string') it = { kind: 'scalar', doc: a.doc, unit: a.unit, value: v };
   else if (Array.isArray(v)) it = { kind: 'list', doc: a.doc, unit: a.unit, values: v };
   else if (isTravel(v)) it = { kind: 'travels', doc: a.doc, travel: v };
+  else if (!isObj(v)) refuse(`${a.name}: ${JSON.stringify(v)} is not a value an item holds`);
   else if (Object.values(v).length && Object.values(v).every(isTravel)) it = { kind: 'travels', doc: a.doc, fields: v };
   else it = { kind: 'sheet', doc: a.doc, value: v };
   for (const [path, spec] of Object.entries(a.set ?? {})) {
@@ -335,6 +372,16 @@ async function main(argv) {
     for (const it of answers.items) console.log(`  ${it.name} <- ${it.source.path} ${it.source.export ?? it.source.define}`);
     return 0;
   }
+  if (o.verify) {
+    let bad = 0;
+    for (const f of o._.length ? o._ : readdirSync(join(ROOT, recipe.tree.answersDir)).map((x) => join(ROOT, recipe.tree.answersDir, x))) {
+      const a = JSON.parse(readFileSync(f, 'utf8'));
+      const diff = await verifyAnswers(a, o.engine ?? refuse('--verify needs --engine <checkout>'));
+      bad += diff.length;
+      console.log(`${diff.length ? 'FAIL' : 'PASS'} ${a.kernel}: ${a.items.length} values at ${a.engine.commit.slice(0, 12)}${diff.map((d) => `\n  ${d}`).join('')}`);
+    }
+    return bad ? 1 : 0;
+  }
   if (o.answers) {
     const { answers, written } = declare(o.answers);
     const rel = relative(ROOT, resolve(o.answers));
@@ -347,7 +394,7 @@ async function main(argv) {
     if (stray.length) console.log(`  outside the recipe: ${stray.join(', ')}`);
     return v.ok ? 0 : 1;
   }
-  console.error('usage: omx-new-kernel.mjs --questions | --import --kernel <k> --since <x.y.z> --engine <checkout> --ref <ref> [...] | --answers <file>');
+  console.error('usage: omx-new-kernel.mjs --questions | --verify --engine <checkout> [files] | --import --kernel <k> --since <x.y.z> --engine <checkout> --ref <ref> [...] | --answers <file>');
   return 2;
 }
 
