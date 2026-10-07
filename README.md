@@ -40,9 +40,9 @@ share/omx-contract` and `render --target ts --out test/golden/ts`; CI holds all 
 
 ## Consuming it
 
-Pin one version (`omx-contract 1.0.0` in `.github/pins.txt`) and build against its renders, committing
+Pin one version (`omx-contract 1.1.0` in `.github/pins.txt`) and build against its renders, committing
 none: the installed `omx-contract-devel` / `libomx-contract-dev` at exactly that version
-(`pkg-config --exact-version=1.0.0 omx-contract`), else the release's npm tarball, unpacked, and
+(`pkg-config --exact-version=1.1.0 omx-contract`), else the release's npm tarball, unpacked, and
 `omx-contract render --target c --out build/omx-contract/include`. Include
 `<omxcontract/omx_contract_limits.h>`. A plugin's parameter header is rendered by omx-plugins from its
 declaration, by reference to the kernel travels here (since 1.1.0).
