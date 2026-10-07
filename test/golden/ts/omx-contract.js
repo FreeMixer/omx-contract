@@ -96,6 +96,103 @@ export const PROGRAM_RELEASE = {
 };
 
 /**
+ * The detector band's CENTRE, in Hz. Sibilance lives at 5–10 kHz on most voices; 7 kHz with the default width covers 4 950–9 900 Hz, which is where an "s" and a "t" sit on a close vocal mic. The travel is wider than the come-up on both sides on purpose: a bright female vocal wants the band up near 9 kHz and a chesty male one down at 5, and a surface narrower than the row removes reach the console genuinely has (the same reasoning core's `REVERB_CUT_RANGE` records).
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_FREQ_RANGE = {
+  "min": 2000,
+  "max": 16000,
+  "step": 10,
+  "unit": "Hz",
+  "default": 7000,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The band's WIDTH, in OCTAVES around the centre: the edges are `f / 2^(w/2)` and `f · 2^(w/2)`, which is what makes the centre the geometric middle at every width. Octaves and not a Q, because a Q is a property of one section and this band is TWO (a highpass and a lowpass, `mix_deesser.h`) — an operator asked to dial a Q would be dialling a number neither filter carries. One octave is the classic de-esser band: wide enough for a sibilant that moves with the vowel, narrow enough that a 1 kHz vowel sits 27.8 dB down the skirt.
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_WIDTH_RANGE = {
+  "min": 0.25,
+  "max": 4,
+  "step": 0.05,
+  "unit": "oct",
+  "default": 1,
+  "defaultFrom": "desk"
+};
+
+/**
+ * Where reduction starts — the level of the BAND, not of the strip, which is why the come-up is so much lower than the compressor's. A vocal peaking −12 dBFS carries roughly −30 dBFS in a one-octave band at 7 kHz on its sibilants and under −40 on its vowels, so −30 sits between the two and the stage opens on an "s" and stays shut on an "ah".
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_THRESHOLD_RANGE = {
+  "min": -60,
+  "max": 0,
+  "step": 0.5,
+  "unit": "dB",
+  "default": -30,
+  "defaultFrom": "desk"
+};
+
+/**
+ * How hard the band is held once it is over the threshold. 4:1 is the textbook de-esser ratio: firm on the "s", short of a limiter.
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_RATIO_RANGE = {
+  "min": 1,
+  "max": 20,
+  "step": 0.1,
+  "unit": "",
+  "default": 4,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The FLOOR on the reduction, in dB and never positive — the deepest cut the stage may reach however loud the sibilant is (`mix_deesser.h`'s clamp, §4c). 12 dB tames a hard sibilant; past that a voice starts to lisp, and a de-esser with NO floor turns a shouted "s" into a hole. The ceiling is 0, which switches the reduction off without switching the stage off — a legitimate thing to want while dialling the band in by ear.
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_RANGE_RANGE = {
+  "min": -24,
+  "max": 0,
+  "step": 0.5,
+  "unit": "dB",
+  "default": -12,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The detector's ATTACK, in ms. A sibilant's onset is a few milliseconds; 1 ms catches it without the detector chattering on the band's own waveform.
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_ATTACK_RANGE = {
+  "min": 0.1,
+  "max": 50,
+  "step": 0.1,
+  "unit": "ms",
+  "default": 1,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The detector's RELEASE, in ms. 60 ms is long enough not to modulate inside one "s" and short enough to be open again for the next syllable.
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_RELEASE_RANGE = {
+  "min": 5,
+  "max": 500,
+  "step": 1,
+  "unit": "ms",
+  "default": 60,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The knee, in dB — a CONSTANT of the stage and not a row field (`2026-09-22-native-deesser-stage.md` §4b): a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_KNEE_DB = 6;
+
+/**
  * The FX delay's time travel. `max` is the NATIVE ring's ceiling — the same number as `OMX_FXDELAY_MAX_MS` in `omx_delay.h`, pinned to it by `output-delay-ceiling.test.ts`. Distinct from the per-route ALIGNMENT delay (`OUTPUT_DELAY_RANGE`, 1 s, `OMX_DELAY_MAX_MS`): one is a musical echo with feedback and mix, the other is a pure latency. Two facts, two rings, two ceilings — sharing the word "delay" is why they keep being confused for each other.
  * @see data/kernels/delay.json
  */
@@ -213,6 +310,58 @@ export const ISO_THIRD_OCTAVE_CENTRES_HZ = [
 export const GEQ_BANDS = 31;
 
 /**
+ * The flanger's jet sweep (§3b).
+ * @see data/kernels/flanger.json
+ */
+export const FLANGER_RATE_RANGE = {
+  "min": 0.05,
+  "max": 5,
+  "step": 0.01,
+  "unit": "Hz",
+  "default": 0.25,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The flanger's peak-to-peak excursion above its declared 0.5 ms base (§3b).
+ * @see data/kernels/flanger.json
+ */
+export const FLANGER_DEPTH_RANGE = {
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "unit": "ms",
+  "default": 2,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The flanger's SIGNED resonance (§3b). The ±0.95 clamp is DECLARED here — a PATCH asking for 1.0 is answered by this travel — and the kernel's own clamp is the enforcement half.
+ * @see data/kernels/flanger.json
+ */
+export const FLANGER_FEEDBACK_RANGE = {
+  "min": -0.95,
+  "max": 0.95,
+  "step": 0.01,
+  "unit": "",
+  "default": 0.6,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The flanger's wet/dry, as an instance of DRIVE_MIX_RANGE: 50 %, equal dry and wet, where the comb is deepest (§3b).
+ * @see data/kernels/flanger.json
+ */
+export const FLANGER_MIX_RANGE = {
+  "min": 0,
+  "max": 100,
+  "step": 0.1,
+  "unit": "%",
+  "default": 50,
+  "defaultFrom": "desk"
+};
+
+/**
  * The legal range of each gate field (engineering units). The widget clamps drags to these, `normalizeGate` enforces them, the row's codec refuses by them and the travel sheet publishes them — one source of truth. `rangeDb` reaches GATE_RANGE_FLOOR_DB, shown as "−∞" in readouts (a gate fully closed is silence).
  * @see data/kernels/gate.json
  */
@@ -292,6 +441,37 @@ export const GATE_LIMITS = {
 };
 
 /**
+ * One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB (graphic-eq-31 spec §3).
+ * @see data/kernels/geq.json
+ */
+export const GEQ_BAND_RANGE = {
+  "min": -15,
+  "max": 15,
+  "step": 0.5,
+  "unit": "dB",
+  "default": 0,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The graphic EQ's band Q: the ISO third-octave bandwidth, `2^(1/6)/(2^(1/3) − 1) ≈ 4.318`, to one decimal as the M32 GEQ carries it. Read by the `geq31` preset and the graphic EQ's section design (graphic-eq-31 spec §3).
+ * @see data/kernels/geq.json
+ */
+export const GEQ_BAND_Q = 4.3;
+
+/**
+ * The prototype gain the `true` solve's first interaction matrix is evaluated at (spec §2, §3): the middle of the travel's magnitude, where a matched-Z section's dB response per dB of gain is closest to its average.
+ * @see data/kernels/geq.json
+ */
+export const GEQ_PROTO_DB = 12;
+
+/**
+ * The ceiling on a section gain the `true` solve may ask for (spec §3): above the travel's worst case (26.0 dB, the alternating ±15 set) with margin. A solve past it clamps and the row says so (`designClamped`), never silently.
+ * @see data/kernels/geq.json
+ */
+export const GEQ_DESIGN_GAIN_MAX_DB = 30;
+
+/**
  * The precision limiter's travels (`2026-09-27-precision-limiter.md` §2), rendered into `omx_contract_limits.h` as `OMX_LIMITER_*` by `harness/contract-limits-gen.mjs`, so `mix_limiter.h` reads them and never restates one (R-094). The ceiling is a TRUE peak in dBFS (the ×4 detector); the look-ahead sets the declared latency; the release is the envelope's time constant on the gain depth.
  * @see data/kernels/limiter.json
  */
@@ -317,6 +497,144 @@ export const LIMITER_LIMITS = {
     "max": 1000,
     "step": 1,
     "unit": "ms",
+    "default": 50,
+    "defaultFrom": "desk"
+  }
+};
+
+/**
+ * The phaser's sweep speed (§3). `omx_lfo_inc` freezes at Nyquist; this travel stays far below.
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_RATE_RANGE = {
+  "min": 0.05,
+  "max": 5,
+  "step": 0.01,
+  "unit": "Hz",
+  "default": 0.5,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The phaser's lowest centre frequency; the sweep runs upward from it (§3).
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_BASE_RANGE = {
+  "min": 50,
+  "max": 2000,
+  "step": 1,
+  "unit": "Hz",
+  "default": 200,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The sweep's span above `base`, in octaves; 0 is a static phaser at `base` (§3).
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_DEPTH_RANGE = {
+  "min": 0,
+  "max": 6,
+  "step": 0.1,
+  "unit": "oct",
+  "default": 4,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The phaser's section count per leg — EVEN, 2 … 12 (§2: two sections per notch). Its ends are the kernel's state capacity (`OMX_PHASER_MAX_STAGES` reads `OMX_PHASER_STAGES_RANGE_MAX`); the row moves it through the closed member set PHASER_STAGE_COUNTS, which is derived from it.
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_STAGES_RANGE = {
+  "min": 2,
+  "max": 12,
+  "step": 2,
+  "unit": "",
+  "default": 6,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The member set the `stages` field accepts: PHASER_STAGES_RANGE walked by its step.
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_STAGE_COUNTS = [
+  2,
+  4,
+  6,
+  8,
+  10,
+  12
+];
+
+/**
+ * The phaser's SIGNED resonance (§3). ±0.9, tighter than the flanger's ±0.95: the loop runs through a time-varying chain. Declared here (the refusal half); the kernel's clamp is the enforcement half.
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_FEEDBACK_RANGE = {
+  "min": -0.9,
+  "max": 0.9,
+  "step": 0.01,
+  "unit": "",
+  "default": 0.4,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The phaser's wet/dry, as an instance of DRIVE_MIX_RANGE: 50 %, where the notch is complete (§3).
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_MIX_RANGE = {
+  "min": 0,
+  "max": 100,
+  "step": 0.1,
+  "unit": "%",
+  "default": 50,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The phaser's continuous travels by row field — the ONE map its control bounds and its row travels both read (§3). `stages` is not here: it moves through PHASER_STAGE_COUNTS.
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_TRAVELS = {
+  "rateHz": {
+    "min": 0.05,
+    "max": 5,
+    "step": 0.01,
+    "unit": "Hz",
+    "default": 0.5,
+    "defaultFrom": "desk"
+  },
+  "baseHz": {
+    "min": 50,
+    "max": 2000,
+    "step": 1,
+    "unit": "Hz",
+    "default": 200,
+    "defaultFrom": "desk"
+  },
+  "depthOct": {
+    "min": 0,
+    "max": 6,
+    "step": 0.1,
+    "unit": "oct",
+    "default": 4,
+    "defaultFrom": "desk"
+  },
+  "feedback": {
+    "min": -0.9,
+    "max": 0.9,
+    "step": 0.01,
+    "unit": "",
+    "default": 0.4,
+    "defaultFrom": "desk"
+  },
+  "mix": {
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "unit": "%",
     "default": 50,
     "defaultFrom": "desk"
   }
@@ -366,6 +684,232 @@ export const REVERB_PLATE_MOD_DEPTH_RANGE = {
   "default": 100,
   "defaultFrom": "desk"
 };
+
+/**
+ * The horn's chorale (slow) rate, Hz.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_HORN_SLOW_RANGE = {
+  "min": 0.1,
+  "max": 2,
+  "step": 0.01,
+  "unit": "Hz",
+  "default": 0.8,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The horn's tremolo (fast) rate, Hz.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_HORN_FAST_RANGE = {
+  "min": 3,
+  "max": 10,
+  "step": 0.01,
+  "unit": "Hz",
+  "default": 6.8,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The drum's chorale (slow) rate, Hz.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_DRUM_SLOW_RANGE = {
+  "min": 0.1,
+  "max": 2,
+  "step": 0.01,
+  "unit": "Hz",
+  "default": 0.7,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The drum's tremolo (fast) rate, Hz.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_DRUM_FAST_RANGE = {
+  "min": 3,
+  "max": 10,
+  "step": 0.01,
+  "unit": "Hz",
+  "default": 5.9,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The scale on every speed-change time constant (`ROTARY_*_ACCEL_MS`/`_DECEL_MS`): 2 is twice as slow.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_ACCEL_RANGE = {
+  "min": 0.25,
+  "max": 4,
+  "step": 0.01,
+  "unit": "x",
+  "default": 1,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The drum/horn balance, percent: −100 drum only, +100 horn only; the law attenuates, never boosts.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_BALANCE_RANGE = {
+  "min": -100,
+  "max": 100,
+  "step": 1,
+  "unit": "%",
+  "default": 0,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The rotary's wet/dry, as an instance of DRIVE_MIX_RANGE: 100 %, because a rotary on an insert IS the sound (it replaces the cabinet) and an `fxReturn` wants it wet too (§3).
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_MIX_RANGE = {
+  "min": 0,
+  "max": 100,
+  "step": 0.1,
+  "unit": "%",
+  "default": 100,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The rotary's numeric travels, field → declaration: the ONE map the row's state, its bounds, its OPTIONS and its controller read (`speed` is a member set, ROTARY_SPEEDS, beside it).
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_TRAVELS = {
+  "hornSlowHz": {
+    "min": 0.1,
+    "max": 2,
+    "step": 0.01,
+    "unit": "Hz",
+    "default": 0.8,
+    "defaultFrom": "desk"
+  },
+  "hornFastHz": {
+    "min": 3,
+    "max": 10,
+    "step": 0.01,
+    "unit": "Hz",
+    "default": 6.8,
+    "defaultFrom": "desk"
+  },
+  "drumSlowHz": {
+    "min": 0.1,
+    "max": 2,
+    "step": 0.01,
+    "unit": "Hz",
+    "default": 0.7,
+    "defaultFrom": "desk"
+  },
+  "drumFastHz": {
+    "min": 3,
+    "max": 10,
+    "step": 0.01,
+    "unit": "Hz",
+    "default": 5.9,
+    "defaultFrom": "desk"
+  },
+  "accel": {
+    "min": 0.25,
+    "max": 4,
+    "step": 0.01,
+    "unit": "x",
+    "default": 1,
+    "defaultFrom": "desk"
+  },
+  "balance": {
+    "min": -100,
+    "max": 100,
+    "step": 1,
+    "unit": "%",
+    "default": 0,
+    "defaultFrom": "desk"
+  },
+  "mix": {
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "unit": "%",
+    "default": 100,
+    "defaultFrom": "desk"
+  }
+};
+
+/**
+ * The complementary split's low-pass corner, Hz: the Leslie 122's passive crossover.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_CROSSOVER_HZ = 800;
+
+/**
+ * The shortest Doppler read, ms — above the order-3 read's one-sample reach at every rate.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_BASE_MS = 0.1;
+
+/**
+ * The horn's Doppler excursion `D_horn`, ms: a 0.15 m radius over 343 m/s.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_HORN_DOPPLER_MS = 0.44;
+
+/**
+ * The drum's Doppler excursion `D_drum`, ms: its baffle turns over a fixed woofer.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_DRUM_DOPPLER_MS = 0.29;
+
+/**
+ * The horn's amplitude swing `m_horn` (a −6 dB directivity dip), a ratio.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_HORN_AM = 0.5;
+
+/**
+ * The drum baffle's amplitude swing `m_drum`, a ratio.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_DRUM_AM = 0.3;
+
+/**
+ * The horn rotor's speed-up time constant, ms (at `accel` 1).
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_HORN_ACCEL_MS = 330;
+
+/**
+ * The horn rotor's slow-down time constant, ms (at `accel` 1).
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_HORN_DECEL_MS = 500;
+
+/**
+ * The drum rotor's speed-up time constant, ms (at `accel` 1).
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_DRUM_ACCEL_MS = 1700;
+
+/**
+ * The drum rotor's slow-down time constant, ms (at `accel` 1).
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_DRUM_DECEL_MS = 1800;
+
+/**
+ * Below this rate, Hz, a rotor coasting toward `stop` is snapped to exactly 0.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_STOP_EPS = 0.0001;
+
+/**
+ * One inline ring per rotor per leg, floats — at least the 192 kHz need of the horn's sweep.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_RING_FLOATS = 256;
 
 /**
  * The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. `harness/contract-limits-gen.mjs` emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921).
@@ -439,62 +983,73 @@ export const TRANSIENT_REF_DB = 6;
 export const TRANSIENT_FLOOR_LIN = 0.00001;
 
 /**
- * The delay plugin's parameters, in append-only order: DPF's parameter index is the CLAP param id and the LV2 port order (omx-plugins-dpf §3b). Moved from openmixer's packages/omx-plugins/tools/params-gen.mjs PLUGINS.delay.
- *
- * Why: mix is per instance on the desk (insert or fxReturn); a plugin racked in a foreign host is an INSERT, so it reads the input kind's default (omx-plugins-dpf §3a).
- * @see data/plugins/delay.json
+ * The tremolo's LFO rate (the catalogue row's 0.1..20 Hz); 4 Hz is the classic amp tremolo.
+ * @see data/kernels/tremolo.json
  */
-export const DELAY_PLUGIN = {
-  "plugin": "delay",
-  "header": "omx_delay_params.h",
-  "prefix": "OMX_DELAY",
-  "params": [
-    {
-      "symbol": "timeMs",
-      "min": 0,
-      "max": 2000,
-      "def": 300,
-      "step": 1,
-      "unit": "ms",
-      "toggle": false
-    },
-    {
-      "symbol": "feedback",
-      "min": 0,
-      "max": 0.99,
-      "def": 0.3,
-      "step": 0,
-      "unit": "",
-      "toggle": false
-    },
-    {
-      "symbol": "mix",
-      "min": 0,
-      "max": 1,
-      "def": 0.3,
-      "step": 0,
-      "unit": "",
-      "toggle": false
-    },
-    {
-      "symbol": "tone",
-      "min": 0,
-      "max": 1,
-      "def": 0.3,
-      "step": 0,
-      "unit": "",
-      "toggle": false
-    },
-    {
-      "symbol": "pingpong",
-      "min": 0,
-      "max": 1,
-      "def": 0,
-      "step": 1,
-      "unit": "",
-      "toggle": true
-    }
-  ]
+export const TREMOLO_RATE_RANGE = {
+  "min": 0.1,
+  "max": 20,
+  "step": 0.01,
+  "unit": "Hz",
+  "default": 4,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The tremolo's modulation depth: the gain's trough is `1 − mix·depth`.
+ * @see data/kernels/tremolo.json
+ */
+export const TREMOLO_DEPTH_RANGE = {
+  "min": 0,
+  "max": 100,
+  "step": 0.1,
+  "unit": "%",
+  "default": 50,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The tremolo's wet/dry, as an instance of DRIVE_MIX_RANGE: 100 %. The kernel folds the wet/dry into its one gain, so a strip tremolo IS the sound (as the rotary's mix 100 % is).
+ * @see data/kernels/tremolo.json
+ */
+export const TREMOLO_MIX_RANGE = {
+  "min": 0,
+  "max": 100,
+  "step": 0.1,
+  "unit": "%",
+  "default": 100,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The tremolo's numeric travels, field → declaration: the ONE map the row's state, its bounds, its OPTIONS and its controller read (`mode` is a member set, TREMOLO_MODES, beside it).
+ * @see data/kernels/tremolo.json
+ */
+export const TREMOLO_TRAVELS = {
+  "rateHz": {
+    "min": 0.1,
+    "max": 20,
+    "step": 0.01,
+    "unit": "Hz",
+    "default": 4,
+    "defaultFrom": "desk"
+  },
+  "depth": {
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "unit": "%",
+    "default": 50,
+    "defaultFrom": "desk"
+  },
+  "mix": {
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "unit": "%",
+    "default": 100,
+    "defaultFrom": "desk"
+  }
 };
 
 /**

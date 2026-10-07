@@ -7,8 +7,7 @@
 
 /** The value a TypeScript reader sees for one resolved item. */
 export function tsValue(r) {
-  if (r.kind !== 'plugin') return r.value;
-  return { plugin: r.plugin, header: r.header, prefix: r.prefix, params: r.value };
+  return r.value;
 }
 
 /** The literal type of a JSON value, every member readonly. */

@@ -1,0 +1,75 @@
+{
+  "kernel": "flanger",
+  "since": "1.1.0",
+  "engine": {
+    "repo": "FreeMixer/openmixer",
+    "ref": "origin/integration/waves-2026-10",
+    "commit": "827dc608d4ac45a1afa8acb4eca4d08ec21f4051"
+  },
+  "items": [
+    {
+      "name": "FLANGER_RATE_RANGE",
+      "source": {
+        "path": "packages/core/src/strip-fx-limits.ts",
+        "export": "FLANGER_RATE_RANGE"
+      },
+      "value": {
+        "min": 0.05,
+        "max": 5,
+        "step": 0.01,
+        "unit": "Hz",
+        "default": 0.25,
+        "defaultFrom": "desk"
+      },
+      "doc": "The flanger's jet sweep (§3b)."
+    },
+    {
+      "name": "FLANGER_DEPTH_RANGE",
+      "source": {
+        "path": "packages/core/src/strip-fx-limits.ts",
+        "export": "FLANGER_DEPTH_RANGE"
+      },
+      "value": {
+        "min": 0,
+        "max": 5,
+        "step": 0.1,
+        "unit": "ms",
+        "default": 2,
+        "defaultFrom": "desk"
+      },
+      "doc": "The flanger's peak-to-peak excursion above its declared 0.5 ms base (§3b)."
+    },
+    {
+      "name": "FLANGER_FEEDBACK_RANGE",
+      "source": {
+        "path": "packages/core/src/strip-fx-limits.ts",
+        "export": "FLANGER_FEEDBACK_RANGE"
+      },
+      "value": {
+        "min": -0.95,
+        "max": 0.95,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.6,
+        "defaultFrom": "desk"
+      },
+      "doc": "The flanger's SIGNED resonance (§3b). The ±0.95 clamp is DECLARED here — a PATCH asking for 1.0 is answered by this travel — and the kernel's own clamp is the enforcement half."
+    },
+    {
+      "name": "FLANGER_MIX_RANGE",
+      "source": {
+        "path": "packages/core/src/strip-fx-limits.ts",
+        "export": "FLANGER_MIX_RANGE"
+      },
+      "value": {
+        "min": 0,
+        "max": 100,
+        "step": 0.1,
+        "unit": "%",
+        "default": 50,
+        "defaultFrom": "desk"
+      },
+      "doc": "The flanger's wet/dry, as an instance of DRIVE_MIX_RANGE: 50 %, equal dry and wet, where the comb is deepest (§3b)."
+    }
+  ]
+}

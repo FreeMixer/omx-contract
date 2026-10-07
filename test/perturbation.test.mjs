@@ -26,11 +26,8 @@ test('move the delay time ceiling: every target follows', () => {
   const { r, text } = all(dir);
   const c = renderC(r);
   const limits = c.find((f) => f.path.endsWith('omx_contract_limits.h')).text;
-  const params = c.find((f) => f.path.endsWith('omx_delay_params.h')).text;
   assert.match(limits, /^#define OMX_FX_DELAY_TIME_RANGE_MAX 1500$/m);
   assert.match(limits, /^#define OMX_DELAY_TIME_MS_MAX 1500\.0f$/m);
-  assert.match(params, /^#define OMX_DELAY_PARAM_TIME_MS_MAX 1500\.0f$/m);
-  assert.match(params, /\{ "timeMs", "Time", "ms", 0\.0f, 1500\.0f, 300\.0f, OMX_PLUGIN_PARAM_INTEGER \}/);
   assert.match(renderTs(r)[0].text, /"max": 1500/);
   assert.equal(JSON.parse(renderJson(r, '0.0.0')[0].text).items.FX_DELAY_TIME_RANGE.value.max, 1500);
   assert.doesNotMatch(text, /OMX_DELAY_TIME_MS_MAX 2000/);

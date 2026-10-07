@@ -175,7 +175,7 @@ async function readSource(eng, ref, name, source) {
   if (source.define) return { text, value: defineValue(text, source.define) };
   const mod = await evaluate(eng.tree, source.path);
   if (!(source.export in mod)) refuse(`${name}: ${source.path} exports no ${source.export}`);
-  return { text, value: asData(name, mod[source.export]) };
+  return { text, value: asData(name, mod[source.export]), raw: mod[source.export] };
 }
 
 /**
@@ -215,6 +215,7 @@ export async function importKernel(o, root = ROOT) {
   const eng = extractEngine(checkout, ref, recipe.engine.archive);
   try {
     const items = [];
+    const raws = new Map();
     for (const name of names) {
       let source;
       if (froms.has(name)) {
@@ -222,7 +223,8 @@ export async function importKernel(o, root = ROOT) {
         if (!path || !sym) refuse(`--from ${name}=${froms.get(name)}: give <path>:<export or define>`);
         source = path.endsWith('.h') ? { path, define: sym } : { path, export: sym };
       } else source = findSource(eng.tree, recipe.engine.archive, name);
-      const { text, value } = await readSource(eng, ref, name, source);
+      const { text, value, raw } = await readSource(eng, ref, name, source);
+      if (raw !== null && typeof raw === 'object') raws.set(name, raw);
       const k = kept?.get(name) ?? {};
       const it = { name, source, value, doc: docAt(text, source) ?? k.doc ?? refuse(`${name}: ${source.path} has no doc comment above it; write one in the engine`) };
       const unit = units.get(name) ?? k.unit;
@@ -237,6 +239,19 @@ export async function importKernel(o, root = ROOT) {
       if (Object.keys(set).length) it.set = set;
       if (cs.has(name) || k.c) it.c = cs.get(name) ?? k.c;
       items.push(it);
+    }
+    // A table whose field IS another imported item (the same object in the engine) refers to it, so
+    // each travel is declared once; read off the engine's own object identity, never guessed. A
+    // released kernel keeps its file's references.
+    if (!kept) {
+      for (const it of items) {
+        const raw = raws.get(it.name);
+        if (!raw || Array.isArray(raw)) continue;
+        for (const [field, v] of Object.entries(raw)) {
+          const same = [...raws].find(([n, r]) => n !== it.name && r === v);
+          if (same && !(field in (it.set ?? {}))) (it.set ??= {})[field] = { ref: same[0] };
+        }
+      }
     }
     const answers = { kernel, since, engine: { repo: recipe.engine.repo, ref, commit: eng.commit }, items };
     const bad = answersProblems(answers, kernel);
@@ -293,7 +308,7 @@ export function kernelText(recipe, answers) {
 /** The CHANGELOG with the kernel's line under ## Unreleased (created above the first release). */
 export function changelogWith(text, recipe, answers) {
   const t = recipe.artifacts.find((a) => a.id === 'changelog').template;
-  const line = fill(t.line, { kernel: answers.kernel, itemList: answers.items.map((i) => `\`${i.name}\``).join(', ') });
+  const line = fill(t.line, { kernel: answers.kernel, count: answers.items.length });
   if (text.includes(line)) return text;
   const lines = text.split('\n');
   let at = lines.findIndex((l) => new RegExp(t.after).test(l));
@@ -305,7 +320,7 @@ export function changelogWith(text, recipe, answers) {
   let end = at + 1;
   while (end < lines.length && !/^## /.test(lines[end])) end++;
   while (end > at + 1 && lines[end - 1] === '') end--;
-  lines.splice(end, 0, ...(end === at + 1 ? ['', line] : [line]));
+  lines.splice(end, 0, ...(end === at + 1 ? ['', ...line.split('\n')] : line.split('\n')));
   return lines.join('\n');
 }
 

@@ -1,0 +1,109 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "PHASER_RATE_RANGE": {
+    "kind": "travels",
+    "doc": "The phaser's sweep speed (§3). `omx_lfo_inc` freezes at Nyquist; this travel stays far below.",
+    "travel": {
+      "min": 0.05,
+      "max": 5,
+      "step": 0.01,
+      "unit": "Hz",
+      "default": 0.5,
+      "defaultFrom": "desk"
+    }
+  },
+  "PHASER_BASE_RANGE": {
+    "kind": "travels",
+    "doc": "The phaser's lowest centre frequency; the sweep runs upward from it (§3).",
+    "travel": {
+      "min": 50,
+      "max": 2000,
+      "step": 1,
+      "unit": "Hz",
+      "default": 200,
+      "defaultFrom": "desk"
+    }
+  },
+  "PHASER_DEPTH_RANGE": {
+    "kind": "travels",
+    "doc": "The sweep's span above `base`, in octaves; 0 is a static phaser at `base` (§3).",
+    "travel": {
+      "min": 0,
+      "max": 6,
+      "step": 0.1,
+      "unit": "oct",
+      "default": 4,
+      "defaultFrom": "desk"
+    }
+  },
+  "PHASER_STAGES_RANGE": {
+    "kind": "travels",
+    "doc": "The phaser's section count per leg — EVEN, 2 … 12 (§2: two sections per notch). Its ends are the kernel's state capacity (`OMX_PHASER_MAX_STAGES` reads `OMX_PHASER_STAGES_RANGE_MAX`); the row moves it through the closed member set PHASER_STAGE_COUNTS, which is derived from it.",
+    "travel": {
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "unit": "",
+      "default": 6,
+      "defaultFrom": "desk"
+    }
+  },
+  "PHASER_STAGE_COUNTS": {
+    "kind": "list",
+    "doc": "The member set the `stages` field accepts: PHASER_STAGES_RANGE walked by its step.",
+    "unit": "",
+    "values": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12
+    ]
+  },
+  "PHASER_FEEDBACK_RANGE": {
+    "kind": "travels",
+    "doc": "The phaser's SIGNED resonance (§3). ±0.9, tighter than the flanger's ±0.95: the loop runs through a time-varying chain. Declared here (the refusal half); the kernel's clamp is the enforcement half.",
+    "travel": {
+      "min": -0.9,
+      "max": 0.9,
+      "step": 0.01,
+      "unit": "",
+      "default": 0.4,
+      "defaultFrom": "desk"
+    }
+  },
+  "PHASER_MIX_RANGE": {
+    "kind": "travels",
+    "doc": "The phaser's wet/dry, as an instance of DRIVE_MIX_RANGE: 50 %, where the notch is complete (§3).",
+    "travel": {
+      "min": 0,
+      "max": 100,
+      "step": 0.1,
+      "unit": "%",
+      "default": 50,
+      "defaultFrom": "desk"
+    }
+  },
+  "PHASER_TRAVELS": {
+    "kind": "travels",
+    "doc": "The phaser's continuous travels by row field — the ONE map its control bounds and its row travels both read (§3). `stages` is not here: it moves through PHASER_STAGE_COUNTS.",
+    "fields": {
+      "rateHz": {
+        "ref": "PHASER_RATE_RANGE"
+      },
+      "baseHz": {
+        "ref": "PHASER_BASE_RANGE"
+      },
+      "depthOct": {
+        "ref": "PHASER_DEPTH_RANGE"
+      },
+      "feedback": {
+        "ref": "PHASER_FEEDBACK_RANGE"
+      },
+      "mix": {
+        "ref": "PHASER_MIX_RANGE"
+      }
+    }
+  }
+}

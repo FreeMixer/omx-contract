@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { loadData } from '../lib/data.mjs';
 import { validateData } from '../lib/validate.mjs';
-import { DATA, texts } from './helpers.mjs';
+import { DATA, ROOT, texts } from './helpers.mjs';
+import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
 
 const rules = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 
@@ -12,13 +13,16 @@ test('the shipped data is valid', () => {
   assert.deepEqual(validateData(loadData(DATA)), []);
 });
 
-test('the shipped data holds exactly the spec §4.1 items', () => {
+test('the shipped data holds exactly the spec §4.1 items and the items of the kernels added since', () => {
   const want = ['GATE_LIMITS', 'COMP_LIMITS', 'LIMITER_LIMITS', 'TRANSIENT_LIMITS', 'PITCH_LIMITS', 'TRANSIENT_FAST_ATTACK_MS',
     'TRANSIENT_FAST_RELEASE_MS', 'TRANSIENT_REF_DB', 'TRANSIENT_FLOOR_LIN', 'PROGRAM_RELEASE', 'PITCH_KERNEL', 'BUTTERWORTH_Q',
     'ALLPASS_LIMITS', 'XOVER_LIMITS', 'FDELAY_MOD_READ_ORDER', 'FDELAY_READ_L1_NORM', 'FX_DELAY_TIME_RANGE', 'FX_DELAY_FEEDBACK_RANGE',
     'DELAY_TONE_RANGE', 'DELAY_MIX_RANGE', 'FX_DELAY_PINGPONG_DEFAULT', 'CHORUS_SPREAD_RANGE', 'REVERB_PLATE_MOD_DEPTH_RANGE',
     'DRIVE_BIAS_MAX', 'DSP_KNOB_REFERENCE_RATE', 'EQ_MAX_BANDS', 'ISO_THIRD_OCTAVE_CENTRES_HZ', 'GEQ_BANDS', 'STANDARD_SAMPLE_RATES',
-    'RT_HARD_TARGET', 'DELAY_PLUGIN'];
+    'RT_HARD_TARGET'];
+  const later = [...addedAfterFirstRelease(ROOT)];
+  assert.deepEqual(later.filter((n) => want.includes(n)), [], 'no 1.0.0 item is counted as added later');
+  for (const n of later) want.push(n);
   assert.deepEqual([...loadData(DATA).items.keys()].sort(), want.sort());
 });
 

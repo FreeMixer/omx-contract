@@ -164,7 +164,7 @@
       ],
       "template": {
         "file": "CHANGELOG.md",
-        "line": "- The {kernel} kernel: {itemList}, read from the engine where it declares them.",
+        "line": "- The {kernel} kernel: {count} values, read from the engine where it declares them.",
         "after": "^## Unreleased$",
         "create": "## Unreleased",
         "createBefore": "^## "

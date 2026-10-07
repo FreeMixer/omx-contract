@@ -116,7 +116,8 @@ function item(name, o) {
   return it;
 }
 
-// The delay plugin: params-gen.mjs's PLUGINS.delay, its selection as data.
+// The delay plugin: params-gen.mjs's PLUGINS.delay, its selection as data. Frozen at 1.0.0: 1.1.0
+// retired data/plugins/ and the plugin kind, so this section only records how 1.0.0 was seeded.
 const DELAY_ROW = '/channel/{kind}/{index}/delay';
 const DELAY_PLUGIN = {
   kind: 'plugin',

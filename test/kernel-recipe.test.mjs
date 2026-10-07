@@ -69,10 +69,10 @@ test('a hand-formatted kernel file is a gap', () => {
 test('a kernel released after the first release needs its CHANGELOG line', () => {
   const root = scratchTree();
   edit(root, 'recipes/answers/reverb.json', (a) => { a.since = '1.1.0'; });
-  assert.match(gapsOf(root), /reverb: artifact changelog \(wizard step 'docs'\): CHANGELOG\.md has no '- The reverb kernel:' line/);
+  assert.match(gapsOf(root), /reverb: artifact changelog \(wizard step 'docs'\): CHANGELOG\.md has no '- The reverb kernel' line/);
   const cl = join(root, 'CHANGELOG.md');
-  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## Unreleased\n', '## [Unreleased]\n\n- The reverb tail is longer now.\n'));
-  assert.match(gapsOf(root), /CHANGELOG\.md has no '- The reverb kernel:' line/, 'the word in other prose is not the entry');
+  writeFileSync(cl, readFileSync(cl, 'utf8').replace(/^## /m, '## [Unreleased]\n\n- The reverb tail is longer now.\n\n## '));
+  assert.match(gapsOf(root), /CHANGELOG\.md has no '- The reverb kernel' line/, 'the word in other prose is not the entry');
   writeFileSync(cl, readFileSync(cl, 'utf8').replace('## [Unreleased]\n', '## [Unreleased]\n\n- The reverb kernel: `REVERB_PLATE_MOD_DEPTH_RANGE`.\n'));
   assert.doesNotMatch(gapsOf(root), /reverb: artifact changelog/, 'a bracketed heading is read');
 });
@@ -116,7 +116,7 @@ test('the CHANGELOG line goes under Unreleased, created above the newest release
   const recipe = loadRecipe(ROOT);
   const a = { kernel: 'wobble', items: [{ name: 'WOBBLE_RANGE' }] };
   const out = changelogWith('# Changelog\n\nIntro.\n\n## 1.0.0 - 2026-10-05\n\n- First.\n', recipe, a);
-  assert.equal(out, '# Changelog\n\nIntro.\n\n## Unreleased\n\n- The wobble kernel: `WOBBLE_RANGE`, read from the engine where it declares them.\n\n## 1.0.0 - 2026-10-05\n\n- First.\n');
+  assert.equal(out, '# Changelog\n\nIntro.\n\n## Unreleased\n\n- The wobble kernel: 1 values, read from the engine where it declares them.\n\n## 1.0.0 - 2026-10-05\n\n- First.\n');
   assert.equal(changelogWith(out, recipe, a), out, 'a second run adds nothing');
 });
 
@@ -134,6 +134,8 @@ function engineCheckout() {
     '/** The wobble depth bound: the square root of a half. */',
     'export const WOBBLE_DEPTH_MAX = Math.sqrt(0.5);',
     'export const WOBBLE_UNDOCUMENTED = 3;',
+    '/** The wobble\'s travels by field: each field IS its travel. */',
+    'export const WOBBLE_TRAVELS = { rateHz: WOBBLE_RATE_RANGE } as const;',
     '',
   ].join('\n'));
   writeFileSync(join(dir, 'packages/pipewire-native/src/mix_wobble.h'), '/** The wobble ring, in samples. */\n#define WOBBLE_RING 4096u\n');
@@ -149,7 +151,7 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   const engine = engineCheckout();
   const { answers } = await importKernel({
     kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD',
-    names: 'WOBBLE_RATE_RANGE,WOBBLE_DEPTH_MAX,WOBBLE_RING',
+    names: 'WOBBLE_RATE_RANGE,WOBBLE_DEPTH_MAX,WOBBLE_RING,WOBBLE_TRAVELS',
     unit: ['WOBBLE_DEPTH_MAX=', 'WOBBLE_RING='], set: ['WOBBLE_DEPTH_MAX={"derive":"sqrt","of":0.5}'],
   }, root);
   assert.match(answers.engine.commit, /^[0-9a-f]{40}$/);
@@ -157,7 +159,9 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
     ['WOBBLE_RATE_RANGE', { path: 'packages/core/src/wobble.ts', export: 'WOBBLE_RATE_RANGE' }, { min: 0, max: 10, step: 0.5, unit: 'Hz', default: 2, defaultFrom: 'desk' }],
     ['WOBBLE_DEPTH_MAX', { path: 'packages/core/src/wobble.ts', export: 'WOBBLE_DEPTH_MAX' }, Math.sqrt(0.5)],
     ['WOBBLE_RING', { path: 'packages/pipewire-native/src/mix_wobble.h', define: 'WOBBLE_RING' }, 4096],
+    ['WOBBLE_TRAVELS', { path: 'packages/core/src/wobble.ts', export: 'WOBBLE_TRAVELS' }, { rateHz: { min: 0, max: 10, step: 0.5, unit: 'Hz', default: 2, defaultFrom: 'desk' } }],
   ]);
+  assert.deepEqual(answers.items[3].set, { rateHz: { ref: 'WOBBLE_RATE_RANGE' } }, 'a field that IS another item refers to it');
   assert.equal(answers.items[0].doc, 'The wobble rate: the base travel, coming up at 2 Hz.');
 
   const { written } = declare(join(root, 'recipes/answers/wobble.json'), root);
@@ -165,6 +169,7 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   assert.ok(written.includes('CHANGELOG.md'));
   const k = JSON.parse(readFileSync(join(root, 'data/kernels/wobble.json'), 'utf8'));
   assert.deepEqual(k.WOBBLE_DEPTH_MAX.value, { derive: 'sqrt', of: 0.5 }, 'a derivation is declared as one, its value proven equal');
+  assert.deepEqual(k.WOBBLE_TRAVELS.fields, { rateHz: { ref: 'WOBBLE_RATE_RANGE' } }, 'the travel is typed once');
   assert.deepEqual(completeness(root, ['wobble']).gaps, []);
   assert.deepEqual(completeness(root).gaps, [], 'the released kernels stay complete');
 

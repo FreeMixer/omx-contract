@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/FreeMixer/omx-contract/raw/main/schema/omx-contract.schema.json",
   "title": "omx-contract data file",
-  "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet, a list or a plugin's parameter selection. GPL-3.0-or-later.",
+  "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet or a list. GPL-3.0-or-later.",
   "type": "object",
   "properties": {
     "$schema": { "type": "string" }
@@ -11,8 +11,8 @@
   "additionalProperties": { "$ref": "#/$defs/item" },
   "$defs": {
     "unit": {
-      "description": "The closed list of units the items use; \"\" is a ratio or a fraction.",
-      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "%", ""]
+      "description": "The closed list of units the items use; \"x\" is a multiplier, \"\" is a ratio or a fraction.",
+      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "%", "x", ""]
     },
     "text": { "type": "string", "minLength": 1 },
     "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
@@ -97,7 +97,7 @@
         "fields": {
           "type": "object",
           "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
-          "additionalProperties": { "$ref": "#/$defs/travel" },
+          "additionalProperties": { "oneOf": [{ "$ref": "#/$defs/travel" }, { "$ref": "#/$defs/ref" }] },
           "minProperties": 1
         },
         "travel": { "$ref": "#/$defs/travel" },
@@ -149,45 +149,15 @@
       "required": ["kind", "doc", "unit", "values"],
       "additionalProperties": false
     },
-    "param": {
-      "type": "object",
-      "properties": {
-        "symbol": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
-        "from": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*(\\.[a-z][A-Za-z0-9]*)?$" },
-        "forKind": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
-        "flags": { "type": "array", "items": { "enum": ["toggle"] }, "uniqueItems": true },
-        "scale": { "enum": ["linear", "log"] },
-        "since": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
-        "doc": { "$ref": "#/$defs/text" }
-      },
-      "required": ["symbol", "from", "scale", "since"],
-      "additionalProperties": false
-    },
-    "plugin": {
-      "type": "object",
-      "properties": {
-        "kind": { "const": "plugin" },
-        "doc": { "$ref": "#/$defs/text" },
-        "why": { "$ref": "#/$defs/text" },
-        "plugin": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-        "header": { "type": "string", "pattern": "^omx_[a-z0-9_]+_params\\.h$" },
-        "prefix": { "type": "string", "pattern": "^OMX_[A-Z0-9_]+$" },
-        "source": { "$ref": "#/$defs/text" },
-        "params": { "type": "array", "items": { "$ref": "#/$defs/param" }, "minItems": 1 }
-      },
-      "required": ["kind", "doc", "plugin", "header", "prefix", "source", "params"],
-      "additionalProperties": false
-    },
     "item": {
       "type": "object",
       "required": ["kind"],
-      "properties": { "kind": { "enum": ["scalar", "travels", "sheet", "list", "plugin"] } },
+      "properties": { "kind": { "enum": ["scalar", "travels", "sheet", "list"] } },
       "allOf": [
         { "if": { "properties": { "kind": { "const": "scalar" } } }, "then": { "$ref": "#/$defs/scalar" } },
         { "if": { "properties": { "kind": { "const": "travels" } } }, "then": { "$ref": "#/$defs/travels" } },
         { "if": { "properties": { "kind": { "const": "sheet" } } }, "then": { "$ref": "#/$defs/sheet" } },
-        { "if": { "properties": { "kind": { "const": "list" } } }, "then": { "$ref": "#/$defs/list" } },
-        { "if": { "properties": { "kind": { "const": "plugin" } } }, "then": { "$ref": "#/$defs/plugin" } }
+        { "if": { "properties": { "kind": { "const": "list" } } }, "then": { "$ref": "#/$defs/list" } }
       ]
     }
   }
