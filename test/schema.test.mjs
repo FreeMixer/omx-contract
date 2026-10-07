@@ -20,7 +20,9 @@ test('the shipped data holds exactly the spec §4.1 items and the items of the k
     'DELAY_TONE_RANGE', 'DELAY_MIX_RANGE', 'FX_DELAY_PINGPONG_DEFAULT', 'CHORUS_SPREAD_RANGE', 'REVERB_PLATE_MOD_DEPTH_RANGE',
     'DRIVE_BIAS_MAX', 'DSP_KNOB_REFERENCE_RATE', 'EQ_MAX_BANDS', 'ISO_THIRD_OCTAVE_CENTRES_HZ', 'GEQ_BANDS', 'STANDARD_SAMPLE_RATES',
     'RT_HARD_TARGET'];
-  for (const n of addedAfterFirstRelease(ROOT)) want.push(n);
+  const later = [...addedAfterFirstRelease(ROOT)];
+  assert.deepEqual(later.filter((n) => want.includes(n)), [], 'no 1.0.0 item is counted as added later');
+  for (const n of later) want.push(n);
   assert.deepEqual([...loadData(DATA).items.keys()].sort(), want.sort());
 });
 

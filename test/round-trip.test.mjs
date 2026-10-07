@@ -20,6 +20,7 @@ test('step 2: every shipped unit is byte-identical to omx-dsp\'s, in the same or
   assert.deepEqual(r.step2.notInPin, []);
   assert.equal(r.step2.inOrder, true);
   assert.equal(r.step2.identical, r.step2.units - r.step2.addedLater.length);
+  assert.equal(r.step2.identical, 236, 'every 1.0.0 unit is still rendered: a lost one shrinks this');
   assert.equal(r.step2.pinUnits, 905);
   assert.equal(r.step2.residue.length, r.step2.pinUnits - r.step2.identical);
 });
