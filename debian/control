@@ -11,10 +11,13 @@ Package: libomx-contract-dev
 Architecture: all
 Multi-Arch: foreign
 Depends: ${misc:Depends}
-Description: FreeMixer declarations as data, rendered as C headers
- omx-contract holds the declarations the FreeMixer DSP library and plugins
- build against (travels, defaults, kernel constants, rates and plugin
- parameter selections) as JSON data with a JSON Schema, and their renders.
+Description: one shared source of truth for every FreeMixer knob, range, default
+ A fader range, a default, a plugin parameter, a supported sample rate: in
+ FreeMixer each of these is written down once, in omx-contract, and everything
+ else reads it. That is why the console, the DSP library and the plugins agree
+ on what a knob does and how far it turns. The declarations are plain JSON with
+ a JSON Schema, so tools in any language can read them, and they are rendered
+ as C headers for the code that is built from them.
  .
  This package holds the c render under /usr/include/omxcontract, the
  resolved json render and the schema under /usr/share/omx-contract, and

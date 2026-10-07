@@ -105,6 +105,12 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
+      - uses: FreeMixer/.github/.github/actions/changelog@packaging-changelog
+        with:
+          mode: notes
+          tag: ${{ github.ref_name }}
+          notes-file: ${{ runner.temp }}/release-notes.md
       - uses: actions/download-artifact@v4
         with:
           name: npm-pack
@@ -116,5 +122,5 @@ jobs:
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$TAG" pack/*.tgz --clobber --repo "$GITHUB_REPOSITORY"
           else
-            gh release create "$TAG" pack/*.tgz --title "$TAG" --generate-notes --repo "$GITHUB_REPOSITORY"
+            gh release create "$TAG" pack/*.tgz --title "$TAG" --notes-file "$RUNNER_TEMP/release-notes.md" --repo "$GITHUB_REPOSITORY"
           fi
