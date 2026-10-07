@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 1.1.0
+Version: 1.2.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,33 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Wed Oct 07 2026 Pau Aliagas <linuxnow@gmail.com> - 1.2.0-1
+- omx-dsp can build against the C header rendered here: every limit its code
+  reads is now in it, with the value omx-dsp uses today. The only ones left
+  out are the three EQ band budget numbers (`OPERATOR_EQ_BANDS_RESERVE` and
+  the FBS and HRP auto-band defaults), which stay in openmixer.
+- The chorus kernel: 4 more values, read from the engine where it declares
+  them: rate, depth, voices and mix.
+- The drive kernel: 5 more values, read from the engine where it declares
+  them: drive, character, band, mix and trim, with the C names omx-dsp already
+  reads (`OMX_DRIVE_DRIVE_DB_MIN` and the rest).
+- The eq kernel: 6 more values, read from the engine where it declares them:
+  the band frequency, gain and Q, the notch Q, and the high- and low-pass
+  corners.
+- The reverb kernel: 11 more values, read from the engine where it declares
+  them: mix, size, damping, width, pre-delay, low and high cut, the reverse
+  window, and the gated hold, release and threshold.
+- The balance kernel: 1 value, read from the engine where it declares it: the
+  pan travel, with the `OMX_PAN_PAN_MIN` and `OMX_PAN_PAN_MAX` names the
+  balance law clamps to.
+- Continuous forms of the gate's threshold, range, release and ratio and the
+  compressor's threshold and release (`GATE_CONTINUOUS_TRAVELS`,
+  `COMP_CONTINUOUS_TRAVELS`), for a plugin that offers them without steps, and
+  the input trim as a travel (`TRIM_TRAVELS`). `GATE_LIMITS` and `COMP_LIMITS`
+  are unchanged.
+- An item added to a kernel after its first release records the release that
+  added it, and the kernel wizard can add items to a released kernel.
+
 * Wed Oct 07 2026 Pau Aliagas <linuxnow@gmail.com> - 1.1.0-1
 - Every kernel cites where the engine declares each of its values
   (`recipes/answers/`), and `make completeness` checks each kernel against the
