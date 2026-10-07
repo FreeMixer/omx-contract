@@ -23,6 +23,8 @@ test('the shipped data holds exactly the spec §4.1 items and the items of the k
   const later = [...addedAfterFirstRelease(ROOT)];
   assert.deepEqual(later.filter((n) => want.includes(n)), [], 'no 1.0.0 item is counted as added later');
   for (const n of later) want.push(n);
+  // the shared items added since, which no kernel answers: 1.2.0's plugin-face travels in primitives.json
+  want.push('GATE_CONTINUOUS_TRAVELS', 'COMP_CONTINUOUS_TRAVELS', 'TRIM_TRAVELS');
   assert.deepEqual([...loadData(DATA).items.keys()].sort(), want.sort());
 });
 
