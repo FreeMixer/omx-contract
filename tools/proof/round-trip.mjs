@@ -13,7 +13,7 @@
  *      residue and the banner diff. (The delay plugin's parameter header left omx-contract in 1.1.0:
  *      omx-plugins renders it from its declaration, so step 2 compares the limits header alone.)
  *      A unit omx-dsp's header lacks is allowed only when it belongs to an item a later release
- *      added (its kernel's answers say `since` after the first release); a unit of a later item
+ *      added (its answer, or its kernel's answers, say `since` after the first release); a unit of a later item
  *      that omx-dsp's header does hold must still be byte-identical to it.
  *
  * Usage: node tools/proof/round-trip.mjs [--quiet]; exit 1 when a step fails.
@@ -23,6 +23,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadData, resolveData } from '../../lib/data.mjs';
 import { renderC, renderSheetC } from '../../render/c.mjs';
+import { itemSince } from '../kernel-recipe.mjs';
 import { limitUnits } from './limit-units.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -34,14 +35,14 @@ const text = (u) => u.lines.join('\n');
 const units = (t) => limitUnits(t).filter((u) => u.frame === undefined);
 const frames = (t) => limitUnits(t).filter((u) => u.frame !== undefined).map((u) => u.frame);
 
-/** The items added after the first release: those of every kernel whose answers carry a later `since`. */
+/** The items added after the first release: every answered item whose `since` (its own, else its kernel's) is later. */
 export function addedAfterFirstRelease(root = ROOT) {
   const recipe = JSON.parse(readFileSync(join(root, 'recipes/kernel.recipe.json'), 'utf8'));
   const dir = join(root, recipe.tree.answersDir);
   const out = new Set();
   for (const f of existsSync(dir) ? readdirSync(dir) : []) {
     const a = JSON.parse(readFileSync(join(dir, f), 'utf8'));
-    if (a.since !== recipe.tree.firstRelease) for (const it of a.items) out.add(it.name);
+    for (const it of a.items) if (itemSince(a, it) !== recipe.tree.firstRelease) out.add(it.name);
   }
   return out;
 }
@@ -71,6 +72,8 @@ export function roundTrip(resolved = resolveData(loadData(join(ROOT, 'data')))) 
   const firstRelease = new Set(units(renderC(new Map([...resolved].filter(([n]) => !added.has(n))))
     .find((f) => f.path === 'omxcontract/omx_contract_limits.h').text).map((u) => u.key));
   const addedLater = S.filter((u) => !pin.has(u.key) && !firstRelease.has(u.key)).map((u) => u.key);
+  // the units of later items that omx-dsp's header already holds (each compared byte for byte above)
+  const heldLater = S.filter((u) => pin.has(u.key) && !firstRelease.has(u.key)).map((u) => u.key);
   const notInPin = S.filter((u) => !pin.has(u.key) && firstRelease.has(u.key)).map((u) => u.key);
   const order = P.filter((u) => ours.has(u.key)).map((u) => u.key);
   const inOrder = JSON.stringify(order) === JSON.stringify(S.filter((u) => pin.has(u.key)).map((u) => u.key));
@@ -83,7 +86,7 @@ export function roundTrip(resolved = resolveData(loadData(join(ROOT, 'data')))) 
     units: S.length, pinUnits: P.length, identical: S.length - differing.length - notInPin.length - addedLater.length, differing, notInPin, inOrder,
     read: readUnits.length, readAmong: readUnits.length - readMissing.length, readMissing,
     readMissingIsRulingH: JSON.stringify([...readMissing].sort()) === JSON.stringify([...RULING_H].sort()),
-    residue, banner, addedLater,
+    residue, banner, addedLater, heldLater,
   };
   const ok = step1.limits && step1.delay && !differing.length && !notInPin.length && inOrder && step2.readMissingIsRulingH
     && residue.length === P.length - (S.length - addedLater.length);
