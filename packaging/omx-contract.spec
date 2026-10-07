@@ -4,7 +4,7 @@ Name: omx-contract
 Version: 1.0.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
-Summary: The FreeMixer declarations as data, rendered as C headers
+Summary: One shared source of truth for every FreeMixer knob, range and default
 URL: https://github.com/FreeMixer/omx-contract
 BuildArch: noarch
 
@@ -15,16 +15,19 @@ BuildRequires: make
 BuildRequires: sed
 
 %description
-omx-contract holds the declarations the FreeMixer DSP library and plugins
-build against (travels, defaults, kernel constants, rates and plugin
-parameter selections) as JSON data with a JSON Schema, and their renders.
+A fader range, a default, a plugin parameter, a supported sample rate: in
+FreeMixer each of these is written down once, in omx-contract, and everything
+else reads it. That is why the console, the DSP library and the plugins agree
+on what a knob does and how far it turns. The declarations are plain JSON with
+a JSON Schema, so tools in any language can read them, and they are rendered
+as C headers for the code that is built from them.
 
 %package devel
-Summary: C headers, resolved JSON and schema of omx-contract
+Summary: Headers, JSON data and schema to build on the FreeMixer declarations
 Provides: %{name}-static = %{version}-%{release}
 
 %description devel
-The c render of omx-contract under include/omxcontract (the limits header,
+Everything you need to build against omx-contract: the C render of omx-contract under include/omxcontract (the limits header,
 the plugin parameter tables and omx_plugin_param.h), the resolved json
 render and the JSON Schema under share/omx-contract, and omx-contract.pc
 (version, datadir). A consumer requires it at exactly the version it pins.
