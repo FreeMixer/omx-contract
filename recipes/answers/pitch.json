@@ -1,0 +1,54 @@
+{
+  "kernel": "pitch",
+  "since": "1.0.0",
+  "engine": {
+    "repo": "FreeMixer/openmixer",
+    "ref": "origin/main",
+    "commit": "964a798356925f6bc3774459d9904362b9d3f986"
+  },
+  "items": [
+    {
+      "name": "PITCH_LIMITS",
+      "source": {
+        "path": "packages/core/src/pitch-kernel.ts",
+        "export": "PITCH_LIMITS"
+      },
+      "value": {
+        "semitones": {
+          "min": -12,
+          "max": 12,
+          "default": 0
+        },
+        "cents": {
+          "min": -50,
+          "max": 50,
+          "default": 0
+        },
+        "mix": {
+          "min": 0,
+          "max": 100,
+          "default": 100
+        }
+      },
+      "doc": "PITCH_LIMITS, moved from openmixer."
+    },
+    {
+      "name": "PITCH_KERNEL",
+      "source": {
+        "path": "packages/core/src/pitch-kernel.ts",
+        "export": "PITCH_KERNEL"
+      },
+      "value": {
+        "windowMs": 40,
+        "prefilterCeilingHz": 20000,
+        "prefilterQ": 0.7071067811865476
+      },
+      "doc": "PITCH_KERNEL, moved from openmixer.",
+      "set": {
+        "prefilterQ": {
+          "ref": "BUTTERWORTH_Q"
+        }
+      }
+    }
+  ]
+}
