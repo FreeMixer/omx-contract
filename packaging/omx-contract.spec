@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 1.2.0
+Version: 1.2.1
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,11 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Thu Oct 08 2026 Pau Aliagas <linuxnow@gmail.com> - 1.2.1-1
+- 1.2.1 repackages 1.2.0 with no data change. The 1.2.0 Debian changelog
+  carried the same date as 1.1.0, which lintian refuses, so the Debian
+  packages of 1.2.0 were never built.
+
 * Wed Oct 07 2026 Pau Aliagas <linuxnow@gmail.com> - 1.2.0-1
 - omx-dsp can build against the C header rendered here: every limit its code
   reads is now in it, with the value omx-dsp uses today. The only ones left
