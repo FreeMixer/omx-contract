@@ -71,7 +71,7 @@ test('a kernel released after the first release needs its CHANGELOG line', () =>
   edit(root, 'recipes/answers/reverb.json', (a) => { a.since = '1.1.0'; });
   assert.match(gapsOf(root), /reverb: artifact changelog \(wizard step 'docs'\): CHANGELOG\.md has no '- The reverb kernel' line/);
   const cl = join(root, 'CHANGELOG.md');
-  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## Unreleased\n', '## [Unreleased]\n\n- The reverb tail is longer now.\n'));
+  writeFileSync(cl, readFileSync(cl, 'utf8').replace(/^## /m, '## [Unreleased]\n\n- The reverb tail is longer now.\n\n## '));
   assert.match(gapsOf(root), /CHANGELOG\.md has no '- The reverb kernel' line/, 'the word in other prose is not the entry');
   writeFileSync(cl, readFileSync(cl, 'utf8').replace('## [Unreleased]\n', '## [Unreleased]\n\n- The reverb kernel: `REVERB_PLATE_MOD_DEPTH_RANGE`.\n'));
   assert.doesNotMatch(gapsOf(root), /reverb: artifact changelog/, 'a bracketed heading is read');
