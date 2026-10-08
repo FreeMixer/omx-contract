@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - uses: FreeMixer/.github/.github/actions/changelog@main
+      - uses: FreeMixer/.github/.github/actions/changelog@v1
 
   test:
     # the private development copy runs on FreeMixer's own runners (hosted runners are refused there); the public
