@@ -21,9 +21,11 @@ test('the shipped data holds exactly the spec §4.1 items and the items of the k
     'DRIVE_BIAS_MAX', 'DSP_KNOB_REFERENCE_RATE', 'EQ_MAX_BANDS', 'ISO_THIRD_OCTAVE_CENTRES_HZ', 'GEQ_BANDS', 'STANDARD_SAMPLE_RATES',
     'RT_HARD_TARGET'];
   const later = [...addedAfterFirstRelease(ROOT)];
-  assert.deepEqual(later.filter((n) => want.includes(n)), [], 'no 1.0.0 item is counted as added later');
-  for (const n of later) want.push(n);
-  // the shared items added since, which no kernel answers: 1.2.0's plugin-face travels in primitives.json
+  // the one 1.0.0 item counted as added later is the list whose C render 1.3.0 switched on (`renderedSince`)
+  assert.deepEqual(later.filter((n) => want.includes(n)), ['ISO_THIRD_OCTAVE_CENTRES_HZ'], 'no other 1.0.0 item is counted as added later');
+  for (const n of later) if (!want.includes(n)) want.push(n);
+  // the shared items added since, which no kernel answers and that carry no release of their own:
+  // 1.2.0's plugin-face travels in primitives.json
   want.push('GATE_CONTINUOUS_TRAVELS', 'COMP_CONTINUOUS_TRAVELS', 'TRIM_TRAVELS');
   assert.deepEqual([...loadData(DATA).items.keys()].sort(), want.sort());
 });
