@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "RTA_TARGET_BIN_HZ": {
+    "kind": "scalar",
+    "doc": "The RTA's target bin resolution — generated into `omx_contract_limits.h` as `OMX_RTA_TARGET_BIN_HZ`, which `mix_dsp.h` reads; `rta-window-derivation.test.ts` reads it back from the header.",
+    "unit": "Hz",
+    "value": 5.9
+  },
+  "RTA_FFT_SIZE_MAX": {
+    "kind": "scalar",
+    "doc": "The largest RTA FFT the native ring holds — generated into `omx_contract_limits.h` as `OMX_RTA_FFT_SIZE_MAX`.",
+    "unit": "",
+    "value": 32768
+  }
+}
