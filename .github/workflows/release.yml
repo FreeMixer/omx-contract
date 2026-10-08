@@ -52,7 +52,7 @@ jobs:
 
   rpm:
     needs: check
-    uses: FreeMixer/.github/.github/workflows/build-rpm.yml@main
+    uses: FreeMixer/.github/.github/workflows/build-rpm.yml@v1
     with:
       package-name: omx-contract
       binary-names: omx-contract-devel
@@ -65,7 +65,7 @@ jobs:
   deb:
     needs: rpm
     if: ${{ !cancelled() && needs.rpm.result == 'success' }}
-    uses: FreeMixer/.github/.github/workflows/build-deb.yml@main
+    uses: FreeMixer/.github/.github/workflows/build-deb.yml@v1
     with:
       package-name: omx-contract
       binary-names: libomx-contract-dev
@@ -106,7 +106,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: FreeMixer/.github/.github/actions/changelog@main
+      - uses: FreeMixer/.github/.github/actions/changelog@v1
         with:
           mode: notes
           tag: ${{ github.ref_name }}
