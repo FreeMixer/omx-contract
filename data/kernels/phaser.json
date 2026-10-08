@@ -105,5 +105,11 @@
         "ref": "PHASER_MIX_RANGE"
       }
     }
+  },
+  "PHASER_F_TOP_HZ": {
+    "kind": "scalar",
+    "doc": "The highest frequency the phaser's all-pass sweep reaches, Hz.",
+    "unit": "Hz",
+    "value": 16000
   }
 }

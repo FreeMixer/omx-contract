@@ -77,5 +77,13 @@
         "defaultFrom": "desk"
       }
     }
+  },
+  "GATE_KEY_SOURCES": {
+    "kind": "set",
+    "doc": "Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.",
+    "ids": [
+      "self",
+      "sidechain"
+    ]
   }
 }

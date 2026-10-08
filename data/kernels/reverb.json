@@ -146,5 +146,22 @@
       "default": -40,
       "defaultFrom": "desk"
     }
+  },
+  "REVERB_ALGORITHMS": {
+    "kind": "set",
+    "doc": "The reverb's algorithms, in the order of the integer the kernel reads. Reverse and gated are the room network handed a window and a gate.",
+    "ids": [
+      "room",
+      "plate",
+      "hall",
+      "reverse",
+      "gated"
+    ]
+  },
+  "REVERB_GATE_ATTACK_MS": {
+    "kind": "scalar",
+    "doc": "The gated reverb's gate attack, ms: the time the gate takes to open on a hit.",
+    "unit": "ms",
+    "value": 1.5
   }
 }

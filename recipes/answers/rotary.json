@@ -327,6 +327,20 @@
       "value": 256,
       "doc": "One inline ring per rotor per leg, floats — at least the 192 kHz need of the horn's sweep.",
       "unit": ""
+    },
+    {
+      "name": "ROTARY_SPEEDS",
+      "source": {
+        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_rotary.h enum omx_rotary_speed"
+      },
+      "value": [
+        "stop",
+        "slow",
+        "fast"
+      ],
+      "doc": "The rotary speaker's speed settings, in the order of the integer the kernel reads: the rotors stopped, at their chorale (slow) rate, or at their tremolo (fast) rate.",
+      "since": "1.3.0",
+      "kind": "set"
     }
   ]
 }

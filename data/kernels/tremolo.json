@@ -50,5 +50,14 @@
         "ref": "TREMOLO_MIX_RANGE"
       }
     }
+  },
+  "TREMOLO_MODES": {
+    "kind": "set",
+    "doc": "What the tremolo's one oscillator modulates, in the order of the integer the kernel reads: the level of both legs in phase (tremolo), or the balance law's position with the legs in opposition (pan).",
+    "ids": [
+      "tremolo",
+      "pan"
+    ],
+    "default": "tremolo"
   }
 }

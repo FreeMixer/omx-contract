@@ -182,5 +182,14 @@
     "doc": "One inline ring per rotor per leg, floats — at least the 192 kHz need of the horn's sweep.",
     "unit": "",
     "value": 256
+  },
+  "ROTARY_SPEEDS": {
+    "kind": "set",
+    "doc": "The rotary speaker's speed settings, in the order of the integer the kernel reads: the rotors stopped, at their chorale (slow) rate, or at their tremolo (fast) rate.",
+    "ids": [
+      "stop",
+      "slow",
+      "fast"
+    ]
   }
 }
