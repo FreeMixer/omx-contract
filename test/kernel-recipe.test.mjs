@@ -69,13 +69,13 @@ test('a hand-formatted kernel file is a gap', () => {
 
 test('a kernel released after the first release needs its CHANGELOG line', () => {
   const root = scratchTree();
-  edit(root, 'recipes/answers/reverb.json', (a) => { a.since = '1.1.0'; });
-  assert.match(gapsOf(root), /reverb: artifact changelog \(wizard step 'docs'\): CHANGELOG\.md has no '- The reverb kernel' line/);
+  edit(root, 'recipes/answers/pitch.json', (a) => { a.since = '1.1.0'; });
+  assert.match(gapsOf(root), /pitch: artifact changelog \(wizard step 'docs'\): CHANGELOG\.md has no '- The pitch kernel' line/);
   const cl = join(root, 'CHANGELOG.md');
-  writeFileSync(cl, readFileSync(cl, 'utf8').replace(/^## /m, '## [Unreleased]\n\n- The reverb tail is longer now.\n\n## '));
-  assert.match(gapsOf(root), /CHANGELOG\.md has no '- The reverb kernel' line/, 'the word in other prose is not the entry');
-  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## [Unreleased]\n', '## [Unreleased]\n\n- The reverb kernel: `REVERB_PLATE_MOD_DEPTH_RANGE`.\n'));
-  assert.doesNotMatch(gapsOf(root), /reverb: artifact changelog/, 'a bracketed heading is read');
+  writeFileSync(cl, readFileSync(cl, 'utf8').replace(/^## /m, '## [Unreleased]\n\n- The pitch tail is longer now.\n\n## '));
+  assert.match(gapsOf(root), /CHANGELOG\.md has no '- The pitch kernel' line/, 'the word in other prose is not the entry');
+  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## [Unreleased]\n', '## [Unreleased]\n\n- The pitch kernel: `PITCH_LIMITS`.\n'));
+  assert.doesNotMatch(gapsOf(root), /pitch: artifact changelog/, 'a bracketed heading is read');
 });
 
 test('a unit or c block that differs between the kernel file and the answers is a gap', () => {
@@ -85,6 +85,17 @@ test('a unit or c block that differs between the kernel file and the answers is 
   const g = gapsOf(root);
   assert.match(g, /TRANSIENT_FAST_ATTACK_MS: unit "ms" in the kernel file, "s" in the answers/);
   assert.match(g, /FX_DELAY_TIME_RANGE: c .* in the kernel file, undefined in the answers/);
+});
+
+test('an item the engine does not declare is cited by an origin sentence, and a set\'s default and labels are held to the answers', () => {
+  const root = scratchTree();
+  assert.deepEqual(completeness(root, ['tremolo']).gaps, [], 'TREMOLO_MODES is cited by origin');
+  edit(root, 'recipes/answers/tremolo.json', (a) => { a.items.find((i) => i.name === 'TREMOLO_MODES').default = 'pan'; });
+  assert.match(gapsOf(root), /TREMOLO_MODES: default or labels differ between the kernel file and the answers/);
+  edit(root, 'recipes/answers/tremolo.json', (a) => { a.items.find((i) => i.name === 'TREMOLO_MODES').default = 'tremolo'; a.items.find((i) => i.name === 'TREMOLO_MODES').source = { origin: '' }; });
+  assert.match(gapsOf(root), /an origin source is the one non-empty sentence/);
+  edit(root, 'recipes/answers/tremolo.json', (a) => { a.items.find((i) => i.name === 'TREMOLO_MODES').source = { origin: 'x', path: 'y' }; });
+  assert.match(gapsOf(root), /an origin source is the one non-empty sentence/);
 });
 
 test('a value JSON cannot carry unchanged is refused, not recorded', () => {
