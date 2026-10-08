@@ -1,3 +1,81 @@
+omx-contract (1.3.0) unstable; urgency=medium
+
+  * Corrects the 1.2.0 note: omx-dsp could not yet build against the header
+    rendered here, because 38 limits its code reads were missing from it (the
+    feedback detector, the ring correction, the RTA, the bus input cap and the
+    EQ band reserve). They are all here now, with the value omx-dsp uses
+    today, so the list of limits omx-contract lacks that omx-dsp keeps ends
+    empty. The three EQ band budget numbers that 1.2.0 said stay in openmixer
+    are in too: the budget is declared here and `omx-contract validate`
+    refuses data where the operator's reserve plus the feedback and ring
+    planters' bands no longer fit the EQ's maximum.
+  * A new kind of item, the set: ordered ids with an optional default and
+    labels. C gets an enum with a `_COUNT` and, where there is a default, a
+    `_DEFAULT`; TypeScript gets the list of ids; the JSON render carries the
+    default and the labels. A travel can now say how a host draws it (`scale`,
+    one of `PARAM_SCALES`: linear, log or stepped), a derivation `ceilSum`
+    rounds a sum up, and an item outside the kernels can record the release
+    that added it (`since`).
+  * The fbs kernel: 20 values the feedback detector reads, from the guard
+    bands and the growth gates to the default thresholds and the notch policy,
+    read from the engine where it declares them.
+  * The hrp kernel: 9 values the ring correction reads, read from the engine
+    where it declares them, plus its amount travel with the come-up value 0.5
+    omx-dsp uses.
+  * The rta kernel: 2 values, read from the engine where it declares them: the
+    target bin width and the largest FFT.
+  * The mixmatrix kernel: 1 value, read from the engine where it declares it:
+    the input cap of a summing bus.
+  * The eq kernel: 8 more values. The band types and the pass-filter slopes as
+    sets, with the labels a host shows. The operator's band reserve. How many
+    bands each strip type starts with and may hold (`channel` 4 of 24, `strip`
+    4, `eq8` 8, `eq16` 16, `eq32` 32): a start never exceeds the maximum, and
+    the default centres of any count come from one rule for every strip, host
+    and consumer, with no override. The rule: four bands start at 100, 400,
+    2000 and 8000 Hz; any other count is spread evenly on a log axis across
+    the band frequency range and snapped to the ISO 266 R10 preferred
+    frequencies (to R20 where R10 is too coarse to give each band its own
+    centre, as at 32 bands); the first band is a low shelf and the last a high
+    shelf, each switchable to a bell, and every band between is a bell. Every
+    band comes up flat at Q 1, the value omx-plugins ship for bells and
+    shelves, so no shelf Q is invented. The pass filters come up at 80 Hz and
+    18 kHz. `eqDefaultCentres`, `eqDefaultTypes` and `eqDefaultBands` in the
+    TypeScript module and `omx_eq_default_centres` and `omx_eq_default_type`
+    in the C header run the rule, and a test holds the three equal for every
+    count. The console's previous starter bands (a low shelf at 120 Hz, bells
+    at 800 and 3000 Hz, a high shelf at 10 kHz, Q 0.7 and 1) change to these;
+    gains come up at 0 dB, so nothing sounds different.
+  * The EQ's three frequency travels, as a host draws them, in
+    `EQ_CONTINUOUS_TRAVELS`: the band frequency and the two pass-filter
+    corners with no step, on a log scale.
+  * The deesser kernel: 1 more value, the de-esser's modes, as a set.
+  * The drive kernel: 2 more values, the curves and the bands, as sets.
+  * The reverb kernel: 2 more values, the algorithms as a set and the gated
+    reverb's gate attack.
+  * The rotary kernel: 1 more value, the speeds, as a set.
+  * The tremolo kernel: 1 more value, the modes, as a set coming up as
+    tremolo.
+  * The gate kernel: 1 more value, the key sources (self or sidechain), as a
+    set.
+  * The chorus kernel: 2 more values, the base delay and the longest delay a
+    voice reaches (the base plus the depth maximum, rounded up).
+  * The flanger kernel: 2 more values, likewise.
+  * The phaser kernel: 1 more value, the top frequency of the sweep.
+  * Two measurement rate sets for the oracles: the four every kernel runs at
+    (`ORACLE_FLOOR_RATES`) and the nine an RME interface clocks at
+    (`RME_RATES`).
+  * The ISO third-octave centres now have a C spelling
+    (`OMX_ISO_THIRD_OCTAVE_CENTRES_HZ_INIT`).
+  * The leftover parameter-header renderer of the retired plugin data is gone,
+    with the frozen delay header it was proved against: omx-plugins renders
+    its own parameter headers.
+  * The kernel wizard cites an item the engine does not declare by an `origin`
+    sentence (the omx-dsp header or the ruling that first declares it) and
+    takes a doc for a value that shares its comment, and the importer resolves
+    `@openmixer/omx-contract` from the engine's installed copy.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Thu, 08 Oct 2026 12:01:00 +0000
+
 omx-contract (1.2.1) unstable; urgency=medium
 
   * 1.2.1 repackages 1.2.0 with no data change. The 1.2.0 Debian changelog
@@ -34,7 +112,7 @@ omx-contract (1.2.0) unstable; urgency=medium
   * An item added to a kernel after its first release records the release that
     added it, and the kernel wizard can add items to a released kernel.
 
- -- Pau Aliagas <linuxnow@gmail.com>  Wed, 07 Oct 2026 12:00:00 +0000
+ -- Pau Aliagas <linuxnow@gmail.com>  Wed, 07 Oct 2026 12:01:00 +0000
 
 omx-contract (1.1.0) unstable; urgency=medium
 

@@ -5,7 +5,7 @@
  * (packages/core/src/native-limit-tables.ts, declared-scalars.ts, declared-lists.ts): a `travels`
  * table named <PREFIX>_LIMITS is a native table; every scalar, sheet and single travel is scalars
  * (its finite-number leaves, a travel's `unit`/`defaultFrom` labels skipped); a list is a declared
- * list unless its item says `"c": { "render": false }`; a `c.alias` is the core-limit spelling.
+ * list unless its item says `"c": { "render": false }`; a set is an enum; a `c.alias` is the core-limit spelling.
  */
 
 const constantCase = (key) => key.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toUpperCase();
@@ -38,7 +38,7 @@ export function doors(resolved) {
     .sort(([a], [b]) => a.localeCompare(b));
   const byMacro = new Map();
   for (const r of items) {
-    if (isNativeTable(r) || r.kind === 'list') continue;
+    if (isNativeTable(r) || r.kind === 'list' || r.kind === 'set') continue;
     const leaves = numberLeaves(r.value, r.name, r.name.replace(/_(KERNEL|LIMITS)$/, ''));
     if (leaves === undefined) continue;
     for (const s of leaves) {
@@ -51,6 +51,9 @@ export function doors(resolved) {
   const DECLARED_LISTS = items.filter((r) => r.kind === 'list' && r.c?.render !== false)
     .map((r) => ({ name: r.name, values: r.value }))
     .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  const DECLARED_SET_ITEMS = items.filter((r) => r.kind === 'set')
+    .map((r) => ({ name: r.name, ids: r.value, default: r.default }))
+    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
   const ALIASES = new Map();
   for (const r of items) {
     if (!r.c?.alias) continue;
@@ -59,5 +62,5 @@ export function doors(resolved) {
     ALIASES.get(fact)[field] = r.value;
   }
   const STANDARD_SAMPLE_RATES = resolved.get('STANDARD_SAMPLE_RATES')?.value;
-  return { NATIVE_LIMIT_TABLES, DECLARED_SCALARS, DECLARED_LISTS, ALIASES, STANDARD_SAMPLE_RATES };
+  return { NATIVE_LIMIT_TABLES, DECLARED_SCALARS, DECLARED_LISTS, DECLARED_SET_ITEMS, ALIASES, STANDARD_SAMPLE_RATES };
 }

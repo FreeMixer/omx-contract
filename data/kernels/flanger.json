@@ -47,5 +47,27 @@
       "default": 50,
       "defaultFrom": "desk"
     }
+  },
+  "FLANGER_BASE_MS": {
+    "kind": "scalar",
+    "doc": "The flanger's base delay, ms: the sweep rides on it up to the depth.",
+    "unit": "ms",
+    "value": 0.5
+  },
+  "FLANGER_MAX_MS": {
+    "kind": "scalar",
+    "doc": "The longest delay a flanger sweep reaches, rounded up to whole ms: the base delay plus the depth maximum. The delay line is sized from it.",
+    "unit": "ms",
+    "value": {
+      "derive": "ceilSum",
+      "of": [
+        {
+          "ref": "FLANGER_BASE_MS"
+        },
+        {
+          "ref": "FLANGER_DEPTH_RANGE.max"
+        }
+      ]
+    }
   }
 }

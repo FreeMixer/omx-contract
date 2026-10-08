@@ -2,8 +2,8 @@
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // omx-dsp can build against the c render: every limit its sources, tests and tools read from its
 // committed header (frozen under test/fixtures/omx-dsp-v0.1.5-8-g4108494/, omx-dsp main at 4108494)
-// is defined by the render, byte for byte, so with the same value and the same literal. The three
-// names ruling (h) keeps in openmixer are the only ones missing.
+// is defined by the render, byte for byte, so with the same value and the same literal. (Until 1.2.x the
+// three EQ band budget names stayed in openmixer; 1.3.0 carries them.)
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -11,7 +11,6 @@ import { test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { limitUnits } from '../tools/proof/limit-units.mjs';
-import { RULING_H } from '../tools/proof/round-trip.mjs';
 import { ROOT, editData, scratchData } from './helpers.mjs';
 
 const FIX = join(ROOT, 'test/fixtures/omx-dsp-v0.1.5-8-g4108494');
@@ -29,11 +28,11 @@ function check(dataDir = join(ROOT, 'data')) {
   };
 }
 
-test('every limit omx-dsp reads is in the c render with the same value, but the three ruling (h) keeps in openmixer', () => {
+test('every limit omx-dsp reads is in the c render with the same value', () => {
   assert.ok(reads.length >= 190, `omx-dsp reads ${reads.length} units: a short list proves nothing`);
   const r = check();
   assert.deepEqual(r.differing, []);
-  assert.deepEqual([...r.missing].sort(), [...RULING_H].sort());
+  assert.deepEqual(r.missing, []);
 });
 
 test('the names omx-dsp#9 found missing from 1.1.0 are among them', () => {
@@ -49,5 +48,5 @@ test('a moved value and a removed travel are caught, naming the unit', () => {
   assert.deepEqual(check(moved).differing, ['OMX_CHORUS_RATE_RANGE_DEFAULT']);
   const removed = scratchData();
   editData(removed, 'kernels/balance.json', (d) => { delete d.PAN_RANGE.c; });
-  assert.deepEqual(check(removed).missing.filter((k) => !RULING_H.includes(k)), ['OMX_PAN_PAN_MIN', 'OMX_PAN_PAN_MAX']);
+  assert.deepEqual(check(removed).missing, ['OMX_PAN_PAN_MIN', 'OMX_PAN_PAN_MAX']);
 });

@@ -107,8 +107,12 @@ export function answersProblems(answers, kernel) {
     if (seen.has(it?.name)) bad.push(`${at}: answered twice`);
     seen.add(it?.name);
     const s = it?.source;
-    if (typeof s?.path !== 'string' || !s.path || (typeof s.export !== 'string') === (typeof s.define !== 'string')) {
-      bad.push(`${at}: source must name a path and one of export or define`);
+    if (typeof s?.origin === 'string') {
+      // an item the engine does not declare (yet): its first declaration is a ruling or another repository's
+      // code, named in words; only the value is held, there is no engine source to read it from again
+      if (!s.origin.trim() || Object.keys(s).length !== 1) bad.push(`${at}: an origin source is the one non-empty sentence \`origin\``);
+    } else if (typeof s?.path !== 'string' || !s.path || (typeof s.export !== 'string') === (typeof s.define !== 'string')) {
+      bad.push(`${at}: source must name a path and one of export or define, or an origin`);
     }
     if (it?.since !== undefined) {
       if (!/^\d+\.\d+\.\d+$/.test(it.since)) bad.push(`${at}: since '${it.since}' is not x.y.z`);
@@ -154,10 +158,11 @@ export const CHECKERS = {
       const it = cited.get(n);
       if (!it) bad.push(`${n} has no citation`);
       else if (!isDeepStrictEqual(facts.resolved.get(n).value, it.value)) {
-        bad.push(`${n} resolves to ${JSON.stringify(facts.resolved.get(n).value)}, the engine's ${it.source.path} ${it.source.export ?? it.source.define} is ${JSON.stringify(it.value)}`);
+        bad.push(`${n} resolves to ${JSON.stringify(facts.resolved.get(n).value)}, the engine's ${it.source.path ?? it.source.origin} ${it.source.export ?? it.source.define ?? ''} is ${JSON.stringify(it.value)}`);
       } else {
         const r = facts.resolved.get(n);
         if ((r.unit ?? null) !== (it.unit ?? null) && r.kind !== 'travels') bad.push(`${n}: unit ${JSON.stringify(r.unit)} in the kernel file, ${JSON.stringify(it.unit)} in the answers`);
+        if (r.kind === 'set' && (!isDeepStrictEqual(r.default ?? null, it.default ?? null) || !isDeepStrictEqual(r.labels ?? null, it.labels ?? null))) bad.push(`${n}: default or labels differ between the kernel file and the answers`);
         if (!isDeepStrictEqual(r.c ?? null, it.c ?? null)) bad.push(`${n}: c ${JSON.stringify(r.c)} in the kernel file, ${JSON.stringify(it.c)} in the answers`);
       }
     }

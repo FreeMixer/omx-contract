@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "items": {
     "PAN_RANGE": {
       "rel": "data/kernels/balance.json",
@@ -89,6 +89,20 @@
         "default": 35,
         "defaultFrom": "desk"
       }
+    },
+    "CHORUS_BASE_MS": {
+      "rel": "data/kernels/chorus.json",
+      "kind": "scalar",
+      "doc": "The chorus's base delay, ms: the voices swing around it by up to the depth.",
+      "unit": "ms",
+      "value": 10
+    },
+    "CHORUS_MAX_MS": {
+      "rel": "data/kernels/chorus.json",
+      "kind": "scalar",
+      "doc": "The longest delay a chorus voice reaches, rounded up to whole ms: the base delay plus the depth maximum. The delay line is sized from it.",
+      "unit": "ms",
+      "value": 22
     },
     "COMP_LIMITS": {
       "rel": "data/kernels/comp.json",
@@ -276,6 +290,15 @@
       "unit": "dB",
       "value": 6
     },
+    "DEESS_MODES": {
+      "rel": "data/kernels/deesser.json",
+      "kind": "set",
+      "doc": "The de-esser's modes, in the order of the integer the kernel reads: split attenuates the detected band only, wideband the whole signal while the sibilance lasts.",
+      "value": [
+        "split",
+        "wideband"
+      ]
+    },
     "FX_DELAY_TIME_RANGE": {
       "rel": "data/kernels/delay.json",
       "kind": "travels",
@@ -455,6 +478,28 @@
         "defaultFrom": "desk"
       }
     },
+    "DRIVE_CURVES": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "The drive's shaper curves, in the order of the integer the kernel reads. Exciter runs the soft shape in a parallel-sum topology.",
+      "value": [
+        "soft",
+        "tape",
+        "tube",
+        "exciter"
+      ]
+    },
+    "DRIVE_BANDS": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "Which part of the spectrum the drive's curve is fed, in the order of the integer the kernel reads. The split is complementary, so mix 0 stays bit-identical to the dry signal.",
+      "value": [
+        "full",
+        "low",
+        "high",
+        "tilt"
+      ]
+    },
     "EQ_MAX_BANDS": {
       "rel": "data/kernels/eq.json",
       "kind": "scalar",
@@ -467,9 +512,6 @@
       "kind": "list",
       "doc": "The standard ISO 266 one-third-octave centre frequencies, 20 Hz–20 kHz (31 bands) — the classic 31-band graphic-EQ layout's centres.",
       "unit": "Hz",
-      "c": {
-        "render": false
-      },
       "value": [
         20,
         25,
@@ -583,6 +625,322 @@
         "unit": "Hz"
       }
     },
+    "OPERATOR_EQ_BANDS_RESERVE": {
+      "rel": "data/kernels/eq.json",
+      "kind": "scalar",
+      "doc": "The band slots kept for the operator's own hand: the reserve the feedback suppressor and the ring correction may never eat into. Nine is the working set a live EQ actually holds. The budget OPERATOR_EQ_BANDS_RESERVE + FBS_DEFAULT_MAX_AUTO_BANDS + HRP_DEFAULT_MAX_AUTO_BANDS (9 + 6 + 8 = 23) must fit EQ_MAX_BANDS, and `omx-contract validate` refuses data where it does not.",
+      "unit": "",
+      "value": 9
+    },
+    "EQ_BAND_TYPES": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.",
+      "default": "bell",
+      "labels": [
+        "Bell",
+        "Low Shelf",
+        "High Shelf",
+        "Notch",
+        "All-pass 1st",
+        "All-pass 2nd"
+      ],
+      "value": [
+        "bell",
+        "lowShelf",
+        "highShelf",
+        "notch",
+        "allpass1",
+        "allpass2"
+      ]
+    },
+    "FILTER_SLOPES": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The pass-filter slopes the EQ offers, in dB per octave. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.",
+      "default": 12,
+      "value": [
+        12,
+        24
+      ]
+    },
+    "EQ_BAND_COUNTS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "sheet",
+      "doc": "How many bands each strip type's EQ starts with (`default`) and may hold (`max`). `channel` is the console's channel strip: it starts with four and the operator adds bands up to EQ_MAX_BANDS (a band added takes the frequency it is added at, so no default is declared for it). `strip` is the omx-strip plugin's EQ and `eq8`, `eq16` and `eq32` the omx-eq plugins, whose bands are fixed. A default may never exceed its maximum, and the default centres of any count come from the one default rule, whatever the strip.",
+      "value": {
+        "channel": {
+          "default": 4,
+          "max": 24
+        },
+        "strip": {
+          "default": 4,
+          "max": 4
+        },
+        "eq8": {
+          "default": 8,
+          "max": 8
+        },
+        "eq16": {
+          "default": 16,
+          "max": 16
+        },
+        "eq32": {
+          "default": 32,
+          "max": 32
+        }
+      }
+    },
+    "EQ_BAND_DEFAULTS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "sheet",
+      "doc": "What every band of a fresh EQ comes up at, whatever its type and its strip: flat (0 dB) and Q 1. The band frequencies and types come from the default rule.",
+      "value": {
+        "gainDb": 0,
+        "q": 1
+      }
+    },
+    "EQ_PASS_FILTER_DEFAULTS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "sheet",
+      "doc": "The corners the high-pass and low-pass filters of a fresh EQ are parked at, whatever the strip. Both come up off.",
+      "value": {
+        "hpfFreqHz": 80,
+        "lpfFreqHz": 18000
+      }
+    },
+    "EQ_DEFAULT_CENTRES_FOUR_BAND_HZ": {
+      "rel": "data/kernels/eq.json",
+      "kind": "list",
+      "doc": "The default band centres of a four-band EQ, Hz: ISO 266 preferred values, two to two and a half octaves apart. The default rule gives every other band count its centres from the preferred series; four bands start here.",
+      "unit": "Hz",
+      "value": [
+        100,
+        400,
+        2000,
+        8000
+      ]
+    },
+    "EQ_CENTRE_SERIES_R20_HZ": {
+      "rel": "data/kernels/eq.json",
+      "kind": "list",
+      "doc": "The ISO 266 R20 preferred frequencies from 20 Hz to 20 kHz (61 values, sixth-octave spacing): the finer series the default band rule falls back to where R10 (ISO_THIRD_OCTAVE_CENTRES_HZ, 31 values) has too few to give every band its own centre. R10 is a subset of it.",
+      "unit": "Hz",
+      "value": [
+        20,
+        22.4,
+        25,
+        28,
+        31.5,
+        35.5,
+        40,
+        45,
+        50,
+        56,
+        63,
+        71,
+        80,
+        90,
+        100,
+        112,
+        125,
+        140,
+        160,
+        180,
+        200,
+        224,
+        250,
+        280,
+        315,
+        355,
+        400,
+        450,
+        500,
+        560,
+        630,
+        710,
+        800,
+        900,
+        1000,
+        1120,
+        1250,
+        1400,
+        1600,
+        1800,
+        2000,
+        2240,
+        2500,
+        2800,
+        3150,
+        3550,
+        4000,
+        4500,
+        5000,
+        5600,
+        6300,
+        7100,
+        8000,
+        9000,
+        10000,
+        11200,
+        12500,
+        14000,
+        16000,
+        18000,
+        20000
+      ]
+    },
+    "SUBHARMONIC_RADIUS_BINS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "How far (bins) around bin/2 and bin/3 PSHR (`omx_fbs_pshr`) scans for a sub-harmonic line. A true half/third partial lands mid-bin in the worst case (bin/2 and bin/3 are rarely integers) and spectral leakage smears it one bin further; ±2 covers both. Measured on the #116 live-music corpus: every false positive's sub-line sat inside this window. Deliberately NOT wider — at low bins the window is already a large fraction of an octave, and widening it would start reading unrelated program lines as \"sub-harmonics\" of real feedback.",
+      "unit": "",
+      "value": 2
+    },
+    "FBS_PAPR_GUARD_BINS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "PAPR's guard band: bins either side of the peak left out of the floor average (its own skirt).",
+      "unit": "",
+      "value": 2
+    },
+    "FBS_PNPR_RADIUS_BINS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "PNPR's neighbourhood radius in bins, and the guard inside it that belongs to the peak's own skirt: a pure tone is compared with bins 2 and 3 away on each side.",
+      "unit": "",
+      "value": 3
+    },
+    "FBS_PNPR_GUARD_BINS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "The guard inside PNPR's neighbourhood radius that belongs to the peak's own skirt, in bins.",
+      "unit": "",
+      "value": 1
+    },
+    "FBS_PHPR_HARMONICS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "How many harmonics PHPR reads above the candidate: 2f, 3f and 4f.",
+      "unit": "",
+      "value": 3
+    },
+    "FBS_PSHR_SELF_SKIP_BINS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "PSHR skips sub-window bins within this many of the candidate, so a low bin never measures its own skirt as a sub-harmonic.",
+      "unit": "",
+      "value": 3
+    },
+    "FBS_FLOOR_LIN": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "The magnitude floor of every detector dB reading (−240 dB): a zero bin stays finite.",
+      "unit": "",
+      "value": 1e-12
+    },
+    "FBS_TRACK_SLOTS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "Tracked candidate bins per armed channel. A candidate that finds no free slot is COUNTED and reported, never dropped silently; the identity corpus peaks at 34.",
+      "unit": "",
+      "value": 512
+    },
+    "PSHR_MIN_DB": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "Minimum PSHR (`omx_fbs_pshr`) (dB) for a candidate frame to count as sub-harmonic-CLEAN. Evidence-set on the #116 corpus, margin on both sides: the four live false positives (musical overtones at 1 869.1 / 832.0 / 263.7 / 228.5 Hz) read PSHR between −10.2 and +8.8 dB across their windows — never a 5-frame sub-clean stretch, and the single closest approach (+8.8) is isolated between frames at ≈ −1 and −10 — while the committed #106 injected ramp reads ≥ +12.2 dB from its second frame on (its frame 0 sits at +9.4, costing exactly one frame of confirm latency, pinned in the corpus test). A static program line at f/2 of REAL feedback also clears this fast: the runaway gains several dB per hop on anything static, so the deferral is transient.",
+      "unit": "dB",
+      "value": 10
+    },
+    "GROWTH_WINDOW_FRAMES": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "How many of a candidate bin's most recent dB readings feed the growth-slope estimate (the engine's least-squares slope) — set equal to DEFAULT_THRESHOLDS's `persistFrames` so growth is judged over the SAME window persistence already demands (the full run since the bin became a candidate, not a shorter or longer slice of it). Long enough that a couple of noisy/vibrato frames can't fake a trend by themselves.",
+      "unit": "",
+      "value": 5
+    },
+    "DEEP_PLATEAU_FRAMES": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "The DEEP plateau tier's dwell: ~2 s at the watcher's 10 Hz — the TIME that buys the deeper floor its music safety (see DetectThresholds.deepPlateauFloorDb).",
+      "unit": "",
+      "value": 20
+    },
+    "GROWTH_MIN_DB_PER_FRAME": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "Minimum least-squares slope, in dB PER FRAME, over GROWTH_WINDOW_FRAMES for a bin to count as \"running away\" rather than merely holding level. Set with real margin on BOTH sides — comfortably above measurement jitter on a held tone or a quiet/broadband mix (well under 0.2 dB/frame in practice) and comfortably below a genuine feedback ramp, which climbs several dB across a handful of ~20 ms hops as it heads toward clipping. Issue #91's acceptance bar is \"arming must never burst-alarm on non-growing content\", so this errs conservative (under-fire a marginal ramp) rather than tight (risk a false alarm) — the ramp gate (`omx_fbs_is_growing`) also requires the window's end to sit above its start, a cheap belt-and-braces check against a fit dragged positive by one mid-window wobble.",
+      "unit": "dB",
+      "value": 0.8
+    },
+    "GROWTH_MAX_DIP_DB": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "Largest single-frame DIP (dB) a run-away window may contain. Real feedback climbs every hop; a small allowance covers measurement jitter and the −0.3 dB-ish wobble frames seen on live captures, while any real drop (a note ending, tremolo) breaks the run.",
+      "unit": "dB",
+      "value": 0.5
+    },
+    "GROWTH_MIN_TOTAL_RISE_DB": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "Minimum END-TO-END rise (dB) across the window. The live-music corpus (issue #106) showed sustained melody notes drifting up ~4–5 dB over a window without ever being feedback; a loop past unity gains several dB per hop and clears 6 dB in a window trivially. Below this the tone is holding level, not running away.",
+      "unit": "dB",
+      "value": 6
+    },
+    "GROWTH_MAX_SINGLE_FRAME_SHARE": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "Cap on the share of the window's total rise a SINGLE frame may carry. Feedback is exponential in amplitude ⇒ linear in dB ⇒ its rise is distributed roughly evenly across the window; a musical attack / re-articulation puts almost the whole rise in one hop (the exact shape behind every one of issue #106's 72 live false positives). One half is generous to real ramps (an even N-frame ramp puts 1/(N−1) per hop) and fatal to steps. A side effect worth knowing: a 2-sample window can never pass (one hop IS the whole rise), so confirmation always rests on at least three frames of actual ramp evidence.",
+      "unit": "",
+      "value": 0.5
+    },
+    "GROWTH_CONFIRM_FRAMES": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "How many CONSECUTIVE frames the ramp gate (`omx_fbs_is_growing`) must hold before a bin confirms — the time-domain tiebreak for the one shape a single window cannot judge (issue #106): a smooth musical crescendo. Within one window a +6 dB swell (live corpus: a C6 at 1 049 Hz, `[-53.7, -51.4, -50.4, -48, -47.3]`) is indistinguishable from slow feedback — the difference is only visible on the NEXT hop, where a crescendo peaks and plateaus (the window's rise collapses) while feedback keeps climbing. Requiring the gate to hold twice in a row costs a clean ramp nothing — its gate is already true while persistence is still arming — and blocks the swell that peaks the very frame it would have confirmed.",
+      "unit": "",
+      "value": 2
+    },
+    "DEFAULT_THRESHOLDS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "sheet",
+      "doc": "The corpus-tuned SAFE DEFAULT — today's exact gates, assembled byte-for-byte from the exported consts above (which stay the authoritative literal source, so the corpus test's import type { MagnitudeSeries } from './spectrum-bands.js'; imports remain the single truth). This is the ANCHOR the whole sensitivity mapping pins to: thresholdsFor`(0, 'live')` and `(0, 'fixed')` both deep-equal this object, so an untouched channel runs the identical detector it does now. `plateauFloorDb` is omitted ⇒ the #140 plateau route is OFF at the default.",
+      "value": {
+        "paprDb": 18,
+        "pnprDb": 12,
+        "phprDb": 9,
+        "persistFrames": 5,
+        "growthConfirmFrames": 2,
+        "subCleanFrames": 5,
+        "growthMinTotalRiseDb": 6,
+        "growthMaxSingleFrameShare": 0.5,
+        "growthMinDbPerFrame": 0.8,
+        "growthMaxDipDb": 0.5,
+        "pshrMinDb": 10
+      }
+    },
+    "FBS_MAX_NOTCH_DEPTH_DB": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "THE NOTCH DEPTH LAW: the deepest cut any machine planter may propose from one reading, in dB. A number, not a literal at the call site, because two planters now lean on it. FBS derives a candidate's depth from the peak-to-average ratio around its bin and stops here; Room Analysis derives a mode's depth from its height above the median curve and is held to the SAME ceiling (2026-09-08-room-analysis.md §4 — \"never more than the FBS notch depth law\"). Written twice as `18` those two bounds would be equal by coincidence and could drift apart in silence. It is a CEILING ON THE PROPOSAL, not the final gain: a band that lands as a rampable BELL is bounded again by `EQ_GAIN_RANGE`, which is tighter. A planter must honour both and REPORT when either bit, never quietly deliver a shallower cut than it was asked for.",
+      "unit": "dB",
+      "value": 18
+    },
+    "FBS_DEFAULT_NOTCH_Q": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "Default planted-notch width (Q) — the dbx-AFS-style ultra-narrow notch the corrector plants. `addBand`'s per-shape clamp holds it at 116 for a fixed notch and narrows it to 8 for a live bell, so this is the declared starting point rather than the width every notch ends up with.",
+      "unit": "",
+      "value": 116
+    },
+    "FBS_DEFAULT_MAX_AUTO_BANDS": {
+      "rel": "data/kernels/fbs.json",
+      "kind": "scalar",
+      "doc": "Default per-channel cap on auto-planted bands — a full pool plants nothing and raises a pool-full alert instead (predictability over silent eviction).",
+      "unit": "",
+      "value": 6
+    },
     "FLANGER_RATE_RANGE": {
       "rel": "data/kernels/flanger.json",
       "kind": "travels",
@@ -638,6 +996,20 @@
         "default": 50,
         "defaultFrom": "desk"
       }
+    },
+    "FLANGER_BASE_MS": {
+      "rel": "data/kernels/flanger.json",
+      "kind": "scalar",
+      "doc": "The flanger's base delay, ms: the sweep rides on it up to the depth.",
+      "unit": "ms",
+      "value": 0.5
+    },
+    "FLANGER_MAX_MS": {
+      "rel": "data/kernels/flanger.json",
+      "kind": "scalar",
+      "doc": "The longest delay a flanger sweep reaches, rounded up to whole ms: the base delay plus the depth maximum. The delay line is sized from it.",
+      "unit": "ms",
+      "value": 6
     },
     "GATE_LIMITS": {
       "rel": "data/kernels/gate.json",
@@ -719,6 +1091,15 @@
         }
       }
     },
+    "GATE_KEY_SOURCES": {
+      "rel": "data/kernels/gate.json",
+      "kind": "set",
+      "doc": "Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.",
+      "value": [
+        "self",
+        "sidechain"
+      ]
+    },
     "GEQ_BAND_RANGE": {
       "rel": "data/kernels/geq.json",
       "kind": "travels",
@@ -754,6 +1135,75 @@
       "unit": "dB",
       "value": 30
     },
+    "HRP_MAX_CUT_DB": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "scalar",
+      "doc": "The largest automatic cut HRP may place on one harmonic, as a POSITIVE dB magnitude. Well inside the ±15 dB an operator band may hold (core's `EQ_GAIN_LIMIT_DB`): an automatic correction the operator did not ask for gets far less authority than one they dialled themselves.",
+      "unit": "dB",
+      "value": 6
+    },
+    "HRP_MAX_VOICES": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "scalar",
+      "doc": "How many simultaneous musical voices the detector may report on one channel. PINNED to `OMX_HRP_MAX_VOICES` in `pipewire-native/src/hrp_pitch.h` — the C voice set is a FIXED-SIZE array, so a TS number above the macro promises voices the analyser structurally cannot return, and one below it silently drops notes the C already found. `core/src/output-delay-ceiling.test.ts` reads the header and holds the pair equal. EIGHT (operator sizing, 2026-09-01): a guitar sounds six strings, a piano or string-section voicing sits at eight. It is a SEARCH ceiling, not a cost — the detector abandons a round as soon as no credible candidate remains, so monophonic material costs what it always did.",
+      "unit": "",
+      "value": 8
+    },
+    "HRP_BAND_Q": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "scalar",
+      "doc": "The Q of an HRP correction band — one declared number, operator-adjustable later. A musical cut, not a ring killer: FBS's default notch Q is ~116 because a howl is a single frequency, whereas a partial that is too loud is a note an instrument is playing and a surgical null on it would be heard as a hole. 5 sits mid-band in the 4…6 range a musical subtractive cut occupies, and inside EQ_Q_RANGE — the gain-carrying shapes' extent — so it survives the store's clamp unchanged. Deliberately NOT derived from the harmonic index. A derivation invented with no measurement behind it is a second declaration wearing a formula; this is revisited when the analyse-only surface shows what real corrections look like.",
+      "unit": "",
+      "value": 5
+    },
+    "HRP_EXCESS_THRESHOLD_DB": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "scalar",
+      "doc": "How far a partial must stand above its LEARNED BASELINE before HRP calls it a resonance (increment 8, §23–§24: `deviation = measured − baseline[note][harmonic]`). A partial level tells you nothing on its own; what marks a resonance is a partial louder than THIS instrument normally measures at THIS note. Three decibels is the same order as the feedback detector's peak-to-neighbour gate and for the same reason: below it, an ordinary performance's variation — a bow dug in, a verse sung harder — would be flattened, and flattening expression is not correcting a room. (Before the learned model existed this same threshold gated the placeholder neighbour rule; the number and its reasoning carried over.)",
+      "unit": "dB",
+      "value": 3
+    },
+    "HRP_GAIN_STEP_DB": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "scalar",
+      "doc": "How far ONE reconcile pass may move an HRP band's gain, in dB — §48's gain smoothing, done at the control level because the native cascade applies pushed coefficients verbatim and §48 forbids interpolating there. An unbounded gain step is a waveform discontinuity — the click heard when a correction entered or left at full depth (found live, 2026-08-20, the evening increment 9 raised the enter/leave rate). Bounded, a correction ENTERS by deepening from silence and LEAVES by walking to exactly 0 dB — the provable parked identity (`eqBandIsIdentity`) — from which removal is bit-identical. Two decibels per pass at the corrector's 10 Hz cadence walks the full HRP_MAX_CUT_DB travel in ~300 ms: the same order as the tracker's stability hold and FBS's lift steps, while each individual move stays below audibility on a Q-5 bell.",
+      "unit": "dB",
+      "value": 2
+    },
+    "HRP_COLLISION_CENTS": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "scalar",
+      "doc": "How close two correction candidates must sit, in cents, to count as the SAME spectral region (§30): within it, the stronger candidate is selected and the weaker discarded rather than two near-identical filters being planted. One semitone, and the number follows from HRP_BAND_Q: a Q-5 bell's −3 dB half-width is ~170 cents, so two cuts a semitone apart overlap over most of their travel — the second one deepens the first far more than it shapes anything of its own. The spec orders the threshold configurable and tested (§30's last line): declared once here, a parameter everywhere below.",
+      "unit": "cents",
+      "value": 100
+    },
+    "HRP_ATTRIBUTION_CENTS": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "scalar",
+      "doc": "The ATTRIBUTION window (§11): two partials closer than this are one spectral event as far as the desk can tell — the same ±1 bin `omx_hrp_bin_peak` reads over, expressed musically so it holds across the range. A different law from HRP_COLLISION_CENTS (§30's SELECTION window, which stays above it): this one is the analyser's resolution, that one the corrector's. Generated into `omx_contract_limits.h` as `OMX_HRP_ATTRIBUTION_CENTS`; `hrp_attribute.h` reads it.",
+      "unit": "cents",
+      "value": 60
+    },
+    "HRP_DEFAULT_MAX_AUTO_BANDS": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "scalar",
+      "doc": "How many bands HRP may plant on ONE channel — its half of the machine budget, and the number that makes the budget FORECASTABLE rather than emergent. Without it the count is whatever the material happens to provoke: the placement law is sparse, so a clean note plants two bands and a resonant room plants nine, and nobody can answer \"will this fit?\" until it does not. With FBS senior (§9.3(b)) that discovery would happen at showtime, to the junior planter, silently. Declared instead, the whole sum is arithmetic an operator can read before a note is played: operator bands + FBS maxAutoBands + HRP maxAutoBands <= EQ_MAX_BANDS EIGHT — ONE CORRECTION PER VOICE at full polyphony (operator sizing, 2026-09-01). The detector's ceiling is HRP_MAX_VOICES voices, a guitar's six strings and a piano/string voicing's eight, and a budget below the voice count would decide by arithmetic which of the notes actually sounding may be corrected — a limit nobody could read off the desk. Scarcity is handled where it belongs instead: the candidates from every voice meet in ONE globally ranked list (spec §29) and the head of it is what gets planted. It is NOT a claim to seniority, and it is larger than FBS's six. Seniority is the ALLOCATION ORDER — `HrpPlanter` takes only `EQ_MAX_BANDS − others.length`, the remainder after the operator and every other machine — so a bigger junior default cannot reach a senior slot; it only means HRP asks for more of what is left. `eq-budget-fits.test.ts` asserts both halves. The per-channel DEFAULT; the row's travel is HRP_AUTO_BANDS_RANGE, so a channel that needs more can have more, as an explicit decision with a visible cost.",
+      "unit": "",
+      "value": 8
+    },
+    "HRP_AMOUNT_RANGE": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "travels",
+      "doc": "How much of the computed correction HRP applies: 0 = analyse only, 1 = the full cut. It comes up at 0.5, half the computed cut.",
+      "shape": "travel",
+      "value": {
+        "min": 0,
+        "max": 1,
+        "step": 0,
+        "unit": "",
+        "default": 0.5
+      }
+    },
     "LIMITER_LIMITS": {
       "rel": "data/kernels/limiter.json",
       "kind": "travels",
@@ -785,6 +1235,13 @@
           "defaultFrom": "desk"
         }
       }
+    },
+    "BUS_INPUT_CAP": {
+      "rel": "data/kernels/mixmatrix.json",
+      "kind": "scalar",
+      "doc": "The input cap a summing bus can be sized to — **the engine's declared input ceiling**, read from `@freemixer/declarations` rather than re-typed here. A gig with more than this many inputs needs more than one engine node; below it a bus is sized to `min(N, BUS_INPUT_CAP)`. It was a literal 64 until 2026-09-15, said to mirror the engine's `MAX_BUS_INPUTS` — and it did, but that 64 was the PipeWire builtin mixer's single-tier fan-in (8 × 8), never the engine's bound: the native node has allocated `OMX_MAX_STRIPS` (128) strips all along. Two literals agreeing by hand is how the console came to refuse a 96-channel desk it could carry. `native-input-ceiling.test.ts` holds this to the C header; spec `docs/design/specs/2026-09-14-console-allocation.md` §9 carries the ruling and the measured cost of width.",
+      "unit": "",
+      "value": 128
     },
     "PHASER_RATE_RANGE": {
       "rel": "data/kernels/phaser.json",
@@ -931,6 +1388,13 @@
           "defaultFrom": "desk"
         }
       }
+    },
+    "PHASER_F_TOP_HZ": {
+      "rel": "data/kernels/phaser.json",
+      "kind": "scalar",
+      "doc": "The highest frequency the phaser's all-pass sweep reaches, Hz.",
+      "unit": "Hz",
+      "value": 16000
     },
     "PITCH_LIMITS": {
       "rel": "data/kernels/pitch.json",
@@ -1135,6 +1599,25 @@
         "default": -40,
         "defaultFrom": "desk"
       }
+    },
+    "REVERB_ALGORITHMS": {
+      "rel": "data/kernels/reverb.json",
+      "kind": "set",
+      "doc": "The reverb's algorithms, in the order of the integer the kernel reads. Reverse and gated are the room network handed a window and a gate.",
+      "value": [
+        "room",
+        "plate",
+        "hall",
+        "reverse",
+        "gated"
+      ]
+    },
+    "REVERB_GATE_ATTACK_MS": {
+      "rel": "data/kernels/reverb.json",
+      "kind": "scalar",
+      "doc": "The gated reverb's gate attack, ms: the time the gate takes to open on a hit.",
+      "unit": "ms",
+      "value": 1.5
     },
     "ROTARY_HORN_SLOW_RANGE": {
       "rel": "data/kernels/rotary.json",
@@ -1382,6 +1865,30 @@
       "unit": "",
       "value": 256
     },
+    "ROTARY_SPEEDS": {
+      "rel": "data/kernels/rotary.json",
+      "kind": "set",
+      "doc": "The rotary speaker's speed settings, in the order of the integer the kernel reads: the rotors stopped, at their chorale (slow) rate, or at their tremolo (fast) rate.",
+      "value": [
+        "stop",
+        "slow",
+        "fast"
+      ]
+    },
+    "RTA_TARGET_BIN_HZ": {
+      "rel": "data/kernels/rta.json",
+      "kind": "scalar",
+      "doc": "The RTA's target bin resolution — generated into `omx_contract_limits.h` as `OMX_RTA_TARGET_BIN_HZ`, which `mix_dsp.h` reads; `rta-window-derivation.test.ts` reads it back from the header.",
+      "unit": "Hz",
+      "value": 5.9
+    },
+    "RTA_FFT_SIZE_MAX": {
+      "rel": "data/kernels/rta.json",
+      "kind": "scalar",
+      "doc": "The largest RTA FFT the native ring holds — generated into `omx_contract_limits.h` as `OMX_RTA_FFT_SIZE_MAX`.",
+      "unit": "",
+      "value": 32768
+    },
     "TRANSIENT_LIMITS": {
       "rel": "data/kernels/transient.json",
       "kind": "travels",
@@ -1532,6 +2039,16 @@
         }
       }
     },
+    "TREMOLO_MODES": {
+      "rel": "data/kernels/tremolo.json",
+      "kind": "set",
+      "doc": "What the tremolo's one oscillator modulates, in the order of the integer the kernel reads: the level of both legs in phase (tremolo), or the balance law's position with the legs in opposition (pan).",
+      "default": "tremolo",
+      "value": [
+        "tremolo",
+        "pan"
+      ]
+    },
     "BUTTERWORTH_Q": {
       "rel": "data/primitives.json",
       "kind": "scalar",
@@ -1651,6 +2168,46 @@
         }
       }
     },
+    "PARAM_SCALES": {
+      "rel": "data/primitives.json",
+      "kind": "set",
+      "doc": "How a host draws a parameter: linear, logarithmic (a frequency, a time) or in discrete steps. The words omx-plugins' declarations and plugin-hostd's protocol use; a travel names its own with `scale`.",
+      "default": "linear",
+      "value": [
+        "linear",
+        "log",
+        "stepped"
+      ]
+    },
+    "EQ_CONTINUOUS_TRAVELS": {
+      "rel": "data/primitives.json",
+      "kind": "travels",
+      "doc": "The EQ's three frequency travels as a host draws them: the band frequency, the high-pass corner and the low-pass corner, EQ_FREQ_RANGE's, HPF_FREQ_RANGE's and LPF_FREQ_RANGE's bounds with no step and a logarithmic scale. The console's EQ quantises frequency to 10 Hz; a frequency drags continuously on a log axis, which is how every host draws it, so this is the form the omx-plugins read. Every number but the step is the source's, held equal by test/continuous-travels.test.mjs. Not rendered to C: no C reader needs a second spelling of the EQ's bounds.",
+      "shape": "table",
+      "value": {
+        "freqHz": {
+          "min": 20,
+          "max": 20000,
+          "step": 0,
+          "unit": "Hz",
+          "scale": "log"
+        },
+        "hpfFreqHz": {
+          "min": 20,
+          "max": 1000,
+          "step": 0,
+          "unit": "Hz",
+          "scale": "log"
+        },
+        "lpfFreqHz": {
+          "min": 1000,
+          "max": 20000,
+          "step": 0,
+          "unit": "Hz",
+          "scale": "log"
+        }
+      }
+    },
     "STANDARD_SAMPLE_RATES": {
       "rel": "data/rates.json",
       "kind": "list",
@@ -1680,6 +2237,35 @@
       "doc": "The rate a unit-range DSP knob is quoted at (R-058): the rate this desk runs (ruling 2026-09-14). A kernel raises the knob to `REF / sr`, so at this rate the exponent is exactly 1 and the response is bit-for-bit the one cut before the law. Emitted to C as `OMX_DSP_KNOB_REFERENCE_RATE`; the reverb damping and FX-delay tone references `#define` from it.",
       "unit": "Hz",
       "value": 96000
+    },
+    "ORACLE_FLOOR_RATES": {
+      "rel": "data/rates.json",
+      "kind": "list",
+      "doc": "The four rates every kernel oracle runs at, whatever STANDARD_SAMPLE_RATES says: a declared list missing one of them stops a suite instead of testing less (omx-dsp, omx-plugins and omx-clap-host run their oracles at these).",
+      "unit": "Hz",
+      "value": [
+        44100,
+        48000,
+        96000,
+        192000
+      ]
+    },
+    "RME_RATES": {
+      "rel": "data/rates.json",
+      "kind": "list",
+      "doc": "The nine rates an RME interface clocks at, 32 to 192 kHz. STANDARD_SAMPLE_RATES is a subset of them; an oracle that runs here also covers 32, 64 and 128 kHz, where a kernel still has to meet its closed form even though the console never asks for them.",
+      "unit": "Hz",
+      "value": [
+        32000,
+        44100,
+        48000,
+        64000,
+        88200,
+        96000,
+        128000,
+        176400,
+        192000
+      ]
     }
   }
 }
