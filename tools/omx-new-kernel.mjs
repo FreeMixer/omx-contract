@@ -8,6 +8,7 @@
  *       the questions, read off the recipe
  *   node tools/omx-new-kernel.mjs --import --kernel <k> --since <x.y.z> --engine <checkout> --ref <git ref>
  *       [--names A,B,...] [--unit NAME=<unit>] [--set NAME[.path]=<json>] [--c NAME=<json>] [--from NAME=<path>:<export|define>]
+ *       [--doc NAME=<text>] (the doc, for a value whose engine declaration shares its comment with the one above it)
  *       the IMPORTER: reads each item where the engine declares it at <ref> and writes recipes/answers/<k>.json.
  *       A TypeScript export is read by EVALUATING its module (tools/engine-ts-hook.mjs), so a spread, a
  *       reference or a derivation gives the value the engine computes; a C #define is read when it is
@@ -65,7 +66,7 @@ export function parseArgs(argv) {
     const flag = ['questions', 'import', 'verify'].includes(k);
     const v = flag ? true : argv[++i];
     if (v === undefined) refuse(`--${k} needs a value`);
-    if (['unit', 'set', 'c', 'from'].includes(k)) (o[k] ??= []).push(v);
+    if (['unit', 'set', 'c', 'from', 'doc'].includes(k)) (o[k] ??= []).push(v);
     else o[k] = v;
   }
   return o;
@@ -191,6 +192,7 @@ export async function verifyAnswers(answers, checkout, root = ROOT) {
   try {
     const bad = [];
     for (const it of answers.items) {
+      if (it.source.origin) continue; // no engine source to read again
       const { value } = await readSource(eng, answers.engine.commit, it.name, it.source);
       if (JSON.stringify(value) !== JSON.stringify(it.value)) bad.push(`${it.name}: the answers hold ${JSON.stringify(it.value)}, ${it.source.path} gives ${JSON.stringify(value)}`);
     }
@@ -222,6 +224,7 @@ export async function importKernel(o, root = ROOT) {
   const sets = pairs(o.set, true);
   const cs = pairs(o.c, true);
   const froms = pairs(o.from);
+  const docs = pairs(o.doc);
   const eng = extractEngine(checkout, ref, recipe.engine.archive);
   try {
     const items = [];
@@ -236,7 +239,7 @@ export async function importKernel(o, root = ROOT) {
       const { text, value, raw } = await readSource(eng, ref, name, source);
       if (raw !== null && typeof raw === 'object') raws.set(name, raw);
       const k = kept?.get(name) ?? {};
-      const it = { name, source, value, doc: docAt(text, source) ?? k.doc ?? refuse(`${name}: ${source.path} has no doc comment above it; write one in the engine`) };
+      const it = { name, source, value, doc: docs.get(name) ?? docAt(text, source) ?? k.doc ?? refuse(`${name}: ${source.path} has no doc comment above it; write one in the engine`) };
       const unit = units.get(name) ?? k.unit;
       const needsUnit = typeof value !== 'object' || Array.isArray(value);
       if (needsUnit && unit === undefined) refuse(`${name}: a ${Array.isArray(value) ? 'list' : 'scalar'} carries a unit the engine does not declare; give --unit ${name}=<unit>`);
@@ -292,7 +295,12 @@ function setAt(value, path, spec) {
 export function itemOf(a) {
   const v = plain(a.value);
   let it;
-  if (typeof v === 'number' || typeof v === 'boolean' || typeof v === 'string') it = { kind: 'scalar', doc: a.doc, unit: a.unit, value: v };
+  if (a.kind === 'set') {
+    if (!Array.isArray(v)) refuse(`${a.name}: a set's value is its list of ids`);
+    it = { kind: 'set', doc: a.doc, ids: v };
+    if (a.default !== undefined) it.default = a.default;
+    if (a.labels !== undefined) it.labels = a.labels;
+  } else if (typeof v === 'number' || typeof v === 'boolean' || typeof v === 'string') it = { kind: 'scalar', doc: a.doc, unit: a.unit, value: v };
   else if (Array.isArray(v)) it = { kind: 'list', doc: a.doc, unit: a.unit, values: v };
   else if (isTravel(v)) it = { kind: 'travels', doc: a.doc, travel: v };
   else if (!isObj(v)) refuse(`${a.name}: ${JSON.stringify(v)} is not a value an item holds`);

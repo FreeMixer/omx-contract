@@ -29,12 +29,12 @@ const treeOf = (url) => {
 const ts = (url) => ({ url, shortCircuit: true, format: 'module-typescript' });
 
 export async function resolve(spec, ctx, next) {
-  const ws = /^@(?:freemixer|openmixer)\/([a-z0-9-]+)$/.exec(spec);
+  const wsName = /^@(?:freemixer|openmixer)\/([a-z0-9-]+)$/.exec(spec);
   const tree = treeOf(ctx.parentURL);
-  if (ws && tree) {
-    const p = join(tree, 'packages', ws[1], 'src', 'index.ts');
-    if (existsSync(p)) return ts(pathToFileURL(p).href);
-  }
+  // a workspace package when the extracted tree has it; @openmixer/omx-contract is an installed one
+  const wsPath = wsName && tree ? join(tree, 'packages', wsName[1], 'src', 'index.ts') : undefined;
+  const ws = wsPath && existsSync(wsPath);
+  if (ws) return ts(pathToFileURL(wsPath).href);
   if ((spec.startsWith('./') || spec.startsWith('../')) && ctx.parentURL?.startsWith('file:')) {
     const p = fileURLToPath(new URL(spec, ctx.parentURL));
     if (p.endsWith('.ts') && existsSync(p)) return ts(pathToFileURL(p).href);
