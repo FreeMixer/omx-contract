@@ -42,10 +42,7 @@
       12500,
       16000,
       20000
-    ],
-    "c": {
-      "render": false
-    }
+    ]
   },
   "GEQ_BANDS": {
     "kind": "scalar",
@@ -115,5 +112,164 @@
       "step": 10,
       "unit": "Hz"
     }
+  },
+  "OPERATOR_EQ_BANDS_RESERVE": {
+    "kind": "scalar",
+    "doc": "The band slots kept for the operator's own hand: the reserve the feedback suppressor and the ring correction may never eat into. Nine is the working set a live EQ actually holds. The budget OPERATOR_EQ_BANDS_RESERVE + FBS_DEFAULT_MAX_AUTO_BANDS + HRP_DEFAULT_MAX_AUTO_BANDS (9 + 6 + 8 = 23) must fit EQ_MAX_BANDS, and `omx-contract validate` refuses data where it does not.",
+    "unit": "",
+    "value": 9
+  },
+  "EQ_BAND_TYPES": {
+    "kind": "set",
+    "doc": "The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.",
+    "ids": [
+      "bell",
+      "lowShelf",
+      "highShelf",
+      "notch",
+      "allpass1",
+      "allpass2"
+    ],
+    "default": "bell",
+    "labels": [
+      "Bell",
+      "Low Shelf",
+      "High Shelf",
+      "Notch",
+      "All-pass 1st",
+      "All-pass 2nd"
+    ]
+  },
+  "FILTER_SLOPES": {
+    "kind": "set",
+    "doc": "The pass-filter slopes the EQ offers, in dB per octave. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.",
+    "ids": [
+      12,
+      24
+    ],
+    "default": 12
+  },
+  "EQ_BAND_COUNTS": {
+    "kind": "sheet",
+    "doc": "How many bands each strip type's EQ starts with (`default`) and may hold (`max`). `channel` is the console's channel strip: it starts with four and the operator adds bands up to EQ_MAX_BANDS (a band added takes the frequency it is added at, so no default is declared for it). `strip` is the omx-strip plugin's EQ and `eq8`, `eq16` and `eq32` the omx-eq plugins, whose bands are fixed. A default may never exceed its maximum, and the default centres of any count come from the one default rule, whatever the strip.",
+    "value": {
+      "channel": {
+        "default": 4,
+        "max": {
+          "ref": "EQ_MAX_BANDS"
+        }
+      },
+      "strip": {
+        "default": 4,
+        "max": 4
+      },
+      "eq8": {
+        "default": 8,
+        "max": 8
+      },
+      "eq16": {
+        "default": 16,
+        "max": 16
+      },
+      "eq32": {
+        "default": 32,
+        "max": 32
+      }
+    }
+  },
+  "EQ_BAND_DEFAULTS": {
+    "kind": "sheet",
+    "doc": "What every band of a fresh EQ comes up at, whatever its type and its strip: flat (0 dB) and Q 1. The band frequencies and types come from the default rule.",
+    "value": {
+      "gainDb": 0,
+      "q": 1
+    }
+  },
+  "EQ_PASS_FILTER_DEFAULTS": {
+    "kind": "sheet",
+    "doc": "The corners the high-pass and low-pass filters of a fresh EQ are parked at, whatever the strip. Both come up off.",
+    "value": {
+      "hpfFreqHz": 80,
+      "lpfFreqHz": 18000
+    }
+  },
+  "EQ_DEFAULT_CENTRES_FOUR_BAND_HZ": {
+    "kind": "list",
+    "doc": "The default band centres of a four-band EQ, Hz: ISO 266 preferred values, two to two and a half octaves apart. The default rule gives every other band count its centres from the preferred series; four bands start here.",
+    "unit": "Hz",
+    "values": [
+      100,
+      400,
+      2000,
+      8000
+    ]
+  },
+  "EQ_CENTRE_SERIES_R20_HZ": {
+    "kind": "list",
+    "doc": "The ISO 266 R20 preferred frequencies from 20 Hz to 20 kHz (61 values, sixth-octave spacing): the finer series the default band rule falls back to where R10 (ISO_THIRD_OCTAVE_CENTRES_HZ, 31 values) has too few to give every band its own centre. R10 is a subset of it.",
+    "unit": "Hz",
+    "values": [
+      20,
+      22.4,
+      25,
+      28,
+      31.5,
+      35.5,
+      40,
+      45,
+      50,
+      56,
+      63,
+      71,
+      80,
+      90,
+      100,
+      112,
+      125,
+      140,
+      160,
+      180,
+      200,
+      224,
+      250,
+      280,
+      315,
+      355,
+      400,
+      450,
+      500,
+      560,
+      630,
+      710,
+      800,
+      900,
+      1000,
+      1120,
+      1250,
+      1400,
+      1600,
+      1800,
+      2000,
+      2240,
+      2500,
+      2800,
+      3150,
+      3550,
+      4000,
+      4500,
+      5000,
+      5600,
+      6300,
+      7100,
+      8000,
+      9000,
+      10000,
+      11200,
+      12500,
+      14000,
+      16000,
+      18000,
+      20000
+    ]
   }
 }

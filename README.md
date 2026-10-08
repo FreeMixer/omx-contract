@@ -7,12 +7,17 @@ list), as JSON validated by a JSON Schema, rendered by one CLI into
 every language that reads it. Governed by openmixer's
 `docs/design/specs/2026-10-05-omx-contract.md`; 1.0.0 carries the phase-1 items of its §4.1, what
 omx-dsp needs, 1.1.0 adds the flanger, de-esser, phaser, rotary, tremolo and graphic EQ kernels, and
-1.2.0 the chorus, drive, EQ, reverb and pan travels omx-dsp and omx-plugins still kept locally.
+1.2.0 the chorus, drive, EQ, reverb and pan travels omx-dsp and omx-plugins still kept locally, and
+1.3.0 everything else more than one repository reads: the feedback detector, ring correction and
+RTA constants, the EQ band budget, the choice enums (as the `set` kind), the EQ band counts and the
+one rule that gives a fresh EQ its bands, the measurement rate sets and the bus input cap. What is
+declared here is declared nowhere else: the EQ band budget that 1.2.0 left in openmixer is here too.
 
 ```
 data/                        the declaration, one file per group, edited by hand
   rates.json  primitives.json  kernels/<kernel>.json
-schema/omx-contract.schema.json   JSON Schema 2020-12: five kinds, closed units, refs, closed derivations
+schema/omx-contract.schema.json   JSON Schema 2020-12: five kinds (scalar, travels, sheet, list, set), closed units, refs, closed derivations
+lib/eq-defaults.mjs          the one default rule for a fresh EQ's bands; the ts and c renders carry it
 bin/omx-contract.mjs         the CLI
 render/                      c.mjs (openmixer's renderer, moved unchanged, under c/), ts.mjs, json.mjs
 include/omxcontract/         the committed c render (what omx-contract-devel installs)
@@ -41,9 +46,9 @@ share/omx-contract` and `render --target ts --out test/golden/ts`; CI holds all 
 
 ## Consuming it
 
-Pin one version (`omx-contract 1.2.1` in `.github/pins.txt`) and build against its renders, committing
+Pin one version (`omx-contract 1.3.0` in `.github/pins.txt`) and build against its renders, committing
 none: the installed `omx-contract-devel` / `libomx-contract-dev` at exactly that version
-(`pkg-config --exact-version=1.2.1 omx-contract`), else the release's npm tarball, unpacked, and
+(`pkg-config --exact-version=1.3.0 omx-contract`), else the release's npm tarball, unpacked, and
 `omx-contract render --target c --out build/omx-contract/include`. Include
 `<omxcontract/omx_contract_limits.h>`. A plugin's parameter header is rendered by omx-plugins from its
 declaration, by reference to the kernel travels here (since 1.1.0).

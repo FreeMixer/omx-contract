@@ -36,7 +36,9 @@ test('the ts module exports every item with the resolved value', async () => {
   assert.match(dts, /export declare const GATE_LIMITS: \{\n {2}readonly thresholdDb: \{\n {4}readonly min: -80;/);
 });
 
-test('the c headers compile, and a C reader sees the declared values', { skip: spawnSync('cc', ['--version']).status !== 0 && 'no cc' }, () => {
+const cc = (process.env.CC ?? 'cc').split(' ');
+
+test('the c headers compile, and a C reader sees the declared values', { skip: spawnSync(cc[0], [...cc.slice(1), '--version']).status !== 0 && 'no cc' }, () => {
   const dir = mkdtempSync(join(tmpdir(), 'omx-c-'));
   const src = join(dir, 't.c');
   writeFileSync(src, `#include <stdio.h>
@@ -48,6 +50,6 @@ int main(void) {
   return 0;
 }
 `);
-  execFileSync('cc', ['-std=c11', '-Wall', '-Wextra', '-Werror', '-Wno-unused-function', '-I', join(ROOT, 'include'), src, '-o', join(dir, 't')]);
+  execFileSync(cc[0], [...cc.slice(1), '-std=c11', '-Wall', '-Wextra', '-Werror', '-Wno-unused-function', '-I', join(ROOT, 'include'), src, '-o', join(dir, 't'), '-lm']);
   assert.equal(execFileSync(join(dir, 't'), { encoding: 'utf8' }), '-80 0.707107 31 6 4.3 800 2000\n');
 });

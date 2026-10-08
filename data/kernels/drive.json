@@ -98,5 +98,25 @@
         "field": "trimDb"
       }
     }
+  },
+  "DRIVE_CURVES": {
+    "kind": "set",
+    "doc": "The drive's shaper curves, in the order of the integer the kernel reads. Exciter runs the soft shape in a parallel-sum topology.",
+    "ids": [
+      "soft",
+      "tape",
+      "tube",
+      "exciter"
+    ]
+  },
+  "DRIVE_BANDS": {
+    "kind": "set",
+    "doc": "Which part of the spectrum the drive's curve is fed, in the order of the integer the kernel reads. The split is complementary, so mix 0 stays bit-identical to the dry signal.",
+    "ids": [
+      "full",
+      "low",
+      "high",
+      "tilt"
+    ]
   }
 }

@@ -79,6 +79,18 @@ export const CHORUS_MIX_RANGE = {
 };
 
 /**
+ * The chorus's base delay, ms: the voices swing around it by up to the depth.
+ * @see data/kernels/chorus.json
+ */
+export const CHORUS_BASE_MS = 10;
+
+/**
+ * The longest delay a chorus voice reaches, rounded up to whole ms: the base delay plus the depth maximum. The delay line is sized from it.
+ * @see data/kernels/chorus.json
+ */
+export const CHORUS_MAX_MS = 22;
+
+/**
  * The legal range of each compressor field (engineering units). The widget clamps drags to these, `normalizeComp` enforces them, the row's codec refuses by them and the travel sheet publishes them. `default`/`defaultFrom` are the come-up values `defaultCompState` seeds a fresh strip with, read BACK from here rather than restated there.
  * @see data/kernels/comp.json
  */
@@ -256,6 +268,15 @@ export const DEESS_RELEASE_RANGE = {
 export const DEESS_KNEE_DB = 6;
 
 /**
+ * The de-esser's modes, in the order of the integer the kernel reads: split attenuates the detected band only, wideband the whole signal while the sibilance lasts.
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_MODES = [
+  "split",
+  "wideband"
+];
+
+/**
  * The FX delay's time travel. `max` is the NATIVE ring's ceiling — the same number as `OMX_FXDELAY_MAX_MS` in `omx_delay.h`, pinned to it by `output-delay-ceiling.test.ts`. Distinct from the per-route ALIGNMENT delay (`OUTPUT_DELAY_RANGE`, 1 s, `OMX_DELAY_MAX_MS`): one is a musical echo with feedback and mix, the other is a pure latency. Two facts, two rings, two ceilings — sharing the word "delay" is why they keep being confused for each other.
  * @see data/kernels/delay.json
  */
@@ -388,6 +409,28 @@ export const DRIVE_TRIM_RANGE = {
 };
 
 /**
+ * The drive's shaper curves, in the order of the integer the kernel reads. Exciter runs the soft shape in a parallel-sum topology.
+ * @see data/kernels/drive.json
+ */
+export const DRIVE_CURVES = [
+  "soft",
+  "tape",
+  "tube",
+  "exciter"
+];
+
+/**
+ * Which part of the spectrum the drive's curve is fed, in the order of the integer the kernel reads. The split is complementary, so mix 0 stays bit-identical to the dry signal.
+ * @see data/kernels/drive.json
+ */
+export const DRIVE_BANDS = [
+  "full",
+  "low",
+  "high",
+  "tilt"
+];
+
+/**
  * The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.
  * @see data/kernels/eq.json
  */
@@ -504,6 +547,290 @@ export const LPF_FREQ_RANGE = {
 };
 
 /**
+ * The band slots kept for the operator's own hand: the reserve the feedback suppressor and the ring correction may never eat into. Nine is the working set a live EQ actually holds. The budget OPERATOR_EQ_BANDS_RESERVE + FBS_DEFAULT_MAX_AUTO_BANDS + HRP_DEFAULT_MAX_AUTO_BANDS (9 + 6 + 8 = 23) must fit EQ_MAX_BANDS, and `omx-contract validate` refuses data where it does not.
+ * @see data/kernels/eq.json
+ */
+export const OPERATOR_EQ_BANDS_RESERVE = 9;
+
+/**
+ * The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.
+ * @see data/kernels/eq.json
+ */
+export const EQ_BAND_TYPES = [
+  "bell",
+  "lowShelf",
+  "highShelf",
+  "notch",
+  "allpass1",
+  "allpass2"
+];
+
+/**
+ * The pass-filter slopes the EQ offers, in dB per octave. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.
+ * @see data/kernels/eq.json
+ */
+export const FILTER_SLOPES = [
+  12,
+  24
+];
+
+/**
+ * How many bands each strip type's EQ starts with (`default`) and may hold (`max`). `channel` is the console's channel strip: it starts with four and the operator adds bands up to EQ_MAX_BANDS (a band added takes the frequency it is added at, so no default is declared for it). `strip` is the omx-strip plugin's EQ and `eq8`, `eq16` and `eq32` the omx-eq plugins, whose bands are fixed. A default may never exceed its maximum, and the default centres of any count come from the one default rule, whatever the strip.
+ * @see data/kernels/eq.json
+ */
+export const EQ_BAND_COUNTS = {
+  "channel": {
+    "default": 4,
+    "max": 24
+  },
+  "strip": {
+    "default": 4,
+    "max": 4
+  },
+  "eq8": {
+    "default": 8,
+    "max": 8
+  },
+  "eq16": {
+    "default": 16,
+    "max": 16
+  },
+  "eq32": {
+    "default": 32,
+    "max": 32
+  }
+};
+
+/**
+ * What every band of a fresh EQ comes up at, whatever its type and its strip: flat (0 dB) and Q 1. The band frequencies and types come from the default rule.
+ * @see data/kernels/eq.json
+ */
+export const EQ_BAND_DEFAULTS = {
+  "gainDb": 0,
+  "q": 1
+};
+
+/**
+ * The corners the high-pass and low-pass filters of a fresh EQ are parked at, whatever the strip. Both come up off.
+ * @see data/kernels/eq.json
+ */
+export const EQ_PASS_FILTER_DEFAULTS = {
+  "hpfFreqHz": 80,
+  "lpfFreqHz": 18000
+};
+
+/**
+ * The default band centres of a four-band EQ, Hz: ISO 266 preferred values, two to two and a half octaves apart. The default rule gives every other band count its centres from the preferred series; four bands start here.
+ * @see data/kernels/eq.json
+ */
+export const EQ_DEFAULT_CENTRES_FOUR_BAND_HZ = [
+  100,
+  400,
+  2000,
+  8000
+];
+
+/**
+ * The ISO 266 R20 preferred frequencies from 20 Hz to 20 kHz (61 values, sixth-octave spacing): the finer series the default band rule falls back to where R10 (ISO_THIRD_OCTAVE_CENTRES_HZ, 31 values) has too few to give every band its own centre. R10 is a subset of it.
+ * @see data/kernels/eq.json
+ */
+export const EQ_CENTRE_SERIES_R20_HZ = [
+  20,
+  22.4,
+  25,
+  28,
+  31.5,
+  35.5,
+  40,
+  45,
+  50,
+  56,
+  63,
+  71,
+  80,
+  90,
+  100,
+  112,
+  125,
+  140,
+  160,
+  180,
+  200,
+  224,
+  250,
+  280,
+  315,
+  355,
+  400,
+  450,
+  500,
+  560,
+  630,
+  710,
+  800,
+  900,
+  1000,
+  1120,
+  1250,
+  1400,
+  1600,
+  1800,
+  2000,
+  2240,
+  2500,
+  2800,
+  3150,
+  3550,
+  4000,
+  4500,
+  5000,
+  5600,
+  6300,
+  7100,
+  8000,
+  9000,
+  10000,
+  11200,
+  12500,
+  14000,
+  16000,
+  18000,
+  20000
+];
+
+/**
+ * How far (bins) around bin/2 and bin/3 PSHR (`omx_fbs_pshr`) scans for a sub-harmonic line. A true half/third partial lands mid-bin in the worst case (bin/2 and bin/3 are rarely integers) and spectral leakage smears it one bin further; ±2 covers both. Measured on the #116 live-music corpus: every false positive's sub-line sat inside this window. Deliberately NOT wider — at low bins the window is already a large fraction of an octave, and widening it would start reading unrelated program lines as "sub-harmonics" of real feedback.
+ * @see data/kernels/fbs.json
+ */
+export const SUBHARMONIC_RADIUS_BINS = 2;
+
+/**
+ * PAPR's guard band: bins either side of the peak left out of the floor average (its own skirt).
+ * @see data/kernels/fbs.json
+ */
+export const FBS_PAPR_GUARD_BINS = 2;
+
+/**
+ * PNPR's neighbourhood radius in bins, and the guard inside it that belongs to the peak's own skirt: a pure tone is compared with bins 2 and 3 away on each side.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_PNPR_RADIUS_BINS = 3;
+
+/**
+ * The guard inside PNPR's neighbourhood radius that belongs to the peak's own skirt, in bins.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_PNPR_GUARD_BINS = 1;
+
+/**
+ * How many harmonics PHPR reads above the candidate: 2f, 3f and 4f.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_PHPR_HARMONICS = 3;
+
+/**
+ * PSHR skips sub-window bins within this many of the candidate, so a low bin never measures its own skirt as a sub-harmonic.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_PSHR_SELF_SKIP_BINS = 3;
+
+/**
+ * The magnitude floor of every detector dB reading (−240 dB): a zero bin stays finite.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_FLOOR_LIN = 1e-12;
+
+/**
+ * Tracked candidate bins per armed channel. A candidate that finds no free slot is COUNTED and reported, never dropped silently; the identity corpus peaks at 34.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_TRACK_SLOTS = 512;
+
+/**
+ * Minimum PSHR (`omx_fbs_pshr`) (dB) for a candidate frame to count as sub-harmonic-CLEAN. Evidence-set on the #116 corpus, margin on both sides: the four live false positives (musical overtones at 1 869.1 / 832.0 / 263.7 / 228.5 Hz) read PSHR between −10.2 and +8.8 dB across their windows — never a 5-frame sub-clean stretch, and the single closest approach (+8.8) is isolated between frames at ≈ −1 and −10 — while the committed #106 injected ramp reads ≥ +12.2 dB from its second frame on (its frame 0 sits at +9.4, costing exactly one frame of confirm latency, pinned in the corpus test). A static program line at f/2 of REAL feedback also clears this fast: the runaway gains several dB per hop on anything static, so the deferral is transient.
+ * @see data/kernels/fbs.json
+ */
+export const PSHR_MIN_DB = 10;
+
+/**
+ * How many of a candidate bin's most recent dB readings feed the growth-slope estimate (the engine's least-squares slope) — set equal to DEFAULT_THRESHOLDS's `persistFrames` so growth is judged over the SAME window persistence already demands (the full run since the bin became a candidate, not a shorter or longer slice of it). Long enough that a couple of noisy/vibrato frames can't fake a trend by themselves.
+ * @see data/kernels/fbs.json
+ */
+export const GROWTH_WINDOW_FRAMES = 5;
+
+/**
+ * The DEEP plateau tier's dwell: ~2 s at the watcher's 10 Hz — the TIME that buys the deeper floor its music safety (see DetectThresholds.deepPlateauFloorDb).
+ * @see data/kernels/fbs.json
+ */
+export const DEEP_PLATEAU_FRAMES = 20;
+
+/**
+ * Minimum least-squares slope, in dB PER FRAME, over GROWTH_WINDOW_FRAMES for a bin to count as "running away" rather than merely holding level. Set with real margin on BOTH sides — comfortably above measurement jitter on a held tone or a quiet/broadband mix (well under 0.2 dB/frame in practice) and comfortably below a genuine feedback ramp, which climbs several dB across a handful of ~20 ms hops as it heads toward clipping. Issue #91's acceptance bar is "arming must never burst-alarm on non-growing content", so this errs conservative (under-fire a marginal ramp) rather than tight (risk a false alarm) — the ramp gate (`omx_fbs_is_growing`) also requires the window's end to sit above its start, a cheap belt-and-braces check against a fit dragged positive by one mid-window wobble.
+ * @see data/kernels/fbs.json
+ */
+export const GROWTH_MIN_DB_PER_FRAME = 0.8;
+
+/**
+ * Largest single-frame DIP (dB) a run-away window may contain. Real feedback climbs every hop; a small allowance covers measurement jitter and the −0.3 dB-ish wobble frames seen on live captures, while any real drop (a note ending, tremolo) breaks the run.
+ * @see data/kernels/fbs.json
+ */
+export const GROWTH_MAX_DIP_DB = 0.5;
+
+/**
+ * Minimum END-TO-END rise (dB) across the window. The live-music corpus (issue #106) showed sustained melody notes drifting up ~4–5 dB over a window without ever being feedback; a loop past unity gains several dB per hop and clears 6 dB in a window trivially. Below this the tone is holding level, not running away.
+ * @see data/kernels/fbs.json
+ */
+export const GROWTH_MIN_TOTAL_RISE_DB = 6;
+
+/**
+ * Cap on the share of the window's total rise a SINGLE frame may carry. Feedback is exponential in amplitude ⇒ linear in dB ⇒ its rise is distributed roughly evenly across the window; a musical attack / re-articulation puts almost the whole rise in one hop (the exact shape behind every one of issue #106's 72 live false positives). One half is generous to real ramps (an even N-frame ramp puts 1/(N−1) per hop) and fatal to steps. A side effect worth knowing: a 2-sample window can never pass (one hop IS the whole rise), so confirmation always rests on at least three frames of actual ramp evidence.
+ * @see data/kernels/fbs.json
+ */
+export const GROWTH_MAX_SINGLE_FRAME_SHARE = 0.5;
+
+/**
+ * How many CONSECUTIVE frames the ramp gate (`omx_fbs_is_growing`) must hold before a bin confirms — the time-domain tiebreak for the one shape a single window cannot judge (issue #106): a smooth musical crescendo. Within one window a +6 dB swell (live corpus: a C6 at 1 049 Hz, `[-53.7, -51.4, -50.4, -48, -47.3]`) is indistinguishable from slow feedback — the difference is only visible on the NEXT hop, where a crescendo peaks and plateaus (the window's rise collapses) while feedback keeps climbing. Requiring the gate to hold twice in a row costs a clean ramp nothing — its gate is already true while persistence is still arming — and blocks the swell that peaks the very frame it would have confirmed.
+ * @see data/kernels/fbs.json
+ */
+export const GROWTH_CONFIRM_FRAMES = 2;
+
+/**
+ * The corpus-tuned SAFE DEFAULT — today's exact gates, assembled byte-for-byte from the exported consts above (which stay the authoritative literal source, so the corpus test's import type { MagnitudeSeries } from './spectrum-bands.js'; imports remain the single truth). This is the ANCHOR the whole sensitivity mapping pins to: thresholdsFor`(0, 'live')` and `(0, 'fixed')` both deep-equal this object, so an untouched channel runs the identical detector it does now. `plateauFloorDb` is omitted ⇒ the #140 plateau route is OFF at the default.
+ * @see data/kernels/fbs.json
+ */
+export const DEFAULT_THRESHOLDS = {
+  "paprDb": 18,
+  "pnprDb": 12,
+  "phprDb": 9,
+  "persistFrames": 5,
+  "growthConfirmFrames": 2,
+  "subCleanFrames": 5,
+  "growthMinTotalRiseDb": 6,
+  "growthMaxSingleFrameShare": 0.5,
+  "growthMinDbPerFrame": 0.8,
+  "growthMaxDipDb": 0.5,
+  "pshrMinDb": 10
+};
+
+/**
+ * THE NOTCH DEPTH LAW: the deepest cut any machine planter may propose from one reading, in dB. A number, not a literal at the call site, because two planters now lean on it. FBS derives a candidate's depth from the peak-to-average ratio around its bin and stops here; Room Analysis derives a mode's depth from its height above the median curve and is held to the SAME ceiling (2026-09-08-room-analysis.md §4 — "never more than the FBS notch depth law"). Written twice as `18` those two bounds would be equal by coincidence and could drift apart in silence. It is a CEILING ON THE PROPOSAL, not the final gain: a band that lands as a rampable BELL is bounded again by `EQ_GAIN_RANGE`, which is tighter. A planter must honour both and REPORT when either bit, never quietly deliver a shallower cut than it was asked for.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_MAX_NOTCH_DEPTH_DB = 18;
+
+/**
+ * Default planted-notch width (Q) — the dbx-AFS-style ultra-narrow notch the corrector plants. `addBand`'s per-shape clamp holds it at 116 for a fixed notch and narrows it to 8 for a live bell, so this is the declared starting point rather than the width every notch ends up with.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_DEFAULT_NOTCH_Q = 116;
+
+/**
+ * Default per-channel cap on auto-planted bands — a full pool plants nothing and raises a pool-full alert instead (predictability over silent eviction).
+ * @see data/kernels/fbs.json
+ */
+export const FBS_DEFAULT_MAX_AUTO_BANDS = 6;
+
+/**
  * The flanger's jet sweep (§3b).
  * @see data/kernels/flanger.json
  */
@@ -554,6 +881,18 @@ export const FLANGER_MIX_RANGE = {
   "default": 50,
   "defaultFrom": "desk"
 };
+
+/**
+ * The flanger's base delay, ms: the sweep rides on it up to the depth.
+ * @see data/kernels/flanger.json
+ */
+export const FLANGER_BASE_MS = 0.5;
+
+/**
+ * The longest delay a flanger sweep reaches, rounded up to whole ms: the base delay plus the depth maximum. The delay line is sized from it.
+ * @see data/kernels/flanger.json
+ */
+export const FLANGER_MAX_MS = 6;
 
 /**
  * The legal range of each gate field (engineering units). The widget clamps drags to these, `normalizeGate` enforces them, the row's codec refuses by them and the travel sheet publishes them — one source of truth. `rangeDb` reaches GATE_RANGE_FLOOR_DB, shown as "−∞" in readouts (a gate fully closed is silence).
@@ -635,6 +974,15 @@ export const GATE_LIMITS = {
 };
 
 /**
+ * Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.
+ * @see data/kernels/gate.json
+ */
+export const GATE_KEY_SOURCES = [
+  "self",
+  "sidechain"
+];
+
+/**
  * One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB (graphic-eq-31 spec §3).
  * @see data/kernels/geq.json
  */
@@ -666,6 +1014,66 @@ export const GEQ_PROTO_DB = 12;
 export const GEQ_DESIGN_GAIN_MAX_DB = 30;
 
 /**
+ * The largest automatic cut HRP may place on one harmonic, as a POSITIVE dB magnitude. Well inside the ±15 dB an operator band may hold (core's `EQ_GAIN_LIMIT_DB`): an automatic correction the operator did not ask for gets far less authority than one they dialled themselves.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_MAX_CUT_DB = 6;
+
+/**
+ * How many simultaneous musical voices the detector may report on one channel. PINNED to `OMX_HRP_MAX_VOICES` in `pipewire-native/src/hrp_pitch.h` — the C voice set is a FIXED-SIZE array, so a TS number above the macro promises voices the analyser structurally cannot return, and one below it silently drops notes the C already found. `core/src/output-delay-ceiling.test.ts` reads the header and holds the pair equal. EIGHT (operator sizing, 2026-09-01): a guitar sounds six strings, a piano or string-section voicing sits at eight. It is a SEARCH ceiling, not a cost — the detector abandons a round as soon as no credible candidate remains, so monophonic material costs what it always did.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_MAX_VOICES = 8;
+
+/**
+ * The Q of an HRP correction band — one declared number, operator-adjustable later. A musical cut, not a ring killer: FBS's default notch Q is ~116 because a howl is a single frequency, whereas a partial that is too loud is a note an instrument is playing and a surgical null on it would be heard as a hole. 5 sits mid-band in the 4…6 range a musical subtractive cut occupies, and inside EQ_Q_RANGE — the gain-carrying shapes' extent — so it survives the store's clamp unchanged. Deliberately NOT derived from the harmonic index. A derivation invented with no measurement behind it is a second declaration wearing a formula; this is revisited when the analyse-only surface shows what real corrections look like.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_BAND_Q = 5;
+
+/**
+ * How far a partial must stand above its LEARNED BASELINE before HRP calls it a resonance (increment 8, §23–§24: `deviation = measured − baseline[note][harmonic]`). A partial level tells you nothing on its own; what marks a resonance is a partial louder than THIS instrument normally measures at THIS note. Three decibels is the same order as the feedback detector's peak-to-neighbour gate and for the same reason: below it, an ordinary performance's variation — a bow dug in, a verse sung harder — would be flattened, and flattening expression is not correcting a room. (Before the learned model existed this same threshold gated the placeholder neighbour rule; the number and its reasoning carried over.)
+ * @see data/kernels/hrp.json
+ */
+export const HRP_EXCESS_THRESHOLD_DB = 3;
+
+/**
+ * How far ONE reconcile pass may move an HRP band's gain, in dB — §48's gain smoothing, done at the control level because the native cascade applies pushed coefficients verbatim and §48 forbids interpolating there. An unbounded gain step is a waveform discontinuity — the click heard when a correction entered or left at full depth (found live, 2026-08-20, the evening increment 9 raised the enter/leave rate). Bounded, a correction ENTERS by deepening from silence and LEAVES by walking to exactly 0 dB — the provable parked identity (`eqBandIsIdentity`) — from which removal is bit-identical. Two decibels per pass at the corrector's 10 Hz cadence walks the full HRP_MAX_CUT_DB travel in ~300 ms: the same order as the tracker's stability hold and FBS's lift steps, while each individual move stays below audibility on a Q-5 bell.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_GAIN_STEP_DB = 2;
+
+/**
+ * How close two correction candidates must sit, in cents, to count as the SAME spectral region (§30): within it, the stronger candidate is selected and the weaker discarded rather than two near-identical filters being planted. One semitone, and the number follows from HRP_BAND_Q: a Q-5 bell's −3 dB half-width is ~170 cents, so two cuts a semitone apart overlap over most of their travel — the second one deepens the first far more than it shapes anything of its own. The spec orders the threshold configurable and tested (§30's last line): declared once here, a parameter everywhere below.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_COLLISION_CENTS = 100;
+
+/**
+ * The ATTRIBUTION window (§11): two partials closer than this are one spectral event as far as the desk can tell — the same ±1 bin `omx_hrp_bin_peak` reads over, expressed musically so it holds across the range. A different law from HRP_COLLISION_CENTS (§30's SELECTION window, which stays above it): this one is the analyser's resolution, that one the corrector's. Generated into `omx_contract_limits.h` as `OMX_HRP_ATTRIBUTION_CENTS`; `hrp_attribute.h` reads it.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_ATTRIBUTION_CENTS = 60;
+
+/**
+ * How many bands HRP may plant on ONE channel — its half of the machine budget, and the number that makes the budget FORECASTABLE rather than emergent. Without it the count is whatever the material happens to provoke: the placement law is sparse, so a clean note plants two bands and a resonant room plants nine, and nobody can answer "will this fit?" until it does not. With FBS senior (§9.3(b)) that discovery would happen at showtime, to the junior planter, silently. Declared instead, the whole sum is arithmetic an operator can read before a note is played: operator bands + FBS maxAutoBands + HRP maxAutoBands <= EQ_MAX_BANDS EIGHT — ONE CORRECTION PER VOICE at full polyphony (operator sizing, 2026-09-01). The detector's ceiling is HRP_MAX_VOICES voices, a guitar's six strings and a piano/string voicing's eight, and a budget below the voice count would decide by arithmetic which of the notes actually sounding may be corrected — a limit nobody could read off the desk. Scarcity is handled where it belongs instead: the candidates from every voice meet in ONE globally ranked list (spec §29) and the head of it is what gets planted. It is NOT a claim to seniority, and it is larger than FBS's six. Seniority is the ALLOCATION ORDER — `HrpPlanter` takes only `EQ_MAX_BANDS − others.length`, the remainder after the operator and every other machine — so a bigger junior default cannot reach a senior slot; it only means HRP asks for more of what is left. `eq-budget-fits.test.ts` asserts both halves. The per-channel DEFAULT; the row's travel is HRP_AUTO_BANDS_RANGE, so a channel that needs more can have more, as an explicit decision with a visible cost.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_DEFAULT_MAX_AUTO_BANDS = 8;
+
+/**
+ * How much of the computed correction HRP applies: 0 = analyse only, 1 = the full cut. It comes up at 0.5, half the computed cut.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_AMOUNT_RANGE = {
+  "min": 0,
+  "max": 1,
+  "step": 0,
+  "unit": "",
+  "default": 0.5
+};
+
+/**
  * The precision limiter's travels (`2026-09-27-precision-limiter.md` §2), rendered into `omx_contract_limits.h` as `OMX_LIMITER_*` by `harness/contract-limits-gen.mjs`, so `mix_limiter.h` reads them and never restates one (R-094). The ceiling is a TRUE peak in dBFS (the ×4 detector); the look-ahead sets the declared latency; the release is the envelope's time constant on the gain depth.
  * @see data/kernels/limiter.json
  */
@@ -695,6 +1103,12 @@ export const LIMITER_LIMITS = {
     "defaultFrom": "desk"
   }
 };
+
+/**
+ * The input cap a summing bus can be sized to — **the engine's declared input ceiling**, read from `@freemixer/declarations` rather than re-typed here. A gig with more than this many inputs needs more than one engine node; below it a bus is sized to `min(N, BUS_INPUT_CAP)`. It was a literal 64 until 2026-09-15, said to mirror the engine's `MAX_BUS_INPUTS` — and it did, but that 64 was the PipeWire builtin mixer's single-tier fan-in (8 × 8), never the engine's bound: the native node has allocated `OMX_MAX_STRIPS` (128) strips all along. Two literals agreeing by hand is how the console came to refuse a 96-channel desk it could carry. `native-input-ceiling.test.ts` holds this to the C header; spec `docs/design/specs/2026-09-14-console-allocation.md` §9 carries the ruling and the measured cost of width.
+ * @see data/kernels/mixmatrix.json
+ */
+export const BUS_INPUT_CAP = 128;
 
 /**
  * The phaser's sweep speed (§3). `omx_lfo_inc` freezes at Nyquist; this travel stays far below.
@@ -833,6 +1247,12 @@ export const PHASER_TRAVELS = {
     "defaultFrom": "desk"
   }
 };
+
+/**
+ * The highest frequency the phaser's all-pass sweep reaches, Hz.
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_F_TOP_HZ = 16000;
 
 /**
  * PITCH_LIMITS, moved from openmixer.
@@ -1024,6 +1444,24 @@ export const REVERB_GATE_THRESHOLD_RANGE = {
   "default": -40,
   "defaultFrom": "desk"
 };
+
+/**
+ * The reverb's algorithms, in the order of the integer the kernel reads. Reverse and gated are the room network handed a window and a gate.
+ * @see data/kernels/reverb.json
+ */
+export const REVERB_ALGORITHMS = [
+  "room",
+  "plate",
+  "hall",
+  "reverse",
+  "gated"
+];
+
+/**
+ * The gated reverb's gate attack, ms: the time the gate takes to open on a hit.
+ * @see data/kernels/reverb.json
+ */
+export const REVERB_GATE_ATTACK_MS = 1.5;
 
 /**
  * The horn's chorale (slow) rate, Hz.
@@ -1252,6 +1690,28 @@ export const ROTARY_STOP_EPS = 0.0001;
 export const ROTARY_RING_FLOATS = 256;
 
 /**
+ * The rotary speaker's speed settings, in the order of the integer the kernel reads: the rotors stopped, at their chorale (slow) rate, or at their tremolo (fast) rate.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_SPEEDS = [
+  "stop",
+  "slow",
+  "fast"
+];
+
+/**
+ * The RTA's target bin resolution — generated into `omx_contract_limits.h` as `OMX_RTA_TARGET_BIN_HZ`, which `mix_dsp.h` reads; `rta-window-derivation.test.ts` reads it back from the header.
+ * @see data/kernels/rta.json
+ */
+export const RTA_TARGET_BIN_HZ = 5.9;
+
+/**
+ * The largest RTA FFT the native ring holds — generated into `omx_contract_limits.h` as `OMX_RTA_FFT_SIZE_MAX`.
+ * @see data/kernels/rta.json
+ */
+export const RTA_FFT_SIZE_MAX = 32768;
+
+/**
  * The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. `harness/contract-limits-gen.mjs` emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921).
  * @see data/kernels/transient.json
  */
@@ -1393,6 +1853,15 @@ export const TREMOLO_TRAVELS = {
 };
 
 /**
+ * What the tremolo's one oscillator modulates, in the order of the integer the kernel reads: the level of both legs in phase (tremolo), or the balance law's position with the legs in opposition (pan).
+ * @see data/kernels/tremolo.json
+ */
+export const TREMOLO_MODES = [
+  "tremolo",
+  "pan"
+];
+
+/**
  * The Q of a second-order Butterworth section, 1/√2 — maximally flat, the one value every Butterworth biquad in the tree designs at: the LR4 crossover section, the pitch pre-filter and the drive's tilt / band / HF sections, in TS and (as `OMX_BUTTERWORTH_Q`) in C (§7, the scalar door).
  * @see data/primitives.json
  */
@@ -1506,6 +1975,44 @@ export const TRIM_TRAVELS = {
 };
 
 /**
+ * How a host draws a parameter: linear, logarithmic (a frequency, a time) or in discrete steps. The words omx-plugins' declarations and plugin-hostd's protocol use; a travel names its own with `scale`.
+ * @see data/primitives.json
+ */
+export const PARAM_SCALES = [
+  "linear",
+  "log",
+  "stepped"
+];
+
+/**
+ * The EQ's three frequency travels as a host draws them: the band frequency, the high-pass corner and the low-pass corner, EQ_FREQ_RANGE's, HPF_FREQ_RANGE's and LPF_FREQ_RANGE's bounds with no step and a logarithmic scale. The console's EQ quantises frequency to 10 Hz; a frequency drags continuously on a log axis, which is how every host draws it, so this is the form the omx-plugins read. Every number but the step is the source's, held equal by test/continuous-travels.test.mjs. Not rendered to C: no C reader needs a second spelling of the EQ's bounds.
+ * @see data/primitives.json
+ */
+export const EQ_CONTINUOUS_TRAVELS = {
+  "freqHz": {
+    "min": 20,
+    "max": 20000,
+    "step": 0,
+    "unit": "Hz",
+    "scale": "log"
+  },
+  "hpfFreqHz": {
+    "min": 20,
+    "max": 1000,
+    "step": 0,
+    "unit": "Hz",
+    "scale": "log"
+  },
+  "lpfFreqHz": {
+    "min": 1000,
+    "max": 20000,
+    "step": 0,
+    "unit": "Hz",
+    "scale": "log"
+  }
+};
+
+/**
  * The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` (`2026-07-15-clock-rate-honest-force-rate.md`) — this is the ceiling a write is refused by, never a menu.
  * @see data/rates.json
  */
@@ -1532,3 +2039,178 @@ export const RT_HARD_TARGET = {
  * @see data/rates.json
  */
 export const DSP_KNOB_REFERENCE_RATE = 96000;
+
+/**
+ * The four rates every kernel oracle runs at, whatever STANDARD_SAMPLE_RATES says: a declared list missing one of them stops a suite instead of testing less (omx-dsp, omx-plugins and omx-clap-host run their oracles at these).
+ * @see data/rates.json
+ */
+export const ORACLE_FLOOR_RATES = [
+  44100,
+  48000,
+  96000,
+  192000
+];
+
+/**
+ * The nine rates an RME interface clocks at, 32 to 192 kHz. STANDARD_SAMPLE_RATES is a subset of them; an oracle that runs here also covers 32, 64 and 128 kHz, where a kernel still has to meet its closed form even though the console never asks for them.
+ * @see data/rates.json
+ */
+export const RME_RATES = [
+  32000,
+  44100,
+  48000,
+  64000,
+  88200,
+  96000,
+  128000,
+  176400,
+  192000
+];
+
+/** The declared parameters of the default EQ rule: the four-band set, the preferred series, the band frequency travel, the band gain and Q. */
+const EQ_DEFAULT_RULE = {
+  "four": [
+    100,
+    400,
+    2000,
+    8000
+  ],
+  "series": [
+    [
+      20,
+      25,
+      31.5,
+      40,
+      50,
+      63,
+      80,
+      100,
+      125,
+      160,
+      200,
+      250,
+      315,
+      400,
+      500,
+      630,
+      800,
+      1000,
+      1250,
+      1600,
+      2000,
+      2500,
+      3150,
+      4000,
+      5000,
+      6300,
+      8000,
+      10000,
+      12500,
+      16000,
+      20000
+    ],
+    [
+      20,
+      22.4,
+      25,
+      28,
+      31.5,
+      35.5,
+      40,
+      45,
+      50,
+      56,
+      63,
+      71,
+      80,
+      90,
+      100,
+      112,
+      125,
+      140,
+      160,
+      180,
+      200,
+      224,
+      250,
+      280,
+      315,
+      355,
+      400,
+      450,
+      500,
+      560,
+      630,
+      710,
+      800,
+      900,
+      1000,
+      1120,
+      1250,
+      1400,
+      1600,
+      1800,
+      2000,
+      2240,
+      2500,
+      2800,
+      3150,
+      3550,
+      4000,
+      4500,
+      5000,
+      5600,
+      6300,
+      7100,
+      8000,
+      9000,
+      10000,
+      11200,
+      12500,
+      14000,
+      16000,
+      18000,
+      20000
+    ]
+  ],
+  "lo": 20,
+  "hi": 20000,
+  "gainDb": 0,
+  "q": 1
+};
+function centres(count, p) {
+  if (!Number.isInteger(count) || count < 1) throw new RangeError(`eqDefaultCentres: ${count} is not a band count`);
+  if (count === 4) return [...p.four];
+  const targets = [];
+  for (let i = 0; i < count; i++) targets.push(Math.log(p.lo) + (Math.log(p.hi / p.lo) * (i + 0.5)) / count);
+  for (const series of p.series) {
+    const out = targets.map((t) => {
+      let best = series[0];
+      let bestD = Infinity;
+      for (const f of series) {
+        const d = Math.abs(Math.log(f) - t);
+        if (d < bestD) { bestD = d; best = f; }
+      }
+      return best;
+    });
+    if (new Set(out).size === out.length) return out;
+  }
+  throw new RangeError(`eqDefaultCentres: ${count} bands have no distinct preferred centres across ${p.lo}..${p.hi} Hz`);
+}
+function types(count) {
+  if (!Number.isInteger(count) || count < 1) throw new RangeError(`eqDefaultTypes: ${count} is not a band count`);
+  return Array.from({ length: count }, (_, i) => (count === 1 ? 'bell' : i === 0 ? 'lowShelf' : i === count - 1 ? 'highShelf' : 'bell'));
+}
+function bands(count, p) {
+  const types = eqDefaultTypes(count);
+  return eqDefaultCentres(count, p).map((freqHz, i) => ({ type: types[i], freqHz, gainDb: p.gainDb, q: p.q }));
+}
+
+/** The default band centres (Hz) of an EQ with `count` bands: THE one rule, for every strip, host and count. */
+export function eqDefaultCentres(count) { return centres(count, EQ_DEFAULT_RULE); }
+
+/** The default band types, by EQ_BAND_TYPES id: a low shelf, bells, a high shelf (a single band is a bell). */
+export function eqDefaultTypes(count) { return types(count); }
+
+/** Every default band of an EQ with `count` bands: type, centre, gain and Q. */
+export function eqDefaultBands(count) { return bands(count, EQ_DEFAULT_RULE); }
