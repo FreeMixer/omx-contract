@@ -31,15 +31,15 @@ test('the shipped data holds exactly the spec §4.1 items and the items of the k
 });
 
 test('a unit outside the closed list is refused', () => {
-  assert.ok(rules(texts((d) => { d['data/kernels/gate.json'].GATE_LIMITS.fields.thresholdDb.unit = 'decibel'; })).includes('GATE_LIMITS:schema'));
+  assert.ok(rules(texts((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.thresholdDb').unit = 'decibel'; })).includes('GATE_LIMITS:schema'));
 });
 
 test('a sixth kind is refused', () => {
-  assert.ok(rules(texts((d) => { d['data/kernels/eq.json'].EQ_MAX_BANDS.kind = 'expression'; })).includes('EQ_MAX_BANDS:schema'));
+  assert.ok(rules(texts((d, at) => { at('data/kernels/eq.json', 'EQ_MAX_BANDS').kind = 'expression'; })).includes('EQ_MAX_BANDS:schema'));
 });
 
 test('a derivation outside the closed list is refused', () => {
-  assert.ok(rules(texts((d) => { d['data/kernels/drive.json'].DRIVE_BIAS_MAX.value = { derive: 'eval', of: '1/sqrt(2)' }; })).includes('DRIVE_BIAS_MAX:schema'));
+  assert.ok(rules(texts((d, at) => { at('data/kernels/drive.json', 'DRIVE_BIAS_MAX').value = { derive: 'eval', of: '1/sqrt(2)' }; })).includes('DRIVE_BIAS_MAX:schema'));
 });
 
 test('an unknown key, a missing doc and a lower-case name are refused', () => {
@@ -49,7 +49,7 @@ test('an unknown key, a missing doc and a lower-case name are refused', () => {
 });
 
 test('a travels item carries fields or one travel, never both', () => {
-  assert.ok(rules(texts((d) => { const t = d['data/kernels/chorus.json'].CHORUS_SPREAD_RANGE; t.fields = { a: t.travel }; })).includes('CHORUS_SPREAD_RANGE:schema'));
+  assert.ok(rules(texts((d, at) => { const t = at('data/kernels/chorus.json', 'CHORUS_SPREAD_RANGE'); t.fields = { a: t.travel }; })).includes('CHORUS_SPREAD_RANGE:schema'));
 });
 
 test('a file names the schema by its relative path', () => {

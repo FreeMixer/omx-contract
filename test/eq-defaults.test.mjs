@@ -102,13 +102,13 @@ int main(void) {
 
 test('perturbation: move the four-band set, the series or the range and the rule follows in every spelling', () => {
   const dir = scratchData();
-  editData(dir, 'kernels/eq.json', (d) => { d.EQ_DEFAULT_CENTRES_FOUR_BAND_HZ.values = [125, 500, 2000, 8000]; });
+  editData(dir, 'kernels/eq.json', (d, at) => { at('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ').values = [125, 500, 2000, 8000]; });
   const r = resolveData(loadData(dir));
   assert.deepEqual(eqDefaultCentres(4, eqDefaultParams(r)), [125, 500, 2000, 8000]);
   const ts = renderTs(r)[0].text;
   assert.match(ts, /"four": \[\n {4}125,\n {4}500,/);
   const moved = scratchData();
-  editData(moved, 'kernels/eq.json', (d) => { d.EQ_BAND_COUNTS.value.eq8.default = 6; d.EQ_BAND_DEFAULTS.value.q = 0.7; });
+  editData(moved, 'kernels/eq.json', (d, at) => { at('EQ_BAND_COUNTS').value.eq8.default = 6; at('EQ_BAND_DEFAULTS').value.q = 0.7; });
   const m = eqDefaultParams(resolveData(loadData(moved)));
   assert.equal(m.q, 0.7);
   assert.equal(eqDefaultBands(6, m)[2].q, 0.7);
