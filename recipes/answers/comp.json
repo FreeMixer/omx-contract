@@ -92,6 +92,44 @@
         }
       },
       "doc": "The program-dependent release's model constants — the LA-2A's opto cell as DATA (`docs/design/specs/2026-09-26-compressor-models.md` §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads."
+    },
+    {
+      "name": "COMP_KINDS",
+      "source": {
+        "origin": "openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/row-codecs.ts:144 COMP_KINDS, model.ts:519 CompState.kind, processor-param.ts:97 (comp), server/src/console-rig.ts:1524 (limiter -> peak, comp -> rms); omx-dsp a624f26 include/omxdsp/fx/omx_dynamics_instance.h:84 the rms argument"
+      },
+      "value": [
+        "comp",
+        "limiter"
+      ],
+      "doc": "The compressor's character, which picks its detector: `comp` runs the RMS detector, `limiter` the peak detector. The console's comp row carries it (`CompState.kind`, `COMP_KINDS`) and comes up as `comp`.",
+      "since": "2.2.0",
+      "kind": "set",
+      "default": "comp",
+      "labels": [
+        "Compressor",
+        "Limiter"
+      ]
+    },
+    {
+      "name": "DETECTOR_OVERSAMPLINGS",
+      "source": {
+        "origin": "openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/row-codecs.ts:147 DETECTOR_OVERSAMPLINGS (auto, off, 4x), model.ts:521, processor-param.ts:104 (auto), server/src/console-rig.ts:1534; omx-dsp a624f26 include/omxdsp/omx_dyn.h:46-50 OMX_DYN_OVS_AUTO 0, _OFF 1, _X4 2, fx/omx_dynamics_instance.h:84 ovs_mode"
+      },
+      "value": [
+        "auto",
+        "off",
+        "x4"
+      ],
+      "doc": "The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `x4` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order). The console's comp row carries it as the operator's choice (`CompState.detectorOversampling`, spelled auto, off, 4x) and comes up `auto`.",
+      "since": "2.2.0",
+      "kind": "set",
+      "default": "auto",
+      "labels": [
+        "Auto",
+        "Off",
+        "4x"
+      ]
     }
   ]
 }

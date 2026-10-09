@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "items": {
     "PAN_RANGE": {
       "rel": "data/kernels/balance.json",
@@ -269,6 +269,36 @@
         }
       }
     },
+    "COMP_KINDS": {
+      "rel": "data/kernels/comp.json",
+      "kind": "set",
+      "doc": "The compressor's character, which picks its detector: `comp` runs the RMS detector, `limiter` the peak detector. The console's comp row carries it (`CompState.kind`, `COMP_KINDS`) and comes up as `comp`.",
+      "default": "comp",
+      "labels": [
+        "Compressor",
+        "Limiter"
+      ],
+      "value": [
+        "comp",
+        "limiter"
+      ]
+    },
+    "DETECTOR_OVERSAMPLINGS": {
+      "rel": "data/kernels/comp.json",
+      "kind": "set",
+      "doc": "The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `x4` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order). The console's comp row carries it as the operator's choice (`CompState.detectorOversampling`, spelled auto, off, 4x) and comes up `auto`.",
+      "default": "auto",
+      "labels": [
+        "Auto",
+        "Off",
+        "4x"
+      ],
+      "value": [
+        "auto",
+        "off",
+        "x4"
+      ]
+    },
     "PROGRAM_RELEASE": {
       "rel": "data/kernels/comp.json",
       "kind": "sheet",
@@ -465,6 +495,20 @@
         }
       }
     },
+    "DELAY_PINGPONGS": {
+      "rel": "data/kernels/delay.json",
+      "kind": "set",
+      "doc": "The FX delay's PING-PONG switch: on cross-feeds the two legs' feedback, so each leg's repeats come from the other leg's damped tap and the echoes bounce L<->R (`omx_delay.h`'s `struct omx_fx_delay.pingpong`, read where the feedback is formed). A live control on the console's delay row (`DelayState.pingpong`) and on the omx-delay plugin. Its come-up value is FX_DELAY_PINGPONG_DEFAULT, by reference, so the default keeps one home.",
+      "default": "off",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
     "FX_DELAY_PINGPONG_DEFAULT": {
       "rel": "data/kernels/delay.json",
       "kind": "scalar",
@@ -594,12 +638,140 @@
         "tilt"
       ]
     },
+    "DRIVE_AUTO_GAINS": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "The drive's AUTO-GAIN switch: on, the stage measures its own level change and matches it out (`omx_drive.h`'s `struct omx_drive.auto_gain`, drive-stage spec §4d), so turning the drive up adds colour rather than loudness. A field of the console's drive row (`DriveState.autoGain`), on at come-up there and in omx-dsp's drive face.",
+      "default": "on",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
+    "DRIVE_STEREO_LINKS": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "The drive's STEREO LINK switch: on, ONE auto-gain path is driven by both legs' summed energy, so the image cannot shift under the level match; off, each leg matches its own (`omx_drive.h`'s `struct omx_drive.stereo_link`, spec §4e). A field of the console's drive row (`DriveState.stereoLink`), on at come-up there and in omx-dsp's drive face.",
+      "default": "on",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
+    "DRIVE_HF_ROLLOFFS": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "The drive's post-curve HIGH-FREQUENCY ROLL-OFF corner, in Hz: the id is the corner, and 0 names no roll-off (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0). The console's drive row offers off, 12000 and 16000 (`DriveState.hfRolloff`, `DRIVE_HF_ROLLOFFS`) and comes up off, as omx-dsp's drive face does.",
+      "default": 0,
+      "labels": [
+        "Off",
+        "12 kHz",
+        "16 kHz"
+      ],
+      "value": [
+        0,
+        12000,
+        16000
+      ]
+    },
     "DRIVE_BIAS_MAX": {
       "rel": "data/kernels/drive.json",
       "kind": "scalar",
       "doc": "The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.",
       "unit": "",
       "value": 0.7071067811865476
+    },
+    "EQ_HPF_ONS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The HPF's switch: off, the filter is not in the EQ's bank at all; on, its one or two Butterworth sections run after the bands. It comes up off, on the console's channel EQ and in omx-dsp's EQ face (see EQ_PASS_FILTER_DEFAULTS).",
+      "default": "off",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
+    "HPF_FREQ_RANGE": {
+      "rel": "data/kernels/eq.json",
+      "kind": "travels",
+      "doc": "Where the HPF cutoff can sit (low end); mirrors the drawn low-frequency handle.",
+      "shape": "travel",
+      "value": {
+        "min": 20,
+        "max": 1000,
+        "step": 10,
+        "unit": "Hz"
+      }
+    },
+    "FILTER_SLOPES": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The pass-filter slopes the EQ offers, in dB per octave: the HPF's slope, and by use the LPF's. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.",
+      "default": 12,
+      "value": [
+        12,
+        24
+      ]
+    },
+    "EQ_LPF_ONS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The LPF's switch: off, the filter is not in the EQ's bank at all; on, its one or two Butterworth sections run after the bands and the HPF. It comes up off, on the console's channel EQ and in omx-dsp's EQ face (see EQ_PASS_FILTER_DEFAULTS).",
+      "default": "off",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
+    "LPF_FREQ_RANGE": {
+      "rel": "data/kernels/eq.json",
+      "kind": "travels",
+      "doc": "Where the LPF cutoff can sit (high end).",
+      "shape": "travel",
+      "value": {
+        "min": 1000,
+        "max": 20000,
+        "step": 10,
+        "unit": "Hz"
+      }
+    },
+    "EQ_BAND_TYPES": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.",
+      "default": "bell",
+      "labels": [
+        "Bell",
+        "Low Shelf",
+        "High Shelf",
+        "Notch",
+        "All-pass 1st",
+        "All-pass 2nd"
+      ],
+      "value": [
+        "bell",
+        "lowShelf",
+        "highShelf",
+        "notch",
+        "allpass1",
+        "allpass2"
+      ]
     },
     "EQ_FREQ_RANGE": {
       "rel": "data/kernels/eq.json",
@@ -649,60 +821,17 @@
         "unit": ""
       }
     },
-    "HPF_FREQ_RANGE": {
-      "rel": "data/kernels/eq.json",
-      "kind": "travels",
-      "doc": "Where the HPF cutoff can sit (low end); mirrors the drawn low-frequency handle.",
-      "shape": "travel",
-      "value": {
-        "min": 20,
-        "max": 1000,
-        "step": 10,
-        "unit": "Hz"
-      }
-    },
-    "LPF_FREQ_RANGE": {
-      "rel": "data/kernels/eq.json",
-      "kind": "travels",
-      "doc": "Where the LPF cutoff can sit (high end).",
-      "shape": "travel",
-      "value": {
-        "min": 1000,
-        "max": 20000,
-        "step": 10,
-        "unit": "Hz"
-      }
-    },
-    "EQ_BAND_TYPES": {
+    "EQ_BAND_ONS": {
       "rel": "data/kernels/eq.json",
       "kind": "set",
-      "doc": "The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.",
-      "default": "bell",
+      "doc": "A band's switch. Off, the band is not in the EQ's bank (the slots close up); on, it runs, parked when it is a gain-carrying shape at 0 dB. No come-up value is declared, because the strips differ: the console's channel EQ brings its default bands up on, an omx-eq plugin brings every band up off so a racked instance is a wire.",
       "labels": [
-        "Bell",
-        "Low Shelf",
-        "High Shelf",
-        "Notch",
-        "All-pass 1st",
-        "All-pass 2nd"
+        "Off",
+        "On"
       ],
       "value": [
-        "bell",
-        "lowShelf",
-        "highShelf",
-        "notch",
-        "allpass1",
-        "allpass2"
-      ]
-    },
-    "FILTER_SLOPES": {
-      "rel": "data/kernels/eq.json",
-      "kind": "set",
-      "doc": "The pass-filter slopes the EQ offers, in dB per octave. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.",
-      "default": 12,
-      "value": [
-        12,
-        24
+        "off",
+        "on"
       ]
     },
     "EQ_MAX_BANDS": {
@@ -2486,6 +2615,16 @@
           "kind": "travel",
           "global": "COMP_LIMITS",
           "table": "COMP_LIMITS"
+        },
+        {
+          "name": "kind",
+          "kind": "choice",
+          "global": "COMP_KINDS"
+        },
+        {
+          "name": "detectorOversampling",
+          "kind": "choice",
+          "global": "DETECTOR_OVERSAMPLINGS"
         }
       ]
     },
@@ -2554,6 +2693,11 @@
           "name": "mix",
           "kind": "travel",
           "global": "DELAY_MIX_RANGE"
+        },
+        {
+          "name": "pingpong",
+          "kind": "choice",
+          "global": "DELAY_PINGPONGS"
         }
       ]
     },
@@ -2593,30 +2737,30 @@
           "name": "band",
           "kind": "choice",
           "global": "DRIVE_BANDS"
+        },
+        {
+          "name": "autoGain",
+          "kind": "choice",
+          "global": "DRIVE_AUTO_GAINS"
+        },
+        {
+          "name": "stereoLink",
+          "kind": "choice",
+          "global": "DRIVE_STEREO_LINKS"
+        },
+        {
+          "name": "hfRolloff",
+          "kind": "choice",
+          "global": "DRIVE_HF_ROLLOFFS"
         }
       ]
     },
     "eq": {
       "controls": [
         {
-          "name": "freq",
-          "kind": "travel",
-          "global": "EQ_FREQ_RANGE"
-        },
-        {
-          "name": "gain",
-          "kind": "travel",
-          "global": "EQ_GAIN_RANGE"
-        },
-        {
-          "name": "q",
-          "kind": "travel",
-          "global": "EQ_Q_RANGE"
-        },
-        {
-          "name": "notchQ",
-          "kind": "travel",
-          "global": "EQ_NOTCH_Q_RANGE"
+          "name": "hpfOn",
+          "kind": "choice",
+          "global": "EQ_HPF_ONS"
         },
         {
           "name": "hpfFreq",
@@ -2624,19 +2768,61 @@
           "global": "HPF_FREQ_RANGE"
         },
         {
+          "name": "hpfSlope",
+          "kind": "choice",
+          "global": "FILTER_SLOPES"
+        },
+        {
+          "name": "lpfOn",
+          "kind": "choice",
+          "global": "EQ_LPF_ONS"
+        },
+        {
           "name": "lpfFreq",
           "kind": "travel",
           "global": "LPF_FREQ_RANGE"
         },
         {
-          "name": "bandType",
-          "kind": "choice",
-          "global": "EQ_BAND_TYPES"
-        },
-        {
-          "name": "filterSlope",
+          "name": "lpfSlope",
           "kind": "choice",
           "global": "FILTER_SLOPES"
+        },
+        {
+          "name": "bandType",
+          "kind": "choice",
+          "global": "EQ_BAND_TYPES",
+          "count": "EQ_BAND_COUNTS"
+        },
+        {
+          "name": "freq",
+          "kind": "travel",
+          "global": "EQ_FREQ_RANGE",
+          "count": "EQ_BAND_COUNTS"
+        },
+        {
+          "name": "gain",
+          "kind": "travel",
+          "global": "EQ_GAIN_RANGE",
+          "count": "EQ_BAND_COUNTS"
+        },
+        {
+          "name": "q",
+          "kind": "travel",
+          "global": "EQ_Q_RANGE",
+          "count": "EQ_BAND_COUNTS",
+          "when": [
+            {
+              "control": "bandType",
+              "is": "notch",
+              "global": "EQ_NOTCH_Q_RANGE"
+            }
+          ]
+        },
+        {
+          "name": "bandOn",
+          "kind": "choice",
+          "global": "EQ_BAND_ONS",
+          "count": "EQ_BAND_COUNTS"
         }
       ]
     },
@@ -2735,7 +2921,8 @@
         {
           "name": "band",
           "kind": "travel",
-          "global": "GEQ_BAND_RANGE"
+          "global": "GEQ_BAND_RANGE",
+          "count": "GEQ_BANDS"
         }
       ]
     },

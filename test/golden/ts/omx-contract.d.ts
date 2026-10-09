@@ -243,6 +243,18 @@ export declare const COMP_LIMITS: {
 };
 
 /**
+ * The compressor's character, which picks its detector: `comp` runs the RMS detector, `limiter` the peak detector. The console's comp row carries it (`CompState.kind`, `COMP_KINDS`) and comes up as `comp`.
+ * @see data/kernels/comp.json
+ */
+export declare const COMP_KINDS: readonly ["comp", "limiter"];
+
+/**
+ * The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `x4` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order). The console's comp row carries it as the operator's choice (`CompState.detectorOversampling`, spelled auto, off, 4x) and comes up `auto`.
+ * @see data/kernels/comp.json
+ */
+export declare const DETECTOR_OVERSAMPLINGS: readonly ["auto", "off", "x4"];
+
+/**
  * The program-dependent release's model constants — the LA-2A's opto cell as DATA (`docs/design/specs/2026-09-26-compressor-models.md` §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.
  * @see data/kernels/comp.json
  */
@@ -418,6 +430,12 @@ export declare const DELAY_MIX_RANGE: {
 };
 
 /**
+ * The FX delay's PING-PONG switch: on cross-feeds the two legs' feedback, so each leg's repeats come from the other leg's damped tap and the echoes bounce L<->R (`omx_delay.h`'s `struct omx_fx_delay.pingpong`, read where the feedback is formed). A live control on the console's delay row (`DelayState.pingpong`) and on the omx-delay plugin. Its come-up value is FX_DELAY_PINGPONG_DEFAULT, by reference, so the default keeps one home.
+ * @see data/kernels/delay.json
+ */
+export declare const DELAY_PINGPONGS: readonly ["off", "on"];
+
+/**
  * The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the server's `DEFAULT_DELAY_STATE` (which now reads it) so the DPF plugin generator (`packages/omx-plugins/tools/params-gen.mjs`, `2026-09-25-omx-plugins-dpf.md` §3a) reads the same fact the desk seeds a fresh strip with.
  * @see data/kernels/delay.json
  */
@@ -501,10 +519,74 @@ export declare const DRIVE_CURVES: readonly ["soft", "tape", "tube", "exciter"];
 export declare const DRIVE_BANDS: readonly ["full", "low", "high", "tilt"];
 
 /**
+ * The drive's AUTO-GAIN switch: on, the stage measures its own level change and matches it out (`omx_drive.h`'s `struct omx_drive.auto_gain`, drive-stage spec §4d), so turning the drive up adds colour rather than loudness. A field of the console's drive row (`DriveState.autoGain`), on at come-up there and in omx-dsp's drive face.
+ * @see data/kernels/drive.json
+ */
+export declare const DRIVE_AUTO_GAINS: readonly ["off", "on"];
+
+/**
+ * The drive's STEREO LINK switch: on, ONE auto-gain path is driven by both legs' summed energy, so the image cannot shift under the level match; off, each leg matches its own (`omx_drive.h`'s `struct omx_drive.stereo_link`, spec §4e). A field of the console's drive row (`DriveState.stereoLink`), on at come-up there and in omx-dsp's drive face.
+ * @see data/kernels/drive.json
+ */
+export declare const DRIVE_STEREO_LINKS: readonly ["off", "on"];
+
+/**
+ * The drive's post-curve HIGH-FREQUENCY ROLL-OFF corner, in Hz: the id is the corner, and 0 names no roll-off (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0). The console's drive row offers off, 12000 and 16000 (`DriveState.hfRolloff`, `DRIVE_HF_ROLLOFFS`) and comes up off, as omx-dsp's drive face does.
+ * @see data/kernels/drive.json
+ */
+export declare const DRIVE_HF_ROLLOFFS: readonly [0, 12000, 16000];
+
+/**
  * The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.
  * @see data/kernels/drive.json
  */
 export declare const DRIVE_BIAS_MAX: 0.7071067811865476;
+
+/**
+ * The HPF's switch: off, the filter is not in the EQ's bank at all; on, its one or two Butterworth sections run after the bands. It comes up off, on the console's channel EQ and in omx-dsp's EQ face (see EQ_PASS_FILTER_DEFAULTS).
+ * @see data/kernels/eq.json
+ */
+export declare const EQ_HPF_ONS: readonly ["off", "on"];
+
+/**
+ * Where the HPF cutoff can sit (low end); mirrors the drawn low-frequency handle.
+ * @see data/kernels/eq.json
+ */
+export declare const HPF_FREQ_RANGE: {
+  readonly min: 20;
+  readonly max: 1000;
+  readonly step: 10;
+  readonly unit: "Hz";
+};
+
+/**
+ * The pass-filter slopes the EQ offers, in dB per octave: the HPF's slope, and by use the LPF's. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.
+ * @see data/kernels/eq.json
+ */
+export declare const FILTER_SLOPES: readonly [12, 24];
+
+/**
+ * The LPF's switch: off, the filter is not in the EQ's bank at all; on, its one or two Butterworth sections run after the bands and the HPF. It comes up off, on the console's channel EQ and in omx-dsp's EQ face (see EQ_PASS_FILTER_DEFAULTS).
+ * @see data/kernels/eq.json
+ */
+export declare const EQ_LPF_ONS: readonly ["off", "on"];
+
+/**
+ * Where the LPF cutoff can sit (high end).
+ * @see data/kernels/eq.json
+ */
+export declare const LPF_FREQ_RANGE: {
+  readonly min: 1000;
+  readonly max: 20000;
+  readonly step: 10;
+  readonly unit: "Hz";
+};
+
+/**
+ * The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.
+ * @see data/kernels/eq.json
+ */
+export declare const EQ_BAND_TYPES: readonly ["bell", "lowShelf", "highShelf", "notch", "allpass1", "allpass2"];
 
 /**
  * The frequency band a parametric band can be dragged across.
@@ -551,38 +633,10 @@ export declare const EQ_NOTCH_Q_RANGE: {
 };
 
 /**
- * Where the HPF cutoff can sit (low end); mirrors the drawn low-frequency handle.
+ * A band's switch. Off, the band is not in the EQ's bank (the slots close up); on, it runs, parked when it is a gain-carrying shape at 0 dB. No come-up value is declared, because the strips differ: the console's channel EQ brings its default bands up on, an omx-eq plugin brings every band up off so a racked instance is a wire.
  * @see data/kernels/eq.json
  */
-export declare const HPF_FREQ_RANGE: {
-  readonly min: 20;
-  readonly max: 1000;
-  readonly step: 10;
-  readonly unit: "Hz";
-};
-
-/**
- * Where the LPF cutoff can sit (high end).
- * @see data/kernels/eq.json
- */
-export declare const LPF_FREQ_RANGE: {
-  readonly min: 1000;
-  readonly max: 20000;
-  readonly step: 10;
-  readonly unit: "Hz";
-};
-
-/**
- * The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.
- * @see data/kernels/eq.json
- */
-export declare const EQ_BAND_TYPES: readonly ["bell", "lowShelf", "highShelf", "notch", "allpass1", "allpass2"];
-
-/**
- * The pass-filter slopes the EQ offers, in dB per octave. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.
- * @see data/kernels/eq.json
- */
-export declare const FILTER_SLOPES: readonly [12, 24];
+export declare const EQ_BAND_ONS: readonly ["off", "on"];
 
 /**
  * The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.
