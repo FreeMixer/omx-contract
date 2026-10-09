@@ -15,7 +15,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
-import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
+import { entriesOf, loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
 import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
@@ -64,11 +64,11 @@ export function treeFacts(root = ROOT) {
   return facts;
 }
 
-/** The items a kernel's file declares, by name, in file order. */
+/** The items a kernel's file declares, by name, in the order its sections expand to (lib/data.mjs entriesOf). */
 const kernelItems = (facts, recipe, kernel) => {
   const rel = fill(recipe.tree.kernelFile, { kernel });
   const f = facts.data?.files.find((x) => x.rel === rel);
-  return f ? Object.keys(f.doc).filter((k) => k !== '$schema') : undefined;
+  return f ? entriesOf(f.rel, f.doc).map(([n]) => n) : undefined;
 };
 
 /** The answers of a kernel, or the reason there are none. */
@@ -210,7 +210,7 @@ export const CHECKERS = {
     const rel = fill(recipe.tree.kernelFile, { kernel });
     const f = facts.data.files.find((x) => x.rel === rel);
     if (!f) return missing(`${rel} is missing`);
-    const bad = Object.entries(f.doc).filter(([k, v]) => k !== '$schema' && v?.kind === 'plugin').map(([k]) => `${k} is a plugin item`);
+    const bad = entriesOf(f.rel, f.doc).filter(([, v]) => v?.kind === 'plugin').map(([k]) => `${k} is a plugin item`);
     return bad.length ? missing(`${rel}: ${bad.join('; ')}`) : ok('own items only');
   },
 };

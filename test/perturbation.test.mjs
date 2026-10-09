@@ -22,7 +22,7 @@ const all = (dir) => {
 
 test('move the delay time ceiling: every target follows', () => {
   const dir = scratchData();
-  editData(dir, 'kernels/delay.json', (d) => { d.FX_DELAY_TIME_RANGE.travel.max = 1500; });
+  editData(dir, 'kernels/delay.json', (d, at) => { at('FX_DELAY_TIME_RANGE').travel.max = 1500; });
   const { r, text } = all(dir);
   const c = renderC(r);
   const limits = c.find((f) => f.path.endsWith('omx_contract_limits.h')).text;
@@ -41,7 +41,7 @@ test('move the delay time ceiling: every target follows', () => {
 
 test('move a gate default: its table block, the ts and json renders follow', () => {
   const dir = scratchData();
-  editData(dir, 'kernels/gate.json', (d) => { d.GATE_LIMITS.fields.thresholdDb.default = -41; });
+  editData(dir, 'kernels/gate.json', (d, at) => { at('GATE_LIMITS.thresholdDb').default = -41; });
   const { r } = all(dir);
   assert.match(renderC(r)[0].text, /^#define OMX_GATE_THRESHOLD_DB_DEFAULT -41\.0f$/m);
   assert.match(renderTs(r)[0].text, /"default": -41/);
@@ -72,32 +72,32 @@ const moved = (rel, fn) => {
 };
 
 test('move an FBS detector gate, an HRP value, the RTA size and the bus input cap: every target follows', () => {
-  const f = moved('kernels/fbs.json', (d) => { d.GROWTH_MIN_TOTAL_RISE_DB.value = 7; });
+  const f = moved('kernels/fbs.json', (d, at) => { at('GROWTH_MIN_TOTAL_RISE_DB').value = 7; });
   assert.match(f.c, /^#define OMX_GROWTH_MIN_TOTAL_RISE_DB 7$/m);
   assert.match(f.c, /^#define OMX_DEFAULT_THRESHOLDS_GROWTH_MIN_TOTAL_RISE_DB 7$/m, 'the sheet that refers to it follows');
   assert.equal(f.json.DEFAULT_THRESHOLDS.value.growthMinTotalRiseDb, 7);
   assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', f.dir]), 1);
-  const h = moved('kernels/hrp.json', (d) => { d.HRP_AMOUNT_RANGE.travel.default = 0.25; });
+  const h = moved('kernels/hrp.json', (d, at) => { at('HRP_AMOUNT_RANGE').travel.default = 0.25; });
   assert.match(h.c, /^#define OMX_HRP_AMOUNT_RANGE_DEFAULT 0\.25f$/m);
   assert.match(h.ts, /"default": 0\.25/);
-  assert.match(moved('kernels/rta.json', (d) => { d.RTA_FFT_SIZE_MAX.value = 65536; }).c, /^#define OMX_RTA_FFT_SIZE_MAX 65536$/m);
-  const b = moved('kernels/mixmatrix.json', (d) => { d.BUS_INPUT_CAP.value = 256; });
+  assert.match(moved('kernels/rta.json', (d, at) => { at('RTA_FFT_SIZE_MAX').value = 65536; }).c, /^#define OMX_RTA_FFT_SIZE_MAX 65536$/m);
+  const b = moved('kernels/mixmatrix.json', (d, at) => { at('BUS_INPUT_CAP').value = 256; });
   assert.match(b.c, /^#define OMX_BUS_INPUT_CAP 256$/m);
   assert.equal(b.json.BUS_INPUT_CAP.value, 256);
 });
 
 test('move a set, a band count, a rate set and a kernel constant: every target follows', () => {
-  const s = moved('kernels/tremolo.json', (d) => { d.TREMOLO_MODES.ids.push('ring'); delete d.TREMOLO_MODES.labels; });
+  const s = moved('kernels/tremolo.json', (d, at) => { at('TREMOLO_MODES').ids.push('ring'); delete at('TREMOLO_MODES').labels; });
   assert.match(s.c, /^ {2}OMX_TREMOLO_MODES_RING = 2,$/m);
   assert.match(s.c, /^#define OMX_TREMOLO_MODES_COUNT 3u$/m);
   assert.deepEqual(s.json.TREMOLO_MODES.value, ['tremolo', 'pan', 'ring']);
   assert.match(s.ts, /"ring"/);
-  const n = moved('kernels/eq.json', (d) => { d.EQ_BAND_COUNTS.value.eq16.default = 12; });
+  const n = moved('kernels/eq.json', (d, at) => { at('EQ_BAND_COUNTS').value.eq16.default = 12; });
   assert.match(n.c, /^#define OMX_EQ_BAND_COUNTS_EQ16_DEFAULT 12$/m);
   assert.equal(n.json.EQ_BAND_COUNTS.value.eq16.default, 12);
   const r = moved('rates.json', (d) => { d.ORACLE_FLOOR_RATES.values.push(384000); });
   assert.match(r.c, /^#define OMX_ORACLE_FLOOR_RATES_COUNT 5u$/m);
-  const k = moved('kernels/chorus.json', (d) => { d.CHORUS_BASE_MS.value = 12; });
+  const k = moved('kernels/chorus.json', (d, at) => { at('CHORUS_BASE_MS').value = 12; });
   assert.match(k.c, /^#define OMX_CHORUS_BASE_MS 12$/m);
   assert.match(k.c, /^#define OMX_CHORUS_MAX_MS 24$/m, 'the derived maximum follows');
   assert.equal(k.json.CHORUS_MAX_MS.value, 24);

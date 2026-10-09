@@ -32,7 +32,7 @@ test('each continuous travel is its stepped source with step 0, every other numb
 
 test('a source moved without its continuous form, or a continuous form given a step, is caught', () => {
   const moved = scratchData();
-  editData(moved, 'kernels/gate.json', (d) => { d.GATE_LIMITS.fields.thresholdDb.default = -30; });
+  editData(moved, 'kernels/gate.json', (d, at) => { at('GATE_LIMITS.thresholdDb').default = -30; });
   assert.deepEqual(continuousProblems(resolveData(loadData(moved))), ['GATE_CONTINUOUS_TRAVELS.thresholdDb is not GATE_LIMITS.thresholdDb with step 0']);
   const stepped = scratchData();
   editData(stepped, 'primitives.json', (d) => { d.COMP_CONTINUOUS_TRAVELS.fields.releaseMs.step = 10; });

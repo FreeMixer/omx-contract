@@ -44,9 +44,9 @@ test('the names omx-dsp#9 found missing from 1.1.0 are among them', () => {
 
 test('a moved value and a removed travel are caught, naming the unit', () => {
   const moved = scratchData();
-  editData(moved, 'kernels/chorus.json', (d) => { d.CHORUS_RATE_RANGE.travel.default = 0.7; });
+  editData(moved, 'kernels/chorus.json', (d, at) => { at('CHORUS_RATE_RANGE').travel.default = 0.7; });
   assert.deepEqual(check(moved).differing, ['OMX_CHORUS_RATE_RANGE_DEFAULT']);
   const removed = scratchData();
-  editData(removed, 'kernels/balance.json', (d) => { delete d.PAN_RANGE.c; });
+  editData(removed, 'kernels/balance.json', (d, at) => { delete at('PAN_RANGE').c; });
   assert.deepEqual(check(removed).missing, ['OMX_PAN_PAN_MIN', 'OMX_PAN_PAN_MAX']);
 });

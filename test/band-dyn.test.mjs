@@ -26,8 +26,8 @@ test('every band-dynamics travel holds its default inside its range, and its ran
 
 test('the band reads the de-esser and the compressor where the spec says, and a move of theirs moves the band', () => {
   const dir = scratchData();
-  editData(dir, 'kernels/deesser.json', (d) => { d.DEESS_RANGE_RANGE.travel.min = -20; });
-  editData(dir, 'kernels/comp.json', (d) => { d.COMP_LIMITS.fields.releaseMs.max = 2000; });
+  editData(dir, 'kernels/deesser.json', (d, at) => { at('DEESS_RANGE_RANGE').travel.min = -20; });
+  editData(dir, 'kernels/comp.json', (d, at) => { at('COMP_LIMITS.releaseMs').max = 2000; });
   const r = resolved(dir);
   assert.equal(r.get('BAND_DYN_RANGE_RANGE').value.min, -20, 'the range floor is the de-esser\'s');
   assert.equal(r.get('BAND_DYN_RELEASE_RANGE').value.max, 2000, 'the release ceiling is the compressor\'s');
@@ -68,7 +68,7 @@ test('the json render carries every band-dynamics item with its resolved value',
 
 test('a band default moved outside its range is refused, naming the travel', () => {
   const dir = scratchData();
-  editData(dir, 'kernels/band_dyn.json', (d) => { d.BAND_DYN_RANGE_RANGE.travel.default = 20; });
+  editData(dir, 'kernels/band_dyn.json', (d, at) => { at('BAND_DYN_RANGE_RANGE').travel.default = 20; });
   const p = validateData(loadData(dir));
   assert.ok(p.some((x) => x.item === 'BAND_DYN_RANGE_RANGE' && x.rule === 'default-inside'), 'default-inside names the travel');
 });
