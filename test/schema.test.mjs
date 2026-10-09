@@ -25,8 +25,8 @@ test('the shipped data holds exactly the spec §4.1 items and the items of the k
   assert.deepEqual(later.filter((n) => want.includes(n)), ['ISO_THIRD_OCTAVE_CENTRES_HZ'], 'no other 1.0.0 item is counted as added later');
   for (const n of later) if (!want.includes(n)) want.push(n);
   // the shared items added since, which no kernel answers and that carry no release of their own:
-  // 1.2.0's plugin-face travels in primitives.json
-  want.push('GATE_CONTINUOUS_TRAVELS', 'COMP_CONTINUOUS_TRAVELS', 'TRIM_TRAVELS');
+  // 1.2.0's plugin-face travels in primitives.json (TRIM_TRAVELS moved to the trim kernel in 2.3.0)
+  want.push('GATE_CONTINUOUS_TRAVELS', 'COMP_CONTINUOUS_TRAVELS');
   assert.deepEqual([...loadData(DATA).items.keys()].sort(), want.sort());
 });
 

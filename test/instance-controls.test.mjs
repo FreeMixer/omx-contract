@@ -23,9 +23,10 @@ const ts = (dir = DATA) => renderTs(resolveData(loadData(dir))).map((f) => f.tex
 const controls = (k, dir) => json(dir).kernels[k].controls;
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.rule}: ${p.message}`);
 
-test('the C render keeps every 2.1.0 line, byte for byte and in order, and only adds', () => {
+test('the 2.2.0 C render keeps every 2.1.0 line, byte for byte and in order, and only adds', () => {
   const old = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.1.0/omx_contract_limits.h'), 'utf8').split('\n');
-  const now = header().split('\n');
+  // the released 2.2.0 header: the release this file's controls came in (later releases add their own, test/trim-kernel.test.mjs)
+  const now = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.2.0/omx_contract_limits.h'), 'utf8').split('\n');
   let i = 0;
   for (const line of now) if (i < old.length && line === old[i]) i++;
   assert.equal(i, old.length, `2.1.0 line ${i + 1} is not in the render: ${old[i]}`);
