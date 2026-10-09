@@ -659,6 +659,90 @@
       "unit": "",
       "value": 0.7071067811865476
     },
+    "EQ_HPF_ONS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The HPF's switch: off, the filter is not in the EQ's bank at all; on, its one or two Butterworth sections run after the bands. It comes up off, on the console's channel EQ and in omx-dsp's EQ face (see EQ_PASS_FILTER_DEFAULTS).",
+      "default": "off",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
+    "HPF_FREQ_RANGE": {
+      "rel": "data/kernels/eq.json",
+      "kind": "travels",
+      "doc": "Where the HPF cutoff can sit (low end); mirrors the drawn low-frequency handle.",
+      "shape": "travel",
+      "value": {
+        "min": 20,
+        "max": 1000,
+        "step": 10,
+        "unit": "Hz"
+      }
+    },
+    "FILTER_SLOPES": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The pass-filter slopes the EQ offers, in dB per octave: the HPF's slope, and by use the LPF's. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.",
+      "default": 12,
+      "value": [
+        12,
+        24
+      ]
+    },
+    "EQ_LPF_ONS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The LPF's switch: off, the filter is not in the EQ's bank at all; on, its one or two Butterworth sections run after the bands and the HPF. It comes up off, on the console's channel EQ and in omx-dsp's EQ face (see EQ_PASS_FILTER_DEFAULTS).",
+      "default": "off",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
+    "LPF_FREQ_RANGE": {
+      "rel": "data/kernels/eq.json",
+      "kind": "travels",
+      "doc": "Where the LPF cutoff can sit (high end).",
+      "shape": "travel",
+      "value": {
+        "min": 1000,
+        "max": 20000,
+        "step": 10,
+        "unit": "Hz"
+      }
+    },
+    "EQ_BAND_TYPES": {
+      "rel": "data/kernels/eq.json",
+      "kind": "set",
+      "doc": "The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.",
+      "default": "bell",
+      "labels": [
+        "Bell",
+        "Low Shelf",
+        "High Shelf",
+        "Notch",
+        "All-pass 1st",
+        "All-pass 2nd"
+      ],
+      "value": [
+        "bell",
+        "lowShelf",
+        "highShelf",
+        "notch",
+        "allpass1",
+        "allpass2"
+      ]
+    },
     "EQ_FREQ_RANGE": {
       "rel": "data/kernels/eq.json",
       "kind": "travels",
@@ -707,60 +791,17 @@
         "unit": ""
       }
     },
-    "HPF_FREQ_RANGE": {
-      "rel": "data/kernels/eq.json",
-      "kind": "travels",
-      "doc": "Where the HPF cutoff can sit (low end); mirrors the drawn low-frequency handle.",
-      "shape": "travel",
-      "value": {
-        "min": 20,
-        "max": 1000,
-        "step": 10,
-        "unit": "Hz"
-      }
-    },
-    "LPF_FREQ_RANGE": {
-      "rel": "data/kernels/eq.json",
-      "kind": "travels",
-      "doc": "Where the LPF cutoff can sit (high end).",
-      "shape": "travel",
-      "value": {
-        "min": 1000,
-        "max": 20000,
-        "step": 10,
-        "unit": "Hz"
-      }
-    },
-    "EQ_BAND_TYPES": {
+    "EQ_BAND_ONS": {
       "rel": "data/kernels/eq.json",
       "kind": "set",
-      "doc": "The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.",
-      "default": "bell",
+      "doc": "A band's switch. Off, the band is not in the EQ's bank (the slots close up); on, it runs, parked when it is a gain-carrying shape at 0 dB. No come-up value is declared, because the strips differ: the console's channel EQ brings its default bands up on, an omx-eq plugin brings every band up off so a racked instance is a wire.",
       "labels": [
-        "Bell",
-        "Low Shelf",
-        "High Shelf",
-        "Notch",
-        "All-pass 1st",
-        "All-pass 2nd"
+        "Off",
+        "On"
       ],
       "value": [
-        "bell",
-        "lowShelf",
-        "highShelf",
-        "notch",
-        "allpass1",
-        "allpass2"
-      ]
-    },
-    "FILTER_SLOPES": {
-      "rel": "data/kernels/eq.json",
-      "kind": "set",
-      "doc": "The pass-filter slopes the EQ offers, in dB per octave. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.",
-      "default": 12,
-      "value": [
-        12,
-        24
+        "off",
+        "on"
       ]
     },
     "EQ_MAX_BANDS": {
@@ -2677,24 +2718,9 @@
     "eq": {
       "controls": [
         {
-          "name": "freq",
-          "kind": "travel",
-          "global": "EQ_FREQ_RANGE"
-        },
-        {
-          "name": "gain",
-          "kind": "travel",
-          "global": "EQ_GAIN_RANGE"
-        },
-        {
-          "name": "q",
-          "kind": "travel",
-          "global": "EQ_Q_RANGE"
-        },
-        {
-          "name": "notchQ",
-          "kind": "travel",
-          "global": "EQ_NOTCH_Q_RANGE"
+          "name": "hpfOn",
+          "kind": "choice",
+          "global": "EQ_HPF_ONS"
         },
         {
           "name": "hpfFreq",
@@ -2702,19 +2728,61 @@
           "global": "HPF_FREQ_RANGE"
         },
         {
+          "name": "hpfSlope",
+          "kind": "choice",
+          "global": "FILTER_SLOPES"
+        },
+        {
+          "name": "lpfOn",
+          "kind": "choice",
+          "global": "EQ_LPF_ONS"
+        },
+        {
           "name": "lpfFreq",
           "kind": "travel",
           "global": "LPF_FREQ_RANGE"
         },
         {
-          "name": "bandType",
-          "kind": "choice",
-          "global": "EQ_BAND_TYPES"
-        },
-        {
-          "name": "filterSlope",
+          "name": "lpfSlope",
           "kind": "choice",
           "global": "FILTER_SLOPES"
+        },
+        {
+          "name": "bandType",
+          "kind": "choice",
+          "global": "EQ_BAND_TYPES",
+          "count": "EQ_BAND_COUNTS"
+        },
+        {
+          "name": "freq",
+          "kind": "travel",
+          "global": "EQ_FREQ_RANGE",
+          "count": "EQ_BAND_COUNTS"
+        },
+        {
+          "name": "gain",
+          "kind": "travel",
+          "global": "EQ_GAIN_RANGE",
+          "count": "EQ_BAND_COUNTS"
+        },
+        {
+          "name": "q",
+          "kind": "travel",
+          "global": "EQ_Q_RANGE",
+          "count": "EQ_BAND_COUNTS",
+          "when": [
+            {
+              "control": "bandType",
+              "is": "notch",
+              "global": "EQ_NOTCH_Q_RANGE"
+            }
+          ]
+        },
+        {
+          "name": "bandOn",
+          "kind": "choice",
+          "global": "EQ_BAND_ONS",
+          "count": "EQ_BAND_COUNTS"
         }
       ]
     },
@@ -2813,7 +2881,8 @@
         {
           "name": "band",
           "kind": "travel",
-          "global": "GEQ_BAND_RANGE"
+          "global": "GEQ_BAND_RANGE",
+          "count": "GEQ_BANDS"
         }
       ]
     },
