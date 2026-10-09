@@ -4,7 +4,7 @@ import { cpSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { controlGlobal, isKernelFile, loadData, resolveData } from '../lib/data.mjs';
+import { controlGlobal, isKernelFile, isUse, loadData, resolveData } from '../lib/data.mjs';
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const DATA = join(ROOT, 'data');
@@ -28,7 +28,7 @@ export function declOf(rel, doc, name) {
     if (!isKernelFile(rel)) return doc[name];
     const [head, field] = name.split('.');
     if (field !== undefined) return doc.controls?.find((c) => c.table === head && c.name === field)?.travel;
-    return doc.controls?.find((c) => !c.table && controlGlobal(rel, c) === head) ?? doc.tables?.[head] ?? doc.aggregates?.[head] ?? doc.constants?.[head];
+    return doc.controls?.find((c) => !c.table && !isUse(c) && controlGlobal(rel, c) === head) ?? doc.tables?.[head] ?? doc.aggregates?.[head] ?? doc.constants?.[head];
   })();
   if (found === undefined) throw new Error(`${rel} declares no ${name}`);
   return found;
