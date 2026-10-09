@@ -243,6 +243,18 @@ export declare const COMP_LIMITS: {
 };
 
 /**
+ * The compressor's character, which picks its detector: `comp` runs the RMS detector, `limiter` the peak detector. The console's comp row carries it (`CompState.kind`, `COMP_KINDS`) and comes up as `comp`.
+ * @see data/kernels/comp.json
+ */
+export declare const COMP_KINDS: readonly ["comp", "limiter"];
+
+/**
+ * The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `x4` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order). The console's comp row carries it as the operator's choice (`CompState.detectorOversampling`, spelled auto, off, 4x) and comes up `auto`.
+ * @see data/kernels/comp.json
+ */
+export declare const DETECTOR_OVERSAMPLINGS: readonly ["auto", "off", "x4"];
+
+/**
  * The program-dependent release's model constants — the LA-2A's opto cell as DATA (`docs/design/specs/2026-09-26-compressor-models.md` §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.
  * @see data/kernels/comp.json
  */
