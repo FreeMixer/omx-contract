@@ -11,6 +11,7 @@ import { test } from 'node:test';
 import { ROOT, completeness, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
 import { asData, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
 import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
+import { declOf } from './helpers.mjs';
 
 /** A scratch copy of everything the recipe's checkers read. */
 function scratchTree() {
@@ -20,10 +21,11 @@ function scratchTree() {
   }
   return dir;
 }
+/** Edit one file of a scratch tree: `fn(doc, at)`, `at(name)` locating an item's declaration in a data file (declOf). */
 const edit = (root, rel, fn) => {
   const p = join(root, rel);
   const doc = JSON.parse(readFileSync(p, 'utf8'));
-  fn(doc);
+  fn(doc, (name) => declOf(rel, doc, name));
   writeFileSync(p, `${JSON.stringify(doc, null, 2)}\n`);
 };
 const gapsOf = (root) => completeness(root).gaps.join('\n');
@@ -42,7 +44,7 @@ test('a kernel without its answers is a gap naming the import step', () => {
 
 test('a kernel value moved away from its engine source is a gap naming both', () => {
   const root = scratchTree();
-  edit(root, 'data/kernels/delay.json', (d) => { d.FX_DELAY_TIME_RANGE.travel.max = 2001; });
+  edit(root, 'data/kernels/delay.json', (d, at) => { at('FX_DELAY_TIME_RANGE').travel.max = 2001; });
   assert.match(gapsOf(root), /delay: artifact value-citations .*FX_DELAY_TIME_RANGE resolves to .*"max":2001.*strip-fx-limits\.ts FX_DELAY_TIME_RANGE is .*"max":2000/);
 });
 
@@ -103,8 +105,12 @@ test('an entry added to the recipe is required of every kernel at once', () => {
 
 test('a kernel file holding a plugin item breaks the own-items law', () => {
   const root = scratchTree();
-  edit(root, 'data/kernels/chorus.json', (d) => { d.CHORUS_SPREAD_RANGE.kind = 'plugin'; });
-  assert.match(gapsOf(root), /chorus: law own-items-only/);
+  edit(root, 'data/kernels/chorus.json', (d, at) => { at('CHORUS_BASE_MS').kind = 'plugin'; });
+  assert.match(gapsOf(root), /chorus: law own-items-only .*CHORUS_BASE_MS is a plugin item/);
+  assert.match(gapsOf(root), /chorus: artifact kernel-file .*constant CHORUS_BASE_MS: kind "plugin" is not scalar, list or sheet/);
+  const control = scratchTree();
+  edit(control, 'data/kernels/chorus.json', (d, at) => { at('CHORUS_SPREAD_RANGE').kind = 'plugin'; });
+  assert.match(gapsOf(control), /chorus: artifact kernel-file .*spread: kind "plugin" is neither travel nor choice/);
 });
 
 test('a C define is read only when it is one plain number', () => {
@@ -159,8 +165,10 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   const { written } = declare(join(root, 'recipes/answers/wobble.json'), root);
   assert.ok(written.includes('data/kernels/wobble.json'));
   const k = JSON.parse(readFileSync(join(root, 'data/kernels/wobble.json'), 'utf8'));
-  assert.deepEqual(k.WOBBLE_DEPTH_MAX.value, { derive: 'sqrt', of: 0.5 }, 'a derivation is declared as one, its value proven equal');
-  assert.deepEqual(k.WOBBLE_TRAVELS.fields, { rateHz: { ref: 'WOBBLE_RATE_RANGE' } }, 'the travel is typed once');
+  assert.deepEqual(Object.keys(k), ['$schema', 'controls', 'aggregates', 'constants'], 'the kernel-file shape');
+  assert.deepEqual(k.constants.WOBBLE_DEPTH_MAX.value, { derive: 'sqrt', of: 0.5 }, 'a derivation is declared as one, its value proven equal');
+  assert.deepEqual(k.controls.map((c) => [c.name, c.kind, c.global]), [['rateHz', 'travel', 'WOBBLE_RATE_RANGE']], 'the travel is typed once, as the control the aggregate names');
+  assert.deepEqual(k.aggregates.WOBBLE_TRAVELS.fields, ['rateHz'], 'the aggregate lists its control');
   assert.deepEqual(completeness(root, ['wobble']).gaps, []);
   assert.deepEqual(completeness(root).gaps, [], 'the released kernels stay complete');
 
@@ -173,7 +181,7 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   assert.deepEqual(stray, []);
 });
 
-test('items added to a released kernel carry their own since and are appended to its file', async () => {
+test('items added to a released kernel carry their own since and are added to its file', async () => {
   const root = scratchTree();
   const engine = engineCheckout();
   const base = { kernel: 'wobble', engine, ref: 'HEAD' };
@@ -189,8 +197,10 @@ test('items added to a released kernel carry their own since and are appended to
   const { written } = declare(join(root, 'recipes/answers/wobble.json'), root);
   assert.ok(written.includes('data/kernels/wobble.json'));
   const k = JSON.parse(readFileSync(join(root, 'data/kernels/wobble.json'), 'utf8'));
-  assert.deepEqual(Object.keys(k), ['$schema', 'WOBBLE_RATE_RANGE', 'WOBBLE_RING'], 'appended after the released items');
-  assert.deepEqual(k.WOBBLE_RATE_RANGE, JSON.parse(before).WOBBLE_RATE_RANGE, 'a released item is kept as written');
+  assert.deepEqual(Object.keys(k), ['$schema', 'controls', 'constants'], 'the added constant gets its section');
+  assert.deepEqual(Object.keys(k.constants), ['WOBBLE_RING'], 'the added item is declared');
+  assert.deepEqual(k.controls, JSON.parse(before).controls, 'a released declaration is kept as written');
+  assert.deepEqual(k.controls.map((c) => c.name), ['rate'], 'a control named off its global, which then is not written');
   assert.deepEqual(completeness(root, ['wobble']).gaps, []);
 
   edit(root, 'recipes/answers/wobble.json', (a) => { a.items[1].since = '1.8.0'; });
