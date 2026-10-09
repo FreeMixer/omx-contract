@@ -1,3 +1,15 @@
+omx-contract (2.1.0) unstable; urgency=medium
+
+  * The JSON render lists each kernel's controls in their declared order,
+    with the kind, the global each one lives in and the table of a table
+    field, so a consumer reads control order and kinds from the render
+    instead of the kernel files. The existing JSON keys and the C and
+    TypeScript renders are unchanged.
+  * A control may declare "rearms": changing it re-arms the kernel's state,
+    so it is not a smooth parameter. The limiter's look-ahead declares it.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 09 Oct 2026 15:00:00 +0000
+
 omx-contract (2.0.0) unstable; urgency=medium
 
   * A kernel file now holds four sections: its controls (each a travel or a

@@ -16,13 +16,17 @@ import { DATA, ROOT, scratchData, texts } from './helpers.mjs';
 const kernels = () => loadData(DATA).files.filter((f) => f.rel.startsWith('data/kernels/'));
 const problems = (t) => validateData(loadData(null, t));
 
-test('every shipped kernel file is the kernel-file shape, and kernelDocOf writes each back exactly', () => {
+// `rearms` is the one control fact the items do not carry: it is behaviour (changing the control re-arms the kernel's
+// state), published in the json render's `kernels`, not a value any item renders.
+const withoutRearms = (body) => ({ ...body, ...(body.controls ? { controls: body.controls.map(({ rearms, ...c }) => c) } : {}) });
+
+test('every shipped kernel file is the kernel-file shape, and kernelDocOf writes each back exactly (rearms aside)', () => {
   const files = kernels();
   assert.ok(files.length >= 20, `${files.length} kernel files: a short list proves nothing`);
   for (const f of files) {
     const { $schema, ...body } = f.doc;
     assert.deepEqual(Object.keys(body).filter((k) => !['controls', 'tables', 'aggregates', 'constants'].includes(k)), [], `${f.rel} holds only the four sections`);
-    assert.deepEqual(kernelDocOf(f.rel, entriesOf(f.rel, f.doc)), body, `${f.rel}: the items it expands to declare it again`);
+    assert.deepEqual(kernelDocOf(f.rel, entriesOf(f.rel, f.doc)), withoutRearms(body), `${f.rel}: the items it expands to declare it again`);
   }
 });
 
