@@ -1,19 +1,23 @@
 {
   "$schema": "../../schema/omx-contract.schema.json",
-  "PAN_RANGE": {
-    "kind": "travels",
-    "doc": "The PAN travel — −1 (hard left) … 0 (center) … +1 (hard right). A property of the pan law itself, not of any desk, so it is declared once. Continuous: a pan position has no quantum, and panGains clamps to these bounds.",
-    "travel": {
-      "min": -1,
-      "max": 1,
-      "step": 0,
-      "unit": ""
-    },
-    "c": {
-      "alias": {
-        "fact": "pan",
-        "field": "pan"
+  "controls": [
+    {
+      "name": "pan",
+      "kind": "travel",
+      "global": "PAN_RANGE",
+      "doc": "The PAN travel — −1 (hard left) … 0 (center) … +1 (hard right). A property of the pan law itself, not of any desk, so it is declared once. Continuous: a pan position has no quantum, and panGains clamps to these bounds.",
+      "travel": {
+        "min": -1,
+        "max": 1,
+        "step": 0,
+        "unit": ""
+      },
+      "c": {
+        "alias": {
+          "fact": "pan",
+          "field": "pan"
+        }
       }
     }
-  }
+  ]
 }

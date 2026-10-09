@@ -23,24 +23,6 @@ export const BAND_DYN_MODES = [
 ];
 
 /**
- * The soft knee of the band's gain computer, in dB. One knee for the one band-dynamics word, shared by every stage that runs it, the de-esser included: a second spelling of 6 would be a second place where the reduction starts.
- * @see data/kernels/band_dyn.json
- */
-export const BAND_DYN_KNEE_DB = 6;
-
-/**
- * How many dynamic bands a channel may hold. A dynamic band is an operator band, so the capacity is the operator's reserve, read and not typed again.
- * @see data/kernels/band_dyn.json
- */
-export const BAND_DYN_MAX_BANDS = 9;
-
-/**
- * The shortest attack, in ms, at which the compressor's detector does not alias. Below it the compressor engages its 4x control path, which adds 72 samples of latency; a zero-latency band has no such path, so its attack travel stops at this floor.
- * @see data/kernels/band_dyn.json
- */
-export const DETECTOR_OVERSAMPLE_AUTO_MS = 0.5;
-
-/**
  * Where the band starts to act, in dB of the band's own level and not the strip's. It is the same fact the de-esser's threshold is, so it carries the same travel.
  * @see data/kernels/band_dyn.json
  */
@@ -104,6 +86,24 @@ export const BAND_DYN_RELEASE_RANGE = {
   "default": 100,
   "defaultFrom": "desk"
 };
+
+/**
+ * The soft knee of the band's gain computer, in dB. One knee for the one band-dynamics word, shared by every stage that runs it, the de-esser included: a second spelling of 6 would be a second place where the reduction starts.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_KNEE_DB = 6;
+
+/**
+ * How many dynamic bands a channel may hold. A dynamic band is an operator band, so the capacity is the operator's reserve, read and not typed again.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_MAX_BANDS = 9;
+
+/**
+ * The shortest attack, in ms, at which the compressor's detector does not alias. Below it the compressor engages its 4x control path, which adds 72 samples of latency; a zero-latency band has no such path, so its attack travel stops at this floor.
+ * @see data/kernels/band_dyn.json
+ */
+export const DETECTOR_OVERSAMPLE_AUTO_MS = 0.5;
 
 /**
  * The chorus's right-leg phase offset, in TURNS of its one oscillator (§2, §3a; the native-FX catalogue's M32 Dimension row). The right leg's voice k reads the LFO at k/N + spread: 0 is both legs one phase (the stage without the field, bit for bit), 0.25 quadrature, 0.5 the Dimension's opposed sweep. A fraction of a cycle carries no engineering symbol, so the unit is ''.
@@ -354,12 +354,6 @@ export const DEESS_RELEASE_RANGE = {
 };
 
 /**
- * The knee, in dB — a CONSTANT of the stage and not a row field (`2026-09-22-native-deesser-stage.md` §4b): a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.
- * @see data/kernels/deesser.json
- */
-export const DEESS_KNEE_DB = 6;
-
-/**
  * The de-esser's modes, in the order of the integer the kernel reads: split attenuates the detected band only, wideband the whole signal while the sibilance lasts.
  * @see data/kernels/deesser.json
  */
@@ -367,6 +361,12 @@ export const DEESS_MODES = [
   "split",
   "wideband"
 ];
+
+/**
+ * The knee, in dB — a CONSTANT of the stage and not a row field (`2026-09-22-native-deesser-stage.md` §4b): a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.
+ * @see data/kernels/deesser.json
+ */
+export const DEESS_KNEE_DB = 6;
 
 /**
  * The FX delay's time travel. `max` is the NATIVE ring's ceiling — the same number as `OMX_FXDELAY_MAX_MS` in `omx_delay.h`, pinned to it by `output-delay-ceiling.test.ts`. Distinct from the per-route ALIGNMENT delay (`OUTPUT_DELAY_RANGE`, 1 s, `OMX_DELAY_MAX_MS`): one is a musical echo with feedback and mix, the other is a pure latency. Two facts, two rings, two ceilings — sharing the word "delay" is why they keep being confused for each other.
@@ -428,12 +428,6 @@ export const DELAY_MIX_RANGE = {
  * @see data/kernels/delay.json
  */
 export const FX_DELAY_PINGPONG_DEFAULT = false;
-
-/**
- * The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.
- * @see data/kernels/drive.json
- */
-export const DRIVE_BIAS_MAX = 0.7071067811865476;
 
 /**
  * The PRE-CURVE gain, in dB. 0 dB is unity into the curve, so a stage switched on at its defaults changes almost nothing — which is what an `on` switch should mean. The ceiling is where every curve is saturating hard on any signal a console carries.
@@ -523,54 +517,10 @@ export const DRIVE_BANDS = [
 ];
 
 /**
- * The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.
- * @see data/kernels/eq.json
+ * The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.
+ * @see data/kernels/drive.json
  */
-export const EQ_MAX_BANDS = 24;
-
-/**
- * The standard ISO 266 one-third-octave centre frequencies, 20 Hz–20 kHz (31 bands) — the classic 31-band graphic-EQ layout's centres.
- * @see data/kernels/eq.json
- */
-export const ISO_THIRD_OCTAVE_CENTRES_HZ = [
-  20,
-  25,
-  31.5,
-  40,
-  50,
-  63,
-  80,
-  100,
-  125,
-  160,
-  200,
-  250,
-  315,
-  400,
-  500,
-  630,
-  800,
-  1000,
-  1250,
-  1600,
-  2000,
-  2500,
-  3150,
-  4000,
-  5000,
-  6300,
-  8000,
-  10000,
-  12500,
-  16000,
-  20000
-];
-
-/**
- * The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (graphic-eq-31 spec §3, roster ruling 3).
- * @see data/kernels/eq.json
- */
-export const GEQ_BANDS = 31;
+export const DRIVE_BIAS_MAX = 0.7071067811865476;
 
 /**
  * The frequency band a parametric band can be dragged across.
@@ -639,12 +589,6 @@ export const LPF_FREQ_RANGE = {
 };
 
 /**
- * The band slots kept for the operator's own hand: the reserve the feedback suppressor and the ring correction may never eat into. Nine is the working set a live EQ actually holds. The budget OPERATOR_EQ_BANDS_RESERVE + FBS_DEFAULT_MAX_AUTO_BANDS + HRP_DEFAULT_MAX_AUTO_BANDS (9 + 6 + 8 = 23) must fit EQ_MAX_BANDS, and `omx-contract validate` refuses data where it does not.
- * @see data/kernels/eq.json
- */
-export const OPERATOR_EQ_BANDS_RESERVE = 9;
-
-/**
  * The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.
  * @see data/kernels/eq.json
  */
@@ -665,6 +609,62 @@ export const FILTER_SLOPES = [
   12,
   24
 ];
+
+/**
+ * The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.
+ * @see data/kernels/eq.json
+ */
+export const EQ_MAX_BANDS = 24;
+
+/**
+ * The standard ISO 266 one-third-octave centre frequencies, 20 Hz–20 kHz (31 bands) — the classic 31-band graphic-EQ layout's centres.
+ * @see data/kernels/eq.json
+ */
+export const ISO_THIRD_OCTAVE_CENTRES_HZ = [
+  20,
+  25,
+  31.5,
+  40,
+  50,
+  63,
+  80,
+  100,
+  125,
+  160,
+  200,
+  250,
+  315,
+  400,
+  500,
+  630,
+  800,
+  1000,
+  1250,
+  1600,
+  2000,
+  2500,
+  3150,
+  4000,
+  5000,
+  6300,
+  8000,
+  10000,
+  12500,
+  16000,
+  20000
+];
+
+/**
+ * The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (graphic-eq-31 spec §3, roster ruling 3).
+ * @see data/kernels/eq.json
+ */
+export const GEQ_BANDS = 31;
+
+/**
+ * The band slots kept for the operator's own hand: the reserve the feedback suppressor and the ring correction may never eat into. Nine is the working set a live EQ actually holds. The budget OPERATOR_EQ_BANDS_RESERVE + FBS_DEFAULT_MAX_AUTO_BANDS + HRP_DEFAULT_MAX_AUTO_BANDS (9 + 6 + 8 = 23) must fit EQ_MAX_BANDS, and `omx-contract validate` refuses data where it does not.
+ * @see data/kernels/eq.json
+ */
+export const OPERATOR_EQ_BANDS_RESERVE = 9;
 
 /**
  * How many bands each strip type's EQ starts with (`default`) and may hold (`max`). `channel` is the console's channel strip: it starts with four and the operator adds bands up to EQ_MAX_BANDS (a band added takes the frequency it is added at, so no default is declared for it). `strip` is the omx-strip plugin's EQ and `eq8`, `eq16` and `eq32` the omx-eq plugins, whose bands are fixed. A default may never exceed its maximum, and the default centres of any count come from the one default rule, whatever the strip.
@@ -987,6 +987,15 @@ export const FLANGER_BASE_MS = 0.5;
 export const FLANGER_MAX_MS = 6;
 
 /**
+ * Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.
+ * @see data/kernels/gate.json
+ */
+export const GATE_KEY_SOURCES = [
+  "self",
+  "sidechain"
+];
+
+/**
  * The legal range of each gate field (engineering units). The widget clamps drags to these, `normalizeGate` enforces them, the row's codec refuses by them and the travel sheet publishes them — one source of truth. `rangeDb` reaches GATE_RANGE_FLOOR_DB, shown as "−∞" in readouts (a gate fully closed is silence).
  * @see data/kernels/gate.json
  */
@@ -1066,15 +1075,6 @@ export const GATE_LIMITS = {
 };
 
 /**
- * Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.
- * @see data/kernels/gate.json
- */
-export const GATE_KEY_SOURCES = [
-  "self",
-  "sidechain"
-];
-
-/**
  * One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB (graphic-eq-31 spec §3).
  * @see data/kernels/geq.json
  */
@@ -1104,6 +1104,19 @@ export const GEQ_PROTO_DB = 12;
  * @see data/kernels/geq.json
  */
 export const GEQ_DESIGN_GAIN_MAX_DB = 30;
+
+/**
+ * How much of the computed correction HRP applies: 0 = analyse only, 1 = the full cut. It comes up at 0.5, half the computed cut.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_AMOUNT_RANGE = {
+  "min": 0,
+  "max": 1,
+  "step": 0,
+  "unit": "",
+  "default": 0.5,
+  "defaultFrom": "desk"
+};
 
 /**
  * The largest automatic cut HRP may place on one harmonic, as a POSITIVE dB magnitude. Well inside the ±15 dB an operator band may hold (core's `EQ_GAIN_LIMIT_DB`): an automatic correction the operator did not ask for gets far less authority than one they dialled themselves.
@@ -1152,19 +1165,6 @@ export const HRP_ATTRIBUTION_CENTS = 60;
  * @see data/kernels/hrp.json
  */
 export const HRP_DEFAULT_MAX_AUTO_BANDS = 8;
-
-/**
- * How much of the computed correction HRP applies: 0 = analyse only, 1 = the full cut. It comes up at 0.5, half the computed cut.
- * @see data/kernels/hrp.json
- */
-export const HRP_AMOUNT_RANGE = {
-  "min": 0,
-  "max": 1,
-  "step": 0,
-  "unit": "",
-  "default": 0.5,
-  "defaultFrom": "desk"
-};
 
 /**
  * The precision limiter's travels (`2026-09-27-precision-limiter.md` §2), rendered into `omx_contract_limits.h` as `OMX_LIMITER_*` by `harness/contract-limits-gen.mjs`, so `mix_limiter.h` reads them and never restates one (R-094). The ceiling is a TRUE peak in dBFS (the ×4 detector); the look-ahead sets the declared latency; the release is the envelope's time constant on the gain depth.
@@ -1256,19 +1256,6 @@ export const PHASER_STAGES_RANGE = {
 };
 
 /**
- * The member set the `stages` field accepts: PHASER_STAGES_RANGE walked by its step.
- * @see data/kernels/phaser.json
- */
-export const PHASER_STAGE_COUNTS = [
-  2,
-  4,
-  6,
-  8,
-  10,
-  12
-];
-
-/**
  * The phaser's SIGNED resonance (§3). ±0.9, tighter than the flanger's ±0.95: the loop runs through a time-varying chain. Declared here (the refusal half); the kernel's clamp is the enforcement half.
  * @see data/kernels/phaser.json
  */
@@ -1340,6 +1327,19 @@ export const PHASER_TRAVELS = {
     "defaultFrom": "desk"
   }
 };
+
+/**
+ * The member set the `stages` field accepts: PHASER_STAGES_RANGE walked by its step.
+ * @see data/kernels/phaser.json
+ */
+export const PHASER_STAGE_COUNTS = [
+  2,
+  4,
+  6,
+  8,
+  10,
+  12
+];
 
 /**
  * The highest frequency the phaser's all-pass sweep reaches, Hz.
@@ -1648,6 +1648,16 @@ export const ROTARY_MIX_RANGE = {
 };
 
 /**
+ * The rotary speaker's speed settings, in the order of the integer the kernel reads: the rotors stopped, at their chorale (slow) rate, or at their tremolo (fast) rate.
+ * @see data/kernels/rotary.json
+ */
+export const ROTARY_SPEEDS = [
+  "stop",
+  "slow",
+  "fast"
+];
+
+/**
  * The rotary's numeric travels, field → declaration: the ONE map the row's state, its bounds, its OPTIONS and its controller read (`speed` is a member set, ROTARY_SPEEDS, beside it).
  * @see data/kernels/rotary.json
  */
@@ -1783,16 +1793,6 @@ export const ROTARY_STOP_EPS = 0.0001;
 export const ROTARY_RING_FLOATS = 256;
 
 /**
- * The rotary speaker's speed settings, in the order of the integer the kernel reads: the rotors stopped, at their chorale (slow) rate, or at their tremolo (fast) rate.
- * @see data/kernels/rotary.json
- */
-export const ROTARY_SPEEDS = [
-  "stop",
-  "slow",
-  "fast"
-];
-
-/**
  * The RTA's target bin resolution — generated into `omx_contract_limits.h` as `OMX_RTA_TARGET_BIN_HZ`, which `mix_dsp.h` reads; `rta-window-derivation.test.ts` reads it back from the header.
  * @see data/kernels/rta.json
  */
@@ -1915,6 +1915,15 @@ export const TREMOLO_MIX_RANGE = {
 };
 
 /**
+ * What the tremolo's one oscillator modulates, in the order of the integer the kernel reads: the level of both legs in phase (tremolo), or the balance law's position with the legs in opposition (pan).
+ * @see data/kernels/tremolo.json
+ */
+export const TREMOLO_MODES = [
+  "tremolo",
+  "pan"
+];
+
+/**
  * The tremolo's numeric travels, field → declaration: the ONE map the row's state, its bounds, its OPTIONS and its controller read (`mode` is a member set, TREMOLO_MODES, beside it).
  * @see data/kernels/tremolo.json
  */
@@ -1944,15 +1953,6 @@ export const TREMOLO_TRAVELS = {
     "defaultFrom": "desk"
   }
 };
-
-/**
- * What the tremolo's one oscillator modulates, in the order of the integer the kernel reads: the level of both legs in phase (tremolo), or the balance law's position with the legs in opposition (pan).
- * @see data/kernels/tremolo.json
- */
-export const TREMOLO_MODES = [
-  "tremolo",
-  "pan"
-];
 
 /**
  * The Q of a second-order Butterworth section, 1/√2 — maximally flat, the one value every Butterworth biquad in the tree designs at: the LR4 crossover section, the pitch pre-filter and the drive's tilt / band / HF sections, in TS and (as `OMX_BUTTERWORTH_Q`) in C (§7, the scalar door).

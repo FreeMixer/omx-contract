@@ -1,0 +1,1072 @@
+{
+  "balance": {
+    "controls": [
+      {
+        "global": "PAN_RANGE",
+        "kind": "travel",
+        "name": "pan",
+        "derivable": false,
+        "explicitGlobal": true
+      }
+    ],
+    "constants": [],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "band_dyn": {
+    "controls": [
+      {
+        "global": "BAND_DYN_MODES",
+        "kind": "choice",
+        "name": "mode",
+        "derivable": true
+      },
+      {
+        "global": "BAND_DYN_THRESHOLD_RANGE",
+        "kind": "travel",
+        "name": "threshold",
+        "derivable": true
+      },
+      {
+        "global": "BAND_DYN_RATIO_RANGE",
+        "kind": "travel",
+        "name": "ratio",
+        "derivable": true
+      },
+      {
+        "global": "BAND_DYN_RANGE_RANGE",
+        "kind": "travel",
+        "name": "range",
+        "derivable": true
+      },
+      {
+        "global": "BAND_DYN_ATTACK_RANGE",
+        "kind": "travel",
+        "name": "attack",
+        "derivable": true
+      },
+      {
+        "global": "BAND_DYN_RELEASE_RANGE",
+        "kind": "travel",
+        "name": "release",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "BAND_DYN_KNEE_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "BAND_DYN_MAX_BANDS",
+        "kind": "scalar"
+      },
+      {
+        "global": "DETECTOR_OVERSAMPLE_AUTO_MS",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "chorus": {
+    "controls": [
+      {
+        "global": "CHORUS_SPREAD_RANGE",
+        "kind": "travel",
+        "name": "spread",
+        "derivable": true
+      },
+      {
+        "global": "CHORUS_RATE_RANGE",
+        "kind": "travel",
+        "name": "rate",
+        "derivable": true
+      },
+      {
+        "global": "CHORUS_DEPTH_RANGE",
+        "kind": "travel",
+        "name": "depth",
+        "derivable": true
+      },
+      {
+        "global": "CHORUS_VOICES_RANGE",
+        "kind": "travel",
+        "name": "voices",
+        "derivable": true
+      },
+      {
+        "global": "CHORUS_MIX_RANGE",
+        "kind": "travel",
+        "name": "mix",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "CHORUS_BASE_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "CHORUS_MAX_MS",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "comp": {
+    "controls": [],
+    "constants": [
+      {
+        "global": "PROGRAM_RELEASE",
+        "kind": "sheet"
+      }
+    ],
+    "aggregates": [],
+    "tables": [
+      {
+        "global": "COMP_LIMITS",
+        "fields": [
+          "thresholdDb",
+          "ratio",
+          "kneeDb",
+          "attackMs",
+          "releaseMs",
+          "makeupDb",
+          "mixPct"
+        ]
+      }
+    ],
+    "review": []
+  },
+  "deesser": {
+    "controls": [
+      {
+        "global": "DEESS_FREQ_RANGE",
+        "kind": "travel",
+        "name": "deessFreq",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "DEESS_WIDTH_RANGE",
+        "kind": "travel",
+        "name": "deessWidth",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "DEESS_THRESHOLD_RANGE",
+        "kind": "travel",
+        "name": "deessThreshold",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "DEESS_RATIO_RANGE",
+        "kind": "travel",
+        "name": "deessRatio",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "DEESS_RANGE_RANGE",
+        "kind": "travel",
+        "name": "deessRange",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "DEESS_ATTACK_RANGE",
+        "kind": "travel",
+        "name": "deessAttack",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "DEESS_RELEASE_RANGE",
+        "kind": "travel",
+        "name": "deessRelease",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "DEESS_MODES",
+        "kind": "choice",
+        "name": "deessMode",
+        "derivable": false,
+        "explicitGlobal": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "DEESS_KNEE_DB",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "delay": {
+    "controls": [
+      {
+        "global": "FX_DELAY_TIME_RANGE",
+        "kind": "travel",
+        "name": "fxDelayTime",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "FX_DELAY_FEEDBACK_RANGE",
+        "kind": "travel",
+        "name": "fxDelayFeedback",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "DELAY_TONE_RANGE",
+        "kind": "travel",
+        "name": "tone",
+        "derivable": true
+      },
+      {
+        "global": "DELAY_MIX_RANGE",
+        "kind": "travel",
+        "name": "mix",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "FX_DELAY_PINGPONG_DEFAULT",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "drive": {
+    "controls": [
+      {
+        "global": "DRIVE_AMOUNT_RANGE",
+        "kind": "travel",
+        "name": "amount",
+        "derivable": true
+      },
+      {
+        "global": "DRIVE_CHARACTER_RANGE",
+        "kind": "travel",
+        "name": "character",
+        "derivable": true
+      },
+      {
+        "global": "DRIVE_BAND_FREQ_RANGE",
+        "kind": "travel",
+        "name": "bandFreq",
+        "derivable": true
+      },
+      {
+        "global": "DRIVE_MIX_RANGE",
+        "kind": "travel",
+        "name": "mix",
+        "derivable": true
+      },
+      {
+        "global": "DRIVE_TRIM_RANGE",
+        "kind": "travel",
+        "name": "trim",
+        "derivable": true
+      },
+      {
+        "global": "DRIVE_CURVES",
+        "kind": "choice",
+        "name": "curve",
+        "derivable": true
+      },
+      {
+        "global": "DRIVE_BANDS",
+        "kind": "choice",
+        "name": "band",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "DRIVE_BIAS_MAX",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "eq": {
+    "controls": [
+      {
+        "global": "EQ_FREQ_RANGE",
+        "kind": "travel",
+        "name": "freq",
+        "derivable": true
+      },
+      {
+        "global": "EQ_GAIN_RANGE",
+        "kind": "travel",
+        "name": "gain",
+        "derivable": true
+      },
+      {
+        "global": "EQ_Q_RANGE",
+        "kind": "travel",
+        "name": "q",
+        "derivable": true
+      },
+      {
+        "global": "EQ_NOTCH_Q_RANGE",
+        "kind": "travel",
+        "name": "notchQ",
+        "derivable": true
+      },
+      {
+        "global": "HPF_FREQ_RANGE",
+        "kind": "travel",
+        "name": "hpfFreq",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "LPF_FREQ_RANGE",
+        "kind": "travel",
+        "name": "lpfFreq",
+        "derivable": false,
+        "explicitGlobal": true
+      },
+      {
+        "global": "EQ_BAND_TYPES",
+        "kind": "choice",
+        "name": "bandType",
+        "derivable": true
+      },
+      {
+        "global": "FILTER_SLOPES",
+        "kind": "choice",
+        "name": "filterSlope",
+        "derivable": false,
+        "explicitGlobal": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "EQ_MAX_BANDS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ISO_THIRD_OCTAVE_CENTRES_HZ",
+        "kind": "list"
+      },
+      {
+        "global": "GEQ_BANDS",
+        "kind": "scalar"
+      },
+      {
+        "global": "OPERATOR_EQ_BANDS_RESERVE",
+        "kind": "scalar"
+      },
+      {
+        "global": "EQ_BAND_COUNTS",
+        "kind": "sheet"
+      },
+      {
+        "global": "EQ_BAND_DEFAULTS",
+        "kind": "sheet"
+      },
+      {
+        "global": "EQ_PASS_FILTER_DEFAULTS",
+        "kind": "sheet"
+      },
+      {
+        "global": "EQ_DEFAULT_CENTRES_FOUR_BAND_HZ",
+        "kind": "list"
+      },
+      {
+        "global": "EQ_CENTRE_SERIES_R20_HZ",
+        "kind": "list"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "fbs": {
+    "controls": [],
+    "constants": [
+      {
+        "global": "SUBHARMONIC_RADIUS_BINS",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_PAPR_GUARD_BINS",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_PNPR_RADIUS_BINS",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_PNPR_GUARD_BINS",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_PHPR_HARMONICS",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_PSHR_SELF_SKIP_BINS",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_FLOOR_LIN",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_TRACK_SLOTS",
+        "kind": "scalar"
+      },
+      {
+        "global": "PSHR_MIN_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "GROWTH_WINDOW_FRAMES",
+        "kind": "scalar"
+      },
+      {
+        "global": "DEEP_PLATEAU_FRAMES",
+        "kind": "scalar"
+      },
+      {
+        "global": "GROWTH_MIN_DB_PER_FRAME",
+        "kind": "scalar"
+      },
+      {
+        "global": "GROWTH_MAX_DIP_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "GROWTH_MIN_TOTAL_RISE_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "GROWTH_MAX_SINGLE_FRAME_SHARE",
+        "kind": "scalar"
+      },
+      {
+        "global": "GROWTH_CONFIRM_FRAMES",
+        "kind": "scalar"
+      },
+      {
+        "global": "DEFAULT_THRESHOLDS",
+        "kind": "sheet"
+      },
+      {
+        "global": "FBS_MAX_NOTCH_DEPTH_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_DEFAULT_NOTCH_Q",
+        "kind": "scalar"
+      },
+      {
+        "global": "FBS_DEFAULT_MAX_AUTO_BANDS",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "flanger": {
+    "controls": [
+      {
+        "global": "FLANGER_RATE_RANGE",
+        "kind": "travel",
+        "name": "rate",
+        "derivable": true
+      },
+      {
+        "global": "FLANGER_DEPTH_RANGE",
+        "kind": "travel",
+        "name": "depth",
+        "derivable": true
+      },
+      {
+        "global": "FLANGER_FEEDBACK_RANGE",
+        "kind": "travel",
+        "name": "feedback",
+        "derivable": true
+      },
+      {
+        "global": "FLANGER_MIX_RANGE",
+        "kind": "travel",
+        "name": "mix",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "FLANGER_BASE_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "FLANGER_MAX_MS",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "gate": {
+    "controls": [
+      {
+        "global": "GATE_KEY_SOURCES",
+        "kind": "choice",
+        "name": "keySource",
+        "derivable": true
+      }
+    ],
+    "constants": [],
+    "aggregates": [],
+    "tables": [
+      {
+        "global": "GATE_LIMITS",
+        "fields": [
+          "thresholdDb",
+          "rangeDb",
+          "kneeStartDb",
+          "kneeEndDb",
+          "attackMs",
+          "holdMs",
+          "releaseMs",
+          "hysteresisDb",
+          "ratio"
+        ]
+      }
+    ],
+    "review": []
+  },
+  "geq": {
+    "controls": [
+      {
+        "global": "GEQ_BAND_RANGE",
+        "kind": "travel",
+        "name": "band",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "GEQ_BAND_Q",
+        "kind": "scalar"
+      },
+      {
+        "global": "GEQ_PROTO_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "GEQ_DESIGN_GAIN_MAX_DB",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "hrp": {
+    "controls": [
+      {
+        "global": "HRP_AMOUNT_RANGE",
+        "kind": "travel",
+        "name": "amount",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "HRP_MAX_CUT_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "HRP_MAX_VOICES",
+        "kind": "scalar"
+      },
+      {
+        "global": "HRP_BAND_Q",
+        "kind": "scalar"
+      },
+      {
+        "global": "HRP_EXCESS_THRESHOLD_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "HRP_GAIN_STEP_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "HRP_COLLISION_CENTS",
+        "kind": "scalar"
+      },
+      {
+        "global": "HRP_ATTRIBUTION_CENTS",
+        "kind": "scalar"
+      },
+      {
+        "global": "HRP_DEFAULT_MAX_AUTO_BANDS",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "limiter": {
+    "controls": [],
+    "constants": [],
+    "aggregates": [],
+    "tables": [
+      {
+        "global": "LIMITER_LIMITS",
+        "fields": [
+          "ceilingDb",
+          "lookaheadMs",
+          "releaseMs"
+        ]
+      }
+    ],
+    "review": []
+  },
+  "mixmatrix": {
+    "controls": [],
+    "constants": [
+      {
+        "global": "BUS_INPUT_CAP",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "phaser": {
+    "controls": [
+      {
+        "global": "PHASER_RATE_RANGE",
+        "kind": "travel",
+        "name": "rateHz",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "PHASER_BASE_RANGE",
+        "kind": "travel",
+        "name": "baseHz",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "PHASER_DEPTH_RANGE",
+        "kind": "travel",
+        "name": "depthOct",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "PHASER_STAGES_RANGE",
+        "kind": "travel",
+        "name": "stages",
+        "derivable": true
+      },
+      {
+        "global": "PHASER_FEEDBACK_RANGE",
+        "kind": "travel",
+        "name": "feedback",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "PHASER_MIX_RANGE",
+        "kind": "travel",
+        "name": "mix",
+        "derivable": true,
+        "from": "aggregate"
+      }
+    ],
+    "constants": [
+      {
+        "global": "PHASER_STAGE_COUNTS",
+        "kind": "list"
+      },
+      {
+        "global": "PHASER_F_TOP_HZ",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [
+      {
+        "global": "PHASER_TRAVELS",
+        "fields": [
+          "rateHz",
+          "baseHz",
+          "depthOct",
+          "feedback",
+          "mix"
+        ],
+        "exact": true,
+        "unmatched": []
+      }
+    ],
+    "tables": [],
+    "review": []
+  },
+  "pitch": {
+    "controls": [],
+    "constants": [
+      {
+        "global": "PITCH_KERNEL",
+        "kind": "sheet"
+      }
+    ],
+    "aggregates": [],
+    "tables": [
+      {
+        "global": "PITCH_LIMITS",
+        "fields": [
+          "semitones",
+          "cents",
+          "mix"
+        ]
+      }
+    ],
+    "review": []
+  },
+  "reverb": {
+    "controls": [
+      {
+        "global": "REVERB_PLATE_MOD_DEPTH_RANGE",
+        "kind": "travel",
+        "name": "plateModDepth",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_MIX_RANGE",
+        "kind": "travel",
+        "name": "mix",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_SIZE_RANGE",
+        "kind": "travel",
+        "name": "size",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_DAMPING_RANGE",
+        "kind": "travel",
+        "name": "damping",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_WIDTH_RANGE",
+        "kind": "travel",
+        "name": "width",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_PREDELAY_RANGE",
+        "kind": "travel",
+        "name": "predelay",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_LOWCUT_RANGE",
+        "kind": "travel",
+        "name": "lowcut",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_HIGHCUT_RANGE",
+        "kind": "travel",
+        "name": "highcut",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_REVERSE_RANGE",
+        "kind": "travel",
+        "name": "reverse",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_HOLD_RANGE",
+        "kind": "travel",
+        "name": "hold",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_RELEASE_RANGE",
+        "kind": "travel",
+        "name": "release",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_GATE_THRESHOLD_RANGE",
+        "kind": "travel",
+        "name": "gateThreshold",
+        "derivable": true
+      },
+      {
+        "global": "REVERB_ALGORITHMS",
+        "kind": "choice",
+        "name": "algorithm",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "REVERB_GATE_ATTACK_MS",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "rotary": {
+    "controls": [
+      {
+        "global": "ROTARY_HORN_SLOW_RANGE",
+        "kind": "travel",
+        "name": "hornSlowHz",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "ROTARY_HORN_FAST_RANGE",
+        "kind": "travel",
+        "name": "hornFastHz",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "ROTARY_DRUM_SLOW_RANGE",
+        "kind": "travel",
+        "name": "drumSlowHz",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "ROTARY_DRUM_FAST_RANGE",
+        "kind": "travel",
+        "name": "drumFastHz",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "ROTARY_ACCEL_RANGE",
+        "kind": "travel",
+        "name": "accel",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "ROTARY_BALANCE_RANGE",
+        "kind": "travel",
+        "name": "balance",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "ROTARY_MIX_RANGE",
+        "kind": "travel",
+        "name": "mix",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "ROTARY_SPEEDS",
+        "kind": "choice",
+        "name": "speed",
+        "derivable": true
+      }
+    ],
+    "constants": [
+      {
+        "global": "ROTARY_CROSSOVER_HZ",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_BASE_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_HORN_DOPPLER_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_DRUM_DOPPLER_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_HORN_AM",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_DRUM_AM",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_HORN_ACCEL_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_HORN_DECEL_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_DRUM_ACCEL_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_DRUM_DECEL_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_STOP_EPS",
+        "kind": "scalar"
+      },
+      {
+        "global": "ROTARY_RING_FLOATS",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [
+      {
+        "global": "ROTARY_TRAVELS",
+        "fields": [
+          "hornSlowHz",
+          "hornFastHz",
+          "drumSlowHz",
+          "drumFastHz",
+          "accel",
+          "balance",
+          "mix"
+        ],
+        "exact": true,
+        "unmatched": []
+      }
+    ],
+    "tables": [],
+    "review": []
+  },
+  "rta": {
+    "controls": [],
+    "constants": [
+      {
+        "global": "RTA_TARGET_BIN_HZ",
+        "kind": "scalar"
+      },
+      {
+        "global": "RTA_FFT_SIZE_MAX",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [],
+    "review": []
+  },
+  "transient": {
+    "controls": [],
+    "constants": [
+      {
+        "global": "TRANSIENT_FAST_ATTACK_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "TRANSIENT_FAST_RELEASE_MS",
+        "kind": "scalar"
+      },
+      {
+        "global": "TRANSIENT_REF_DB",
+        "kind": "scalar"
+      },
+      {
+        "global": "TRANSIENT_FLOOR_LIN",
+        "kind": "scalar"
+      }
+    ],
+    "aggregates": [],
+    "tables": [
+      {
+        "global": "TRANSIENT_LIMITS",
+        "fields": [
+          "attackDb",
+          "sustainDb",
+          "attackTimeMs",
+          "sustainTimeMs",
+          "outputDb"
+        ]
+      }
+    ],
+    "review": []
+  },
+  "tremolo": {
+    "controls": [
+      {
+        "global": "TREMOLO_RATE_RANGE",
+        "kind": "travel",
+        "name": "rateHz",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "TREMOLO_DEPTH_RANGE",
+        "kind": "travel",
+        "name": "depth",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "TREMOLO_MIX_RANGE",
+        "kind": "travel",
+        "name": "mix",
+        "derivable": true,
+        "from": "aggregate"
+      },
+      {
+        "global": "TREMOLO_MODES",
+        "kind": "choice",
+        "name": "mode",
+        "derivable": true
+      }
+    ],
+    "constants": [],
+    "aggregates": [
+      {
+        "global": "TREMOLO_TRAVELS",
+        "fields": [
+          "rateHz",
+          "depth",
+          "mix"
+        ],
+        "exact": true,
+        "unmatched": []
+      }
+    ],
+    "tables": [],
+    "review": []
+  }
+}
