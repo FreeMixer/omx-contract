@@ -1070,7 +1070,8 @@ export const HRP_AMOUNT_RANGE = {
   "max": 1,
   "step": 0,
   "unit": "",
-  "default": 0.5
+  "default": 0.5,
+  "defaultFrom": "desk"
 };
 
 /**
