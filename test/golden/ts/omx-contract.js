@@ -14,6 +14,98 @@ export const PAN_RANGE = {
 };
 
 /**
+ * The side of the threshold the band acts on. Above acts when the band is loud, taming a resonance that only rings when pushed; below acts when it is quiet, lifting a band that drops out. The order is the integer the kernel reads: above is 0, below is 1.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_MODES = [
+  "above",
+  "below"
+];
+
+/**
+ * The soft knee of the band's gain computer, in dB. One knee for the one band-dynamics word, shared by every stage that runs it, the de-esser included: a second spelling of 6 would be a second place where the reduction starts.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_KNEE_DB = 6;
+
+/**
+ * How many dynamic bands a channel may hold. A dynamic band is an operator band, so the capacity is the operator's reserve, read and not typed again.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_MAX_BANDS = 9;
+
+/**
+ * The shortest attack, in ms, at which the compressor's detector does not alias. Below it the compressor engages its 4x control path, which adds 72 samples of latency; a zero-latency band has no such path, so its attack travel stops at this floor.
+ * @see data/kernels/band_dyn.json
+ */
+export const DETECTOR_OVERSAMPLE_AUTO_MS = 0.5;
+
+/**
+ * Where the band starts to act, in dB of the band's own level and not the strip's. It is the same fact the de-esser's threshold is, so it carries the same travel.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_THRESHOLD_RANGE = {
+  "min": -60,
+  "max": 0,
+  "step": 0.5,
+  "unit": "dB",
+  "default": -30,
+  "defaultFrom": "desk"
+};
+
+/**
+ * How hard the band is held once it is past its threshold. 2:1 rather than the de-esser's 4:1, because a dynamic band is corrective, not a limiter for a sibilant.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_RATIO_RANGE = {
+  "min": 1,
+  "max": 20,
+  "step": 0.1,
+  "unit": "",
+  "default": 2,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The most the band may add to its static gain, signed: below zero the deepest cut, above zero the largest boost. The ceiling of +12 keeps static plus dynamic inside the EQ's own travel. Zero makes the band inert without switching it off.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_RANGE_RANGE = {
+  "min": -24,
+  "max": 12,
+  "step": 0.5,
+  "unit": "dB",
+  "default": -6,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The detector's attack, in ms. The travel stops at the oversampling floor, below which the band would need the compressor's delayed control path.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_ATTACK_RANGE = {
+  "min": 0.5,
+  "max": 100,
+  "step": 0.1,
+  "unit": "ms",
+  "default": 5,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The detector's release, in ms. 100 ms is long enough not to modulate a 40 Hz band inside four cycles.
+ * @see data/kernels/band_dyn.json
+ */
+export const BAND_DYN_RELEASE_RANGE = {
+  "min": 5,
+  "max": 3000,
+  "step": 1,
+  "unit": "ms",
+  "default": 100,
+  "defaultFrom": "desk"
+};
+
+/**
  * The chorus's right-leg phase offset, in TURNS of its one oscillator (§2, §3a; the native-FX catalogue's M32 Dimension row). The right leg's voice k reads the LFO at k/N + spread: 0 is both legs one phase (the stage without the field, bit for bit), 0.25 quadrature, 0.5 the Dimension's opposed sweep. A fraction of a cycle carries no engineering symbol, so the unit is ''.
  * @see data/kernels/chorus.json
  */
