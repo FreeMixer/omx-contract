@@ -20,7 +20,7 @@
  *       reads every cited value again at its answers' commit and compares (all answers by default)
  *   node tools/omx-new-kernel.mjs --answers recipes/answers/<k>.json
  *       writes the kernel file from the answers (a released file keeps its items as written and gains
- *       the answered items it lacks), the committed renders and the CHANGELOG line (for a released
+ *       the answered items it lacks) and the committed renders (for a released
  *       kernel, the line of the items added to it), runs the completeness check over the kernel and
  *       prints the commit plan, one commit per layer of the recipe.
  *
@@ -324,28 +324,6 @@ export function kernelText(recipe, answers) {
   return formatDoc(doc);
 }
 
-/**
- * The CHANGELOG with the kernel's line under ## Unreleased (created above the first release); with
- * `added`, the line for that many items added to a released kernel.
- */
-export function changelogWith(text, recipe, answers, { added } = {}) {
-  const t = recipe.artifacts.find((a) => a.id === 'changelog').template;
-  const line = added ? fill(t.lineAdded, { kernel: answers.kernel, count: added }) : fill(t.line, { kernel: answers.kernel, count: answers.items.length });
-  if (text.includes(line)) return text;
-  const lines = text.split('\n');
-  let at = lines.findIndex((l) => new RegExp(t.after).test(l));
-  if (at < 0) {
-    const before = lines.findIndex((l) => new RegExp(t.createBefore).test(l));
-    lines.splice(before < 0 ? lines.length : before, 0, t.create, '');
-    at = before < 0 ? lines.length - 2 : before;
-  }
-  let end = at + 1;
-  while (end < lines.length && !/^## /.test(lines[end])) end++;
-  while (end > at + 1 && lines[end - 1] === '') end--;
-  lines.splice(end, 0, ...(end === at + 1 ? ['', ...line.split('\n')] : line.split('\n')));
-  return lines.join('\n');
-}
-
 /** Write every artifact the answers make; returns the written paths. */
 export function declare(answersPath, root = ROOT) {
   const recipe = loadRecipe(root);
@@ -384,13 +362,6 @@ export function declare(answersPath, root = ROOT) {
       written.push(join(dir, f.path));
     }
   }
-  const cl = join(root, recipe.tree.changelog);
-  const before = readFileSync(cl, 'utf8');
-  let after = before;
-  if (answers.since !== recipe.tree.firstRelease) after = changelogWith(after, recipe, answers);
-  const added = answers.items.filter((a) => itemSince(answers, a) !== answers.since).length;
-  if (added) after = changelogWith(after, recipe, answers, { added });
-  if (after !== before) { writeFileSync(cl, after); written.push(recipe.tree.changelog); }
   return { answers, written };
 }
 
