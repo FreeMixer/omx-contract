@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.0.0
+Version: 2.1.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,14 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.1.0-1
+- The JSON render lists each kernel's controls in their declared order, with
+  the kind, the global each one lives in and the table of a table field, so a
+  consumer reads control order and kinds from the render instead of the kernel
+  files. The existing JSON keys and the C and TypeScript renders are unchanged.
+- A control may declare "rearms": changing it re-arms the kernel's state, so
+  it is not a smooth parameter. The limiter's look-ahead declares it.
+
 * Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.0.0-1
 - A kernel file now holds four sections: its controls (each a travel or a
   choice, in order), the tables some of them are fields of, the aggregates

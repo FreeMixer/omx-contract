@@ -18,6 +18,7 @@
       "name": "lookaheadMs",
       "kind": "travel",
       "table": "LIMITER_LIMITS",
+      "rearms": true,
       "travel": {
         "min": 0.5,
         "max": 5,

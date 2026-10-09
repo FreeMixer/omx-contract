@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "items": {
     "PAN_RANGE": {
       "rel": "data/kernels/balance.json",
@@ -2367,6 +2367,641 @@
         128000,
         176400,
         192000
+      ]
+    }
+  },
+  "kernels": {
+    "balance": {
+      "controls": [
+        {
+          "name": "pan",
+          "kind": "travel",
+          "global": "PAN_RANGE"
+        }
+      ]
+    },
+    "band_dyn": {
+      "controls": [
+        {
+          "name": "mode",
+          "kind": "choice",
+          "global": "BAND_DYN_MODES"
+        },
+        {
+          "name": "threshold",
+          "kind": "travel",
+          "global": "BAND_DYN_THRESHOLD_RANGE"
+        },
+        {
+          "name": "ratio",
+          "kind": "travel",
+          "global": "BAND_DYN_RATIO_RANGE"
+        },
+        {
+          "name": "range",
+          "kind": "travel",
+          "global": "BAND_DYN_RANGE_RANGE"
+        },
+        {
+          "name": "attack",
+          "kind": "travel",
+          "global": "BAND_DYN_ATTACK_RANGE"
+        },
+        {
+          "name": "release",
+          "kind": "travel",
+          "global": "BAND_DYN_RELEASE_RANGE"
+        }
+      ]
+    },
+    "chorus": {
+      "controls": [
+        {
+          "name": "spread",
+          "kind": "travel",
+          "global": "CHORUS_SPREAD_RANGE"
+        },
+        {
+          "name": "rate",
+          "kind": "travel",
+          "global": "CHORUS_RATE_RANGE"
+        },
+        {
+          "name": "depth",
+          "kind": "travel",
+          "global": "CHORUS_DEPTH_RANGE"
+        },
+        {
+          "name": "voices",
+          "kind": "travel",
+          "global": "CHORUS_VOICES_RANGE"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "CHORUS_MIX_RANGE"
+        }
+      ]
+    },
+    "comp": {
+      "controls": [
+        {
+          "name": "thresholdDb",
+          "kind": "travel",
+          "global": "COMP_LIMITS",
+          "table": "COMP_LIMITS"
+        },
+        {
+          "name": "ratio",
+          "kind": "travel",
+          "global": "COMP_LIMITS",
+          "table": "COMP_LIMITS"
+        },
+        {
+          "name": "kneeDb",
+          "kind": "travel",
+          "global": "COMP_LIMITS",
+          "table": "COMP_LIMITS"
+        },
+        {
+          "name": "attackMs",
+          "kind": "travel",
+          "global": "COMP_LIMITS",
+          "table": "COMP_LIMITS"
+        },
+        {
+          "name": "releaseMs",
+          "kind": "travel",
+          "global": "COMP_LIMITS",
+          "table": "COMP_LIMITS"
+        },
+        {
+          "name": "makeupDb",
+          "kind": "travel",
+          "global": "COMP_LIMITS",
+          "table": "COMP_LIMITS"
+        },
+        {
+          "name": "mixPct",
+          "kind": "travel",
+          "global": "COMP_LIMITS",
+          "table": "COMP_LIMITS"
+        }
+      ]
+    },
+    "deesser": {
+      "controls": [
+        {
+          "name": "deessFreq",
+          "kind": "travel",
+          "global": "DEESS_FREQ_RANGE"
+        },
+        {
+          "name": "deessWidth",
+          "kind": "travel",
+          "global": "DEESS_WIDTH_RANGE"
+        },
+        {
+          "name": "deessThreshold",
+          "kind": "travel",
+          "global": "DEESS_THRESHOLD_RANGE"
+        },
+        {
+          "name": "deessRatio",
+          "kind": "travel",
+          "global": "DEESS_RATIO_RANGE"
+        },
+        {
+          "name": "deessRange",
+          "kind": "travel",
+          "global": "DEESS_RANGE_RANGE"
+        },
+        {
+          "name": "deessAttack",
+          "kind": "travel",
+          "global": "DEESS_ATTACK_RANGE"
+        },
+        {
+          "name": "deessRelease",
+          "kind": "travel",
+          "global": "DEESS_RELEASE_RANGE"
+        },
+        {
+          "name": "deessMode",
+          "kind": "choice",
+          "global": "DEESS_MODES"
+        }
+      ]
+    },
+    "delay": {
+      "controls": [
+        {
+          "name": "fxDelayTime",
+          "kind": "travel",
+          "global": "FX_DELAY_TIME_RANGE"
+        },
+        {
+          "name": "fxDelayFeedback",
+          "kind": "travel",
+          "global": "FX_DELAY_FEEDBACK_RANGE"
+        },
+        {
+          "name": "tone",
+          "kind": "travel",
+          "global": "DELAY_TONE_RANGE"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "DELAY_MIX_RANGE"
+        }
+      ]
+    },
+    "drive": {
+      "controls": [
+        {
+          "name": "amount",
+          "kind": "travel",
+          "global": "DRIVE_AMOUNT_RANGE"
+        },
+        {
+          "name": "character",
+          "kind": "travel",
+          "global": "DRIVE_CHARACTER_RANGE"
+        },
+        {
+          "name": "bandFreq",
+          "kind": "travel",
+          "global": "DRIVE_BAND_FREQ_RANGE"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "DRIVE_MIX_RANGE"
+        },
+        {
+          "name": "trim",
+          "kind": "travel",
+          "global": "DRIVE_TRIM_RANGE"
+        },
+        {
+          "name": "curve",
+          "kind": "choice",
+          "global": "DRIVE_CURVES"
+        },
+        {
+          "name": "band",
+          "kind": "choice",
+          "global": "DRIVE_BANDS"
+        }
+      ]
+    },
+    "eq": {
+      "controls": [
+        {
+          "name": "freq",
+          "kind": "travel",
+          "global": "EQ_FREQ_RANGE"
+        },
+        {
+          "name": "gain",
+          "kind": "travel",
+          "global": "EQ_GAIN_RANGE"
+        },
+        {
+          "name": "q",
+          "kind": "travel",
+          "global": "EQ_Q_RANGE"
+        },
+        {
+          "name": "notchQ",
+          "kind": "travel",
+          "global": "EQ_NOTCH_Q_RANGE"
+        },
+        {
+          "name": "hpfFreq",
+          "kind": "travel",
+          "global": "HPF_FREQ_RANGE"
+        },
+        {
+          "name": "lpfFreq",
+          "kind": "travel",
+          "global": "LPF_FREQ_RANGE"
+        },
+        {
+          "name": "bandType",
+          "kind": "choice",
+          "global": "EQ_BAND_TYPES"
+        },
+        {
+          "name": "filterSlope",
+          "kind": "choice",
+          "global": "FILTER_SLOPES"
+        }
+      ]
+    },
+    "fbs": {
+      "controls": []
+    },
+    "flanger": {
+      "controls": [
+        {
+          "name": "rate",
+          "kind": "travel",
+          "global": "FLANGER_RATE_RANGE"
+        },
+        {
+          "name": "depth",
+          "kind": "travel",
+          "global": "FLANGER_DEPTH_RANGE"
+        },
+        {
+          "name": "feedback",
+          "kind": "travel",
+          "global": "FLANGER_FEEDBACK_RANGE"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "FLANGER_MIX_RANGE"
+        }
+      ]
+    },
+    "gate": {
+      "controls": [
+        {
+          "name": "keySource",
+          "kind": "choice",
+          "global": "GATE_KEY_SOURCES"
+        },
+        {
+          "name": "thresholdDb",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        },
+        {
+          "name": "rangeDb",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        },
+        {
+          "name": "kneeStartDb",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        },
+        {
+          "name": "kneeEndDb",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        },
+        {
+          "name": "attackMs",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        },
+        {
+          "name": "holdMs",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        },
+        {
+          "name": "releaseMs",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        },
+        {
+          "name": "hysteresisDb",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        },
+        {
+          "name": "ratio",
+          "kind": "travel",
+          "global": "GATE_LIMITS",
+          "table": "GATE_LIMITS"
+        }
+      ]
+    },
+    "geq": {
+      "controls": [
+        {
+          "name": "band",
+          "kind": "travel",
+          "global": "GEQ_BAND_RANGE"
+        }
+      ]
+    },
+    "hrp": {
+      "controls": [
+        {
+          "name": "amount",
+          "kind": "travel",
+          "global": "HRP_AMOUNT_RANGE"
+        }
+      ]
+    },
+    "limiter": {
+      "controls": [
+        {
+          "name": "ceilingDb",
+          "kind": "travel",
+          "global": "LIMITER_LIMITS",
+          "table": "LIMITER_LIMITS"
+        },
+        {
+          "name": "lookaheadMs",
+          "kind": "travel",
+          "global": "LIMITER_LIMITS",
+          "table": "LIMITER_LIMITS",
+          "rearms": true
+        },
+        {
+          "name": "releaseMs",
+          "kind": "travel",
+          "global": "LIMITER_LIMITS",
+          "table": "LIMITER_LIMITS"
+        }
+      ]
+    },
+    "mixmatrix": {
+      "controls": []
+    },
+    "phaser": {
+      "controls": [
+        {
+          "name": "rateHz",
+          "kind": "travel",
+          "global": "PHASER_RATE_RANGE"
+        },
+        {
+          "name": "baseHz",
+          "kind": "travel",
+          "global": "PHASER_BASE_RANGE"
+        },
+        {
+          "name": "depthOct",
+          "kind": "travel",
+          "global": "PHASER_DEPTH_RANGE"
+        },
+        {
+          "name": "stages",
+          "kind": "travel",
+          "global": "PHASER_STAGES_RANGE"
+        },
+        {
+          "name": "feedback",
+          "kind": "travel",
+          "global": "PHASER_FEEDBACK_RANGE"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "PHASER_MIX_RANGE"
+        }
+      ]
+    },
+    "pitch": {
+      "controls": [
+        {
+          "name": "semitones",
+          "kind": "travel",
+          "global": "PITCH_LIMITS",
+          "table": "PITCH_LIMITS"
+        },
+        {
+          "name": "cents",
+          "kind": "travel",
+          "global": "PITCH_LIMITS",
+          "table": "PITCH_LIMITS"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "PITCH_LIMITS",
+          "table": "PITCH_LIMITS"
+        }
+      ]
+    },
+    "reverb": {
+      "controls": [
+        {
+          "name": "plateModDepth",
+          "kind": "travel",
+          "global": "REVERB_PLATE_MOD_DEPTH_RANGE"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "REVERB_MIX_RANGE"
+        },
+        {
+          "name": "size",
+          "kind": "travel",
+          "global": "REVERB_SIZE_RANGE"
+        },
+        {
+          "name": "damping",
+          "kind": "travel",
+          "global": "REVERB_DAMPING_RANGE"
+        },
+        {
+          "name": "width",
+          "kind": "travel",
+          "global": "REVERB_WIDTH_RANGE"
+        },
+        {
+          "name": "predelay",
+          "kind": "travel",
+          "global": "REVERB_PREDELAY_RANGE"
+        },
+        {
+          "name": "lowcut",
+          "kind": "travel",
+          "global": "REVERB_LOWCUT_RANGE"
+        },
+        {
+          "name": "highcut",
+          "kind": "travel",
+          "global": "REVERB_HIGHCUT_RANGE"
+        },
+        {
+          "name": "reverse",
+          "kind": "travel",
+          "global": "REVERB_REVERSE_RANGE"
+        },
+        {
+          "name": "hold",
+          "kind": "travel",
+          "global": "REVERB_HOLD_RANGE"
+        },
+        {
+          "name": "release",
+          "kind": "travel",
+          "global": "REVERB_RELEASE_RANGE"
+        },
+        {
+          "name": "gateThreshold",
+          "kind": "travel",
+          "global": "REVERB_GATE_THRESHOLD_RANGE"
+        },
+        {
+          "name": "algorithm",
+          "kind": "choice",
+          "global": "REVERB_ALGORITHMS"
+        }
+      ]
+    },
+    "rotary": {
+      "controls": [
+        {
+          "name": "hornSlowHz",
+          "kind": "travel",
+          "global": "ROTARY_HORN_SLOW_RANGE"
+        },
+        {
+          "name": "hornFastHz",
+          "kind": "travel",
+          "global": "ROTARY_HORN_FAST_RANGE"
+        },
+        {
+          "name": "drumSlowHz",
+          "kind": "travel",
+          "global": "ROTARY_DRUM_SLOW_RANGE"
+        },
+        {
+          "name": "drumFastHz",
+          "kind": "travel",
+          "global": "ROTARY_DRUM_FAST_RANGE"
+        },
+        {
+          "name": "accel",
+          "kind": "travel",
+          "global": "ROTARY_ACCEL_RANGE"
+        },
+        {
+          "name": "balance",
+          "kind": "travel",
+          "global": "ROTARY_BALANCE_RANGE"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "ROTARY_MIX_RANGE"
+        },
+        {
+          "name": "speed",
+          "kind": "choice",
+          "global": "ROTARY_SPEEDS"
+        }
+      ]
+    },
+    "rta": {
+      "controls": []
+    },
+    "transient": {
+      "controls": [
+        {
+          "name": "attackDb",
+          "kind": "travel",
+          "global": "TRANSIENT_LIMITS",
+          "table": "TRANSIENT_LIMITS"
+        },
+        {
+          "name": "sustainDb",
+          "kind": "travel",
+          "global": "TRANSIENT_LIMITS",
+          "table": "TRANSIENT_LIMITS"
+        },
+        {
+          "name": "attackTimeMs",
+          "kind": "travel",
+          "global": "TRANSIENT_LIMITS",
+          "table": "TRANSIENT_LIMITS"
+        },
+        {
+          "name": "sustainTimeMs",
+          "kind": "travel",
+          "global": "TRANSIENT_LIMITS",
+          "table": "TRANSIENT_LIMITS"
+        },
+        {
+          "name": "outputDb",
+          "kind": "travel",
+          "global": "TRANSIENT_LIMITS",
+          "table": "TRANSIENT_LIMITS"
+        }
+      ]
+    },
+    "tremolo": {
+      "controls": [
+        {
+          "name": "rateHz",
+          "kind": "travel",
+          "global": "TREMOLO_RATE_RANGE"
+        },
+        {
+          "name": "depth",
+          "kind": "travel",
+          "global": "TREMOLO_DEPTH_RANGE"
+        },
+        {
+          "name": "mix",
+          "kind": "travel",
+          "global": "TREMOLO_MIX_RANGE"
+        },
+        {
+          "name": "mode",
+          "kind": "choice",
+          "global": "TREMOLO_MODES"
+        }
       ]
     }
   }
