@@ -507,6 +507,24 @@ export declare const DRIVE_CURVES: readonly ["soft", "tape", "tube", "exciter"];
 export declare const DRIVE_BANDS: readonly ["full", "low", "high", "tilt"];
 
 /**
+ * The drive's AUTO-GAIN switch: on, the stage measures its own level change and matches it out (`omx_drive.h`'s `struct omx_drive.auto_gain`, drive-stage spec §4d), so turning the drive up adds colour rather than loudness. A field of the console's drive row (`DriveState.autoGain`), on at come-up there and in omx-dsp's drive face.
+ * @see data/kernels/drive.json
+ */
+export declare const DRIVE_AUTO_GAINS: readonly ["off", "on"];
+
+/**
+ * The drive's STEREO LINK switch: on, ONE auto-gain path is driven by both legs' summed energy, so the image cannot shift under the level match; off, each leg matches its own (`omx_drive.h`'s `struct omx_drive.stereo_link`, spec §4e). A field of the console's drive row (`DriveState.stereoLink`), on at come-up there and in omx-dsp's drive face.
+ * @see data/kernels/drive.json
+ */
+export declare const DRIVE_STEREO_LINKS: readonly ["off", "on"];
+
+/**
+ * The drive's post-curve HIGH-FREQUENCY ROLL-OFF corner, in Hz: the id is the corner, and 0 names no roll-off (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0). The console's drive row offers off, 12000 and 16000 (`DriveState.hfRolloff`, `DRIVE_HF_ROLLOFFS`) and comes up off, as omx-dsp's drive face does.
+ * @see data/kernels/drive.json
+ */
+export declare const DRIVE_HF_ROLLOFFS: readonly [0, 12000, 16000];
+
+/**
  * The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.
  * @see data/kernels/drive.json
  */

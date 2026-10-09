@@ -167,6 +167,62 @@
       "doc": "Which part of the spectrum the drive's curve is fed, in the order of the integer the kernel reads. The split is complementary, so mix 0 stays bit-identical to the dry signal.",
       "since": "1.3.0",
       "kind": "set"
+    },
+    {
+      "name": "DRIVE_AUTO_GAINS",
+      "source": {
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:138 struct omx_drive.auto_gain, omx_drive_instance.h:166 (on); openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/model.ts:729 DriveState.autoGain, packages/server/src/drive-controller.ts:66 (true), console-rig.ts:1404"
+      },
+      "value": [
+        "off",
+        "on"
+      ],
+      "doc": "The drive's AUTO-GAIN switch: on, the stage measures its own level change and matches it out (`omx_drive.h`'s `struct omx_drive.auto_gain`, drive-stage spec §4d), so turning the drive up adds colour rather than loudness. A field of the console's drive row (`DriveState.autoGain`), on at come-up there and in omx-dsp's drive face.",
+      "since": "2.2.0",
+      "kind": "set",
+      "default": "on",
+      "labels": [
+        "Off",
+        "On"
+      ]
+    },
+    {
+      "name": "DRIVE_STEREO_LINKS",
+      "source": {
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:139 struct omx_drive.stereo_link, omx_drive_instance.h:167 (on); openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/model.ts:730 DriveState.stereoLink, packages/server/src/drive-controller.ts:67 (true), console-rig.ts:1405"
+      },
+      "value": [
+        "off",
+        "on"
+      ],
+      "doc": "The drive's STEREO LINK switch: on, ONE auto-gain path is driven by both legs' summed energy, so the image cannot shift under the level match; off, each leg matches its own (`omx_drive.h`'s `struct omx_drive.stereo_link`, spec §4e). A field of the console's drive row (`DriveState.stereoLink`), on at come-up there and in omx-dsp's drive face.",
+      "since": "2.2.0",
+      "kind": "set",
+      "default": "on",
+      "labels": [
+        "Off",
+        "On"
+      ]
+    },
+    {
+      "name": "DRIVE_HF_ROLLOFFS",
+      "source": {
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:140 struct omx_drive.hf_on, omx_drive_instance.h:168 (off); openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/row-codecs.ts:138 DRIVE_HF_ROLLOFFS (off, 12000, 16000), model.ts:731, drive-controller.ts:68 ('off'), console-rig.ts:1395 (the corner is the id's number)"
+      },
+      "value": [
+        0,
+        12000,
+        16000
+      ],
+      "doc": "The drive's post-curve HIGH-FREQUENCY ROLL-OFF corner, in Hz: the id is the corner, and 0 names no roll-off (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0). The console's drive row offers off, 12000 and 16000 (`DriveState.hfRolloff`, `DRIVE_HF_ROLLOFFS`) and comes up off, as omx-dsp's drive face does.",
+      "since": "2.2.0",
+      "kind": "set",
+      "default": 0,
+      "labels": [
+        "Off",
+        "12 kHz",
+        "16 kHz"
+      ]
     }
   ]
 }

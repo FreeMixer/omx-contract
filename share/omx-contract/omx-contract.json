@@ -608,6 +608,50 @@
         "tilt"
       ]
     },
+    "DRIVE_AUTO_GAINS": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "The drive's AUTO-GAIN switch: on, the stage measures its own level change and matches it out (`omx_drive.h`'s `struct omx_drive.auto_gain`, drive-stage spec §4d), so turning the drive up adds colour rather than loudness. A field of the console's drive row (`DriveState.autoGain`), on at come-up there and in omx-dsp's drive face.",
+      "default": "on",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
+    "DRIVE_STEREO_LINKS": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "The drive's STEREO LINK switch: on, ONE auto-gain path is driven by both legs' summed energy, so the image cannot shift under the level match; off, each leg matches its own (`omx_drive.h`'s `struct omx_drive.stereo_link`, spec §4e). A field of the console's drive row (`DriveState.stereoLink`), on at come-up there and in omx-dsp's drive face.",
+      "default": "on",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
+    "DRIVE_HF_ROLLOFFS": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "The drive's post-curve HIGH-FREQUENCY ROLL-OFF corner, in Hz: the id is the corner, and 0 names no roll-off (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0). The console's drive row offers off, 12000 and 16000 (`DriveState.hfRolloff`, `DRIVE_HF_ROLLOFFS`) and comes up off, as omx-dsp's drive face does.",
+      "default": 0,
+      "labels": [
+        "Off",
+        "12 kHz",
+        "16 kHz"
+      ],
+      "value": [
+        0,
+        12000,
+        16000
+      ]
+    },
     "DRIVE_BIAS_MAX": {
       "rel": "data/kernels/drive.json",
       "kind": "scalar",
@@ -2612,6 +2656,21 @@
           "name": "band",
           "kind": "choice",
           "global": "DRIVE_BANDS"
+        },
+        {
+          "name": "autoGain",
+          "kind": "choice",
+          "global": "DRIVE_AUTO_GAINS"
+        },
+        {
+          "name": "stereoLink",
+          "kind": "choice",
+          "global": "DRIVE_STEREO_LINKS"
+        },
+        {
+          "name": "hfRolloff",
+          "kind": "choice",
+          "global": "DRIVE_HF_ROLLOFFS"
         }
       ]
     },
