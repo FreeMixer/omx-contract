@@ -97,7 +97,8 @@
         "max": 1,
         "step": 0,
         "unit": "",
-        "default": 0.5
+        "default": 0.5,
+        "defaultFrom": "desk"
       },
       "doc": "How much of the computed correction HRP applies: 0 = analyse only, 1 = the full cut. It comes up at 0.5, half the computed cut."
     }
