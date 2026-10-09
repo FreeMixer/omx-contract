@@ -946,6 +946,7 @@ export declare const HRP_AMOUNT_RANGE: {
   readonly step: 0;
   readonly unit: "";
   readonly default: 0.5;
+  readonly defaultFrom: "desk";
 };
 
 /**
