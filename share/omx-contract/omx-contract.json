@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "items": {
     "PAN_RANGE": {
       "rel": "data/kernels/balance.json",
