@@ -1,3 +1,23 @@
+omx-contract (2.2.0) unstable; urgency=medium
+
+  * New controls. The delay's ping-pong switch, which comes up at
+    FX_DELAY_PINGPONG_DEFAULT. The drive's auto-gain and stereo-link
+    switches and its HF roll-off corner (off, 12 kHz, 16 kHz). The
+    compressor's kind (comp or limiter, which picks the RMS or peak
+    detector) and its detector oversampling (auto, off, 4x).
+  * The EQ kernel now lists the controls an EQ instance takes, in the
+    instance's order: the HPF and LPF switches, corners and slopes, then the
+    per-band type, frequency, gain, Q and switch. The per-band controls name
+    EQ_BAND_COUNTS as their count, and the graphic EQ's band names
+    GEQ_BANDS. The notch's wider Q travel is listed as the Q control's
+    travel while the band is a notch.
+  * A control may take the item another control of its kernel declares
+    (the LPF slope uses FILTER_SLOPES), and a choice's default may refer to
+    the scalar that states it. Every define of the 2.1.0 C header is
+    unchanged; the new sets are added.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 09 Oct 2026 16:09:24 +0000
+
 omx-contract (2.1.0) unstable; urgency=medium
 
   * The JSON render lists each kernel's controls in their declared order,
