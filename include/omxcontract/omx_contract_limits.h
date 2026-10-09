@@ -627,6 +627,12 @@ enum omx_deess_modes {
   OMX_DEESS_MODES_WIDEBAND = 1,
 };
 #define OMX_DEESS_MODES_COUNT 2u
+enum omx_delay_pingpongs {
+  OMX_DELAY_PINGPONGS_OFF = 0,
+  OMX_DELAY_PINGPONGS_ON = 1,
+};
+#define OMX_DELAY_PINGPONGS_COUNT 2u
+#define OMX_DELAY_PINGPONGS_DEFAULT OMX_DELAY_PINGPONGS_OFF
 enum omx_drive_bands {
   OMX_DRIVE_BANDS_FULL = 0,
   OMX_DRIVE_BANDS_LOW = 1,
