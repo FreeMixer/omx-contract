@@ -9,13 +9,13 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { ROOT, completeness, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
-import { asData, changelogWith, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
+import { asData, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
 import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
 
 /** A scratch copy of everything the recipe's checkers read. */
 function scratchTree() {
   const dir = mkdtempSync(join(tmpdir(), 'omx-kernel-recipe-'));
-  for (const p of ['data', 'schema', 'recipes', 'include', 'share', 'test/golden', 'CHANGELOG.md', 'package.json']) {
+  for (const p of ['data', 'schema', 'recipes', 'include', 'share', 'test/golden', 'package.json']) {
     cpSync(join(ROOT, p), join(dir, p), { recursive: true });
   }
   return dir;
@@ -67,17 +67,6 @@ test('a hand-formatted kernel file is a gap', () => {
   assert.match(gapsOf(root), /chorus: artifact kernel-file .*not in the one formatting/);
 });
 
-test('a kernel released after the first release needs its CHANGELOG line', () => {
-  const root = scratchTree();
-  edit(root, 'recipes/answers/pitch.json', (a) => { a.since = '1.1.0'; });
-  assert.match(gapsOf(root), /pitch: artifact changelog \(wizard step 'docs'\): CHANGELOG\.md has no '- The pitch kernel' line/);
-  const cl = join(root, 'CHANGELOG.md');
-  writeFileSync(cl, readFileSync(cl, 'utf8').replace(/^## /m, '## [Unreleased]\n\n- The pitch tail is longer now.\n\n## '));
-  assert.match(gapsOf(root), /CHANGELOG\.md has no '- The pitch kernel' line/, 'the word in other prose is not the entry');
-  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## [Unreleased]\n', '## [Unreleased]\n\n- The pitch kernel: `PITCH_LIMITS`.\n'));
-  assert.doesNotMatch(gapsOf(root), /pitch: artifact changelog/, 'a bracketed heading is read');
-});
-
 test('a unit or c block that differs between the kernel file and the answers is a gap', () => {
   const root = scratchTree();
   edit(root, 'recipes/answers/transient.json', (a) => { a.items.find((i) => i.name === 'TRANSIENT_FAST_ATTACK_MS').unit = 's'; });
@@ -124,15 +113,6 @@ test('a C define is read only when it is one plain number', () => {
   assert.throws(() => defineValue('#define OMX_CAP (OMX_RATE / 1000)\n', 'OMX_CAP'), /not one plain number/);
 });
 
-test('the CHANGELOG line goes under Unreleased, created above the newest release', () => {
-  const recipe = loadRecipe(ROOT);
-  const a = { kernel: 'wobble', items: [{ name: 'WOBBLE_RANGE' }] };
-  const out = changelogWith('# Changelog\n\nIntro.\n\n## 1.0.0 - 2026-10-05\n\n- First.\n', recipe, a);
-  assert.equal(out, '# Changelog\n\nIntro.\n\n## Unreleased\n\n- The wobble kernel: 1 values, read from the engine where it declares them.\n\n## 1.0.0 - 2026-10-05\n\n- First.\n');
-  assert.equal(changelogWith(out, recipe, a), out, 'a second run adds nothing');
-});
-
-/** A git checkout shaped like the engine: a TypeScript module and a C header. */
 function engineCheckout() {
   const dir = mkdtempSync(join(tmpdir(), 'omx-engine-'));
   mkdirSync(join(dir, 'packages/core/src'), { recursive: true });
@@ -178,7 +158,6 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
 
   const { written } = declare(join(root, 'recipes/answers/wobble.json'), root);
   assert.ok(written.includes('data/kernels/wobble.json'));
-  assert.ok(written.includes('CHANGELOG.md'));
   const k = JSON.parse(readFileSync(join(root, 'data/kernels/wobble.json'), 'utf8'));
   assert.deepEqual(k.WOBBLE_DEPTH_MAX.value, { derive: 'sqrt', of: 0.5 }, 'a derivation is declared as one, its value proven equal');
   assert.deepEqual(k.WOBBLE_TRAVELS.fields, { rateHz: { ref: 'WOBBLE_RATE_RANGE' } }, 'the travel is typed once');
@@ -190,11 +169,11 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   assert.deepEqual(await verifyAnswers(tampered, engine, root), ['WOBBLE_RING: the answers hold 4097, packages/pipewire-native/src/mix_wobble.h gives 4096']);
 
   const { plan, stray } = commitPlan(loadRecipe(root), ['recipes/answers/wobble.json', ...written], { kernel: 'wobble', repo: 'r', commit12: 'c' });
-  assert.deepEqual(plan.map((c) => c.layer), ['answers', 'data', 'render', 'docs']);
+  assert.deepEqual(plan.map((c) => c.layer), ['answers', 'data', 'render']);
   assert.deepEqual(stray, []);
 });
 
-test('items added to a released kernel carry their own since, are appended to its file and get their CHANGELOG line', async () => {
+test('items added to a released kernel carry their own since and are appended to its file', async () => {
   const root = scratchTree();
   const engine = engineCheckout();
   const base = { kernel: 'wobble', engine, ref: 'HEAD' };
@@ -212,14 +191,6 @@ test('items added to a released kernel carry their own since, are appended to it
   const k = JSON.parse(readFileSync(join(root, 'data/kernels/wobble.json'), 'utf8'));
   assert.deepEqual(Object.keys(k), ['$schema', 'WOBBLE_RATE_RANGE', 'WOBBLE_RING'], 'appended after the released items');
   assert.deepEqual(k.WOBBLE_RATE_RANGE, JSON.parse(before).WOBBLE_RATE_RANGE, 'a released item is kept as written');
-  assert.match(readFileSync(join(root, 'CHANGELOG.md'), 'utf8'), /^- The wobble kernel: 1 more values, read from the engine where it declares them\.$/m);
-  assert.deepEqual(completeness(root, ['wobble']).gaps, []);
-
-  // the CHANGELOG must name the kernel for the release that added the items too
-  const cl = join(root, 'CHANGELOG.md');
-  writeFileSync(cl, readFileSync(cl, 'utf8').replace('## Unreleased', '## 1.8.0 - 2026-10-07'));
-  assert.match(completeness(root, ['wobble']).gaps.join('\n'), /wobble: artifact changelog .*no '- The wobble kernel' line under ## Unreleased or ## 1\.9\.0/);
-  writeFileSync(cl, readFileSync(cl, 'utf8').replace(/^## 1\.8\.0/m, '## 1.9.0 - 2026-10-08\n\n- The wobble kernel: the ring.\n\n## 1.8.0'));
   assert.deepEqual(completeness(root, ['wobble']).gaps, []);
 
   edit(root, 'recipes/answers/wobble.json', (a) => { a.items[1].since = '1.8.0'; });
