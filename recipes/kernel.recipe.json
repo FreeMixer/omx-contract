@@ -6,7 +6,6 @@
     "kernelFile": "data/kernels/{kernel}.json",
     "answersDir": "recipes/answers",
     "answers": "recipes/answers/{kernel}.json",
-    "changelog": "CHANGELOG.md",
     "firstRelease": "1.0.0"
   },
   "engine": {
@@ -48,8 +47,7 @@
   "steps": {
     "import": "the answers: every item read from the engine source where it is declared today, with its citation (omx-new-kernel.mjs --import)",
     "declare": "the kernel file, written from the answers (omx-new-kernel.mjs --answers)",
-    "render": "the committed renders, written by omx-contract render from the data",
-    "docs": "the CHANGELOG entry"
+    "render": "the committed renders, written by omx-contract render from the data"
   },
   "layers": [
     {
@@ -66,11 +64,6 @@
       "id": "render",
       "what": "every file rendered from the data",
       "message": "render: the {kernel} kernel in the c, json and ts renders"
-    },
-    {
-      "id": "docs",
-      "what": "the changelog",
-      "message": "CHANGELOG: the {kernel} kernel"
     }
   ],
   "artifacts": [
@@ -150,29 +143,6 @@
           "json": "share/omx-contract",
           "ts": "test/golden/ts"
         }
-      }
-    },
-    {
-      "id": "changelog",
-      "what": "the kernel named in CHANGELOG.md, under Unreleased or the section of the release that first carries it, and again for each later release that adds items to it (the first release's entry covers every kernel it shipped)",
-      "step": "docs",
-      "layer": "docs",
-      "made": "TEMPLATED",
-      "target": "CHANGELOG.md#Unreleased",
-      "paths": [
-        "CHANGELOG.md"
-      ],
-      "template": {
-        "file": "CHANGELOG.md",
-        "line": "- The {kernel} kernel: {count} values, read from the engine where it declares them.",
-        "lineAdded": "- The {kernel} kernel: {count} more values, read from the engine where it declares them.",
-        "after": "^## Unreleased$",
-        "create": "## Unreleased",
-        "createBefore": "^## "
-      },
-      "when": "always",
-      "checker": {
-        "fn": "changelogNames"
       }
     }
   ],
