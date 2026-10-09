@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 1.3.0
+Version: 2.0.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,23 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.0.0-1
+- A kernel file now holds four sections: its controls (each a travel or a
+  choice, in order), the tables some of them are fields of, the aggregates
+  that list controls by name, and its constants. A control's item name follows
+  from the kernel and its own name unless it says otherwise. Every render is
+  the same: the C headers byte for byte, the JSON item for item, the
+  TypeScript declaration for declaration. A kernel file written the old way,
+  as a flat map of items, is refused by `omx-contract validate`, and the
+  kernel wizard writes the new shape.
+- The band_dyn kernel: the travels of a multiband dynamics band, read from the
+  de-esser and the compressor where they declare them, its modes, its knee and
+  its band count, plus the shortest attack at which the compressor's detector
+  does not alias, the floor of the band's attack travel.
+- HRP_AMOUNT_RANGE comes up from the desk, like every other travel.
+- `omx-contract semver` against a release before 2.0.0 reads that release's
+  kernel files in the new shape, so it reports only the items that changed.
+
 * Thu Oct 08 2026 Pau Aliagas <linuxnow@gmail.com> - 1.3.0-1
 - Corrects the 1.2.0 note: omx-dsp could not yet build against the header
   rendered here, because 38 limits its code reads were missing from it (the

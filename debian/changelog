@@ -1,3 +1,24 @@
+omx-contract (2.0.0) unstable; urgency=medium
+
+  * A kernel file now holds four sections: its controls (each a travel or a
+    choice, in order), the tables some of them are fields of, the aggregates
+    that list controls by name, and its constants. A control's item name
+    follows from the kernel and its own name unless it says otherwise. Every
+    render is the same: the C headers byte for byte, the JSON item for item,
+    the TypeScript declaration for declaration. A kernel file written the old
+    way, as a flat map of items, is refused by `omx-contract validate`, and
+    the kernel wizard writes the new shape.
+  * The band_dyn kernel: the travels of a multiband dynamics band, read from
+    the de-esser and the compressor where they declare them, its modes, its
+    knee and its band count, plus the shortest attack at which the
+    compressor's detector does not alias, the floor of the band's attack
+    travel.
+  * HRP_AMOUNT_RANGE comes up from the desk, like every other travel.
+  * `omx-contract semver` against a release before 2.0.0 reads that release's
+    kernel files in the new shape, so it reports only the items that changed.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 09 Oct 2026 12:00:00 +0000
+
 omx-contract (1.3.0) unstable; urgency=medium
 
   * Corrects the 1.2.0 note: omx-dsp could not yet build against the header
