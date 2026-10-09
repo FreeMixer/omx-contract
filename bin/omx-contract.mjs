@@ -15,7 +15,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
+import { KERNEL_SECTIONS, isKernelFile, kernelDocOf, loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
 import { classify, refusal } from '../lib/semver.mjs';
 import { validateData } from '../lib/validate.mjs';
@@ -122,12 +122,23 @@ function cmdRender(argv) {
   return 0;
 }
 
-/** The data of a git tag, as `{ rel: text }`. */
+/**
+ * The data of a git tag, as `{ rel: text }`. A tag released before 2.0.0 wrote its kernel files as flat item maps;
+ * each is restated in the kernel-file shape (kernelDocOf, the inverse of the expansion the loader reads), so the
+ * comparison is between the items the two releases declare.
+ */
 function dataAtTag(tag) {
   const git = (...a) => execFileSync('git', ['-C', ROOT, ...a], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   try { git('rev-parse', '--verify', `${tag}^{commit}`); } catch { throw new Usage(`no tag ${tag} in ${ROOT}`); }
   const texts = {};
-  for (const rel of git('ls-tree', '-r', '--name-only', tag, '--', 'data').split('\n').filter((p) => p.endsWith('.json'))) texts[rel] = git('show', `${tag}:${rel}`);
+  for (const rel of git('ls-tree', '-r', '--name-only', tag, '--', 'data').split('\n').filter((p) => p.endsWith('.json'))) {
+    const text = git('show', `${tag}:${rel}`);
+    let doc;
+    try { doc = JSON.parse(text); } catch { texts[rel] = text; continue; }
+    if (!isKernelFile(rel) || KERNEL_SECTIONS.some((k) => k in doc)) { texts[rel] = text; continue; }
+    const { $schema, ...items } = doc;
+    texts[rel] = JSON.stringify({ $schema, ...kernelDocOf(rel, Object.entries(items)) });
+  }
   return texts;
 }
 

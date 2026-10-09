@@ -21,7 +21,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadData, resolveData } from '../../lib/data.mjs';
+import { entriesOf, loadData, resolveData } from '../../lib/data.mjs';
 import { renderC, renderSheetC } from '../../render/c.mjs';
 import { itemSince } from '../kernel-recipe.mjs';
 import { limitUnits } from './limit-units.mjs';
@@ -46,8 +46,8 @@ export function addedAfterFirstRelease(root = ROOT) {
   // an item outside the kernels (rates, primitives) records its release on the item itself
   const data = join(root, 'data');
   for (const f of ['rates.json', 'primitives.json']) {
-    for (const [name, it] of Object.entries(JSON.parse(readFileSync(join(data, f), 'utf8')))) {
-      if (name !== '$schema' && it.since !== undefined && it.since !== recipe.tree.firstRelease) out.add(name);
+    for (const [name, it] of entriesOf(f, JSON.parse(readFileSync(join(data, f), 'utf8')))) {
+      if (it.since !== undefined && it.since !== recipe.tree.firstRelease) out.add(name);
     }
   }
   return out;
