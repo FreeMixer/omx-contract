@@ -2760,7 +2760,8 @@
           "name": "lookaheadMs",
           "kind": "travel",
           "global": "LIMITER_LIMITS",
-          "table": "LIMITER_LIMITS"
+          "table": "LIMITER_LIMITS",
+          "rearms": true
         },
         {
           "name": "releaseMs",
