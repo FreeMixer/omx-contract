@@ -166,7 +166,7 @@
     },
     "set": {
       "type": "object",
-      "description": "Ordered ids with an optional default and labels. The ids and their order are the contract: all strings (the id is the name, its position the value) or all non-negative integers (the id is the value). Labels are face text and optional.",
+      "description": "Ordered ids with an optional default and labels. The ids and their order are the contract: all strings (the id is the name, its position the value) or all non-negative integers (the id is the value). Labels are face text and optional. The default may be a reference to the scalar that states it: a boolean names the second id of a two-id switch when true, the first when false.",
       "properties": {
         "kind": { "const": "set" },
         "since": { "$ref": "#/$defs/since" },
@@ -178,7 +178,7 @@
             { "type": "array", "items": { "type": "integer", "minimum": 0 }, "minItems": 1, "uniqueItems": true }
           ]
         },
-        "default": { "oneOf": [{ "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" }, { "type": "integer", "minimum": 0 }] },
+        "default": { "oneOf": [{ "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" }, { "type": "integer", "minimum": 0 }, { "$ref": "#/$defs/ref" }] },
         "labels": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 }
       },
       "required": ["kind", "doc", "ids"],

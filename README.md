@@ -14,6 +14,9 @@ one rule that gives a fresh EQ its bands, the measurement rate sets and the bus 
 declared here is declared nowhere else: the EQ band budget that 1.2.0 left in openmixer is here too.
 2.0.0 changes how a kernel file is written, not what it declares: every render is the same.
 2.1.0 adds each kernel's ordered controls to the JSON render, and a control's `rearms` flag.
+2.2.0 declares the controls an instance has that were missing: the delay's ping-pong, the drive's auto-gain, stereo
+link and HF roll-off, the compressor's kind and detector oversampling, and an EQ instance's switches, slopes and
+per-band controls (a control's `count`, a use, `of` and `when`, and a default by reference).
 
 ```
 data/                        the declaration, one file per group, edited by hand
@@ -59,6 +62,14 @@ A kernel file, `data/kernels/<kernel>.json`, holds four sections and nothing els
   kernel's state, so it is not a smooth parameter (the limiter's `lookaheadMs`: omx-dsp's limiter face re-arms
   the state and restarts the gain at unity when the look-ahead moves by a frame). It is a boolean, only on a
   control; it is no item, so the C and TypeScript renders do not carry it.
+- A USE is a control with a `global` and no `travel` or `ids`: it takes the item another control of the kernel
+  declares, of its kind, and adds no item (the EQ's `lpfSlope` takes FILTER_SLOPES, which `hpfSlope` declares).
+- `count` names the item that counts a control the kernel takes once per band: a positive integer scalar
+  (`GEQ_BANDS`), or a sheet whose every variant gives its count as `max` (`EQ_BAND_COUNTS.eq8.max`).
+- `of` and `when` mark a travel that is no control of its own but the travel the control `of` names reaches while
+  the choice `when.control` holds `when.is` (the EQ's `notchQ`: the Q's travel while the band is a notch).
+- A choice's `default` may be `{ "ref": … }` to the scalar that states it; a boolean names the second id of a
+  two-id switch when true, the first when false (the delay's `pingpong` comes up at FX_DELAY_PINGPONG_DEFAULT).
 - `tables`: a travels table whose fields are the controls that name it, in control order (`GATE_LIMITS`).
 - `aggregates`: a travels table whose fields are references to controls declared once above, listed by name.
 - `constants`: scalars, lists and sheets, as items.
@@ -93,6 +104,10 @@ the order the file declares them. A consumer reads control order and kinds here,
 - `global`: the item the control's value lives in: `items[global].value` for a travel or a choice, and
   `items[global].value[name]` for a field of a table, when `table` (the same item) is present.
 - `rearms`: present, and `true`, only on a control that declares it.
+- `count`: present on a control taken once per band, the item that counts it.
+- `when`: on a control another one is `of`, the list `{ control, is, global }`: while `control` holds `is`, the
+  control's travel is `items[global]` (the EQ's `q` reaches EQ_NOTCH_Q_RANGE on a notch). A control that is `of`
+  another is not listed on its own. A use is listed like any control, its `global` the item it takes.
 
 A kernel with no controls (fbs, mixmatrix, rta) is listed with an empty `controls`.
 
@@ -112,9 +127,9 @@ share/omx-contract` and `render --target ts --out test/golden/ts`; CI holds all 
 
 ## Consuming it
 
-Pin one version (`omx-contract 2.1.0` in `.github/pins.txt`) and build against its renders, committing
+Pin one version (`omx-contract 2.2.0` in `.github/pins.txt`) and build against its renders, committing
 none: the installed `omx-contract-devel` / `libomx-contract-dev` at exactly that version
-(`pkg-config --exact-version=2.1.0 omx-contract`), else the release's npm tarball, unpacked, and
+(`pkg-config --exact-version=2.2.0 omx-contract`), else the release's npm tarball, unpacked, and
 `omx-contract render --target c --out build/omx-contract/include`. Include
 `<omxcontract/omx_contract_limits.h>`. A plugin's parameter header is rendered by omx-plugins from its
 declaration, by reference to the kernel travels here (since 1.1.0).

@@ -21,13 +21,19 @@ test('kernels: every kernel file, in file order, its controls in their declared 
   assert.deepEqual(Object.keys(kernels), files.map((f) => f.rel.replace(/^data\/kernels\//, '').replace(/\.json$/, '')));
   for (const f of files) {
     const k = f.rel.replace(/^data\/kernels\//, '').replace(/\.json$/, '');
-    const want = (f.doc.controls ?? []).map((c) => ({
-      name: c.name,
-      kind: c.kind,
-      global: c.table ?? controlGlobal(f.rel, c),
-      ...(c.table ? { table: c.table } : {}),
-      ...(c.rearms ? { rearms: true } : {}),
-    }));
+    const all = f.doc.controls ?? [];
+    const want = all.filter((c) => c.of === undefined).map((c) => {
+      const when = all.filter((x) => x.of === c.name).map((x) => ({ control: x.when.control, is: x.when.is, global: controlGlobal(f.rel, x) }));
+      return {
+        name: c.name,
+        kind: c.kind,
+        global: c.table ?? controlGlobal(f.rel, c),
+        ...(c.table ? { table: c.table } : {}),
+        ...(c.rearms ? { rearms: true } : {}),
+        ...(c.count ? { count: c.count } : {}),
+        ...(when.length ? { when } : {}),
+      };
+    });
     assert.deepEqual(kernels[k].controls, want, k);
   }
 });

@@ -12,7 +12,8 @@
         "unit": "dB",
         "default": 0,
         "defaultFrom": "desk"
-      }
+      },
+      "count": "GEQ_BANDS"
     }
   ],
   "constants": {

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.1.0
+Version: 2.2.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,18 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.2.0-1
+- New controls: the delay's ping-pong switch (its come-up value is
+  FX_DELAY_PINGPONG_DEFAULT), the drive's auto-gain and stereo-link switches
+  and HF roll-off corner, and the compressor's kind and detector oversampling.
+- The EQ kernel lists the controls an EQ instance takes, in its order: pass
+  filter switches, corners and slopes, then the per-band type, frequency,
+  gain, Q and switch, counted by EQ_BAND_COUNTS. The notch's Q travel is the
+  Q control's travel while the band is a notch.
+- A control may use the item another control declares, and a choice's
+  default may refer to the scalar that states it. Every 2.1.0 C define is
+  unchanged; the new sets are added.
+
 * Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.1.0-1
 - The JSON render lists each kernel's controls in their declared order, with
   the kind, the global each one lives in and the table of a table field, so a
