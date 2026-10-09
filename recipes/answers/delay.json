@@ -89,6 +89,24 @@
       "value": false,
       "doc": "The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the server's `DEFAULT_DELAY_STATE` (which now reads it) so the DPF plugin generator (`packages/omx-plugins/tools/params-gen.mjs`, `2026-09-25-omx-plugins-dpf.md` §3a) reads the same fact the desk seeds a fresh strip with.",
       "unit": ""
+    },
+    {
+      "name": "DELAY_PINGPONGS",
+      "source": {
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_delay.h:45 struct omx_fx_delay.pingpong, read at :190; openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/model.ts:670 DelayState.pingpong, packages/server/src/delay-controller.ts:61 seeds it from FX_DELAY_PINGPONG_DEFAULT; omx-plugins 7461cdd plugins/omx-delay/omx_delay_instance.h:155"
+      },
+      "value": [
+        "off",
+        "on"
+      ],
+      "doc": "The FX delay's PING-PONG switch: on cross-feeds the two legs' feedback, so each leg's repeats come from the other leg's damped tap and the echoes bounce L<->R (`omx_delay.h`'s `struct omx_fx_delay.pingpong`, read where the feedback is formed). A live control on the console's delay row (`DelayState.pingpong`) and on the omx-delay plugin. Its come-up value is FX_DELAY_PINGPONG_DEFAULT, by reference, so the default keeps one home.",
+      "since": "2.2.0",
+      "kind": "set",
+      "default": "off",
+      "labels": [
+        "Off",
+        "On"
+      ]
     }
   ]
 }

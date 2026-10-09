@@ -465,6 +465,20 @@
         }
       }
     },
+    "DELAY_PINGPONGS": {
+      "rel": "data/kernels/delay.json",
+      "kind": "set",
+      "doc": "The FX delay's PING-PONG switch: on cross-feeds the two legs' feedback, so each leg's repeats come from the other leg's damped tap and the echoes bounce L<->R (`omx_delay.h`'s `struct omx_fx_delay.pingpong`, read where the feedback is formed). A live control on the console's delay row (`DelayState.pingpong`) and on the omx-delay plugin. Its come-up value is FX_DELAY_PINGPONG_DEFAULT, by reference, so the default keeps one home.",
+      "default": "off",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "value": [
+        "off",
+        "on"
+      ]
+    },
     "FX_DELAY_PINGPONG_DEFAULT": {
       "rel": "data/kernels/delay.json",
       "kind": "scalar",
@@ -2554,6 +2568,11 @@
           "name": "mix",
           "kind": "travel",
           "global": "DELAY_MIX_RANGE"
+        },
+        {
+          "name": "pingpong",
+          "kind": "choice",
+          "global": "DELAY_PINGPONGS"
         }
       ]
     },

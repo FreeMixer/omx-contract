@@ -424,6 +424,15 @@ export const DELAY_MIX_RANGE = {
 };
 
 /**
+ * The FX delay's PING-PONG switch: on cross-feeds the two legs' feedback, so each leg's repeats come from the other leg's damped tap and the echoes bounce L<->R (`omx_delay.h`'s `struct omx_fx_delay.pingpong`, read where the feedback is formed). A live control on the console's delay row (`DelayState.pingpong`) and on the omx-delay plugin. Its come-up value is FX_DELAY_PINGPONG_DEFAULT, by reference, so the default keeps one home.
+ * @see data/kernels/delay.json
+ */
+export const DELAY_PINGPONGS = [
+  "off",
+  "on"
+];
+
+/**
  * The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the server's `DEFAULT_DELAY_STATE` (which now reads it) so the DPF plugin generator (`packages/omx-plugins/tools/params-gen.mjs`, `2026-09-25-omx-plugins-dpf.md` §3a) reads the same fact the desk seeds a fresh strip with.
  * @see data/kernels/delay.json
  */
