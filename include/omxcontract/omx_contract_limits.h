@@ -666,6 +666,11 @@ enum omx_drive_stereo_links {
 };
 #define OMX_DRIVE_STEREO_LINKS_COUNT 2u
 #define OMX_DRIVE_STEREO_LINKS_DEFAULT OMX_DRIVE_STEREO_LINKS_ON
+enum omx_eq_band_ons {
+  OMX_EQ_BAND_ONS_OFF = 0,
+  OMX_EQ_BAND_ONS_ON = 1,
+};
+#define OMX_EQ_BAND_ONS_COUNT 2u
 enum omx_eq_band_types {
   OMX_EQ_BAND_TYPES_BELL = 0,
   OMX_EQ_BAND_TYPES_LOW_SHELF = 1,
@@ -676,6 +681,18 @@ enum omx_eq_band_types {
 };
 #define OMX_EQ_BAND_TYPES_COUNT 6u
 #define OMX_EQ_BAND_TYPES_DEFAULT OMX_EQ_BAND_TYPES_BELL
+enum omx_eq_hpf_ons {
+  OMX_EQ_HPF_ONS_OFF = 0,
+  OMX_EQ_HPF_ONS_ON = 1,
+};
+#define OMX_EQ_HPF_ONS_COUNT 2u
+#define OMX_EQ_HPF_ONS_DEFAULT OMX_EQ_HPF_ONS_OFF
+enum omx_eq_lpf_ons {
+  OMX_EQ_LPF_ONS_OFF = 0,
+  OMX_EQ_LPF_ONS_ON = 1,
+};
+#define OMX_EQ_LPF_ONS_COUNT 2u
+#define OMX_EQ_LPF_ONS_DEFAULT OMX_EQ_LPF_ONS_OFF
 enum omx_filter_slopes {
   OMX_FILTER_SLOPES_12 = 12,
   OMX_FILTER_SLOPES_24 = 24,

@@ -78,7 +78,7 @@ test('a strip type never starts with more bands than it may hold, and the rule a
 test('the default rule\'s inputs must agree', () => {
   assert.ok(problems(texts((d, at) => { at(eq, 'EQ_DEFAULT_CENTRES_FOUR_BAND_HZ').values = [100, 400, 2000]; })).includes('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ:eq-default-rule'));
   assert.ok(problems(texts((d, at) => { at(eq, 'EQ_DEFAULT_CENTRES_FOUR_BAND_HZ').values = [100, 400, 2000, 8100]; })).includes('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ:eq-default-rule'), 'a preferred value of the series only');
-  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_TYPES').ids = ['bell', 'highShelf']; delete at(eq, 'EQ_BAND_TYPES').labels; })).includes('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ:eq-default-rule'));
+  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_TYPES').ids = ['bell', 'highShelf', 'notch']; delete at(eq, 'EQ_BAND_TYPES').labels; })).includes('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ:eq-default-rule'));
 });
 
 test('a set\'s ids appended are MINOR, changed or removed MAJOR, its default added or removed MAJOR', () => {

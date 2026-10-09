@@ -531,6 +531,52 @@ export declare const DRIVE_HF_ROLLOFFS: readonly [0, 12000, 16000];
 export declare const DRIVE_BIAS_MAX: 0.7071067811865476;
 
 /**
+ * The HPF's switch: off, the filter is not in the EQ's bank at all; on, its one or two Butterworth sections run after the bands. It comes up off, on the console's channel EQ and in omx-dsp's EQ face (see EQ_PASS_FILTER_DEFAULTS).
+ * @see data/kernels/eq.json
+ */
+export declare const EQ_HPF_ONS: readonly ["off", "on"];
+
+/**
+ * Where the HPF cutoff can sit (low end); mirrors the drawn low-frequency handle.
+ * @see data/kernels/eq.json
+ */
+export declare const HPF_FREQ_RANGE: {
+  readonly min: 20;
+  readonly max: 1000;
+  readonly step: 10;
+  readonly unit: "Hz";
+};
+
+/**
+ * The pass-filter slopes the EQ offers, in dB per octave: the HPF's slope, and by use the LPF's. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.
+ * @see data/kernels/eq.json
+ */
+export declare const FILTER_SLOPES: readonly [12, 24];
+
+/**
+ * The LPF's switch: off, the filter is not in the EQ's bank at all; on, its one or two Butterworth sections run after the bands and the HPF. It comes up off, on the console's channel EQ and in omx-dsp's EQ face (see EQ_PASS_FILTER_DEFAULTS).
+ * @see data/kernels/eq.json
+ */
+export declare const EQ_LPF_ONS: readonly ["off", "on"];
+
+/**
+ * Where the LPF cutoff can sit (high end).
+ * @see data/kernels/eq.json
+ */
+export declare const LPF_FREQ_RANGE: {
+  readonly min: 1000;
+  readonly max: 20000;
+  readonly step: 10;
+  readonly unit: "Hz";
+};
+
+/**
+ * The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.
+ * @see data/kernels/eq.json
+ */
+export declare const EQ_BAND_TYPES: readonly ["bell", "lowShelf", "highShelf", "notch", "allpass1", "allpass2"];
+
+/**
  * The frequency band a parametric band can be dragged across.
  * @see data/kernels/eq.json
  */
@@ -575,38 +621,10 @@ export declare const EQ_NOTCH_Q_RANGE: {
 };
 
 /**
- * Where the HPF cutoff can sit (low end); mirrors the drawn low-frequency handle.
+ * A band's switch. Off, the band is not in the EQ's bank (the slots close up); on, it runs, parked when it is a gain-carrying shape at 0 dB. No come-up value is declared, because the strips differ: the console's channel EQ brings its default bands up on, an omx-eq plugin brings every band up off so a racked instance is a wire.
  * @see data/kernels/eq.json
  */
-export declare const HPF_FREQ_RANGE: {
-  readonly min: 20;
-  readonly max: 1000;
-  readonly step: 10;
-  readonly unit: "Hz";
-};
-
-/**
- * Where the LPF cutoff can sit (high end).
- * @see data/kernels/eq.json
- */
-export declare const LPF_FREQ_RANGE: {
-  readonly min: 1000;
-  readonly max: 20000;
-  readonly step: 10;
-  readonly unit: "Hz";
-};
-
-/**
- * The generic EQ band shapes, in the order a picker offers them and in the order of the integer a plugin host sees on a band type port. The id is the name; the position is the value. A bell is the shape a band added by the operator starts as.
- * @see data/kernels/eq.json
- */
-export declare const EQ_BAND_TYPES: readonly ["bell", "lowShelf", "highShelf", "notch", "allpass1", "allpass2"];
-
-/**
- * The pass-filter slopes the EQ offers, in dB per octave. The id is the slope: 12 is one maximally flat section, 24 the two-section Butterworth.
- * @see data/kernels/eq.json
- */
-export declare const FILTER_SLOPES: readonly [12, 24];
+export declare const EQ_BAND_ONS: readonly ["off", "on"];
 
 /**
  * The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.
