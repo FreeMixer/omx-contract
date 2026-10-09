@@ -91,6 +91,37 @@
         "default": 100,
         "defaultFrom": "desk"
       }
+    },
+    {
+      "name": "kind",
+      "kind": "choice",
+      "doc": "The compressor's character, which picks its detector: `comp` runs the RMS detector, `limiter` the peak detector. The console's comp row carries it (`CompState.kind`, `COMP_KINDS`) and comes up as `comp`.",
+      "ids": [
+        "comp",
+        "limiter"
+      ],
+      "default": "comp",
+      "labels": [
+        "Compressor",
+        "Limiter"
+      ]
+    },
+    {
+      "name": "detectorOversampling",
+      "kind": "choice",
+      "global": "DETECTOR_OVERSAMPLINGS",
+      "doc": "The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `x4` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order). The console's comp row carries it as the operator's choice (`CompState.detectorOversampling`, spelled auto, off, 4x) and comes up `auto`.",
+      "ids": [
+        "auto",
+        "off",
+        "x4"
+      ],
+      "default": "auto",
+      "labels": [
+        "Auto",
+        "Off",
+        "4x"
+      ]
     }
   ],
   "tables": {
