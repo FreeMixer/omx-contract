@@ -17,6 +17,7 @@ declared here is declared nowhere else: the EQ band budget that 1.2.0 left in op
 2.2.0 declares the controls an instance has that were missing: the delay's ping-pong, the drive's auto-gain, stereo
 link and HF roll-off, the compressor's kind and detector oversampling, and an EQ instance's switches, slopes and
 per-band controls (a control's `count`, a use, `of` and `when`, and a default by reference).
+2.3.0 declares the input trim as a kernel, `trim`, whose one control is the console's TRIM_RANGE.
 
 ```
 data/                        the declaration, one file per group, edited by hand
@@ -127,9 +128,9 @@ share/omx-contract` and `render --target ts --out test/golden/ts`; CI holds all 
 
 ## Consuming it
 
-Pin one version (`omx-contract 2.2.0` in `.github/pins.txt`) and build against its renders, committing
+Pin one version (`omx-contract 2.3.0` in `.github/pins.txt`) and build against its renders, committing
 none: the installed `omx-contract-devel` / `libomx-contract-dev` at exactly that version
-(`pkg-config --exact-version=2.2.0 omx-contract`), else the release's npm tarball, unpacked, and
+(`pkg-config --exact-version=2.3.0 omx-contract`), else the release's npm tarball, unpacked, and
 `omx-contract render --target c --out build/omx-contract/include`. Include
 `<omxcontract/omx_contract_limits.h>`. A plugin's parameter header is rendered by omx-plugins from its
 declaration, by reference to the kernel travels here (since 1.1.0).
