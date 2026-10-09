@@ -1,6 +1,6 @@
 {
   "kernel": "band_dyn",
-  "since": "1.4.0",
+  "since": "2.0.0",
   "engine": {
     "repo": "FreeMixer/omx-dsp",
     "ref": "origin/main",

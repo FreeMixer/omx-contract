@@ -1,74 +1,124 @@
 {
   "$schema": "../../schema/omx-contract.schema.json",
-  "GATE_LIMITS": {
-    "kind": "travels",
-    "doc": "The legal range of each gate field (engineering units). The widget clamps drags to these, `normalizeGate` enforces them, the row's codec refuses by them and the travel sheet publishes them — one source of truth. `rangeDb` reaches GATE_RANGE_FLOOR_DB, shown as \"−∞\" in readouts (a gate fully closed is silence).",
-    "fields": {
-      "thresholdDb": {
+  "controls": [
+    {
+      "name": "keySource",
+      "kind": "choice",
+      "doc": "Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.",
+      "ids": [
+        "self",
+        "sidechain"
+      ]
+    },
+    {
+      "name": "thresholdDb",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": -80,
         "max": 0,
         "step": 1,
         "unit": "dB",
         "default": -40,
         "defaultFrom": "desk"
-      },
-      "rangeDb": {
+      }
+    },
+    {
+      "name": "rangeDb",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": -90,
         "max": 0,
         "step": 1,
         "unit": "dB",
         "default": -90,
         "defaultFrom": "desk"
-      },
-      "kneeStartDb": {
+      }
+    },
+    {
+      "name": "kneeStartDb",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": -80,
         "max": 0,
         "step": 1,
         "unit": "dB",
         "default": -43,
         "defaultFrom": "desk"
-      },
-      "kneeEndDb": {
+      }
+    },
+    {
+      "name": "kneeEndDb",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": -80,
         "max": 0,
         "step": 1,
         "unit": "dB",
         "default": -37,
         "defaultFrom": "desk"
-      },
-      "attackMs": {
+      }
+    },
+    {
+      "name": "attackMs",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": 0,
         "max": 500,
         "step": 0.5,
         "unit": "ms",
         "default": 1,
         "defaultFrom": "desk"
-      },
-      "holdMs": {
+      }
+    },
+    {
+      "name": "holdMs",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": 0,
         "max": 2000,
         "step": 5,
         "unit": "ms",
         "default": 10,
         "defaultFrom": "desk"
-      },
-      "releaseMs": {
+      }
+    },
+    {
+      "name": "releaseMs",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": 0,
         "max": 5000,
         "step": 10,
         "unit": "ms",
         "default": 100,
         "defaultFrom": "desk"
-      },
-      "hysteresisDb": {
+      }
+    },
+    {
+      "name": "hysteresisDb",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": 0,
         "max": 24,
         "step": 0.5,
         "unit": "dB",
         "default": 3,
         "defaultFrom": "desk"
-      },
-      "ratio": {
+      }
+    },
+    {
+      "name": "ratio",
+      "kind": "travel",
+      "table": "GATE_LIMITS",
+      "travel": {
         "min": 1,
         "max": 100,
         "step": 1,
@@ -77,13 +127,10 @@
         "defaultFrom": "desk"
       }
     }
-  },
-  "GATE_KEY_SOURCES": {
-    "kind": "set",
-    "doc": "Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.",
-    "ids": [
-      "self",
-      "sidechain"
-    ]
+  ],
+  "tables": {
+    "GATE_LIMITS": {
+      "doc": "The legal range of each gate field (engineering units). The widget clamps drags to these, `normalizeGate` enforces them, the row's codec refuses by them and the travel sheet publishes them — one source of truth. `rangeDb` reaches GATE_RANGE_FLOOR_DB, shown as \"−∞\" in readouts (a gate fully closed is silence)."
+    }
   }
 }

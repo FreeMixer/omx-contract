@@ -12,14 +12,15 @@
  *       the IMPORTER: reads each item where the engine declares it at <ref> and writes recipes/answers/<k>.json.
  *       A TypeScript export is read by EVALUATING its module (tools/engine-ts-hook.mjs), so a spread, a
  *       reference or a derivation gives the value the engine computes; a C #define is read when it is
- *       one plain number. No value is typed here. When data/kernels/<k>.json exists, the names, units,
+ *       one plain number. No value is typed here. When data/kernels/<k>.json exists, the item names, units,
  *       references, derivations and `c` blocks are read from it, so a released kernel is cited without
  *       being rewritten. When the kernel is already answered it keeps its `since`, and a name it did
  *       not answer before is an item added by the release --since names, which it carries as its own.
  *   node tools/omx-new-kernel.mjs --verify --engine <checkout> [<answers file> ...]
  *       reads every cited value again at its answers' commit and compares (all answers by default)
  *   node tools/omx-new-kernel.mjs --answers recipes/answers/<k>.json
- *       writes the kernel file from the answers (a released file keeps its items as written and gains
+ *       writes the kernel file from the answers, in the kernel-file shape (controls, tables, aggregates,
+ *       constants: lib/data.mjs kernelDocOf; a released file keeps its declarations as written and gains
  *       the answered items it lacks) and the committed renders (for a released
  *       kernel, the line of the items added to it), runs the completeness check over the kernel and
  *       prints the commit plan, one commit per layer of the recipe.
@@ -32,7 +33,7 @@ import { register } from 'node:module';
 import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
+import { entriesOf, kernelDocOf, loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
@@ -149,14 +150,14 @@ async function evaluate(tree, rel) {
   return import(pathToFileURL(join(tree, rel)).href);
 }
 
-/** The released kernel file's own facts per item: unit, references and derivations, c. */
+/** The released kernel file's own facts per item (the items its sections expand to): unit, references and derivations, c. */
 function keptFacts(root, recipe, kernel) {
-  const p = join(root, fill(recipe.tree.kernelFile, { kernel }));
+  const rel = fill(recipe.tree.kernelFile, { kernel });
+  const p = join(root, rel);
   if (!existsSync(p)) return undefined;
   const doc = JSON.parse(readFileSync(p, 'utf8'));
   const out = new Map();
-  for (const [name, it] of Object.entries(doc)) {
-    if (name === '$schema') continue;
+  for (const [name, it] of entriesOf(rel, doc)) {
     const set = {};
     const scan = (v, path) => {
       if (Array.isArray(v)) return v.forEach((x, i) => scan(x, path ? `${path}.${i}` : `${i}`));
@@ -291,7 +292,7 @@ function setAt(value, path, spec) {
   return value;
 }
 
-/** One answered item as a kernel file item: its kind read off the value's shape. */
+/** One answered item as the item it declares (kernelDocOf places it in the kernel file): its kind read off the value's shape. */
 export function itemOf(a) {
   const v = plain(a.value);
   let it;
@@ -316,12 +317,12 @@ export function itemOf(a) {
   return it;
 }
 
-/** The answers' kernel file, in the one formatting. */
+/** The answers' kernel file, in the kernel-file shape and the one formatting. */
 export function kernelText(recipe, answers) {
-  const depth = fill(recipe.tree.kernelFile, { kernel: answers.kernel }).split('/').length - 1;
-  const doc = { $schema: `${'../'.repeat(depth)}schema/omx-contract.schema.json` };
-  for (const a of answers.items) doc[a.name] = itemOf(a);
-  return formatDoc(doc);
+  const rel = fill(recipe.tree.kernelFile, { kernel: answers.kernel });
+  const depth = rel.split('/').length - 1;
+  const decl = (() => { try { return kernelDocOf(rel, answers.items.map((a) => [a.name, itemOf(a)])); } catch (e) { return refuse(e.message); } })();
+  return formatDoc({ $schema: `${'../'.repeat(depth)}schema/omx-contract.schema.json`, ...decl });
 }
 
 /** Write every artifact the answers make; returns the written paths. */
@@ -333,17 +334,19 @@ export function declare(answersPath, root = ROOT) {
   const written = [];
   const kfile = fill(recipe.tree.kernelFile, { kernel: answers.kernel });
   if (existsSync(join(root, kfile))) {
-    // a released kernel: its items are kept as written, and the answered items it lacks are appended
-    const doc = JSON.parse(readFileSync(join(root, kfile), 'utf8'));
+    // a released kernel: its declarations are kept as written, and the answered items it lacks are added
+    const kept = JSON.parse(readFileSync(join(root, kfile), 'utf8'));
     const all = loadData(join(root, 'data'));
-    const fresh = answers.items.filter((a) => !(a.name in doc));
+    const declared = new Set(entriesOf(kfile, kept).map(([n]) => n));
+    const fresh = answers.items.filter((a) => !declared.has(a.name));
     for (const a of fresh) if (all.items.has(a.name)) refuse(`${a.name} is already declared in ${all.items.get(a.name).rel}`);
     if (fresh.length) {
-      for (const a of fresh) doc[a.name] = itemOf(a);
+      let doc;
+      try { doc = kernelDocOf(kfile, fresh.map((a) => [a.name, itemOf(a)]), kept); } catch (e) { refuse(e.message); }
       writeFileSync(join(root, kfile), formatDoc(doc));
       written.push(kfile);
     }
-    console.log(`${kfile} exists: kept as written${fresh.length ? `, ${fresh.length} answered items appended` : ''} (the completeness check holds it to the answers)`);
+    console.log(`${kfile} exists: kept as written${fresh.length ? `, ${fresh.length} answered items added` : ''} (the completeness check holds it to the answers)`);
   } else {
     const all = loadData(join(root, 'data'));
     for (const a of answers.items) if (all.items.has(a.name)) refuse(`${a.name} is already declared in ${all.items.get(a.name).rel}`);

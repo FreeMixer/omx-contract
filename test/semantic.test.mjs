@@ -10,13 +10,13 @@ const problems = (t) => validateData(loadData(null, t));
 const has = (t, item, rule) => problems(t).some((p) => p.item === item && p.rule === rule);
 
 test('a default outside its travel is refused, by item and field', () => {
-  const t = texts((d) => { d['data/kernels/gate.json'].GATE_LIMITS.fields.ratio.default = 101; });
+  const t = texts((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.ratio').default = 101; });
   assert.ok(has(t, 'GATE_LIMITS', 'default-inside'));
   assert.match(problems(t)[0].message, /GATE_LIMITS\.ratio: default 101 outside \[1, 100\]/);
 });
 
 test('a byKind default outside its travel is refused', () => {
-  assert.ok(has(texts((d) => { d['data/kernels/delay.json'].DELAY_MIX_RANGE.travel.byKind.fxReturn = 2; }), 'DELAY_MIX_RANGE', 'default-inside'));
+  assert.ok(has(texts((d, at) => { at('data/kernels/delay.json', 'DELAY_MIX_RANGE').travel.byKind.fxReturn = 2; }), 'DELAY_MIX_RANGE', 'default-inside'));
 });
 
 test('a reference that does not resolve is refused', () => {
@@ -31,11 +31,11 @@ test('a reference cycle is refused', () => {
 });
 
 test('a c.alias that spells another item is refused', () => {
-  assert.ok(has(texts((d) => { d['data/kernels/delay.json'].FX_DELAY_TIME_RANGE.c.alias = { fact: 'delay', field: 'toneRange' }; }), 'FX_DELAY_TIME_RANGE', 'alias'));
+  assert.ok(has(texts((d, at) => { at('data/kernels/delay.json', 'FX_DELAY_TIME_RANGE').c.alias = { fact: 'delay', field: 'toneRange' }; }), 'FX_DELAY_TIME_RANGE', 'alias'));
 });
 
 test('two items rendering one C name are refused', () => {
-  const t = texts((d) => { d['data/kernels/eq.json'].XOVER_LR2_SECTION = { kind: 'sheet', doc: 'collides', value: { q: 1 } }; });
+  const t = texts((d) => { d['data/kernels/eq.json'].constants.XOVER_LR2_SECTION = { kind: 'sheet', doc: 'collides', value: { q: 1 } }; });
   assert.ok(problems(t).some((p) => p.rule === 'render-c' && /OMX_XOVER_LR2_SECTION_Q/.test(p.message)));
 });
 

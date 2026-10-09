@@ -22,7 +22,7 @@ test('every one of the 38 names omx-dsp reads is defined, with its literal', () 
 
 test('perturbation: move one of them in its kernel file and its define follows, and the check goes red', () => {
   const dir = scratchData();
-  editData(dir, 'kernels/fbs.json', (x) => { x.FBS_TRACK_SLOTS.value = 256; });
+  editData(dir, 'kernels/fbs.json', (x, at) => { at('FBS_TRACK_SLOTS').value = 256; });
   const d = defines(renderC(resolveData(loadData(dir)))[0].text);
   assert.equal(d.get('OMX_FBS_TRACK_SLOTS'), '256');
   assert.deepEqual(gap.filter(([n, v]) => d.get(n) !== v).map(([n]) => n), ['OMX_FBS_TRACK_SLOTS']);
