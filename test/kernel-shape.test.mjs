@@ -8,7 +8,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { isDeepStrictEqual } from 'node:util';
-import { entriesOf, kernelDocOf, loadData } from '../lib/data.mjs';
+import { entriesOf, isUse, kernelDocOf, loadData } from '../lib/data.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
 import { validateData } from '../lib/validate.mjs';
 import { DATA, ROOT, scratchData, texts } from './helpers.mjs';
@@ -16,11 +16,21 @@ import { DATA, ROOT, scratchData, texts } from './helpers.mjs';
 const kernels = () => loadData(DATA).files.filter((f) => f.rel.startsWith('data/kernels/'));
 const problems = (t) => validateData(loadData(null, t));
 
-// `rearms` is the one control fact the items do not carry: it is behaviour (changing the control re-arms the kernel's
-// state), published in the json render's `kernels`, not a value any item renders.
-const withoutRearms = (body) => ({ ...body, ...(body.controls ? { controls: body.controls.map(({ rearms, ...c }) => c) } : {}) });
+// The control facts the items do not carry, published in the json render's `kernels` and in no item: `rearms`
+// (behaviour: changing the control re-arms the kernel's state), `count` (the item counting a per-band control), `of`
+// and `when` (the travel another control reaches while a choice holds an id), and a use (a control taking the item
+// another control declares), which adds no item. A control whose item a use shares (the EQ's hpfSlope, whose
+// FILTER_SLOPES lpfSlope uses) is named after the item: no item says which of its controls declares it.
+const withoutRearms = (body) => {
+  const shared = new Set((body.controls ?? []).filter(isUse).map((c) => c.global));
+  const named = (c) => (shared.has(c.global) ? { ...c, name: c.global.toLowerCase().replace(/_([a-z0-9])/g, (_, x) => x.toUpperCase()).replace(/s$/, '') } : c);
+  return {
+    ...body,
+    ...(body.controls ? { controls: body.controls.filter((c) => !isUse(c)).map(({ rearms, count, of, when, ...c }) => named(c)) } : {}),
+  };
+};
 
-test('every shipped kernel file is the kernel-file shape, and kernelDocOf writes each back exactly (rearms aside)', () => {
+test('every shipped kernel file is the kernel-file shape, and kernelDocOf writes each back exactly (the control facts no item carries aside)', () => {
   const files = kernels();
   assert.ok(files.length >= 20, `${files.length} kernel files: a short list proves nothing`);
   for (const f of files) {
