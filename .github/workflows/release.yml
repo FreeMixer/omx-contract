@@ -106,11 +106,14 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: FreeMixer/.github/.github/actions/changelog@v1
         with:
-          mode: notes
-          tag: ${{ github.ref_name }}
-          notes-file: ${{ runner.temp }}/release-notes.md
+          fetch-depth: 0
+      # The release notes are the git history since the previous tag: no changelog file is kept (2026-10-09).
+      - env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          prev=$(git describe --tags --abbrev=0 "$TAG^" 2>/dev/null || true)
+          { echo "Changes in $TAG${prev:+ since $prev}:"; echo; git log --no-merges --format='- %s' "${prev:+$prev..}$TAG"; } > "$RUNNER_TEMP/release-notes.md"
       - uses: actions/download-artifact@v4
         with:
           name: npm-pack

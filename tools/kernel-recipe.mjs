@@ -205,31 +205,6 @@ export const CHECKERS = {
     return bad.length ? missing(bad.join('; ')) : ok('c, json and ts renders fresh');
   },
 
-  changelogNames(facts, recipe, kernel) {
-    const file = join(facts.root, recipe.tree.changelog);
-    if (!existsSync(file)) return missing(`${recipe.tree.changelog} is missing`);
-    const a = readAnswers(facts.root, recipe, kernel);
-    const since = a.answers?.since;
-    // the release that first carries the kernel, and each later release that adds items to it
-    const releases = [...new Set([since, ...(a.answers?.items ?? []).map((it) => itemSince(a.answers, it))])]
-      .filter((s) => s !== recipe.tree.firstRelease);
-    if (!releases.length) return ok(`shipped in the first release, ${since}, whose entry covers it`);
-    const sections = new Map();
-    let cur;
-    for (const line of readFileSync(file, 'utf8').split('\n')) {
-      const h = /^## \[?([^\]\s]+)\]?/.exec(line);
-      if (h) {
-        cur = h[1];
-        sections.set(cur, '');
-      } else if (cur) sections.set(cur, `${sections.get(cur)}${line}\n`);
-    }
-    const re = new RegExp(`^- The ${kernel} kernel\\b`, 'm');
-    const named = (s) => ['Unreleased', s].find((h) => h && re.test(sections.get(h) ?? ''));
-    const bad = releases.filter((s) => !named(s));
-    if (bad.length) return missing(bad.map((s) => `${recipe.tree.changelog} has no '- The ${kernel} kernel' line under ## Unreleased${s ? ` or ## ${s}` : ''}`).join('; '));
-    return ok(releases.map((s) => `named under ## ${named(s)}`).join(', '));
-  },
-
   ownItemsOnly(facts, recipe, kernel) {
     if (facts.error) return missing(facts.error);
     const rel = fill(recipe.tree.kernelFile, { kernel });

@@ -15,7 +15,6 @@ test('versions: package.json, the RPM spec and the debian changelog name one ver
   assert.equal(/^omx-contract \(([^)]+)\)/.exec(read('debian/changelog'))[1], v);
   assert.equal(JSON.parse(read('share/omx-contract/omx-contract.json')).version, v);
   assert.equal(JSON.parse(read('package-lock.json')).version, v);
-  assert.equal(/^## (\S+) - /m.exec(read('CHANGELOG.md'))[1], v);
   assert.match(read('packaging/omx-contract.spec'), new RegExp(`^%changelog\\n\\* .* - ${v.replace(/\./g, '\\.')}-1$`, 'm'));
 });
 
