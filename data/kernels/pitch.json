@@ -1,34 +1,52 @@
 {
   "$schema": "../../schema/omx-contract.schema.json",
-  "PITCH_LIMITS": {
-    "kind": "travels",
-    "doc": "PITCH_LIMITS, moved from openmixer.",
-    "fields": {
-      "semitones": {
+  "controls": [
+    {
+      "name": "semitones",
+      "kind": "travel",
+      "table": "PITCH_LIMITS",
+      "travel": {
         "min": -12,
         "max": 12,
         "default": 0
-      },
-      "cents": {
+      }
+    },
+    {
+      "name": "cents",
+      "kind": "travel",
+      "table": "PITCH_LIMITS",
+      "travel": {
         "min": -50,
         "max": 50,
         "default": 0
-      },
-      "mix": {
+      }
+    },
+    {
+      "name": "mix",
+      "kind": "travel",
+      "table": "PITCH_LIMITS",
+      "travel": {
         "min": 0,
         "max": 100,
         "default": 100
       }
     }
+  ],
+  "tables": {
+    "PITCH_LIMITS": {
+      "doc": "PITCH_LIMITS, moved from openmixer."
+    }
   },
-  "PITCH_KERNEL": {
-    "kind": "sheet",
-    "doc": "PITCH_KERNEL, moved from openmixer.",
-    "value": {
-      "windowMs": 40,
-      "prefilterCeilingHz": 20000,
-      "prefilterQ": {
-        "ref": "BUTTERWORTH_Q"
+  "constants": {
+    "PITCH_KERNEL": {
+      "kind": "sheet",
+      "doc": "PITCH_KERNEL, moved from openmixer.",
+      "value": {
+        "windowMs": 40,
+        "prefilterCeilingHz": 20000,
+        "prefilterQ": {
+          "ref": "BUTTERWORTH_Q"
+        }
       }
     }
   }

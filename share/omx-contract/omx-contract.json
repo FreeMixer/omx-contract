@@ -30,27 +30,6 @@
         "below"
       ]
     },
-    "BAND_DYN_KNEE_DB": {
-      "rel": "data/kernels/band_dyn.json",
-      "kind": "scalar",
-      "doc": "The soft knee of the band's gain computer, in dB. One knee for the one band-dynamics word, shared by every stage that runs it, the de-esser included: a second spelling of 6 would be a second place where the reduction starts.",
-      "unit": "dB",
-      "value": 6
-    },
-    "BAND_DYN_MAX_BANDS": {
-      "rel": "data/kernels/band_dyn.json",
-      "kind": "scalar",
-      "doc": "How many dynamic bands a channel may hold. A dynamic band is an operator band, so the capacity is the operator's reserve, read and not typed again.",
-      "unit": "",
-      "value": 9
-    },
-    "DETECTOR_OVERSAMPLE_AUTO_MS": {
-      "rel": "data/kernels/band_dyn.json",
-      "kind": "scalar",
-      "doc": "The shortest attack, in ms, at which the compressor's detector does not alias. Below it the compressor engages its 4x control path, which adds 72 samples of latency; a zero-latency band has no such path, so its attack travel stops at this floor.",
-      "unit": "ms",
-      "value": 0.5
-    },
     "BAND_DYN_THRESHOLD_RANGE": {
       "rel": "data/kernels/band_dyn.json",
       "kind": "travels",
@@ -120,6 +99,27 @@
         "default": 100,
         "defaultFrom": "desk"
       }
+    },
+    "BAND_DYN_KNEE_DB": {
+      "rel": "data/kernels/band_dyn.json",
+      "kind": "scalar",
+      "doc": "The soft knee of the band's gain computer, in dB. One knee for the one band-dynamics word, shared by every stage that runs it, the de-esser included: a second spelling of 6 would be a second place where the reduction starts.",
+      "unit": "dB",
+      "value": 6
+    },
+    "BAND_DYN_MAX_BANDS": {
+      "rel": "data/kernels/band_dyn.json",
+      "kind": "scalar",
+      "doc": "How many dynamic bands a channel may hold. A dynamic band is an operator band, so the capacity is the operator's reserve, read and not typed again.",
+      "unit": "",
+      "value": 9
+    },
+    "DETECTOR_OVERSAMPLE_AUTO_MS": {
+      "rel": "data/kernels/band_dyn.json",
+      "kind": "scalar",
+      "doc": "The shortest attack, in ms, at which the compressor's detector does not alias. Below it the compressor engages its 4x control path, which adds 72 samples of latency; a zero-latency band has no such path, so its attack travel stops at this floor.",
+      "unit": "ms",
+      "value": 0.5
     },
     "CHORUS_SPREAD_RANGE": {
       "rel": "data/kernels/chorus.json",
@@ -384,13 +384,6 @@
         "defaultFrom": "desk"
       }
     },
-    "DEESS_KNEE_DB": {
-      "rel": "data/kernels/deesser.json",
-      "kind": "scalar",
-      "doc": "The knee, in dB — a CONSTANT of the stage and not a row field (`2026-09-22-native-deesser-stage.md` §4b): a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.",
-      "unit": "dB",
-      "value": 6
-    },
     "DEESS_MODES": {
       "rel": "data/kernels/deesser.json",
       "kind": "set",
@@ -399,6 +392,13 @@
         "split",
         "wideband"
       ]
+    },
+    "DEESS_KNEE_DB": {
+      "rel": "data/kernels/deesser.json",
+      "kind": "scalar",
+      "doc": "The knee, in dB — a CONSTANT of the stage and not a row field (`2026-09-22-native-deesser-stage.md` §4b): a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.",
+      "unit": "dB",
+      "value": 6
     },
     "FX_DELAY_TIME_RANGE": {
       "rel": "data/kernels/delay.json",
@@ -471,13 +471,6 @@
       "doc": "The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the server's `DEFAULT_DELAY_STATE` (which now reads it) so the DPF plugin generator (`packages/omx-plugins/tools/params-gen.mjs`, `2026-09-25-omx-plugins-dpf.md` §3a) reads the same fact the desk seeds a fresh strip with.",
       "unit": "",
       "value": false
-    },
-    "DRIVE_BIAS_MAX": {
-      "rel": "data/kernels/drive.json",
-      "kind": "scalar",
-      "doc": "The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.",
-      "unit": "",
-      "value": 0.7071067811865476
     },
     "DRIVE_AMOUNT_RANGE": {
       "rel": "data/kernels/drive.json",
@@ -601,58 +594,12 @@
         "tilt"
       ]
     },
-    "EQ_MAX_BANDS": {
-      "rel": "data/kernels/eq.json",
+    "DRIVE_BIAS_MAX": {
+      "rel": "data/kernels/drive.json",
       "kind": "scalar",
-      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
+      "doc": "The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.",
       "unit": "",
-      "value": 24
-    },
-    "ISO_THIRD_OCTAVE_CENTRES_HZ": {
-      "rel": "data/kernels/eq.json",
-      "kind": "list",
-      "doc": "The standard ISO 266 one-third-octave centre frequencies, 20 Hz–20 kHz (31 bands) — the classic 31-band graphic-EQ layout's centres.",
-      "unit": "Hz",
-      "value": [
-        20,
-        25,
-        31.5,
-        40,
-        50,
-        63,
-        80,
-        100,
-        125,
-        160,
-        200,
-        250,
-        315,
-        400,
-        500,
-        630,
-        800,
-        1000,
-        1250,
-        1600,
-        2000,
-        2500,
-        3150,
-        4000,
-        5000,
-        6300,
-        8000,
-        10000,
-        12500,
-        16000,
-        20000
-      ]
-    },
-    "GEQ_BANDS": {
-      "rel": "data/kernels/eq.json",
-      "kind": "scalar",
-      "doc": "The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (graphic-eq-31 spec §3, roster ruling 3).",
-      "unit": "",
-      "value": 31
+      "value": 0.7071067811865476
     },
     "EQ_FREQ_RANGE": {
       "rel": "data/kernels/eq.json",
@@ -726,13 +673,6 @@
         "unit": "Hz"
       }
     },
-    "OPERATOR_EQ_BANDS_RESERVE": {
-      "rel": "data/kernels/eq.json",
-      "kind": "scalar",
-      "doc": "The band slots kept for the operator's own hand: the reserve the feedback suppressor and the ring correction may never eat into. Nine is the working set a live EQ actually holds. The budget OPERATOR_EQ_BANDS_RESERVE + FBS_DEFAULT_MAX_AUTO_BANDS + HRP_DEFAULT_MAX_AUTO_BANDS (9 + 6 + 8 = 23) must fit EQ_MAX_BANDS, and `omx-contract validate` refuses data where it does not.",
-      "unit": "",
-      "value": 9
-    },
     "EQ_BAND_TYPES": {
       "rel": "data/kernels/eq.json",
       "kind": "set",
@@ -764,6 +704,66 @@
         12,
         24
       ]
+    },
+    "EQ_MAX_BANDS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "scalar",
+      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
+      "unit": "",
+      "value": 24
+    },
+    "ISO_THIRD_OCTAVE_CENTRES_HZ": {
+      "rel": "data/kernels/eq.json",
+      "kind": "list",
+      "doc": "The standard ISO 266 one-third-octave centre frequencies, 20 Hz–20 kHz (31 bands) — the classic 31-band graphic-EQ layout's centres.",
+      "unit": "Hz",
+      "value": [
+        20,
+        25,
+        31.5,
+        40,
+        50,
+        63,
+        80,
+        100,
+        125,
+        160,
+        200,
+        250,
+        315,
+        400,
+        500,
+        630,
+        800,
+        1000,
+        1250,
+        1600,
+        2000,
+        2500,
+        3150,
+        4000,
+        5000,
+        6300,
+        8000,
+        10000,
+        12500,
+        16000,
+        20000
+      ]
+    },
+    "GEQ_BANDS": {
+      "rel": "data/kernels/eq.json",
+      "kind": "scalar",
+      "doc": "The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (graphic-eq-31 spec §3, roster ruling 3).",
+      "unit": "",
+      "value": 31
+    },
+    "OPERATOR_EQ_BANDS_RESERVE": {
+      "rel": "data/kernels/eq.json",
+      "kind": "scalar",
+      "doc": "The band slots kept for the operator's own hand: the reserve the feedback suppressor and the ring correction may never eat into. Nine is the working set a live EQ actually holds. The budget OPERATOR_EQ_BANDS_RESERVE + FBS_DEFAULT_MAX_AUTO_BANDS + HRP_DEFAULT_MAX_AUTO_BANDS (9 + 6 + 8 = 23) must fit EQ_MAX_BANDS, and `omx-contract validate` refuses data where it does not.",
+      "unit": "",
+      "value": 9
     },
     "EQ_BAND_COUNTS": {
       "rel": "data/kernels/eq.json",
@@ -1112,6 +1112,15 @@
       "unit": "ms",
       "value": 6
     },
+    "GATE_KEY_SOURCES": {
+      "rel": "data/kernels/gate.json",
+      "kind": "set",
+      "doc": "Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.",
+      "value": [
+        "self",
+        "sidechain"
+      ]
+    },
     "GATE_LIMITS": {
       "rel": "data/kernels/gate.json",
       "kind": "travels",
@@ -1192,15 +1201,6 @@
         }
       }
     },
-    "GATE_KEY_SOURCES": {
-      "rel": "data/kernels/gate.json",
-      "kind": "set",
-      "doc": "Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.",
-      "value": [
-        "self",
-        "sidechain"
-      ]
-    },
     "GEQ_BAND_RANGE": {
       "rel": "data/kernels/geq.json",
       "kind": "travels",
@@ -1235,6 +1235,20 @@
       "doc": "The ceiling on a section gain the `true` solve may ask for (spec §3): above the travel's worst case (26.0 dB, the alternating ±15 set) with margin. A solve past it clamps and the row says so (`designClamped`), never silently.",
       "unit": "dB",
       "value": 30
+    },
+    "HRP_AMOUNT_RANGE": {
+      "rel": "data/kernels/hrp.json",
+      "kind": "travels",
+      "doc": "How much of the computed correction HRP applies: 0 = analyse only, 1 = the full cut. It comes up at 0.5, half the computed cut.",
+      "shape": "travel",
+      "value": {
+        "min": 0,
+        "max": 1,
+        "step": 0,
+        "unit": "",
+        "default": 0.5,
+        "defaultFrom": "desk"
+      }
     },
     "HRP_MAX_CUT_DB": {
       "rel": "data/kernels/hrp.json",
@@ -1291,20 +1305,6 @@
       "doc": "How many bands HRP may plant on ONE channel — its half of the machine budget, and the number that makes the budget FORECASTABLE rather than emergent. Without it the count is whatever the material happens to provoke: the placement law is sparse, so a clean note plants two bands and a resonant room plants nine, and nobody can answer \"will this fit?\" until it does not. With FBS senior (§9.3(b)) that discovery would happen at showtime, to the junior planter, silently. Declared instead, the whole sum is arithmetic an operator can read before a note is played: operator bands + FBS maxAutoBands + HRP maxAutoBands <= EQ_MAX_BANDS EIGHT — ONE CORRECTION PER VOICE at full polyphony (operator sizing, 2026-09-01). The detector's ceiling is HRP_MAX_VOICES voices, a guitar's six strings and a piano/string voicing's eight, and a budget below the voice count would decide by arithmetic which of the notes actually sounding may be corrected — a limit nobody could read off the desk. Scarcity is handled where it belongs instead: the candidates from every voice meet in ONE globally ranked list (spec §29) and the head of it is what gets planted. It is NOT a claim to seniority, and it is larger than FBS's six. Seniority is the ALLOCATION ORDER — `HrpPlanter` takes only `EQ_MAX_BANDS − others.length`, the remainder after the operator and every other machine — so a bigger junior default cannot reach a senior slot; it only means HRP asks for more of what is left. `eq-budget-fits.test.ts` asserts both halves. The per-channel DEFAULT; the row's travel is HRP_AUTO_BANDS_RANGE, so a channel that needs more can have more, as an explicit decision with a visible cost.",
       "unit": "",
       "value": 8
-    },
-    "HRP_AMOUNT_RANGE": {
-      "rel": "data/kernels/hrp.json",
-      "kind": "travels",
-      "doc": "How much of the computed correction HRP applies: 0 = analyse only, 1 = the full cut. It comes up at 0.5, half the computed cut.",
-      "shape": "travel",
-      "value": {
-        "min": 0,
-        "max": 1,
-        "step": 0,
-        "unit": "",
-        "default": 0.5,
-        "defaultFrom": "desk"
-      }
     },
     "LIMITER_LIMITS": {
       "rel": "data/kernels/limiter.json",
@@ -1401,20 +1401,6 @@
         "defaultFrom": "desk"
       }
     },
-    "PHASER_STAGE_COUNTS": {
-      "rel": "data/kernels/phaser.json",
-      "kind": "list",
-      "doc": "The member set the `stages` field accepts: PHASER_STAGES_RANGE walked by its step.",
-      "unit": "",
-      "value": [
-        2,
-        4,
-        6,
-        8,
-        10,
-        12
-      ]
-    },
     "PHASER_FEEDBACK_RANGE": {
       "rel": "data/kernels/phaser.json",
       "kind": "travels",
@@ -1490,6 +1476,20 @@
           "defaultFrom": "desk"
         }
       }
+    },
+    "PHASER_STAGE_COUNTS": {
+      "rel": "data/kernels/phaser.json",
+      "kind": "list",
+      "doc": "The member set the `stages` field accepts: PHASER_STAGES_RANGE walked by its step.",
+      "unit": "",
+      "value": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12
+      ]
     },
     "PHASER_F_TOP_HZ": {
       "rel": "data/kernels/phaser.json",
@@ -1819,6 +1819,16 @@
         "defaultFrom": "desk"
       }
     },
+    "ROTARY_SPEEDS": {
+      "rel": "data/kernels/rotary.json",
+      "kind": "set",
+      "doc": "The rotary speaker's speed settings, in the order of the integer the kernel reads: the rotors stopped, at their chorale (slow) rate, or at their tremolo (fast) rate.",
+      "value": [
+        "stop",
+        "slow",
+        "fast"
+      ]
+    },
     "ROTARY_TRAVELS": {
       "rel": "data/kernels/rotary.json",
       "kind": "travels",
@@ -1967,16 +1977,6 @@
       "unit": "",
       "value": 256
     },
-    "ROTARY_SPEEDS": {
-      "rel": "data/kernels/rotary.json",
-      "kind": "set",
-      "doc": "The rotary speaker's speed settings, in the order of the integer the kernel reads: the rotors stopped, at their chorale (slow) rate, or at their tremolo (fast) rate.",
-      "value": [
-        "stop",
-        "slow",
-        "fast"
-      ]
-    },
     "RTA_TARGET_BIN_HZ": {
       "rel": "data/kernels/rta.json",
       "kind": "scalar",
@@ -2109,6 +2109,16 @@
         "defaultFrom": "desk"
       }
     },
+    "TREMOLO_MODES": {
+      "rel": "data/kernels/tremolo.json",
+      "kind": "set",
+      "doc": "What the tremolo's one oscillator modulates, in the order of the integer the kernel reads: the level of both legs in phase (tremolo), or the balance law's position with the legs in opposition (pan).",
+      "default": "tremolo",
+      "value": [
+        "tremolo",
+        "pan"
+      ]
+    },
     "TREMOLO_TRAVELS": {
       "rel": "data/kernels/tremolo.json",
       "kind": "travels",
@@ -2140,16 +2150,6 @@
           "defaultFrom": "desk"
         }
       }
-    },
-    "TREMOLO_MODES": {
-      "rel": "data/kernels/tremolo.json",
-      "kind": "set",
-      "doc": "What the tremolo's one oscillator modulates, in the order of the integer the kernel reads: the level of both legs in phase (tremolo), or the balance law's position with the legs in opposition (pan).",
-      "default": "tremolo",
-      "value": [
-        "tremolo",
-        "pan"
-      ]
     },
     "BUTTERWORTH_Q": {
       "rel": "data/primitives.json",
