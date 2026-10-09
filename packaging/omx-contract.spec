@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.2.0
+Version: 2.3.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,12 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.3.0-1
+- The input trim is a kernel, trim, with the one control trimDb (the
+  console's TRIM_RANGE, -24 to +24 dB); the C header spells it
+  OMX_TRIM_RANGE_* and keeps every 2.2.0 define
+- TRIM_TRAVELS is that control's aggregate: the same value, declared once
+
 * Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.2.0-1
 - New controls: the delay's ping-pong switch (its come-up value is
   FX_DELAY_PINGPONG_DEFAULT), the drive's auto-gain and stereo-link switches
