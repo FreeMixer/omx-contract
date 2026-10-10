@@ -2038,6 +2038,34 @@ export const TREMOLO_TRAVELS = {
 };
 
 /**
+ * The digital input trim, in dB: the console's fine head gain, applied first in a channel's lane as a click-free ramp from the last block's gain to this one (openmixer's TRIM_RANGE, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there). It comes up at 0 dB, the trim a channel has when none is set. omx-dsp's trim face takes it as `trim_db`.
+ * @see data/kernels/trim.json
+ */
+export const TRIM_RANGE = {
+  "min": -24,
+  "max": 24,
+  "step": 0.1,
+  "unit": "dB",
+  "default": 0,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The trim as a table with the one field `trimDb`, the name the trim row and the omx-strip plugin store; generated from the trim kernel's control, so the travel has one home.
+ * @see data/kernels/trim.json
+ */
+export const TRIM_TRAVELS = {
+  "trimDb": {
+    "min": -24,
+    "max": 24,
+    "step": 0.1,
+    "unit": "dB",
+    "default": 0,
+    "defaultFrom": "desk"
+  }
+};
+
+/**
  * The Q of a second-order Butterworth section, 1/√2 — maximally flat, the one value every Butterworth biquad in the tree designs at: the LR4 crossover section, the pitch pre-filter and the drive's tilt / band / HF sections, in TS and (as `OMX_BUTTERWORTH_Q`) in C (§7, the scalar door).
  * @see data/primitives.json
  */
@@ -2131,21 +2159,6 @@ export const COMP_CONTINUOUS_TRAVELS = {
     "step": 0,
     "unit": "ms",
     "default": 200,
-    "defaultFrom": "desk"
-  }
-};
-
-/**
- * The digital input trim as a travel: openmixer's TRIM_RANGE (packages/declarations, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there and OMX_TRIM_RANGE_*_DB in omx-dsp's header), coming up at 0 dB, the trim a channel has when none is set. The omx-strip plugin's trim reads it. A table with the one field `trimDb`, the name the trim row and the plugin store; not rendered to C, which already spells TRIM_RANGE its own way.
- * @see data/primitives.json
- */
-export const TRIM_TRAVELS = {
-  "trimDb": {
-    "min": -24,
-    "max": 24,
-    "step": 0.1,
-    "unit": "dB",
-    "default": 0,
     "defaultFrom": "desk"
   }
 };
