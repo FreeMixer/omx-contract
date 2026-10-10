@@ -104,20 +104,6 @@
       }
     }
   },
-  "TRIM_TRAVELS": {
-    "kind": "travels",
-    "doc": "The digital input trim as a travel: openmixer's TRIM_RANGE (packages/declarations, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there and OMX_TRIM_RANGE_*_DB in omx-dsp's header), coming up at 0 dB, the trim a channel has when none is set. The omx-strip plugin's trim reads it. A table with the one field `trimDb`, the name the trim row and the plugin store; not rendered to C, which already spells TRIM_RANGE its own way.",
-    "fields": {
-      "trimDb": {
-        "min": -24,
-        "max": 24,
-        "step": 0.1,
-        "unit": "dB",
-        "default": 0,
-        "defaultFrom": "desk"
-      }
-    }
-  },
   "PARAM_SCALES": {
     "kind": "set",
     "since": "1.3.0",

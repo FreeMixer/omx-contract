@@ -1,3 +1,14 @@
+omx-contract (2.3.0) unstable; urgency=medium
+
+  * The input trim is a kernel, trim, with the one control trimDb: a
+    travel of -24 to +24 dB in 0.1 dB steps coming up at 0 dB, the
+    console's TRIM_RANGE. The C header spells it OMX_TRIM_RANGE_*; every
+    define of the 2.2.0 header is unchanged.
+  * TRIM_TRAVELS, the table the channel-strip plugin reads, is now that
+    control's aggregate: the same value, declared once.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 09 Oct 2026 21:38:52 +0000
+
 omx-contract (2.2.0) unstable; urgency=medium
 
   * New controls. The delay's ping-pong switch, which comes up at
