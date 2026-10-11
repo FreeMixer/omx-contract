@@ -2,8 +2,8 @@
   "kernel": "trim",
   "since": "2.3.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
-    "ref": "origin/integration/waves-2026-10",
+    "repo": "the OpenMixer console engine",
+    "ref": "origin/main",
     "commit": "5d9804ad56ffba1133f860a7bd198b3613c89767"
   },
   "items": [

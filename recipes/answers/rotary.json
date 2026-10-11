@@ -2,7 +2,7 @@
   "kernel": "rotary",
   "since": "1.1.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "ref": "origin/lane/row-rotary",
     "commit": "4fc6671b1677f520586175344772e0eb95fe39d9"
   },

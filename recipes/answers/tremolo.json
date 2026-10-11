@@ -2,7 +2,7 @@
   "kernel": "tremolo",
   "since": "1.1.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "ref": "origin/lane/row-tremolo",
     "commit": "9e854a9c85d832905f2b5f93440af37b1fb99f9e"
   },
