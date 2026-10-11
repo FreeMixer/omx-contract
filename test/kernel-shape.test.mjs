@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// The kernel-file shape (2.0.0): controls, tables, aggregates and constants. The loader expands it into the items
-// the renders read, kernelDocOf writes it back, validation refuses anything else, fmt has one spelling of it.
+// The kernel-file shape (2.0.0): controls, tables, aggregates and constants, and the readouts. The loader expands the
+// four sections into the items the renders read, kernelDocOf writes them back, validation refuses anything else, fmt
+// has one spelling of it.
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -35,8 +36,9 @@ test('every shipped kernel file is the kernel-file shape, and kernelDocOf writes
   assert.ok(files.length >= 20, `${files.length} kernel files: a short list proves nothing`);
   for (const f of files) {
     const { $schema, ...body } = f.doc;
-    assert.deepEqual(Object.keys(body).filter((k) => !['controls', 'tables', 'aggregates', 'constants'].includes(k)), [], `${f.rel} holds only the four sections`);
-    assert.deepEqual(kernelDocOf(f.rel, entriesOf(f.rel, f.doc)), withoutRearms(body), `${f.rel}: the items it expands to declare it again`);
+    assert.deepEqual(Object.keys(body).filter((k) => !['controls', 'readouts', 'tables', 'aggregates', 'constants'].includes(k)), [], `${f.rel} holds only the four sections and its readouts`);
+    const { readouts, ...sections } = body;  // the readouts declare no item
+    assert.deepEqual(kernelDocOf(f.rel, entriesOf(f.rel, f.doc)), withoutRearms(sections), `${f.rel}: the items it expands to declare it again`);
   }
 });
 
@@ -71,7 +73,7 @@ test('validate on a hand-written flat kernel file exits 1 and says to use the fo
 
 test('a key beside the four sections, a constant that is a travel, an undeclared table and an aggregate of nothing are refused', () => {
   const shape = (fn) => problems(texts(fn)).filter((x) => x.rule === 'shape').map((x) => x.message).join('\n');
-  assert.match(shape((d) => { d['data/kernels/gate.json'].GATE_LIMITS = { kind: 'scalar', doc: 'x', unit: '', value: 1 }; }), /unknown top-level key GATE_LIMITS: a kernel file holds controls, tables, aggregates, constants/);
+  assert.match(shape((d) => { d['data/kernels/gate.json'].GATE_LIMITS = { kind: 'scalar', doc: 'x', unit: '', value: 1 }; }), /unknown top-level key GATE_LIMITS: a kernel file holds controls, readouts, tables, aggregates, constants/);
   assert.match(shape((d) => { d['data/kernels/rta.json'].constants.RTA_X_RANGE = { kind: 'travels', doc: 'x', travel: { min: 0, max: 1 } }; }), /constant RTA_X_RANGE: kind "travels" is not scalar, list or sheet \(a travel or a set is a control\)/);
   assert.throws(() => loadData(null, texts((d) => { d['data/kernels/gate.json'].aggregates = { GATE_ALL: { doc: 'x', fields: ['nothing'] } }; })), /aggregate GATE_ALL names control nothing, which is not declared/);
   assert.throws(() => loadData(null, texts((d) => { d['data/kernels/gate.json'].controls[1].table = 'NO_TABLE'; })), /control thresholdDb names table NO_TABLE, which is not declared/);
