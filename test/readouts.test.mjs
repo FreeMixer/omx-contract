@@ -3,6 +3,8 @@
 // A kernel's readouts (docs/readouts.md): the shape the schema holds them to, the rules about their numbers, the
 // one formatting, the c, ts and json renders, and how semver classifies a change to one.
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { test } from 'node:test';
 import { loadData } from '../lib/data.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
@@ -11,13 +13,15 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { resolvedOf, texts } from './helpers.mjs';
+import { DATA, ROOT, resolvedOf, texts } from './helpers.mjs';
 
 const gate = 'data/kernels/gate.json';
 const readout = (over = {}) => ({ name: 'gainReductionDb', doc: 'The gate gain reduction.', unit: 'dB', min: { ref: 'GATE_LIMITS.rangeDb.min' }, max: 0, scale: 'linear', rateHz: 50, ...over });
 const second = readout({ name: 'keyLevelDb', doc: 'The key level.', unit: 'dBFS', min: -80, rateHz: 12.5 });
-/** The data with the gate's readouts set to `list` (and `fn` applied after). */
-const withReadouts = (list, fn) => texts((d, at) => { d[gate].readouts = list; fn?.(d, at); });
+/** The data with no kernel declaring readouts. */
+const bare = () => texts((d) => { for (const doc of Object.values(d)) delete doc.readouts; });
+/** The data with only the gate declaring readouts, `list` (and `fn` applied after). */
+const withReadouts = (list, fn) => texts((d, at) => { for (const doc of Object.values(d)) delete doc.readouts; d[gate].readouts = list; fn?.(d, at); });
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}:${p.message}`).join('\n');
 
 test('readouts are valid beside the controls, and refused by shape, schema and meaning', () => {
@@ -36,7 +40,7 @@ test('readouts are valid beside the controls, and refused by shape, schema and m
 });
 
 test('a readout declares no item, and fmt spells it in its one key order after the controls', () => {
-  const plain = loadData(null, texts());
+  const plain = loadData(null, bare());
   const t = withReadouts([readout()]);
   assert.deepEqual([...loadData(null, t).items.keys()], [...plain.items.keys()], 'the items are those of the data without readouts');
   const doc = JSON.parse(t[gate]);
@@ -55,7 +59,7 @@ test('the c render: an enum of the readouts at their position, the count, and ea
   assert.match(h, /^#define OMX_GATE_READOUT_KEY_LEVEL_DB_RATE_HZ 12\.5f$/m);
   assert.match(h, /^#define OMX_GATE_READOUT_KEY_LEVEL_DB_UNIT "dBFS"$/m);
   assert.ok(h.indexOf('enum omx_param_scales') < h.indexOf('enum omx_gate_readouts'), 'the scale enum is declared before a readout names it');
-  assert.doesNotMatch(renderC(resolvedOf(texts()))[0].text, /READOUT_/, 'no readout, no readout block');
+  assert.doesNotMatch(renderC(resolvedOf(bare()))[0].text, /enum omx_\w+_readouts/, 'no readout, no readout block');
 });
 
 test('the ts and json renders: every readout resolved, by kernel, in order', () => {
@@ -68,7 +72,7 @@ test('the ts and json renders: every readout resolved, by kernel, in order', () 
   const [js, dts] = renderTs(r).map((f) => f.text);
   assert.deepEqual(JSON.parse(/^export const READOUTS = ([\s\S]*?);$/m.exec(js)[1]), { gate: want });
   assert.match(dts, /^export declare const READOUTS: \{\n {2}readonly gate: readonly \[\{\n {4}readonly name: "gainReductionDb";[\s\S]*readonly rateHz: 12\.5;\n {2}\}\];\n\};$/m);
-  const plain = resolvedOf(texts());
+  const plain = resolvedOf(bare());
   assert.equal(JSON.parse(renderJson(plain, '0.0.0')[0].text).kernels.gate.readouts, undefined, 'a kernel with none carries no readouts');
   assert.doesNotMatch(renderTs(plain)[0].text, /READOUTS/);
 });
@@ -77,7 +81,7 @@ test('semver: a readout appended is MINOR; removed is MINOR in the development p
   const one = resolvedOf(withReadouts([readout()]));
   const cls = (list, opts) => classify(one, resolvedOf(withReadouts(list)), opts);
   assert.equal(classify(one, one).level, 'none');
-  assert.equal(classify(resolvedOf(texts()), one).level, 'minor');
+  assert.equal(classify(resolvedOf(bare()), one).level, 'minor');
   assert.equal(cls([readout(), second]).level, 'minor');
   assert.equal(cls([second, readout()]).level, 'major');
   assert.match(cls([second, readout()]).changes.map((c) => c.what).join('\n'), /readout moved \(id 0 -> 1\)/);
@@ -88,4 +92,61 @@ test('semver: a readout appended is MINOR; removed is MINOR in the development p
   assert.equal(cls([readout({ scale: 'log' })]).level, 'minor');
   assert.equal(cls([readout({ rateHz: 25 })]).level, 'minor');
   assert.equal(cls([readout({ doc: 'Reworded.' })]).level, 'patch');
+});
+
+test('the readouts declared: the gain reduction of the four dynamics kernels, each range read off the travel that bounds it', () => {
+  const data = loadData(DATA);
+  const declared = Object.fromEntries(data.files.filter((f) => f.doc.readouts).map((f) => [f.rel, f.doc.readouts]));
+  const bound = {
+    'data/kernels/comp.json': 'COMP_LIMITS.thresholdDb.min',
+    'data/kernels/deesser.json': 'DEESS_RANGE_RANGE.min',
+    'data/kernels/gate.json': 'GATE_LIMITS.rangeDb.min',
+    'data/kernels/limiter.json': 'LIMITER_LIMITS.ceilingDb.min',
+  };
+  assert.deepEqual(Object.keys(declared), Object.keys(bound));
+  const r = resolvedOf(texts());
+  const at = (path) => path.split('.').slice(1).reduce((v, k) => v[k], r.get(path.split('.')[0]).value);
+  for (const [rel, list] of Object.entries(declared)) {
+    assert.deepEqual(list.map((x) => x.name), ['gainReductionDb'], rel);
+    const [gr] = list;
+    assert.deepEqual([gr.unit, gr.min, gr.max, gr.scale, gr.rateHz], ['dB', { ref: bound[rel] }, 0, 'linear', { ref: 'READOUT_RATE_HZ' }], `${rel}: stated once, by reference`);
+    const k = rel.replace(/^.*\/|\.json$/g, '');
+    assert.deepEqual([r.kernels[k].readouts[0].min, r.kernels[k].readouts[0].rateHz], [at(bound[rel]), r.get('READOUT_RATE_HZ').value], k);
+    assert.ok(at(bound[rel]) < 0, `${k}: a reduction runs below 0 dB`);
+  }
+  assert.equal(r.get('READOUT_RATE_HZ').value, 50);
+});
+
+test('the C render keeps every 2.3.0 line, byte for byte and in order, and adds only READOUT_RATE_HZ and the readouts', () => {
+  const old = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.3.0/omx_contract_limits.h'), 'utf8').split('\n');
+  const now = renderC(resolvedOf(texts()))[0].text.split('\n');
+  let i = 0;
+  const added = [];
+  for (const line of now) {
+    if (i < old.length && line === old[i]) i++;
+    else added.push(line);
+  }
+  assert.equal(i, old.length, `2.3.0 line ${i + 1} is not in the render: ${old[i]}`);
+  const block = (kernel, min) => [
+    `enum omx_${kernel}_readouts {`,
+    `  OMX_${kernel.toUpperCase()}_READOUT_GAIN_REDUCTION_DB = 0,`,
+    '};',
+    `#define OMX_${kernel.toUpperCase()}_READOUT_COUNT 1u`,
+    `#define OMX_${kernel.toUpperCase()}_READOUT_GAIN_REDUCTION_DB_MIN ${min}`,
+    `#define OMX_${kernel.toUpperCase()}_READOUT_GAIN_REDUCTION_DB_MAX 0.0f`,
+    `#define OMX_${kernel.toUpperCase()}_READOUT_GAIN_REDUCTION_DB_RATE_HZ 50`,
+    `#define OMX_${kernel.toUpperCase()}_READOUT_GAIN_REDUCTION_DB_SCALE OMX_PARAM_SCALES_LINEAR`,
+    `#define OMX_${kernel.toUpperCase()}_READOUT_GAIN_REDUCTION_DB_UNIT "dB"`,
+  ];
+  assert.deepEqual(added, [
+    '#define OMX_READOUT_RATE_HZ 50',
+    '/* Every kernel\'s readouts, the meters a host draws (docs/readouts.md): an enum of the readouts at their position,',
+    ' * `OMX_<KERNEL>_READOUT_COUNT`, and per readout its display range (_MIN, _MAX), _RATE_HZ, _SCALE (an OMX_PARAM_SCALES_*',
+    ' * member) and _UNIT. */',
+    ...block('comp', '-60.0f'),
+    ...block('deesser', '-24.0f'),
+    ...block('gate', '-90.0f'),
+    ...block('limiter', '-12.0f'),
+    '',
+  ]);
 });

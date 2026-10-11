@@ -2021,6 +2021,12 @@ export declare const EQ_CONTINUOUS_TRAVELS: {
 };
 
 /**
+ * How often a readout's value is published: 50 Hz, one value every 20 ms, the rate a host sends a moving meter at. Every readout reads it as its `rateHz` (docs/readouts.md).
+ * @see data/primitives.json
+ */
+export declare const READOUT_RATE_HZ: 50;
+
+/**
  * The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` (`2026-07-15-clock-rate-honest-force-rate.md`) — this is the ceiling a write is refused by, never a menu.
  * @see data/rates.json
  */
@@ -2052,6 +2058,50 @@ export declare const ORACLE_FLOOR_RATES: readonly [44100, 48000, 96000, 192000];
  * @see data/rates.json
  */
 export declare const RME_RATES: readonly [32000, 44100, 48000, 64000, 88200, 96000, 128000, 176400, 192000];
+
+/**
+ * Every kernel's readouts, the meters a host draws, each kernel's in its declared order: the position is the
+ * readout's id. Every reference is resolved.
+ * @see docs/readouts.md
+ */
+export declare const READOUTS: {
+  readonly comp: readonly [{
+    readonly name: "gainReductionDb";
+    readonly doc: "The compressor's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to COMP_LIMITS.thresholdDb.min: on a signal at or below 0 dBFS the reduction (x - T)(1 - 1/R) never exceeds -T, and T is at least the threshold's minimum.";
+    readonly unit: "dB";
+    readonly min: -60;
+    readonly max: 0;
+    readonly scale: "linear";
+    readonly rateHz: 50;
+  }];
+  readonly deesser: readonly [{
+    readonly name: "gainReductionDb";
+    readonly doc: "The de-esser's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to DEESS_RANGE_RANGE.min: the de-esser reduces by its range at most.";
+    readonly unit: "dB";
+    readonly min: -24;
+    readonly max: 0;
+    readonly scale: "linear";
+    readonly rateHz: 50;
+  }];
+  readonly gate: readonly [{
+    readonly name: "gainReductionDb";
+    readonly doc: "The gate's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to GATE_LIMITS.rangeDb.min: the gate attenuates by its range at most.";
+    readonly unit: "dB";
+    readonly min: -90;
+    readonly max: 0;
+    readonly scale: "linear";
+    readonly rateHz: 50;
+  }];
+  readonly limiter: readonly [{
+    readonly name: "gainReductionDb";
+    readonly doc: "The limiter's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to LIMITER_LIMITS.ceilingDb.min: on a signal at or below 0 dBFS the limiter pulls the peak down to its ceiling at most, and the ceiling is at least its minimum.";
+    readonly unit: "dB";
+    readonly min: -12;
+    readonly max: 0;
+    readonly scale: "linear";
+    readonly rateHz: 50;
+  }];
+};
 
 /** The default band centres (Hz) of an EQ with `count` bands: THE one rule, for every strip, host and count. */
 export declare function eqDefaultCentres(count: number): number[];
