@@ -28,7 +28,8 @@ test('trim: TRIM_TRAVELS keeps the 2.2.0 value, its one field the control\'s tra
 
 test('trim: the C render keeps every 2.2.0 line, byte for byte and in order, and adds only OMX_TRIM_RANGE_*', () => {
   const old = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.2.0/omx_contract_limits.h'), 'utf8').split('\n');
-  const now = header().split('\n');
+  // the released 2.3.0 header: the release the trim kernel came in (later releases add their own, test/readouts.test.mjs)
+  const now = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.3.0/omx_contract_limits.h'), 'utf8').split('\n');
   let i = 0;
   const added = [];
   for (const line of now) {

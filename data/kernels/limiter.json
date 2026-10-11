@@ -42,6 +42,21 @@
       }
     }
   ],
+  "readouts": [
+    {
+      "name": "gainReductionDb",
+      "doc": "The limiter's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to LIMITER_LIMITS.ceilingDb.min: on a signal at or below 0 dBFS the limiter pulls the peak down to its ceiling at most, and the ceiling is at least its minimum.",
+      "unit": "dB",
+      "min": {
+        "ref": "LIMITER_LIMITS.ceilingDb.min"
+      },
+      "max": 0,
+      "scale": "linear",
+      "rateHz": {
+        "ref": "READOUT_RATE_HZ"
+      }
+    }
+  ],
   "tables": {
     "LIMITER_LIMITS": {
       "doc": "The precision limiter's travels (`2026-09-27-precision-limiter.md` §2), rendered into `omx_contract_limits.h` as `OMX_LIMITER_*` by `harness/contract-limits-gen.mjs`, so `mix_limiter.h` reads them and never restates one (R-094). The ceiling is a TRUE peak in dBFS (the ×4 detector); the look-ahead sets the declared latency; the release is the envelope's time constant on the gain depth."
