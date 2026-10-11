@@ -2,7 +2,7 @@
   "kernel": "geq",
   "since": "1.1.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "ref": "origin/lane/row-geq",
     "commit": "89343ca0a0d36b2a4b4a966e7a220ad7b4c06a03"
   },

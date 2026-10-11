@@ -9,7 +9,7 @@
     "firstRelease": "1.0.0"
   },
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "archive": [
       "packages/core/src",
       "packages/declarations/src",

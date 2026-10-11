@@ -2,7 +2,7 @@
   "kernel": "drive",
   "since": "1.0.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "ref": "origin/main",
     "commit": "964a798356925f6bc3774459d9904362b9d3f986"
   },
@@ -171,7 +171,7 @@
     {
       "name": "DRIVE_AUTO_GAINS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:138 struct omx_drive.auto_gain, omx_drive_instance.h:166 (on); openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/model.ts:729 DriveState.autoGain, packages/server/src/drive-controller.ts:66 (true), console-rig.ts:1404"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:138 struct omx_drive.auto_gain, omx_drive_instance.h:166 (on); openmixer 5d9804ad56ff packages/core/src/model.ts:729 DriveState.autoGain, packages/server/src/drive-controller.ts:66 (true), console-rig.ts:1404"
       },
       "value": [
         "off",
@@ -189,7 +189,7 @@
     {
       "name": "DRIVE_STEREO_LINKS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:139 struct omx_drive.stereo_link, omx_drive_instance.h:167 (on); openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/model.ts:730 DriveState.stereoLink, packages/server/src/drive-controller.ts:67 (true), console-rig.ts:1405"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:139 struct omx_drive.stereo_link, omx_drive_instance.h:167 (on); openmixer 5d9804ad56ff packages/core/src/model.ts:730 DriveState.stereoLink, packages/server/src/drive-controller.ts:67 (true), console-rig.ts:1405"
       },
       "value": [
         "off",
@@ -207,7 +207,7 @@
     {
       "name": "DRIVE_HF_ROLLOFFS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:140 struct omx_drive.hf_on, omx_drive_instance.h:168 (off); openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/row-codecs.ts:138 DRIVE_HF_ROLLOFFS (off, 12000, 16000), model.ts:731, drive-controller.ts:68 ('off'), console-rig.ts:1395 (the corner is the id's number)"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:140 struct omx_drive.hf_on, omx_drive_instance.h:168 (off); openmixer 5d9804ad56ff packages/core/src/row-codecs.ts:138 DRIVE_HF_ROLLOFFS (off, 12000, 16000), model.ts:731, drive-controller.ts:68 ('off'), console-rig.ts:1395 (the corner is the id's number)"
       },
       "value": [
         0,
