@@ -2,7 +2,7 @@
   "kernel": "chorus",
   "since": "1.0.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "ref": "origin/main",
     "commit": "964a798356925f6bc3774459d9904362b9d3f986"
   },

@@ -2,8 +2,8 @@
   "kernel": "flanger",
   "since": "1.1.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
-    "ref": "origin/integration/waves-2026-10",
+    "repo": "the OpenMixer console engine",
+    "ref": "origin/main",
     "commit": "827dc608d4ac45a1afa8acb4eca4d08ec21f4051"
   },
   "items": [

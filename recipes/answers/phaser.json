@@ -2,7 +2,7 @@
   "kernel": "phaser",
   "since": "1.1.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "ref": "origin/lane/row-phaser-on-6024b41-on-1f1a105-on-72f80f4",
     "commit": "9c761b9875b0b02b8a0d0155052fb34d8c71da90"
   },

@@ -2,7 +2,7 @@
   "kernel": "rta",
   "since": "1.3.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "ref": "121319166e6a82ffb189fb6ad1c8b71cd6527459",
     "commit": "121319166e6a82ffb189fb6ad1c8b71cd6527459"
   },

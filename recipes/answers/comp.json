@@ -2,7 +2,7 @@
   "kernel": "comp",
   "since": "1.0.0",
   "engine": {
-    "repo": "FreeMixer/openmixer",
+    "repo": "the OpenMixer console engine",
     "ref": "origin/main",
     "commit": "964a798356925f6bc3774459d9904362b9d3f986"
   },
@@ -96,7 +96,7 @@
     {
       "name": "COMP_KINDS",
       "source": {
-        "origin": "openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/row-codecs.ts:144 COMP_KINDS, model.ts:519 CompState.kind, processor-param.ts:97 (comp), server/src/console-rig.ts:1524 (limiter -> peak, comp -> rms); omx-dsp a624f26 include/omxdsp/fx/omx_dynamics_instance.h:84 the rms argument"
+        "origin": "openmixer 5d9804ad56ff packages/core/src/row-codecs.ts:144 COMP_KINDS, model.ts:519 CompState.kind, processor-param.ts:97 (comp), server/src/console-rig.ts:1524 (limiter -> peak, comp -> rms); omx-dsp a624f26 include/omxdsp/fx/omx_dynamics_instance.h:84 the rms argument"
       },
       "value": [
         "comp",
@@ -114,7 +114,7 @@
     {
       "name": "DETECTOR_OVERSAMPLINGS",
       "source": {
-        "origin": "openmixer 5d9804ad56ff (integration/waves-2026-10) packages/core/src/row-codecs.ts:147 DETECTOR_OVERSAMPLINGS (auto, off, 4x), model.ts:521, processor-param.ts:104 (auto), server/src/console-rig.ts:1534; omx-dsp a624f26 include/omxdsp/omx_dyn.h:46-50 OMX_DYN_OVS_AUTO 0, _OFF 1, _X4 2, fx/omx_dynamics_instance.h:84 ovs_mode"
+        "origin": "openmixer 5d9804ad56ff packages/core/src/row-codecs.ts:147 DETECTOR_OVERSAMPLINGS (auto, off, 4x), model.ts:521, processor-param.ts:104 (auto), server/src/console-rig.ts:1534; omx-dsp a624f26 include/omxdsp/omx_dyn.h:46-50 OMX_DYN_OVS_AUTO 0, _OFF 1, _X4 2, fx/omx_dynamics_instance.h:84 ovs_mode"
       },
       "value": [
         "auto",
