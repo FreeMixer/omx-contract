@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.3.0
+Version: 2.4.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,13 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sun Oct 11 2026 Pau Aliagas <linuxnow@gmail.com> - 2.4.0-1
+- Readouts: a kernel file may list the meters the kernel reports, each
+  with its unit, display range, scale and publish rate (docs/readouts.md)
+- The compressor, the de-esser, the gate and the limiter declare their
+  gain reduction, its range read off the travel that bounds it; the C
+  header spells them OMX_<KERNEL>_READOUT_* and keeps every 2.3.0 define
+
 * Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.3.0-1
 - The input trim is a kernel, trim, with the one control trimDb (the
   console's TRIM_RANGE, -24 to +24 dB); the C header spells it
