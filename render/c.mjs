@@ -7,7 +7,8 @@
  * declaration, by reference to the items here.
  */
 import {
-  genCoreLimitBlock, genDeclaredListsBlock, genDeclaredRates, genDeclaredScalarsBlock, genLimitBlock, renderContractLimits,
+  cStringLiteral, genCoreLimitBlock, genDeclaredListsBlock, genDeclaredRates, genDeclaredScalarsBlock, genLimitBlock, renderContractLimits,
+  scalarLiteral,
 } from './c/contract-limits-render.mjs';
 import { doors } from './doors.mjs';
 
@@ -51,6 +52,29 @@ function genDeclaredSetsEnums(sets) {
     const members = set.ids.map((id, i) => `  ${names[i]} = ${numeric ? id : i},`);
     const lines = [`enum omx_${set.name.toLowerCase()} {`, ...members, '};', `#define OMX_${set.name}_COUNT ${set.ids.length}u`];
     if (set.default !== undefined) lines.push(`#define OMX_${set.name}_DEFAULT ${names[set.ids.indexOf(set.default)]}`);
+    return lines.join('\n');
+  }).join('\n');
+}
+
+/** A display bound: a float literal, a whole number with its decimal point. */
+const floatLiteral = (n) => `${Number.isInteger(n) ? `${n}.0` : n}f`;
+
+/**
+ * Every kernel's readouts (docs/readouts.md), kernels in file order: an enum of the readouts, each at its position,
+ * `OMX_<KERNEL>_READOUT_COUNT`, and per readout `_MIN`, `_MAX`, `_RATE_HZ`, `_SCALE` and `_UNIT`.
+ */
+function genReadouts(kernels) {
+  return Object.entries(kernels ?? {}).filter(([, k]) => k.readouts?.length).map(([kernel, { readouts }]) => {
+    const K = kernel.toUpperCase();
+    const names = readouts.map((ro) => `OMX_${K}_READOUT_${constCase(ro.name)}`);
+    const lines = [`enum omx_${kernel}_readouts {`, ...names.map((n, i) => `  ${n} = ${i},`), '};', `#define OMX_${K}_READOUT_COUNT ${readouts.length}u`];
+    readouts.forEach((ro, i) => lines.push(
+      `#define ${names[i]}_MIN ${floatLiteral(ro.min)}`,
+      `#define ${names[i]}_MAX ${floatLiteral(ro.max)}`,
+      `#define ${names[i]}_RATE_HZ ${scalarLiteral(ro.rateHz)}`,
+      `#define ${names[i]}_SCALE OMX_PARAM_SCALES_${constCase(ro.scale)}`,
+      `#define ${names[i]}_UNIT ${cStringLiteral(ro.unit)}`,
+    ));
     return lines.join('\n');
   }).join('\n');
 }
@@ -110,6 +134,7 @@ export function renderLimitsHeader(resolved) {
   const scalars = d.DECLARED_SCALARS.length ? genDeclaredScalarsBlock(d.DECLARED_SCALARS, above) : '';
   const lists = d.DECLARED_LISTS.length ? genDeclaredListsBlock(d.DECLARED_LISTS, defined([tables, aliases, scalars].join('\n'))) : '';
   const sets = d.DECLARED_SET_ITEMS.length ? genDeclaredSetsEnums(d.DECLARED_SET_ITEMS) : '';
+  const readouts = genReadouts(resolved.kernels);
   const centres = resolved.has('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ') ? eqCentresFunction() : '';
   const sections = [
     [tables, `/* Per-parameter numeric travel, one block per \`travels\` table named <PREFIX>_LIMITS:
@@ -121,6 +146,9 @@ export function renderLimitsHeader(resolved) {
     [lists, `/* Every list rendered to C, sorted by list: OMX_<LIST>_COUNT and OMX_<LIST>_INIT { a, b, … }. */`],
     [sets, `/* Every set rendered to C, sorted by set: an enum of the ids (a named id's position, or a numeric id's number), \`OMX_<SET>_COUNT\` and,
  * where the set names a default, \`OMX_<SET>_DEFAULT\`. */`],
+    [readouts, `/* Every kernel's readouts, the meters a host draws (docs/readouts.md): an enum of the readouts at their position,
+ * \`OMX_<KERNEL>_READOUT_COUNT\`, and per readout its display range (_MIN, _MAX), _RATE_HZ, _SCALE (an OMX_PARAM_SCALES_*
+ * member) and _UNIT. */`],
     [centres, `/* The default bands of an EQ with \`count\` bands: THE one rule, for every strip, host and count (omx-contract's
  * lib/eq-defaults.mjs; the ts render exports the same as eqDefaultCentres and eqDefaultTypes). Needs -lm. */`],
   ].filter(([body]) => body);
