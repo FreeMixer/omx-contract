@@ -265,6 +265,15 @@ export const DETECTOR_OVERSAMPLINGS = [
 ];
 
 /**
+ * Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.
+ * @see data/kernels/comp.json
+ */
+export const DYN_TOPOLOGY = [
+  "feedforward",
+  "feedback"
+];
+
+/**
  * The program-dependent release's model constants — the LA-2A's opto cell as DATA (`docs/design/specs/2026-09-26-compressor-models.md` §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.
  * @see data/kernels/comp.json
  */
@@ -280,6 +289,12 @@ export const PROGRAM_RELEASE = {
     }
   }
 };
+
+/**
+ * The feedback detector's loop delay, in samples: the output y[n] depends on the gain at n, so the detector can only have heard y[n - 1]. Not a latency: the audio is never delayed by it. omx-dsp's feedback state holds exactly this many output samples per leg.
+ * @see data/kernels/comp.json
+ */
+export const DYN_FB_LOOP_DELAY_SAMPLES = 1;
 
 /**
  * The detector band's CENTRE, in Hz. Sibilance lives at 5–10 kHz on most voices; 7 kHz with the default width covers 4 950–9 900 Hz, which is where an "s" and a "t" sit on a close vocal mic. The travel is wider than the come-up on both sides on purpose: a bright female vocal wants the band up near 9 kHz and a chesty male one down at 5, and a surface narrower than the row removes reach the console genuinely has (the same reasoning core's `REVERB_CUT_RANGE` records).
