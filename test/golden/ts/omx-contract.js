@@ -2202,6 +2202,12 @@ export const EQ_CONTINUOUS_TRAVELS = {
 };
 
 /**
+ * How often a readout's value is published: 50 Hz, one value every 20 ms, the rate a host sends a moving meter at. Every readout reads it as its `rateHz` (docs/readouts.md).
+ * @see data/primitives.json
+ */
+export const READOUT_RATE_HZ = 50;
+
+/**
  * The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` (`2026-07-15-clock-rate-honest-force-rate.md`) — this is the ceiling a write is refused by, never a menu.
  * @see data/rates.json
  */
@@ -2255,6 +2261,58 @@ export const RME_RATES = [
   176400,
   192000
 ];
+
+/**
+ * Every kernel's readouts, the meters a host draws, each kernel's in its declared order: the position is the
+ * readout's id. Every reference is resolved.
+ * @see docs/readouts.md
+ */
+export const READOUTS = {
+  "comp": [
+    {
+      "name": "gainReductionDb",
+      "doc": "The compressor's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to COMP_LIMITS.thresholdDb.min: on a signal at or below 0 dBFS the reduction (x - T)(1 - 1/R) never exceeds -T, and T is at least the threshold's minimum.",
+      "unit": "dB",
+      "min": -60,
+      "max": 0,
+      "scale": "linear",
+      "rateHz": 50
+    }
+  ],
+  "deesser": [
+    {
+      "name": "gainReductionDb",
+      "doc": "The de-esser's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to DEESS_RANGE_RANGE.min: the de-esser reduces by its range at most.",
+      "unit": "dB",
+      "min": -24,
+      "max": 0,
+      "scale": "linear",
+      "rateHz": 50
+    }
+  ],
+  "gate": [
+    {
+      "name": "gainReductionDb",
+      "doc": "The gate's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to GATE_LIMITS.rangeDb.min: the gate attenuates by its range at most.",
+      "unit": "dB",
+      "min": -90,
+      "max": 0,
+      "scale": "linear",
+      "rateHz": 50
+    }
+  ],
+  "limiter": [
+    {
+      "name": "gainReductionDb",
+      "doc": "The limiter's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to LIMITER_LIMITS.ceilingDb.min: on a signal at or below 0 dBFS the limiter pulls the peak down to its ceiling at most, and the ceiling is at least its minimum.",
+      "unit": "dB",
+      "min": -12,
+      "max": 0,
+      "scale": "linear",
+      "rateHz": 50
+    }
+  ]
+};
 
 /** The declared parameters of the default EQ rule: the four-band set, the preferred series, the band frequency travel, the band gain and Q. */
 const EQ_DEFAULT_RULE = {

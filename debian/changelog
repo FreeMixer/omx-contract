@@ -1,3 +1,16 @@
+omx-contract (2.4.0) unstable; urgency=medium
+
+  * Readouts: a kernel file may list the meters the kernel reports, each
+    with its unit, display range, scale and publish rate
+    (docs/readouts.md). The TypeScript module exports them as READOUTS
+    and the JSON render lists them beside each kernel's controls.
+  * The compressor, the de-esser, the gate and the limiter declare their
+    gain reduction, its range read off the travel that bounds it. The C
+    header spells them OMX_<KERNEL>_READOUT_*; every define of the 2.3.0
+    header is unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Sun, 11 Oct 2026 21:20:00 +0000
+
 omx-contract (2.3.0) unstable; urgency=medium
 
   * The input trim is a kernel, trim, with the one control trimDb: a

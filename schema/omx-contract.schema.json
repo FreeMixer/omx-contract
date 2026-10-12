@@ -81,6 +81,21 @@
       "required": ["min", "max"],
       "additionalProperties": false
     },
+    "readout": {
+      "type": "object",
+      "description": "A value a kernel reports while it runs and a host draws: a meter. Declared in a kernel file's `readouts`, in order; its position is its id (docs/readouts.md).",
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
+        "doc": { "$ref": "#/$defs/text" },
+        "unit": { "$ref": "#/$defs/unit" },
+        "min": { "$ref": "#/$defs/number" },
+        "max": { "$ref": "#/$defs/number" },
+        "scale": { "type": "string", "pattern": "^[a-z]+$", "description": "How a host draws the readout: an id of PARAM_SCALES." },
+        "rateHz": { "$ref": "#/$defs/number" }
+      },
+      "required": ["name", "doc", "unit", "min", "max", "scale", "rateHz"],
+      "additionalProperties": false
+    },
     "sheetValue": {
       "type": "object",
       "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
