@@ -7,7 +7,8 @@ How a declaration is written and what the JSON render carries. The schema is
 
 ## The kernel file
 
-A kernel file, `data/kernels/<kernel>.json`, holds four sections and nothing else. A sketch, values abridged
+A kernel file, `data/kernels/<kernel>.json`, holds four sections that declare items, and the kernel's readouts,
+and nothing else. A sketch, values abridged
 (the tremolo's controls, a gate table, a constant):
 
 ```json
@@ -43,6 +44,8 @@ A kernel file, `data/kernels/<kernel>.json`, holds four sections and nothing els
 - `tables`: a travels table whose fields are the controls that name it, in control order (`GATE_LIMITS`).
 - `aggregates`: a travels table whose fields are references to controls declared once above, listed by name.
 - `constants`: scalars, lists and sheets, as items.
+- `readouts`, after the controls: the meters the kernel reports, in order, each `{ name, doc, unit, min, max, scale,
+  rateHz }`. A readout is no item; `docs/readouts.md` is what each key means and how C and TypeScript render it.
 
 `omx-contract validate` refuses any other key, a constant that is a travel or a set, and a kernel file written
 as a flat item map (the 1.x shape). `rates.json` and `primitives.json` stay item maps.
@@ -79,4 +82,14 @@ the order the file declares them. A consumer reads control order and kinds here,
   control's travel is `items[global]` (the EQ's `q` reaches EQ_NOTCH_Q_RANGE on a notch). A control that is `of`
   another is not listed on its own. A use is listed like any control, its `global` the item it takes.
 
-A kernel with no controls (fbs, mixmatrix, rta) is listed with an empty `controls`.
+A kernel with no controls (fbs, mixmatrix, rta) is listed with an empty `controls`. A kernel that declares readouts
+carries `readouts` too, in their declared order, every reference resolved:
+
+```json
+"gate": {
+  "controls": [ … ],
+  "readouts": [
+    { "name": "gainReductionDb", "doc": "…", "unit": "dB", "min": -90, "max": 0, "scale": "linear", "rateHz": 50 }
+  ]
+}
+```

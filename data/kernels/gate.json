@@ -128,6 +128,21 @@
       }
     }
   ],
+  "readouts": [
+    {
+      "name": "gainReductionDb",
+      "doc": "The gate's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to GATE_LIMITS.rangeDb.min: the gate attenuates by its range at most.",
+      "unit": "dB",
+      "min": {
+        "ref": "GATE_LIMITS.rangeDb.min"
+      },
+      "max": 0,
+      "scale": "linear",
+      "rateHz": {
+        "ref": "READOUT_RATE_HZ"
+      }
+    }
+  ],
   "tables": {
     "GATE_LIMITS": {
       "doc": "The legal range of each gate field (engineering units). The widget clamps drags to these, `normalizeGate` enforces them, the row's codec refuses by them and the travel sheet publishes them — one source of truth. `rangeDb` reaches GATE_RANGE_FLOOR_DB, shown as \"−∞\" in readouts (a gate fully closed is silence)."

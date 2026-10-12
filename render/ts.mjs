@@ -69,11 +69,26 @@ export declare function eqDefaultBands(count: number): { type: string; freqHz: n
   return { js, dts };
 }
 
+/**
+ * Every kernel's readouts as one export, READOUTS: `{ <kernel>: [{ name, doc, unit, min, max, scale, rateHz }] }`,
+ * kernels in file order, absent when no kernel declares one.
+ */
+function readoutsExport(resolved) {
+  const value = Object.fromEntries(Object.entries(resolved.kernels ?? {}).filter(([, k]) => k.readouts?.length).map(([n, k]) => [n, k.readouts]));
+  if (!Object.keys(value).length) return { js: '', dts: '' };
+  const doc = '/**\n * Every kernel\'s readouts, the meters a host draws, each kernel\'s in its declared order: the position is the\n * readout\'s id. Every reference is resolved.\n * @see docs/readouts.md\n */';
+  return {
+    js: `\n${doc}\nexport const READOUTS = ${JSON.stringify(value, null, 2)};\n`,
+    dts: `\n${doc}\nexport declare const READOUTS: ${tsType(value)};\n`,
+  };
+}
+
 /** Every file of the `ts` target: `[{ path, text }]`. */
 export function renderTs(resolved) {
   const items = [...resolved.values()];
   const rule = eqRule(resolved);
-  const js = BANNER + items.map((r) => `\n${docComment(r)}\nexport const ${r.name} = ${JSON.stringify(tsValue(r), null, 2)};\n`).join('') + rule.js;
-  const dts = BANNER + items.map((r) => `\n${docComment(r)}\nexport declare const ${r.name}: ${tsType(tsValue(r))};\n`).join('') + rule.dts;
+  const readouts = readoutsExport(resolved);
+  const js = BANNER + items.map((r) => `\n${docComment(r)}\nexport const ${r.name} = ${JSON.stringify(tsValue(r), null, 2)};\n`).join('') + readouts.js + rule.js;
+  const dts = BANNER + items.map((r) => `\n${docComment(r)}\nexport declare const ${r.name}: ${tsType(tsValue(r))};\n`).join('') + readouts.dts + rule.dts;
   return [{ path: 'omx-contract.js', text: js }, { path: 'omx-contract.d.ts', text: dts }];
 }

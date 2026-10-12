@@ -110,6 +110,21 @@
       ]
     }
   ],
+  "readouts": [
+    {
+      "name": "gainReductionDb",
+      "doc": "The de-esser's gain reduction, in dB with CLAP's sign: 0 while it reduces nothing, negative the reduction it applies. The display range runs down to DEESS_RANGE_RANGE.min: the de-esser reduces by its range at most.",
+      "unit": "dB",
+      "min": {
+        "ref": "DEESS_RANGE_RANGE.min"
+      },
+      "max": 0,
+      "scale": "linear",
+      "rateHz": {
+        "ref": "READOUT_RATE_HZ"
+      }
+    }
+  ],
   "constants": {
     "DEESS_KNEE_DB": {
       "kind": "scalar",
