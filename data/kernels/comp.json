@@ -122,6 +122,17 @@
         "Off",
         "4x"
       ]
+    },
+    {
+      "name": "detectorTopology",
+      "kind": "choice",
+      "global": "DYN_TOPOLOGY",
+      "doc": "Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.",
+      "ids": [
+        "feedforward",
+        "feedback"
+      ],
+      "default": "feedforward"
     }
   ],
   "readouts": [
@@ -160,6 +171,12 @@
           }
         }
       }
+    },
+    "DYN_FB_LOOP_DELAY_SAMPLES": {
+      "kind": "scalar",
+      "doc": "The feedback detector's loop delay, in samples: the output y[n] depends on the gain at n, so the detector can only have heard y[n - 1]. Not a latency: the audio is never delayed by it. omx-dsp's feedback state holds exactly this many output samples per leg.",
+      "unit": "",
+      "value": 1
     }
   }
 }
