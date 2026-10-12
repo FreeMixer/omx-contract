@@ -255,10 +255,10 @@ export declare const COMP_KINDS: readonly ["comp", "limiter"];
 export declare const DETECTOR_OVERSAMPLINGS: readonly ["auto", "off", "x4"];
 
 /**
- * Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.
+ * Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.
  * @see data/kernels/comp.json
  */
-export declare const DYN_TOPOLOGY: readonly ["feedforward", "feedback"];
+export declare const DETECTOR_TOPOLOGY: readonly ["feedforward", "feedback"];
 
 /**
  * The program-dependent release's model constants — the LA-2A's opto cell as DATA (`docs/design/specs/2026-09-26-compressor-models.md` §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.
