@@ -66,7 +66,7 @@ test('eq: the instance\'s controls, in the face\'s word order, the band quintet 
 });
 
 test('comp: the detector choice and the detector oversampling are controls, by the console\'s names (#21)', () => {
-  assert.deepEqual(controls('comp').slice(-2).map((c) => `${c.name}:${c.global}`), ['kind:COMP_KINDS', 'detectorOversampling:DETECTOR_OVERSAMPLINGS']);
+  assert.deepEqual(controls('comp').slice(7, 9).map((c) => `${c.name}:${c.global}`), ['kind:COMP_KINDS', 'detectorOversampling:DETECTOR_OVERSAMPLINGS']);
   const h = header();
   assert.match(h, /^ {2}OMX_DETECTOR_OVERSAMPLINGS_AUTO = 0,\n {2}OMX_DETECTOR_OVERSAMPLINGS_OFF = 1,\n {2}OMX_DETECTOR_OVERSAMPLINGS_X4 = 2,$/m);
   assert.match(h, /^#define OMX_COMP_KINDS_DEFAULT OMX_COMP_KINDS_COMP$/m);

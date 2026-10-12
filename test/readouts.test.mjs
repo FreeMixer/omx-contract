@@ -119,7 +119,8 @@ test('the readouts declared: the gain reduction of the four dynamics kernels, ea
 
 test('the C render keeps every 2.3.0 line, byte for byte and in order, and adds only READOUT_RATE_HZ and the readouts', () => {
   const old = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.3.0/omx_contract_limits.h'), 'utf8').split('\n');
-  const now = renderC(resolvedOf(texts()))[0].text.split('\n');
+  // the released 2.4.0 header: the release the readouts came in (later releases add their own, test/comp-topology.test.mjs)
+  const now = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.4.0/omx_contract_limits.h'), 'utf8').split('\n');
   let i = 0;
   const added = [];
   for (const line of now) {
