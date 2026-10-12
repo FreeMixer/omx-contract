@@ -265,10 +265,10 @@ export const DETECTOR_OVERSAMPLINGS = [
 ];
 
 /**
- * Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.
+ * Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.
  * @see data/kernels/comp.json
  */
-export const DYN_TOPOLOGY = [
+export const DETECTOR_TOPOLOGY = [
   "feedforward",
   "feedback"
 ];
