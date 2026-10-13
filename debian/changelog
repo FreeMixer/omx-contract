@@ -1,3 +1,13 @@
+omx-contract (2.6.0) unstable; urgency=medium
+
+  * The sample-rate converter's design constants are a kernel, src
+    (SRC_TAPS, SRC_STOPBAND_DB, SRC_ROLLOFF, SRC_MAX_L), and the signal
+    generators' kind and waveform are the generator kernel's two choices
+    (GENERATOR_KINDS: oscillator, white, pink; WAVEFORMS: sine, square,
+    saw, triangle). Every define of the 2.5.0 header is unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 13 Oct 2026 02:30:00 +0000
+
 omx-contract (2.5.0) unstable; urgency=medium
 
   * The compressor's detector topology is a control, detectorTopology
