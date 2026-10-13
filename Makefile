@@ -12,7 +12,7 @@ PKGCONFIGDIR ?= $(DATADIR)/pkgconfig
 CC ?= cc
 VERSION := $(shell sed -n 's/^  "version": "\(.*\)",$$/\1/p' package.json)
 
-.PHONY: all check completeness install test
+.PHONY: all check completeness public-sources install test
 
 all:
 	@test -n "$(VERSION)" || { echo "no version in package.json" >&2; exit 1; }
@@ -38,3 +38,8 @@ test:
 # Every kernel, the released ones included, has every artifact recipes/kernel.recipe.json lists.
 completeness:
 	node tools/kernel-recipe.mjs
+
+# No tracked file points into a private repository, branch, issue or path (the few exemptions are listed in the tool).
+public-sources:
+	node tools/check-public-sources.mjs --self-test
+	node tools/check-public-sources.mjs
