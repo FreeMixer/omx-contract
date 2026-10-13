@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // 2.7.0 (#32): the drive's oversampling factor is a control, oversample (DRIVE_OVERSAMPLES: 1, 2, 4, the id is the
-// factor), coming up at 4 as the console's drive row (DRIVE_OVERSAMPLE_FACTORS, drive-controller.ts) and omx-dsp's drive
+// factor), coming up at 4 as the console's drive row (DRIVE_OVERSAMPLE_FACTORS) and omx-dsp's drive
 // face (OMX_DRIVE_INSTANCE_FACTOR, the oversampler's largest) do. The C render keeps every 2.6.0 line and adds only the set.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
