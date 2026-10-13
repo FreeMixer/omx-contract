@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // 2.7.0 (#33): the keyed gate's detector filter edges, hpHz and lpHz, are travel controls of the gate in their own
-// table, GATE_KEY_LIMITS, with the console's values (openmixer's @freemixer/declarations GATE_KEY_LIMITS: 0..20000 Hz,
-// step 1, no come-up value). The C render keeps every 2.6.0 line and adds only their MIN and MAX.
+// table, GATE_KEY_LIMITS, with the console's values (its GATE_KEY_LIMITS: 0..20000 Hz, step 1,
+// no come-up value). The C render keeps every 2.6.0 line and adds only their MIN and MAX.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
