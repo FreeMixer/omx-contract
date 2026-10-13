@@ -714,6 +714,7 @@ enum omx_eq_band_ons {
   OMX_EQ_BAND_ONS_ON = 1,
 };
 #define OMX_EQ_BAND_ONS_COUNT 2u
+#define OMX_EQ_BAND_ONS_DEFAULT OMX_EQ_BAND_ONS_OFF
 enum omx_eq_band_types {
   OMX_EQ_BAND_TYPES_BELL = 0,
   OMX_EQ_BAND_TYPES_LOW_SHELF = 1,

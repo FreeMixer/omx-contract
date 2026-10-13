@@ -651,7 +651,7 @@ export declare const EQ_NOTCH_Q_RANGE: {
 };
 
 /**
- * A band's switch. Off, the band is not in the EQ's bank (the slots close up); on, it runs, parked when it is a gain-carrying shape at 0 dB. No come-up value is declared, because the strips differ: the console's channel EQ brings its default bands up on, an omx-eq plugin brings every band up off so a racked instance is a wire.
+ * A band's switch. Off, the band is not in the EQ's bank (the slots close up); on, it runs, parked when it is a gain-carrying shape at 0 dB. A band comes up off (operator ruling, 2026-10-13): an omx-eq plugin brings every band up off so a racked instance is a wire, and the console's channel EQ reads its come-up value here. A stored session keeps its own band states; only a fresh band comes up off.
  * @see data/kernels/eq.json
  */
 export declare const EQ_BAND_ONS: readonly ["off", "on"];
