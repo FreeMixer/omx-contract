@@ -57,20 +57,36 @@ test('eq: the instance\'s controls, in the face\'s word order, the band quintet 
   assert.deepEqual(c.map((x) => x.name), ['hpfOn', 'hpfFreq', 'hpfSlope', 'lpfOn', 'lpfFreq', 'lpfSlope', 'bandType', 'freq', 'gain', 'q', 'bandOn']);
   assert.deepEqual(c.filter((x) => x.count).map((x) => x.name), ['bandType', 'freq', 'gain', 'q', 'bandOn']);
   for (const x of c.filter((y) => y.count)) assert.equal(x.count, 'EQ_BAND_COUNTS');
-  assert.equal(c[2].global, 'FILTER_SLOPES');
-  assert.equal(c[5].global, 'FILTER_SLOPES', 'the LPF slope takes the HPF slope\'s set, declared once');
-  assert.deepEqual(c[9].when, [{ control: 'bandType', is: 'notch', global: 'EQ_NOTCH_Q_RANGE' }]);
+  const by = (n) => c.find((x) => x.name === n);
+  assert.equal(by('hpfSlope').global, 'FILTER_SLOPES');
+  assert.equal(by('lpfSlope').global, 'FILTER_SLOPES', 'the LPF slope takes the HPF slope\'s set, declared once');
+  assert.deepEqual(by('q').when, [{ control: 'bandType', is: 'notch', global: 'EQ_NOTCH_Q_RANGE' }]);
   assert.ok(!c.some((x) => x.name === 'notchQ' || x.name === 'filterSlope'));
   assert.equal(json().items.EQ_BAND_ONS.default, undefined, 'a band\'s come-up switch is the strip\'s, not the kernel\'s');
   assert.deepEqual(controls('geq')[0].count, 'GEQ_BANDS');
 });
 
+// The two controls found by name, in the order the console names them, wherever the declaration puts them.
+const detectorControls = (cs) => ['kind', 'detectorOversampling'].map((n) => {
+  const c = cs.filter((x) => x.name === n);
+  assert.equal(c.length, 1, `comp declares exactly one ${n}`);
+  return `${c[0].name}:${c[0].global}`;
+});
+
 test('comp: the detector choice and the detector oversampling are controls, by the console\'s names (#21)', () => {
-  assert.deepEqual(controls('comp').slice(7, 9).map((c) => `${c.name}:${c.global}`), ['kind:COMP_KINDS', 'detectorOversampling:DETECTOR_OVERSAMPLINGS']);
+  assert.deepEqual(detectorControls(controls('comp')), ['kind:COMP_KINDS', 'detectorOversampling:DETECTOR_OVERSAMPLINGS']);
   const h = header();
   assert.match(h, /^ {2}OMX_DETECTOR_OVERSAMPLINGS_AUTO = 0,\n {2}OMX_DETECTOR_OVERSAMPLINGS_OFF = 1,\n {2}OMX_DETECTOR_OVERSAMPLINGS_X4 = 2,$/m);
   assert.match(h, /^#define OMX_COMP_KINDS_DEFAULT OMX_COMP_KINDS_COMP$/m);
   assert.deepEqual(controls('gate').map((c) => c.name), ['keySource', 'thresholdDb', 'rangeDb', 'kneeStartDb', 'kneeEndDb', 'attackMs', 'holdMs', 'releaseMs', 'hysteresisDb', 'ratio']);
+});
+
+test('comp: the detector lookups hold when the declaration is reordered (#42)', () => {
+  const dir = scratchData();
+  editData(dir, 'kernels/comp.json', (d) => { d.controls.reverse(); });
+  const moved = controls('comp', dir);
+  assert.notDeepEqual(moved.map((c) => c.name), controls('comp').map((c) => c.name), 'the fixture really reordered the controls');
+  assert.deepEqual(detectorControls(moved), ['kind:COMP_KINDS', 'detectorOversampling:DETECTOR_OVERSAMPLINGS']);
 });
 
 // One perturbation per new control: move its come-up value, every render that spells it follows.
