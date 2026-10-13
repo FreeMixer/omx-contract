@@ -1183,6 +1183,25 @@ export const GATE_LIMITS = {
 };
 
 /**
+ * The travel of each edge of the keyed gate's detector filter, 0 (off) up to 20 kHz in whole Hz, as the console's `/channel/{kind}/{index}/gate/key` row serves them (the console's GATE_KEY_LIMITS). A property of the detector filter, not of any desk: no come-up value is declared.
+ * @see data/kernels/gate.json
+ */
+export const GATE_KEY_LIMITS = {
+  "hpHz": {
+    "min": 0,
+    "max": 20000,
+    "step": 1,
+    "unit": "Hz"
+  },
+  "lpHz": {
+    "min": 0,
+    "max": 20000,
+    "step": 1,
+    "unit": "Hz"
+  }
+};
+
+/**
  * The generator kinds, in surface order: its position is the integer omx-dsp's omx_gen_fill takes as its kind (OMX_GEN_OSC, OMX_GEN_WHITE, OMX_GEN_PINK).
  * @see data/kernels/generator.json
  */

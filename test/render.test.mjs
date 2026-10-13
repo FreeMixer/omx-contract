@@ -11,7 +11,7 @@ import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT } from './helpers.mjs';
+import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
 
 const resolved = () => resolveData(loadData(DATA));
 const golden = (dir, files) => { for (const f of files) assert.equal(f.text, readFileSync(join(ROOT, dir, f.path), 'utf8'), `${dir}/${f.path} is the golden`); };
@@ -19,6 +19,14 @@ const golden = (dir, files) => { for (const f of files) assert.equal(f.text, rea
 test('golden: the c render is include/omxcontract/', () => golden('include', renderC(resolved())));
 test('golden: the json render is share/omx-contract/', () => golden('share/omx-contract', renderJson(resolved(), packageVersion(ROOT))));
 test('golden: the ts render is test/golden/ts/', () => golden('test/golden/ts', renderTs(resolved())));
+
+test('c: a <PREFIX>_LIMITS field with no default renders its MIN and MAX and no DEFAULT', () => {
+  const dir = scratchData();
+  editData(dir, 'kernels/gate.json', (d, at) => { delete at('GATE_LIMITS.ratio').default; delete at('GATE_LIMITS.ratio').defaultFrom; });
+  const h = renderC(resolveData(loadData(dir)))[0].text;
+  assert.match(h, /^#define OMX_GATE_RATIO_MIN 1\.0f\n#define OMX_GATE_RATIO_MAX 100\.0f\n\n/m);
+  assert.doesNotMatch(h, /OMX_GATE_RATIO_DEFAULT|undefined/);
+});
 
 test('a render is idempotent: no time, path or host in its bytes', () => {
   for (const r of [renderC, renderTs]) assert.deepEqual(r(resolved()), r(resolved()));

@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "items": {
     "PAN_RANGE": {
       "rel": "data/kernels/balance.json",
@@ -1360,6 +1360,26 @@
           "unit": "",
           "default": 16,
           "defaultFrom": "desk"
+        }
+      }
+    },
+    "GATE_KEY_LIMITS": {
+      "rel": "data/kernels/gate.json",
+      "kind": "travels",
+      "doc": "The travel of each edge of the keyed gate's detector filter, 0 (off) up to 20 kHz in whole Hz, as the console's `/channel/{kind}/{index}/gate/key` row serves them (the console's GATE_KEY_LIMITS). A property of the detector filter, not of any desk: no come-up value is declared.",
+      "shape": "table",
+      "value": {
+        "hpHz": {
+          "min": 0,
+          "max": 20000,
+          "step": 1,
+          "unit": "Hz"
+        },
+        "lpHz": {
+          "min": 0,
+          "max": 20000,
+          "step": 1,
+          "unit": "Hz"
         }
       }
     },
@@ -3048,6 +3068,18 @@
           "kind": "travel",
           "global": "GATE_LIMITS",
           "table": "GATE_LIMITS"
+        },
+        {
+          "name": "hpHz",
+          "kind": "travel",
+          "global": "GATE_KEY_LIMITS",
+          "table": "GATE_KEY_LIMITS"
+        },
+        {
+          "name": "lpHz",
+          "kind": "travel",
+          "global": "GATE_KEY_LIMITS",
+          "table": "GATE_KEY_LIMITS"
         }
       ],
       "readouts": [
