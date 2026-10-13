@@ -1347,6 +1347,27 @@
         }
       }
     },
+    "GENERATOR_KINDS": {
+      "rel": "data/kernels/generator.json",
+      "kind": "set",
+      "doc": "The generator kinds, in surface order: its position is the integer omx-dsp's omx_gen_fill takes as its kind (OMX_GEN_OSC, OMX_GEN_WHITE, OMX_GEN_PINK).",
+      "value": [
+        "oscillator",
+        "white",
+        "pink"
+      ]
+    },
+    "WAVEFORMS": {
+      "rel": "data/kernels/generator.json",
+      "kind": "set",
+      "doc": "The selectable oscillator waveforms, in surface order: its position is the integer omx-dsp's omx_gen_osc takes (OMX_WAVE_SINE, OMX_WAVE_SQUARE, OMX_WAVE_SAW, OMX_WAVE_TRIANGLE).",
+      "value": [
+        "sine",
+        "square",
+        "saw",
+        "triangle"
+      ]
+    },
     "GEQ_BAND_RANGE": {
       "rel": "data/kernels/geq.json",
       "kind": "travels",
@@ -2136,6 +2157,34 @@
       "doc": "The largest RTA FFT the native ring holds — generated into `omx_contract_limits.h` as `OMX_RTA_FFT_SIZE_MAX`.",
       "unit": "",
       "value": 32768
+    },
+    "SRC_TAPS": {
+      "rel": "data/kernels/src.json",
+      "kind": "scalar",
+      "doc": "Taps per phase. 64 puts the design's transition band comfortably inside what a Kaiser of this beta can hold at every standard rate pair, and costs 64 multiply-adds per output sample — about 12 M flops per track-minute at 48 kHz, which is nothing offline.",
+      "unit": "",
+      "value": 64
+    },
+    "SRC_STOPBAND_DB": {
+      "rel": "data/kernels/src.json",
+      "kind": "scalar",
+      "doc": "Stopband attenuation the window is designed for, in dB. 96 dB is below the noise floor of any take this console can capture (float capture of a 24-bit converter), so the conversion is not what limits the file.",
+      "unit": "dB",
+      "value": 96
+    },
+    "SRC_ROLLOFF": {
+      "rel": "data/kernels/src.json",
+      "kind": "scalar",
+      "doc": "How much of the shared Nyquist the passband keeps. The remaining 8 % is the transition band the window needs to reach its stopband: at 48 kHz that puts the corner at 22.08 kHz and the stopband in place by 24 kHz.",
+      "unit": "",
+      "value": 0.92
+    },
+    "SRC_MAX_L": {
+      "rel": "data/kernels/src.json",
+      "kind": "scalar",
+      "doc": "The largest interpolation factor a plan may carry. 44.1 kHz -> 192 kHz is 640/147, the widest pair the console's standard rates produce; the cap refuses an exotic pair before it allocates a table nobody budgeted for, rather than discovering it as a bad_alloc.",
+      "unit": "",
+      "value": 1024
     },
     "TRANSIENT_LIMITS": {
       "rel": "data/kernels/transient.json",
@@ -2992,6 +3041,20 @@
         }
       ]
     },
+    "generator": {
+      "controls": [
+        {
+          "name": "kind",
+          "kind": "choice",
+          "global": "GENERATOR_KINDS"
+        },
+        {
+          "name": "waveform",
+          "kind": "choice",
+          "global": "WAVEFORMS"
+        }
+      ]
+    },
     "geq": {
       "controls": [
         {
@@ -3218,6 +3281,9 @@
       ]
     },
     "rta": {
+      "controls": []
+    },
+    "src": {
       "controls": []
     },
     "transient": {
