@@ -23,9 +23,10 @@ test('drive: oversample is the last control, a choice of DRIVE_OVERSAMPLES (1, 2
   assert.equal(json().items.DRIVE_OVERSAMPLES.default, 4);
 });
 
-test('the C render keeps every 2.7.0 line, byte for byte and in order, and adds only the oversample set', () => {
+test('the 2.8.0 C render keeps every 2.7.0 line, byte for byte and in order, and adds only the oversample set', () => {
   const old = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.7.0/omx_contract_limits.h'), 'utf8').split('\n');
-  const now = header().split('\n');
+  // the released 2.8.0 header: the release the oversample set came in (later releases add their own)
+  const now = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.8.0/omx_contract_limits.h'), 'utf8').split('\n');
   let i = 0;
   const added = [];
   for (const line of now) {
