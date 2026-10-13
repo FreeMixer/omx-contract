@@ -10,7 +10,7 @@
     {
       "name": "SUBHARMONIC_RADIUS_BINS",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "SUBHARMONIC_RADIUS_BINS"
       },
       "value": 2,
@@ -20,7 +20,7 @@
     {
       "name": "FBS_PAPR_GUARD_BINS",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "FBS_PAPR_GUARD_BINS"
       },
       "value": 2,
@@ -30,7 +30,7 @@
     {
       "name": "FBS_PNPR_RADIUS_BINS",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "FBS_PNPR_RADIUS_BINS"
       },
       "value": 3,
@@ -40,7 +40,7 @@
     {
       "name": "FBS_PNPR_GUARD_BINS",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "FBS_PNPR_GUARD_BINS"
       },
       "value": 1,
@@ -50,7 +50,7 @@
     {
       "name": "FBS_PHPR_HARMONICS",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "FBS_PHPR_HARMONICS"
       },
       "value": 3,
@@ -60,7 +60,7 @@
     {
       "name": "FBS_PSHR_SELF_SKIP_BINS",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "FBS_PSHR_SELF_SKIP_BINS"
       },
       "value": 3,
@@ -70,7 +70,7 @@
     {
       "name": "FBS_FLOOR_LIN",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "FBS_FLOOR_LIN"
       },
       "value": 1e-12,
@@ -80,7 +80,7 @@
     {
       "name": "FBS_TRACK_SLOTS",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "FBS_TRACK_SLOTS"
       },
       "value": 512,
@@ -90,7 +90,7 @@
     {
       "name": "PSHR_MIN_DB",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "PSHR_MIN_DB"
       },
       "value": 10,
@@ -100,7 +100,7 @@
     {
       "name": "GROWTH_WINDOW_FRAMES",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "GROWTH_WINDOW_FRAMES"
       },
       "value": 5,
@@ -110,7 +110,7 @@
     {
       "name": "DEEP_PLATEAU_FRAMES",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "DEEP_PLATEAU_FRAMES"
       },
       "value": 20,
@@ -120,7 +120,7 @@
     {
       "name": "GROWTH_MIN_DB_PER_FRAME",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "GROWTH_MIN_DB_PER_FRAME"
       },
       "value": 0.8,
@@ -130,7 +130,7 @@
     {
       "name": "GROWTH_MAX_DIP_DB",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "GROWTH_MAX_DIP_DB"
       },
       "value": 0.5,
@@ -140,7 +140,7 @@
     {
       "name": "GROWTH_MIN_TOTAL_RISE_DB",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "GROWTH_MIN_TOTAL_RISE_DB"
       },
       "value": 6,
@@ -150,7 +150,7 @@
     {
       "name": "GROWTH_MAX_SINGLE_FRAME_SHARE",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "GROWTH_MAX_SINGLE_FRAME_SHARE"
       },
       "value": 0.5,
@@ -160,7 +160,7 @@
     {
       "name": "GROWTH_CONFIRM_FRAMES",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "GROWTH_CONFIRM_FRAMES"
       },
       "value": 2,
@@ -170,7 +170,7 @@
     {
       "name": "DEFAULT_THRESHOLDS",
       "source": {
-        "path": "packages/core/src/feedback.ts",
+        "path": "feedback.ts",
         "export": "DEFAULT_THRESHOLDS"
       },
       "value": {
@@ -214,17 +214,17 @@
     {
       "name": "FBS_MAX_NOTCH_DEPTH_DB",
       "source": {
-        "path": "packages/core/src/fbs.ts",
+        "path": "fbs.ts",
         "export": "FBS_MAX_NOTCH_DEPTH_DB"
       },
       "value": 18,
-      "doc": "THE NOTCH DEPTH LAW: the deepest cut any machine planter may propose from one reading, in dB. A number, not a literal at the call site, because two planters now lean on it. FBS derives a candidate's depth from the peak-to-average ratio around its bin and stops here; Room Analysis derives a mode's depth from its height above the median curve and is held to the SAME ceiling (2026-09-08-room-analysis.md §4 — \"never more than the FBS notch depth law\"). Written twice as `18` those two bounds would be equal by coincidence and could drift apart in silence. It is a CEILING ON THE PROPOSAL, not the final gain: a band that lands as a rampable BELL is bounded again by `EQ_GAIN_RANGE`, which is tighter. A planter must honour both and REPORT when either bit, never quietly deliver a shallower cut than it was asked for.",
+      "doc": "THE NOTCH DEPTH LAW: the deepest cut any machine planter may propose from one reading, in dB. A number, not a literal at the call site, because two planters now lean on it. FBS derives a candidate's depth from the peak-to-average ratio around its bin and stops here; Room Analysis derives a mode's depth from its height above the median curve and is held to the SAME ceiling (the room-analysis design §4 — \"never more than the FBS notch depth law\"). Written twice as `18` those two bounds would be equal by coincidence and could drift apart in silence. It is a CEILING ON THE PROPOSAL, not the final gain: a band that lands as a rampable BELL is bounded again by `EQ_GAIN_RANGE`, which is tighter. A planter must honour both and REPORT when either bit, never quietly deliver a shallower cut than it was asked for.",
       "unit": "dB"
     },
     {
       "name": "FBS_DEFAULT_NOTCH_Q",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "FBS_DEFAULT_NOTCH_Q"
       },
       "value": 116,
@@ -234,7 +234,7 @@
     {
       "name": "FBS_DEFAULT_MAX_AUTO_BANDS",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "FBS_DEFAULT_MAX_AUTO_BANDS"
       },
       "value": 6,

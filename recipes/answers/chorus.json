@@ -10,7 +10,7 @@
     {
       "name": "CHORUS_SPREAD_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "CHORUS_SPREAD_RANGE"
       },
       "value": {
@@ -26,7 +26,7 @@
     {
       "name": "CHORUS_RATE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "CHORUS_RATE_RANGE"
       },
       "value": {
@@ -43,7 +43,7 @@
     {
       "name": "CHORUS_DEPTH_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "CHORUS_DEPTH_RANGE"
       },
       "value": {
@@ -60,7 +60,7 @@
     {
       "name": "CHORUS_VOICES_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "CHORUS_VOICES_RANGE"
       },
       "value": {
@@ -77,7 +77,7 @@
     {
       "name": "CHORUS_MIX_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "CHORUS_MIX_RANGE"
       },
       "value": {

@@ -10,7 +10,7 @@
     {
       "name": "COMP_LIMITS",
       "source": {
-        "path": "packages/core/src/strip-dynamics-limits.ts",
+        "path": "strip-dynamics-limits.ts",
         "export": "COMP_LIMITS"
       },
       "value": {
@@ -76,7 +76,7 @@
     {
       "name": "PROGRAM_RELEASE",
       "source": {
-        "path": "packages/core/src/strip-dynamics-limits.ts",
+        "path": "strip-dynamics-limits.ts",
         "export": "PROGRAM_RELEASE"
       },
       "value": {
@@ -91,12 +91,12 @@
           }
         }
       },
-      "doc": "The program-dependent release's model constants — the LA-2A's opto cell as DATA (`docs/design/specs/2026-09-26-compressor-models.md` §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads."
+      "doc": "The program-dependent release's model constants — the LA-2A's opto cell as DATA (compressor models design §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads."
     },
     {
       "name": "COMP_KINDS",
       "source": {
-        "origin": "openmixer 5d9804ad56ff packages/core/src/row-codecs.ts:144 COMP_KINDS, model.ts:519 CompState.kind, processor-param.ts:97 (comp), server/src/console-rig.ts:1524 (limiter -> peak, comp -> rms); omx-dsp a624f26 include/omxdsp/fx/omx_dynamics_instance.h:84 the rms argument"
+        "origin": "the console engine's compressor kinds (limiter -> peak, comp -> rms); omx-dsp a624f26 include/omxdsp/fx/omx_dynamics_instance.h:84 the rms argument"
       },
       "value": [
         "comp",
@@ -114,7 +114,7 @@
     {
       "name": "DETECTOR_OVERSAMPLINGS",
       "source": {
-        "origin": "openmixer 5d9804ad56ff packages/core/src/row-codecs.ts:147 DETECTOR_OVERSAMPLINGS (auto, off, 4x), model.ts:521, processor-param.ts:104 (auto), server/src/console-rig.ts:1534; omx-dsp a624f26 include/omxdsp/omx_dyn.h:46-50 OMX_DYN_OVS_AUTO 0, _OFF 1, _X4 2, fx/omx_dynamics_instance.h:84 ovs_mode"
+        "origin": "the console engine's detector oversampling choices (auto, off, 4x), defaulting to auto; omx-dsp a624f26 include/omxdsp/omx_dyn.h:46-50 OMX_DYN_OVS_AUTO 0, _OFF 1, _X4 2, fx/omx_dynamics_instance.h:84 ovs_mode"
       },
       "value": [
         "auto",
@@ -134,13 +134,13 @@
     {
       "name": "DETECTOR_TOPOLOGY",
       "source": {
-        "origin": "omx-dsp 91beb6d (lane/salvage-ssl-bus-comp) include/omxdsp/omx_dyn.h:60-68 OMX_DYN_TOPOLOGY_FEEDFORWARD 0, OMX_DYN_TOPOLOGY_FEEDBACK 1, the comp row's detectorTopology (openmixer ssl-bus-compressor spec §3a); :86 a zeroed atom is feedforward"
+        "origin": "omx-dsp 91beb6d (lane/salvage-ssl-bus-comp) include/omxdsp/omx_dyn.h:60-68 OMX_DYN_TOPOLOGY_FEEDFORWARD 0, OMX_DYN_TOPOLOGY_FEEDBACK 1, the comp row's detectorTopology (the SSL bus compressor design §3a); :86 a zeroed atom is feedforward"
       },
       "value": [
         "feedforward",
         "feedback"
       ],
-      "doc": "Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.",
+      "doc": "Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, the SSL bus compressor design §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.",
       "since": "2.5.0",
       "kind": "set",
       "default": "feedforward"

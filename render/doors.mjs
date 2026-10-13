@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * The resolved data cut into the C renderer's doors, as openmixer's discovery cut its barrels
- * (packages/core/src/native-limit-tables.ts, declared-scalars.ts, declared-lists.ts): a `travels`
+ * The resolved data cut into the C renderer's doors, as the engine's discovery cut its barrels
+ * (its native limit tables, declared scalars and declared lists): a `travels`
  * table named <PREFIX>_LIMITS is a native table; every scalar, sheet and single travel is scalars
  * (its finite-number leaves, a travel's `unit`/`defaultFrom` labels skipped); a list is a declared
  * list unless its item says `"c": { "render": false }`; a set is an enum; a `c.alias` is the core-limit spelling.

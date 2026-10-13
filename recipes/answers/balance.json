@@ -10,7 +10,7 @@
     {
       "name": "PAN_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "PAN_RANGE"
       },
       "value": {

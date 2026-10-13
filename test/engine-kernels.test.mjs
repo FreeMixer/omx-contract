@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// 2.6.0 (openmixer#1580): the sample-rate converter's design constants (the src kernel) and the generators' kind
+// 2.6.0: the sample-rate converter's design constants (the src kernel) and the generators' kind
 // and waveform sets (the generator kernel), the kernels omx-dsp takes over from the engine. The engine's own
 // defines at 6ee8a9bde101 are frozen under test/fixtures/openmixer-6ee8a9bde101/; their values are the render's.
 import assert from 'node:assert/strict';

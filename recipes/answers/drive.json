@@ -10,7 +10,7 @@
     {
       "name": "DRIVE_BIAS_MAX",
       "source": {
-        "path": "packages/core/src/drive-shaper.ts",
+        "path": "drive-shaper.ts",
         "export": "DRIVE_BIAS_MAX"
       },
       "value": 0.7071067811865476,
@@ -26,7 +26,7 @@
     {
       "name": "DRIVE_AMOUNT_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "DRIVE_AMOUNT_RANGE"
       },
       "value": {
@@ -49,7 +49,7 @@
     {
       "name": "DRIVE_CHARACTER_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "DRIVE_CHARACTER_RANGE"
       },
       "value": {
@@ -72,7 +72,7 @@
     {
       "name": "DRIVE_BAND_FREQ_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "DRIVE_BAND_FREQ_RANGE"
       },
       "value": {
@@ -95,7 +95,7 @@
     {
       "name": "DRIVE_MIX_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "DRIVE_MIX_RANGE"
       },
       "value": {
@@ -118,7 +118,7 @@
     {
       "name": "DRIVE_TRIM_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "DRIVE_TRIM_RANGE"
       },
       "value": {
@@ -141,7 +141,7 @@
     {
       "name": "DRIVE_CURVES",
       "source": {
-        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_drive.h enum omx_drive_curve; openmixer 121319166e6a packages/core/src/row-codecs.ts DRIVE_CURVES"
+        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_drive.h enum omx_drive_curve; the console engine's drive curve list"
       },
       "value": [
         "soft",
@@ -156,7 +156,7 @@
     {
       "name": "DRIVE_BANDS",
       "source": {
-        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_drive.h enum omx_drive_band; openmixer 121319166e6a packages/core/src/row-codecs.ts DRIVE_BANDS"
+        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_drive.h enum omx_drive_band; the console engine's drive band list"
       },
       "value": [
         "full",
@@ -171,7 +171,7 @@
     {
       "name": "DRIVE_AUTO_GAINS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:138 struct omx_drive.auto_gain, omx_drive_instance.h:166 (on); openmixer 5d9804ad56ff packages/core/src/model.ts:729 DriveState.autoGain, packages/server/src/drive-controller.ts:66 (true), console-rig.ts:1404"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:138 struct omx_drive.auto_gain, omx_drive_instance.h:166 (on); the console engine's drive state defaults auto gain to on"
       },
       "value": [
         "off",
@@ -189,7 +189,7 @@
     {
       "name": "DRIVE_STEREO_LINKS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:139 struct omx_drive.stereo_link, omx_drive_instance.h:167 (on); openmixer 5d9804ad56ff packages/core/src/model.ts:730 DriveState.stereoLink, packages/server/src/drive-controller.ts:67 (true), console-rig.ts:1405"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:139 struct omx_drive.stereo_link, omx_drive_instance.h:167 (on); the console engine's drive state defaults stereo link to on"
       },
       "value": [
         "off",
@@ -207,7 +207,7 @@
     {
       "name": "DRIVE_HF_ROLLOFFS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:140 struct omx_drive.hf_on, omx_drive_instance.h:168 (off); openmixer 5d9804ad56ff packages/core/src/row-codecs.ts:138 DRIVE_HF_ROLLOFFS (off, 12000, 16000), model.ts:731, drive-controller.ts:68 ('off'), console-rig.ts:1395 (the corner is the id's number)"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_drive.h:140 struct omx_drive.hf_on, omx_drive_instance.h:168 (off); the console engine's drive HF roll-off choices (off, 12000, 16000), defaulting to off (the corner is the id's number)"
       },
       "value": [
         0,
