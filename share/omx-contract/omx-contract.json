@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "items": {
     "PAN_RANGE": {
       "rel": "data/kernels/balance.json",
@@ -697,6 +697,22 @@
         0,
         12000,
         16000
+      ]
+    },
+    "DRIVE_OVERSAMPLES": {
+      "rel": "data/kernels/drive.json",
+      "kind": "set",
+      "doc": "The drive's OVERSAMPLING factor: the shaper runs inside the console's one oversampler at 1x, 2x or 4x, and the id is the factor (`omx_drive.h`'s `omx_drive_factor_of` member set, `struct omx_drive.os_factor`). A field of the console's drive row (`DriveState.oversample`, the console's DRIVE_OVERSAMPLE_FACTORS; the set is named for its control), 4 at come-up there and in omx-dsp's drive face (OMX_DRIVE_INSTANCE_FACTOR, the oversampler's largest).",
+      "default": 4,
+      "labels": [
+        "1x",
+        "2x",
+        "4x"
+      ],
+      "value": [
+        1,
+        2,
+        4
       ]
     },
     "DRIVE_BIAS_MAX": {
@@ -2886,6 +2902,11 @@
           "name": "hfRolloff",
           "kind": "choice",
           "global": "DRIVE_HF_ROLLOFFS"
+        },
+        {
+          "name": "oversample",
+          "kind": "choice",
+          "global": "DRIVE_OVERSAMPLES"
         }
       ]
     },

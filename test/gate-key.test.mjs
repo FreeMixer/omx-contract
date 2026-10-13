@@ -2,7 +2,7 @@
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // 2.7.0 (#33): the keyed gate's detector filter edges, hpHz and lpHz, are travel controls of the gate in their own
 // table, GATE_KEY_LIMITS, with the console's values (its GATE_KEY_LIMITS: 0..20000 Hz, step 1,
-// no come-up value). The C render keeps every 2.6.0 line and adds only their MIN and MAX.
+// no come-up value). The released 2.7.0 header keeps every 2.6.0 line and adds only their MIN and MAX.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -27,16 +27,16 @@ test('gate: hpHz and lpHz are the last controls, the fields of GATE_KEY_LIMITS, 
   assert.deepEqual(json().items.GATE_KEY_LIMITS.value, { hpHz: CONSOLE, lpHz: CONSOLE });
 });
 
-test('the C render keeps every 2.6.0 line, byte for byte and in order, and adds only the key filter travels', () => {
+test('the released 2.7.0 header keeps every 2.6.0 line, byte for byte and in order, and adds only the key filter travels', () => {
   const old = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.6.0/omx_contract_limits.h'), 'utf8').split('\n');
-  const now = header().split('\n');
+  const now = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.7.0/omx_contract_limits.h'), 'utf8').split('\n');
   let i = 0;
   const added = [];
   for (const line of now) {
     if (i < old.length && line === old[i]) i++;
     else added.push(line);
   }
-  assert.equal(i, old.length, `2.6.0 line ${i + 1} is not in the render: ${old[i]}`);
+  assert.equal(i, old.length, `2.6.0 line ${i + 1} is not in the 2.7.0 header: ${old[i]}`);
   assert.deepEqual(added, [
     '#define OMX_GATE_KEY_HP_HZ_MIN 0.0f',
     '#define OMX_GATE_KEY_HP_HZ_MAX 20000.0f',

@@ -161,6 +161,22 @@
         "12 kHz",
         "16 kHz"
       ]
+    },
+    {
+      "name": "oversample",
+      "kind": "choice",
+      "doc": "The drive's OVERSAMPLING factor: the shaper runs inside the console's one oversampler at 1x, 2x or 4x, and the id is the factor (`omx_drive.h`'s `omx_drive_factor_of` member set, `struct omx_drive.os_factor`). A field of the console's drive row (`DriveState.oversample`, the console's DRIVE_OVERSAMPLE_FACTORS; the set is named for its control), 4 at come-up there and in omx-dsp's drive face (OMX_DRIVE_INSTANCE_FACTOR, the oversampler's largest).",
+      "ids": [
+        1,
+        2,
+        4
+      ],
+      "default": 4,
+      "labels": [
+        "1x",
+        "2x",
+        "4x"
+      ]
     }
   ],
   "constants": {

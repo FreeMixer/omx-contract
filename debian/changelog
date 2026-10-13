@@ -1,3 +1,12 @@
+omx-contract (2.8.0) unstable; urgency=medium
+
+  * The drive's oversampling factor is a control, oversample
+    (DRIVE_OVERSAMPLES: 1, 2, 4, the id is the factor), coming up at 4 as
+    the console's drive row and omx-dsp's drive face do. Every define of
+    the 2.7.0 header is unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 13 Oct 2026 20:15:00 +0000
+
 omx-contract (2.7.0) unstable; urgency=medium
 
   * The keyed gate's detector filter edges are gate controls, hpHz and
