@@ -44,3 +44,13 @@ test('the CLI refuses a short bump and passes a sufficient one', () => {
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.1.0']), 1);
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '2.0.0']), 0);
 });
+
+test('a set\'s values added is MINOR, a value changed or the values removed is MAJOR (#29)', () => {
+  const withValues = (s) => { s.values = [null, 4]; s.unit = 'x'; };
+  const valued = resolvedOf(texts((d, at) => withValues(at('data/kernels/comp.json', 'COMP_KINDS'))));
+  assert.equal(classify(base, valued).level, 'minor');
+  assert.equal(classify(valued, base).level, 'major');
+  const moved = resolvedOf(texts((d, at) => { const s = at('data/kernels/comp.json', 'COMP_KINDS'); withValues(s); s.values[1] = 8; }));
+  assert.equal(classify(valued, moved).level, 'major');
+  assert.deepEqual(classify(valued, moved).changes.map((c) => c.what), ['COMP_KINDS: the value of limiter: 4 -> 8 (a constant a kernel computes with)']);
+});
