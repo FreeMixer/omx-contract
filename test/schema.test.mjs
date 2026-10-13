@@ -55,3 +55,9 @@ test('a travels item carries fields or one travel, never both', () => {
 test('a file names the schema by its relative path', () => {
   assert.ok(rules(texts((d) => { d['data/kernels/eq.json'].$schema = 'omx-contract.schema.json'; })).includes('-:schema-path'));
 });
+
+test('a set id is letters and digits, and may start with a digit (#28)', () => {
+  const ovs = (id) => rules(texts((d, at) => { const s = at('data/kernels/comp.json', 'DETECTOR_OVERSAMPLINGS'); s.ids[2] = id; s.default = id; }));
+  assert.ok(!ovs('4x').includes('DETECTOR_OVERSAMPLINGS:schema'), 'an id that starts with a digit is accepted');
+  for (const bad of ['4-x', '4 x', '']) assert.ok(ovs(bad).includes('DETECTOR_OVERSAMPLINGS:schema'), `${JSON.stringify(bad)} is refused`);
+});
