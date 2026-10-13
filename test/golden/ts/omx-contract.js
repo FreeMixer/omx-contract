@@ -1173,6 +1173,27 @@ export const GATE_LIMITS = {
 };
 
 /**
+ * The generator kinds, in surface order: its position is the integer omx-dsp's omx_gen_fill takes as its kind (OMX_GEN_OSC, OMX_GEN_WHITE, OMX_GEN_PINK).
+ * @see data/kernels/generator.json
+ */
+export const GENERATOR_KINDS = [
+  "oscillator",
+  "white",
+  "pink"
+];
+
+/**
+ * The selectable oscillator waveforms, in surface order: its position is the integer omx-dsp's omx_gen_osc takes (OMX_WAVE_SINE, OMX_WAVE_SQUARE, OMX_WAVE_SAW, OMX_WAVE_TRIANGLE).
+ * @see data/kernels/generator.json
+ */
+export const WAVEFORMS = [
+  "sine",
+  "square",
+  "saw",
+  "triangle"
+];
+
+/**
  * One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB (graphic-eq-31 spec §3).
  * @see data/kernels/geq.json
  */
@@ -1901,6 +1922,30 @@ export const RTA_TARGET_BIN_HZ = 5.9;
  * @see data/kernels/rta.json
  */
 export const RTA_FFT_SIZE_MAX = 32768;
+
+/**
+ * Taps per phase. 64 puts the design's transition band comfortably inside what a Kaiser of this beta can hold at every standard rate pair, and costs 64 multiply-adds per output sample — about 12 M flops per track-minute at 48 kHz, which is nothing offline.
+ * @see data/kernels/src.json
+ */
+export const SRC_TAPS = 64;
+
+/**
+ * Stopband attenuation the window is designed for, in dB. 96 dB is below the noise floor of any take this console can capture (float capture of a 24-bit converter), so the conversion is not what limits the file.
+ * @see data/kernels/src.json
+ */
+export const SRC_STOPBAND_DB = 96;
+
+/**
+ * How much of the shared Nyquist the passband keeps. The remaining 8 % is the transition band the window needs to reach its stopband: at 48 kHz that puts the corner at 22.08 kHz and the stopband in place by 24 kHz.
+ * @see data/kernels/src.json
+ */
+export const SRC_ROLLOFF = 0.92;
+
+/**
+ * The largest interpolation factor a plan may carry. 44.1 kHz -> 192 kHz is 640/147, the widest pair the console's standard rates produce; the cap refuses an exotic pair before it allocates a table nobody budgeted for, rather than discovering it as a bad_alloc.
+ * @see data/kernels/src.json
+ */
+export const SRC_MAX_L = 1024;
 
 /**
  * The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. `harness/contract-limits-gen.mjs` emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921).

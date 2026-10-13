@@ -570,6 +570,11 @@
 #define OMX_RTA_TARGET_BIN_HZ_DOUBLE 5.9
 #define OMX_RT_HARD_TARGET_QUANTUM 128
 #define OMX_RT_HARD_TARGET_RATE 192000
+#define OMX_SRC_MAX_L 1024
+#define OMX_SRC_ROLLOFF 0.92f
+#define OMX_SRC_ROLLOFF_DOUBLE 0.92
+#define OMX_SRC_STOPBAND_DB 96
+#define OMX_SRC_TAPS 64
 #define OMX_SUBHARMONIC_RADIUS_BINS 2
 #define OMX_TRANSIENT_FAST_ATTACK_MS 0.5f
 #define OMX_TRANSIENT_FAST_ATTACK_MS_DOUBLE 0.5
@@ -730,6 +735,12 @@ enum omx_gate_key_sources {
   OMX_GATE_KEY_SOURCES_SIDECHAIN = 1,
 };
 #define OMX_GATE_KEY_SOURCES_COUNT 2u
+enum omx_generator_kinds {
+  OMX_GENERATOR_KINDS_OSCILLATOR = 0,
+  OMX_GENERATOR_KINDS_WHITE = 1,
+  OMX_GENERATOR_KINDS_PINK = 2,
+};
+#define OMX_GENERATOR_KINDS_COUNT 3u
 enum omx_param_scales {
   OMX_PARAM_SCALES_LINEAR = 0,
   OMX_PARAM_SCALES_LOG = 1,
@@ -757,6 +768,13 @@ enum omx_tremolo_modes {
 };
 #define OMX_TREMOLO_MODES_COUNT 2u
 #define OMX_TREMOLO_MODES_DEFAULT OMX_TREMOLO_MODES_TREMOLO
+enum omx_waveforms {
+  OMX_WAVEFORMS_SINE = 0,
+  OMX_WAVEFORMS_SQUARE = 1,
+  OMX_WAVEFORMS_SAW = 2,
+  OMX_WAVEFORMS_TRIANGLE = 3,
+};
+#define OMX_WAVEFORMS_COUNT 4u
 
 /* Every kernel's readouts, the meters a host draws (docs/readouts.md): an enum of the readouts at their position,
  * `OMX_<KERNEL>_READOUT_COUNT`, and per readout its display range (_MIN, _MAX), _RATE_HZ, _SCALE (an OMX_PARAM_SCALES_*
