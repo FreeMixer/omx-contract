@@ -10,7 +10,7 @@
     {
       "name": "REVERB_PLATE_MOD_DEPTH_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "REVERB_PLATE_MOD_DEPTH_RANGE"
       },
       "value": {
@@ -21,12 +21,12 @@
         "default": 100,
         "defaultFrom": "desk"
       },
-      "doc": "PLATE's tank MODULATION DEPTH, in percent of Dattorro's own excursion (±8 samples at his 29 761 Hz tuning rate, scaled to the live rate the way the tank lengths are). 100 is the depth the plate has always run at, so the come-up is bit-identical to the plate before the field; 0 brings back the unmodulated tank's ring; 400 is the wide, chorused EMT-style swing. The rate stays 1 Hz. Only PLATE reads it (`2026-09-26-native-fx-catalogue.md` §2, Reverb)."
+      "doc": "PLATE's tank MODULATION DEPTH, in percent of Dattorro's own excursion (±8 samples at his 29 761 Hz tuning rate, scaled to the live rate the way the tank lengths are). 100 is the depth the plate has always run at, so the come-up is bit-identical to the plate before the field; 0 brings back the unmodulated tank's ring; 400 is the wide, chorused EMT-style swing. The rate stays 1 Hz. Only PLATE reads it."
     },
     {
       "name": "REVERB_MIX_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_MIX_RANGE"
       },
       "value": {
@@ -46,7 +46,7 @@
     {
       "name": "REVERB_SIZE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_SIZE_RANGE"
       },
       "value": {
@@ -63,7 +63,7 @@
     {
       "name": "REVERB_DAMPING_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_DAMPING_RANGE"
       },
       "value": {
@@ -80,7 +80,7 @@
     {
       "name": "REVERB_WIDTH_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_WIDTH_RANGE"
       },
       "value": {
@@ -97,7 +97,7 @@
     {
       "name": "REVERB_PREDELAY_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_PREDELAY_RANGE"
       },
       "value": {
@@ -114,7 +114,7 @@
     {
       "name": "REVERB_LOWCUT_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_LOWCUT_RANGE"
       },
       "value": {
@@ -131,7 +131,7 @@
     {
       "name": "REVERB_HIGHCUT_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_HIGHCUT_RANGE"
       },
       "value": {
@@ -148,7 +148,7 @@
     {
       "name": "REVERB_REVERSE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_REVERSE_RANGE"
       },
       "value": {
@@ -159,13 +159,13 @@
         "default": 300,
         "defaultFrom": "desk"
       },
-      "doc": "REVERSE's MIRROR WINDOW — how long a slice of the wet is played backward, in milliseconds (`2026-07-15-native-delay-reverb.md`, Amendment 2026-09-17 §B). A DECLARED travel and never derived from `size`'s RT60: an RT60 of seconds cannot be buffered at 192 kHz, and a window silently clamped to fit is the silent-clamp defect. The ceiling is what `mix_reverb.h`'s pool budgets a ring for (`OMX_REVERB_REVERSE_MAX_MS`), so the console offers exactly the travel the kernel accepts — nothing wider, nothing narrower.",
+      "doc": "REVERSE's MIRROR WINDOW — how long a slice of the wet is played backward, in milliseconds. A DECLARED travel and never derived from `size`'s RT60: an RT60 of seconds cannot be buffered at 192 kHz, and a window silently clamped to fit is the silent-clamp defect. The ceiling is what `mix_reverb.h`'s pool budgets a ring for (`OMX_REVERB_REVERSE_MAX_MS`), so the console offers exactly the travel the kernel accepts — nothing wider, nothing narrower.",
       "since": "1.2.0"
     },
     {
       "name": "REVERB_HOLD_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_HOLD_RANGE"
       },
       "value": {
@@ -182,7 +182,7 @@
     {
       "name": "REVERB_RELEASE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_RELEASE_RANGE"
       },
       "value": {
@@ -199,7 +199,7 @@
     {
       "name": "REVERB_GATE_THRESHOLD_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "REVERB_GATE_THRESHOLD_RANGE"
       },
       "value": {
@@ -216,7 +216,7 @@
     {
       "name": "REVERB_ALGORITHMS",
       "source": {
-        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_reverb.h enum omx_reverb_algo; openmixer 121319166e6a packages/core/src/row-codecs.ts REVERB_ALGORITHMS"
+        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_reverb.h enum omx_reverb_algo; the console engine's reverb algorithm list"
       },
       "value": [
         "room",
@@ -232,7 +232,7 @@
     {
       "name": "REVERB_GATE_ATTACK_MS",
       "source": {
-        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_reverb.h OMX_REVERB_GATE_ATTACK_MS; openmixer 121319166e6a packages/pipewire-native/src/mix_reverb.h OMX_REVERB_GATE_ATTACK_MS (the engine's copy until the FX migration)"
+        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_reverb.h OMX_REVERB_GATE_ATTACK_MS; the console engine carries a copy of the same constant until the FX migration"
       },
       "value": 1.5,
       "doc": "The gated reverb's gate attack, ms: the time the gate takes to open on a hit.",

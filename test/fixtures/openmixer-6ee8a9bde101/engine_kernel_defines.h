@@ -1,5 +1,5 @@
 /* The engine's defines of the sample-rate converter (mix_src.h) and the generators (mix_dsp.h) at
- * openmixer 6ee8a9bde101, the kernels omx-dsp takes over (openmixer#1580). Test input only. */
+ * openmixer 6ee8a9bde101, the kernels omx-dsp takes over. Test input only. */
 #define OMX_SRC_TAPS 64
 #define OMX_SRC_STOPBAND_DB 96.0
 #define OMX_SRC_ROLLOFF 0.92

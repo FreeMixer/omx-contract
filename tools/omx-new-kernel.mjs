@@ -103,10 +103,16 @@ export function extractEngine(checkout, ref, dirs) {
   const tar = execFileSync('git', ['-C', checkout, 'archive', '--format=tar', commit, ...present], { maxBuffer: 1 << 30 });
   execFileSync('tar', ['-x', '-C', tree], { input: tar });
   writeFileSync(join(tree, '.engine-checkout'), `${checkout}\n`);
-  return { tree, commit, cleanup: () => rmSync(tree, { recursive: true, force: true }) };
+  return { tree, commit, dirs, cleanup: () => rmSync(tree, { recursive: true, force: true }) };
 }
 
-/** Where the engine declares `name`: `{ path, export }` or `{ path, define }`; refused when nowhere or twice. */
+/** A cited path as the extracted tree holds it: as given, or relative to one of the archive directories (answers name the file only). */
+export function sourceFile(eng, path) {
+  for (const p of [path, ...(eng.dirs ?? []).map((d) => `${d}/${path}`)]) if (existsSync(join(eng.tree, p))) return p;
+  return path;
+}
+
+/** Where the engine declares `name`: `{ path, export }` or `{ path, define }` (the path relative to its archive directory); refused when nowhere or twice. */
 export function findSource(tree, dirs, name) {
   const hits = [];
   const exp = new RegExp(`^export const ${name}\\b`, 'm');
@@ -114,8 +120,8 @@ export function findSource(tree, dirs, name) {
   for (const d of dirs) {
     for (const rel of walk(join(tree, d), tree, (f) => (f.endsWith('.ts') && !/\.(test|fake|d)\.ts$/.test(f)) || f.endsWith('.h'))) {
       const text = readFileSync(join(tree, rel), 'utf8');
-      if (rel.endsWith('.ts') && exp.test(text)) hits.push({ path: rel, export: name });
-      if (rel.endsWith('.h') && def.test(text)) hits.push({ path: rel, define: name });
+      if (rel.endsWith('.ts') && exp.test(text)) hits.push({ path: relative(join(tree, d), join(tree, rel)), export: name });
+      if (rel.endsWith('.h') && def.test(text)) hits.push({ path: relative(join(tree, d), join(tree, rel)), define: name });
     }
   }
   if (!hits.length) refuse(`${name}: the engine declares no export const or #define of that name`);
@@ -174,10 +180,11 @@ function keptFacts(root, recipe, kernel) {
 
 /** One cited value, read at the extracted engine: `{ text, value }`. */
 async function readSource(eng, ref, name, source) {
-  if (!existsSync(join(eng.tree, source.path))) refuse(`${name}: ${source.path} is not in ${ref}`);
-  const text = readFileSync(join(eng.tree, source.path), 'utf8');
+  const file = sourceFile(eng, source.path);
+  if (!existsSync(join(eng.tree, file))) refuse(`${name}: ${source.path} is not in ${ref}`);
+  const text = readFileSync(join(eng.tree, file), 'utf8');
   if (source.define) return { text, value: defineValue(text, source.define) };
-  const mod = await evaluate(eng.tree, source.path);
+  const mod = await evaluate(eng.tree, file);
   if (!(source.export in mod)) refuse(`${name}: ${source.path} exports no ${source.export}`);
   return { text, value: asData(name, mod[source.export]), raw: mod[source.export] };
 }

@@ -10,17 +10,17 @@
     {
       "name": "RTA_TARGET_BIN_HZ",
       "source": {
-        "path": "packages/core/src/spectrum-bands.ts",
+        "path": "spectrum-bands.ts",
         "export": "RTA_TARGET_BIN_HZ"
       },
       "value": 5.9,
-      "doc": "The RTA's target bin resolution — generated into `omx_contract_limits.h` as `OMX_RTA_TARGET_BIN_HZ`, which `mix_dsp.h` reads; `rta-window-derivation.test.ts` reads it back from the header.",
+      "doc": "The RTA's target bin resolution — generated into `omx_contract_limits.h` as `OMX_RTA_TARGET_BIN_HZ`, which `mix_dsp.h` reads; the engine's conformance test reads it back from the header.",
       "unit": "Hz"
     },
     {
       "name": "RTA_FFT_SIZE_MAX",
       "source": {
-        "path": "packages/core/src/spectrum-bands.ts",
+        "path": "spectrum-bands.ts",
         "export": "RTA_FFT_SIZE_MAX"
       },
       "value": 32768,

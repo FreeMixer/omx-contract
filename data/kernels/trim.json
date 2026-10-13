@@ -5,7 +5,7 @@
       "name": "trimDb",
       "kind": "travel",
       "global": "TRIM_RANGE",
-      "doc": "The digital input trim, in dB: the console's fine head gain, applied first in a channel's lane as a click-free ramp from the last block's gain to this one (openmixer's TRIM_RANGE, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there). It comes up at 0 dB, the trim a channel has when none is set. omx-dsp's trim face takes it as `trim_db`.",
+      "doc": "The digital input trim, in dB: the console's fine head gain, applied first in a channel's lane as a click-free ramp from the last block's gain to this one (the console's trim range, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there). It comes up at 0 dB, the trim a channel has when none is set. omx-dsp's trim face takes it as `trim_db`.",
       "travel": {
         "min": -24,
         "max": 24,

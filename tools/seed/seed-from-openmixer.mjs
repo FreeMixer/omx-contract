@@ -121,7 +121,7 @@ function item(name, o) {
 const DELAY_ROW = '/channel/{kind}/{index}/delay';
 const DELAY_PLUGIN = {
   kind: 'plugin',
-  doc: "The delay plugin's parameters, in append-only order: DPF's parameter index is the CLAP param id and the LV2 port order (omx-plugins-dpf §3b). Moved from openmixer's packages/omx-plugins/tools/params-gen.mjs PLUGINS.delay.",
+  doc: "The delay plugin's parameters, in append-only order: DPF's parameter index is the CLAP param id and the LV2 port order (omx-plugins-dpf §3b). Moved from the console engine's delay plugin generator (PLUGINS.delay).",
   why: "mix is per instance on the desk (insert or fxReturn); a plugin racked in a foreign host is an INSERT, so it reads the input kind's default (omx-plugins-dpf §3a).",
   plugin: 'delay',
   header: 'omx_delay_params.h',

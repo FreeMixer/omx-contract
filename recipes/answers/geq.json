@@ -10,7 +10,7 @@
     {
       "name": "GEQ_BAND_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "GEQ_BAND_RANGE"
       },
       "value": {
@@ -26,7 +26,7 @@
     {
       "name": "GEQ_BAND_Q",
       "source": {
-        "path": "packages/core/src/eq.ts",
+        "path": "eq.ts",
         "export": "GEQ_BAND_Q"
       },
       "value": 4.3,
@@ -36,7 +36,7 @@
     {
       "name": "GEQ_PROTO_DB",
       "source": {
-        "path": "packages/core/src/eq.ts",
+        "path": "eq.ts",
         "export": "GEQ_PROTO_DB"
       },
       "value": 12,
@@ -46,7 +46,7 @@
     {
       "name": "GEQ_DESIGN_GAIN_MAX_DB",
       "source": {
-        "path": "packages/core/src/eq.ts",
+        "path": "eq.ts",
         "export": "GEQ_DESIGN_GAIN_MAX_DB"
       },
       "value": 30,

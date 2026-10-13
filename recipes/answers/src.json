@@ -10,7 +10,7 @@
     {
       "name": "SRC_TAPS",
       "source": {
-        "path": "packages/pipewire-native/src/mix_src.h",
+        "path": "mix_src.h",
         "define": "OMX_SRC_TAPS"
       },
       "value": 64,
@@ -20,7 +20,7 @@
     {
       "name": "SRC_STOPBAND_DB",
       "source": {
-        "path": "packages/pipewire-native/src/mix_src.h",
+        "path": "mix_src.h",
         "define": "OMX_SRC_STOPBAND_DB"
       },
       "value": 96,
@@ -30,7 +30,7 @@
     {
       "name": "SRC_ROLLOFF",
       "source": {
-        "path": "packages/pipewire-native/src/mix_src.h",
+        "path": "mix_src.h",
         "define": "OMX_SRC_ROLLOFF"
       },
       "value": 0.92,
@@ -40,7 +40,7 @@
     {
       "name": "SRC_MAX_L",
       "source": {
-        "path": "packages/pipewire-native/src/mix_src.h",
+        "path": "mix_src.h",
         "define": "OMX_SRC_MAX_L"
       },
       "value": 1024,

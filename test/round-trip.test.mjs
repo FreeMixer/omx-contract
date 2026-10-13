@@ -43,6 +43,6 @@ test('step 2: the 64 units omx-dsp reads are all among them', () => {
 
 test('the moved renderer is openmixer\'s, line for line', () => {
   const ours = readFileSync(join(ROOT, 'render/c/contract-limits-render.mjs'), 'utf8').split('\n');
-  assert.match(ours[2], /^\/\/ Moved unchanged from openmixer harness\/contract-limits-render\.mjs/);
+  assert.match(ours[2], /^\/\/ Moved unchanged from the console engine's contract-limits renderer/);
   assert.ok(ours.includes('export function renderContractLimits({'));
 });

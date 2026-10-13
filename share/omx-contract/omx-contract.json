@@ -302,7 +302,7 @@
     "DETECTOR_TOPOLOGY": {
       "rel": "data/kernels/comp.json",
       "kind": "set",
-      "doc": "Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.",
+      "doc": "Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, the SSL bus compressor design §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.",
       "default": "feedforward",
       "value": [
         "feedforward",
@@ -312,7 +312,7 @@
     "PROGRAM_RELEASE": {
       "rel": "data/kernels/comp.json",
       "kind": "sheet",
-      "doc": "The program-dependent release's model constants — the LA-2A's opto cell as DATA (`docs/design/specs/2026-09-26-compressor-models.md` §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.",
+      "doc": "The program-dependent release's model constants — the LA-2A's opto cell as DATA (compressor models design §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.",
       "value": {
         "chargeMs": 1000,
         "dischargeMs": 5000,
@@ -443,14 +443,14 @@
     "DEESS_KNEE_DB": {
       "rel": "data/kernels/deesser.json",
       "kind": "scalar",
-      "doc": "The knee, in dB — a CONSTANT of the stage and not a row field (`2026-09-22-native-deesser-stage.md` §4b): a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.",
+      "doc": "The knee, in dB — a CONSTANT of the stage and not a row field: a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.",
       "unit": "dB",
       "value": 6
     },
     "FX_DELAY_TIME_RANGE": {
       "rel": "data/kernels/delay.json",
       "kind": "travels",
-      "doc": "The FX delay's time travel. `max` is the NATIVE ring's ceiling — the same number as `OMX_FXDELAY_MAX_MS` in `omx_delay.h`, pinned to it by `output-delay-ceiling.test.ts`. Distinct from the per-route ALIGNMENT delay (`OUTPUT_DELAY_RANGE`, 1 s, `OMX_DELAY_MAX_MS`): one is a musical echo with feedback and mix, the other is a pure latency. Two facts, two rings, two ceilings — sharing the word \"delay\" is why they keep being confused for each other.",
+      "doc": "The FX delay's time travel. `max` is the NATIVE ring's ceiling — the same number as `OMX_FXDELAY_MAX_MS` in `omx_delay.h`, pinned to it by the engine's conformance test. Distinct from the per-route ALIGNMENT delay (`OUTPUT_DELAY_RANGE`, 1 s, `OMX_DELAY_MAX_MS`): one is a musical echo with feedback and mix, the other is a pure latency. Two facts, two rings, two ceilings — sharing the word \"delay\" is why they keep being confused for each other.",
       "c": {
         "alias": {
           "fact": "delay",
@@ -484,7 +484,7 @@
     "DELAY_TONE_RANGE": {
       "rel": "data/kernels/delay.json",
       "kind": "travels",
-      "doc": "The FX delay's TONE — a NORMALIZED_RANGE instance with its own come-up value, matching `DEFAULT_DELAY_STATE.tone`. See REVERB_SIZE_RANGE for why this is a named constant rather than a default on the shared shape.",
+      "doc": "The FX delay's TONE — a NORMALIZED_RANGE instance with its own come-up value, matching the console's delay default tone. See REVERB_SIZE_RANGE for why this is a named constant rather than a default on the shared shape.",
       "shape": "travel",
       "value": {
         "min": 0,
@@ -529,7 +529,7 @@
     "FX_DELAY_PINGPONG_DEFAULT": {
       "rel": "data/kernels/delay.json",
       "kind": "scalar",
-      "doc": "The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the server's `DEFAULT_DELAY_STATE` (which now reads it) so the DPF plugin generator (`packages/omx-plugins/tools/params-gen.mjs`, `2026-09-25-omx-plugins-dpf.md` §3a) reads the same fact the desk seeds a fresh strip with.",
+      "doc": "The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the console's delay default state (which now reads it) so the DPF plugin generator (omx-plugins, DPF plugin design §3a) reads the same fact the desk seeds a fresh strip with.",
       "unit": "",
       "value": false
     },
@@ -805,7 +805,7 @@
     "EQ_GAIN_RANGE": {
       "rel": "data/kernels/eq.json",
       "kind": "travels",
-      "doc": "The parametric-band gain travel, in dB. The ± scalar `clampEqGain` enforces is READ off this (`core/src/eq.ts` derives `EQ_GAIN_LIMIT_DB` from `max`), so the bound is stated once and a surface cannot draw a wider knob than the clamp will honour.",
+      "doc": "The parametric-band gain travel, in dB. The ± scalar `clampEqGain` enforces is READ off this (the engine derives its gain limit from `max`), so the bound is stated once and a surface cannot draw a wider knob than the clamp will honour.",
       "shape": "travel",
       "value": {
         "min": -15,
@@ -854,7 +854,7 @@
     "EQ_MAX_BANDS": {
       "rel": "data/kernels/eq.json",
       "kind": "scalar",
-      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
+      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (the engine's conformance test reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
       "unit": "",
       "value": 24
     },
@@ -1170,7 +1170,7 @@
     "FBS_MAX_NOTCH_DEPTH_DB": {
       "rel": "data/kernels/fbs.json",
       "kind": "scalar",
-      "doc": "THE NOTCH DEPTH LAW: the deepest cut any machine planter may propose from one reading, in dB. A number, not a literal at the call site, because two planters now lean on it. FBS derives a candidate's depth from the peak-to-average ratio around its bin and stops here; Room Analysis derives a mode's depth from its height above the median curve and is held to the SAME ceiling (2026-09-08-room-analysis.md §4 — \"never more than the FBS notch depth law\"). Written twice as `18` those two bounds would be equal by coincidence and could drift apart in silence. It is a CEILING ON THE PROPOSAL, not the final gain: a band that lands as a rampable BELL is bounded again by `EQ_GAIN_RANGE`, which is tighter. A planter must honour both and REPORT when either bit, never quietly deliver a shallower cut than it was asked for.",
+      "doc": "THE NOTCH DEPTH LAW: the deepest cut any machine planter may propose from one reading, in dB. A number, not a literal at the call site, because two planters now lean on it. FBS derives a candidate's depth from the peak-to-average ratio around its bin and stops here; Room Analysis derives a mode's depth from its height above the median curve and is held to the SAME ceiling (the room-analysis design §4 — \"never more than the FBS notch depth law\"). Written twice as `18` those two bounds would be equal by coincidence and could drift apart in silence. It is a CEILING ON THE PROPOSAL, not the final gain: a band that lands as a rampable BELL is bounded again by `EQ_GAIN_RANGE`, which is tighter. A planter must honour both and REPORT when either bit, never quietly deliver a shallower cut than it was asked for.",
       "unit": "dB",
       "value": 18
     },
@@ -1447,7 +1447,7 @@
     "HRP_MAX_VOICES": {
       "rel": "data/kernels/hrp.json",
       "kind": "scalar",
-      "doc": "How many simultaneous musical voices the detector may report on one channel. PINNED to `OMX_HRP_MAX_VOICES` in `pipewire-native/src/hrp_pitch.h` — the C voice set is a FIXED-SIZE array, so a TS number above the macro promises voices the analyser structurally cannot return, and one below it silently drops notes the C already found. `core/src/output-delay-ceiling.test.ts` reads the header and holds the pair equal. EIGHT (operator sizing, 2026-09-01): a guitar sounds six strings, a piano or string-section voicing sits at eight. It is a SEARCH ceiling, not a cost — the detector abandons a round as soon as no credible candidate remains, so monophonic material costs what it always did.",
+      "doc": "How many simultaneous musical voices the detector may report on one channel. PINNED to `OMX_HRP_MAX_VOICES` in `pipewire-native/src/hrp_pitch.h` — the C voice set is a FIXED-SIZE array, so a TS number above the macro promises voices the analyser structurally cannot return, and one below it silently drops notes the C already found. the engine's conformance test reads the header and holds the pair equal. EIGHT (operator sizing, 2026-09-01): a guitar sounds six strings, a piano or string-section voicing sits at eight. It is a SEARCH ceiling, not a cost — the detector abandons a round as soon as no credible candidate remains, so monophonic material costs what it always did.",
       "unit": "",
       "value": 8
     },
@@ -1489,14 +1489,14 @@
     "HRP_DEFAULT_MAX_AUTO_BANDS": {
       "rel": "data/kernels/hrp.json",
       "kind": "scalar",
-      "doc": "How many bands HRP may plant on ONE channel — its half of the machine budget, and the number that makes the budget FORECASTABLE rather than emergent. Without it the count is whatever the material happens to provoke: the placement law is sparse, so a clean note plants two bands and a resonant room plants nine, and nobody can answer \"will this fit?\" until it does not. With FBS senior (§9.3(b)) that discovery would happen at showtime, to the junior planter, silently. Declared instead, the whole sum is arithmetic an operator can read before a note is played: operator bands + FBS maxAutoBands + HRP maxAutoBands <= EQ_MAX_BANDS EIGHT — ONE CORRECTION PER VOICE at full polyphony (operator sizing, 2026-09-01). The detector's ceiling is HRP_MAX_VOICES voices, a guitar's six strings and a piano/string voicing's eight, and a budget below the voice count would decide by arithmetic which of the notes actually sounding may be corrected — a limit nobody could read off the desk. Scarcity is handled where it belongs instead: the candidates from every voice meet in ONE globally ranked list (spec §29) and the head of it is what gets planted. It is NOT a claim to seniority, and it is larger than FBS's six. Seniority is the ALLOCATION ORDER — `HrpPlanter` takes only `EQ_MAX_BANDS − others.length`, the remainder after the operator and every other machine — so a bigger junior default cannot reach a senior slot; it only means HRP asks for more of what is left. `eq-budget-fits.test.ts` asserts both halves. The per-channel DEFAULT; the row's travel is HRP_AUTO_BANDS_RANGE, so a channel that needs more can have more, as an explicit decision with a visible cost.",
+      "doc": "How many bands HRP may plant on ONE channel — its half of the machine budget, and the number that makes the budget FORECASTABLE rather than emergent. Without it the count is whatever the material happens to provoke: the placement law is sparse, so a clean note plants two bands and a resonant room plants nine, and nobody can answer \"will this fit?\" until it does not. With FBS senior (§9.3(b)) that discovery would happen at showtime, to the junior planter, silently. Declared instead, the whole sum is arithmetic an operator can read before a note is played: operator bands + FBS maxAutoBands + HRP maxAutoBands <= EQ_MAX_BANDS EIGHT — ONE CORRECTION PER VOICE at full polyphony (operator sizing, 2026-09-01). The detector's ceiling is HRP_MAX_VOICES voices, a guitar's six strings and a piano/string voicing's eight, and a budget below the voice count would decide by arithmetic which of the notes actually sounding may be corrected — a limit nobody could read off the desk. Scarcity is handled where it belongs instead: the candidates from every voice meet in ONE globally ranked list (spec §29) and the head of it is what gets planted. It is NOT a claim to seniority, and it is larger than FBS's six. Seniority is the ALLOCATION ORDER — `HrpPlanter` takes only `EQ_MAX_BANDS − others.length`, the remainder after the operator and every other machine — so a bigger junior default cannot reach a senior slot; it only means HRP asks for more of what is left. the engine's conformance test asserts both halves. The per-channel DEFAULT; the row's travel is HRP_AUTO_BANDS_RANGE, so a channel that needs more can have more, as an explicit decision with a visible cost.",
       "unit": "",
       "value": 8
     },
     "LIMITER_LIMITS": {
       "rel": "data/kernels/limiter.json",
       "kind": "travels",
-      "doc": "The precision limiter's travels (`2026-09-27-precision-limiter.md` §2), rendered into `omx_contract_limits.h` as `OMX_LIMITER_*` by `harness/contract-limits-gen.mjs`, so `mix_limiter.h` reads them and never restates one (R-094). The ceiling is a TRUE peak in dBFS (the ×4 detector); the look-ahead sets the declared latency; the release is the envelope's time constant on the gain depth.",
+      "doc": "The precision limiter's travels, rendered into `omx_contract_limits.h` as `OMX_LIMITER_*` by the engine's limits generator, so `mix_limiter.h` reads them and never restates one (R-094). The ceiling is a TRUE peak in dBFS (the ×4 detector); the look-ahead sets the declared latency; the release is the envelope's time constant on the gain depth.",
       "shape": "table",
       "value": {
         "ceilingDb": {
@@ -1528,7 +1528,7 @@
     "BUS_INPUT_CAP": {
       "rel": "data/kernels/mixmatrix.json",
       "kind": "scalar",
-      "doc": "The input cap a summing bus can be sized to — **the engine's declared input ceiling**, read from `@freemixer/declarations` rather than re-typed here. A gig with more than this many inputs needs more than one engine node; below it a bus is sized to `min(N, BUS_INPUT_CAP)`. It was a literal 64 until 2026-09-15, said to mirror the engine's `MAX_BUS_INPUTS` — and it did, but that 64 was the PipeWire builtin mixer's single-tier fan-in (8 × 8), never the engine's bound: the native node has allocated `OMX_MAX_STRIPS` (128) strips all along. Two literals agreeing by hand is how the console came to refuse a 96-channel desk it could carry. `native-input-ceiling.test.ts` holds this to the C header; spec `docs/design/specs/2026-09-14-console-allocation.md` §9 carries the ruling and the measured cost of width.",
+      "doc": "The input cap a summing bus can be sized to — **the engine's declared input ceiling**, read from `@freemixer/declarations` rather than re-typed here. A gig with more than this many inputs needs more than one engine node; below it a bus is sized to `min(N, BUS_INPUT_CAP)`. It was a literal 64 until 2026-09-15, said to mirror the engine's `MAX_BUS_INPUTS` — and it did, but that 64 was the PipeWire builtin mixer's single-tier fan-in (8 × 8), never the engine's bound: the native node has allocated `OMX_MAX_STRIPS` (128) strips all along. Two literals agreeing by hand is how the console came to refuse a 96-channel desk it could carry. the engine's conformance test holds this to the C header; the console allocation design §9 carries the ruling and the measured cost of width.",
       "unit": "",
       "value": 128
     },
@@ -1721,7 +1721,7 @@
     "REVERB_PLATE_MOD_DEPTH_RANGE": {
       "rel": "data/kernels/reverb.json",
       "kind": "travels",
-      "doc": "PLATE's tank MODULATION DEPTH, in percent of Dattorro's own excursion (±8 samples at his 29 761 Hz tuning rate, scaled to the live rate the way the tank lengths are). 100 is the depth the plate has always run at, so the come-up is bit-identical to the plate before the field; 0 brings back the unmodulated tank's ring; 400 is the wide, chorused EMT-style swing. The rate stays 1 Hz. Only PLATE reads it (`2026-09-26-native-fx-catalogue.md` §2, Reverb).",
+      "doc": "PLATE's tank MODULATION DEPTH, in percent of Dattorro's own excursion (±8 samples at his 29 761 Hz tuning rate, scaled to the live rate the way the tank lengths are). 100 is the depth the plate has always run at, so the come-up is bit-identical to the plate before the field; 0 brings back the unmodulated tank's ring; 400 is the wide, chorused EMT-style swing. The rate stays 1 Hz. Only PLATE reads it.",
       "shape": "travel",
       "value": {
         "min": 0,
@@ -1836,7 +1836,7 @@
     "REVERB_REVERSE_RANGE": {
       "rel": "data/kernels/reverb.json",
       "kind": "travels",
-      "doc": "REVERSE's MIRROR WINDOW — how long a slice of the wet is played backward, in milliseconds (`2026-07-15-native-delay-reverb.md`, Amendment 2026-09-17 §B). A DECLARED travel and never derived from `size`'s RT60: an RT60 of seconds cannot be buffered at 192 kHz, and a window silently clamped to fit is the silent-clamp defect. The ceiling is what `mix_reverb.h`'s pool budgets a ring for (`OMX_REVERB_REVERSE_MAX_MS`), so the console offers exactly the travel the kernel accepts — nothing wider, nothing narrower.",
+      "doc": "REVERSE's MIRROR WINDOW — how long a slice of the wet is played backward, in milliseconds. A DECLARED travel and never derived from `size`'s RT60: an RT60 of seconds cannot be buffered at 192 kHz, and a window silently clamped to fit is the silent-clamp defect. The ceiling is what `mix_reverb.h`'s pool budgets a ring for (`OMX_REVERB_REVERSE_MAX_MS`), so the console offers exactly the travel the kernel accepts — nothing wider, nothing narrower.",
       "shape": "travel",
       "value": {
         "min": 50,
@@ -2167,7 +2167,7 @@
     "RTA_TARGET_BIN_HZ": {
       "rel": "data/kernels/rta.json",
       "kind": "scalar",
-      "doc": "The RTA's target bin resolution — generated into `omx_contract_limits.h` as `OMX_RTA_TARGET_BIN_HZ`, which `mix_dsp.h` reads; `rta-window-derivation.test.ts` reads it back from the header.",
+      "doc": "The RTA's target bin resolution — generated into `omx_contract_limits.h` as `OMX_RTA_TARGET_BIN_HZ`, which `mix_dsp.h` reads; the engine's conformance test reads it back from the header.",
       "unit": "Hz",
       "value": 5.9
     },
@@ -2209,7 +2209,7 @@
     "TRANSIENT_LIMITS": {
       "rel": "data/kernels/transient.json",
       "kind": "travels",
-      "doc": "The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. `harness/contract-limits-gen.mjs` emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921).",
+      "doc": "The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. the engine's limits generator emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921).",
       "shape": "table",
       "value": {
         "attackDb": {
@@ -2369,7 +2369,7 @@
     "TRIM_RANGE": {
       "rel": "data/kernels/trim.json",
       "kind": "travels",
-      "doc": "The digital input trim, in dB: the console's fine head gain, applied first in a channel's lane as a click-free ramp from the last block's gain to this one (openmixer's TRIM_RANGE, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there). It comes up at 0 dB, the trim a channel has when none is set. omx-dsp's trim face takes it as `trim_db`.",
+      "doc": "The digital input trim, in dB: the console's fine head gain, applied first in a channel's lane as a click-free ramp from the last block's gain to this one (the console's trim range, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there). It comes up at 0 dB, the trim a channel has when none is set. omx-dsp's trim face takes it as `trim_db`.",
       "shape": "travel",
       "value": {
         "min": -24,
@@ -2549,7 +2549,7 @@
     "STANDARD_SAMPLE_RATES": {
       "rel": "data/rates.json",
       "kind": "list",
-      "doc": "The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` (`2026-07-15-clock-rate-honest-force-rate.md`) — this is the ceiling a write is refused by, never a menu.",
+      "doc": "The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` — this is the ceiling a write is refused by, never a menu.",
       "unit": "Hz",
       "value": [
         44100,

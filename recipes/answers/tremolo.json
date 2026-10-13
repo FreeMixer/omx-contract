@@ -10,7 +10,7 @@
     {
       "name": "TREMOLO_RATE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "TREMOLO_RATE_RANGE"
       },
       "value": {
@@ -26,7 +26,7 @@
     {
       "name": "TREMOLO_DEPTH_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "TREMOLO_DEPTH_RANGE"
       },
       "value": {
@@ -42,7 +42,7 @@
     {
       "name": "TREMOLO_MIX_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "TREMOLO_MIX_RANGE"
       },
       "value": {
@@ -58,7 +58,7 @@
     {
       "name": "TREMOLO_TRAVELS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "TREMOLO_TRAVELS"
       },
       "value": {

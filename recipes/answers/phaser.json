@@ -10,7 +10,7 @@
     {
       "name": "PHASER_RATE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "PHASER_RATE_RANGE"
       },
       "value": {
@@ -26,7 +26,7 @@
     {
       "name": "PHASER_BASE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "PHASER_BASE_RANGE"
       },
       "value": {
@@ -42,7 +42,7 @@
     {
       "name": "PHASER_DEPTH_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "PHASER_DEPTH_RANGE"
       },
       "value": {
@@ -58,7 +58,7 @@
     {
       "name": "PHASER_STAGES_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "PHASER_STAGES_RANGE"
       },
       "value": {
@@ -74,7 +74,7 @@
     {
       "name": "PHASER_STAGE_COUNTS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "PHASER_STAGE_COUNTS"
       },
       "value": [
@@ -91,7 +91,7 @@
     {
       "name": "PHASER_FEEDBACK_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "PHASER_FEEDBACK_RANGE"
       },
       "value": {
@@ -107,7 +107,7 @@
     {
       "name": "PHASER_MIX_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "PHASER_MIX_RANGE"
       },
       "value": {
@@ -123,7 +123,7 @@
     {
       "name": "PHASER_TRAVELS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "PHASER_TRAVELS"
       },
       "value": {

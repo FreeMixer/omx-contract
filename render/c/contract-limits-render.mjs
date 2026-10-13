@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// Moved unchanged from openmixer harness/contract-limits-render.mjs at 6c6e709f4429 (omx-contract spec
-// §3.4): a frozen export of openmixer's whole sheet renders through it byte for byte (test/round-trip.test.mjs).
+// Moved unchanged from the console engine's contract-limits renderer at 6c6e709f4429 (omx-contract spec
+// §3.4): a frozen export of the engine's whole sheet renders through it byte for byte (test/round-trip.test.mjs).
 /**
  * The RENDER half of `contract-limits-gen.mjs`: the header text as a pure function of the
- * declaration sheet it is handed. Split out so the declaration-perturbation ratchet (R-094,
- * `packages/server/src/declaration-perturbation-conformance.test.ts`) can render the header over
+ * declaration sheet it is handed. Split out so the engine's declaration-perturbation test can render the header over
  * a PERTURBED sheet and see whether every define follows it — the generator itself imports the
  * built modules and calls this, so there is one renderer and no second copy.
  */
@@ -220,7 +219,7 @@ function genDeclaredListsBlock(DECLARED_LISTS, definedElsewhere) {
  * over `<PREFIX>_LIMITS`, `declaredScalars`, `declaredSets`, `declaredLists`), then `extra` — the
  * names that are not in the core barrel (`OMX_CLAP_HOST_EXTENSIONS`) or a test's override of one
  * door. The generator and every render test build the sheet here, so a new door is added once,
- * never appended to a hand list per caller (2026-09-15-no-stored-derivations.md §9).
+ * never appended to a hand list per caller.
  */
 export function contractLimitsSheet(coreNs, declarations, extra = {}) {
   return {

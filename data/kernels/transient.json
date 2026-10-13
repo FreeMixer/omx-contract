@@ -69,7 +69,7 @@
   ],
   "tables": {
     "TRANSIENT_LIMITS": {
-      "doc": "The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. `harness/contract-limits-gen.mjs` emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921)."
+      "doc": "The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. the engine's limits generator emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921)."
     }
   },
   "constants": {

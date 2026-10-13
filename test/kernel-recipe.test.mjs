@@ -154,10 +154,10 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   }, root);
   assert.match(answers.engine.commit, /^[0-9a-f]{40}$/);
   assert.deepEqual(answers.items.map((i) => [i.name, i.source, i.value]), [
-    ['WOBBLE_RATE_RANGE', { path: 'packages/core/src/wobble.ts', export: 'WOBBLE_RATE_RANGE' }, { min: 0, max: 10, step: 0.5, unit: 'Hz', default: 2, defaultFrom: 'desk' }],
-    ['WOBBLE_DEPTH_MAX', { path: 'packages/core/src/wobble.ts', export: 'WOBBLE_DEPTH_MAX' }, Math.sqrt(0.5)],
-    ['WOBBLE_RING', { path: 'packages/pipewire-native/src/mix_wobble.h', define: 'WOBBLE_RING' }, 4096],
-    ['WOBBLE_TRAVELS', { path: 'packages/core/src/wobble.ts', export: 'WOBBLE_TRAVELS' }, { rateHz: { min: 0, max: 10, step: 0.5, unit: 'Hz', default: 2, defaultFrom: 'desk' } }],
+    ['WOBBLE_RATE_RANGE', { path: 'wobble.ts', export: 'WOBBLE_RATE_RANGE' }, { min: 0, max: 10, step: 0.5, unit: 'Hz', default: 2, defaultFrom: 'desk' }],
+    ['WOBBLE_DEPTH_MAX', { path: 'wobble.ts', export: 'WOBBLE_DEPTH_MAX' }, Math.sqrt(0.5)],
+    ['WOBBLE_RING', { path: 'mix_wobble.h', define: 'WOBBLE_RING' }, 4096],
+    ['WOBBLE_TRAVELS', { path: 'wobble.ts', export: 'WOBBLE_TRAVELS' }, { rateHz: { min: 0, max: 10, step: 0.5, unit: 'Hz', default: 2, defaultFrom: 'desk' } }],
   ]);
   assert.deepEqual(answers.items[3].set, { rateHz: { ref: 'WOBBLE_RATE_RANGE' } }, 'a field that IS another item refers to it');
   assert.equal(answers.items[0].doc, 'The wobble rate: the base travel, coming up at 2 Hz.');
@@ -174,7 +174,7 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
 
   assert.deepEqual(await verifyAnswers(answers, engine, root), [], 'the answers read again at their commit');
   const tampered = { ...answers, items: answers.items.map((i) => (i.name === 'WOBBLE_RING' ? { ...i, value: 4097 } : i)) };
-  assert.deepEqual(await verifyAnswers(tampered, engine, root), ['WOBBLE_RING: the answers hold 4097, packages/pipewire-native/src/mix_wobble.h gives 4096']);
+  assert.deepEqual(await verifyAnswers(tampered, engine, root), ['WOBBLE_RING: the answers hold 4097, mix_wobble.h gives 4096']);
 
   const { plan, stray } = commitPlan(loadRecipe(root), ['recipes/answers/wobble.json', ...written], { kernel: 'wobble', repo: 'r', commit12: 'c' });
   assert.deepEqual(plan.map((c) => c.layer), ['answers', 'data', 'render']);
