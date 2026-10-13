@@ -62,7 +62,6 @@ test('eq: the instance\'s controls, in the face\'s word order, the band quintet 
   assert.equal(by('lpfSlope').global, 'FILTER_SLOPES', 'the LPF slope takes the HPF slope\'s set, declared once');
   assert.deepEqual(by('q').when, [{ control: 'bandType', is: 'notch', global: 'EQ_NOTCH_Q_RANGE' }]);
   assert.ok(!c.some((x) => x.name === 'notchQ' || x.name === 'filterSlope'));
-  assert.equal(json().items.EQ_BAND_ONS.default, undefined, 'a band\'s come-up switch is the strip\'s, not the kernel\'s');
   assert.deepEqual(controls('geq')[0].count, 'GEQ_BANDS');
 });
 
@@ -76,7 +75,7 @@ const detectorControls = (cs) => ['kind', 'detectorOversampling'].map((n) => {
 test('comp: the detector choice and the detector oversampling are controls, by the console\'s names (#21)', () => {
   assert.deepEqual(detectorControls(controls('comp')), ['kind:COMP_KINDS', 'detectorOversampling:DETECTOR_OVERSAMPLINGS']);
   const h = header();
-  assert.match(h, /^ {2}OMX_DETECTOR_OVERSAMPLINGS_AUTO = 0,\n {2}OMX_DETECTOR_OVERSAMPLINGS_OFF = 1,\n {2}OMX_DETECTOR_OVERSAMPLINGS_X4 = 2,$/m);
+  assert.match(h, /^ {2}OMX_DETECTOR_OVERSAMPLINGS_AUTO = 0,\n {2}OMX_DETECTOR_OVERSAMPLINGS_OFF = 1,\n {2}OMX_DETECTOR_OVERSAMPLINGS_4X = 2,$/m);
   assert.match(h, /^#define OMX_COMP_KINDS_DEFAULT OMX_COMP_KINDS_COMP$/m);
   assert.deepEqual(controls('gate').map((c) => c.name).slice(0, 10), ['keySource', 'thresholdDb', 'rangeDb', 'kneeStartDb', 'kneeEndDb', 'attackMs', 'holdMs', 'releaseMs', 'hysteresisDb', 'ratio']);
 });
@@ -100,7 +99,7 @@ const moves = [
   ['eq', 'EQ_BAND_ONS', (it) => { it.default = 'on'; }, 'EQ_BAND_ONS', 'on'],
   ['eq', 'FILTER_SLOPES', (it) => { it.default = 24; }, 'FILTER_SLOPES', 24],
   ['comp', 'COMP_KINDS', (it) => { it.default = 'limiter'; }, 'COMP_KINDS', 'limiter'],
-  ['comp', 'DETECTOR_OVERSAMPLINGS', (it) => { it.default = 'x4'; }, 'DETECTOR_OVERSAMPLINGS', 'x4'],
+  ['comp', 'DETECTOR_OVERSAMPLINGS', (it) => { it.default = '4x'; }, 'DETECTOR_OVERSAMPLINGS', '4x'],
 ];
 for (const [k, at, move, set, want] of moves) {
   test(`perturbation: move ${at}, ${set}'s default follows in the c and json renders, and --check goes red`, () => {

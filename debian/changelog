@@ -1,12 +1,29 @@
-omx-contract (2.9.0) unstable; urgency=medium
+omx-contract (2.11.0) unstable; urgency=medium
 
   * The drive's hf roll-off ids are the console's: off, 12000, 16000,
     each carrying its corner in Hz as a value, off none (#29). A set's
     ids may now carry values (schema: values and unit). The C header
     renumbers the roll-off set (OMX_DRIVE_HF_ROLLOFFS_OFF = 0, _12000 = 1,
     _16000 = 2) and adds OMX_DRIVE_HF_ROLLOFFS_<ID>_VALUE and
-    omx_drive_hf_rolloffs_value(); every other define of 2.8.0 is
+    omx_drive_hf_rolloffs_value(); every other define of 2.10.0 is
     unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 13 Oct 2026 22:00:00 +0000
+
+omx-contract (2.10.0) unstable; urgency=medium
+
+  * The compressor's detector oversampling ids are the console's: auto,
+    off, 4x, in the same order (#28). The C header spells the third
+    OMX_DETECTOR_OVERSAMPLINGS_4X (still 2); every other define of 2.9.0
+    is unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 13 Oct 2026 21:30:00 +0000
+
+omx-contract (2.9.0) unstable; urgency=medium
+
+  * An EQ band comes up off: EQ_BAND_ONS declares its default, off, and
+    every strip reads it from the contract (#26). The C header adds
+    OMX_EQ_BAND_ONS_DEFAULT; every other define of 2.8.0 is unchanged.
 
  -- Pau Aliagas <linuxnow@gmail.com>  Tue, 13 Oct 2026 21:00:00 +0000
 

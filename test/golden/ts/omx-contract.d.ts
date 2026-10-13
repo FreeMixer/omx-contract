@@ -249,10 +249,10 @@ export declare const COMP_LIMITS: {
 export declare const COMP_KINDS: readonly ["comp", "limiter"];
 
 /**
- * The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `x4` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order). The console's comp row carries it as the operator's choice (`CompState.detectorOversampling`, spelled auto, off, 4x) and comes up `auto`.
+ * The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `4x` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order, so the index mapping holds). The ids are the console's wire vocabulary (`CompState.detectorOversampling`, what the dynamics row's OPTIONS publishes and a session stores), so the console re-exports this set; it comes up `auto`.
  * @see data/kernels/comp.json
  */
-export declare const DETECTOR_OVERSAMPLINGS: readonly ["auto", "off", "x4"];
+export declare const DETECTOR_OVERSAMPLINGS: readonly ["auto", "off", "4x"];
 
 /**
  * Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, the SSL bus compressor design §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.
@@ -651,7 +651,7 @@ export declare const EQ_NOTCH_Q_RANGE: {
 };
 
 /**
- * A band's switch. Off, the band is not in the EQ's bank (the slots close up); on, it runs, parked when it is a gain-carrying shape at 0 dB. No come-up value is declared, because the strips differ: the console's channel EQ brings its default bands up on, an omx-eq plugin brings every band up off so a racked instance is a wire.
+ * A band's switch. Off, the band is not in the EQ's bank (the slots close up); on, it runs, parked when it is a gain-carrying shape at 0 dB. A band comes up off (operator ruling, 2026-10-13): an omx-eq plugin brings every band up off so a racked instance is a wire, and the console's channel EQ reads its come-up value here. A stored session keeps its own band states; only a fresh band comes up off.
  * @see data/kernels/eq.json
  */
 export declare const EQ_BAND_ONS: readonly ["off", "on"];

@@ -49,7 +49,7 @@ pkg-config --cflags omx-contract
 ```
 
 Pin one version and build against its renders instead of keeping a copy: the installed package at exactly
-that version (`pkg-config --exact-version=2.9.0 omx-contract`), else the npm tarball, unpacked, and
+that version (`pkg-config --exact-version=2.11.0 omx-contract`), else the npm tarball, unpacked, and
 `omx-contract render --target c --out build/omx-contract/include`. A kernel's controls and readouts, in their
 order, are in `share/omx-contract/omx-contract.json`; how a declaration is written is in
 [docs/kernel-files.md](docs/kernel-files.md), and what a readout is in [docs/readouts.md](docs/readouts.md).

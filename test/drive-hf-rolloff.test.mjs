@@ -3,7 +3,7 @@
 // 2.9.0 (#29): the drive's hf roll-off ids are the console's, off, 12000, 16000 (operator ruling, 2026-10-13), each
 // carrying its corner in Hz as its value and off none, so no 0 Hz doubles as "no roll-off". The console re-exports
 // DRIVE_HF_ROLLOFFS; a kernel reads the corner from the id with omx_drive_hf_rolloffs_value(). The C render keeps
-// every line of the released 2.8.0 header but the roll-off set's.
+// every line of the released 2.10.0 header but the roll-off set's.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -30,8 +30,8 @@ test('drive: DRIVE_HF_ROLLOFFS is off, 12000, 16000, carrying none, 12000 and 16
   assert.deepEqual(JSON.parse(m[1]), { off: null, 12000: 12000, 16000: 16000 });
 });
 
-test('the C render is the 2.8.0 header with the roll-off set\'s block replaced, which gives the kernel each corner from its id', () => {
-  const old = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.8.0/omx_contract_limits.h'), 'utf8');
+test('the C render is the 2.10.0 header with the roll-off set\'s block replaced, which gives the kernel each corner from its id', () => {
+  const old = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.10.0/omx_contract_limits.h'), 'utf8');
   const was = [
     '  OMX_DRIVE_HF_ROLLOFFS_0 = 0,',
     '  OMX_DRIVE_HF_ROLLOFFS_12000 = 12000,',
@@ -58,7 +58,7 @@ test('the C render is the 2.8.0 header with the roll-off set\'s block replaced, 
     '  }',
     '}',
   ].join('\n');
-  assert.equal(old.split(was).length, 2, 'the 2.8.0 header holds the old block once');
+  assert.equal(old.split(was).length, 2, 'the 2.10.0 header holds the old block once');
   assert.equal(header(), old.replace(was, is));
 });
 
