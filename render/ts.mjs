@@ -14,7 +14,7 @@ export function tsValue(r) {
 
 /** The literal type of a JSON value, every member readonly. */
 export function tsType(v, indent = '') {
-  if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+  if (v === null || typeof v === 'number' || typeof v === 'boolean') return String(v);
   if (typeof v === 'string') return JSON.stringify(v);
   const inner = `${indent}  `;
   if (Array.isArray(v)) return v.length ? `readonly [${v.map((x) => tsType(x, indent)).join(', ')}]` : 'readonly []';
@@ -83,12 +83,29 @@ function readoutsExport(resolved) {
   };
 }
 
+/**
+ * The value each id of a set carries, `<SET>_VALUES`: `{ <id>: value | null }` in id order, for every set that declares
+ * values (the drive's roll-off corners), so a reader takes the number from the id, never from its spelling.
+ */
+function setValuesExports(resolved) {
+  const sets = [...resolved.values()].filter((r) => r.kind === 'set' && r.values);
+  const one = (r, decl) => {
+    const value = Object.fromEntries(r.value.map((id, i) => [id, r.values[i]]));
+    const doc = `/**\n * The value each id of ${r.name} carries, in ${JSON.stringify(r.unit)}; null for an id that carries none.\n * @see ${r.rel}\n */`;
+    return decl
+      ? `\n${doc}\nexport declare const ${r.name}_VALUES: ${tsType(value)};\n`
+      : `\n${doc}\nexport const ${r.name}_VALUES = ${JSON.stringify(value, null, 2)};\n`;
+  };
+  return { js: sets.map((r) => one(r, false)).join(''), dts: sets.map((r) => one(r, true)).join('') };
+}
+
 /** Every file of the `ts` target: `[{ path, text }]`. */
 export function renderTs(resolved) {
   const items = [...resolved.values()];
   const rule = eqRule(resolved);
   const readouts = readoutsExport(resolved);
-  const js = BANNER + items.map((r) => `\n${docComment(r)}\nexport const ${r.name} = ${JSON.stringify(tsValue(r), null, 2)};\n`).join('') + readouts.js + rule.js;
-  const dts = BANNER + items.map((r) => `\n${docComment(r)}\nexport declare const ${r.name}: ${tsType(tsValue(r))};\n`).join('') + readouts.dts + rule.dts;
+  const values = setValuesExports(resolved);
+  const js = BANNER + items.map((r) => `\n${docComment(r)}\nexport const ${r.name} = ${JSON.stringify(tsValue(r), null, 2)};\n`).join('') + values.js + readouts.js + rule.js;
+  const dts = BANNER + items.map((r) => `\n${docComment(r)}\nexport declare const ${r.name}: ${tsType(tsValue(r))};\n`).join('') + values.dts + readouts.dts + rule.dts;
   return [{ path: 'omx-contract.js', text: js }, { path: 'omx-contract.d.ts', text: dts }];
 }
