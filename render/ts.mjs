@@ -84,8 +84,9 @@ function readoutsExport(resolved) {
 }
 
 /**
- * The value each id of a set carries, `<SET>_VALUES`: `{ <id>: value | null }` in id order, for every set that declares
- * values (the drive's roll-off corners), so a reader takes the number from the id, never from its spelling.
+ * The value each id of a set carries, `<SET>_VALUES`: `{ <id>: value | null }`, for every set that declares values (the
+ * drive's roll-off corners), so a reader takes the number from the id, never from its spelling. Read it by id: an
+ * object keeps no order for an id such as 12000.
  */
 function setValuesExports(resolved) {
   const sets = [...resolved.values()].filter((r) => r.kind === 'set' && r.values);
