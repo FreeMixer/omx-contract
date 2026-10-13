@@ -1,3 +1,12 @@
+omx-contract (2.10.0) unstable; urgency=medium
+
+  * The compressor's detector oversampling ids are the console's: auto,
+    off, 4x, in the same order (#28). The C header spells the third
+    OMX_DETECTOR_OVERSAMPLINGS_4X (still 2); every other define of 2.9.0
+    is unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 13 Oct 2026 21:30:00 +0000
+
 omx-contract (2.9.0) unstable; urgency=medium
 
   * An EQ band comes up off: EQ_BAND_ONS declares its default, off, and

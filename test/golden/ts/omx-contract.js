@@ -255,13 +255,13 @@ export const COMP_KINDS = [
 ];
 
 /**
- * The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `x4` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order). The console's comp row carries it as the operator's choice (`CompState.detectorOversampling`, spelled auto, off, 4x) and comes up `auto`.
+ * The compressor's detector oversampling: `auto` runs the control path at 4x only while the attack is faster than DETECTOR_OVERSAMPLE_AUTO_MS, `off` never, `4x` always (omx-dsp's OMX_DYN_OVS_AUTO, _OFF and _X4, in that order, so the index mapping holds). The ids are the console's wire vocabulary (`CompState.detectorOversampling`, what the dynamics row's OPTIONS publishes and a session stores), so the console re-exports this set; it comes up `auto`.
  * @see data/kernels/comp.json
  */
 export const DETECTOR_OVERSAMPLINGS = [
   "auto",
   "off",
-  "x4"
+  "4x"
 ];
 
 /**
