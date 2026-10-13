@@ -10,7 +10,7 @@
     {
       "name": "ROTARY_HORN_SLOW_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_HORN_SLOW_RANGE"
       },
       "value": {
@@ -26,7 +26,7 @@
     {
       "name": "ROTARY_HORN_FAST_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_HORN_FAST_RANGE"
       },
       "value": {
@@ -42,7 +42,7 @@
     {
       "name": "ROTARY_DRUM_SLOW_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_DRUM_SLOW_RANGE"
       },
       "value": {
@@ -58,7 +58,7 @@
     {
       "name": "ROTARY_DRUM_FAST_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_DRUM_FAST_RANGE"
       },
       "value": {
@@ -74,7 +74,7 @@
     {
       "name": "ROTARY_ACCEL_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_ACCEL_RANGE"
       },
       "value": {
@@ -90,7 +90,7 @@
     {
       "name": "ROTARY_BALANCE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_BALANCE_RANGE"
       },
       "value": {
@@ -106,7 +106,7 @@
     {
       "name": "ROTARY_MIX_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_MIX_RANGE"
       },
       "value": {
@@ -122,7 +122,7 @@
     {
       "name": "ROTARY_TRAVELS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_TRAVELS"
       },
       "value": {
@@ -211,7 +211,7 @@
     {
       "name": "ROTARY_CROSSOVER_HZ",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_CROSSOVER_HZ"
       },
       "value": 800,
@@ -221,7 +221,7 @@
     {
       "name": "ROTARY_BASE_MS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_BASE_MS"
       },
       "value": 0.1,
@@ -231,7 +231,7 @@
     {
       "name": "ROTARY_HORN_DOPPLER_MS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_HORN_DOPPLER_MS"
       },
       "value": 0.44,
@@ -241,7 +241,7 @@
     {
       "name": "ROTARY_DRUM_DOPPLER_MS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_DRUM_DOPPLER_MS"
       },
       "value": 0.29,
@@ -251,7 +251,7 @@
     {
       "name": "ROTARY_HORN_AM",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_HORN_AM"
       },
       "value": 0.5,
@@ -261,7 +261,7 @@
     {
       "name": "ROTARY_DRUM_AM",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_DRUM_AM"
       },
       "value": 0.3,
@@ -271,7 +271,7 @@
     {
       "name": "ROTARY_HORN_ACCEL_MS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_HORN_ACCEL_MS"
       },
       "value": 330,
@@ -281,7 +281,7 @@
     {
       "name": "ROTARY_HORN_DECEL_MS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_HORN_DECEL_MS"
       },
       "value": 500,
@@ -291,7 +291,7 @@
     {
       "name": "ROTARY_DRUM_ACCEL_MS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_DRUM_ACCEL_MS"
       },
       "value": 1700,
@@ -301,7 +301,7 @@
     {
       "name": "ROTARY_DRUM_DECEL_MS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_DRUM_DECEL_MS"
       },
       "value": 1800,
@@ -311,7 +311,7 @@
     {
       "name": "ROTARY_STOP_EPS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_STOP_EPS"
       },
       "value": 0.0001,
@@ -321,7 +321,7 @@
     {
       "name": "ROTARY_RING_FLOATS",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "ROTARY_RING_FLOATS"
       },
       "value": 256,

@@ -10,17 +10,17 @@
     {
       "name": "EQ_MAX_BANDS",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "EQ_MAX_BANDS"
       },
       "value": 24,
-      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
+      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (the engine's conformance test reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
       "unit": ""
     },
     {
       "name": "ISO_THIRD_OCTAVE_CENTRES_HZ",
       "source": {
-        "path": "packages/core/src/eq.ts",
+        "path": "eq.ts",
         "export": "ISO_THIRD_OCTAVE_CENTRES_HZ"
       },
       "value": [
@@ -63,7 +63,7 @@
     {
       "name": "GEQ_BANDS",
       "source": {
-        "path": "packages/core/src/eq.ts",
+        "path": "eq.ts",
         "export": "GEQ_BANDS"
       },
       "value": 31,
@@ -79,7 +79,7 @@
     {
       "name": "EQ_FREQ_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "EQ_FREQ_RANGE"
       },
       "value": {
@@ -94,7 +94,7 @@
     {
       "name": "EQ_GAIN_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "EQ_GAIN_RANGE"
       },
       "value": {
@@ -103,13 +103,13 @@
         "step": 0.5,
         "unit": "dB"
       },
-      "doc": "The parametric-band gain travel, in dB. The ± scalar `clampEqGain` enforces is READ off this (`core/src/eq.ts` derives `EQ_GAIN_LIMIT_DB` from `max`), so the bound is stated once and a surface cannot draw a wider knob than the clamp will honour.",
+      "doc": "The parametric-band gain travel, in dB. The ± scalar `clampEqGain` enforces is READ off this (the engine derives its gain limit from `max`), so the bound is stated once and a surface cannot draw a wider knob than the clamp will honour.",
       "since": "1.2.0"
     },
     {
       "name": "EQ_Q_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "EQ_Q_RANGE"
       },
       "value": {
@@ -124,7 +124,7 @@
     {
       "name": "EQ_NOTCH_Q_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "EQ_NOTCH_Q_RANGE"
       },
       "value": {
@@ -139,7 +139,7 @@
     {
       "name": "HPF_FREQ_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "HPF_FREQ_RANGE"
       },
       "value": {
@@ -154,7 +154,7 @@
     {
       "name": "LPF_FREQ_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "LPF_FREQ_RANGE"
       },
       "value": {
@@ -169,7 +169,7 @@
     {
       "name": "OPERATOR_EQ_BANDS_RESERVE",
       "source": {
-        "origin": "openmixer 121319166e6a packages/declarations/src/index.ts OPERATOR_EQ_BANDS_RESERVE; read by omx-dsp 6d6fcda test/kernels/biquad.c"
+        "origin": "the console engine's operator EQ bands reserve; read by omx-dsp 6d6fcda test/kernels/biquad.c"
       },
       "value": 9,
       "doc": "The band slots kept for the operator's own hand: the reserve the feedback suppressor and the ring correction may never eat into. Nine is the working set a live EQ actually holds. The budget OPERATOR_EQ_BANDS_RESERVE + FBS_DEFAULT_MAX_AUTO_BANDS + HRP_DEFAULT_MAX_AUTO_BANDS (9 + 6 + 8 = 23) must fit EQ_MAX_BANDS, and `omx-contract validate` refuses data where it does not.",
@@ -179,7 +179,7 @@
     {
       "name": "EQ_BAND_TYPES",
       "source": {
-        "origin": "openmixer 121319166e6a packages/core/src/eq.ts EQ_BAND_TYPES and EQ_BAND_TYPE_LABELS; omx-dsp 6d6fcda include/omxdsp/fx/omx_eq_instance.h enum omx_eq_lv2_type; omx-plugins 3778732 the eq decls' band type values"
+        "origin": "the console engine's EQ band types and their labels; omx-dsp 6d6fcda include/omxdsp/fx/omx_eq_instance.h enum omx_eq_lv2_type; omx-plugins 3778732 the eq decls' band type values"
       },
       "value": [
         "bell",
@@ -205,7 +205,7 @@
     {
       "name": "FILTER_SLOPES",
       "source": {
-        "origin": "openmixer 121319166e6a packages/core/src/eq.ts FILTER_SLOPES; omx-dsp 6d6fcda include/omxdsp/fx/omx_eq_instance.h enum omx_eq_lv2_slope"
+        "origin": "the console engine's EQ filter slopes; omx-dsp 6d6fcda include/omxdsp/fx/omx_eq_instance.h enum omx_eq_lv2_slope"
       },
       "value": [
         12,
@@ -219,7 +219,7 @@
     {
       "name": "EQ_BAND_COUNTS",
       "source": {
-        "origin": "openmixer 121319166e6a packages/core/src/eq.ts defaultEqState (four bands) and packages/declarations/src/index.ts EQ_MAX_BANDS; omx-plugins 3778732 plugins/omx-strip/omx_strip.h OMX_STRIP_EQ_BANDS and plugins/omx-eq{8,16,32}/omx_eq*_stereo.h OMX_EQ_LV2_BANDS"
+        "origin": "the console engine's default EQ state (four bands) and its maximum band count; omx-plugins 3778732 plugins/omx-strip/omx_strip.h OMX_STRIP_EQ_BANDS and plugins/omx-eq{8,16,32}/omx_eq*_stereo.h OMX_EQ_LV2_BANDS"
       },
       "value": {
         "channel": {
@@ -254,7 +254,7 @@
     {
       "name": "EQ_BAND_DEFAULTS",
       "source": {
-        "origin": "omx-plugins 3778732 plugins/omx-strip/omx-strip.decl.json (eq bands: gain 0, Q 1 for bells and shelves); openmixer 121319166e6a packages/core/src/eq.ts defaultEqState (gain 0)"
+        "origin": "omx-plugins 3778732 plugins/omx-strip/omx-strip.decl.json (eq bands: gain 0, Q 1 for bells and shelves); the console engine's default EQ state (gain 0)"
       },
       "value": {
         "gainDb": 0,
@@ -266,7 +266,7 @@
     {
       "name": "EQ_PASS_FILTER_DEFAULTS",
       "source": {
-        "origin": "openmixer 121319166e6a packages/core/src/eq.ts defaultEqState; omx-dsp 6d6fcda include/omxdsp/fx/omx_eq_instance.h OMX_EQ_LV2_HPF_FREQ_DEFAULT and OMX_EQ_LV2_LPF_FREQ_DEFAULT"
+        "origin": "the console engine's default EQ state; omx-dsp 6d6fcda include/omxdsp/fx/omx_eq_instance.h OMX_EQ_LV2_HPF_FREQ_DEFAULT and OMX_EQ_LV2_LPF_FREQ_DEFAULT"
       },
       "value": {
         "hpfFreqHz": 80,
@@ -365,7 +365,7 @@
     {
       "name": "EQ_HPF_ONS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_eq_instance.h:358-359 the hpf_on word, read at :386 with default 0; openmixer 5d9804ad56ff packages/core/src/eq.ts:268-269 hpf on: false; omx-plugins 7461cdd plugins/omx-eq8/omx-eq8.decl.json hpf_on (def 0)"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_eq_instance.h:358-359 the hpf_on word, read at :386 with default 0; the console engine's default EQ state has the high-pass off; omx-plugins 7461cdd plugins/omx-eq8/omx-eq8.decl.json hpf_on (def 0)"
       },
       "value": [
         "off",
@@ -383,7 +383,7 @@
     {
       "name": "EQ_LPF_ONS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_eq_instance.h:358-359 the lpf_on word, read at :389 with default 0; openmixer 5d9804ad56ff packages/core/src/eq.ts:269-269 lpf on: false; omx-plugins 7461cdd plugins/omx-eq8/omx-eq8.decl.json lpf_on (def 0)"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_eq_instance.h:358-359 the lpf_on word, read at :389 with default 0; the console engine's default EQ state has the low-pass off; omx-plugins 7461cdd plugins/omx-eq8/omx-eq8.decl.json lpf_on (def 0)"
       },
       "value": [
         "off",
@@ -401,7 +401,7 @@
     {
       "name": "EQ_BAND_ONS",
       "source": {
-        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_eq_instance.h:110 struct omx_eq_lv2_band.on, the fifth band word at :360, read at :399 with default 0; openmixer 5d9804ad56ff packages/core/src/eq.ts:263-266 the default bands on: true; omx-plugins 7461cdd plugins/omx-eq8/omx-eq8.decl.json b<N>_on (def 0)"
+        "origin": "omx-dsp a624f26 include/omxdsp/fx/omx_eq_instance.h:110 struct omx_eq_lv2_band.on, the fifth band word at :360, read at :399 with default 0; the console engine's default EQ bands are on; omx-plugins 7461cdd plugins/omx-eq8/omx-eq8.decl.json b<N>_on (def 0)"
       },
       "value": [
         "off",

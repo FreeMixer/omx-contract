@@ -10,7 +10,7 @@
     {
       "name": "FLANGER_RATE_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "FLANGER_RATE_RANGE"
       },
       "value": {
@@ -26,7 +26,7 @@
     {
       "name": "FLANGER_DEPTH_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "FLANGER_DEPTH_RANGE"
       },
       "value": {
@@ -42,7 +42,7 @@
     {
       "name": "FLANGER_FEEDBACK_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "FLANGER_FEEDBACK_RANGE"
       },
       "value": {
@@ -58,7 +58,7 @@
     {
       "name": "FLANGER_MIX_RANGE",
       "source": {
-        "path": "packages/core/src/strip-fx-limits.ts",
+        "path": "strip-fx-limits.ts",
         "export": "FLANGER_MIX_RANGE"
       },
       "value": {

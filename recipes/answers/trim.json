@@ -10,7 +10,7 @@
     {
       "name": "TRIM_RANGE",
       "source": {
-        "origin": "openmixer 5d9804ad56ff packages/declarations/src/index.ts:178 TRIM_RANGE { minDb: -24, maxDb: 24, stepDb: 0.1 }, applied as the lane's head gain by packages/pipewire-native/src/mixer_rt.c:1106 (omx_fill_gain); 0 dB is the trim a channel has when none is set"
+        "origin": "the console engine's trim range { minDb: -24, maxDb: 24, stepDb: 0.1 }, applied as the lane's head gain by its mixing path (omx_fill_gain); 0 dB is the trim a channel has when none is set"
       },
       "value": {
         "min": -24,
@@ -20,7 +20,7 @@
         "default": 0,
         "defaultFrom": "desk"
       },
-      "doc": "The digital input trim, in dB: the console's fine head gain, applied first in a channel's lane as a click-free ramp from the last block's gain to this one (openmixer's TRIM_RANGE, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there). It comes up at 0 dB, the trim a channel has when none is set. omx-dsp's trim face takes it as `trim_db`."
+      "doc": "The digital input trim, in dB: the console's fine head gain, applied first in a channel's lane as a click-free ramp from the last block's gain to this one (the console's trim range, -24..+24 dB in 0.1 dB steps, spelled minDb/maxDb/stepDb there). It comes up at 0 dB, the trim a channel has when none is set. omx-dsp's trim face takes it as `trim_db`."
     },
     {
       "name": "TRIM_TRAVELS",

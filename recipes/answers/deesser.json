@@ -10,7 +10,7 @@
     {
       "name": "DEESS_FREQ_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "DEESS_FREQ_RANGE"
       },
       "value": {
@@ -26,7 +26,7 @@
     {
       "name": "DEESS_WIDTH_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "DEESS_WIDTH_RANGE"
       },
       "value": {
@@ -42,7 +42,7 @@
     {
       "name": "DEESS_THRESHOLD_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "DEESS_THRESHOLD_RANGE"
       },
       "value": {
@@ -58,7 +58,7 @@
     {
       "name": "DEESS_RATIO_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "DEESS_RATIO_RANGE"
       },
       "value": {
@@ -74,7 +74,7 @@
     {
       "name": "DEESS_RANGE_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "DEESS_RANGE_RANGE"
       },
       "value": {
@@ -90,7 +90,7 @@
     {
       "name": "DEESS_ATTACK_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "DEESS_ATTACK_RANGE"
       },
       "value": {
@@ -106,7 +106,7 @@
     {
       "name": "DEESS_RELEASE_RANGE",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "DEESS_RELEASE_RANGE"
       },
       "value": {
@@ -122,17 +122,17 @@
     {
       "name": "DEESS_KNEE_DB",
       "source": {
-        "path": "packages/core/src/deesser-curve.ts",
+        "path": "deesser-curve.ts",
         "export": "DEESS_KNEE_DB"
       },
       "value": 6,
-      "doc": "The knee, in dB — a CONSTANT of the stage and not a row field (`2026-09-22-native-deesser-stage.md` §4b): a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.",
+      "doc": "The knee, in dB — a CONSTANT of the stage and not a row field: a de-esser without a soft knee latches audibly on the first sibilant of a phrase, and no other value of this number is a de-esser anyone would dial. The controller pushes it to the node and this is the same number; a second spelling would be a picture that disagrees with the audio about where the reduction starts.",
       "unit": "dB"
     },
     {
       "name": "DEESS_MODES",
       "source": {
-        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_deesser.h enum omx_deess_mode; openmixer 121319166e6a packages/core/src/row-codecs.ts DEESS_MODES"
+        "origin": "omx-dsp 6d6fcda include/omxdsp/fx/omx_deesser.h enum omx_deess_mode; the console engine's de-esser mode list"
       },
       "value": [
         "split",

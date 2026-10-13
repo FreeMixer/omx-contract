@@ -107,7 +107,7 @@
     {
       "name": "gain",
       "kind": "travel",
-      "doc": "The parametric-band gain travel, in dB. The ± scalar `clampEqGain` enforces is READ off this (`core/src/eq.ts` derives `EQ_GAIN_LIMIT_DB` from `max`), so the bound is stated once and a surface cannot draw a wider knob than the clamp will honour.",
+      "doc": "The parametric-band gain travel, in dB. The ± scalar `clampEqGain` enforces is READ off this (the engine derives its gain limit from `max`), so the bound is stated once and a surface cannot draw a wider knob than the clamp will honour.",
       "travel": {
         "min": -15,
         "max": 15,
@@ -162,7 +162,7 @@
   "constants": {
     "EQ_MAX_BANDS": {
       "kind": "scalar",
-      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (`output-delay-ceiling.test.ts` reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
+      "doc": "The maximum number of parametric bands a channel EQ may hold — the operator can add up to this many. Generated into `omx_contract_limits.h` as `OMX_EQ_MAX_BANDS`, which `omx_biquad.h` reads (the engine's conformance test reads the header): the native lane allocates exactly this many biquad slots per channel and silently clamps above it, so the model, the wire, and the DSP agree by test, not by memory.",
       "unit": "",
       "value": 24
     },

@@ -10,7 +10,7 @@
     {
       "name": "GENERATOR_KINDS",
       "source": {
-        "path": "packages/core/src/talkback.ts",
+        "path": "talkback.ts",
         "export": "GENERATOR_KINDS"
       },
       "value": [
@@ -24,7 +24,7 @@
     {
       "name": "WAVEFORMS",
       "source": {
-        "path": "packages/core/src/talkback.ts",
+        "path": "talkback.ts",
         "export": "WAVEFORMS"
       },
       "value": [

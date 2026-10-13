@@ -5,7 +5,7 @@
       "name": "fxDelayTime",
       "kind": "travel",
       "global": "FX_DELAY_TIME_RANGE",
-      "doc": "The FX delay's time travel. `max` is the NATIVE ring's ceiling — the same number as `OMX_FXDELAY_MAX_MS` in `omx_delay.h`, pinned to it by `output-delay-ceiling.test.ts`. Distinct from the per-route ALIGNMENT delay (`OUTPUT_DELAY_RANGE`, 1 s, `OMX_DELAY_MAX_MS`): one is a musical echo with feedback and mix, the other is a pure latency. Two facts, two rings, two ceilings — sharing the word \"delay\" is why they keep being confused for each other.",
+      "doc": "The FX delay's time travel. `max` is the NATIVE ring's ceiling — the same number as `OMX_FXDELAY_MAX_MS` in `omx_delay.h`, pinned to it by the engine's conformance test. Distinct from the per-route ALIGNMENT delay (`OUTPUT_DELAY_RANGE`, 1 s, `OMX_DELAY_MAX_MS`): one is a musical echo with feedback and mix, the other is a pure latency. Two facts, two rings, two ceilings — sharing the word \"delay\" is why they keep being confused for each other.",
       "travel": {
         "min": 0,
         "max": 2000,
@@ -38,7 +38,7 @@
     {
       "name": "tone",
       "kind": "travel",
-      "doc": "The FX delay's TONE — a NORMALIZED_RANGE instance with its own come-up value, matching `DEFAULT_DELAY_STATE.tone`. See REVERB_SIZE_RANGE for why this is a named constant rather than a default on the shared shape.",
+      "doc": "The FX delay's TONE — a NORMALIZED_RANGE instance with its own come-up value, matching the console's delay default tone. See REVERB_SIZE_RANGE for why this is a named constant rather than a default on the shared shape.",
       "travel": {
         "min": 0,
         "max": 1,
@@ -84,7 +84,7 @@
   "constants": {
     "FX_DELAY_PINGPONG_DEFAULT": {
       "kind": "scalar",
-      "doc": "The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the server's `DEFAULT_DELAY_STATE` (which now reads it) so the DPF plugin generator (`packages/omx-plugins/tools/params-gen.mjs`, `2026-09-25-omx-plugins-dpf.md` §3a) reads the same fact the desk seeds a fresh strip with.",
+      "doc": "The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the console's delay default state (which now reads it) so the DPF plugin generator (omx-plugins, DPF plugin design §3a) reads the same fact the desk seeds a fresh strip with.",
       "unit": "",
       "value": false
     }

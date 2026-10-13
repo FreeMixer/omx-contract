@@ -10,7 +10,7 @@
     {
       "name": "GATE_LIMITS",
       "source": {
-        "path": "packages/core/src/strip-dynamics-limits.ts",
+        "path": "strip-dynamics-limits.ts",
         "export": "GATE_LIMITS"
       },
       "value": {

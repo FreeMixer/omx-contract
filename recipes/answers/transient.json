@@ -10,7 +10,7 @@
     {
       "name": "TRANSIENT_LIMITS",
       "source": {
-        "path": "packages/declarations/src/index.ts",
+        "path": "index.ts",
         "export": "TRANSIENT_LIMITS"
       },
       "value": {
@@ -55,12 +55,12 @@
           "defaultFrom": "desk"
         }
       },
-      "doc": "The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. `harness/contract-limits-gen.mjs` emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921)."
+      "doc": "The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. the engine's limits generator emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921)."
     },
     {
       "name": "TRANSIENT_FAST_ATTACK_MS",
       "source": {
-        "path": "packages/core/src/strip-dynamics-limits.ts",
+        "path": "strip-dynamics-limits.ts",
         "export": "TRANSIENT_FAST_ATTACK_MS"
       },
       "value": 0.5,
@@ -70,7 +70,7 @@
     {
       "name": "TRANSIENT_FAST_RELEASE_MS",
       "source": {
-        "path": "packages/core/src/strip-dynamics-limits.ts",
+        "path": "strip-dynamics-limits.ts",
         "export": "TRANSIENT_FAST_RELEASE_MS"
       },
       "value": 20,
@@ -80,7 +80,7 @@
     {
       "name": "TRANSIENT_REF_DB",
       "source": {
-        "path": "packages/core/src/strip-dynamics-limits.ts",
+        "path": "strip-dynamics-limits.ts",
         "export": "TRANSIENT_REF_DB"
       },
       "value": 6,
@@ -90,7 +90,7 @@
     {
       "name": "TRANSIENT_FLOOR_LIN",
       "source": {
-        "path": "packages/core/src/strip-dynamics-limits.ts",
+        "path": "strip-dynamics-limits.ts",
         "export": "TRANSIENT_FLOOR_LIN"
       },
       "value": 0.00001,
