@@ -1,3 +1,15 @@
+omx-contract (2.9.0) unstable; urgency=medium
+
+  * The drive's hf roll-off ids are the console's: off, 12000, 16000,
+    each carrying its corner in Hz as a value, off none (#29). A set's
+    ids may now carry values (schema: values and unit). The C header
+    renumbers the roll-off set (OMX_DRIVE_HF_ROLLOFFS_OFF = 0, _12000 = 1,
+    _16000 = 2) and adds OMX_DRIVE_HF_ROLLOFFS_<ID>_VALUE and
+    omx_drive_hf_rolloffs_value(); every other define of 2.8.0 is
+    unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 13 Oct 2026 21:00:00 +0000
+
 omx-contract (2.8.0) unstable; urgency=medium
 
   * The drive's oversampling factor is a control, oversample
