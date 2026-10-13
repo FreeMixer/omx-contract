@@ -126,6 +126,28 @@
         "default": 16,
         "defaultFrom": "desk"
       }
+    },
+    {
+      "name": "hpHz",
+      "kind": "travel",
+      "table": "GATE_KEY_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 20000,
+        "step": 1,
+        "unit": "Hz"
+      }
+    },
+    {
+      "name": "lpHz",
+      "kind": "travel",
+      "table": "GATE_KEY_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 20000,
+        "step": 1,
+        "unit": "Hz"
+      }
     }
   ],
   "readouts": [
@@ -146,6 +168,9 @@
   "tables": {
     "GATE_LIMITS": {
       "doc": "The legal range of each gate field (engineering units). The widget clamps drags to these, `normalizeGate` enforces them, the row's codec refuses by them and the travel sheet publishes them — one source of truth. `rangeDb` reaches GATE_RANGE_FLOOR_DB, shown as \"−∞\" in readouts (a gate fully closed is silence)."
+    },
+    "GATE_KEY_LIMITS": {
+      "doc": "The travel of each edge of the keyed gate's detector filter, 0 (off) up to 20 kHz in whole Hz, as the console's `/channel/{kind}/{index}/gate/key` row serves them (openmixer's GATE_KEY_LIMITS). A property of the detector filter, not of any desk: no come-up value is declared."
     }
   }
 }

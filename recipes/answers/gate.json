@@ -101,6 +101,28 @@
       "doc": "Where the gate listens: its own input (self), or the key it is handed (sidechain), in the order of the integer the key port carries.",
       "since": "1.3.0",
       "kind": "set"
+    },
+    {
+      "name": "GATE_KEY_LIMITS",
+      "source": {
+        "origin": "the OpenMixer console engine 01a6730a2d58 packages/declarations/src/index.ts:123-126 GATE_KEY_LIMITS (keyed gates spec §4, the /channel/{kind}/{index}/gate/key row's hpHz and lpHz)"
+      },
+      "value": {
+        "hpHz": {
+          "min": 0,
+          "max": 20000,
+          "step": 1,
+          "unit": "Hz"
+        },
+        "lpHz": {
+          "min": 0,
+          "max": 20000,
+          "step": 1,
+          "unit": "Hz"
+        }
+      },
+      "doc": "The travel of each edge of the keyed gate's detector filter, 0 (off) up to 20 kHz in whole Hz, as the console's `/channel/{kind}/{index}/gate/key` row serves them (openmixer's GATE_KEY_LIMITS). A property of the detector filter, not of any desk: no come-up value is declared.",
+      "since": "2.7.0"
     }
   ]
 }
