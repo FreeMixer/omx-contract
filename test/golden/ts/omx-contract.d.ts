@@ -549,6 +549,12 @@ export declare const DRIVE_STEREO_LINKS: readonly ["off", "on"];
 export declare const DRIVE_HF_ROLLOFFS: readonly [0, 12000, 16000];
 
 /**
+ * The drive's OVERSAMPLING factor: the shaper runs inside the console's one oversampler at 1x, 2x or 4x, and the id is the factor (`omx_drive.h`'s `omx_drive_factor_of` member set, `struct omx_drive.os_factor`). A field of the console's drive row (`DriveState.oversample`, the console's DRIVE_OVERSAMPLE_FACTORS; the set is named for its control), 4 at come-up there and in omx-dsp's drive face (OMX_DRIVE_INSTANCE_FACTOR, the oversampler's largest).
+ * @see data/kernels/drive.json
+ */
+export declare const DRIVE_OVERSAMPLES: readonly [1, 2, 4];
+
+/**
  * The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.
  * @see data/kernels/drive.json
  */

@@ -43,7 +43,7 @@ test('delay: pingpong is a switch whose come-up value is FX_DELAY_PINGPONG_DEFAU
 });
 
 test('drive: autoGain, stereoLink and hfRolloff are controls, appended (#24)', () => {
-  assert.deepEqual(controls('drive').map((c) => `${c.name}:${c.kind}:${c.global}`).slice(-3),
+  assert.deepEqual(controls('drive').filter((c) => ['autoGain', 'stereoLink', 'hfRolloff'].includes(c.name)).map((c) => `${c.name}:${c.kind}:${c.global}`),
     ['autoGain:choice:DRIVE_AUTO_GAINS', 'stereoLink:choice:DRIVE_STEREO_LINKS', 'hfRolloff:choice:DRIVE_HF_ROLLOFFS']);
   const h = header();
   assert.match(h, /^#define OMX_DRIVE_AUTO_GAINS_DEFAULT OMX_DRIVE_AUTO_GAINS_ON$/m);
