@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.6.0
+Version: 2.7.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,11 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Tue Oct 13 2026 Pau Aliagas <linuxnow@gmail.com> - 2.7.0-1
+- The drive's oversampling factor is a control, oversample
+  (DRIVE_OVERSAMPLES: 1, 2, 4, coming up at 4); the C header keeps every
+  2.6.0 define
+
 * Tue Oct 13 2026 Pau Aliagas <linuxnow@gmail.com> - 2.6.0-1
 - The sample-rate converter's design constants (src: SRC_TAPS,
   SRC_STOPBAND_DB, SRC_ROLLOFF, SRC_MAX_L) and the generators' kind and
