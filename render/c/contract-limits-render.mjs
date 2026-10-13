@@ -41,7 +41,10 @@ function genLimitBlock(prefix, table) {
     const c = fieldConstName(field);
     lines.push(`#define OMX_${prefix}_${c}_MIN ${numLiteral(limit.min)}f`);
     lines.push(`#define OMX_${prefix}_${c}_MAX ${numLiteral(limit.max)}f`);
-    lines.push(`#define OMX_${prefix}_${c}_DEFAULT ${numLiteral(limit.default)}f`);
+    // a field with no come-up value (the gate key filter's edges) has no DEFAULT, as in genCoreLimitBlock
+    if (limit.default !== undefined) {
+      lines.push(`#define OMX_${prefix}_${c}_DEFAULT ${numLiteral(limit.default)}f`);
+    }
   }
   return lines.join('\n');
 }
