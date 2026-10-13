@@ -578,13 +578,13 @@ export const DRIVE_STEREO_LINKS = [
 ];
 
 /**
- * The drive's post-curve HIGH-FREQUENCY ROLL-OFF corner, in Hz: the id is the corner, and 0 names no roll-off (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0). The console's drive row offers off, 12000 and 16000 (`DriveState.hfRolloff`, `DRIVE_HF_ROLLOFFS`) and comes up off, as omx-dsp's drive face does.
+ * The drive's post-curve HIGH-FREQUENCY ROLL-OFF: `off` (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0), `12000` or `16000`, each carrying its corner in Hz as its value and `off` none (operator ruling, 2026-10-13: the choice is an enumeration and the frequency is data of each member, so no 0 Hz doubles as a sentinel). The ids are the console's drive-row wire vocabulary (`DriveState.hfRolloff`, what the drive row's OPTIONS publishes and a session stores), so the console re-exports this set; a kernel reads the corner from the id's value. It comes up off, as omx-dsp's drive face does.
  * @see data/kernels/drive.json
  */
 export const DRIVE_HF_ROLLOFFS = [
-  0,
-  12000,
-  16000
+  "off",
+  "12000",
+  "16000"
 ];
 
 /**
@@ -2350,6 +2350,16 @@ export const RME_RATES = [
   176400,
   192000
 ];
+
+/**
+ * The value each id of DRIVE_HF_ROLLOFFS carries, in "Hz"; null for an id that carries none.
+ * @see data/kernels/drive.json
+ */
+export const DRIVE_HF_ROLLOFFS_VALUES = {
+  "12000": 12000,
+  "16000": 16000,
+  "off": null
+};
 
 /**
  * Every kernel's readouts, the meters a host draws, each kernel's in its declared order: the position is the
