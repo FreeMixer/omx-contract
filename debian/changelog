@@ -1,3 +1,14 @@
+omx-contract (2.5.0) unstable; urgency=medium
+
+  * The compressor's detector topology is a control, detectorTopology
+    (DETECTOR_TOPOLOGY: feedforward, feedback; comes up feedforward), and
+    the feedback loop's one-sample delay is a constant,
+    DYN_FB_LOOP_DELAY_SAMPLES. The C header spells them
+    OMX_DETECTOR_TOPOLOGY_* and OMX_DYN_FB_LOOP_DELAY_SAMPLES; every define
+    of the 2.4.0 header is unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Mon, 12 Oct 2026 23:46:00 +0000
+
 omx-contract (2.4.0) unstable; urgency=medium
 
   * Readouts: a kernel file may list the meters the kernel reports, each

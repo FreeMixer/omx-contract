@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "items": {
     "PAN_RANGE": {
       "rel": "data/kernels/balance.json",
@@ -299,6 +299,16 @@
         "x4"
       ]
     },
+    "DETECTOR_TOPOLOGY": {
+      "rel": "data/kernels/comp.json",
+      "kind": "set",
+      "doc": "Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, openmixer's ssl-bus-compressor spec §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.",
+      "default": "feedforward",
+      "value": [
+        "feedforward",
+        "feedback"
+      ]
+    },
     "PROGRAM_RELEASE": {
       "rel": "data/kernels/comp.json",
       "kind": "sheet",
@@ -315,6 +325,13 @@
           }
         }
       }
+    },
+    "DYN_FB_LOOP_DELAY_SAMPLES": {
+      "rel": "data/kernels/comp.json",
+      "kind": "scalar",
+      "doc": "The feedback detector's loop delay, in samples: the output y[n] depends on the gain at n, so the detector can only have heard y[n - 1]. Not a latency: the audio is never delayed by it. omx-dsp's feedback state holds exactly this many output samples per leg.",
+      "unit": "",
+      "value": 1
     },
     "DEESS_FREQ_RANGE": {
       "rel": "data/kernels/deesser.json",
@@ -2646,6 +2663,11 @@
           "name": "detectorOversampling",
           "kind": "choice",
           "global": "DETECTOR_OVERSAMPLINGS"
+        },
+        {
+          "name": "detectorTopology",
+          "kind": "choice",
+          "global": "DETECTOR_TOPOLOGY"
         }
       ],
       "readouts": [
