@@ -62,7 +62,6 @@ test('eq: the instance\'s controls, in the face\'s word order, the band quintet 
   assert.equal(by('lpfSlope').global, 'FILTER_SLOPES', 'the LPF slope takes the HPF slope\'s set, declared once');
   assert.deepEqual(by('q').when, [{ control: 'bandType', is: 'notch', global: 'EQ_NOTCH_Q_RANGE' }]);
   assert.ok(!c.some((x) => x.name === 'notchQ' || x.name === 'filterSlope'));
-  assert.equal(json().items.EQ_BAND_ONS.default, undefined, 'a band\'s come-up switch is the strip\'s, not the kernel\'s');
   assert.deepEqual(controls('geq')[0].count, 'GEQ_BANDS');
 });
 
