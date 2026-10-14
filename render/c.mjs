@@ -197,7 +197,7 @@ export function renderC(resolved) {
 }
 
 /**
- * The `c` target of a frozen openmixer sheet (test/fixtures/): `{ sheet }` rendered by openmixer's own
+ * The `c` target of a frozen sheet (test/fixtures/frozen-limits-sheet.json): `{ sheet }` rendered by the moved
  * renderer, for the round-trip proof (spec §4.4 step 1).
  */
 export function renderSheetC(fixture) {

@@ -1,5 +1,5 @@
 {
- "about": "Frozen export of openmixer's whole contract-limits sheet at the pin f98836216b53 and its delay plugin selection, for the round-trip proof (omx-contract spec §4.4 step 1). Test input only, never shipped data. Built from openmixer 6c6e709f4429 (input/openmixer-snapshot) by tools/seed/seed-from-openmixer.mjs, rewound to the pin by: scalars added after it removed (CUE_FADE_MS_RANGE_MAX, CUE_FADE_MS_RANGE_MIN, CUE_FADE_TICK_MS, CUE_GO_GUARD_MS, CUE_HAND_EPSILON, CUE_RESTORE_RING, ROOM_PROFILE_SCHEMA_VERSION); scalars moved after it at the pin's value (CONTRACT_VERSION_MINOR); the CLAP host extension ids read off the pinned header.",
+ "about": "A frozen export of a whole contract-limits sheet and its delay plugin selection: the input of the round-trip proof (omx-contract spec §4.4 step 1), which renders it and compares the result byte for byte to omx-dsp v0.1.3's limits header. Test data only, never shipped.",
  "sheet": {
   "CHANNEL_CONTRACT": {
    "fader": {

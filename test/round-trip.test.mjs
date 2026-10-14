@@ -11,7 +11,7 @@ import { ROOT } from './helpers.mjs';
 
 const r = roundTrip();
 
-test('step 1: the frozen openmixer sheet renders omx-dsp v0.1.3\'s limits header byte for byte', () => {
+test('step 1: the frozen sheet renders omx-dsp v0.1.3\'s limits header byte for byte', () => {
   assert.deepEqual(r.step1, { limits: true });
 });
 
