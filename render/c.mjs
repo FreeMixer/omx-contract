@@ -43,8 +43,26 @@ export const setEnumerators = (set) => set.ids.map((id) => `OMX_${set.name}_${co
 
 /**
  * Every set as a C enum: the id's position is its value for named ids, the number itself for numeric
- * ids; `OMX_<SET>_COUNT`, and `OMX_<SET>_DEFAULT` when the set names a default.
+ * ids; `OMX_<SET>_COUNT`, and `OMX_<SET>_DEFAULT` when the set names a default. A set whose ids carry values adds
+ * `OMX_<SET>_UNIT`, `OMX_<SET>_<ID>_VALUE` for each id that carries one, and `omx_<set>_value(id, &out)`, which writes
+ * the id's value and returns 1, or returns 0 for an id that carries none: a kernel reads the number from the id
+ * (the drive's roll-off corner), never a sentinel.
  */
+function genSetValues(set, names) {
+  const fn = `omx_${set.name.toLowerCase()}_value`;
+  const carried = set.ids.map((id, i) => [names[i], set.values[i]]).filter(([, v]) => v !== null);
+  return [
+    `#define OMX_${set.name}_UNIT ${cStringLiteral(set.unit)}`,
+    ...carried.map(([n, v]) => `#define ${n}_VALUE ${floatLiteral(v)}`),
+    `static inline int ${fn}(int id, float *out) {`,
+    '  switch (id) {',
+    ...carried.map(([n]) => `  case ${n}: *out = ${n}_VALUE; return 1;`),
+    '  default: return 0;',
+    '  }',
+    '}',
+  ];
+}
+
 function genDeclaredSetsEnums(sets) {
   return sets.map((set) => {
     const names = setEnumerators(set);
@@ -52,6 +70,7 @@ function genDeclaredSetsEnums(sets) {
     const members = set.ids.map((id, i) => `  ${names[i]} = ${numeric ? id : i},`);
     const lines = [`enum omx_${set.name.toLowerCase()} {`, ...members, '};', `#define OMX_${set.name}_COUNT ${set.ids.length}u`];
     if (set.default !== undefined) lines.push(`#define OMX_${set.name}_DEFAULT ${names[set.ids.indexOf(set.default)]}`);
+    if (set.values) lines.push(...genSetValues(set, names));
     return lines.join('\n');
   }).join('\n');
 }

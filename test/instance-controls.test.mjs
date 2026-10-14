@@ -48,8 +48,8 @@ test('drive: autoGain, stereoLink and hfRolloff are controls, appended (#24)', (
   const h = header();
   assert.match(h, /^#define OMX_DRIVE_AUTO_GAINS_DEFAULT OMX_DRIVE_AUTO_GAINS_ON$/m);
   assert.match(h, /^#define OMX_DRIVE_STEREO_LINKS_DEFAULT OMX_DRIVE_STEREO_LINKS_ON$/m);
-  assert.match(h, /^ {2}OMX_DRIVE_HF_ROLLOFFS_12000 = 12000,$/m);
-  assert.match(h, /^#define OMX_DRIVE_HF_ROLLOFFS_DEFAULT OMX_DRIVE_HF_ROLLOFFS_0$/m);
+  assert.match(h, /^ {2}OMX_DRIVE_HF_ROLLOFFS_12000 = 1,$/m);
+  assert.match(h, /^#define OMX_DRIVE_HF_ROLLOFFS_DEFAULT OMX_DRIVE_HF_ROLLOFFS_OFF$/m);
 });
 
 test('eq: the instance\'s controls, in the face\'s word order, the band quintet counted by EQ_BAND_COUNTS (#23)', () => {
@@ -93,7 +93,7 @@ const moves = [
   ['delay', 'FX_DELAY_PINGPONG_DEFAULT', (it) => { it.value = true; }, 'DELAY_PINGPONGS', 'on'],
   ['drive', 'DRIVE_AUTO_GAINS', (it) => { it.default = 'off'; }, 'DRIVE_AUTO_GAINS', 'off'],
   ['drive', 'DRIVE_STEREO_LINKS', (it) => { it.default = 'off'; }, 'DRIVE_STEREO_LINKS', 'off'],
-  ['drive', 'DRIVE_HF_ROLLOFFS', (it) => { it.default = 16000; }, 'DRIVE_HF_ROLLOFFS', 16000],
+  ['drive', 'DRIVE_HF_ROLLOFFS', (it) => { it.default = '16000'; }, 'DRIVE_HF_ROLLOFFS', '16000'],
   ['eq', 'EQ_HPF_ONS', (it) => { it.default = 'on'; }, 'EQ_HPF_ONS', 'on'],
   ['eq', 'EQ_LPF_ONS', (it) => { it.default = 'on'; }, 'EQ_LPF_ONS', 'on'],
   ['eq', 'EQ_BAND_ONS', (it) => { it.default = 'on'; }, 'EQ_BAND_ONS', 'on'],

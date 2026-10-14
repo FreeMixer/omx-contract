@@ -52,7 +52,7 @@ export function doors(resolved) {
     .map((r) => ({ name: r.name, values: r.value }))
     .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
   const DECLARED_SET_ITEMS = items.filter((r) => r.kind === 'set')
-    .map((r) => ({ name: r.name, ids: r.value, default: r.default }))
+    .map((r) => ({ name: r.name, ids: r.value, default: r.default, ...(r.values ? { values: r.values, unit: r.unit } : {}) }))
     .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
   const ALIASES = new Map();
   for (const r of items) {

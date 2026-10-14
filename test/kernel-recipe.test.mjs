@@ -89,6 +89,13 @@ test('an item the engine does not declare is cited by an origin sentence, and a 
   assert.match(gapsOf(root), /an origin source is the one non-empty sentence/);
 });
 
+test('a set\'s values are held to the answers (#29)', () => {
+  const root = scratchTree();
+  edit(root, 'data/kernels/comp.json', (d, at) => { const k = at('COMP_KINDS'); k.values = [null, 4]; k.unit = 'x'; });
+  edit(root, 'recipes/answers/comp.json', (a) => { const k = a.items.find((i) => i.name === 'COMP_KINDS'); k.values = [null, 2]; k.unit = 'x'; });
+  assert.match(gapsOf(root), /COMP_KINDS: values \[null,4\] in the kernel file, \[null,2\] in the answers/);
+});
+
 test('a value JSON cannot carry unchanged is refused, not recorded', () => {
   assert.throws(() => asData('X', { min: -Infinity, max: 0 }), /X\.min: -Infinity is not a finite number/);
   assert.throws(() => asData('Y', () => 1), /Y: a function is not data/);

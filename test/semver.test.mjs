@@ -46,9 +46,27 @@ test('the CLI refuses a short bump and passes a sufficient one; a MAJOR class ta
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '2.0.0']), 0);
 });
 
+test('a set\'s values added is MINOR, a value changed or the values removed is MAJOR (#29)', () => {
+  const withValues = (s) => { s.values = [null, 4]; s.unit = 'x'; };
+  const valued = resolvedOf(texts((d, at) => withValues(at('data/kernels/comp.json', 'COMP_KINDS'))));
+  assert.equal(classify(base, valued).level, 'minor');
+  assert.equal(classify(valued, base).level, 'major');
+  const moved = resolvedOf(texts((d, at) => { const s = at('data/kernels/comp.json', 'COMP_KINDS'); withValues(s); s.values[1] = 8; }));
+  assert.equal(classify(valued, moved).level, 'major');
+  assert.deepEqual(classify(valued, moved).changes.map((c) => c.what), ['COMP_KINDS: the value of limiter: 4 -> 8 (a constant a kernel computes with)']);
+});
+
 test('refusal: a MAJOR class needs a minor bump in the development phase and a major bump after it', () => {
   assert.equal(refusal('major', '2.10.0', '2.11.0'), null);
   assert.match(refusal('major', '2.10.0', '2.10.1'), /MAJOR, and 2\.10\.0 -> 2\.10\.1 is a patch bump \(at least a minor in the development phase\)/);
   assert.equal(refusal('major', '2.10.0', '2.11.0', { developmentPhase: null }), 'the changes since 2.10.0 are MAJOR, and 2.10.0 -> 2.11.0 is a minor bump');
   assert.equal(refusal('major', '2.10.0', '3.0.0', { developmentPhase: null }), null);
+});
+
+test('a set id that changes type is visible in the change message (#29)', () => {
+  // the roll-off set as 2.10.1 declared it: numeric ids, no values
+  const numeric = resolvedOf(texts((d, at) => { const s = at('data/kernels/drive.json', 'DRIVE_HF_ROLLOFFS'); s.ids = [0, 12000, 16000]; s.default = 0; delete s.values; delete s.unit; }));
+  const what = classify(numeric, base).changes.filter((c) => c.item === 'DRIVE_HF_ROLLOFFS').map((c) => c.what);
+  assert.ok(what.includes('DRIVE_HF_ROLLOFFS[1]: 12000 -> "12000"'), what.join('\n'));
+  assert.ok(what.includes('DRIVE_HF_ROLLOFFS[0]: 0 -> "off"'));
 });
