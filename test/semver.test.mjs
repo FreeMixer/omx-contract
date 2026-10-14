@@ -62,3 +62,11 @@ test('refusal: a MAJOR class needs a minor bump in the development phase and a m
   assert.equal(refusal('major', '2.10.0', '2.11.0', { developmentPhase: null }), 'the changes since 2.10.0 are MAJOR, and 2.10.0 -> 2.11.0 is a minor bump');
   assert.equal(refusal('major', '2.10.0', '3.0.0', { developmentPhase: null }), null);
 });
+
+test('a set id that changes type is visible in the change message (#29)', () => {
+  // the roll-off set as 2.10.1 declared it: numeric ids, no values
+  const numeric = resolvedOf(texts((d, at) => { const s = at('data/kernels/drive.json', 'DRIVE_HF_ROLLOFFS'); s.ids = [0, 12000, 16000]; s.default = 0; delete s.values; delete s.unit; }));
+  const what = classify(numeric, base).changes.filter((c) => c.item === 'DRIVE_HF_ROLLOFFS').map((c) => c.what);
+  assert.ok(what.includes('DRIVE_HF_ROLLOFFS[1]: 12000 -> "12000"'), what.join('\n'));
+  assert.ok(what.includes('DRIVE_HF_ROLLOFFS[0]: 0 -> "off"'));
+});
