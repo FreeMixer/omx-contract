@@ -163,6 +163,7 @@ export const CHECKERS = {
         const r = facts.resolved.get(n);
         if ((r.unit ?? null) !== (it.unit ?? null) && r.kind !== 'travels') bad.push(`${n}: unit ${JSON.stringify(r.unit)} in the kernel file, ${JSON.stringify(it.unit)} in the answers`);
         if (r.kind === 'set' && (!isDeepStrictEqual(r.default ?? null, it.default ?? null) || !isDeepStrictEqual(r.labels ?? null, it.labels ?? null))) bad.push(`${n}: default or labels differ between the kernel file and the answers`);
+        if (r.kind === 'set' && !isDeepStrictEqual(r.values ?? null, it.values ?? null)) bad.push(`${n}: values ${JSON.stringify(r.values)} in the kernel file, ${JSON.stringify(it.values)} in the answers`);
         if (!isDeepStrictEqual(r.c ?? null, it.c ?? null)) bad.push(`${n}: c ${JSON.stringify(r.c)} in the kernel file, ${JSON.stringify(it.c)} in the answers`);
       }
     }

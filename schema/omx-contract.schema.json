@@ -181,7 +181,7 @@
     },
     "set": {
       "type": "object",
-      "description": "Ordered ids with an optional default and labels. The ids and their order are the contract: all strings of letters and digits (the id is the name, its position the value; an id may start with a digit, as 4x does) or all non-negative integers (the id is the value). Labels are face text and optional. The default may be a reference to the scalar that states it: a boolean names the second id of a two-id switch when true, the first when false.",
+      "description": "Ordered ids with an optional default, labels and a value per id. The ids and their order are the contract: all strings of letters and digits (the id is the name, its position the value; an id may start with a digit, as 4x does) or all non-negative integers (the id is the value). Labels are face text and optional. The default may be a reference to the scalar that states it: a boolean names the second id of a two-id switch when true, the first when false.",
       "properties": {
         "kind": { "const": "set" },
         "since": { "$ref": "#/$defs/since" },
@@ -194,9 +194,17 @@
           ]
         },
         "default": { "oneOf": [{ "type": "string", "pattern": "^[A-Za-z0-9]+$" }, { "type": "integer", "minimum": 0 }, { "$ref": "#/$defs/ref" }] },
-        "labels": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 }
+        "labels": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
+        "unit": { "$ref": "#/$defs/unit" },
+        "values": {
+          "description": "The value each id carries, in `unit`, one per id in id order; null for an id that carries none (the drive's `off` roll-off has no corner). Only a set of named ids carries values: a numeric id is its own value.",
+          "type": "array",
+          "items": { "oneOf": [{ "$ref": "#/$defs/number" }, { "type": "null" }] },
+          "minItems": 1
+        }
       },
       "required": ["kind", "doc", "ids"],
+      "dependentRequired": { "values": ["unit"], "unit": ["values"] },
       "additionalProperties": false
     },
     "item": {

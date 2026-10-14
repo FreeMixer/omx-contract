@@ -543,10 +543,10 @@ export declare const DRIVE_AUTO_GAINS: readonly ["off", "on"];
 export declare const DRIVE_STEREO_LINKS: readonly ["off", "on"];
 
 /**
- * The drive's post-curve HIGH-FREQUENCY ROLL-OFF corner, in Hz: the id is the corner, and 0 names no roll-off (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0). The console's drive row offers off, 12000 and 16000 (`DriveState.hfRolloff`, `DRIVE_HF_ROLLOFFS`) and comes up off, as omx-dsp's drive face does.
+ * The drive's post-curve HIGH-FREQUENCY ROLL-OFF: `off` (the section does not run: `omx_drive.h`'s `struct omx_drive.hf_on` is 0), `12000` or `16000`, each carrying its corner in Hz as its value and `off` none (operator ruling, 2026-10-13: the choice is an enumeration and the frequency is data of each member, so no 0 Hz doubles as a sentinel). The ids are the console's drive-row wire vocabulary (`DriveState.hfRolloff`, what the drive row's OPTIONS publishes and a session stores), so the console re-exports this set; a kernel reads the corner from the id's value. It comes up off, as omx-dsp's drive face does.
  * @see data/kernels/drive.json
  */
-export declare const DRIVE_HF_ROLLOFFS: readonly [0, 12000, 16000];
+export declare const DRIVE_HF_ROLLOFFS: readonly ["off", "12000", "16000"];
 
 /**
  * The drive's OVERSAMPLING factor: the shaper runs inside the console's one oversampler at 1x, 2x or 4x, and the id is the factor (`omx_drive.h`'s `omx_drive_factor_of` member set, `struct omx_drive.os_factor`). A field of the console's drive row (`DriveState.oversample`, the console's DRIVE_OVERSAMPLE_FACTORS; the set is named for its control), 4 at come-up there and in omx-dsp's drive face (OMX_DRIVE_INSTANCE_FACTOR, the oversampler's largest).
@@ -2131,6 +2131,16 @@ export declare const ORACLE_FLOOR_RATES: readonly [44100, 48000, 96000, 192000];
  * @see data/rates.json
  */
 export declare const RME_RATES: readonly [32000, 44100, 48000, 64000, 88200, 96000, 128000, 176400, 192000];
+
+/**
+ * The value each id of DRIVE_HF_ROLLOFFS carries, in "Hz"; null for an id that carries none.
+ * @see data/kernels/drive.json
+ */
+export declare const DRIVE_HF_ROLLOFFS_VALUES: {
+  readonly "12000": 12000;
+  readonly "16000": 16000;
+  readonly off: null;
+};
 
 /**
  * Every kernel's readouts, the meters a host draws, each kernel's in its declared order: the position is the

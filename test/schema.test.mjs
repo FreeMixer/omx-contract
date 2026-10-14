@@ -61,3 +61,16 @@ test('a set id is letters and digits, and may start with a digit (#28)', () => {
   assert.ok(!ovs('4x').includes('DETECTOR_OVERSAMPLINGS:schema'), 'an id that starts with a digit is accepted');
   for (const bad of ['4-x', '4 x', '']) assert.ok(ovs(bad).includes('DETECTOR_OVERSAMPLINGS:schema'), `${JSON.stringify(bad)} is refused`);
 });
+
+test('a set\'s ids may carry a value each, in a unit, null for none (#29)', () => {
+  // a set of named ids, so a value can be planted on it: the comp's kinds
+  const kinds = (fn) => rules(texts((d, at) => fn(at('data/kernels/comp.json', 'COMP_KINDS'))));
+  assert.deepEqual(kinds((s) => { s.values = [null, 4]; s.unit = 'x'; }), [], 'a value per id, null for none, is valid');
+  assert.ok(kinds((s) => { s.values = [null, 4]; }).includes('COMP_KINDS:schema'), 'values without a unit');
+  assert.ok(kinds((s) => { s.unit = 'Hz'; }).includes('COMP_KINDS:schema'), 'a unit without values');
+  assert.ok(kinds((s) => { s.values = [null, 'fast']; s.unit = 'x'; }).includes('COMP_KINDS:schema'), 'a value that is no number');
+  assert.ok(kinds((s) => { s.values = [4]; s.unit = 'x'; }).includes('COMP_KINDS:set-values'), 'fewer values than ids');
+  assert.ok(kinds((s) => { s.values = [null, null]; s.unit = 'x'; }).includes('COMP_KINDS:set-values'), 'no id carries a value');
+  assert.ok(rules(texts((d, at) => { const s = at('data/kernels/drive.json', 'DRIVE_OVERSAMPLES'); s.values = [1, 2, 4]; s.unit = 'x'; }))
+    .includes('DRIVE_OVERSAMPLES:set-values'), 'a numeric id is its own value');
+});
