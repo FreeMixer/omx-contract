@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.10.0
+Version: 2.10.1
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,11 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Wed Oct 14 2026 Pau Aliagas <linuxnow@gmail.com> - 2.10.1-1
+- Packages for the 2.10 data: the release gate takes a MAJOR class on
+  a minor bump in the development phase (#54), so the RPM and DEB that
+  2.10.0 never built are built here. The data is 2.10.0's, unchanged
+
 * Tue Oct 13 2026 Pau Aliagas <linuxnow@gmail.com> - 2.10.0-1
 - DETECTOR_OVERSAMPLINGS ids are auto, off, 4x (#28); the C header
   spells OMX_DETECTOR_OVERSAMPLINGS_4X (still 2), every other 2.9.0

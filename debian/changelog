@@ -1,3 +1,11 @@
+omx-contract (2.10.1) unstable; urgency=medium
+
+  * Packages for the 2.10 data: the release gate takes a MAJOR class on
+    a minor bump in the development phase (#54), so the RPM and DEB that
+    2.10.0 never built are built here. The data is 2.10.0's, unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Wed, 14 Oct 2026 05:16:48 +0000
+
 omx-contract (2.10.0) unstable; urgency=medium
 
   * The compressor's detector oversampling ids are the console's: auto,
