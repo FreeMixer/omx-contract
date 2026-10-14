@@ -39,6 +39,12 @@ and nothing else. A sketch, values abridged
   (`GEQ_BANDS`), or a sheet whose every variant gives its count as `max` (`EQ_BAND_COUNTS.eq8.max`).
 - `of` and `when` mark a travel that is no control of its own but the travel the control `of` names reaches while
   the choice `when.control` holds `when.is` (the EQ's `notchQ`: the Q's travel while the band is a notch).
+- A choice of named ids may carry `values`, one per id in id order, in its `unit`, `null` for an id that carries
+  none: the drive's `hfRolloff` ids are `off`, `12000`, `16000` and their `values` `null`, 12000, 16000 Hz. The id
+  stays the name a host stores; a kernel reads the number from the value, never from the id's spelling.
+  The json render carries `values` and `unit` on the item, the ts render exports `<SET>_VALUES` (`{ <id>: value |
+  null }`), and the C render `OMX_<SET>_UNIT`, `OMX_<SET>_<ID>_VALUE` and `omx_<set>_value(id, &out)`, which returns 1
+  and writes the value, or returns 0 for an id that carries none.
 - A choice's `default` may be `{ "ref": … }` to the scalar that states it; a boolean names the second id of a
   two-id switch when true, the first when false (the delay's `pingpong` comes up at FX_DELAY_PINGPONG_DEFAULT).
 - `tables`: a travels table whose fields are the controls that name it, in control order (`GATE_LIMITS`).
