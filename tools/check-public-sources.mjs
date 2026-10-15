@@ -39,7 +39,6 @@ export const ALLOW = [
   { file: /^render\/c\/contract-limits-render\.mjs$/, why: 'its header template is emitted verbatim and must reproduce the frozen omx-dsp headers byte for byte' },
   { file: /^recipes\/kernel\.recipe\.json$/, line: /^\s+"packages\/[a-z-]+\/src",?$/, why: 'the engine archive directories the importer extracts from a private checkout' },
   { file: /^tools\/engine-ts-hook\.mjs$/, why: 'resolves workspace imports inside the extracted engine tree' },
-  { file: /^tools\/seed\/seed-from-openmixer\.mjs$/, line: /join\(OM, '/, why: 'one-time seed reading the layout of a private snapshot' },
   { file: /^test\/kernel-recipe\.test\.mjs$/, why: 'a synthetic engine tree laid out like the real one, for the importer' },
   { file: /^tools\/check-public-sources\.mjs$/, why: 'this check names what it forbids' },
 ];

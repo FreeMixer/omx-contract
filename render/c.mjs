@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * The `c` target: `omxcontract/omx_contract_limits.h`. Every define is spelled by openmixer's
+ * The `c` target: `omxcontract/omx_contract_limits.h`. Every define is spelled by the console engine's
  * renderer, moved unchanged (c/contract-limits-render.mjs); only the frame (banner, section
  * comments) is this repository's. A plugin's parameter header is rendered by omx-plugins from its
  * declaration, by reference to the items here.
@@ -14,7 +14,7 @@ import { doors } from './doors.mjs';
 
 const defined = (text) => new Set([...text.matchAll(/^#define (OMX_\w+)/gm)].map((m) => m[1]));
 
-/** The rate tail of openmixer's header, outside the include guard, byte for byte. */
+/** The rate tail of the console engine's header, outside the include guard, byte for byte. */
 function ratesTail(rates) {
   return `
 /* The sample rates the console declares (core's STANDARD_SAMPLE_RATES, row-codecs.ts): the set a
@@ -197,7 +197,7 @@ export function renderC(resolved) {
 }
 
 /**
- * The `c` target of a frozen openmixer sheet (test/fixtures/): `{ sheet }` rendered by openmixer's own
+ * The `c` target of a frozen sheet (test/fixtures/frozen-limits-sheet.json): `{ sheet }` rendered by the moved
  * renderer, for the round-trip proof (spec §4.4 step 1).
  */
 export function renderSheetC(fixture) {

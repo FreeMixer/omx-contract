@@ -4,7 +4,7 @@ import { eqDefaultBands, eqDefaultCentres, eqDefaultParams, eqDefaultTypes } fro
 
 /**
  * The `ts` target: one ESM module and its type declarations, every item exported under its own
- * name with its literal type (`as const`), so a re-export in openmixer keeps names, values and types.
+ * name with its literal type (`as const`), so a consumer's re-export keeps names, values and types.
  */
 
 /** The value a TypeScript reader sees for one resolved item. */

@@ -5,7 +5,7 @@
  * The round-trip proof (omx-contract spec §4.4 steps 1 and 2), against omx-dsp v0.1.3's committed
  * headers frozen under test/fixtures/omx-dsp-v0.1.3/:
  *
- *   1. the frozen openmixer sheet (test/fixtures/openmixer-f98836216b53.json) renders the limits header
+ *   1. the frozen sheet (test/fixtures/frozen-limits-sheet.json) renders the limits header
  *      byte for byte;
  *   2. the shipped data's render, split with limitUnits, has every unit byte-identical to the unit of
  *      the same key in omx-dsp's header, in the same order, and no unit the header lacks; every unit
@@ -59,7 +59,7 @@ export function roundTrip(resolved = resolveData(loadData(join(ROOT, 'data')))) 
   const readUnits = JSON.parse(readFileSync(join(FIX, 'omx-dsp-v0.1.3/read-units.json'), 'utf8')).read.map((r) => r.key);
 
   // step 1
-  const sheet = renderSheetC(JSON.parse(readFileSync(join(FIX, 'openmixer-f98836216b53.json'), 'utf8')));
+  const sheet = renderSheetC(JSON.parse(readFileSync(join(FIX, 'frozen-limits-sheet.json'), 'utf8')));
   const step1 = { limits: sheet.find((f) => f.path.endsWith('omx_contract_limits.h')).text === pinLimits };
 
   // step 2
