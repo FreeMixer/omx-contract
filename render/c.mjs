@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * The `c` target: `omxcontract/omx_contract_limits.h`. Every define is spelled by the console engine's
+ * The `c` target: `omxcontract/omx_contract_limits.h`, and `omxcontract/clap_host_limits.h` where the data declares the hosting limits and codes (docs/hosting.md). Every define is spelled by the console engine's
  * renderer, moved unchanged (c/contract-limits-render.mjs); only the frame (banner, section
  * comments) is this repository's. A plugin's parameter header is rendered by omx-plugins from its
  * declaration, by reference to the items here.
@@ -10,6 +10,7 @@ import {
   cStringLiteral, genCoreLimitBlock, genDeclaredListsBlock, genDeclaredRates, genDeclaredScalarsBlock, genLimitBlock, renderContractLimits,
   scalarLiteral,
 } from './c/contract-limits-render.mjs';
+import { renderClapHostLimits } from './c/clap-host-limits.mjs';
 import { doors } from './doors.mjs';
 
 const defined = (text) => new Set([...text.matchAll(/^#define (OMX_\w+)/gm)].map((m) => m[1]));
@@ -193,7 +194,11 @@ ${d.STANDARD_SAMPLE_RATES ? ratesTail(d.STANDARD_SAMPLE_RATES) : ''}`;
 
 /** Every file of the `c` target: `[{ path, text }]`, paths relative to the output directory. */
 export function renderC(resolved) {
-  return [{ path: 'omxcontract/omx_contract_limits.h', text: renderLimitsHeader(resolved) }];
+  const files = [{ path: 'omxcontract/omx_contract_limits.h', text: renderLimitsHeader(resolved) }];
+  const stage = resolved.get('HOSTED_STAGE_LIMITS');
+  const codes = resolved.get('HOSTING_CODES');
+  if (stage && codes) files.push({ path: 'omxcontract/clap_host_limits.h', text: renderClapHostLimits(stage, codes) });
+  return files;
 }
 
 /**

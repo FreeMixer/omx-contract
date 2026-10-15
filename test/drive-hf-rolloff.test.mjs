@@ -3,7 +3,7 @@
 // 2.9.0 (#29): the drive's hf roll-off ids are the console's, off, 12000, 16000 (operator ruling, 2026-10-13), each
 // carrying its corner in Hz as its value and off none, so no 0 Hz doubles as "no roll-off". The console re-exports
 // DRIVE_HF_ROLLOFFS; a kernel reads the corner from the id with omx_drive_hf_rolloffs_value(). The C render keeps
-// every line of the released 2.10.0 header but the roll-off set's.
+// every line of the released 2.10.0 header but the roll-off set's and the hosted stage's numbers (2.12.0).
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -59,7 +59,8 @@ test('the C render is the 2.10.0 header with the roll-off set\'s block replaced,
     '}',
   ].join('\n');
   assert.equal(old.split(was).length, 2, 'the 2.10.0 header holds the old block once');
-  assert.equal(header(), old.replace(was, is));
+  // 2.12.0 adds the hosted stage's numbers (data/hosting.json), which the 2.10.0 header does not hold
+  assert.equal(header().replace(/^#define OMX_HOSTED_STAGE_\w+ \S+\n/gm, ''), old.replace(was, is));
 });
 
 test('perturbation: a moved corner moves the C value, and --check goes red', () => {
