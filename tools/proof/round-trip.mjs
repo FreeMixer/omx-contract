@@ -33,7 +33,7 @@ const text = (u) => u.lines.join('\n');
 const units = (t) => limitUnits(t).filter((u) => u.frame === undefined);
 const frames = (t) => limitUnits(t).filter((u) => u.frame !== undefined).map((u) => u.frame);
 
-/** The items added after the first release: every answered item whose `since` (its own, else its kernel's) is later, and every rates/primitives item that says so. */
+/** The items added after the first release: every answered item whose `since` (its own, else its kernel's) is later, and every item of the files beside the kernels (rates, primitives, hosting) that says so. */
 export function addedAfterFirstRelease(root = ROOT) {
   const recipe = JSON.parse(readFileSync(join(root, 'recipes/kernel.recipe.json'), 'utf8'));
   const dir = join(root, recipe.tree.answersDir);
@@ -43,9 +43,9 @@ export function addedAfterFirstRelease(root = ROOT) {
     // `renderedSince`: an item whose C render a later release switched on (its units are new to the header)
     for (const it of a.items) if (itemSince(a, it) !== recipe.tree.firstRelease || (it.renderedSince ?? recipe.tree.firstRelease) !== recipe.tree.firstRelease) out.add(it.name);
   }
-  // an item outside the kernels (rates, primitives) records its release on the item itself
+  // an item outside the kernels (rates, primitives, hosting) records its release on the item itself
   const data = join(root, 'data');
-  for (const f of ['rates.json', 'primitives.json']) {
+  for (const f of readdirSync(data).filter((n) => n.endsWith('.json')).sort()) {
     for (const [name, it] of entriesOf(f, JSON.parse(readFileSync(join(data, f), 'utf8')))) {
       if (it.since !== undefined && it.since !== recipe.tree.firstRelease) out.add(name);
     }
