@@ -86,7 +86,7 @@
     {
       "name": "mix",
       "kind": "travel",
-      "doc": "The rotary's wet/dry, as an instance of DRIVE_MIX_RANGE: 100 %, because a rotary on an insert IS the sound (it replaces the cabinet) and an `fxReturn` wants it wet too (§3).",
+      "doc": "The rotary's wet/dry, as an instance of DRIVE_MIX_RANGE: 100 %, because a rotary on an insert IS the sound (it replaces the cabinet) and an `fxReturn` wants it wet too.",
       "travel": {
         "min": 0,
         "max": 100,

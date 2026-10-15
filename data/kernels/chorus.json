@@ -4,7 +4,7 @@
     {
       "name": "spread",
       "kind": "travel",
-      "doc": "The chorus's right-leg phase offset, in TURNS of its one oscillator (§2, §3a; the native-FX catalogue's M32 Dimension row). The right leg's voice k reads the LFO at k/N + spread: 0 is both legs one phase (the stage without the field, bit for bit), 0.25 quadrature, 0.5 the Dimension's opposed sweep. A fraction of a cycle carries no engineering symbol, so the unit is ''.",
+      "doc": "The chorus's right-leg phase offset, in TURNS of its one oscillator. The right leg's voice k reads the LFO at k/N + spread: 0 is both legs one phase (the stage without the field, bit for bit), 0.25 quadrature, 0.5 the Dimension's opposed sweep. A fraction of a cycle carries no engineering symbol, so the unit is ''.",
       "travel": {
         "min": 0,
         "max": 0.5,
@@ -17,7 +17,7 @@
     {
       "name": "rate",
       "kind": "travel",
-      "doc": "The chorus sweep's speed (§3a). Above ~3 Hz it stops being a chorus and becomes a vibrato.",
+      "doc": "The chorus sweep's speed. Above ~3 Hz it stops being a chorus and becomes a vibrato.",
       "travel": {
         "min": 0.05,
         "max": 8,
@@ -30,7 +30,7 @@
     {
       "name": "depth",
       "kind": "travel",
-      "doc": "The chorus's peak-to-peak excursion above its declared 10 ms base (§3a).",
+      "doc": "The chorus's peak-to-peak excursion above its declared 10 ms base.",
       "travel": {
         "min": 0,
         "max": 12,
@@ -43,7 +43,7 @@
     {
       "name": "voices",
       "kind": "travel",
-      "doc": "The chorus's tap count — one oscillator read at k/N (§3a).",
+      "doc": "The chorus's tap count — one oscillator read at k/N.",
       "travel": {
         "min": 1,
         "max": 4,
@@ -56,7 +56,7 @@
     {
       "name": "mix",
       "kind": "travel",
-      "doc": "The chorus's wet/dry, as an instance of DRIVE_MIX_RANGE — the same percent travel, its own come-up value: 35 %, a colour under the dry on a strip (§3a). The REVERB_LOWCUT_RANGE-over- REVERB_CUT_RANGE shape: one travel, one declared default per field that reads it.",
+      "doc": "The chorus's wet/dry, as an instance of DRIVE_MIX_RANGE — the same percent travel, its own come-up value: 35 %, a colour under the dry on a strip. The REVERB_LOWCUT_RANGE-over- REVERB_CUT_RANGE shape: one travel, one declared default per field that reads it.",
       "travel": {
         "min": 0,
         "max": 100,

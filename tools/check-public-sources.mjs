@@ -30,6 +30,8 @@ const PRIVATE = [
   ['a private design document', /\bdocs\/design\//],
   ['a private harness path', /\bharness\/[\w.-]+/],
   ['a dated private spec file', /\b20\d\d-\d\d-\d\d-[a-z0-9-]+\.md\b/],
+  ['a citation of a private specification section', /\b(?:spec|design) §\d/i],
+  ['a private issue number', /\bissue #\d+/i],
 ];
 
 /** Exemptions: `file` matches the path, `line` (optional) the offending line; `why` is the reason. */
@@ -72,6 +74,7 @@ function selfTest() {
     'a.md': 'see FreeMixer/openmixer for it', 'b.json': '"x": "openmixer-ops"', 'c.mjs': '// openmixer#1580',
     'd.h': '/* omx-dsp-dev#32 */', 'e.md': 'branch integration/x', 'f.mjs': "// packages/core/src/eq.ts",
     'g.md': 'Mixer.vue', 'h.md': 'docs/design/specs/x', 'i.md': 'harness/gen.mjs', 'j.md': '2026-09-27-precision-limiter.md',
+    'l.md': 'as the transient spec §3 has it', 'm.md': 'the room-analysis design §4', 'n.md': 'tracked in issue #106',
   };
   const clean = ['libomx-contract-dev and omx-contract-devel', '@openmixer/omx-contract', 'the OpenMixer console engine', 'omx-dsp#12', 'disintegration/x'];
   for (const [f, t] of Object.entries(hits)) if (scan(f, t).length !== 1) throw new Error(`self-test: ${f} not caught`);

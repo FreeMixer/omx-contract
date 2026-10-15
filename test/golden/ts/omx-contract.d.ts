@@ -103,7 +103,7 @@ export declare const BAND_DYN_MAX_BANDS: 9;
 export declare const DETECTOR_OVERSAMPLE_AUTO_MS: 0.5;
 
 /**
- * The chorus's right-leg phase offset, in TURNS of its one oscillator (§2, §3a; the native-FX catalogue's M32 Dimension row). The right leg's voice k reads the LFO at k/N + spread: 0 is both legs one phase (the stage without the field, bit for bit), 0.25 quadrature, 0.5 the Dimension's opposed sweep. A fraction of a cycle carries no engineering symbol, so the unit is ''.
+ * The chorus's right-leg phase offset, in TURNS of its one oscillator. The right leg's voice k reads the LFO at k/N + spread: 0 is both legs one phase (the stage without the field, bit for bit), 0.25 quadrature, 0.5 the Dimension's opposed sweep. A fraction of a cycle carries no engineering symbol, so the unit is ''.
  * @see data/kernels/chorus.json
  */
 export declare const CHORUS_SPREAD_RANGE: {
@@ -116,7 +116,7 @@ export declare const CHORUS_SPREAD_RANGE: {
 };
 
 /**
- * The chorus sweep's speed (§3a). Above ~3 Hz it stops being a chorus and becomes a vibrato.
+ * The chorus sweep's speed. Above ~3 Hz it stops being a chorus and becomes a vibrato.
  * @see data/kernels/chorus.json
  */
 export declare const CHORUS_RATE_RANGE: {
@@ -129,7 +129,7 @@ export declare const CHORUS_RATE_RANGE: {
 };
 
 /**
- * The chorus's peak-to-peak excursion above its declared 10 ms base (§3a).
+ * The chorus's peak-to-peak excursion above its declared 10 ms base.
  * @see data/kernels/chorus.json
  */
 export declare const CHORUS_DEPTH_RANGE: {
@@ -142,7 +142,7 @@ export declare const CHORUS_DEPTH_RANGE: {
 };
 
 /**
- * The chorus's tap count — one oscillator read at k/N (§3a).
+ * The chorus's tap count — one oscillator read at k/N.
  * @see data/kernels/chorus.json
  */
 export declare const CHORUS_VOICES_RANGE: {
@@ -155,7 +155,7 @@ export declare const CHORUS_VOICES_RANGE: {
 };
 
 /**
- * The chorus's wet/dry, as an instance of DRIVE_MIX_RANGE — the same percent travel, its own come-up value: 35 %, a colour under the dry on a strip (§3a). The REVERB_LOWCUT_RANGE-over- REVERB_CUT_RANGE shape: one travel, one declared default per field that reads it.
+ * The chorus's wet/dry, as an instance of DRIVE_MIX_RANGE — the same percent travel, its own come-up value: 35 %, a colour under the dry on a strip. The REVERB_LOWCUT_RANGE-over- REVERB_CUT_RANGE shape: one travel, one declared default per field that reads it.
  * @see data/kernels/chorus.json
  */
 export declare const CHORUS_MIX_RANGE: {
@@ -255,13 +255,13 @@ export declare const COMP_KINDS: readonly ["comp", "limiter"];
 export declare const DETECTOR_OVERSAMPLINGS: readonly ["auto", "off", "4x"];
 
 /**
- * Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`, the SSL bus compressor design §3a) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.
+ * Where the compressor's detector listens: `feedforward` hears the slot's input (or its key), `feedback` hears the slot's own pre-make-up output DYN_FB_LOOP_DELAY_SAMPLES late, through one envelope stage, and a keyed slot stays feed-forward (omx-dsp's OMX_DYN_TOPOLOGY_FEEDFORWARD 0 and _FEEDBACK 1, in that order; the set is named for its control, so C spells them OMX_DETECTOR_TOPOLOGY_*). The console's comp row carries it (`detectorTopology`) and comes up `feedforward`, so a zeroed atom is the compressor every slot runs.
  * @see data/kernels/comp.json
  */
 export declare const DETECTOR_TOPOLOGY: readonly ["feedforward", "feedback"];
 
 /**
- * The program-dependent release's model constants — the LA-2A's opto cell as DATA (compressor models design §3b). `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.
+ * The program-dependent release's model constants — the LA-2A's opto cell as DATA. `chargeMs`/`dischargeMs` are the word's memory constants, shared by every profile; each profile's `fastMs`, `slowMinMs`, `slowMaxMs` and `share` fit the unit's published two-stage recovery. Not operator controls: generated into `omx_contract_limits.h` as `OMX_PROGRAM_RELEASE_*`, which libomxdsp's `omx_env_program_release` reads.
  * @see data/kernels/comp.json
  */
 export declare const PROGRAM_RELEASE: {
@@ -336,7 +336,7 @@ export declare const DEESS_RATIO_RANGE: {
 };
 
 /**
- * The FLOOR on the reduction, in dB and never positive — the deepest cut the stage may reach however loud the sibilant is (`mix_deesser.h`'s clamp, §4c). 12 dB tames a hard sibilant; past that a voice starts to lisp, and a de-esser with NO floor turns a shouted "s" into a hole. The ceiling is 0, which switches the reduction off without switching the stage off — a legitimate thing to want while dialling the band in by ear.
+ * The FLOOR on the reduction, in dB and never positive — the deepest cut the stage may reach however loud the sibilant is (`mix_deesser.h`'s clamp). 12 dB tames a hard sibilant; past that a voice starts to lisp, and a de-esser with NO floor turns a shouted "s" into a hole. The ceiling is 0, which switches the reduction off without switching the stage off — a legitimate thing to want while dialling the band in by ear.
  * @see data/kernels/deesser.json
  */
 export declare const DEESS_RANGE_RANGE: {
@@ -448,7 +448,7 @@ export declare const DELAY_MIX_RANGE: {
 export declare const DELAY_PINGPONGS: readonly ["off", "on"];
 
 /**
- * The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the console's delay default state (which now reads it) so the DPF plugin generator (omx-plugins, DPF plugin design §3a) reads the same fact the desk seeds a fresh strip with.
+ * The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the console's delay default state (which now reads it) so the DPF plugin generator (omx-plugins) reads the same fact the desk seeds a fresh strip with.
  * @see data/kernels/delay.json
  */
 export declare const FX_DELAY_PINGPONG_DEFAULT: false;
@@ -531,13 +531,13 @@ export declare const DRIVE_CURVES: readonly ["soft", "tape", "tube", "exciter"];
 export declare const DRIVE_BANDS: readonly ["full", "low", "high", "tilt"];
 
 /**
- * The drive's AUTO-GAIN switch: on, the stage measures its own level change and matches it out (`omx_drive.h`'s `struct omx_drive.auto_gain`, drive-stage spec §4d), so turning the drive up adds colour rather than loudness. A field of the console's drive row (`DriveState.autoGain`), on at come-up there and in omx-dsp's drive face.
+ * The drive's AUTO-GAIN switch: on, the stage measures its own level change and matches it out (`omx_drive.h`'s `struct omx_drive.auto_gain`), so turning the drive up adds colour rather than loudness. A field of the console's drive row (`DriveState.autoGain`), on at come-up there and in omx-dsp's drive face.
  * @see data/kernels/drive.json
  */
 export declare const DRIVE_AUTO_GAINS: readonly ["off", "on"];
 
 /**
- * The drive's STEREO LINK switch: on, ONE auto-gain path is driven by both legs' summed energy, so the image cannot shift under the level match; off, each leg matches its own (`omx_drive.h`'s `struct omx_drive.stereo_link`, spec §4e). A field of the console's drive row (`DriveState.stereoLink`), on at come-up there and in omx-dsp's drive face.
+ * The drive's STEREO LINK switch: on, ONE auto-gain path is driven by both legs' summed energy, so the image cannot shift under the level match; off, each leg matches its own (`omx_drive.h`'s `struct omx_drive.stereo_link`). A field of the console's drive row (`DriveState.stereoLink`), on at come-up there and in omx-dsp's drive face.
  * @see data/kernels/drive.json
  */
 export declare const DRIVE_STEREO_LINKS: readonly ["off", "on"];
@@ -555,7 +555,7 @@ export declare const DRIVE_HF_ROLLOFFS: readonly ["off", "12000", "16000"];
 export declare const DRIVE_OVERSAMPLES: readonly [1, 2, 4];
 
 /**
- * The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen (§4b). In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.
+ * The bias at `character = +1`, in the SHAPER's own input units — `OMX_DRIVE_BIAS_MAX`. DERIVED, not chosen. In the saturating limit every knee tends to `sgn`, the output is a rectangular wave of duty `d = ½ + asin(b)/π`, and its `n`th harmonic goes as `sin(nπd)/n` — so `|H2|` is maximal at `d = ¾`, which is `b = sin(π/4) = 1/√2` exactly. Measured too: the H2-maximising bias for a full-scale sine at unity drive is 0.712 (soft), 0.658 (tape), 0.645 (tube), and this one value costs 0.000 / 0.035 / 0.088 dB of H2 against each curve's own optimum. ONE normalised bias for all three knees, not three.
  * @see data/kernels/drive.json
  */
 export declare const DRIVE_BIAS_MAX: 0.7071067811865476;
@@ -669,7 +669,7 @@ export declare const EQ_MAX_BANDS: 24;
 export declare const ISO_THIRD_OCTAVE_CENTRES_HZ: readonly [20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000, 10000, 12500, 16000, 20000];
 
 /**
- * The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (graphic-eq-31 spec §3, roster ruling 3).
+ * The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (roster ruling 3).
  * @see data/kernels/eq.json
  */
 export declare const GEQ_BANDS: 31;
@@ -804,7 +804,7 @@ export declare const GROWTH_WINDOW_FRAMES: 5;
 export declare const DEEP_PLATEAU_FRAMES: 20;
 
 /**
- * Minimum least-squares slope, in dB PER FRAME, over GROWTH_WINDOW_FRAMES for a bin to count as "running away" rather than merely holding level. Set with real margin on BOTH sides — comfortably above measurement jitter on a held tone or a quiet/broadband mix (well under 0.2 dB/frame in practice) and comfortably below a genuine feedback ramp, which climbs several dB across a handful of ~20 ms hops as it heads toward clipping. Issue #91's acceptance bar is "arming must never burst-alarm on non-growing content", so this errs conservative (under-fire a marginal ramp) rather than tight (risk a false alarm) — the ramp gate (`omx_fbs_is_growing`) also requires the window's end to sit above its start, a cheap belt-and-braces check against a fit dragged positive by one mid-window wobble.
+ * Minimum least-squares slope, in dB PER FRAME, over GROWTH_WINDOW_FRAMES for a bin to count as "running away" rather than merely holding level. Set with real margin on BOTH sides — comfortably above measurement jitter on a held tone or a quiet/broadband mix (well under 0.2 dB/frame in practice) and comfortably below a genuine feedback ramp, which climbs several dB across a handful of ~20 ms hops as it heads toward clipping. The acceptance bar is "arming must never burst-alarm on non-growing content", so this errs conservative (under-fire a marginal ramp) rather than tight (risk a false alarm) — the ramp gate (`omx_fbs_is_growing`) also requires the window's end to sit above its start, a cheap belt-and-braces check against a fit dragged positive by one mid-window wobble.
  * @see data/kernels/fbs.json
  */
 export declare const GROWTH_MIN_DB_PER_FRAME: 0.8;
@@ -816,19 +816,19 @@ export declare const GROWTH_MIN_DB_PER_FRAME: 0.8;
 export declare const GROWTH_MAX_DIP_DB: 0.5;
 
 /**
- * Minimum END-TO-END rise (dB) across the window. The live-music corpus (issue #106) showed sustained melody notes drifting up ~4–5 dB over a window without ever being feedback; a loop past unity gains several dB per hop and clears 6 dB in a window trivially. Below this the tone is holding level, not running away.
+ * Minimum END-TO-END rise (dB) across the window. The live-music corpus showed sustained melody notes drifting up ~4–5 dB over a window without ever being feedback; a loop past unity gains several dB per hop and clears 6 dB in a window trivially. Below this the tone is holding level, not running away.
  * @see data/kernels/fbs.json
  */
 export declare const GROWTH_MIN_TOTAL_RISE_DB: 6;
 
 /**
- * Cap on the share of the window's total rise a SINGLE frame may carry. Feedback is exponential in amplitude ⇒ linear in dB ⇒ its rise is distributed roughly evenly across the window; a musical attack / re-articulation puts almost the whole rise in one hop (the exact shape behind every one of issue #106's 72 live false positives). One half is generous to real ramps (an even N-frame ramp puts 1/(N−1) per hop) and fatal to steps. A side effect worth knowing: a 2-sample window can never pass (one hop IS the whole rise), so confirmation always rests on at least three frames of actual ramp evidence.
+ * Cap on the share of the window's total rise a SINGLE frame may carry. Feedback is exponential in amplitude ⇒ linear in dB ⇒ its rise is distributed roughly evenly across the window; a musical attack / re-articulation puts almost the whole rise in one hop (the exact shape behind every one of the 72 live false positives of the live-music corpus). One half is generous to real ramps (an even N-frame ramp puts 1/(N−1) per hop) and fatal to steps. A side effect worth knowing: a 2-sample window can never pass (one hop IS the whole rise), so confirmation always rests on at least three frames of actual ramp evidence.
  * @see data/kernels/fbs.json
  */
 export declare const GROWTH_MAX_SINGLE_FRAME_SHARE: 0.5;
 
 /**
- * How many CONSECUTIVE frames the ramp gate (`omx_fbs_is_growing`) must hold before a bin confirms — the time-domain tiebreak for the one shape a single window cannot judge (issue #106): a smooth musical crescendo. Within one window a +6 dB swell (live corpus: a C6 at 1 049 Hz, `[-53.7, -51.4, -50.4, -48, -47.3]`) is indistinguishable from slow feedback — the difference is only visible on the NEXT hop, where a crescendo peaks and plateaus (the window's rise collapses) while feedback keeps climbing. Requiring the gate to hold twice in a row costs a clean ramp nothing — its gate is already true while persistence is still arming — and blocks the swell that peaks the very frame it would have confirmed.
+ * How many CONSECUTIVE frames the ramp gate (`omx_fbs_is_growing`) must hold before a bin confirms — the time-domain tiebreak for the one shape a single window cannot judge: a smooth musical crescendo. Within one window a +6 dB swell (live corpus: a C6 at 1 049 Hz, `[-53.7, -51.4, -50.4, -48, -47.3]`) is indistinguishable from slow feedback — the difference is only visible on the NEXT hop, where a crescendo peaks and plateaus (the window's rise collapses) while feedback keeps climbing. Requiring the gate to hold twice in a row costs a clean ramp nothing — its gate is already true while persistence is still arming — and blocks the swell that peaks the very frame it would have confirmed.
  * @see data/kernels/fbs.json
  */
 export declare const GROWTH_CONFIRM_FRAMES: 2;
@@ -852,7 +852,7 @@ export declare const DEFAULT_THRESHOLDS: {
 };
 
 /**
- * THE NOTCH DEPTH LAW: the deepest cut any machine planter may propose from one reading, in dB. A number, not a literal at the call site, because two planters now lean on it. FBS derives a candidate's depth from the peak-to-average ratio around its bin and stops here; Room Analysis derives a mode's depth from its height above the median curve and is held to the SAME ceiling (the room-analysis design §4 — "never more than the FBS notch depth law"). Written twice as `18` those two bounds would be equal by coincidence and could drift apart in silence. It is a CEILING ON THE PROPOSAL, not the final gain: a band that lands as a rampable BELL is bounded again by `EQ_GAIN_RANGE`, which is tighter. A planter must honour both and REPORT when either bit, never quietly deliver a shallower cut than it was asked for.
+ * THE NOTCH DEPTH LAW: the deepest cut any machine planter may propose from one reading, in dB. A number, not a literal at the call site, because two planters now lean on it. FBS derives a candidate's depth from the peak-to-average ratio around its bin and stops here; Room Analysis derives a mode's depth from its height above the median curve and is held to the SAME ceiling (the room-analysis design — "never more than the FBS notch depth law"). Written twice as `18` those two bounds would be equal by coincidence and could drift apart in silence. It is a CEILING ON THE PROPOSAL, not the final gain: a band that lands as a rampable BELL is bounded again by `EQ_GAIN_RANGE`, which is tighter. A planter must honour both and REPORT when either bit, never quietly deliver a shallower cut than it was asked for.
  * @see data/kernels/fbs.json
  */
 export declare const FBS_MAX_NOTCH_DEPTH_DB: 18;
@@ -870,7 +870,7 @@ export declare const FBS_DEFAULT_NOTCH_Q: 116;
 export declare const FBS_DEFAULT_MAX_AUTO_BANDS: 6;
 
 /**
- * The flanger's jet sweep (§3b).
+ * The flanger's jet sweep.
  * @see data/kernels/flanger.json
  */
 export declare const FLANGER_RATE_RANGE: {
@@ -883,7 +883,7 @@ export declare const FLANGER_RATE_RANGE: {
 };
 
 /**
- * The flanger's peak-to-peak excursion above its declared 0.5 ms base (§3b).
+ * The flanger's peak-to-peak excursion above its declared 0.5 ms base.
  * @see data/kernels/flanger.json
  */
 export declare const FLANGER_DEPTH_RANGE: {
@@ -896,7 +896,7 @@ export declare const FLANGER_DEPTH_RANGE: {
 };
 
 /**
- * The flanger's SIGNED resonance (§3b). The ±0.95 clamp is DECLARED here — a PATCH asking for 1.0 is answered by this travel — and the kernel's own clamp is the enforcement half.
+ * The flanger's SIGNED resonance. The ±0.95 clamp is DECLARED here — a PATCH asking for 1.0 is answered by this travel — and the kernel's own clamp is the enforcement half.
  * @see data/kernels/flanger.json
  */
 export declare const FLANGER_FEEDBACK_RANGE: {
@@ -909,7 +909,7 @@ export declare const FLANGER_FEEDBACK_RANGE: {
 };
 
 /**
- * The flanger's wet/dry, as an instance of DRIVE_MIX_RANGE: 50 %, equal dry and wet, where the comb is deepest (§3b).
+ * The flanger's wet/dry, as an instance of DRIVE_MIX_RANGE: 50 %, equal dry and wet, where the comb is deepest.
  * @see data/kernels/flanger.json
  */
 export declare const FLANGER_MIX_RANGE: {
@@ -1050,7 +1050,7 @@ export declare const GENERATOR_KINDS: readonly ["oscillator", "white", "pink"];
 export declare const WAVEFORMS: readonly ["sine", "square", "saw", "triangle"];
 
 /**
- * One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB (graphic-eq-31 spec §3).
+ * One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB.
  * @see data/kernels/geq.json
  */
 export declare const GEQ_BAND_RANGE: {
@@ -1063,19 +1063,19 @@ export declare const GEQ_BAND_RANGE: {
 };
 
 /**
- * The graphic EQ's band Q: the ISO third-octave bandwidth, `2^(1/6)/(2^(1/3) − 1) ≈ 4.318`, to one decimal as the M32 GEQ carries it. Read by the `geq31` preset and the graphic EQ's section design (graphic-eq-31 spec §3).
+ * The graphic EQ's band Q: the ISO third-octave bandwidth, `2^(1/6)/(2^(1/3) − 1) ≈ 4.318`, to one decimal as the M32 GEQ carries it. Read by the `geq31` preset and the graphic EQ's section design.
  * @see data/kernels/geq.json
  */
 export declare const GEQ_BAND_Q: 4.3;
 
 /**
- * The prototype gain the `true` solve's first interaction matrix is evaluated at (spec §2, §3): the middle of the travel's magnitude, where a matched-Z section's dB response per dB of gain is closest to its average.
+ * The prototype gain the `true` solve's first interaction matrix is evaluated at: the middle of the travel's magnitude, where a matched-Z section's dB response per dB of gain is closest to its average.
  * @see data/kernels/geq.json
  */
 export declare const GEQ_PROTO_DB: 12;
 
 /**
- * The ceiling on a section gain the `true` solve may ask for (spec §3): above the travel's worst case (26.0 dB, the alternating ±15 set) with margin. A solve past it clamps and the row says so (`designClamped`), never silently.
+ * The ceiling on a section gain the `true` solve may ask for: above the travel's worst case (26.0 dB, the alternating ±15 set) with margin. A solve past it clamps and the row says so (`designClamped`), never silently.
  * @see data/kernels/geq.json
  */
 export declare const GEQ_DESIGN_GAIN_MAX_DB: 30;
@@ -1112,31 +1112,31 @@ export declare const HRP_MAX_VOICES: 8;
 export declare const HRP_BAND_Q: 5;
 
 /**
- * How far a partial must stand above its LEARNED BASELINE before HRP calls it a resonance (increment 8, §23–§24: `deviation = measured − baseline[note][harmonic]`). A partial level tells you nothing on its own; what marks a resonance is a partial louder than THIS instrument normally measures at THIS note. Three decibels is the same order as the feedback detector's peak-to-neighbour gate and for the same reason: below it, an ordinary performance's variation — a bow dug in, a verse sung harder — would be flattened, and flattening expression is not correcting a room. (Before the learned model existed this same threshold gated the placeholder neighbour rule; the number and its reasoning carried over.)
+ * How far a partial must stand above its LEARNED BASELINE before HRP calls it a resonance (increment 8: `deviation = measured − baseline[note][harmonic]`). A partial level tells you nothing on its own; what marks a resonance is a partial louder than THIS instrument normally measures at THIS note. Three decibels is the same order as the feedback detector's peak-to-neighbour gate and for the same reason: below it, an ordinary performance's variation — a bow dug in, a verse sung harder — would be flattened, and flattening expression is not correcting a room. (Before the learned model existed this same threshold gated the placeholder neighbour rule; the number and its reasoning carried over.)
  * @see data/kernels/hrp.json
  */
 export declare const HRP_EXCESS_THRESHOLD_DB: 3;
 
 /**
- * How far ONE reconcile pass may move an HRP band's gain, in dB — §48's gain smoothing, done at the control level because the native cascade applies pushed coefficients verbatim and §48 forbids interpolating there. An unbounded gain step is a waveform discontinuity — the click heard when a correction entered or left at full depth (found live, 2026-08-20, the evening increment 9 raised the enter/leave rate). Bounded, a correction ENTERS by deepening from silence and LEAVES by walking to exactly 0 dB — the provable parked identity (`eqBandIsIdentity`) — from which removal is bit-identical. Two decibels per pass at the corrector's 10 Hz cadence walks the full HRP_MAX_CUT_DB travel in ~300 ms: the same order as the tracker's stability hold and FBS's lift steps, while each individual move stays below audibility on a Q-5 bell.
+ * How far ONE reconcile pass may move an HRP band's gain, in dB — the gain smoothing, done at the control level because the native cascade applies pushed coefficients verbatim and the design forbids interpolating there. An unbounded gain step is a waveform discontinuity — the click heard when a correction entered or left at full depth (found live, 2026-08-20, the evening increment 9 raised the enter/leave rate). Bounded, a correction ENTERS by deepening from silence and LEAVES by walking to exactly 0 dB — the provable parked identity (`eqBandIsIdentity`) — from which removal is bit-identical. Two decibels per pass at the corrector's 10 Hz cadence walks the full HRP_MAX_CUT_DB travel in ~300 ms: the same order as the tracker's stability hold and FBS's lift steps, while each individual move stays below audibility on a Q-5 bell.
  * @see data/kernels/hrp.json
  */
 export declare const HRP_GAIN_STEP_DB: 2;
 
 /**
- * How close two correction candidates must sit, in cents, to count as the SAME spectral region (§30): within it, the stronger candidate is selected and the weaker discarded rather than two near-identical filters being planted. One semitone, and the number follows from HRP_BAND_Q: a Q-5 bell's −3 dB half-width is ~170 cents, so two cuts a semitone apart overlap over most of their travel — the second one deepens the first far more than it shapes anything of its own. The spec orders the threshold configurable and tested (§30's last line): declared once here, a parameter everywhere below.
+ * How close two correction candidates must sit, in cents, to count as the SAME spectral region: within it, the stronger candidate is selected and the weaker discarded rather than two near-identical filters being planted. One semitone, and the number follows from HRP_BAND_Q: a Q-5 bell's −3 dB half-width is ~170 cents, so two cuts a semitone apart overlap over most of their travel — the second one deepens the first far more than it shapes anything of its own. The design makes the threshold configurable and tested: declared once here, a parameter everywhere below.
  * @see data/kernels/hrp.json
  */
 export declare const HRP_COLLISION_CENTS: 100;
 
 /**
- * The ATTRIBUTION window (§11): two partials closer than this are one spectral event as far as the desk can tell — the same ±1 bin `omx_hrp_bin_peak` reads over, expressed musically so it holds across the range. A different law from HRP_COLLISION_CENTS (§30's SELECTION window, which stays above it): this one is the analyser's resolution, that one the corrector's. Generated into `omx_contract_limits.h` as `OMX_HRP_ATTRIBUTION_CENTS`; `hrp_attribute.h` reads it.
+ * The ATTRIBUTION window: two partials closer than this are one spectral event as far as the desk can tell — the same ±1 bin `omx_hrp_bin_peak` reads over, expressed musically so it holds across the range. A different law from HRP_COLLISION_CENTS (the SELECTION window, which stays above it): this one is the analyser's resolution, that one the corrector's. Generated into `omx_contract_limits.h` as `OMX_HRP_ATTRIBUTION_CENTS`; `hrp_attribute.h` reads it.
  * @see data/kernels/hrp.json
  */
 export declare const HRP_ATTRIBUTION_CENTS: 60;
 
 /**
- * How many bands HRP may plant on ONE channel — its half of the machine budget, and the number that makes the budget FORECASTABLE rather than emergent. Without it the count is whatever the material happens to provoke: the placement law is sparse, so a clean note plants two bands and a resonant room plants nine, and nobody can answer "will this fit?" until it does not. With FBS senior (§9.3(b)) that discovery would happen at showtime, to the junior planter, silently. Declared instead, the whole sum is arithmetic an operator can read before a note is played: operator bands + FBS maxAutoBands + HRP maxAutoBands <= EQ_MAX_BANDS EIGHT — ONE CORRECTION PER VOICE at full polyphony (operator sizing, 2026-09-01). The detector's ceiling is HRP_MAX_VOICES voices, a guitar's six strings and a piano/string voicing's eight, and a budget below the voice count would decide by arithmetic which of the notes actually sounding may be corrected — a limit nobody could read off the desk. Scarcity is handled where it belongs instead: the candidates from every voice meet in ONE globally ranked list (spec §29) and the head of it is what gets planted. It is NOT a claim to seniority, and it is larger than FBS's six. Seniority is the ALLOCATION ORDER — `HrpPlanter` takes only `EQ_MAX_BANDS − others.length`, the remainder after the operator and every other machine — so a bigger junior default cannot reach a senior slot; it only means HRP asks for more of what is left. the engine's conformance test asserts both halves. The per-channel DEFAULT; the row's travel is HRP_AUTO_BANDS_RANGE, so a channel that needs more can have more, as an explicit decision with a visible cost.
+ * How many bands HRP may plant on ONE channel — its half of the machine budget, and the number that makes the budget FORECASTABLE rather than emergent. Without it the count is whatever the material happens to provoke: the placement law is sparse, so a clean note plants two bands and a resonant room plants nine, and nobody can answer "will this fit?" until it does not. With FBS senior that discovery would happen at showtime, to the junior planter, silently. Declared instead, the whole sum is arithmetic an operator can read before a note is played: operator bands + FBS maxAutoBands + HRP maxAutoBands <= EQ_MAX_BANDS EIGHT — ONE CORRECTION PER VOICE at full polyphony (operator sizing, 2026-09-01). The detector's ceiling is HRP_MAX_VOICES voices, a guitar's six strings and a piano/string voicing's eight, and a budget below the voice count would decide by arithmetic which of the notes actually sounding may be corrected — a limit nobody could read off the desk. Scarcity is handled where it belongs instead: the candidates from every voice meet in ONE globally ranked list and the head of it is what gets planted. It is NOT a claim to seniority, and it is larger than FBS's six. Seniority is the ALLOCATION ORDER — `HrpPlanter` takes only `EQ_MAX_BANDS − others.length`, the remainder after the operator and every other machine — so a bigger junior default cannot reach a senior slot; it only means HRP asks for more of what is left. the engine's conformance test asserts both halves. The per-channel DEFAULT; the row's travel is HRP_AUTO_BANDS_RANGE, so a channel that needs more can have more, as an explicit decision with a visible cost.
  * @see data/kernels/hrp.json
  */
 export declare const HRP_DEFAULT_MAX_AUTO_BANDS: 8;
@@ -1173,13 +1173,13 @@ export declare const LIMITER_LIMITS: {
 };
 
 /**
- * The input cap a summing bus can be sized to — **the engine's declared input ceiling**, read from `@freemixer/declarations` rather than re-typed here. A gig with more than this many inputs needs more than one engine node; below it a bus is sized to `min(N, BUS_INPUT_CAP)`. It was a literal 64 until 2026-09-15, said to mirror the engine's `MAX_BUS_INPUTS` — and it did, but that 64 was the PipeWire builtin mixer's single-tier fan-in (8 × 8), never the engine's bound: the native node has allocated `OMX_MAX_STRIPS` (128) strips all along. Two literals agreeing by hand is how the console came to refuse a 96-channel desk it could carry. the engine's conformance test holds this to the C header; the console allocation design §9 carries the ruling and the measured cost of width.
+ * The input cap a summing bus can be sized to — **the engine's declared input ceiling**, read from the engine's declarations rather than re-typed here. A gig with more than this many inputs needs more than one engine node; below it a bus is sized to `min(N, BUS_INPUT_CAP)`. It was a literal 64 until 2026-09-15, said to mirror the engine's `MAX_BUS_INPUTS` — and it did, but that 64 was the PipeWire builtin mixer's single-tier fan-in (8 × 8), never the engine's bound: the native node has allocated `OMX_MAX_STRIPS` (128) strips all along. Two literals agreeing by hand is how the console came to refuse a 96-channel desk it could carry. the engine's conformance test holds this to the C header; the console allocation design carries the ruling and the measured cost of width.
  * @see data/kernels/mixmatrix.json
  */
 export declare const BUS_INPUT_CAP: 128;
 
 /**
- * The phaser's sweep speed (§3). `omx_lfo_inc` freezes at Nyquist; this travel stays far below.
+ * The phaser's sweep speed. `omx_lfo_inc` freezes at Nyquist; this travel stays far below.
  * @see data/kernels/phaser.json
  */
 export declare const PHASER_RATE_RANGE: {
@@ -1192,7 +1192,7 @@ export declare const PHASER_RATE_RANGE: {
 };
 
 /**
- * The phaser's lowest centre frequency; the sweep runs upward from it (§3).
+ * The phaser's lowest centre frequency; the sweep runs upward from it.
  * @see data/kernels/phaser.json
  */
 export declare const PHASER_BASE_RANGE: {
@@ -1205,7 +1205,7 @@ export declare const PHASER_BASE_RANGE: {
 };
 
 /**
- * The sweep's span above `base`, in octaves; 0 is a static phaser at `base` (§3).
+ * The sweep's span above `base`, in octaves; 0 is a static phaser at `base`.
  * @see data/kernels/phaser.json
  */
 export declare const PHASER_DEPTH_RANGE: {
@@ -1218,7 +1218,7 @@ export declare const PHASER_DEPTH_RANGE: {
 };
 
 /**
- * The phaser's section count per leg — EVEN, 2 … 12 (§2: two sections per notch). Its ends are the kernel's state capacity (`OMX_PHASER_MAX_STAGES` reads `OMX_PHASER_STAGES_RANGE_MAX`); the row moves it through the closed member set PHASER_STAGE_COUNTS, which is derived from it.
+ * The phaser's section count per leg — EVEN, 2 … 12 (two sections per notch). Its ends are the kernel's state capacity (`OMX_PHASER_MAX_STAGES` reads `OMX_PHASER_STAGES_RANGE_MAX`); the row moves it through the closed member set PHASER_STAGE_COUNTS, which is derived from it.
  * @see data/kernels/phaser.json
  */
 export declare const PHASER_STAGES_RANGE: {
@@ -1231,7 +1231,7 @@ export declare const PHASER_STAGES_RANGE: {
 };
 
 /**
- * The phaser's SIGNED resonance (§3). ±0.9, tighter than the flanger's ±0.95: the loop runs through a time-varying chain. Declared here (the refusal half); the kernel's clamp is the enforcement half.
+ * The phaser's SIGNED resonance. ±0.9, tighter than the flanger's ±0.95: the loop runs through a time-varying chain. Declared here (the refusal half); the kernel's clamp is the enforcement half.
  * @see data/kernels/phaser.json
  */
 export declare const PHASER_FEEDBACK_RANGE: {
@@ -1244,7 +1244,7 @@ export declare const PHASER_FEEDBACK_RANGE: {
 };
 
 /**
- * The phaser's wet/dry, as an instance of DRIVE_MIX_RANGE: 50 %, where the notch is complete (§3).
+ * The phaser's wet/dry, as an instance of DRIVE_MIX_RANGE: 50 %, where the notch is complete.
  * @see data/kernels/phaser.json
  */
 export declare const PHASER_MIX_RANGE: {
@@ -1257,7 +1257,7 @@ export declare const PHASER_MIX_RANGE: {
 };
 
 /**
- * The phaser's continuous travels by row field — the ONE map its control bounds and its row travels both read (§3). `stages` is not here: it moves through PHASER_STAGE_COUNTS.
+ * The phaser's continuous travels by row field — the ONE map its control bounds and its row travels both read. `stages` is not here: it moves through PHASER_STAGE_COUNTS.
  * @see data/kernels/phaser.json
  */
 export declare const PHASER_TRAVELS: {
@@ -1597,7 +1597,7 @@ export declare const ROTARY_BALANCE_RANGE: {
 };
 
 /**
- * The rotary's wet/dry, as an instance of DRIVE_MIX_RANGE: 100 %, because a rotary on an insert IS the sound (it replaces the cabinet) and an `fxReturn` wants it wet too (§3).
+ * The rotary's wet/dry, as an instance of DRIVE_MIX_RANGE: 100 %, because a rotary on an insert IS the sound (it replaces the cabinet) and an `fxReturn` wants it wet too.
  * @see data/kernels/rotary.json
  */
 export declare const ROTARY_MIX_RANGE: {
@@ -1787,7 +1787,7 @@ export declare const SRC_ROLLOFF: 0.92;
 export declare const SRC_MAX_L: 1024;
 
 /**
- * The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. the engine's limits generator emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921).
+ * The legal range of each transient-designer field (engineering units). Every kind comes up flat: no per-kind default differs. the engine's limits generator emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands.
  * @see data/kernels/transient.json
  */
 export declare const TRANSIENT_LIMITS: {
@@ -1834,25 +1834,25 @@ export declare const TRANSIENT_LIMITS: {
 };
 
 /**
- * The fast follower's attack, ms: exactly the dynamics detector's no-oversampling line (transient spec §3, L7).
+ * The fast follower's attack, ms: exactly the dynamics detector's no-oversampling line.
  * @see data/kernels/transient.json
  */
 export declare const TRANSIENT_FAST_ATTACK_MS: 0.5;
 
 /**
- * The fast follower's release, ms: one 50 Hz cycle held, a 180 bpm sixteenth forgotten (transient spec §3).
+ * The fast follower's release, ms: one 50 Hz cycle held, a 180 bpm sixteenth forgotten.
  * @see data/kernels/transient.json
  */
 export declare const TRANSIENT_FAST_RELEASE_MS: 20;
 
 /**
- * The contrast, dB, at which a knob reaches its full value (transient spec §2, §3).
+ * The contrast, dB, at which a knob reaches its full value.
  * @see data/kernels/transient.json
  */
 export declare const TRANSIENT_REF_DB: 6;
 
 /**
- * The detector floor, linear (−100 dBFS): below it both envelopes read the floor and the stage is unity (transient spec §3).
+ * The detector floor, linear (−100 dBFS): below it both envelopes read the floor and the stage is unity.
  * @see data/kernels/transient.json
  */
 export declare const TRANSIENT_FLOOR_LIN: 0.00001;
@@ -1986,7 +1986,7 @@ export declare const XOVER_LIMITS: {
 };
 
 /**
- * The order the chorus and flanger construct their lines with (four taps; the fdelay spec §1).
+ * The order the chorus and flanger construct their lines with (four taps).
  * @see data/primitives.json
  */
 export declare const FDELAY_MOD_READ_ORDER: 3;

@@ -10,7 +10,7 @@
     {
       "name": "BAND_DYN_MODES",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3a and §3c; omx-dsp include/omxdsp/omx_gaincomp.h OMX_DYN_ABOVE 0 and OMX_DYN_BELOW 1"
+        "origin": "omx-dsp include/omxdsp/omx_gaincomp.h OMX_DYN_ABOVE 0 and OMX_DYN_BELOW 1"
       },
       "value": ["above", "below"],
       "default": "above",
@@ -20,7 +20,7 @@
     {
       "name": "BAND_DYN_KNEE_DB",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3b; omx-dsp test/fx/band_dyn.test.c:23 (KNEE_DB 6.0f) holds the same number and reads it from the header once it is declared"
+        "origin": "omx-dsp test/fx/band_dyn.test.c:23 (KNEE_DB 6.0f) holds the same number and reads it from the header once it is declared"
       },
       "value": 6,
       "unit": "dB",
@@ -29,7 +29,7 @@
     {
       "name": "BAND_DYN_MAX_BANDS",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3b: the operator band reserve, read from OPERATOR_EQ_BANDS_RESERVE"
+        "origin": "the operator band reserve, read from OPERATOR_EQ_BANDS_RESERVE"
       },
       "value": 9,
       "unit": "",
@@ -43,7 +43,7 @@
     {
       "name": "DETECTOR_OVERSAMPLE_AUTO_MS",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3a, the attack floor: the value core declares as DETECTOR_OVERSAMPLE_AUTO_MS"
+        "origin": "the value core declares as DETECTOR_OVERSAMPLE_AUTO_MS"
       },
       "value": 0.5,
       "unit": "ms",
@@ -52,7 +52,7 @@
     {
       "name": "BAND_DYN_THRESHOLD_RANGE",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3a: the de-esser's threshold travel spread as it is, { ...DEESS_THRESHOLD_RANGE }"
+        "origin": "the de-esser's threshold travel spread as it is, { ...DEESS_THRESHOLD_RANGE }"
       },
       "value": {
         "min": -60,
@@ -81,7 +81,7 @@
     {
       "name": "BAND_DYN_RATIO_RANGE",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3a: the de-esser's ratio travel with the default overridden to 2, { ...DEESS_RATIO_RANGE, default: 2 }"
+        "origin": "the de-esser's ratio travel with the default overridden to 2, { ...DEESS_RATIO_RANGE, default: 2 }"
       },
       "value": {
         "min": 1,
@@ -107,7 +107,7 @@
     {
       "name": "BAND_DYN_RANGE_RANGE",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3a: the floor read as DEESS_RANGE_RANGE.min, the ceiling +12 (open question 2)"
+        "origin": "the floor read as DEESS_RANGE_RANGE.min, the ceiling +12 (open question 2)"
       },
       "value": {
         "min": -24,
@@ -130,7 +130,7 @@
     {
       "name": "BAND_DYN_ATTACK_RANGE",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3a: min DETECTOR_OVERSAMPLE_AUTO_MS, max COMP_LIMITS.attackMs.max, step as DEESS_ATTACK_RANGE"
+        "origin": "min DETECTOR_OVERSAMPLE_AUTO_MS, max COMP_LIMITS.attackMs.max, step as DEESS_ATTACK_RANGE"
       },
       "value": {
         "min": 0.5,
@@ -156,7 +156,7 @@
     {
       "name": "BAND_DYN_RELEASE_RANGE",
       "source": {
-        "origin": "dynamic-EQ spec 2026-09-26 §3a: min DEESS_RELEASE_RANGE.min, max COMP_LIMITS.releaseMs.max, step DEESS_RELEASE_RANGE.step"
+        "origin": "min DEESS_RELEASE_RANGE.min, max COMP_LIMITS.releaseMs.max, step DEESS_RELEASE_RANGE.step"
       },
       "value": {
         "min": 5,
