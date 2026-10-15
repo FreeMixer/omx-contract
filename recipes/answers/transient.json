@@ -55,7 +55,7 @@
           "defaultFrom": "desk"
         }
       },
-      "doc": "The legal range of each transient-designer field (engineering units), transient spec §3. Every kind comes up flat: no per-kind default differs. the engine's limits generator emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands (issue #921)."
+      "doc": "The legal range of each transient-designer field (engineering units). Every kind comes up flat: no per-kind default differs. the engine's limits generator emits each as `OMX_TRANSIENT_<FIELD>_{MIN,MAX,DEFAULT}` for `mix_transient.h`'s resolve; the row publishes them on OPTIONS when it lands."
     },
     {
       "name": "TRANSIENT_FAST_ATTACK_MS",
@@ -64,7 +64,7 @@
         "export": "TRANSIENT_FAST_ATTACK_MS"
       },
       "value": 0.5,
-      "doc": "The fast follower's attack, ms: exactly the dynamics detector's no-oversampling line (transient spec §3, L7).",
+      "doc": "The fast follower's attack, ms: exactly the dynamics detector's no-oversampling line.",
       "unit": "ms"
     },
     {
@@ -74,7 +74,7 @@
         "export": "TRANSIENT_FAST_RELEASE_MS"
       },
       "value": 20,
-      "doc": "The fast follower's release, ms: one 50 Hz cycle held, a 180 bpm sixteenth forgotten (transient spec §3).",
+      "doc": "The fast follower's release, ms: one 50 Hz cycle held, a 180 bpm sixteenth forgotten.",
       "unit": "ms"
     },
     {
@@ -84,7 +84,7 @@
         "export": "TRANSIENT_REF_DB"
       },
       "value": 6,
-      "doc": "The contrast, dB, at which a knob reaches its full value (transient spec §2, §3).",
+      "doc": "The contrast, dB, at which a knob reaches its full value.",
       "unit": "dB"
     },
     {
@@ -94,7 +94,7 @@
         "export": "TRANSIENT_FLOOR_LIN"
       },
       "value": 0.00001,
-      "doc": "The detector floor, linear (−100 dBFS): below it both envelopes read the floor and the stage is unity (transient spec §3).",
+      "doc": "The detector floor, linear (−100 dBFS): below it both envelopes read the floor and the stage is unity.",
       "unit": ""
     }
   ]

@@ -207,7 +207,7 @@
     },
     "GEQ_BANDS": {
       "kind": "scalar",
-      "doc": "The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (graphic-eq-31 spec §3, roster ruling 3).",
+      "doc": "The graphic EQ's section count: DERIVED from ISO_THIRD_OCTAVE_CENTRES_HZ, never a second literal. Generated into `omx_contract_limits.h` as `OMX_GEQ_BANDS`, which sizes `mix_geq.h`'s section array — its OWN budget, never a claimant on EQ_MAX_BANDS (roster ruling 3).",
       "unit": "",
       "value": {
         "derive": "count",

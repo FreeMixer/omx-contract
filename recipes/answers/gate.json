@@ -105,7 +105,7 @@
     {
       "name": "GATE_KEY_LIMITS",
       "source": {
-        "origin": "the console engine's keyed gate detector filter travels: hpHz and lpHz, 0 (off) to 20000 Hz in whole Hz, no come-up value (keyed gates design §4, the /channel/{kind}/{index}/gate/key row)"
+        "origin": "the console engine's keyed gate detector filter travels: hpHz and lpHz, 0 (off) to 20000 Hz in whole Hz, no come-up value (the /channel/{kind}/{index}/gate/key row)"
       },
       "value": {
         "hpHz": {

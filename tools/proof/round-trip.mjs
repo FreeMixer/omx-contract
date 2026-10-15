@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * The round-trip proof (omx-contract spec §4.4 steps 1 and 2), against omx-dsp v0.1.3's committed
+ * The round-trip proof, against omx-dsp v0.1.3's committed
  * headers frozen under test/fixtures/omx-dsp-v0.1.3/:
  *
  *   1. the frozen sheet (test/fixtures/frozen-limits-sheet.json) renders the limits header

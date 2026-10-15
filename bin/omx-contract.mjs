@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * omx-contract — the declarations as data, validated and rendered (omx-contract spec §3.4).
+ * omx-contract — the declarations as data, validated and rendered.
  *
  *   omx-contract validate [--data <dir>]                       schema + semantic checks
  *   omx-contract fmt [--check] [--data <dir>]                  the one formatting

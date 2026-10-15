@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * The perturbation arm (R-094, spec §4.3): move a value in the data and every target that renders it
+ * The perturbation arm (R-094): move a value in the data and every target that renders it
  * moves — the c limits header (its own spelling and its alias), the plugin's parameter table, the ts
  * module and the json render — while `render --check` against the committed renders goes red.
  */

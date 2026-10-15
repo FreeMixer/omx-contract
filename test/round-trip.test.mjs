@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-/** The round-trip proof (spec §4.4 steps 1 and 2) as a test; tools/proof/round-trip.mjs prints it. */
+/** The round-trip proof as a test; tools/proof/round-trip.mjs prints it. */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

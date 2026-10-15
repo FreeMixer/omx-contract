@@ -61,7 +61,7 @@
       "name": "deessRange",
       "kind": "travel",
       "global": "DEESS_RANGE_RANGE",
-      "doc": "The FLOOR on the reduction, in dB and never positive — the deepest cut the stage may reach however loud the sibilant is (`mix_deesser.h`'s clamp, §4c). 12 dB tames a hard sibilant; past that a voice starts to lisp, and a de-esser with NO floor turns a shouted \"s\" into a hole. The ceiling is 0, which switches the reduction off without switching the stage off — a legitimate thing to want while dialling the band in by ear.",
+      "doc": "The FLOOR on the reduction, in dB and never positive — the deepest cut the stage may reach however loud the sibilant is (`mix_deesser.h`'s clamp). 12 dB tames a hard sibilant; past that a voice starts to lisp, and a de-esser with NO floor turns a shouted \"s\" into a hole. The ceiling is 0, which switches the reduction off without switching the stage off — a legitimate thing to want while dialling the band in by ear.",
       "travel": {
         "min": -24,
         "max": 0,

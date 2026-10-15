@@ -198,7 +198,7 @@ export function renderC(resolved) {
 
 /**
  * The `c` target of a frozen sheet (test/fixtures/frozen-limits-sheet.json): `{ sheet }` rendered by the moved
- * renderer, for the round-trip proof (spec §4.4 step 1).
+ * renderer, for the round-trip proof.
  */
 export function renderSheetC(fixture) {
   const s = fixture.sheet;

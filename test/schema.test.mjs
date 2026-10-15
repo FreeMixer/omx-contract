@@ -13,7 +13,7 @@ test('the shipped data is valid', () => {
   assert.deepEqual(validateData(loadData(DATA)), []);
 });
 
-test('the shipped data holds exactly the spec §4.1 items and the items of the kernels added since', () => {
+test('the shipped data holds exactly the specified items and the items of the kernels added since', () => {
   const want = ['GATE_LIMITS', 'COMP_LIMITS', 'LIMITER_LIMITS', 'TRANSIENT_LIMITS', 'PITCH_LIMITS', 'TRANSIENT_FAST_ATTACK_MS',
     'TRANSIENT_FAST_RELEASE_MS', 'TRANSIENT_REF_DB', 'TRANSIENT_FLOOR_LIN', 'PROGRAM_RELEASE', 'PITCH_KERNEL', 'BUTTERWORTH_Q',
     'ALLPASS_LIMITS', 'XOVER_LIMITS', 'FDELAY_MOD_READ_ORDER', 'FDELAY_READ_L1_NORM', 'FX_DELAY_TIME_RANGE', 'FX_DELAY_FEEDBACK_RANGE',

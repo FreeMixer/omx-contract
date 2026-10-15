@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // limitUnits and its helpers, moved unchanged from the console engine's contract-limits splitter at
-// 6c6e709f4429: the unit a header is compared by in the round-trip proof (omx-contract spec §4.4 step 2).
+// 6c6e709f4429: the unit a header is compared by in the round-trip proof.
 
 const BLOCKS = [
   // [opening line, closing line, key]
