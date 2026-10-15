@@ -1392,17 +1392,26 @@ export declare const PITCH_LIMITS: {
   readonly semitones: {
     readonly min: -12;
     readonly max: 12;
+    readonly step: 1;
+    readonly unit: "st";
     readonly default: 0;
+    readonly defaultFrom: "desk";
   };
   readonly cents: {
     readonly min: -50;
     readonly max: 50;
+    readonly step: 1;
+    readonly unit: "cents";
     readonly default: 0;
+    readonly defaultFrom: "desk";
   };
   readonly mix: {
     readonly min: 0;
     readonly max: 100;
+    readonly step: 0.1;
+    readonly unit: "%";
     readonly default: 100;
+    readonly defaultFrom: "desk";
   };
 };
 
