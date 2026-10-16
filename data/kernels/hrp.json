@@ -41,6 +41,62 @@
       "unit": "",
       "value": 8
     },
+    "HRP_FAMILY_SEARCH": {
+      "kind": "sheet",
+      "doc": "What each instrument family implies about the HRP search: `maxVoices`, how many notes the family can sound at once (the number its corrections are budgeted against), and `f0MinHz` to `f0MaxHz`, where its fundamentals can lie. Each is the widest the family can be, not the typical one: a range too narrow hides a note from the detector, one slightly too wide costs a few more sweep steps. One entry per INSTRUMENT_FAMILIES id; the confidence floor does not follow the family.",
+      "value": {
+        "drums": {
+          "maxVoices": 1,
+          "f0MinHz": 35,
+          "f0MaxHz": 400
+        },
+        "percussion": {
+          "maxVoices": 1,
+          "f0MinHz": 60,
+          "f0MaxHz": 1200
+        },
+        "bass": {
+          "maxVoices": 2,
+          "f0MinHz": 25,
+          "f0MaxHz": 400
+        },
+        "guitar": {
+          "maxVoices": 6,
+          "f0MinHz": 60,
+          "f0MaxHz": 1400
+        },
+        "keys": {
+          "maxVoices": 8,
+          "f0MinHz": 27.5,
+          "f0MaxHz": 4200
+        },
+        "vocals": {
+          "maxVoices": 2,
+          "f0MinHz": 80,
+          "f0MaxHz": 1200
+        },
+        "brass": {
+          "maxVoices": 2,
+          "f0MinHz": 40,
+          "f0MaxHz": 1400
+        },
+        "wind": {
+          "maxVoices": 2,
+          "f0MinHz": 55,
+          "f0MaxHz": 2600
+        },
+        "strings": {
+          "maxVoices": 8,
+          "f0MinHz": 40,
+          "f0MaxHz": 2800
+        },
+        "playback": {
+          "maxVoices": 8,
+          "f0MinHz": 25,
+          "f0MaxHz": 2100
+        }
+      }
+    },
     "HRP_BAND_Q": {
       "kind": "scalar",
       "doc": "The Q of an HRP correction band — one declared number, operator-adjustable later. A musical cut, not a ring killer: FBS's default notch Q is ~116 because a howl is a single frequency, whereas a partial that is too loud is a note an instrument is playing and a surgical null on it would be heard as a hole. 5 sits mid-band in the 4…6 range a musical subtractive cut occupies, and inside EQ_Q_RANGE — the gain-carrying shapes' extent — so it survives the store's clamp unchanged. Deliberately NOT derived from the harmonic index. A derivation invented with no measurement behind it is a second declaration wearing a formula; this is revisited when the analyse-only surface shows what real corrections look like.",
