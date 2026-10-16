@@ -120,6 +120,22 @@ carries `readouts` too, in their declared order, every reference resolved:
 ## What `semver` judges
 
 `omx-contract semver` compares two resolved declarations, the data only, and names the bump the difference needs.
+`lib/semver.mjs` holds the rules, and is the authority where this summary is short:
+
+- MAJOR: a field, alias, `byKind` entry, set's `values` or code removed; a unit or kind changed; a travel
+  narrowed; a default added to or removed from a travel or a set; a constant a kernel computes with changed (a
+  scalar, a sheet leaf, a derived value, a list member, a set id, a value an id carries, a code); a list taken out
+  of the C render; a readout removed, renamed or moved, or its unit changed.
+- MINOR: an item, field, sheet leaf, list member, set id, `byKind` entry, alias or readout added; a set's `values`
+  added; a travel widened; a default moved (inside its travel, or to another id of its set); a step,
+  `defaultFrom`, scale or `byKind` value changed; a readout's range, scale or rate changed.
+- PATCH: doc and why text, and a set's labels.
+
+The development phase: while every consumer is one of the FreeMixer repositories `DEVELOPMENT_PHASE` names
+(omx-dsp, omx-plugins, the console engine), an item or a readout removed is MINOR, and a release whose changes the
+check finds MAJOR passes with a minor bump. The pull request that makes such a change says why it is released as
+a minor. The phase ends, and the rule with it, in the release that names the first consumer outside the list.
+
 It does not look at how the renders are produced. Two kinds of change are judged by hand, by the reviewer of the
 pull request that makes them: a change to the naming scheme of the rendered symbols (`OMX_<ITEM>_…` in C, the
 exported constants in TypeScript), which breaks every consumer that spells a name and is a MAJOR change; and a
