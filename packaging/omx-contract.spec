@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.11.0
+Version: 2.12.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,15 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Fri Oct 16 2026 Pau Aliagas <linuxnow@gmail.com> - 2.12.0-1
+- The hosting limits and refusal codes are contract data now:
+  HOSTED_STAGE_LIMITS and HOSTING_CODES, rendered by the C target as
+  clap_host_limits.h. The schema gains a codes kind and per-sheet docs
+- The pitch shifter's limits carry their step, unit and come-up value as
+  the console shows them; st (semitones) joins the list of units
+- The documentation in the data states plain facts and names the console
+  engine instead of other repositories; every 2.11.0 define is unchanged
+
 * Wed Oct 14 2026 Pau Aliagas <linuxnow@gmail.com> - 2.11.0-1
 - DRIVE_HF_ROLLOFFS ids are off, 12000, 16000, each carrying its corner
   in Hz, off none (#29); a set's ids may carry values. The C header

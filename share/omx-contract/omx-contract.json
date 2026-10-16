@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.11.0",
+  "version": "2.12.0",
   "items": {
     "HOSTED_STAGE_LIMITS": {
       "rel": "data/hosting.json",

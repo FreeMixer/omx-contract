@@ -1,3 +1,16 @@
+omx-contract (2.12.0) unstable; urgency=medium
+
+  * The hosting limits and refusal codes are contract data now:
+    HOSTED_STAGE_LIMITS and HOSTING_CODES, rendered by the C target as
+    clap_host_limits.h. The schema gains a codes kind and per-sheet docs.
+  * The pitch shifter's limits carry their step, unit and come-up value as
+    the console shows them; st (semitones) joins the list of units.
+  * The documentation in the data states plain facts and names the console
+    engine instead of other repositories. Every define of 2.11.0 is
+    unchanged.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 16 Oct 2026 00:00:00 +0000
+
 omx-contract (2.11.0) unstable; urgency=medium
 
   * The drive's hf roll-off ids are the console's: off, 12000, 16000,
