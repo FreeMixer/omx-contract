@@ -45,10 +45,11 @@ test('src: four constants in data/kernels/src.json, the design the converter run
   assert.deepEqual(json().kernels.src.controls, []);
 });
 
-test('generator: two choices, kind (GENERATOR_KINDS) and waveform (WAVEFORMS), in surface order', () => {
+test('generator: two choices, kind (GENERATOR_KINDS) and waveform (WAVEFORMS), in surface order, then the oscillator\'s frequency travel (2.14.0)', () => {
   assert.deepEqual(json().kernels.generator.controls, [
     { name: 'kind', kind: 'choice', global: 'GENERATOR_KINDS' },
     { name: 'waveform', kind: 'choice', global: 'WAVEFORMS' },
+    { name: 'oscillatorFreq', kind: 'travel', global: 'OSCILLATOR_FREQ_RANGE' },
   ]);
   assert.deepEqual(json().items.GENERATOR_KINDS.value, ['oscillator', 'white', 'pink']);
   assert.deepEqual(json().items.WAVEFORMS.value, ['sine', 'square', 'saw', 'triangle']);
