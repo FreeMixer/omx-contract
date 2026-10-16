@@ -161,6 +161,35 @@
         "defaultFrom": "desk"
       },
       "doc": "How much of the computed correction HRP applies: 0 = analyse only, 1 = the full cut. It comes up at 0.5, half the computed cut."
+    },
+    {
+      "name": "HRP_AUTO_BANDS_RANGE",
+      "source": {
+        "origin": "the console engine's HRP band-cap travel HRP_AUTO_BANDS_RANGE, its ceiling read from EQ_MAX_BANDS"
+      },
+      "value": {
+        "min": 1,
+        "max": 24,
+        "step": 1,
+        "unit": ""
+      },
+      "doc": "The travel of HRP's per-channel cap on the bands it plants: at least one, never more than the EQ itself holds (EQ_MAX_BANDS). The come-up value is HRP_DEFAULT_MAX_AUTO_BANDS; a channel that needs more can have more, as an explicit decision with a visible cost.",
+      "set": {
+        "max": {
+          "ref": "EQ_MAX_BANDS"
+        }
+      },
+      "since": "2.14.0"
+    },
+    {
+      "name": "HRP_HARMONIC_COUNT",
+      "source": {
+        "origin": "omx-dsp 0f23bed include/omxdsp/analysis/omx_hrp_pitch.h:56 OMX_HRP_HARMONICS 12; the console engine's HRP_HARMONIC_COUNT"
+      },
+      "value": 12,
+      "doc": "How many harmonics the HRP model tracks, H1 to H12: the partials it measures per voice. Not a band budget: the number it may cut is the channel's free EQ slots, which is smaller and belongs to the channel. omx-dsp's HRP analysis sizes its per-voice partial arrays by the same number (OMX_HRP_HARMONICS).",
+      "unit": "",
+      "since": "2.14.0"
     }
   ]
 }

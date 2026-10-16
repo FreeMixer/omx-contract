@@ -13,6 +13,19 @@
         "default": 0.5,
         "defaultFrom": "desk"
       }
+    },
+    {
+      "name": "autoBands",
+      "kind": "travel",
+      "doc": "The travel of HRP's per-channel cap on the bands it plants: at least one, never more than the EQ itself holds (EQ_MAX_BANDS). The come-up value is HRP_DEFAULT_MAX_AUTO_BANDS; a channel that needs more can have more, as an explicit decision with a visible cost.",
+      "travel": {
+        "min": 1,
+        "max": {
+          "ref": "EQ_MAX_BANDS"
+        },
+        "step": 1,
+        "unit": ""
+      }
     }
   ],
   "constants": {
@@ -119,6 +132,12 @@
       "doc": "How many bands HRP may plant on ONE channel — its half of the machine budget, and the number that makes the budget FORECASTABLE rather than emergent. Without it the count is whatever the material happens to provoke: the placement law is sparse, so a clean note plants two bands and a resonant room plants nine, and nobody can answer \"will this fit?\" until it does not. With FBS senior that discovery would happen at showtime, to the junior planter, silently. Declared instead, the whole sum is arithmetic an operator can read before a note is played: operator bands + FBS maxAutoBands + HRP maxAutoBands <= EQ_MAX_BANDS EIGHT — ONE CORRECTION PER VOICE at full polyphony (operator sizing, 2026-09-01). The detector's ceiling is HRP_MAX_VOICES voices, a guitar's six strings and a piano/string voicing's eight, and a budget below the voice count would decide by arithmetic which of the notes actually sounding may be corrected — a limit nobody could read off the desk. Scarcity is handled where it belongs instead: the candidates from every voice meet in ONE globally ranked list and the head of it is what gets planted. It is NOT a claim to seniority, and it is larger than FBS's six. Seniority is the ALLOCATION ORDER — `HrpPlanter` takes only `EQ_MAX_BANDS − others.length`, the remainder after the operator and every other machine — so a bigger junior default cannot reach a senior slot; it only means HRP asks for more of what is left. the engine's conformance test asserts both halves. The per-channel DEFAULT; the row's travel is HRP_AUTO_BANDS_RANGE, so a channel that needs more can have more, as an explicit decision with a visible cost.",
       "unit": "",
       "value": 8
+    },
+    "HRP_HARMONIC_COUNT": {
+      "kind": "scalar",
+      "doc": "How many harmonics the HRP model tracks, H1 to H12: the partials it measures per voice. Not a band budget: the number it may cut is the channel's free EQ slots, which is smaller and belongs to the channel. omx-dsp's HRP analysis sizes its per-voice partial arrays by the same number (OMX_HRP_HARMONICS).",
+      "unit": "",
+      "value": 12
     }
   }
 }
