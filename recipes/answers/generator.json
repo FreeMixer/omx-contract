@@ -35,6 +35,20 @@
       ],
       "doc": "The selectable oscillator waveforms, in surface order: its position is the integer omx-dsp's omx_gen_osc takes (OMX_WAVE_SINE, OMX_WAVE_SQUARE, OMX_WAVE_SAW, OMX_WAVE_TRIANGLE).",
       "kind": "set"
+    },
+    {
+      "name": "OSCILLATOR_FREQ_RANGE",
+      "source": {
+        "origin": "the console engine's oscillator frequency travel OSCILLATOR_FREQ_RANGE (the talkback oscillator's freqHz)"
+      },
+      "value": {
+        "min": 20,
+        "max": 20000,
+        "step": 10,
+        "unit": "Hz"
+      },
+      "doc": "The oscillator's frequency travel: the audible band, 20 Hz to 20 kHz, stepped by 10 Hz on a nudge. omx-dsp's omx_gen_osc takes the frequency in Hz.",
+      "since": "2.14.0"
     }
   ]
 }

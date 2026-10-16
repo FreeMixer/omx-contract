@@ -82,11 +82,33 @@ export const HOSTING_CODES = {
 };
 
 /**
+ * The input alignment delay travel: how far one microphone is pushed back to meet another on the same source. Not the FX delay (FX_DELAY_TIME_RANGE, a musical echo) and not the output delay (OUTPUT_DELAY_RANGE, a loudspeaker zone). max is the alignment ring's ceiling, the same number as OMX_ALIGN_MAX_MS in omx-dsp's omx_align.h: 100 ms is 34 m of air, further apart than two microphones on one source can be. The step is fine enough to carry what the fractional read applies: 0.0001 ms is under a hundredth of a sample at 96 kHz.
+ * @see data/kernels/align.json
+ */
+export const INPUT_ALIGN_DELAY_RANGE = {
+  "min": 0,
+  "max": 100,
+  "step": 0.0001,
+  "unit": "ms"
+};
+
+/**
  * The PAN travel — −1 (hard left) … 0 (center) … +1 (hard right). A property of the pan law itself, not of any desk, so it is declared once. Continuous: a pan position has no quantum, and panGains clamps to these bounds.
  * @see data/kernels/balance.json
  */
 export const PAN_RANGE = {
   "min": -1,
+  "max": 1,
+  "step": 0,
+  "unit": ""
+};
+
+/**
+ * The LCR divergence travel: 0 is a hard discrete centre, 1 full phantom, the stereo image. A property of the LCR panner law itself, the same authority class as PAN_RANGE: no device narrows it.
+ * @see data/kernels/balance.json
+ */
+export const DIVERGENCE_RANGE = {
+  "min": 0,
   "max": 1,
   "step": 0,
   "unit": ""
@@ -374,6 +396,12 @@ export const PROGRAM_RELEASE = {
  * @see data/kernels/comp.json
  */
 export const DYN_FB_LOOP_DELAY_SAMPLES = 1;
+
+/**
+ * What the 4x detector oversampling costs the strip it is engaged on, in samples: the causal linear-phase half-band's reach, by which the audio is delayed so the gain still lands on the sample it was computed from. A sample count, not a time: the same at every rate. omx-dsp's oversampler declares the same number as OMX_OVS_LATENCY_4X, and its comp and gate faces report it while 4x is engaged.
+ * @see data/kernels/comp.json
+ */
+export const DETECTOR_OVERSAMPLE_LATENCY_SAMPLES = 72;
 
 /**
  * The detector band's CENTRE, in Hz. Sibilance lives at 5–10 kHz on most voices; 7 kHz with the default width covers 4 950–9 900 Hz, which is where an "s" and a "t" sit on a close vocal mic. The travel is wider than the come-up on both sides on purpose: a bright female vocal wants the band up near 9 kHz and a chesty male one down at 5, and a surface narrower than the row removes reach the console genuinely has (the same reasoning core's `REVERB_CUT_RANGE` records).
@@ -1062,6 +1090,61 @@ export const EQ_CENTRE_SERIES_R20_HZ = [
 ];
 
 /**
+ * The travel of the feedback suppressor's per-channel cap on the bands it plants: at least one, never more than the EQ itself holds. The ceiling is EQ_MAX_BANDS, read rather than re-typed: the suppressor plants its notches in the channel's own EQ, so a cap above the EQ's band count would promise bands that cannot exist. The come-up value is FBS_DEFAULT_MAX_AUTO_BANDS.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_AUTO_BANDS_RANGE = {
+  "min": 1,
+  "max": 24,
+  "step": 1,
+  "unit": ""
+};
+
+/**
+ * The feedback detector's sensitivity travel: a 0..1 aggression scalar, stepped in twentieths because the operator sets it by feel during a ring-out, not by number. Not a surface position: the bounds coincide with a normalised position's, the step is what says they are different facts. The come-up value is FBS_DEFAULT_SENSITIVITY.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_SENSITIVITY_RANGE = {
+  "min": 0,
+  "max": 1,
+  "step": 0.05,
+  "unit": ""
+};
+
+/**
+ * The same-ring merge radius, in cents: a confirmed find within this musical distance of a standing suppressor band is that band ringing again, a re-arm and never a new slot. A semitone (100) covers a drifting wedge mode; 0 keeps only the FFT-jitter floor. Steps of 10 cents.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_MERGE_CENTS_RANGE = {
+  "min": 0,
+  "max": 600,
+  "step": 10,
+  "unit": "cents"
+};
+
+/**
+ * The ring memory, in minutes: how long a fully released find's escalation survives, so a chronic ringer re-plants with its doubled holds instead of starting over. 0 disables the memory.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_COOLDOWN_MINUTES_RANGE = {
+  "min": 0,
+  "max": 120,
+  "step": 1,
+  "unit": "min"
+};
+
+/**
+ * The clean hold's finite travel, in seconds: a floor of 1 s (a hold of zero is not a hold) and a ceiling of five minutes, the longest an automatic notch is ever held. A notch kept for the whole show is the unbounded 'never' case, which is no number; this bounds only the number. The come-up value is FBS_DEFAULT_HOLD_SECONDS.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_HOLD_SECONDS_RANGE = {
+  "min": 1,
+  "max": 300,
+  "step": 1,
+  "unit": "s"
+};
+
+/**
  * How far (bins) around bin/2 and bin/3 PSHR (`omx_fbs_pshr`) scans for a sub-harmonic line. A true half/third partial lands mid-bin in the worst case (bin/2 and bin/3 are rarely integers) and spectral leakage smears it one bin further; ±2 covers both. Measured on the #116 live-music corpus: every false positive's sub-line sat inside this window. Deliberately NOT wider — at low bins the window is already a large fraction of an octave, and widening it would start reading unrelated program lines as "sub-harmonics" of real feedback.
  * @see data/kernels/fbs.json
  */
@@ -1192,6 +1275,18 @@ export const FBS_DEFAULT_NOTCH_Q = 116;
  * @see data/kernels/fbs.json
  */
 export const FBS_DEFAULT_MAX_AUTO_BANDS = 6;
+
+/**
+ * The clean hold a live notch comes up with before it lifts, in seconds. A live ring is usually a transient microphone and monitor geometry event, so the default notch is a short parachute, not a set-and-forget cut (the ring-out mode is for that). A surface may offer s, min and infinity; the value is always seconds.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_DEFAULT_HOLD_SECONDS = 5;
+
+/**
+ * The detection sensitivity a channel comes up with, on FBS_SENSITIVITY_RANGE. 0 is the corpus-tuned gate set and the safe default: an untouched channel detects as one built before the control existed. Raising it shortens latency and relaxes prominence within music-safe bounds.
+ * @see data/kernels/fbs.json
+ */
+export const FBS_DEFAULT_SENSITIVITY = 0;
 
 /**
  * The flanger's jet sweep.
@@ -1386,6 +1481,17 @@ export const WAVEFORMS = [
 ];
 
 /**
+ * The oscillator's frequency travel: the audible band, 20 Hz to 20 kHz, stepped by 10 Hz on a nudge. omx-dsp's omx_gen_osc takes the frequency in Hz.
+ * @see data/kernels/generator.json
+ */
+export const OSCILLATOR_FREQ_RANGE = {
+  "min": 20,
+  "max": 20000,
+  "step": 10,
+  "unit": "Hz"
+};
+
+/**
  * One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB.
  * @see data/kernels/geq.json
  */
@@ -1439,6 +1545,17 @@ export const HRP_AMOUNT_RANGE = {
 };
 
 /**
+ * The travel of HRP's per-channel cap on the bands it plants: at least one, never more than the EQ itself holds (EQ_MAX_BANDS). The come-up value is HRP_DEFAULT_MAX_AUTO_BANDS; a channel that needs more can have more, as an explicit decision with a visible cost.
+ * @see data/kernels/hrp.json
+ */
+export const HRP_AUTO_BANDS_RANGE = {
+  "min": 1,
+  "max": 24,
+  "step": 1,
+  "unit": ""
+};
+
+/**
  * The largest automatic cut HRP may place on one harmonic, as a POSITIVE dB magnitude. Well inside the ±15 dB an operator band may hold (core's `EQ_GAIN_LIMIT_DB`): an automatic correction the operator did not ask for gets far less authority than one they dialled themselves.
  * @see data/kernels/hrp.json
  */
@@ -1485,6 +1602,23 @@ export const HRP_ATTRIBUTION_CENTS = 60;
  * @see data/kernels/hrp.json
  */
 export const HRP_DEFAULT_MAX_AUTO_BANDS = 8;
+
+/**
+ * How many harmonics the HRP model tracks, H1 to H12: the partials it measures per voice. Not a band budget: the number it may cut is the channel's free EQ slots, which is smaller and belongs to the channel. omx-dsp's HRP analysis sizes its per-voice partial arrays by the same number (OMX_HRP_HARMONICS).
+ * @see data/kernels/hrp.json
+ */
+export const HRP_HARMONIC_COUNT = 12;
+
+/**
+ * The per-destination output delay travel, the whole-sample delay a route leg or a bus output is aligned with (omx-dsp's omx_idelay.h). max is the delay ring's ceiling: 1000 ms is the live-console norm and a distance ceiling, about 343 m of throw. A surface that offered more than the ring holds would draw travel the DSP clamps away.
+ * @see data/kernels/idelay.json
+ */
+export const OUTPUT_DELAY_RANGE = {
+  "min": 0,
+  "max": 1000,
+  "step": 1,
+  "unit": "ms"
+};
 
 /**
  * The precision limiter's travels, rendered into `omx_contract_limits.h` as `OMX_LIMITER_*` by the engine's limits generator, so `mix_limiter.h` reads them and never restates one (R-094). The ceiling is a TRUE peak in dBFS (the ×4 detector); the look-ahead sets the declared latency; the release is the envelope's time constant on the gain depth.
