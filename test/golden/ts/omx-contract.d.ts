@@ -527,7 +527,7 @@ export declare const DELAY_MIX_RANGE: {
 export declare const DELAY_PINGPONGS: readonly ["off", "on"];
 
 /**
- * How many integer read taps of the FX delay's one ring are engaged. 1 is the one-tap delay, bit for bit; `max` is the tap-array ceiling the kernel sizes its arrays by (`OMX_FXDELAY_MAX_TAPS` in `omx_delay.h` reads it as `OMX_DELAY_TAPS_MAX`), so the arrays and the travel are one fact.
+ * How many integer read taps of the FX delay's one ring are engaged. 1 is the one-tap delay, bit for bit; `max` is the tap-array ceiling the kernel sizes its arrays by, so the arrays and the travel are one fact. An array extent is an integer constant: the C reader takes OMX_FX_DELAY_TAPS_RANGE_MAX (4) for `OMX_FXDELAY_MAX_TAPS` in `omx_delay.h`, never the alias OMX_DELAY_TAPS_MAX, which is the float 4.0f.
  * @see data/kernels/delay.json
  */
 export declare const FX_DELAY_TAPS_RANGE: {
@@ -615,6 +615,18 @@ export declare const DELAY_TAP_LIMITS: {
  * @see data/kernels/delay.json
  */
 export declare const FX_DELAY_PINGPONG_DEFAULT: false;
+
+/**
+ * The numerators of the FX delay's tap factor set, in member order: 1/4, 1/3, 3/8, 1/2, 2/3, 3/4, 1, 4/3, 3/2, 2, 3. A read tap k >= 1 sits at the base time times numerator / denominator (DELAY_TAP_FACTOR_DENS at the same position), rounded once to samples. The set is two integer lists, not a set of ids, because a factor such as 1/2 is no id the schema accepts and the ratio must stay exact (1/3 has no finite decimal).
+ * @see data/kernels/delay.json
+ */
+export declare const DELAY_TAP_FACTOR_NUMS: readonly [1, 1, 3, 1, 2, 3, 1, 4, 3, 2, 3];
+
+/**
+ * The denominators of the FX delay's tap factor set, in member order, one per numerator of DELAY_TAP_FACTOR_NUMS: the factor at position i is DELAY_TAP_FACTOR_NUMS[i] / DELAY_TAP_FACTOR_DENS[i].
+ * @see data/kernels/delay.json
+ */
+export declare const DELAY_TAP_FACTOR_DENS: readonly [4, 3, 8, 2, 3, 4, 1, 3, 2, 1, 1];
 
 /**
  * The PRE-CURVE gain, in dB. 0 dB is unity into the curve, so a stage switched on at its defaults changes almost nothing — which is what an `on` switch should mean. The ceiling is where every curve is saturating hard on any signal a console carries.
