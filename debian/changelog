@@ -1,3 +1,17 @@
+omx-contract (2.14.0) unstable; urgency=medium
+
+  * The kernel files declare what the console engine still typed as literals: the FBS, HRP, balance,
+    generator, align and idelay travels and constants, and the multiband compressor's limits
+    (MBC_MIN_BANDS, MBC_MAX_BANDS, MBC_CORNER_MAX_FRACTION and the come-up corners by band count).
+    The delay's read-tap travel, its per-tap gain and pan limits and the tap factor set as two integer lists are declared.
+    The instrument families (INSTRUMENT_FAMILIES) and the pitch search each one implies (HRP_FAMILY_SEARCH) are declared,
+    and so are the EQ biquad kinds (BIQUAD_KINDS) and the low-pass hand-over table (LOWPASS_HANDOVER).
+    The graphic EQ declares its design mode, GEQ_MODES, and the designClamped readout; the drive curve and band choices
+    declare their come-up; HRP_AMOUNT_RANGE's come-up is held to what its readers derive; seconds and minutes join the unit list.
+    The docs say what semver classifies and the development-phase rule, and describe the shapes the data uses.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Mon, 19 Oct 2026 00:00:00 +0000
+
 omx-contract (2.13.0) unstable; urgency=medium
 
   * The EQ curve grid is contract data now: EQ_CURVE_GRID declares the start frequency
