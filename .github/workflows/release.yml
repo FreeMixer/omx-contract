@@ -18,9 +18,12 @@ on:
         type: boolean
         default: false
 
+# A called workflow cannot exceed its caller's token. build-rpm.yml and build-deb.yml run a report-failure job that
+# asks for `issues: write` and `actions: read`; without both here GitHub refuses to start the run at all.
 permissions:
   contents: write
   issues: write
+  actions: read
 
 jobs:
   check:
