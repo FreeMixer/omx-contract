@@ -1238,6 +1238,12 @@ export declare const GEQ_BAND_RANGE: {
 };
 
 /**
+ * How the graphic EQ designs its sections from the faders, in the order of the integer the kernel reads (omx-dsp's enum omx_geq_mode): `standard` gives each section its fader as its gain, the classic proportional build-up; `true` solves the band interaction so the summed curve meets the faders at the centres, each section gain clamped at GEQ_DESIGN_GAIN_MAX_DB. A fresh instance comes up `standard`.
+ * @see data/kernels/geq.json
+ */
+export declare const GEQ_MODES: readonly ["standard", "true"];
+
+/**
  * The graphic EQ's band Q: the ISO third-octave bandwidth, `2^(1/6)/(2^(1/3) − 1) ≈ 4.318`, to one decimal as the M32 GEQ carries it. Read by the `geq31` preset and the graphic EQ's section design.
  * @see data/kernels/geq.json
  */
@@ -1346,6 +1352,48 @@ export declare const LIMITER_LIMITS: {
     readonly defaultFrom: "desk";
   };
 };
+
+/**
+ * The fewest bands the multiband compressor splits into: one crossover. omx_mbcomp_design and omx_mbcomp_process refuse a band count below it (`band-count-declared`), and a refused count reads as this floor.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_MIN_BANDS: 2;
+
+/**
+ * The most bands the multiband compressor splits into, and the capacity of its inline state: `struct omx_mbcomp_state` holds this many band compressors and one crossover fewer per leg, so the ceiling and the arrays are one fact.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_MAX_BANDS: 5;
+
+/**
+ * The highest crossover corner the multiband design builds, as a fraction of the live rate: a corner at or above `fraction x rate` is designed AT that line, because the LR4 section degenerates toward Nyquist. omx_mbcomp_design computes the line in double, so a C reader takes OMX_MBC_CORNER_MAX_FRACTION_DOUBLE. A 20 kHz corner is under the line from 48 kHz up; at 44.1 kHz the line is 19845 Hz and a 20 kHz corner is designed there.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CORNER_MAX_FRACTION: 0.45;
+
+/**
+ * The come-up crossover corners of a 2-band multiband stage, Hz, ascending: one split at 1 kHz.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CROSSOVER_DEFAULTS_2: readonly [1000];
+
+/**
+ * The come-up crossover corners of a 3-band multiband stage, Hz, ascending: body, presence, air.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CROSSOVER_DEFAULTS_3: readonly [200, 2000];
+
+/**
+ * The come-up crossover corners of a 4-band multiband stage, Hz, ascending.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CROSSOVER_DEFAULTS_4: readonly [150, 800, 5000];
+
+/**
+ * The come-up crossover corners of a 5-band multiband stage, Hz, ascending: two octaves apart.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CROSSOVER_DEFAULTS_5: readonly [100, 400, 1600, 6400];
 
 /**
  * The input cap a summing bus can be sized to — **the engine's declared input ceiling**, read from the engine's declarations rather than re-typed here. A gig with more than this many inputs needs more than one engine node; below it a bus is sized to `min(N, BUS_INPUT_CAP)`. It was a literal 64 until 2026-09-15, said to mirror the engine's `MAX_BUS_INPUTS` — and it did, but that 64 was the PipeWire builtin mixer's single-tier fan-in (8 × 8), never the engine's bound: the native node has allocated `OMX_MAX_STRIPS` (128) strips all along. Two literals agreeing by hand is how the console came to refuse a 96-channel desk it could carry. the engine's conformance test holds this to the C header; the console allocation design carries the ruling and the measured cost of width.
@@ -2357,6 +2405,15 @@ export declare const READOUTS: {
     readonly min: -90;
     readonly max: 0;
     readonly scale: "linear";
+    readonly rateHz: 50;
+  }];
+  readonly geq: readonly [{
+    readonly name: "designClamped";
+    readonly doc: "Whether the last design clamped: 1 when a `true` solve asked a section for more than GEQ_DESIGN_GAIN_MAX_DB and got the ceiling, 0 otherwise and always in `standard`. Derived by the design step, never written by a host (omx-dsp's OmxGeqDesign.clamped).";
+    readonly unit: "";
+    readonly min: 0;
+    readonly max: 1;
+    readonly scale: "stepped";
     readonly rateHz: 50;
   }];
   readonly limiter: readonly [{
