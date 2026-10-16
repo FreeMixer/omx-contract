@@ -901,6 +901,21 @@ export declare const EQ_DEFAULT_CENTRES_FOUR_BAND_HZ: readonly [100, 400, 2000, 
 export declare const EQ_CENTRE_SERIES_R20_HZ: readonly [20, 22.4, 25, 28, 31.5, 35.5, 40, 45, 50, 56, 63, 71, 80, 90, 100, 112, 125, 140, 160, 180, 200, 224, 250, 280, 315, 355, 400, 450, 500, 560, 630, 710, 800, 900, 1000, 1120, 1250, 1400, 1600, 1800, 2000, 2240, 2500, 2800, 3150, 3550, 4000, 4500, 5000, 5600, 6300, 7100, 8000, 9000, 10000, 11200, 12500, 14000, 16000, 18000, 20000];
 
 /**
+ * Where the low-pass section hands its poles over from the matched pair to the prewarped bilinear pair, as fractions of Nyquist, and how that band moves with Q. At `qHi` (1/sqrt(2), the 12 dB Butterworth) the band runs from `loAtHiQ` to `hiAtHiQ`; at `qLo` (0.5412, the low-Q half of the 24 dB Butterworth) and below, from `loAtLoQ` to `hiAtLoQ`; between the two it moves linearly. Above `qHi` the prototype peaks, and the band's end moves down to `hiAtPeakQ` by `qPeak`, held above it. Below the band the low-pass is the matched design unchanged.
+ * @see data/kernels/eq.json
+ */
+export declare const LOWPASS_HANDOVER: {
+  readonly qHi: 0.7071067811865476;
+  readonly qLo: 0.541196100146197;
+  readonly qPeak: 0.9;
+  readonly loAtHiQ: 0.6;
+  readonly hiAtHiQ: 0.85;
+  readonly loAtLoQ: 0.8;
+  readonly hiAtLoQ: 0.9;
+  readonly hiAtPeakQ: 0.8;
+};
+
+/**
  * How far (bins) around bin/2 and bin/3 PSHR (`omx_fbs_pshr`) scans for a sub-harmonic line. A true half/third partial lands mid-bin in the worst case (bin/2 and bin/3 are rarely integers) and spectral leakage smears it one bin further; ±2 covers both. Measured on the #116 live-music corpus: every false positive's sub-line sat inside this window. Deliberately NOT wider — at low bins the window is already a large fraction of an octave, and widening it would start reading unrelated program lines as "sub-harmonics" of real feedback.
  * @see data/kernels/fbs.json
  */
@@ -2276,6 +2291,12 @@ export declare const EQ_CONTINUOUS_TRAVELS: {
  * @see data/primitives.json
  */
 export declare const READOUT_RATE_HZ: 50;
+
+/**
+ * The biquad section kinds the EQ design builds, in the order of the integer a kernel reads: the bell, the two shelves, the pass filters, the notch, the bandpass (the de-esser's detector band, never an EQ band), and the first- and second-order allpasses (the dynamic EQ's and the phase tool's sections). The design itself is omx-dsp's `omx_eq_design`; the console draws its curves from a twin of it, and both dispatch on this list. No come-up id: a kind is chosen by the stage that designs the section.
+ * @see data/primitives.json
+ */
+export declare const BIQUAD_KINDS: readonly ["peaking", "lowShelf", "highShelf", "highpass", "lowpass", "notch", "bandpass", "allpass1", "allpass2"];
 
 /**
  * The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` — this is the ceiling a write is refused by, never a menu.

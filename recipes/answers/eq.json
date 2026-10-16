@@ -415,6 +415,24 @@
         "Off",
         "On"
       ]
+    },
+    {
+      "name": "LOWPASS_HANDOVER",
+      "source": {
+        "origin": "omx-dsp 0f23bed include/omxdsp/omx_eq_design.h:44-60 OMX_EQ_LOWPASS_HANDOVER_Q_HI 0.70710678118654752, _Q_LO 0.54119610014619698, _LO_AT_Q_HI 0.6, _HI_AT_Q_HI 0.85, _LO_AT_Q_LO 0.8, _HI_AT_Q_LO 0.9, _Q_PEAK 0.9, _HI_AT_Q_PEAK 0.8; the console engine's core eq.ts:496-498 LOWPASS_HANDOVER_Q_HI, _Q_LO, _Q_PEAK and :509-511 the band ends 0.6, 0.8, 0.85, 0.9 and 0.8 inline"
+      },
+      "value": {
+        "qHi": 0.7071067811865476,
+        "qLo": 0.541196100146197,
+        "qPeak": 0.9,
+        "loAtHiQ": 0.6,
+        "hiAtHiQ": 0.85,
+        "loAtLoQ": 0.8,
+        "hiAtLoQ": 0.9,
+        "hiAtPeakQ": 0.8
+      },
+      "doc": "Where the low-pass section hands its poles over from the matched pair to the prewarped bilinear pair, as fractions of Nyquist, and how that band moves with Q. At `qHi` (1/sqrt(2), the 12 dB Butterworth) the band runs from `loAtHiQ` to `hiAtHiQ`; at `qLo` (0.5412, the low-Q half of the 24 dB Butterworth) and below, from `loAtLoQ` to `hiAtLoQ`; between the two it moves linearly. Above `qHi` the prototype peaks, and the band's end moves down to `hiAtPeakQ` by `qPeak`, held above it. Below the band the low-pass is the matched design unchanged.",
+      "since": "2.14.0"
     }
   ]
 }
