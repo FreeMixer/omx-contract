@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.12.0
+Version: 2.12.1
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,10 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sat Oct 17 2026 Pau Aliagas <linuxnow@gmail.com> - 2.12.1-1
+- Packages for 2.12.0 were not built because the release workflow lacked
+  a permission; 2.12.1 is the same data with the fix
+
 * Fri Oct 16 2026 Pau Aliagas <linuxnow@gmail.com> - 2.12.0-1
 - The hosting limits and refusal codes are contract data now:
   HOSTED_STAGE_LIMITS and HOSTING_CODES, rendered by the C target as
