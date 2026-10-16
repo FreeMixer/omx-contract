@@ -28,6 +28,66 @@
       "unit": ""
     },
     {
+      "name": "HRP_FAMILY_SEARCH",
+      "source": {
+        "origin": "the console engine's core hrp.ts:158-191 HRP_FAMILY_SEARCH; omx-dsp 0f23bed include/omxdsp/analysis/omx_hrp_correct.h:150-163 omx_hrp_family_search, the same voices and fundamental ranges per family"
+      },
+      "value": {
+        "drums": {
+          "maxVoices": 1,
+          "f0MinHz": 35,
+          "f0MaxHz": 400
+        },
+        "percussion": {
+          "maxVoices": 1,
+          "f0MinHz": 60,
+          "f0MaxHz": 1200
+        },
+        "bass": {
+          "maxVoices": 2,
+          "f0MinHz": 25,
+          "f0MaxHz": 400
+        },
+        "guitar": {
+          "maxVoices": 6,
+          "f0MinHz": 60,
+          "f0MaxHz": 1400
+        },
+        "keys": {
+          "maxVoices": 8,
+          "f0MinHz": 27.5,
+          "f0MaxHz": 4200
+        },
+        "vocals": {
+          "maxVoices": 2,
+          "f0MinHz": 80,
+          "f0MaxHz": 1200
+        },
+        "brass": {
+          "maxVoices": 2,
+          "f0MinHz": 40,
+          "f0MaxHz": 1400
+        },
+        "wind": {
+          "maxVoices": 2,
+          "f0MinHz": 55,
+          "f0MaxHz": 2600
+        },
+        "strings": {
+          "maxVoices": 8,
+          "f0MinHz": 40,
+          "f0MaxHz": 2800
+        },
+        "playback": {
+          "maxVoices": 8,
+          "f0MinHz": 25,
+          "f0MaxHz": 2100
+        }
+      },
+      "doc": "What each instrument family implies about the HRP search: `maxVoices`, how many notes the family can sound at once (the number its corrections are budgeted against), and `f0MinHz` to `f0MaxHz`, where its fundamentals can lie. Each is the widest the family can be, not the typical one: a range too narrow hides a note from the detector, one slightly too wide costs a few more sweep steps. One entry per INSTRUMENT_FAMILIES id; the confidence floor does not follow the family.",
+      "since": "2.14.0"
+    },
+    {
       "name": "HRP_BAND_Q",
       "source": {
         "path": "index.ts",
