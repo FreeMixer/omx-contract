@@ -36,7 +36,8 @@ test('the 2.2.0 C render keeps every 2.1.0 line, byte for byte and in order, and
 });
 
 test('delay: pingpong is a switch whose come-up value is FX_DELAY_PINGPONG_DEFAULT (#22)', () => {
-  assert.deepEqual(controls('delay').map((c) => c.name), ['fxDelayTime', 'fxDelayFeedback', 'tone', 'mix', 'pingpong']);
+  assert.deepEqual(controls('delay').map((c) => c.name), ['fxDelayTime', 'fxDelayFeedback', 'tone', 'mix', 'pingpong',
+    'fxDelayTaps', 'tap0Gain', 'tap0Pan', 'tap1Gain', 'tap1Pan', 'tap2Gain', 'tap2Pan', 'tap3Gain', 'tap3Pan']);
   assert.deepEqual(json().items.DELAY_PINGPONGS.value, ['off', 'on']);
   assert.equal(json().items.DELAY_PINGPONGS.default, 'off');
   assert.match(header(), /^#define OMX_DELAY_PINGPONGS_DEFAULT OMX_DELAY_PINGPONGS_OFF$/m);

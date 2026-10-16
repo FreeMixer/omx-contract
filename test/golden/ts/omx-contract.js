@@ -546,6 +546,90 @@ export const DELAY_PINGPONGS = [
 ];
 
 /**
+ * How many integer read taps of the FX delay's one ring are engaged. 1 is the one-tap delay, bit for bit; `max` is the tap-array ceiling the kernel sizes its arrays by (`OMX_FXDELAY_MAX_TAPS` in `omx_delay.h` reads it as `OMX_DELAY_TAPS_MAX`), so the arrays and the travel are one fact.
+ * @see data/kernels/delay.json
+ */
+export const FX_DELAY_TAPS_RANGE = {
+  "min": 1,
+  "max": 4,
+  "step": 1,
+  "unit": "",
+  "default": 1,
+  "defaultFrom": "desk"
+};
+
+/**
+ * The legal range of each read tap's gain (0..1) and pan (-1..+1, the balance law's travel), keyed by the delay row's own field, with each tap's come-up value. Tap 0 comes up at unity gain, centre: the one-tap delay. Taps 1..3 come up as a usable triple pattern (an eighth left, a dotted eighth right, a dotted quarter centre), so raising the tap count is musical at once.
+ * @see data/kernels/delay.json
+ */
+export const DELAY_TAP_LIMITS = {
+  "tap0Gain": {
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "unit": "",
+    "default": 1,
+    "defaultFrom": "desk"
+  },
+  "tap0Pan": {
+    "min": -1,
+    "max": 1,
+    "step": 0.01,
+    "unit": "",
+    "default": 0,
+    "defaultFrom": "desk"
+  },
+  "tap1Gain": {
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "unit": "",
+    "default": 0.7,
+    "defaultFrom": "desk"
+  },
+  "tap1Pan": {
+    "min": -1,
+    "max": 1,
+    "step": 0.01,
+    "unit": "",
+    "default": -0.5,
+    "defaultFrom": "desk"
+  },
+  "tap2Gain": {
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "unit": "",
+    "default": 0.5,
+    "defaultFrom": "desk"
+  },
+  "tap2Pan": {
+    "min": -1,
+    "max": 1,
+    "step": 0.01,
+    "unit": "",
+    "default": 0.5,
+    "defaultFrom": "desk"
+  },
+  "tap3Gain": {
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "unit": "",
+    "default": 0.35,
+    "defaultFrom": "desk"
+  },
+  "tap3Pan": {
+    "min": -1,
+    "max": 1,
+    "step": 0.01,
+    "unit": "",
+    "default": 0,
+    "defaultFrom": "desk"
+  }
+};
+
+/**
  * The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the console's delay default state (which now reads it) so the DPF plugin generator (omx-plugins) reads the same fact the desk seeds a fresh strip with.
  * @see data/kernels/delay.json
  */

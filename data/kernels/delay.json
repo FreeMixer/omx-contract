@@ -79,8 +79,137 @@
         "Off",
         "On"
       ]
+    },
+    {
+      "name": "fxDelayTaps",
+      "kind": "travel",
+      "global": "FX_DELAY_TAPS_RANGE",
+      "doc": "How many integer read taps of the FX delay's one ring are engaged. 1 is the one-tap delay, bit for bit; `max` is the tap-array ceiling the kernel sizes its arrays by (`OMX_FXDELAY_MAX_TAPS` in `omx_delay.h` reads it as `OMX_DELAY_TAPS_MAX`), so the arrays and the travel are one fact.",
+      "travel": {
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "unit": "",
+        "default": 1,
+        "defaultFrom": "desk"
+      },
+      "c": {
+        "alias": {
+          "fact": "delay",
+          "field": "taps"
+        }
+      }
+    },
+    {
+      "name": "tap0Gain",
+      "kind": "travel",
+      "table": "DELAY_TAP_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 1,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap0Pan",
+      "kind": "travel",
+      "table": "DELAY_TAP_LIMITS",
+      "travel": {
+        "min": -1,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap1Gain",
+      "kind": "travel",
+      "table": "DELAY_TAP_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.7,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap1Pan",
+      "kind": "travel",
+      "table": "DELAY_TAP_LIMITS",
+      "travel": {
+        "min": -1,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": -0.5,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap2Gain",
+      "kind": "travel",
+      "table": "DELAY_TAP_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.5,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap2Pan",
+      "kind": "travel",
+      "table": "DELAY_TAP_LIMITS",
+      "travel": {
+        "min": -1,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.5,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap3Gain",
+      "kind": "travel",
+      "table": "DELAY_TAP_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.35,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap3Pan",
+      "kind": "travel",
+      "table": "DELAY_TAP_LIMITS",
+      "travel": {
+        "min": -1,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0,
+        "defaultFrom": "desk"
+      }
     }
   ],
+  "tables": {
+    "DELAY_TAP_LIMITS": {
+      "doc": "The legal range of each read tap's gain (0..1) and pan (-1..+1, the balance law's travel), keyed by the delay row's own field, with each tap's come-up value. Tap 0 comes up at unity gain, centre: the one-tap delay. Taps 1..3 come up as a usable triple pattern (an eighth left, a dotted eighth right, a dotted quarter centre), so raising the tap count is musical at once."
+    }
+  },
   "constants": {
     "FX_DELAY_PINGPONG_DEFAULT": {
       "kind": "scalar",
