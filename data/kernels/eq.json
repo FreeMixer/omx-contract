@@ -342,6 +342,22 @@
         18000,
         20000
       ]
+    },
+    "LOWPASS_HANDOVER": {
+      "kind": "sheet",
+      "doc": "Where the low-pass section hands its poles over from the matched pair to the prewarped bilinear pair, as fractions of Nyquist, and how that band moves with Q. At `qHi` (1/sqrt(2), the 12 dB Butterworth) the band runs from `loAtHiQ` to `hiAtHiQ`; at `qLo` (0.5412, the low-Q half of the 24 dB Butterworth) and below, from `loAtLoQ` to `hiAtLoQ`; between the two it moves linearly. Above `qHi` the prototype peaks, and the band's end moves down to `hiAtPeakQ` by `qPeak`, held above it. Below the band the low-pass is the matched design unchanged.",
+      "value": {
+        "qHi": {
+          "ref": "BUTTERWORTH_Q"
+        },
+        "qLo": 0.541196100146197,
+        "qPeak": 0.9,
+        "loAtHiQ": 0.6,
+        "hiAtHiQ": 0.85,
+        "loAtLoQ": 0.8,
+        "hiAtLoQ": 0.9,
+        "hiAtPeakQ": 0.8
+      }
     }
   }
 }
