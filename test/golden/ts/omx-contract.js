@@ -1126,6 +1126,21 @@ export const EQ_CENTRE_SERIES_R20_HZ = [
 ];
 
 /**
+ * Where the low-pass section hands its poles over from the matched pair to the prewarped bilinear pair, as fractions of Nyquist, and how that band moves with Q. At `qHi` (1/sqrt(2), the 12 dB Butterworth) the band runs from `loAtHiQ` to `hiAtHiQ`; at `qLo` (0.5412, the low-Q half of the 24 dB Butterworth) and below, from `loAtLoQ` to `hiAtLoQ`; between the two it moves linearly. Above `qHi` the prototype peaks, and the band's end moves down to `hiAtPeakQ` by `qPeak`, held above it. Below the band the low-pass is the matched design unchanged.
+ * @see data/kernels/eq.json
+ */
+export const LOWPASS_HANDOVER = {
+  "qHi": 0.7071067811865476,
+  "qLo": 0.541196100146197,
+  "qPeak": 0.9,
+  "loAtHiQ": 0.6,
+  "hiAtHiQ": 0.85,
+  "loAtLoQ": 0.8,
+  "hiAtLoQ": 0.9,
+  "hiAtPeakQ": 0.8
+};
+
+/**
  * The travel of the feedback suppressor's per-channel cap on the bands it plants: at least one, never more than the EQ itself holds. The ceiling is EQ_MAX_BANDS, read rather than re-typed: the suppressor plants its notches in the channel's own EQ, so a cap above the EQ's band count would promise bands that cannot exist. The come-up value is FBS_DEFAULT_MAX_AUTO_BANDS.
  * @see data/kernels/fbs.json
  */
@@ -2759,6 +2774,22 @@ export const EQ_CONTINUOUS_TRAVELS = {
  * @see data/primitives.json
  */
 export const READOUT_RATE_HZ = 50;
+
+/**
+ * The biquad section kinds the EQ design builds, in the order of the integer a kernel reads: the bell, the two shelves, the pass filters, the notch, the bandpass (the de-esser's detector band, never an EQ band), and the first- and second-order allpasses (the dynamic EQ's and the phase tool's sections). The design itself is omx-dsp's `omx_eq_design`; the console draws its curves from a twin of it, and both dispatch on this list. No come-up id: a kind is chosen by the stage that designs the section.
+ * @see data/primitives.json
+ */
+export const BIQUAD_KINDS = [
+  "peaking",
+  "lowShelf",
+  "highShelf",
+  "highpass",
+  "lowpass",
+  "notch",
+  "bandpass",
+  "allpass1",
+  "allpass2"
+];
 
 /**
  * The instrument families a channel may be assigned, a broad prior and never an identification: HRP narrows where its detector looks for a fundamental and how many voices it looks for by the family (HRP_FAMILY_SEARCH), and nothing else. The order is the integer that crosses a port or a process boundary (omx-dsp's OmxHrpFamily, the HRP live face's family port). A channel with no family carries -1, which no id names, and the detector then runs its own wide defaults; so the set has no come-up id.

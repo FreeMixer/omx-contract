@@ -1328,6 +1328,21 @@
         20000
       ]
     },
+    "LOWPASS_HANDOVER": {
+      "rel": "data/kernels/eq.json",
+      "kind": "sheet",
+      "doc": "Where the low-pass section hands its poles over from the matched pair to the prewarped bilinear pair, as fractions of Nyquist, and how that band moves with Q. At `qHi` (1/sqrt(2), the 12 dB Butterworth) the band runs from `loAtHiQ` to `hiAtHiQ`; at `qLo` (0.5412, the low-Q half of the 24 dB Butterworth) and below, from `loAtLoQ` to `hiAtLoQ`; between the two it moves linearly. Above `qHi` the prototype peaks, and the band's end moves down to `hiAtPeakQ` by `qPeak`, held above it. Below the band the low-pass is the matched design unchanged.",
+      "value": {
+        "qHi": 0.7071067811865476,
+        "qLo": 0.541196100146197,
+        "qPeak": 0.9,
+        "loAtHiQ": 0.6,
+        "hiAtHiQ": 0.85,
+        "loAtLoQ": 0.8,
+        "hiAtLoQ": 0.9,
+        "hiAtPeakQ": 0.8
+      }
+    },
     "FBS_AUTO_BANDS_RANGE": {
       "rel": "data/kernels/fbs.json",
       "kind": "travels",
@@ -3092,6 +3107,22 @@
       "doc": "How often a readout's value is published: 50 Hz, one value every 20 ms, the rate a host sends a moving meter at. Every readout reads it as its `rateHz` (docs/readouts.md).",
       "unit": "Hz",
       "value": 50
+    },
+    "BIQUAD_KINDS": {
+      "rel": "data/primitives.json",
+      "kind": "set",
+      "doc": "The biquad section kinds the EQ design builds, in the order of the integer a kernel reads: the bell, the two shelves, the pass filters, the notch, the bandpass (the de-esser's detector band, never an EQ band), and the first- and second-order allpasses (the dynamic EQ's and the phase tool's sections). The design itself is omx-dsp's `omx_eq_design`; the console draws its curves from a twin of it, and both dispatch on this list. No come-up id: a kind is chosen by the stage that designs the section.",
+      "value": [
+        "peaking",
+        "lowShelf",
+        "highShelf",
+        "highpass",
+        "lowpass",
+        "notch",
+        "bandpass",
+        "allpass1",
+        "allpass2"
+      ]
     },
     "INSTRUMENT_FAMILIES": {
       "rel": "data/primitives.json",
