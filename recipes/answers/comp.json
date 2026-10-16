@@ -154,6 +154,16 @@
       "doc": "The feedback detector's loop delay, in samples: the output y[n] depends on the gain at n, so the detector can only have heard y[n - 1]. Not a latency: the audio is never delayed by it. omx-dsp's feedback state holds exactly this many output samples per leg.",
       "since": "2.5.0",
       "unit": ""
+    },
+    {
+      "name": "DETECTOR_OVERSAMPLE_LATENCY_SAMPLES",
+      "source": {
+        "origin": "omx-dsp 0f23bed include/omxdsp/omx_oversampler.h:151 OMX_OVS_LATENCY_4X 72; the console engine's DETECTOR_OVERSAMPLE_LATENCY_SAMPLES"
+      },
+      "value": 72,
+      "doc": "What the 4x detector oversampling costs the strip it is engaged on, in samples: the causal linear-phase half-band's reach, by which the audio is delayed so the gain still lands on the sample it was computed from. A sample count, not a time: the same at every rate. omx-dsp's oversampler declares the same number as OMX_OVS_LATENCY_4X, and its comp and gate faces report it while 4x is engaged.",
+      "unit": "",
+      "since": "2.14.0"
     }
   ]
 }

@@ -18,6 +18,18 @@
           "field": "pan"
         }
       }
+    },
+    {
+      "name": "divergence",
+      "kind": "travel",
+      "global": "DIVERGENCE_RANGE",
+      "doc": "The LCR divergence travel: 0 is a hard discrete centre, 1 full phantom, the stereo image. A property of the LCR panner law itself, the same authority class as PAN_RANGE: no device narrows it.",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0,
+        "unit": ""
+      }
     }
   ]
 }

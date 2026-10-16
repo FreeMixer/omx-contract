@@ -14,7 +14,10 @@
  *      step 2 compares the limits header alone.)
  *      A unit omx-dsp's header lacks is allowed only when it belongs to an item a later release
  *      added (its answer, or its kernel's answers, say `since` after the first release); a unit of a later item
- *      that omx-dsp's header does hold must still be byte-identical to it.
+ *      that omx-dsp's header does hold must still be byte-identical to it, but for the units MOVED_AFTER_PIN
+ *      names: a later item whose value the console engine moved after v0.1.3 froze, declared with the value
+ *      in use today. Each is reported as moved, and the list is exact: a named unit that is equal again, or
+ *      that belongs to an item of the first release, fails the proof.
  *
  * Usage: node tools/proof/round-trip.mjs [--quiet]; exit 1 when a step fails.
  */
@@ -32,6 +35,15 @@ const FIX = join(ROOT, 'test/fixtures');
 const text = (u) => u.lines.join('\n');
 const units = (t) => limitUnits(t).filter((u) => u.frame === undefined);
 const frames = (t) => limitUnits(t).filter((u) => u.frame !== undefined).map((u) => u.frame);
+
+/**
+ * The units of later items whose value moved after omx-dsp v0.1.3 froze, each with the reason. The contract
+ * declares the value the console engine uses today; the frozen header keeps the value of its day.
+ */
+export const MOVED_AFTER_PIN = new Map([
+  ['OMX_INPUT_ALIGN_DELAY_RANGE_STEP', 'the input alignment step went from 0.01 ms to 0.0001 ms when the alignment line became a fractional read'],
+  ['OMX_INPUT_ALIGN_DELAY_RANGE_STEP_DOUBLE', 'the same step, as a double'],
+]);
 
 /** The items added after the first release: every answered item whose `since` (its own, else its kernel's) is later, and every item of the files beside the kernels (rates, primitives, hosting) that says so. */
 export function addedAfterFirstRelease(root = ROOT) {
@@ -69,10 +81,13 @@ export function roundTrip(resolved = resolveData(loadData(join(ROOT, 'data')))) 
   const S = units(shipped);
   const pin = new Map(P.map((u) => [u.key, u]));
   const ours = new Set(S.map((u) => u.key));
-  const differing = S.filter((u) => pin.has(u.key) && text(pin.get(u.key)) !== text(u)).map((u) => u.key);
+  const unequal = S.filter((u) => pin.has(u.key) && text(pin.get(u.key)) !== text(u)).map((u) => u.key);
   const added = addedAfterFirstRelease();
   const firstRelease = new Set(units(renderC(new Map([...resolved].filter(([n]) => !added.has(n))))
     .find((f) => f.path === 'omxcontract/omx_contract_limits.h').text).map((u) => u.key));
+  const moved = unequal.filter((k) => MOVED_AFTER_PIN.has(k) && !firstRelease.has(k));
+  const differing = unequal.filter((k) => !moved.includes(k));
+  const movedStale = [...MOVED_AFTER_PIN.keys()].filter((k) => !moved.includes(k));
   const addedLater = S.filter((u) => !pin.has(u.key) && !firstRelease.has(u.key)).map((u) => u.key);
   // the units of later items that omx-dsp's header already holds (each compared byte for byte above)
   const heldLater = S.filter((u) => pin.has(u.key) && !firstRelease.has(u.key)).map((u) => u.key);
@@ -85,12 +100,12 @@ export function roundTrip(resolved = resolveData(loadData(join(ROOT, 'data')))) 
   const sf = new Set(frames(shipped));
   const banner = { removed: [...pf].filter((l) => !sf.has(l)), added: [...sf].filter((l) => !pf.has(l)) };
   const step2 = {
-    units: S.length, pinUnits: P.length, identical: S.length - differing.length - notInPin.length - addedLater.length, differing, notInPin, inOrder,
+    units: S.length, pinUnits: P.length, identical: S.length - unequal.length - notInPin.length - addedLater.length, differing, moved, movedStale, notInPin, inOrder,
     read: readUnits.length, readAmong: readUnits.length - readMissing.length, readMissing,
     readMissingNone: readMissing.length === 0,
     residue, banner, addedLater, heldLater,
   };
-  const ok = step1.limits && !differing.length && !notInPin.length && inOrder && step2.readMissingNone
+  const ok = step1.limits && !differing.length && !movedStale.length && !notInPin.length && inOrder && step2.readMissingNone
     && residue.length === P.length - (S.length - addedLater.length);
   return { ok, step1, step2 };
 }
@@ -110,7 +125,8 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   console.log(`step 2: ${s.identical}/${s.units} units byte-identical to omx-dsp's (of ${s.pinUnits}), order ${s.inOrder ? 'kept' : 'BROKEN'}, ` +
     `${s.readAmong}/${s.read} read units among them (missing: ${s.readMissing.join(', ') || 'none'}), ` +
     `residue ${s.residue.length}, ${s.addedLater.length} units of later items`);
-  if (s.differing.length || s.notInPin.length) console.log(`  differing: ${s.differing.join(', ')}; not in omx-dsp's header: ${s.notInPin.join(', ')}`);
+  if (s.moved.length) console.log(`  moved after the pin, declared as in use today: ${s.moved.join(', ')}`);
+  if (s.differing.length || s.notInPin.length || s.movedStale.length) console.log(`  differing: ${s.differing.join(', ')}; not in omx-dsp's header: ${s.notInPin.join(', ')}; named as moved but not: ${s.movedStale.join(', ')}`);
   console.log(`ROUND-TRIP-JSON ${JSON.stringify({ ok: r.ok, step1: r.step1, units: s.units, identical: s.identical, pinUnits: s.pinUnits, read: s.read, readAmong: s.readAmong, residue: s.residue.length, bannerLines: s.banner.removed.length + s.banner.added.length })}`);
   process.exitCode = r.ok ? 0 : 1;
 }
