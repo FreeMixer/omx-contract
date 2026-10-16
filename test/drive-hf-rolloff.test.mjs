@@ -61,8 +61,8 @@ test('the C render is the 2.10.0 header with the roll-off set\'s block replaced,
   assert.equal(old.split(was).length, 2, 'the 2.10.0 header holds the old block once');
   // 2.12.0 adds the hosted stage's numbers (data/hosting.json) and 2.13.0 the EQ curve grid (data/curves.json),
   // which the 2.10.0 header does not hold, and the curve and band come-ups (#46), and the delay's read-tap travel and
-  // per-tap limits, and the graphic EQ's mode set and designClamped readout (#71)
-  assert.equal(header().replace(/^enum omx_geq_(modes|readouts) \{\n[\s\S]*?\n\};\n(#define OMX_GEQ_\w+ \S+\n)+/gm, '').replace(/^#define OMX_DELAY_TAP_TAP0_GAIN_MIN [\s\S]*?OMX_DELAY_TAP_TAP3_PAN_DEFAULT \S+\n\n/m, '').replace(/^#define OMX_(HOSTED_STAGE|EQ_CURVE_GRID|DELAY_TAPS|FX_DELAY_TAPS_RANGE)_\w+ \S+\n/gm, '').replace(/^#define OMX_DRIVE_(CURVES|BANDS)_DEFAULT \S+\n/gm, ''), old.replace(was, is));
+  // per-tap limits, and the graphic EQ's mode set and designClamped readout (#71), and the multiband compressor's limits (#62)
+  assert.equal(header().replace(/^#define OMX_MBC_\w+ .+\n/gm, '').replace(/^enum omx_geq_(modes|readouts) \{\n[\s\S]*?\n\};\n(#define OMX_GEQ_\w+ \S+\n)+/gm, '').replace(/^#define OMX_DELAY_TAP_TAP0_GAIN_MIN [\s\S]*?OMX_DELAY_TAP_TAP3_PAN_DEFAULT \S+\n\n/m, '').replace(/^#define OMX_(HOSTED_STAGE|EQ_CURVE_GRID|DELAY_TAPS|FX_DELAY_TAPS_RANGE)_\w+ \S+\n/gm, '').replace(/^#define OMX_DRIVE_(CURVES|BANDS)_DEFAULT \S+\n/gm, ''), old.replace(was, is));
 });
 
 test('perturbation: a moved corner moves the C value, and --check goes red', () => {
