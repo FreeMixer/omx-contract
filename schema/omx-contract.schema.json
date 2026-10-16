@@ -11,8 +11,8 @@
   "additionalProperties": { "$ref": "#/$defs/item" },
   "$defs": {
     "unit": {
-      "description": "The closed list of units the items use; \"x\" is a multiplier, \"\" is a ratio or a fraction.",
-      "enum": ["dB", "dBFS", "ms", "Hz", "oct", "cents", "st", "%", "x", ""]
+      "description": "The closed list of units the items use; \"s\" is seconds and \"min\" minutes, \"x\" is a multiplier, \"\" is a ratio or a fraction.",
+      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", ""]
     },
     "text": { "type": "string", "minLength": 1 },
     "since": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "The release that first carried an item declared outside the kernels (rates.json, primitives.json); a kernel's items record it in recipes/answers/." },
