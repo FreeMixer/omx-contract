@@ -24,6 +24,20 @@
       "doc": "One graphic-EQ fader's travel: EQ_GAIN_RANGE by reference (a graphic fader is an EQ gain), with the come-up value it needs as a row field — flat, 0 dB."
     },
     {
+      "name": "GEQ_MODES",
+      "source": {
+        "origin": "omx-dsp 0f23bed include/omxdsp/fx/omx_geq_instance.h:71 enum omx_geq_mode (OMX_GEQ_MODE_STANDARD = 0, OMX_GEQ_MODE_TRUE = 1); omx_geq_instance_design reads any other value as standard"
+      },
+      "value": [
+        "standard",
+        "true"
+      ],
+      "doc": "How the graphic EQ designs its sections from the faders, in the order of the integer the kernel reads (omx-dsp's enum omx_geq_mode): `standard` gives each section its fader as its gain, the classic proportional build-up; `true` solves the band interaction so the summed curve meets the faders at the centres, each section gain clamped at GEQ_DESIGN_GAIN_MAX_DB. A fresh instance comes up `standard`.",
+      "since": "2.14.0",
+      "kind": "set",
+      "default": "standard"
+    },
+    {
       "name": "GEQ_BAND_Q",
       "source": {
         "path": "eq.ts",
