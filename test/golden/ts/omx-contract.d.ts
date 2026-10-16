@@ -527,6 +527,90 @@ export declare const DELAY_MIX_RANGE: {
 export declare const DELAY_PINGPONGS: readonly ["off", "on"];
 
 /**
+ * How many integer read taps of the FX delay's one ring are engaged. 1 is the one-tap delay, bit for bit; `max` is the tap-array ceiling the kernel sizes its arrays by (`OMX_FXDELAY_MAX_TAPS` in `omx_delay.h` reads it as `OMX_DELAY_TAPS_MAX`), so the arrays and the travel are one fact.
+ * @see data/kernels/delay.json
+ */
+export declare const FX_DELAY_TAPS_RANGE: {
+  readonly min: 1;
+  readonly max: 4;
+  readonly step: 1;
+  readonly unit: "";
+  readonly default: 1;
+  readonly defaultFrom: "desk";
+};
+
+/**
+ * The legal range of each read tap's gain (0..1) and pan (-1..+1, the balance law's travel), keyed by the delay row's own field, with each tap's come-up value. Tap 0 comes up at unity gain, centre: the one-tap delay. Taps 1..3 come up as a usable triple pattern (an eighth left, a dotted eighth right, a dotted quarter centre), so raising the tap count is musical at once.
+ * @see data/kernels/delay.json
+ */
+export declare const DELAY_TAP_LIMITS: {
+  readonly tap0Gain: {
+    readonly min: 0;
+    readonly max: 1;
+    readonly step: 0.01;
+    readonly unit: "";
+    readonly default: 1;
+    readonly defaultFrom: "desk";
+  };
+  readonly tap0Pan: {
+    readonly min: -1;
+    readonly max: 1;
+    readonly step: 0.01;
+    readonly unit: "";
+    readonly default: 0;
+    readonly defaultFrom: "desk";
+  };
+  readonly tap1Gain: {
+    readonly min: 0;
+    readonly max: 1;
+    readonly step: 0.01;
+    readonly unit: "";
+    readonly default: 0.7;
+    readonly defaultFrom: "desk";
+  };
+  readonly tap1Pan: {
+    readonly min: -1;
+    readonly max: 1;
+    readonly step: 0.01;
+    readonly unit: "";
+    readonly default: -0.5;
+    readonly defaultFrom: "desk";
+  };
+  readonly tap2Gain: {
+    readonly min: 0;
+    readonly max: 1;
+    readonly step: 0.01;
+    readonly unit: "";
+    readonly default: 0.5;
+    readonly defaultFrom: "desk";
+  };
+  readonly tap2Pan: {
+    readonly min: -1;
+    readonly max: 1;
+    readonly step: 0.01;
+    readonly unit: "";
+    readonly default: 0.5;
+    readonly defaultFrom: "desk";
+  };
+  readonly tap3Gain: {
+    readonly min: 0;
+    readonly max: 1;
+    readonly step: 0.01;
+    readonly unit: "";
+    readonly default: 0.35;
+    readonly defaultFrom: "desk";
+  };
+  readonly tap3Pan: {
+    readonly min: -1;
+    readonly max: 1;
+    readonly step: 0.01;
+    readonly unit: "";
+    readonly default: 0;
+    readonly defaultFrom: "desk";
+  };
+};
+
+/**
  * The FX delay's PING-PONG come-up value — a toggle, so it has no travel, only this. Declared here rather than as a literal in the console's delay default state (which now reads it) so the DPF plugin generator (omx-plugins) reads the same fact the desk seeds a fresh strip with.
  * @see data/kernels/delay.json
  */
