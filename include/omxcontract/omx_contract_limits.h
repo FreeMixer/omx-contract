@@ -706,6 +706,7 @@ enum omx_drive_bands {
   OMX_DRIVE_BANDS_TILT = 3,
 };
 #define OMX_DRIVE_BANDS_COUNT 4u
+#define OMX_DRIVE_BANDS_DEFAULT OMX_DRIVE_BANDS_FULL
 enum omx_drive_curves {
   OMX_DRIVE_CURVES_SOFT = 0,
   OMX_DRIVE_CURVES_TAPE = 1,
@@ -713,6 +714,7 @@ enum omx_drive_curves {
   OMX_DRIVE_CURVES_EXCITER = 3,
 };
 #define OMX_DRIVE_CURVES_COUNT 4u
+#define OMX_DRIVE_CURVES_DEFAULT OMX_DRIVE_CURVES_SOFT
 enum omx_drive_hf_rolloffs {
   OMX_DRIVE_HF_ROLLOFFS_OFF = 0,
   OMX_DRIVE_HF_ROLLOFFS_12000 = 1,

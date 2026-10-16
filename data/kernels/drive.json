@@ -105,7 +105,8 @@
         "tape",
         "tube",
         "exciter"
-      ]
+      ],
+      "default": "soft"
     },
     {
       "name": "band",
@@ -116,7 +117,8 @@
         "low",
         "high",
         "tilt"
-      ]
+      ],
+      "default": "full"
     },
     {
       "name": "autoGain",
