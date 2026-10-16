@@ -60,8 +60,8 @@ test('the C render is the 2.10.0 header with the roll-off set\'s block replaced,
   ].join('\n');
   assert.equal(old.split(was).length, 2, 'the 2.10.0 header holds the old block once');
   // 2.12.0 adds the hosted stage's numbers (data/hosting.json) and 2.13.0 the EQ curve grid (data/curves.json),
-  // which the 2.10.0 header does not hold
-  assert.equal(header().replace(/^#define OMX_(HOSTED_STAGE|EQ_CURVE_GRID)_\w+ \S+\n/gm, ''), old.replace(was, is));
+  // which the 2.10.0 header does not hold, and the curve and band come-ups (#46)
+  assert.equal(header().replace(/^#define OMX_(HOSTED_STAGE|EQ_CURVE_GRID)_\w+ \S+\n/gm, '').replace(/^#define OMX_DRIVE_(CURVES|BANDS)_DEFAULT \S+\n/gm, ''), old.replace(was, is));
 });
 
 test('perturbation: a moved corner moves the C value, and --check goes red', () => {
