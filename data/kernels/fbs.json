@@ -1,5 +1,64 @@
 {
   "$schema": "../../schema/omx-contract.schema.json",
+  "controls": [
+    {
+      "name": "autoBands",
+      "kind": "travel",
+      "doc": "The travel of the feedback suppressor's per-channel cap on the bands it plants: at least one, never more than the EQ itself holds. The ceiling is EQ_MAX_BANDS, read rather than re-typed: the suppressor plants its notches in the channel's own EQ, so a cap above the EQ's band count would promise bands that cannot exist. The come-up value is FBS_DEFAULT_MAX_AUTO_BANDS.",
+      "travel": {
+        "min": 1,
+        "max": {
+          "ref": "EQ_MAX_BANDS"
+        },
+        "step": 1,
+        "unit": ""
+      }
+    },
+    {
+      "name": "sensitivity",
+      "kind": "travel",
+      "doc": "The feedback detector's sensitivity travel: a 0..1 aggression scalar, stepped in twentieths because the operator sets it by feel during a ring-out, not by number. Not a surface position: the bounds coincide with a normalised position's, the step is what says they are different facts. The come-up value is FBS_DEFAULT_SENSITIVITY.",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0.05,
+        "unit": ""
+      }
+    },
+    {
+      "name": "mergeCents",
+      "kind": "travel",
+      "doc": "The same-ring merge radius, in cents: a confirmed find within this musical distance of a standing suppressor band is that band ringing again, a re-arm and never a new slot. A semitone (100) covers a drifting wedge mode; 0 keeps only the FFT-jitter floor. Steps of 10 cents.",
+      "travel": {
+        "min": 0,
+        "max": 600,
+        "step": 10,
+        "unit": "cents"
+      }
+    },
+    {
+      "name": "cooldownMinutes",
+      "kind": "travel",
+      "doc": "The ring memory, in minutes: how long a fully released find's escalation survives, so a chronic ringer re-plants with its doubled holds instead of starting over. 0 disables the memory.",
+      "travel": {
+        "min": 0,
+        "max": 120,
+        "step": 1,
+        "unit": "min"
+      }
+    },
+    {
+      "name": "holdSeconds",
+      "kind": "travel",
+      "doc": "The clean hold's finite travel, in seconds: a floor of 1 s (a hold of zero is not a hold) and a ceiling of five minutes, the longest an automatic notch is ever held. A notch kept for the whole show is the unbounded 'never' case, which is no number; this bounds only the number. The come-up value is FBS_DEFAULT_HOLD_SECONDS.",
+      "travel": {
+        "min": 1,
+        "max": 300,
+        "step": 1,
+        "unit": "s"
+      }
+    }
+  ],
   "constants": {
     "SUBHARMONIC_RADIUS_BINS": {
       "kind": "scalar",
@@ -145,6 +204,18 @@
       "doc": "Default per-channel cap on auto-planted bands — a full pool plants nothing and raises a pool-full alert instead (predictability over silent eviction).",
       "unit": "",
       "value": 6
+    },
+    "FBS_DEFAULT_HOLD_SECONDS": {
+      "kind": "scalar",
+      "doc": "The clean hold a live notch comes up with before it lifts, in seconds. A live ring is usually a transient microphone and monitor geometry event, so the default notch is a short parachute, not a set-and-forget cut (the ring-out mode is for that). A surface may offer s, min and infinity; the value is always seconds.",
+      "unit": "s",
+      "value": 5
+    },
+    "FBS_DEFAULT_SENSITIVITY": {
+      "kind": "scalar",
+      "doc": "The detection sensitivity a channel comes up with, on FBS_SENSITIVITY_RANGE. 0 is the corpus-tuned gate set and the safe default: an untouched channel detects as one built before the control existed. Raising it shortens latency and relaxes prominence within music-safe bounds.",
+      "unit": "",
+      "value": 0
     }
   }
 }
