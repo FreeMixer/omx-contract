@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.13.0
+Version: 2.14.0
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: One shared source of truth for every FreeMixer knob, range and default
@@ -51,6 +51,17 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Mon Oct 19 2026 Pau Aliagas <linuxnow@gmail.com> - 2.14.0-1
+- The kernel files declare what the console engine still typed as literals: the FBS, HRP, balance,
+  generator, align and idelay travels and constants, and the multiband compressor's limits
+  (MBC_MIN_BANDS, MBC_MAX_BANDS, MBC_CORNER_MAX_FRACTION and the come-up corners by band count).
+  The delay's read-tap travel, its per-tap gain and pan limits and the tap factor set as two integer lists are declared.
+  The instrument families (INSTRUMENT_FAMILIES) and the pitch search each one implies (HRP_FAMILY_SEARCH) are declared,
+  and so are the EQ biquad kinds (BIQUAD_KINDS) and the low-pass hand-over table (LOWPASS_HANDOVER).
+  The graphic EQ declares its design mode, GEQ_MODES, and the designClamped readout; the drive curve and band choices
+  declare their come-up; HRP_AMOUNT_RANGE's come-up is held to what its readers derive; seconds and minutes join the unit list.
+  The docs say what semver classifies and the development-phase rule, and describe the shapes the data uses.
+
 * Sun Oct 18 2026 Pau Aliagas <linuxnow@gmail.com> - 2.13.0-1
 - The EQ curve grid is contract data now: EQ_CURVE_GRID declares the start frequency
   (20 Hz), the points per decade (53) and the upper bound (0.999 of the Nyquist
