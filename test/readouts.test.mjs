@@ -96,7 +96,8 @@ test('semver: a readout appended is MINOR; removed is MINOR in the development p
 
 test('the readouts declared: the gain reduction of the four dynamics kernels, each range read off the travel that bounds it', () => {
   const data = loadData(DATA);
-  const declared = Object.fromEntries(data.files.filter((f) => f.doc.readouts).map((f) => [f.rel, f.doc.readouts]));
+  // the gain reductions; the graphic EQ's designClamped flag (#71) is held by test/geq-mode.test.mjs
+  const declared = Object.fromEntries(data.files.filter((f) => f.doc.readouts?.some((x) => x.name === 'gainReductionDb')).map((f) => [f.rel, f.doc.readouts]));
   const bound = {
     'data/kernels/comp.json': 'COMP_LIMITS.thresholdDb.min',
     'data/kernels/deesser.json': 'DEESS_RANGE_RANGE.min',
