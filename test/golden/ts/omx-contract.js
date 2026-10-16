@@ -1399,6 +1399,15 @@ export const GEQ_BAND_RANGE = {
 };
 
 /**
+ * How the graphic EQ designs its sections from the faders, in the order of the integer the kernel reads (omx-dsp's enum omx_geq_mode): `standard` gives each section its fader as its gain, the classic proportional build-up; `true` solves the band interaction so the summed curve meets the faders at the centres, each section gain clamped at GEQ_DESIGN_GAIN_MAX_DB. A fresh instance comes up `standard`.
+ * @see data/kernels/geq.json
+ */
+export const GEQ_MODES = [
+  "standard",
+  "true"
+];
+
+/**
  * The graphic EQ's band Q: the ISO third-octave bandwidth, `2^(1/6)/(2^(1/3) − 1) ≈ 4.318`, to one decimal as the M32 GEQ carries it. Read by the `geq31` preset and the graphic EQ's section design.
  * @see data/kernels/geq.json
  */
@@ -2569,6 +2578,17 @@ export const READOUTS = {
       "min": -90,
       "max": 0,
       "scale": "linear",
+      "rateHz": 50
+    }
+  ],
+  "geq": [
+    {
+      "name": "designClamped",
+      "doc": "Whether the last design clamped: 1 when a `true` solve asked a section for more than GEQ_DESIGN_GAIN_MAX_DB and got the ceiling, 0 otherwise and always in `standard`. Derived by the design step, never written by a host (omx-dsp's OmxGeqDesign.clamped).",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "scale": "stepped",
       "rateHz": 50
     }
   ],

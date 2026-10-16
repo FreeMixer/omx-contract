@@ -61,6 +61,11 @@ travels allow, read off the travel that bounds it:
 All four are `linear` and published at READOUT_RATE_HZ, 50 Hz: one value every 20 ms, the rate a host sends a
 moving meter at.
 
+The graphic EQ declares one more, `designClamped`: 0 or 1, drawn `stepped`, published at READOUT_RATE_HZ. It is 1
+when the last design in `true` mode asked a section for more than GEQ_DESIGN_GAIN_MAX_DB and got the ceiling, so a
+host shows that the curve could not be met instead of the solve clamping silently. The design step derives it; no
+host writes it.
+
 Not declared yet: the band dynamics and the transient designer (a gain per band, or one that boosts as well as
 cuts, each a readout of its own when a host draws it), a level meter (the strip's input and output peak are the
 strip's, not a kernel's) and the analysers (rta, fbs), whose output is a spectrum, not a value.
