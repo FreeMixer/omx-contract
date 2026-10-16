@@ -1,3 +1,12 @@
+omx-contract (2.13.0) unstable; urgency=medium
+
+  * The EQ curve grid is contract data now: EQ_CURVE_GRID declares the start frequency
+    (20 Hz), the points per decade (53) and the upper bound (0.999 of the Nyquist
+    frequency); the C render has OMX_EQ_CURVE_GRID_* defines and the TypeScript
+    render the EQ_CURVE_GRID export, so an engine and a UI draw the same curve.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Sun, 18 Oct 2026 00:00:00 +0000
+
 omx-contract (2.12.1) unstable; urgency=medium
 
   * Packages for 2.12.0 were not built because the release workflow lacked
