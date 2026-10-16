@@ -105,7 +105,7 @@ the order the file declares them. A consumer reads control order and kinds here,
   control's travel is `items[global]` (the EQ's `q` reaches EQ_NOTCH_Q_RANGE on a notch). A control that is `of`
   another is not listed on its own. A use is listed like any control, its `global` the item it takes.
 
-A kernel with no controls (fbs, mixmatrix, rta) is listed with an empty `controls`. A kernel that declares readouts
+A kernel with no controls (mixmatrix, rta) is listed with an empty `controls`. A kernel that declares readouts
 carries `readouts` too, in their declared order, every reference resolved:
 
 ```json

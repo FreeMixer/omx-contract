@@ -22,6 +22,18 @@
         "saw",
         "triangle"
       ]
+    },
+    {
+      "name": "oscillatorFreq",
+      "kind": "travel",
+      "global": "OSCILLATOR_FREQ_RANGE",
+      "doc": "The oscillator's frequency travel: the audible band, 20 Hz to 20 kHz, stepped by 10 Hz on a nudge. omx-dsp's omx_gen_osc takes the frequency in Hz.",
+      "travel": {
+        "min": 20,
+        "max": 20000,
+        "step": 10,
+        "unit": "Hz"
+      }
     }
   ]
 }
