@@ -11,14 +11,14 @@
   },
   "ALLPASS_LIMITS": {
     "kind": "sheet",
-    "doc": "ALLPASS_LIMITS, moved from openmixer.",
+    "doc": "The first-order all-pass section's contract tolerance. `unityTolerance` is the fraction of the larger side within which the block energy identity (the sum of y squared plus the pole times the end state squared equals the sum of x squared plus the pole times the start state squared) must hold, which is what makes the section unity magnitude. A design constant of the primitive, not a control: no row serves it.",
     "value": {
       "unityTolerance": 0.0001
     }
   },
   "XOVER_LIMITS": {
     "kind": "sheet",
-    "doc": "XOVER_LIMITS, moved from openmixer.",
+    "doc": "The Linkwitz-Riley crossover primitives' numbers. `lr2SectionQ` is the Q of the one cookbook section an LR2 crossover runs per band (a squared first-order Butterworth, critically damped); `lr4SectionQ` is the Q of each of the two sections an LR4 crossover runs (a squared second-order Butterworth); `partitionTolerance` is the fraction of max(1, block peak) within which the low and high outputs must sum to the all-pass output. Measured worst case 9e-8. Design constants and tolerances, not controls.",
     "value": {
       "lr2SectionQ": 0.5,
       "lr4SectionQ": {
