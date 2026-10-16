@@ -1419,6 +1419,63 @@ export declare const HRP_MAX_CUT_DB: 6;
 export declare const HRP_MAX_VOICES: 8;
 
 /**
+ * What each instrument family implies about the HRP search: `maxVoices`, how many notes the family can sound at once (the number its corrections are budgeted against), and `f0MinHz` to `f0MaxHz`, where its fundamentals can lie. Each is the widest the family can be, not the typical one: a range too narrow hides a note from the detector, one slightly too wide costs a few more sweep steps. One entry per INSTRUMENT_FAMILIES id; the confidence floor does not follow the family.
+ * @see data/kernels/hrp.json
+ */
+export declare const HRP_FAMILY_SEARCH: {
+  readonly drums: {
+    readonly maxVoices: 1;
+    readonly f0MinHz: 35;
+    readonly f0MaxHz: 400;
+  };
+  readonly percussion: {
+    readonly maxVoices: 1;
+    readonly f0MinHz: 60;
+    readonly f0MaxHz: 1200;
+  };
+  readonly bass: {
+    readonly maxVoices: 2;
+    readonly f0MinHz: 25;
+    readonly f0MaxHz: 400;
+  };
+  readonly guitar: {
+    readonly maxVoices: 6;
+    readonly f0MinHz: 60;
+    readonly f0MaxHz: 1400;
+  };
+  readonly keys: {
+    readonly maxVoices: 8;
+    readonly f0MinHz: 27.5;
+    readonly f0MaxHz: 4200;
+  };
+  readonly vocals: {
+    readonly maxVoices: 2;
+    readonly f0MinHz: 80;
+    readonly f0MaxHz: 1200;
+  };
+  readonly brass: {
+    readonly maxVoices: 2;
+    readonly f0MinHz: 40;
+    readonly f0MaxHz: 1400;
+  };
+  readonly wind: {
+    readonly maxVoices: 2;
+    readonly f0MinHz: 55;
+    readonly f0MaxHz: 2600;
+  };
+  readonly strings: {
+    readonly maxVoices: 8;
+    readonly f0MinHz: 40;
+    readonly f0MaxHz: 2800;
+  };
+  readonly playback: {
+    readonly maxVoices: 8;
+    readonly f0MinHz: 25;
+    readonly f0MaxHz: 2100;
+  };
+};
+
+/**
  * The Q of an HRP correction band — one declared number, operator-adjustable later. A musical cut, not a ring killer: FBS's default notch Q is ~116 because a howl is a single frequency, whereas a partial that is too loud is a note an instrument is playing and a surgical null on it would be heard as a hole. 5 sits mid-band in the 4…6 range a musical subtractive cut occupies, and inside EQ_Q_RANGE — the gain-carrying shapes' extent — so it survives the store's clamp unchanged. Deliberately NOT derived from the harmonic index. A derivation invented with no measurement behind it is a second declaration wearing a formula; this is revisited when the analyse-only surface shows what real corrections look like.
  * @see data/kernels/hrp.json
  */
@@ -2485,6 +2542,12 @@ export declare const READOUT_RATE_HZ: 50;
  * @see data/primitives.json
  */
 export declare const BIQUAD_KINDS: readonly ["peaking", "lowShelf", "highShelf", "highpass", "lowpass", "notch", "bandpass", "allpass1", "allpass2"];
+
+/**
+ * The instrument families a channel may be assigned, a broad prior and never an identification: HRP narrows where its detector looks for a fundamental and how many voices it looks for by the family (HRP_FAMILY_SEARCH), and nothing else. The order is the integer that crosses a port or a process boundary (omx-dsp's OmxHrpFamily, the HRP live face's family port). A channel with no family carries -1, which no id names, and the detector then runs its own wide defaults; so the set has no come-up id.
+ * @see data/primitives.json
+ */
+export declare const INSTRUMENT_FAMILIES: readonly ["drums", "percussion", "bass", "guitar", "keys", "vocals", "brass", "wind", "strings", "playback"];
 
 /**
  * The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` — this is the ceiling a write is refused by, never a menu.

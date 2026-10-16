@@ -36,3 +36,12 @@ test('no item carries a placeholder doc that only names where it came from', () 
   const bare = Object.entries(items).filter(([n, it]) => new RegExp(`^${n}, moved from \\w+\\.?$`).test(it.doc ?? '')).map(([n]) => n);
   assert.deepEqual(bare, []);
 });
+
+test('the docs state the development-phase rule while lib/semver.mjs carries it, and not after', async () => {
+  const { DEVELOPMENT_PHASE } = await import('../lib/semver.mjs');
+  const doc = readFileSync(join(ROOT, 'docs/kernel-files.md'), 'utf8');
+  const section = doc.slice(doc.indexOf('## What `semver` judges'));
+  assert.ok(section.length > 200, 'the docs carry the semver section');
+  assert.equal(/^The development phase:/m.test(section), DEVELOPMENT_PHASE !== null,
+    'docs/kernel-files.md says what DEVELOPMENT_PHASE does exactly while it is set');
+});

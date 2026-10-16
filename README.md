@@ -9,7 +9,8 @@ means the same thing on the console, in a plugin and in a test.
 
 - One declaration per value, one file per group (`data/`), validated against a closed schema.
 - Renders for C (a header), TypeScript and resolved JSON, each held equal to the data by CI.
-- Semantic versioning enforced by a check: a change that narrows or removes a declaration needs a major bump.
+- Semantic versioning enforced by a check: a change that narrows a declaration needs a major bump, one that adds
+  or widens needs a minor ([what the check judges](docs/kernel-files.md#what-semver-judges)).
 
 ## Install
 
