@@ -53,6 +53,23 @@ and nothing else. A sketch, values abridged
 - `readouts`, after the controls: the meters the kernel reports, in order, each `{ name, doc, unit, min, max, scale,
   rateHz }`. A readout is no item; `docs/readouts.md` is what each key means and how C and TypeScript render it.
 
+Shapes a kernel file's items take beyond the sketch:
+
+- A travel may carry `byKind`, a map from a strip kind (`fxReturn`) to the come-up value that kind has instead of
+  `default`; each value lies inside `min`..`max`. The C render writes each as `OMX_<ITEM>_BY_KIND_<KIND>` (the
+  delay's mix on an FX return, `OMX_DELAY_MIX_RANGE_BY_KIND_FX_RETURN`), the JSON render carries the map, and a
+  host with no entry for its kind reads `default`. The name is `byKind` in the schema and in the semver check.
+- A `scalar` is a number or a boolean (`FX_DELAY_PINGPONG_DEFAULT` is a boolean); a choice's `default` may point
+  at one, as above.
+- A `travels` item holds either `fields` (a table of travels, or references to controls declared once) or a single
+  `travel`; the single travel is the item's value directly, and it is the one shape `c.alias` applies to.
+- A `list` of numbers renders to C as a count and an initialiser (`OMX_<LIST>_COUNT`, `OMX_<LIST>_INIT`) unless it
+  carries `"c": { "render": false }`, which keeps it in the JSON and TypeScript renders only. No list declared
+  today sets it; it is the way to declare a list a C reader has no use for.
+- The repository commits its renders: `include/omxcontract/` (C), `share/omx-contract/` (JSON) and
+  `test/golden/ts/` (TypeScript). CI regenerates each with `render --check` and fails on any byte of difference,
+  so a data change and its renders land in one commit.
+
 `omx-contract validate` refuses any other key, a constant that is a travel or a set, and a kernel file written
 as a flat item map (the 1.x shape). `rates.json` and `primitives.json` stay item maps.
 
@@ -99,3 +116,12 @@ carries `readouts` too, in their declared order, every reference resolved:
   ]
 }
 ```
+
+## What `semver` judges
+
+`omx-contract semver` compares two resolved declarations, the data only, and names the bump the difference needs.
+It does not look at how the renders are produced. Two kinds of change are judged by hand, by the reviewer of the
+pull request that makes them: a change to the naming scheme of the rendered symbols (`OMX_<ITEM>_…` in C, the
+exported constants in TypeScript), which breaks every consumer that spells a name and is a MAJOR change; and a
+change to the renderers that leaves every rendered byte as it was, which is a PATCH. A renderer change that does
+alter the bytes shows up as a change to the committed renders and is judged by what a consumer reads there.

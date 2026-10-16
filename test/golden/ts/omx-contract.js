@@ -1575,7 +1575,7 @@ export const PHASER_STAGE_COUNTS = [
 export const PHASER_F_TOP_HZ = 16000;
 
 /**
- * PITCH_LIMITS, moved from openmixer.
+ * The pitch shifter's control travels: the shift in whole semitones (-12 to 12), the fine shift in cents (-50 to 50), and the wet share in percent, on the drive's mix travel so the modulation family shares one word and unit. A fresh shifter is fully wet, the mix travel's own top.
  * @see data/kernels/pitch.json
  */
 export const PITCH_LIMITS = {
@@ -1606,7 +1606,7 @@ export const PITCH_LIMITS = {
 };
 
 /**
- * PITCH_KERNEL, moved from openmixer.
+ * The pitch kernel's constants that are not a control's travel. `windowMs` is the crossfade window in ms, declared rather than a control and whole in samples at every rate; `prefilterCeilingHz` is the pre-filter's highest corner, the corner being min(ceiling, sample rate / (2 x ratio)); `prefilterQ` is its Q, a second-order Butterworth.
  * @see data/kernels/pitch.json
  */
 export const PITCH_KERNEL = {
@@ -2249,7 +2249,7 @@ export const TRIM_TRAVELS = {
 export const BUTTERWORTH_Q = 0.7071067811865476;
 
 /**
- * ALLPASS_LIMITS, moved from openmixer.
+ * The first-order all-pass section's contract tolerance. `unityTolerance` is the fraction of the larger side within which the block energy identity (the sum of y squared plus the pole times the end state squared equals the sum of x squared plus the pole times the start state squared) must hold, which is what makes the section unity magnitude. A design constant of the primitive, not a control: no row serves it.
  * @see data/primitives.json
  */
 export const ALLPASS_LIMITS = {
@@ -2257,7 +2257,7 @@ export const ALLPASS_LIMITS = {
 };
 
 /**
- * XOVER_LIMITS, moved from openmixer.
+ * The Linkwitz-Riley crossover primitives' numbers. `lr2SectionQ` is the Q of the one cookbook section an LR2 crossover runs per band (a squared first-order Butterworth, critically damped); `lr4SectionQ` is the Q of each of the two sections an LR4 crossover runs (a squared second-order Butterworth); `partitionTolerance` is the fraction of max(1, block peak) within which the low and high outputs must sum to the all-pass output. Measured worst case 9e-8. Design constants and tolerances, not controls.
  * @see data/primitives.json
  */
 export const XOVER_LIMITS = {
