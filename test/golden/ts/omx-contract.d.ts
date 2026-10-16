@@ -555,7 +555,7 @@ export declare const DELAY_MIX_RANGE: {
 export declare const DELAY_PINGPONGS: readonly ["off", "on"];
 
 /**
- * How many integer read taps of the FX delay's one ring are engaged. 1 is the one-tap delay, bit for bit; `max` is the tap-array ceiling the kernel sizes its arrays by (`OMX_FXDELAY_MAX_TAPS` in `omx_delay.h` reads it as `OMX_DELAY_TAPS_MAX`), so the arrays and the travel are one fact.
+ * How many integer read taps of the FX delay's one ring are engaged. 1 is the one-tap delay, bit for bit; `max` is the tap-array ceiling the kernel sizes its arrays by, so the arrays and the travel are one fact. An array extent is an integer constant: the C reader takes OMX_FX_DELAY_TAPS_RANGE_MAX (4) for `OMX_FXDELAY_MAX_TAPS` in `omx_delay.h`, never the alias OMX_DELAY_TAPS_MAX, which is the float 4.0f.
  * @see data/kernels/delay.json
  */
 export declare const FX_DELAY_TAPS_RANGE: {
@@ -643,6 +643,18 @@ export declare const DELAY_TAP_LIMITS: {
  * @see data/kernels/delay.json
  */
 export declare const FX_DELAY_PINGPONG_DEFAULT: false;
+
+/**
+ * The numerators of the FX delay's tap factor set, in member order: 1/4, 1/3, 3/8, 1/2, 2/3, 3/4, 1, 4/3, 3/2, 2, 3. A read tap k >= 1 sits at the base time times numerator / denominator (DELAY_TAP_FACTOR_DENS at the same position), rounded once to samples. The set is two integer lists, not a set of ids, because a factor such as 1/2 is no id the schema accepts and the ratio must stay exact (1/3 has no finite decimal).
+ * @see data/kernels/delay.json
+ */
+export declare const DELAY_TAP_FACTOR_NUMS: readonly [1, 1, 3, 1, 2, 3, 1, 4, 3, 2, 3];
+
+/**
+ * The denominators of the FX delay's tap factor set, in member order, one per numerator of DELAY_TAP_FACTOR_NUMS: the factor at position i is DELAY_TAP_FACTOR_NUMS[i] / DELAY_TAP_FACTOR_DENS[i].
+ * @see data/kernels/delay.json
+ */
+export declare const DELAY_TAP_FACTOR_DENS: readonly [4, 3, 8, 2, 3, 4, 1, 3, 2, 1, 1];
 
 /**
  * The PRE-CURVE gain, in dB. 0 dB is unity into the curve, so a stage switched on at its defaults changes almost nothing — which is what an `on` switch should mean. The ceiling is where every curve is saturating hard on any signal a console carries.
@@ -1474,6 +1486,48 @@ export declare const LIMITER_LIMITS: {
     readonly defaultFrom: "desk";
   };
 };
+
+/**
+ * The fewest bands the multiband compressor splits into: one crossover. omx_mbcomp_design and omx_mbcomp_process refuse a band count below it (`band-count-declared`), and a refused count reads as this floor.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_MIN_BANDS: 2;
+
+/**
+ * The most bands the multiband compressor splits into, and the capacity of its inline state: `struct omx_mbcomp_state` holds this many band compressors and one crossover fewer per leg, so the ceiling and the arrays are one fact.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_MAX_BANDS: 5;
+
+/**
+ * The highest crossover corner the multiband design builds, as a fraction of the live rate: a corner at or above `fraction x rate` is designed AT that line, because the LR4 section degenerates toward Nyquist. omx_mbcomp_design computes the line in double, so a C reader takes OMX_MBC_CORNER_MAX_FRACTION_DOUBLE. A 20 kHz corner is under the line from 48 kHz up; at 44.1 kHz the line is 19845 Hz and a 20 kHz corner is designed there.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CORNER_MAX_FRACTION: 0.45;
+
+/**
+ * The come-up crossover corners of a 2-band multiband stage, Hz, ascending: one split at 1 kHz.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CROSSOVER_DEFAULTS_2: readonly [1000];
+
+/**
+ * The come-up crossover corners of a 3-band multiband stage, Hz, ascending: body, presence, air.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CROSSOVER_DEFAULTS_3: readonly [200, 2000];
+
+/**
+ * The come-up crossover corners of a 4-band multiband stage, Hz, ascending.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CROSSOVER_DEFAULTS_4: readonly [150, 800, 5000];
+
+/**
+ * The come-up crossover corners of a 5-band multiband stage, Hz, ascending: two octaves apart.
+ * @see data/kernels/mbcomp.json
+ */
+export declare const MBC_CROSSOVER_DEFAULTS_5: readonly [100, 400, 1600, 6400];
 
 /**
  * The input cap a summing bus can be sized to — **the engine's declared input ceiling**, read from the engine's declarations rather than re-typed here. A gig with more than this many inputs needs more than one engine node; below it a bus is sized to `min(N, BUS_INPUT_CAP)`. It was a literal 64 until 2026-09-15, said to mirror the engine's `MAX_BUS_INPUTS` — and it did, but that 64 was the PipeWire builtin mixer's single-tier fan-in (8 × 8), never the engine's bound: the native node has allocated `OMX_MAX_STRIPS` (128) strips all along. Two literals agreeing by hand is how the console came to refuse a 96-channel desk it could carry. the engine's conformance test holds this to the C header; the console allocation design carries the ruling and the measured cost of width.
