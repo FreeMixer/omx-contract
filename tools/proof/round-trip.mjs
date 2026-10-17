@@ -20,7 +20,8 @@
  *      that belongs to an item of the first release, fails the proof.
  *
  * The data it proves is omx-dsp's, which omx-contract carried until 2.14.0: the proof reads data/ together with
- * those files frozen at their 2.14.0 bytes (test/fixtures/owners-2.14.0/), until it moves to omx-dsp beside them.
+ * those files and their answers frozen at their 2.14.0 bytes (test/fixtures/owners-2.14.0/, answers-2.14.0/), until
+ * it moves to omx-dsp beside them.
  *
  * Usage: node tools/proof/round-trip.mjs [--quiet]; exit 1 when a step fails.
  */
@@ -36,6 +37,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const FIX = join(ROOT, 'test/fixtures');
 /** The definitions omx-contract carried until 2.14.0 that their owners now install, at their 2.14.0 bytes. */
 export const OWNERS_FIXTURE = 'test/fixtures/owners-2.14.0';
+/** The kernels' answers (where each value was imported from), which went with them, at their 2.14.0 bytes. */
+export const ANSWERS_FIXTURE = 'test/fixtures/answers-2.14.0';
 
 /** Every `.json` under `dir`, as `{ 'data/<rel>': text }`, the tool files at its top left out. */
 function textsUnder(dir, pre = '') {
@@ -67,17 +70,17 @@ export const MOVED_AFTER_PIN = new Map([
 /** The items added after the first release: every answered item whose `since` (its own, else its kernel's) is later, and every item of the files beside the kernels (rates, primitives, hosting) that says so. */
 export function addedAfterFirstRelease(root = ROOT) {
   const recipe = JSON.parse(readFileSync(join(root, 'recipes/kernel.recipe.json'), 'utf8'));
-  const dir = join(root, recipe.tree.answersDir);
   const out = new Set();
-  for (const f of existsSync(dir) ? readdirSync(dir) : []) {
+  for (const dir of [join(root, recipe.tree.answersDir), join(root, ANSWERS_FIXTURE)]) for (const f of existsSync(dir) ? readdirSync(dir) : []) {
     const a = JSON.parse(readFileSync(join(dir, f), 'utf8'));
     // `renderedSince`: an item whose C render a later release switched on (its units are new to the header)
     for (const it of a.items) if (itemSince(a, it) !== recipe.tree.firstRelease || (it.renderedSince ?? recipe.tree.firstRelease) !== recipe.tree.firstRelease) out.add(it.name);
   }
   // an item outside the kernels (rates, primitives, hosting) records its release on the item itself
   for (const data of [join(root, 'data'), join(root, OWNERS_FIXTURE)]) {
-    for (const f of (existsSync(data) ? readdirSync(data) : []).filter((n) => n.endsWith('.json') && !TOOL_FILES.includes(n)).sort()) {
-      for (const [name, it] of entriesOf(f, JSON.parse(readFileSync(join(data, f), 'utf8')))) {
+    for (const [rel, text] of Object.entries(textsUnder(data))) {
+      if (/^data\/kernels\//.test(rel)) continue;
+      for (const [name, it] of entriesOf(rel, JSON.parse(text))) {
         if (it.since !== undefined && it.since !== recipe.tree.firstRelease) out.add(name);
       }
     }

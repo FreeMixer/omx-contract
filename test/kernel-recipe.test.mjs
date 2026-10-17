@@ -15,12 +15,13 @@ import { RENDERS, UNION, declOf } from './helpers.mjs';
 
 /**
  * A scratch tree of everything the recipe's checkers read, over the union of data/ and the owners' fixture (the
- * kernels the arms break) with the union's renders in the place of the committed ones.
+ * kernels the arms break) and their answers, with the union's renders in the place of the committed ones.
  */
 function scratchTree() {
   const dir = mkdtempSync(join(tmpdir(), 'omx-kernel-recipe-'));
   for (const p of ['schema', 'recipes', 'package.json']) cpSync(join(ROOT, p), join(dir, p), { recursive: true });
   cpSync(UNION, join(dir, 'data'), { recursive: true });
+  cpSync(join(ROOT, 'test/fixtures/answers-2.14.0'), join(dir, 'recipes/answers'), { recursive: true });
   for (const p of ['include', 'share', 'test/golden']) cpSync(join(RENDERS, p), join(dir, p), { recursive: true });
   return dir;
 }
@@ -34,9 +35,7 @@ const edit = (root, rel, fn) => {
 const gapsOf = (root) => completeness(root).gaps.join('\n');
 
 test('every kernel of the tree, the released ones included, has every artifact of the recipe', () => {
-  const v = completeness(ROOT);
-  assert.deepEqual(v.gaps, []);
-  assert.deepEqual(kernelNames(ROOT), ['eq', 'fbs', 'hrp', 'idelay'], 'the check runs over the kernels it finds');
+  assert.deepEqual(completeness(ROOT).gaps, ['no kernel under data/kernels: a check over nothing proves nothing'], 'omx-contract holds no kernel, and the check says so');
   const union = scratchTree();
   assert.deepEqual(completeness(union).gaps, [], 'and over the owners\' kernels of the fixture');
   assert.equal(kernelNames(union).length, 28);

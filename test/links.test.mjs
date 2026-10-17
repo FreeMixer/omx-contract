@@ -169,7 +169,7 @@ test('the CLI: links --check exits 1 naming the code first, 0 over a clean tree;
   assert.equal(run('--check', '--root', TREE, '--data', join(dir, 'data')).status, 0);
   const shipped = run('--check', '--root', ROOT);
   assert.equal(shipped.status, 0);
-  assert.match(shipped.stdout, /0 links checked .* 79 items with no impl link/);
+  assert.match(shipped.stdout, /0 links checked .* 6 items with no impl link/);
   assert.equal(run('--check', '--root', ROOT, '--require-impl').status, 1, 'every shipped item lacks its impl link today');
   rmSync(dir, { recursive: true, force: true });
 });

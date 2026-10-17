@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
-import { ROOT, UNION, editData, scratchData } from './helpers.mjs';
+import { ROOT, UNION, editData, relOf, scratchData } from './helpers.mjs';
 
 /** Each continuous field that is not its source's field with step 0, as a sentence. */
 function continuousProblems(resolved) {
@@ -35,7 +35,7 @@ test('a source moved without its continuous form, or a continuous form given a s
   editData(moved, 'kernels/gate.json', (d, at) => { at('GATE_LIMITS.thresholdDb').default = -30; });
   assert.deepEqual(continuousProblems(resolveData(loadData(moved))), ['GATE_CONTINUOUS_TRAVELS.thresholdDb is not GATE_LIMITS.thresholdDb with step 0']);
   const stepped = scratchData();
-  editData(stepped, 'primitives.json', (d) => { d.COMP_CONTINUOUS_TRAVELS.fields.releaseMs.step = 10; });
+  editData(stepped, relOf('COMP_CONTINUOUS_TRAVELS').slice('data/'.length), (d) => { d.COMP_CONTINUOUS_TRAVELS.fields.releaseMs.step = 10; });
   assert.deepEqual(continuousProblems(resolveData(loadData(stepped))), ['COMP_CONTINUOUS_TRAVELS.releaseMs is not COMP_LIMITS.releaseMs with step 0']);
 });
 
