@@ -11,14 +11,15 @@ import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const resolved = () => resolveData(loadData(DATA));
+const resolved = () => resolveData(loadData(UNION));
+const own = () => resolveData(loadData(DATA));
 const golden = (dir, files) => { for (const f of files) assert.equal(f.text, readFileSync(join(ROOT, dir, f.path), 'utf8'), `${dir}/${f.path} is the golden`); };
 
-test('golden: the c render is include/omxcontract/', () => golden('include', renderC(resolved())));
-test('golden: the json render is share/omx-contract/', () => golden('share/omx-contract', renderJson(resolved(), packageVersion(ROOT))));
-test('golden: the ts render is test/golden/ts/', () => golden('test/golden/ts', renderTs(resolved())));
+test('golden: the c render of data/ is include/omxcontract/', () => golden('include', renderC(own())));
+test('golden: the json render of data/ is share/omx-contract/', () => golden('share/omx-contract', renderJson(own(), packageVersion(ROOT))));
+test('golden: the ts render of data/ is test/golden/ts/', () => golden('test/golden/ts', renderTs(own())));
 
 test('c: a <PREFIX>_LIMITS field with no default renders its MIN and MAX and no DEFAULT', () => {
   const dir = scratchData();
@@ -46,7 +47,7 @@ test('the ts module exports every item with the resolved value', async () => {
 
 const cc = (process.env.CC ?? 'cc').split(' ');
 
-test('the c headers compile, and a C reader sees the declared values', { skip: spawnSync(cc[0], [...cc.slice(1), '--version']).status !== 0 && 'no cc' }, () => {
+test('the c headers of the union compile, and a C reader sees the declared values', { skip: spawnSync(cc[0], [...cc.slice(1), '--version']).status !== 0 && 'no cc' }, () => {
   const dir = mkdtempSync(join(tmpdir(), 'omx-c-'));
   const src = join(dir, 't.c');
   writeFileSync(src, `#include <stdio.h>
@@ -58,6 +59,6 @@ int main(void) {
   return 0;
 }
 `);
-  execFileSync(cc[0], [...cc.slice(1), '-std=c11', '-Wall', '-Wextra', '-Werror', '-Wno-unused-function', '-I', join(ROOT, 'include'), src, '-o', join(dir, 't'), '-lm']);
+  execFileSync(cc[0], [...cc.slice(1), '-std=c11', '-Wall', '-Wextra', '-Werror', '-Wno-unused-function', '-I', join(RENDERS, 'include'), src, '-o', join(dir, 't'), '-lm']);
   assert.equal(execFileSync(join(dir, 't'), { encoding: 'utf8' }), '-80 0.707107 31 6 4.3 800 2000\n');
 });

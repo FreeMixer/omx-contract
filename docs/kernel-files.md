@@ -49,7 +49,9 @@ and nothing else. A sketch, values abridged
   two-id switch when true, the first when false (the delay's `pingpong` comes up at FX_DELAY_PINGPONG_DEFAULT).
 - `tables`: a travels table whose fields are the controls that name it, in control order (`GATE_LIMITS`).
 - `aggregates`: a travels table whose fields are references to controls declared once above, listed by name.
-- `constants`: scalars, lists and sheets, as items.
+- `constants`: scalars, lists and sheets, as items. A travels table with fields of its own that is no control of the
+  kernel (a plugin host's continuous travels of a kernel, `GATE_CONTINUOUS_TRAVELS`) is no constant: it is an item of
+  its own file beside the kernels, `primitives/<item>.json`, an item map like `primitives.json`.
 - `readouts`, after the controls: the meters the kernel reports, in order, each `{ name, doc, unit, min, max, scale,
   rateHz }`. A readout is no item; `docs/readouts.md` is what each key means and how C and TypeScript render it.
 

@@ -12,9 +12,9 @@ import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT } from './helpers.mjs';
+import { DATA, ROOT, UNION } from './helpers.mjs';
 
-const resolved = (dir = DATA) => resolveData(loadData(dir));
+const resolved = (dir = UNION) => resolveData(loadData(dir));
 const header = (dir) => renderC(resolved(dir))[0].text;
 const json = (dir) => JSON.parse(renderJson(resolved(dir), '0.0.0')[0].text);
 

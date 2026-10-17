@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "BUTTERWORTH_Q": {
+    "kind": "scalar",
+    "doc": "The Q of a second-order Butterworth section, 1/√2 — maximally flat, the one value every Butterworth biquad in the tree designs at: the LR4 crossover section, the pitch pre-filter and the drive's tilt / band / HF sections, in TS and (as `OMX_BUTTERWORTH_Q`) in C (§7, the scalar door).",
+    "unit": "",
+    "value": {
+      "derive": "sqrt",
+      "of": 0.5
+    }
+  }
+}

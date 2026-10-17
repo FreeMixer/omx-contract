@@ -13,7 +13,7 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, resolvedOf, texts } from './helpers.mjs';
+import { DATA, ROOT, UNION, resolvedOf, texts } from './helpers.mjs';
 
 const gate = 'data/kernels/gate.json';
 const readout = (over = {}) => ({ name: 'gainReductionDb', doc: 'The gate gain reduction.', unit: 'dB', min: { ref: 'GATE_LIMITS.rangeDb.min' }, max: 0, scale: 'linear', rateHz: 50, ...over });
@@ -95,7 +95,7 @@ test('semver: a readout appended is MINOR; removed is MINOR in the development p
 });
 
 test('the readouts declared: the gain reduction of the four dynamics kernels, each range read off the travel that bounds it', () => {
-  const data = loadData(DATA);
+  const data = loadData(UNION);
   // the gain reductions; the graphic EQ's designClamped flag (#71) is held by test/geq-mode.test.mjs
   const declared = Object.fromEntries(data.files.filter((f) => f.doc.readouts?.some((x) => x.name === 'gainReductionDb')).map((f) => [f.rel, f.doc.readouts]));
   const bound = {

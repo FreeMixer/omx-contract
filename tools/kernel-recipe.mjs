@@ -6,12 +6,17 @@
  * included, has every artifact recipes/kernel.recipe.json lists and keeps every law it declares.
  * Each checker reads the real files of the tree; none reads a list of kernels.
  *
- *   node tools/kernel-recipe.mjs [--root <tree>] [<kernel> ...]
+ *   node tools/kernel-recipe.mjs [--root <tree> | --owners-fixture] [<kernel> ...]
+ *
+ * omx-contract's own tree holds no kernel: --owners-fixture checks the kernels it carried until 2.14.0, which their
+ * owners now install, from test/fixtures/owners-2.14.0/ and answers-2.14.0/, in a scratch tree with their renders, so
+ * the recipe's checkers keep a real tree to run over.
  *
  * Exit 0 every kernel is complete; 1 a gap, each named with its kernel, its artifact and the wizard
  * step that writes it; 2 usage.
  */
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
@@ -259,11 +264,36 @@ export function completeness(root = ROOT, kernels) {
   return { ok: gaps.length === 0, lines, gaps };
 }
 
+/**
+ * A scratch tree of the kernels omx-contract carried until 2.14.0: data/ and the owners' fixture as one data/, their
+ * answers, and the union's renders where the recipe looks for them. Returns its root; the caller removes it.
+ */
+export function ownersFixtureTree(base = ROOT) {
+  const dir = mkdtempSync(join(tmpdir(), 'omx-kernel-recipe-tree-'));
+  for (const p of ['schema', 'recipes', 'package.json']) cpSync(join(base, p), join(dir, p), { recursive: true });
+  cpSync(join(base, 'data'), join(dir, 'data'), { recursive: true });
+  cpSync(join(base, 'test/fixtures/owners-2.14.0'), join(dir, 'data'), { recursive: true });
+  cpSync(join(base, 'test/fixtures/answers-2.14.0'), join(dir, 'recipes/answers'), { recursive: true });
+  const resolved = resolveData(loadData(join(dir, 'data')));
+  const files = [
+    ...renderC(resolved).map((f) => ['include', f]),
+    ...renderJson(resolved, packageVersion(base)).map((f) => ['share/omx-contract', f]),
+    ...renderTs(resolved).map((f) => ['test/golden/ts', f]),
+  ];
+  for (const [d, f] of files) {
+    mkdirSync(dirname(join(dir, d, f.path)), { recursive: true });
+    writeFileSync(join(dir, d, f.path), f.text);
+  }
+  return dir;
+}
+
 function main(argv) {
   const i = argv.indexOf('--root');
-  const root = resolve(i >= 0 ? argv[i + 1] : ROOT);
+  const scratch = argv.includes('--owners-fixture') ? ownersFixtureTree() : undefined;
+  const root = scratch ?? resolve(i >= 0 ? argv[i + 1] : ROOT);
   const kernels = argv.filter((a, k) => !a.startsWith('--') && argv[k - 1] !== '--root');
   const v = completeness(root, kernels);
+  if (scratch) rmSync(scratch, { recursive: true, force: true });
   for (const l of v.lines) console.log(l);
   for (const g of v.gaps) console.log(`  GAP ${g}`);
   console.log(v.ok ? `kernel completeness: every kernel has every artifact of ${RECIPE}` : `kernel completeness: ${v.gaps.length} gap(s)`);

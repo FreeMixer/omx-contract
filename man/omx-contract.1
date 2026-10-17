@@ -1,0 +1,115 @@
+.\" SPDX-License-Identifier: GPL-3.0-or-later
+.\" Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+.TH OMX-CONTRACT 1 2026-10-17 omx-contract "User Commands"
+.SH NAME
+omx-contract \- validate, format and render the FreeMixer declarations
+.SH SYNOPSIS
+.B omx-contract validate
+.RI [ input ]
+.br
+.B omx-contract fmt
+.RB [ \-\-check ]
+.RI [ input ]
+.br
+.B omx-contract render \-\-target
+.BR c | ts | json
+.B \-\-out
+.I dir
+.RB [ \-\-check ]
+.RI [ input
+.RB [ \-\-package
+.IR name ]
+|
+.B \-\-sheet
+.IR fixture.json ]
+.br
+.B omx-contract semver
+.I previous-tag
+|
+.B \-\-from\-dir
+.I dir
+.B \-\-from\-version
+.I x.y.z
+.RB [ \-\-version
+.IR x.y.z ]
+.br
+.B omx-contract links
+.RB [ \-\-check ]
+.RB [ \-\-root
+.IR tree ]
+.RI [ input ]
+.RB [ \-\-package
+.IR name ]
+.RB [ \-\-at
+.IR package = tree ]...
+.RB [ \-\-require\-impl ]
+.RB [ \-\-json ]
+.SH DESCRIPTION
+.B omx-contract
+reads the FreeMixer declarations, the JSON data every knob, range and default
+is written down in once, checks them against their JSON Schema and the rules a
+schema cannot express, and renders them as C headers, a TypeScript module or
+one resolved JSON file.
+.PP
+The
+.I input
+is the data bundled with the command by default, or one of:
+.TP
+.BI \-\-data " dir"
+a data directory;
+.TP
+.BI \-\-contract\-dir " dir"
+a contract directory, where each package installs its own definitions;
+.TP
+.B \-\-installed
+the installed contract directory:
+.B $OMX_CONTRACT_PATH
+if set, else the
+.I contractdir
+that
+.B pkg\-config
+reports for omx-contract.
+.PP
+A contract directory input takes
+.BI \-\-needs " package" @\(aq>= x.y.z\(aq
+(repeatable) to require a package at a release, and
+.B \-\-json
+to print a refusal as JSON on standard output as well.
+.SH COMMANDS
+.TP
+.B validate
+Check the input against the schema and the semantic rules.
+.TP
+.B fmt
+Rewrite the input in the one formatting, or with
+.B \-\-check
+only report the files that differ.
+.TP
+.B render
+Write the C, TypeScript or JSON render of the input into
+.IR dir ,
+or with
+.B \-\-check
+compare it with what
+.I dir
+already holds.
+.TP
+.B semver
+Report whether the version bump covers every change since a previous release.
+.TP
+.B links
+Check that each value's source links still name the code they cite.
+.SH EXIT STATUS
+0 is a pass, 1 a failure naming what failed, and 2 a usage or environment
+error, which is never a pass. A refusal of the contract directory reader
+prints its contract.* code first on the line.
+.SH EXAMPLES
+Render the union of the installed contract directory as JSON:
+.PP
+.RS
+omx-contract render \-\-target json \-\-out build/contract \-\-installed
+.RE
+.SH SEE ALSO
+.BR pkg\-config (1)
+.PP
+https://github.com/FreeMixer/omx-contract

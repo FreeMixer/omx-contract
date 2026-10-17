@@ -14,10 +14,10 @@ import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, relOf, scratchData } from './helpers.mjs';
 
-const json = (dir = DATA) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
-const header = (dir = DATA) => renderC(resolveData(loadData(dir)))[0].text;
+const json = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
+const header = (dir = UNION) => renderC(resolveData(loadData(dir)))[0].text;
 
 // omx-dsp's OmxHrpFamily order, which is also the console's INSTRUMENT_FAMILIES order.
 const FAMILIES = ['drums', 'percussion', 'bass', 'guitar', 'keys', 'vocals', 'brass', 'wind', 'strings', 'playback'];
@@ -63,13 +63,13 @@ test('perturbation: move a family\'s range, every render follows and --check goe
   assert.match(header(dir), /^#define OMX_HRP_FAMILY_SEARCH_WIND_F0_MAX_HZ 2700$/m);
   assert.match(renderTs(resolveData(loadData(dir)))[0].text, /"f0MaxHz": 2700/);
   assert.equal(json(dir).items.HRP_FAMILY_SEARCH.value.wind.f0MaxHz, 2700);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
-  assert.equal(main(['render', '--target', 'json', '--out', `${ROOT}/share/omx-contract`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
 });
 
 test('perturbation: reorder two families, the integers move and --check goes red', () => {
   const dir = scratchData();
-  editData(dir, 'primitives.json', (d) => { const ids = d.INSTRUMENT_FAMILIES.ids; [ids[0], ids[1]] = [ids[1], ids[0]]; });
+  editData(dir, relOf('INSTRUMENT_FAMILIES').slice('data/'.length), (d) => { const ids = d.INSTRUMENT_FAMILIES.ids; [ids[0], ids[1]] = [ids[1], ids[0]]; });
   assert.match(header(dir), /^  OMX_INSTRUMENT_FAMILIES_PERCUSSION = 0,$/m);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
 });

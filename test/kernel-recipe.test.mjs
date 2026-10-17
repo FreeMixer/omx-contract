@@ -11,14 +11,18 @@ import { test } from 'node:test';
 import { ROOT, completeness, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
 import { asData, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
 import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
-import { declOf } from './helpers.mjs';
+import { RENDERS, UNION, declOf } from './helpers.mjs';
 
-/** A scratch copy of everything the recipe's checkers read. */
+/**
+ * A scratch tree of everything the recipe's checkers read, over the union of data/ and the owners' fixture (the
+ * kernels the arms break) and their answers, with the union's renders in the place of the committed ones.
+ */
 function scratchTree() {
   const dir = mkdtempSync(join(tmpdir(), 'omx-kernel-recipe-'));
-  for (const p of ['data', 'schema', 'recipes', 'include', 'share', 'test/golden', 'package.json']) {
-    cpSync(join(ROOT, p), join(dir, p), { recursive: true });
-  }
+  for (const p of ['schema', 'recipes', 'package.json']) cpSync(join(ROOT, p), join(dir, p), { recursive: true });
+  cpSync(UNION, join(dir, 'data'), { recursive: true });
+  cpSync(join(ROOT, 'test/fixtures/answers-2.14.0'), join(dir, 'recipes/answers'), { recursive: true });
+  for (const p of ['include', 'share', 'test/golden']) cpSync(join(RENDERS, p), join(dir, p), { recursive: true });
   return dir;
 }
 /** Edit one file of a scratch tree: `fn(doc, at)`, `at(name)` locating an item's declaration in a data file (declOf). */
@@ -31,9 +35,10 @@ const edit = (root, rel, fn) => {
 const gapsOf = (root) => completeness(root).gaps.join('\n');
 
 test('every kernel of the tree, the released ones included, has every artifact of the recipe', () => {
-  const v = completeness(ROOT);
-  assert.deepEqual(v.gaps, []);
-  assert.ok(kernelNames(ROOT).length >= 10, 'the check runs over the kernels it finds');
+  assert.deepEqual(completeness(ROOT).gaps, ['no kernel under data/kernels: a check over nothing proves nothing'], 'omx-contract holds no kernel, and the check says so');
+  const union = scratchTree();
+  assert.deepEqual(completeness(union).gaps, [], 'and over the owners\' kernels of the fixture');
+  assert.equal(kernelNames(union).length, 28);
 });
 
 test('a kernel without its answers is a gap naming the import step', () => {

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { lagrangeReadL1, loadData } from '../lib/data.mjs';
 import { validateData } from '../lib/validate.mjs';
-import { resolvedOf, texts } from './helpers.mjs';
+import { relOf, resolvedOf, texts } from './helpers.mjs';
 
 const problems = (t) => validateData(loadData(null, t));
 const has = (t, item, rule) => problems(t).some((p) => p.item === item && p.rule === rule);
@@ -20,12 +20,12 @@ test('a byKind default outside its travel is refused', () => {
 });
 
 test('a reference that does not resolve is refused', () => {
-  assert.ok(has(texts((d) => { d['data/primitives.json'].XOVER_LIMITS.value.lr4SectionQ = { ref: 'BUTTERWORTH_QQ' }; }), 'XOVER_LIMITS', 'reference'));
+  assert.ok(has(texts((d) => { d[relOf('XOVER_LIMITS')].XOVER_LIMITS.value.lr4SectionQ = { ref: 'BUTTERWORTH_QQ' }; }), 'XOVER_LIMITS', 'reference'));
 });
 
 test('a reference cycle is refused', () => {
   const t = texts((d) => {
-    d['data/primitives.json'].BUTTERWORTH_Q.value = { ref: 'XOVER_LIMITS.lr4SectionQ' };
+    d[relOf('BUTTERWORTH_Q')].BUTTERWORTH_Q.value = { ref: 'XOVER_LIMITS.lr4SectionQ' };
   });
   assert.ok(problems(t).some((p) => p.rule === 'reference' && /cycle/.test(p.message)));
 });
@@ -51,7 +51,7 @@ test('the derivations evaluate to the built values openmixer computes', () => {
 });
 
 test('a reference follows its target: move BUTTERWORTH_Q and both readers move', () => {
-  const r = resolvedOf(texts((d) => { d['data/primitives.json'].BUTTERWORTH_Q.value = { derive: 'sqrt', of: 0.49 }; }));
+  const r = resolvedOf(texts((d) => { d[relOf('BUTTERWORTH_Q')].BUTTERWORTH_Q.value = { derive: 'sqrt', of: 0.49 }; }));
   assert.equal(r.get('XOVER_LIMITS').value.lr4SectionQ, 0.7);
   assert.equal(r.get('PITCH_KERNEL').value.prefilterQ, 0.7);
 });

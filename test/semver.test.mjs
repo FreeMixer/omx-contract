@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { main } from '../bin/omx-contract.mjs';
 import { bumpOf, classify, refusal } from '../lib/semver.mjs';
-import { DATA, dropDecl, editData, resolvedOf, scratchData, texts } from './helpers.mjs';
+import { DATA, dropDecl, editData, relOf, resolvedOf, scratchData, texts } from './helpers.mjs';
 
 const base = resolvedOf(texts());
 const level = (fn) => classify(base, resolvedOf(texts(fn))).level;
@@ -16,7 +16,7 @@ test('a travel widened is MINOR', () => assert.equal(level((d, at) => { at('data
 test('a travel narrowed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.ratio').max = 50; }), 'major'));
 test('a unit changed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.ratio').unit = '%'; }), 'major'));
 test('a kernel constant changed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/transient.json', 'TRANSIENT_REF_DB').value = 7; }), 'major'));
-test('a derived constant changed is MAJOR', () => assert.equal(level((d) => { d['data/primitives.json'].FDELAY_MOD_READ_ORDER.value = 5; }), 'major'));
+test('a derived constant changed is MAJOR', () => assert.equal(level((d) => { d[relOf('FDELAY_MOD_READ_ORDER')].FDELAY_MOD_READ_ORDER.value = 5; }), 'major'));
 test('an item added is MINOR, removed is MINOR in the development phase and MAJOR after it', () => {
   assert.equal(level((d) => { d['data/rates.json'].NEW_RATE = { kind: 'scalar', doc: 'new', unit: 'Hz', value: 1 }; }), 'minor');
   const gone = texts((d) => { dropDecl('data/kernels/chorus.json', d['data/kernels/chorus.json'], 'CHORUS_SPREAD_RANGE'); });

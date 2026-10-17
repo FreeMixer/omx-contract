@@ -13,9 +13,9 @@ import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const resolved = (dir = DATA) => resolveData(loadData(dir));
+const resolved = (dir = UNION) => resolveData(loadData(dir));
 const header = (dir) => renderC(resolved(dir))[0].text;
 const json = (dir) => JSON.parse(renderJson(resolved(dir), '0.0.0')[0].text);
 
@@ -46,5 +46,5 @@ test('perturbation: the band switch\'s default removed, the C default goes and -
   editData(dir, 'kernels/eq.json', (d, at) => { delete at('EQ_BAND_ONS').default; });
   assert.doesNotMatch(header(dir), /OMX_EQ_BAND_ONS_DEFAULT/);
   assert.equal(json(dir).items.EQ_BAND_ONS.default, undefined);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
 });

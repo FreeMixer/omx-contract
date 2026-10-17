@@ -3,20 +3,309 @@
   "$id": "https://github.com/FreeMixer/omx-contract/raw/main/schema/omx-contract.schema.json",
   "title": "omx-contract data file",
   "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet, a list or a set. GPL-3.0-or-later.",
+  "x-omx-schema-version": "2.15.0",
   "type": "object",
-  "properties": {
-    "$schema": { "type": "string" }
+  "if": { "required": ["origin"] },
+  "then": { "$ref": "#/$defs/descriptor" },
+  "else": {
+    "properties": {
+      "$schema": { "type": "string" },
+      "requires": { "$ref": "#/$defs/requires" },
+      "source": { "$ref": "#/$defs/source" },
+      "render": { "$ref": "#/$defs/render" }
+    },
+    "propertyNames": { "anyOf": [{ "enum": ["$schema", "requires", "source", "render"] }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
+    "additionalProperties": { "$ref": "#/$defs/item" }
   },
-  "propertyNames": { "anyOf": [{ "const": "$schema" }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
-  "additionalProperties": { "$ref": "#/$defs/item" },
   "$defs": {
     "unit": {
       "description": "The closed list of units the items use; \"s\" is seconds and \"min\" minutes, \"x\" is a multiplier, \"\" is a ratio or a fraction.",
       "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", ""]
     },
+    "descriptorUnit": {
+      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS has no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
+      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "unknown"] }]
+    },
+    "meaning": {
+      "description": "What a control does, the closed list seeded from the panel roles; the LV2 param: or lv2:designation name where LV2 has the term (docs/descriptors.md). unknown: the plugin states none.",
+      "enum": [
+        "gain", "threshold", "ratio", "attack", "release", "hold", "decay", "frequency", "cutoffFrequency", "resonance", "bypass",
+        "wetDryRatio", "delay", "enabled",
+        "range", "knee", "hysteresis", "makeup", "lookahead", "ceiling", "output", "q", "slope", "width", "drive", "tone", "rate",
+        "depth", "feedback", "spread", "predelay", "size", "damping", "lowCut", "highCut", "shift", "fine", "sync", "division", "listen",
+        "unknown"
+      ]
+    },
+    "handle": {
+      "description": "A host's handle on a control or a port: a CLAP id (an integer) or an LV2 port symbol.",
+      "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" }]
+    },
+    "descriptor": {
+      "type": "object",
+      "description": "One plugin described in the contract's words (docs/descriptors.md): its identity, controls, ports, instrument, what it needs from a host and its latency. It declares no item.",
+      "properties": {
+        "$schema": { "type": "string" },
+        "requires": { "$ref": "#/$defs/requires" },
+        "origin": { "enum": ["authored", "built", "scanned"], "description": "authored by the owner; built from the owner's built binary; scanned on a user's machine." },
+        "plugin": { "$ref": "#/$defs/plugin" },
+        "controls": { "type": "array", "items": { "$ref": "#/$defs/descriptorControl" } },
+        "ports": { "type": "array", "items": { "$ref": "#/$defs/port" } },
+        "instrument": { "$ref": "#/$defs/instrument" },
+        "needs": { "$ref": "#/$defs/needs" },
+        "latency": { "$ref": "#/$defs/latency" },
+        "source": { "$ref": "#/$defs/source" }
+      },
+      "required": ["origin", "plugin", "controls", "ports"],
+      "additionalProperties": false
+    },
+    "plugin": {
+      "type": "object",
+      "description": "The plugin's identity as it states it: id, the CLAP id or the LV2 URI.",
+      "properties": {
+        "id": { "$ref": "#/$defs/text" },
+        "format": { "enum": ["clap", "lv2"] },
+        "uri": { "$ref": "#/$defs/text" },
+        "name": { "$ref": "#/$defs/text" },
+        "vendor": { "$ref": "#/$defs/text" },
+        "version": { "$ref": "#/$defs/text" },
+        "features": {
+          "description": "CLAP's feature names; LV2 classes map onto them.",
+          "type": "array",
+          "items": { "enum": ["audio-effect", "instrument", "note-effect", "analyzer"] },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": ["id", "format", "name", "features"],
+      "additionalProperties": false
+    },
+    "descriptorTravel": {
+      "type": "object",
+      "description": "A descriptor control's travel: the kernel travel's words, unit and scale always stated (unknown when the plugin states none).",
+      "properties": {
+        "min": { "$ref": "#/$defs/number" },
+        "max": { "$ref": "#/$defs/number" },
+        "step": { "$ref": "#/$defs/number" },
+        "unit": { "$ref": "#/$defs/descriptorUnit" },
+        "default": { "$ref": "#/$defs/number" },
+        "defaultFrom": { "enum": ["desk"] },
+        "scale": { "type": "string", "pattern": "^[a-z]+$", "description": "An id of PARAM_SCALES, or unknown." },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" }
+      },
+      "required": ["min", "max", "unit", "scale"],
+      "additionalProperties": false
+    },
+    "descriptorControl": {
+      "type": "object",
+      "description": "One control of a plugin: the kernel control's words, with the host's id, the symbol a session keys it by, a label, a group, a meaning and the CLAP param flags.",
+      "properties": {
+        "id": { "$ref": "#/$defs/handle" },
+        "symbol": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$", "description": "The stable name a session keys the control by, beside a CLAP clap_id: our authored plugins' parameter-contract symbol. An LV2 control's id is its symbol already." },
+        "name": { "$ref": "#/$defs/text" },
+        "label": { "$ref": "#/$defs/text" },
+        "doc": { "$ref": "#/$defs/text" },
+        "kind": { "enum": ["travel", "choice", "toggle", "trigger"] },
+        "travel": { "$ref": "#/$defs/descriptorTravel" },
+        "ids": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9]+$" }, "minItems": 1, "uniqueItems": true },
+        "labels": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
+        "values": { "type": "array", "items": { "type": "number" }, "minItems": 1 },
+        "default": { "oneOf": [{ "type": "string", "pattern": "^[A-Za-z0-9]+$" }, { "type": "boolean" }] },
+        "count": { "$ref": "#/$defs/name" },
+        "when": {
+          "type": "object",
+          "properties": { "control": { "$ref": "#/$defs/text" }, "is": { "type": "string", "pattern": "^[A-Za-z0-9]+$" } },
+          "required": ["control", "is"],
+          "additionalProperties": false
+        },
+        "group": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
+        "meaning": { "$ref": "#/$defs/meaning" },
+        "hidden": { "type": "boolean" },
+        "readonly": { "type": "boolean" },
+        "automatable": { "type": "boolean" },
+        "source": { "$ref": "#/$defs/source" }
+      },
+      "required": ["id", "name", "kind"],
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "travel" } } },
+          "then": { "required": ["travel"], "properties": { "ids": false, "labels": false, "values": false, "default": false } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "choice" } } },
+          "then": { "required": ["ids"], "properties": { "travel": false, "default": { "type": "string" } } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "toggle" } } },
+          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "default": { "type": "boolean" } } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "trigger" } } },
+          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "default": false } }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "port": {
+      "type": "object",
+      "description": "One port of a plugin, in the plugin's order: an audio port's role, channels and layout; a note port's dialects.",
+      "properties": {
+        "id": { "$ref": "#/$defs/handle" },
+        "name": { "$ref": "#/$defs/text" },
+        "kind": { "enum": ["audio", "midi", "note", "cv"] },
+        "direction": { "enum": ["in", "out"] },
+        "role": { "enum": ["main", "sidechain", "aux"] },
+        "channels": { "type": "integer", "minimum": 1 },
+        "layout": { "enum": ["mono", "stereo", "surround"] },
+        "dialects": { "type": "array", "items": { "enum": ["clap", "midi", "midiMpe", "midi2"] }, "minItems": 1, "uniqueItems": true },
+        "source": { "$ref": "#/$defs/source" }
+      },
+      "required": ["id", "name", "kind", "direction"],
+      "additionalProperties": false
+    },
+    "instrument": {
+      "type": "object",
+      "description": "Present when the plugin's features hold instrument: notes in, audio out. voices only when the plugin states it.",
+      "properties": {
+        "voices": { "type": "integer", "minimum": 1 },
+        "polyphonic": { "type": "boolean" }
+      },
+      "required": ["polyphonic"],
+      "additionalProperties": false
+    },
+    "needs": {
+      "type": "object",
+      "description": "What the host must give: the transport, the tempo, the CLAP host extensions or LV2 features asked for.",
+      "properties": {
+        "transport": { "type": "boolean" },
+        "tempo": { "type": "boolean" },
+        "extensions": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "array", "items": { "$ref": "#/$defs/text" }, "uniqueItems": true },
+            "optional": { "type": "array", "items": { "$ref": "#/$defs/text" }, "uniqueItems": true }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "latency": {
+      "type": "object",
+      "description": "reports: the plugin reports its latency; frames: a constant the plugin or kernel defines, never a measured figure.",
+      "properties": {
+        "reports": { "type": "boolean" },
+        "frames": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "$ref": "#/$defs/ref" }] }
+      },
+      "required": ["reports"],
+      "additionalProperties": false
+    },
     "text": { "type": "string", "minLength": 1 },
     "since": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "The release that first carried an item declared outside the kernels (rates.json, primitives.json); a kernel's items record it in recipes/answers/." },
     "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+    "floor": { "type": "string", "pattern": "^>= (0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$", "description": "A version floor, never a ceiling." },
+    "requires": {
+      "type": "object",
+      "description": "What a file needs to be read: omx-contract-schema, the lowest schema its words need; any other key a package whose items it refers to. Each a floor.",
+      "properties": { "omx-contract-schema": { "$ref": "#/$defs/floor" } },
+      "propertyNames": { "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+      "additionalProperties": { "$ref": "#/$defs/floor" },
+      "minProperties": 1
+    },
+    "link": {
+      "type": "string",
+      "description": "<path>#<symbol>[.<field>|[<key>]]...: a path relative to the owner's root, a symbol defined there (enum X and struct X name a tag), and selectors into its value.",
+      "pattern": "^[A-Za-z0-9_+.-]+(/[A-Za-z0-9_+.-]+)*#((enum|struct|union) )?[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*|\\[[A-Za-z0-9_.-]+\\])*$"
+    },
+    "linkAt": {
+      "type": "object",
+      "description": "One link with its own at: <package>@<version> of the tree it lies in, in place of the source's (an impl in the owner's tree beside a from in the console's, at the commit it was imported from).",
+      "properties": { "link": { "$ref": "#/$defs/link" }, "at": { "$ref": "#/$defs/at" } },
+      "required": ["link", "at"],
+      "additionalProperties": false
+    },
+    "oneLink": { "oneOf": [{ "$ref": "#/$defs/link" }, { "$ref": "#/$defs/linkAt" }] },
+    "at": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*@[A-Za-z0-9._+-]+$" },
+    "links": { "oneOf": [{ "$ref": "#/$defs/oneLink" }, { "type": "array", "items": { "$ref": "#/$defs/oneLink" }, "minItems": 1, "uniqueItems": true }] },
+    "source": {
+      "type": "object",
+      "description": "Where a definition comes from and where it is implemented (docs/contract-dir.md): from, the provenance, a link compared to the whole value or a map from a field path of the value to a link; impl, the connector; at, <package>@<version> of links outside the owner's tree. A link may carry its own at ({ link, at }), which stands for it in place of the source's.",
+      "properties": {
+        "from": {
+          "oneOf": [
+            { "$ref": "#/$defs/oneLink" },
+            { "type": "object", "propertyNames": { "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$" }, "additionalProperties": { "$ref": "#/$defs/oneLink" }, "minProperties": 1 }
+          ]
+        },
+        "impl": { "$ref": "#/$defs/links" },
+        "at": { "$ref": "#/$defs/at" }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "render": {
+      "type": "object",
+      "description": "How the owner's own renders of this file are framed (docs/render.md): c, the headers rendered from the file's items (or its package's); ts, the module of the file's items. It declares no item; the tool reads it and names none.",
+      "properties": {
+        "c": { "type": "array", "items": { "$ref": "#/$defs/renderHeader" }, "minItems": 1 },
+        "ts": {
+          "type": "object",
+          "properties": { "module": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" } },
+          "required": ["module"],
+          "additionalProperties": false
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "renderLine": { "type": "string", "minLength": 1, "pattern": "^(?!.*\\*/)[^\\n\\r]*$", "description": "One line of prose inside a C comment: no line break, no comment end." },
+    "renderGlob": { "type": "string", "pattern": "^\\*?[A-Za-z][A-Za-z0-9]*\\*?$", "description": "A field name, its start (`worker*`), its end (`*Dbfs`) or a part of it (`*Ring*`)." },
+    "renderHeader": {
+      "type": "object",
+      "description": "One C header: its path, include guard, the project its licence block names, the banner under GENERATED, the @file brief, the system headers it includes, which items it reads (scope: the file's, the default, or the package's) and its sections. numbers: every sheet, each field <prefix><FIELD> with a u literal, a level field (levels) a float one, the omitted fields left out, each with its docs line. codes: every codes item, <prefix><NAME> its code string. scalars: every number spelled OMX_<macro> as omx_contract_limits.h spells it, sorted by macro. limits: every section of omx_contract_limits.h, the same defines.",
+      "properties": {
+        "header": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(/[a-z][a-z0-9_]*)*\\.h$" },
+        "guard": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*_H$" },
+        "project": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+        "banner": { "type": "array", "items": { "$ref": "#/$defs/renderLine" }, "minItems": 1 },
+        "brief": { "$ref": "#/$defs/renderLine" },
+        "includes": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9_/]*\\.h$" }, "uniqueItems": true },
+        "scope": { "enum": ["file", "package"] },
+        "numbers": {
+          "type": "object",
+          "properties": {
+            "comment": { "$ref": "#/$defs/renderLine" },
+            "prefix": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*_$" },
+            "omit": { "type": "array", "items": { "$ref": "#/$defs/renderGlob" }, "uniqueItems": true },
+            "levels": { "$ref": "#/$defs/renderGlob" }
+          },
+          "required": ["comment", "prefix"],
+          "additionalProperties": false
+        },
+        "codes": {
+          "type": "object",
+          "properties": { "comment": { "$ref": "#/$defs/renderLine" }, "prefix": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*_$" } },
+          "required": ["comment", "prefix"],
+          "additionalProperties": false
+        },
+        "scalars": {
+          "type": "object",
+          "properties": { "comment": { "$ref": "#/$defs/renderLine" } },
+          "required": ["comment"],
+          "additionalProperties": false
+        },
+        "limits": {
+          "type": "object",
+          "properties": { "comment": { "$ref": "#/$defs/renderLine" } },
+          "additionalProperties": false
+        }
+      },
+      "required": ["header", "guard", "project", "banner", "brief"],
+      "anyOf": [{ "required": ["numbers"] }, { "required": ["codes"] }, { "required": ["scalars"] }, { "required": ["limits"] }],
+      "additionalProperties": false
+    },
     "ref": {
       "type": "object",
       "properties": { "ref": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*(\\.[A-Za-z][A-Za-z0-9]*)*$" } },
@@ -107,6 +396,7 @@
       "properties": {
         "kind": { "const": "scalar" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "unit": { "$ref": "#/$defs/unit" },
@@ -120,6 +410,7 @@
       "properties": {
         "kind": { "const": "travels" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "fields": {
@@ -154,6 +445,7 @@
       "properties": {
         "kind": { "const": "sheet" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "value": { "$ref": "#/$defs/sheetValue" },
@@ -173,6 +465,7 @@
       "properties": {
         "kind": { "const": "list" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "unit": { "$ref": "#/$defs/unit" },
@@ -188,10 +481,11 @@
     },
     "codes": {
       "type": "object",
-      "description": "Refusal codes: a lowerCamel name per code, the code itself (`hosting.<group>.<reason>`, lower case, read by verdicts and never reworded) and optionally one line of prose.",
+      "description": "Refusal codes: a lowerCamel name per code, the code itself (`hosting.<group>.<reason>`, or `contract.<group>.<reason>` for the reader's own, lower case, read by verdicts and never reworded) and optionally one line of prose.",
       "properties": {
         "kind": { "const": "codes" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "codes": {
@@ -200,7 +494,7 @@
           "additionalProperties": {
             "type": "object",
             "properties": {
-              "code": { "type": "string", "pattern": "^hosting(\\.[a-z0-9]+(-[a-z0-9]+)*){2,}$" },
+              "code": { "type": "string", "pattern": "^(hosting|contract)(\\.[a-z0-9]+(-[a-z0-9]+)*){2,}$" },
               "doc": { "$ref": "#/$defs/text" }
             },
             "required": ["code"],
@@ -218,6 +512,7 @@
       "properties": {
         "kind": { "const": "set" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "ids": {
