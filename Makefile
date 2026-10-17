@@ -6,17 +6,25 @@
 # (CONTRACTDIR/<schema major>/omx-contract/, docs/contract-dir.md) with tools/install-contract-dir.sh, which is
 # installed beside the schema for the packages that install their own definitions. No node runs here: a release build (RPM, deb) installs what
 # `omx-contract render --check` already holds equal to the data (R-056). `make test` is the node suite.
+#
+# `make install-cli` installs the omx-contract command, which needs node at run time: the CLI's own files under
+# CLIDIR with its runtime dependencies unpacked from the npm tarballs in vendor/ (no network, no npm) and their
+# development files (dot files, tests, benchmarks, lint and TypeScript configuration) left out, the command in
+# BINDIR and its man page.
 
 PREFIX ?= /usr/local
 INCLUDEDIR ?= $(PREFIX)/include
 DATADIR ?= $(PREFIX)/share
 PKGCONFIGDIR ?= $(DATADIR)/pkgconfig
 CONTRACTDIR ?= $(DATADIR)/omx-contract/contract.d
+BINDIR ?= $(PREFIX)/bin
+CLIDIR ?= $(PREFIX)/lib/omx-contract
+MANDIR ?= $(DATADIR)/man
 SCHEMA_MAJOR := $(shell sed -n 's/^  "x-omx-schema-version": "\([0-9]*\)\..*",$$/\1/p' schema/omx-contract.schema.json)
 CC ?= cc
 VERSION := $(shell sed -n 's/^  "version": "\(.*\)",$$/\1/p' package.json)
 
-.PHONY: all check completeness public-sources install test
+.PHONY: all check completeness public-sources install install-cli test
 
 all:
 	@test -n "$(VERSION)" || { echo "no version in package.json" >&2; exit 1; }
@@ -39,6 +47,26 @@ install: all
 	  -e 's|@CONTRACTDIR@|$(CONTRACTDIR)|' \
 	  omx-contract.pc.in > $(DESTDIR)$(PKGCONFIGDIR)/omx-contract.pc
 	chmod 0644 $(DESTDIR)$(PKGCONFIGDIR)/omx-contract.pc
+
+install-cli: all
+	install -d $(DESTDIR)$(CLIDIR)/bin $(DESTDIR)$(CLIDIR)/lib $(DESTDIR)$(CLIDIR)/render/c $(DESTDIR)$(CLIDIR)/schema \
+	  $(DESTDIR)$(CLIDIR)/data $(DESTDIR)$(BINDIR) $(DESTDIR)$(MANDIR)/man1
+	install -m 0755 bin/omx-contract.mjs $(DESTDIR)$(CLIDIR)/bin/
+	install -m 0644 lib/*.mjs $(DESTDIR)$(CLIDIR)/lib/
+	install -m 0644 render/*.mjs $(DESTDIR)$(CLIDIR)/render/
+	install -m 0644 render/c/*.mjs $(DESTDIR)$(CLIDIR)/render/c/
+	install -m 0644 schema/omx-contract.schema.json $(DESTDIR)$(CLIDIR)/schema/
+	install -m 0644 data/*.json $(DESTDIR)$(CLIDIR)/data/
+	install -m 0644 package.json $(DESTDIR)$(CLIDIR)/
+	for t in vendor/*.tgz; do \
+	  m=$$(basename $$t .tgz | sed 's/-[0-9][^-]*$$//'); \
+	  install -d $(DESTDIR)$(CLIDIR)/node_modules/$$m && tar -xzf $$t --no-same-owner --strip-components=1 -C $(DESTDIR)$(CLIDIR)/node_modules/$$m || exit 1; \
+	  find $(DESTDIR)$(CLIDIR)/node_modules/$$m -mindepth 1 -maxdepth 1 \( -name '.*' -o -name test -o -name spec -o -name benchmark \
+	    -o -name 'eslint.config.*' -o -name 'tsconfig*.json' \) -exec rm -rf {} + || exit 1; \
+	done
+	printf '#!/bin/sh\nexec node %s/bin/omx-contract.mjs "$$@"\n' '$(CLIDIR)' > $(DESTDIR)$(BINDIR)/omx-contract
+	chmod 0755 $(DESTDIR)$(BINDIR)/omx-contract
+	install -m 0644 man/omx-contract.1 $(DESTDIR)$(MANDIR)/man1/
 
 test:
 	npm test

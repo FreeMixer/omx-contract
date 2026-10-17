@@ -45,6 +45,16 @@ jobs:
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check --contract-dir "$dir"
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check --contract-dir "$dir"
           node bin/omx-contract.mjs links --check
+      - id: handback-installed-cli
+        name: The installed omx-contract command, with its vendored dependencies only, reads the installed directory
+        run: |
+          make install-cli DESTDIR="$RUNNER_TEMP/inst" PREFIX=/usr DATADIR=/usr/share
+          cli="$RUNNER_TEMP/inst/usr/lib/omx-contract/bin/omx-contract.mjs"
+          dir="$RUNNER_TEMP/inst/usr/share/omx-contract/contract.d"
+          cd "$RUNNER_TEMP"
+          node "$cli" validate --contract-dir "$dir"
+          node "$cli" render --target json --out "$RUNNER_TEMP/cli-json" --contract-dir "$dir"
+          cmp "$RUNNER_TEMP/cli-json/omx-contract.json" "$GITHUB_WORKSPACE/share/omx-contract/omx-contract.json"
       - id: handback-test
         name: Tests (schema, semantic checks, goldens, perturbation, semver, round trip)
         run: npm test
