@@ -12,8 +12,8 @@ import {
   cStringLiteral, genCoreLimitBlock, genDeclaredListsBlock, genDeclaredRates, genDeclaredScalarsBlock, genLimitBlock, renderContractLimits,
   scalarLiteral,
 } from './c/contract-limits-render.mjs';
-import { renderOwnerHeader } from './c/owner-headers.mjs';
-import { doors } from './doors.mjs';
+import { ownerNames, renderOwnerHeader } from './c/owner-headers.mjs';
+import { doors, isNativeTable } from './doors.mjs';
 import { packageItems } from '../lib/data.mjs';
 
 const defined = (text) => new Set([...text.matchAll(/^#define (OMX_\w+)/gm)].map((m) => m[1]));
@@ -145,6 +145,31 @@ static inline int omx_eq_default_type(unsigned index, unsigned count) {
   if (count < 2) return OMX_EQ_BAND_TYPES_BELL;
   return index == 0 ? OMX_EQ_BAND_TYPES_LOW_SHELF : index == count - 1 ? OMX_EQ_BAND_TYPES_HIGH_SHELF : OMX_EQ_BAND_TYPES_BELL;
 }`;
+}
+
+/**
+ * The C names the c render spells for each item, `Map<name, Set<C name>>`, beyond OMX_<NAME>_*: a `_LIMITS` table's
+ * fields (OMX_<PREFIX>_<FIELD>_MIN/_MAX/_DEFAULT), a `c.alias` (OMX_<FACT>_<FIELD>_*), a declared scalar's macro
+ * (OMX_<MACRO>, a sheet's or `_KERNEL` item's leaves included) and the names a file's `render.c` word gives its items
+ * (docs/render.md). What `links` takes as naming the item.
+ */
+export function cNamesOf(resolved) {
+  const out = new Map();
+  const add = (name, c) => { if (!out.has(name)) out.set(name, new Set()); out.get(name).add(c); };
+  const travel = (name, p) => { for (const s of ['MIN', 'MAX', 'DEFAULT']) add(name, `${p}_${s}`); };
+  for (const r of resolved.values()) {
+    if (isNativeTable(r)) for (const f of Object.keys(r.value)) travel(r.name, `OMX_${r.name.slice(0, -'_LIMITS'.length)}_${constCase(f)}`);
+    if (r.c?.alias) travel(r.name, `OMX_${r.c.alias.fact.toUpperCase()}_${constCase(r.c.alias.field)}`);
+  }
+  for (const s of doors(resolved).DECLARED_SCALARS) {
+    const head = s.path.split('.')[0];
+    add(head, `OMX_${s.macro}`);
+    add(head, `OMX_${s.macro}_DOUBLE`);
+  }
+  for (const f of resolved.renders ?? []) {
+    for (const h of Array.isArray(f.render.c) ? f.render.c : []) for (const n of f.items) for (const [c] of ownerNames(h, resolved.get(n))) add(n, c);
+  }
+  return out;
 }
 
 /**
