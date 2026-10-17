@@ -6,7 +6,11 @@
  * None of them copies the values, so moving a value moves both names; validate and semver read the word too.
  */
 import assert from 'node:assert/strict';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { test } from 'node:test';
+import { main } from '../bin/omx-contract.mjs';
 import { atLeast } from '../lib/contract-dir.mjs';
 import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { classify } from '../lib/semver.mjs';
@@ -14,7 +18,7 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { ROOT, UNION, resolvedOf, texts } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, resolvedOf, scratchData, texts } from './helpers.mjs';
 
 // ORACLE_FLOOR_RATES renamed FLOOR_RENAMED, its old name kept until 9.9.0
 const rename = (values) => texts((d) => {
@@ -60,7 +64,7 @@ test('formerly: the ts render binds the old export to the new one, deprecated', 
 
 test('formerly: the json render maps the old name to the item, with no values of its own', () => {
   const doc = JSON.parse(renderJson(resolvedOf(rename()), '0.0.0')[0].text);
-  assert.deepEqual(doc.formerNames, { ORACLE_FLOOR_RATES: { name: 'FLOOR_RENAMED', removedIn: '9.9.0' } });
+  assert.deepEqual(doc.formerNames.ORACLE_FLOOR_RATES, { name: 'FLOOR_RENAMED', removedIn: '9.9.0' });
   assert.equal(doc.items.ORACLE_FLOOR_RATES, undefined);
   assert.deepEqual(doc.items.FLOOR_RENAMED.formerly, { name: 'ORACLE_FLOOR_RATES', removedIn: '9.9.0' });
   assert.equal(JSON.parse(renderJson(resolvedOf(texts((d) => {
@@ -106,7 +110,64 @@ test('formerly: no former name outlives the release that removes it', () => {
   assert.deepEqual(overdue(resolveData(loadData(UNION)), packageVersion(ROOT)), [],
     'release the removal: delete each item\'s formerly word and re-render');
   // the arm reads a version: the rename above, at its removal release and after, is overdue; before it, not
-  assert.deepEqual(overdue(resolvedOf(rename()), '9.9.0'), ['ORACLE_FLOOR_RATES (removedIn 9.9.0, now FLOOR_RENAMED)']);
-  assert.equal(overdue(resolvedOf(rename()), '10.0.0').length, 1);
-  assert.deepEqual(overdue(resolvedOf(rename()), '9.8.9'), []);
+  const synthetic = (v) => overdue(resolvedOf(rename()), v).filter((s) => s.startsWith('ORACLE_FLOOR_RATES '));
+  assert.deepEqual(synthetic('9.9.0'), ['ORACLE_FLOOR_RATES (removedIn 9.9.0, now FLOOR_RENAMED)']);
+  assert.equal(synthetic('10.0.0').length, 1);
+  assert.deepEqual(synthetic('9.8.9'), []);
+});
+
+const NINE = [32000, 44100, 48000, 64000, 88200, 96000, 128000, 176400, 192000];
+const read = (p) => readFileSync(join(ROOT, p), 'utf8');
+
+test('ORACLE_FULL_RATES: the nine rates, its doc names no vendor, and the floor and the standard rates lie inside it', () => {
+  const r = resolveData(loadData(DATA));
+  const full = r.get('ORACLE_FULL_RATES');
+  assert.deepEqual(full.value, NINE);
+  assert.deepEqual(full.formerly, { name: 'RME_RATES', removedIn: '2.17.0' });
+  assert.doesNotMatch(full.doc, /RME/);
+  for (const n of ['ORACLE_FLOOR_RATES', 'STANDARD_SAMPLE_RATES']) for (const v of r.get(n).value) assert.ok(NINE.includes(v), `${n} ${v}`);
+  assert.equal(r.has('RME_RATES'), false, 'the old name is no item, only an alias');
+});
+
+test('RME_RATES, the deprecated alias, answers the values of ORACLE_FULL_RATES in every committed render', async () => {
+  const h = read('include/omxcontract/omx_contract_limits.h');
+  assert.match(h, /^#define OMX_RME_RATES_COUNT OMX_ORACLE_FULL_RATES_COUNT$/m);
+  assert.match(h, /^#define OMX_RME_RATES_INIT OMX_ORACLE_FULL_RATES_INIT$/m);
+  assert.match(h, /kept until 2\.17\.0 removes it/);
+  assert.deepEqual(expand(h, 'OMX_RME_RATES_INIT'), NINE);
+  assert.deepEqual(expand(h, 'OMX_ORACLE_FULL_RATES_INIT'), NINE);
+  assert.equal(expand(h, 'OMX_RME_RATES_COUNT'), 9);
+  // the numbers a reader of the old name built against until 2.15.0
+  assert.deepEqual(expand(read('test/fixtures/omx-contract-2.10.0/omx_contract_limits.h'), 'OMX_RME_RATES_INIT'), NINE);
+  const ts = await import(join(ROOT, 'test/golden/ts/omx-contract.js'));
+  assert.equal(ts.RME_RATES, ts.ORACLE_FULL_RATES);
+  assert.deepEqual(ts.RME_RATES, NINE);
+  assert.match(read('test/golden/ts/omx-contract.d.ts'), /^export declare const RME_RATES: typeof ORACLE_FULL_RATES;$/m);
+  const json = JSON.parse(read('share/omx-contract/omx-contract.json'));
+  assert.deepEqual(json.formerNames, { RME_RATES: { name: 'ORACLE_FULL_RATES', removedIn: '2.17.0' } });
+  assert.deepEqual(json.items[json.formerNames.RME_RATES.name].value, NINE);
+});
+
+test('sabotage: the alias edited by hand into a copy of the numbers is red, though the numbers agree', () => {
+  const out = mkdtempSync(join(tmpdir(), 'omx-contract-formerly-'));
+  try {
+    const h = read('include/omxcontract/omx_contract_limits.h').replace(/^#define OMX_RME_RATES_INIT .+$/m, `#define OMX_RME_RATES_INIT { ${NINE.join(', ')} }`);
+    mkdirSync(join(out, 'omxcontract'));
+    writeFileSync(join(out, 'omxcontract/omx_contract_limits.h'), h);
+    assert.deepEqual(expand(h, 'OMX_RME_RATES_INIT'), NINE, 'the hand copy holds the same numbers');
+    assert.equal(main(['render', '--target', 'c', '--out', out, '--check']), 1);
+    assert.doesNotMatch(h, /^#define OMX_RME_RATES_INIT OMX_ORACLE_FULL_RATES_INIT$/m);
+  } finally {
+    rmSync(out, { recursive: true, force: true });
+  }
+});
+
+test('perturbation: a rate moved in ORACLE_FULL_RATES moves the old name with it, and --check goes red', () => {
+  const dir = scratchData();
+  editData(dir, 'rates.json', (d) => { d.ORACLE_FULL_RATES.values[0] = 31000; });
+  const r = resolveData(loadData(dir));
+  const h = renderC(r)[0].text;
+  assert.deepEqual(expand(h, 'OMX_RME_RATES_INIT'), [31000, ...NINE.slice(1)]);
+  assert.match(renderTs(r)[0].text, /^export const RME_RATES = ORACLE_FULL_RATES;$/m);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
 });
