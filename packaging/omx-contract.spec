@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.14.0
+Version: 2.15.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -42,6 +42,10 @@ Summary: Headers, JSON data and schema to build on the FreeMixer declarations
 # the C headers and the resolved json need no node; the union of the contract directory is read by the command
 Recommends: %{name} = %{version}-%{release}
 Provides: %{name}-static = %{version}-%{release}
+# the owners' releases before they installed their own definitions read names this release no longer carries
+Conflicts: omx-dsp-devel < 0.22.0
+Conflicts: omx-clap-core-devel < 0.10.0
+Conflicts: omx-plugins-devel < 0.10.0
 
 %description devel
 Everything you need to build against omx-contract: the C render of omx-contract under include/omxcontract (the limits header), the resolved json
@@ -75,6 +79,31 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 2.15.0-1
+- Packages install their own definitions into a shared contract directory,
+  contract.d/2/<package>/ with a MANIFEST.json, named by contractdir in
+  omx-contract.pc, and every reader reads it through one call that refuses an
+  incomplete, altered or conflicting set with a named contract.* code.
+  A definition file states the lowest schema it needs (requires) and where its
+  values come from and which code implements them (source); links --check
+  holds those links to the owner's code.
+- The schema gains the plugin descriptor words: controls with their ids,
+  symbols, groups, meanings and flags, audio and note ports, instruments, what
+  a plugin needs from its host, and latency, with five more units.
+- An owner frames its own C headers and TypeScript module with a render word
+  in its files, and renders them with render --package.
+- The kernels, the DSP design constants and the hosting limits and codes now
+  ship with omx-dsp and omx-clap-core, and the console-only rows with the
+  console. This package keeps the shared facts: the sample rate sets, the
+  hard real-time target, the readout rate and the parameter scales.
+  clap_host_limits.h is no longer installed here.
+- It conflicts with omx-dsp-devel before 0.22.0, omx-clap-core-devel before 0.10.0
+  and omx-plugins-devel before 0.10.0, the releases that do not yet ship their
+  own definitions.
+- The omx-contract command ships in its own package, omx-contract, with its
+  man page and the npm packages it runs on, so the union of the contract
+  directory can be read on a system with node and nothing else installed.
+
 * Mon Oct 19 2026 Pau Aliagas <linuxnow@gmail.com> - 2.14.0-1
 - The kernel files declare what the console engine still typed as literals: the FBS, HRP, balance,
   generator, align and idelay travels and constants, and the multiband compressor's limits
