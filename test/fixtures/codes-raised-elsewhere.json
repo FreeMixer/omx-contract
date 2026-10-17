@@ -1,0 +1,6 @@
+{
+  "doc": "The CONTRACT_CODES codes that no omx-contract reader or check raises, each with the code of another package that raises it. Every other code is raised by an arm in this repository's tests.",
+  "codes": {
+    "contract.descriptor.face-differs": "omx-plugins tools/face-descriptor-check.mjs: a built CLAP or LV2 face, scanned, against the plugin's authored descriptor"
+  }
+}

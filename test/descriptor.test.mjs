@@ -240,9 +240,26 @@ test('a scanned descriptor in the contract directory is contract.origin.misplace
   for (const name of [SCANNED_LV2, SCANNED_CLAP]) assert.equal(readerRefusal(fixture(name)), CONTRACT_CODES.originMisplaced, name);
 });
 
+// The codes another package raises, each with the code that raises it (test/fixtures/codes-raised-elsewhere.json).
+const ELSEWHERE = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/codes-raised-elsewhere.json'), 'utf8')).codes;
+
 test('every descriptor code was raised by an arm above, through validation and through the reader', () => {
-  const descriptor = Object.entries(CONTRACT_CODES).filter(([k]) => k.startsWith('descriptor')).map(([, c]) => c);
+  const descriptor = Object.entries(CONTRACT_CODES).filter(([k]) => k.startsWith('descriptor')).map(([, c]) => c).filter((c) => !(c in ELSEWHERE));
   assert.equal(descriptor.length, 10);
   assert.deepEqual(descriptor.filter((c) => !raised.has(c)), []);
   assert.ok(raised.has(CONTRACT_CODES.originMisplaced));
+});
+
+// A code raised outside this repository has no arm here: its arm is the fixture's entry, which names the package
+// and the code that raise it. The entry must be a registered code, and one no arm above raises (a code this
+// repository raises needs its arm, not an entry).
+test('every code raised elsewhere is registered, names its raiser, and is raised by no arm here', () => {
+  const codes = new Set(Object.values(CONTRACT_CODES));
+  assert.ok(Object.keys(ELSEWHERE).length > 0, 'positive control: the fixture names a code');
+  for (const [code, raiser] of Object.entries(ELSEWHERE)) {
+    assert.ok(codes.has(code), `${code} is not in data/codes.json`);
+    assert.match(raiser, /^[a-z0-9-]+ \S+\.(mjs|js|sh|c): \S/, `${code}: name the package, the file and what it compares`);
+    assert.equal(raised.has(code), false, `${code} is raised here: give it an arm instead`);
+  }
+  assert.ok(codes.has('contract.descriptor.face-differs') && 'contract.descriptor.face-differs' in ELSEWHERE);
 });
