@@ -3,11 +3,14 @@
   "$id": "https://github.com/FreeMixer/omx-contract/raw/main/schema/omx-contract.schema.json",
   "title": "omx-contract data file",
   "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet, a list or a set. GPL-3.0-or-later.",
+  "x-omx-schema-version": "2.15.0",
   "type": "object",
   "properties": {
-    "$schema": { "type": "string" }
+    "$schema": { "type": "string" },
+    "requires": { "$ref": "#/$defs/requires" },
+    "source": { "$ref": "#/$defs/source" }
   },
-  "propertyNames": { "anyOf": [{ "const": "$schema" }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
+  "propertyNames": { "anyOf": [{ "enum": ["$schema", "requires", "source"] }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
   "additionalProperties": { "$ref": "#/$defs/item" },
   "$defs": {
     "unit": {
@@ -17,6 +20,37 @@
     "text": { "type": "string", "minLength": 1 },
     "since": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "The release that first carried an item declared outside the kernels (rates.json, primitives.json); a kernel's items record it in recipes/answers/." },
     "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+    "floor": { "type": "string", "pattern": "^>= (0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$", "description": "A version floor, never a ceiling." },
+    "requires": {
+      "type": "object",
+      "description": "What a file needs to be read: omx-contract-schema, the lowest schema its words need; any other key a package whose items it refers to. Each a floor.",
+      "properties": { "omx-contract-schema": { "$ref": "#/$defs/floor" } },
+      "propertyNames": { "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+      "additionalProperties": { "$ref": "#/$defs/floor" },
+      "minProperties": 1
+    },
+    "link": {
+      "type": "string",
+      "description": "<path>#<symbol>[.<field>|[<key>]]...: a path relative to the owner's root, a symbol defined there (enum X and struct X name a tag), and selectors into its value.",
+      "pattern": "^[A-Za-z0-9_+.-]+(/[A-Za-z0-9_+.-]+)*#((enum|struct|union) )?[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*|\\[[A-Za-z0-9_.-]+\\])*$"
+    },
+    "links": { "oneOf": [{ "$ref": "#/$defs/link" }, { "type": "array", "items": { "$ref": "#/$defs/link" }, "minItems": 1, "uniqueItems": true }] },
+    "source": {
+      "type": "object",
+      "description": "Where a definition comes from and where it is implemented (docs/contract-dir.md): from, the provenance, a link compared to the whole value or a map from a field path of the value to a link; impl, the connector; at, <package>@<version> of links outside the owner's tree.",
+      "properties": {
+        "from": {
+          "oneOf": [
+            { "$ref": "#/$defs/link" },
+            { "type": "object", "propertyNames": { "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$" }, "additionalProperties": { "$ref": "#/$defs/link" }, "minProperties": 1 }
+          ]
+        },
+        "impl": { "$ref": "#/$defs/links" },
+        "at": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*@[A-Za-z0-9._+-]+$" }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
     "ref": {
       "type": "object",
       "properties": { "ref": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*(\\.[A-Za-z][A-Za-z0-9]*)*$" } },
@@ -107,6 +141,7 @@
       "properties": {
         "kind": { "const": "scalar" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "unit": { "$ref": "#/$defs/unit" },
@@ -120,6 +155,7 @@
       "properties": {
         "kind": { "const": "travels" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "fields": {
@@ -154,6 +190,7 @@
       "properties": {
         "kind": { "const": "sheet" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "value": { "$ref": "#/$defs/sheetValue" },
@@ -173,6 +210,7 @@
       "properties": {
         "kind": { "const": "list" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "unit": { "$ref": "#/$defs/unit" },
@@ -188,10 +226,11 @@
     },
     "codes": {
       "type": "object",
-      "description": "Refusal codes: a lowerCamel name per code, the code itself (`hosting.<group>.<reason>`, lower case, read by verdicts and never reworded) and optionally one line of prose.",
+      "description": "Refusal codes: a lowerCamel name per code, the code itself (`hosting.<group>.<reason>`, or `contract.<group>.<reason>` for the reader's own, lower case, read by verdicts and never reworded) and optionally one line of prose.",
       "properties": {
         "kind": { "const": "codes" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "codes": {
@@ -200,7 +239,7 @@
           "additionalProperties": {
             "type": "object",
             "properties": {
-              "code": { "type": "string", "pattern": "^hosting(\\.[a-z0-9]+(-[a-z0-9]+)*){2,}$" },
+              "code": { "type": "string", "pattern": "^(hosting|contract)(\\.[a-z0-9]+(-[a-z0-9]+)*){2,}$" },
               "doc": { "$ref": "#/$defs/text" }
             },
             "required": ["code"],
@@ -218,6 +257,7 @@
       "properties": {
         "kind": { "const": "set" },
         "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "ids": {
