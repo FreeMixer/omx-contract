@@ -8,9 +8,9 @@ import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA } from './helpers.mjs';
+import { DATA, UNION } from './helpers.mjs';
 
-const resolved = () => resolveData(loadData(DATA));
+const resolved = () => resolveData(loadData(UNION));
 const items = () => JSON.parse(renderJson(resolved(), '0.0.0')[0].text).items;
 
 test('drive: DRIVE_CURVES comes up soft and DRIVE_BANDS comes up full, as the JSON render declares them', () => {

@@ -90,7 +90,7 @@ test('the install writes omx-contract\'s data/ with its manifest: every file, it
   const want = dataFiles(DATA).map((p) => p.slice(DATA.length + 1)).sort();
   assert.deepEqual(Object.keys(m.files).sort(), want);
   assert.ok(!want.includes('codes.json'), 'the reader\'s own codes are not installed');
-  assert.equal(want.length, 32);
+  assert.equal(want.length, 7);
   for (const rel of want) {
     const bytes = readFileSync(join(dir, rel));
     assert.equal(m.files[rel], sha256(bytes), `${rel}: the manifest lists its hash`);
@@ -108,7 +108,7 @@ test('read back through the reader, omx-contract renders c, ts and json byte for
   const fromData = loadData(DATA);
   assert.deepEqual(fromDir.files.map((f) => f.rel), fromData.files.map((f) => f.rel), 'the files read in the order of data/');
   assert.deepEqual([...fromDir.items.keys()], [...fromData.items.keys()]);
-  assert.equal(fromDir.items.size, 228);
+  assert.equal(fromDir.items.size, 79);
   const a = resolveData(fromDir);
   const b = resolveData(fromData);
   for (const [render, dir] of [[renderC, 'include'], [renderTs, 'test/golden/ts']]) {
@@ -153,7 +153,7 @@ test('discovery: --contract-dir, else OMX_CONTRACT_PATH (first directory wins a 
   writeFileSync(pc, `#!/bin/sh\n[ "$1" = --variable=contractdir ] && [ "$2" = omx-contract ] && echo '${a}'\n`);
   chmodSync(pc, 0o755);
   assert.deepEqual(contractRoots({ env: {}, pkgConfig: pc }), [a]);
-  assert.equal(loadContractDir({ env: {}, pkgConfig: pc }).items.size, 228);
+  assert.equal(loadContractDir({ env: {}, pkgConfig: pc }).items.size, 79);
 });
 
 test('contract.dir.absent: nothing names a directory, the one named is missing, or it holds no package of this major', () => {
@@ -279,7 +279,7 @@ test('contract.package.absent and contract.package.too-old, from a file\'s requi
   root = installed();
   assert.equal(refusalOf({ dir: root, needs: { 'omx-dsp': '>= 0.21.0' } }), CONTRACT_CODES.packageAbsent);
   assert.equal(refusalOf({ dir: root, needs: { 'omx-contract': '>= 99.0.0' } }), CONTRACT_CODES.packageTooOld);
-  assert.equal(loadContractDir({ dir: root, needs: { 'omx-contract': `>= ${VERSION}` } }).items.size, 228);
+  assert.equal(loadContractDir({ dir: root, needs: { 'omx-contract': `>= ${VERSION}` } }).items.size, 79);
 });
 
 test('a refusal stops the whole read: the CLI prints the code first, as JSON with --json, and renders nothing', () => {

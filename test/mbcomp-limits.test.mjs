@@ -14,16 +14,16 @@ import { test } from 'node:test';
 import { main } from '../bin/omx-contract.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
 const staged = readFileSync(join(ROOT, 'test/fixtures/omx-dsp-0f23bed/omx_mbcomp_staged.h'), 'utf8');
 /** NAME -> the numbers its define carries, read as C reads them (`2u` is 2, `1000.0f` is 1000). */
 const numbers = (text) => new Map([...text.matchAll(/^#define (OMX_\w+) (.+)$/gm)].map((m) => [m[1], (m[2].match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number)]));
 const kernel = numbers(staged);
-const header = (dir = DATA) => renderC(resolveData(loadData(dir)))[0].text;
+const header = (dir = UNION) => renderC(resolveData(loadData(dir)))[0].text;
 
 /** The staged names whose numbers the render of `dir` does not give; the corner line is read in double. */
-function differing(dir = DATA) {
+function differing(dir = UNION) {
   const ours = numbers(header(dir));
   const as = (n) => (n === 'OMX_MBC_CORNER_MAX_FRACTION' ? `${n}_DOUBLE` : n);
   return [...kernel.keys()].filter((n) => JSON.stringify(ours.get(as(n))) !== JSON.stringify(kernel.get(n)));
@@ -73,6 +73,6 @@ for (const [item, edit, name] of perturb) {
     const dir = scratchData();
     editData(dir, 'kernels/mbcomp.json', (d, at) => edit(at));
     assert.deepEqual(differing(dir), [name]);
-    assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+    assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
   });
 }

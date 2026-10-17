@@ -3,9 +3,10 @@
 # Hosting limits and refusal codes
 
 The code that hosts a third-party plugin in a strip (the stage around the plugin and the CLAP core under it) reads
-two kinds of declared fact: the numbers it limits itself to, and the codes it names a refusal by. Both are contract
-data in `data/hosting.json`, so a library that hosts plugins builds from the contract and not from a tree its reader
-cannot see.
+two kinds of declared fact: the numbers it limits itself to, and the codes it names a refusal by. Both are declared
+by the CLAP core, omx-clap-core, in its own `data/hosting.json`, and installed into the contract directory as its
+package (docs/contract-dir.md); omx-contract holds the words they are written in and the tool that renders them. The
+tool's tests read that file as it stood in 2.14.0, with its render word, from `test/fixtures/owners-2.14.0/`.
 
 ## The stage limits
 

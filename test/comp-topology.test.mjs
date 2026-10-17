@@ -13,9 +13,9 @@ import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const resolved = (dir = DATA) => resolveData(loadData(dir));
+const resolved = (dir = UNION) => resolveData(loadData(dir));
 const header = (dir) => renderC(resolved(dir))[0].text;
 const json = (dir) => JSON.parse(renderJson(resolved(dir), '0.0.0')[0].text);
 const ts = (dir) => renderTs(resolved(dir)).map((f) => f.text).join('\n');
@@ -80,9 +80,9 @@ test('perturbation: a moved loop delay or a reordered topology set disagrees wit
   const delay = scratchData();
   editData(delay, 'kernels/comp.json', (d, at) => { at('DYN_FB_LOOP_DELAY_SAMPLES').value = 2; });
   assert.deepEqual(disagree(header(delay)), ['OMX_DYN_FB_LOOP_DELAY_SAMPLES 1, OMX_DYN_FB_LOOP_DELAY_SAMPLES 2']);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', delay]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', delay]), 1);
   const order = scratchData();
   editData(order, 'kernels/comp.json', (d, at) => { at('DETECTOR_TOPOLOGY').ids.reverse(); });
   assert.deepEqual(disagree(header(order)), ['OMX_DYN_TOPOLOGY_FEEDFORWARD 0, OMX_DETECTOR_TOPOLOGY_FEEDFORWARD 1', 'OMX_DYN_TOPOLOGY_FEEDBACK 1, OMX_DETECTOR_TOPOLOGY_FEEDBACK 0']);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', order]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', order]), 1);
 });

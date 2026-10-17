@@ -14,7 +14,7 @@ import { SCHEMA_MAJOR, installedSchemaUrl, sha256 } from '../lib/contract-dir.mj
 import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { SCHEMA_VERSION, validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
-import { DATA, ROOT } from './helpers.mjs';
+import { DATA, ROOT, UNION } from './helpers.mjs';
 
 const SCRATCH = mkdtempSync(join(tmpdir(), 'omx-contract-render-'));
 after(() => rmSync(SCRATCH, { recursive: true, force: true }));
@@ -224,15 +224,17 @@ test('a data directory is the package it is rendered for: an owner renders from 
   assert.equal(readFileSync(join(out, 'acme_limits.h'), 'utf8'), EXPECTED);
 });
 
-test('the tool names no item an owner\'s render word spells: the word is the only place the spelling lives', () => {
+test('the tool names no item an owner installs: the owner\'s file is the only place its spelling and its rules live', () => {
   // The console engine's renderer, moved unchanged, writes the frozen header of the round-trip proof: its prose is that
   // header's bytes (tools/proof/round-trip.mjs), not a rule of the tool.
   const FROZEN = 'render/c/contract-limits-render.mjs';
   const sources = ['lib', 'render', 'render/c', 'bin'].flatMap((d) => readdirSync(join(ROOT, d)).filter((f) => f.endsWith('.mjs')).map((f) => [`${d}/${f}`, readFileSync(join(ROOT, d, f), 'utf8')]))
     .filter(([file]) => file !== FROZEN);
-  const owned = loadData(DATA).files.filter((f) => f.doc.render).flatMap((f) => Object.keys(f.doc).filter((k) => /^[A-Z]/.test(k)));
-  assert.ok(owned.length > 0, 'positive control: a file of the data carries a render word');
-  for (const name of owned) for (const [file, text] of sources) assert.ok(!new RegExp(`\\b${name}\\b`).test(text), `${file} names ${name}`);
+  const own = new Set(loadData(DATA).items.keys());
+  const owned = [...loadData(UNION).items.keys()].filter((n) => !own.has(n));
+  assert.ok(owned.includes('HOSTED_STAGE_LIMITS') && owned.includes('GATE_LIMITS'), 'positive control: the owners\' items');
+  const named = owned.filter((name) => sources.some(([, text]) => new RegExp(`\\b${name}\\b`).test(text)));
+  assert.deepEqual(named, [], 'no rule, render or comment of the tool names an owner\'s item');
 });
 
 /** An owner's data directory: a kernel, a sheet, and the file that carries its omx-style word. */

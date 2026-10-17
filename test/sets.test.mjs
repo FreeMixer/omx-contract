@@ -10,7 +10,7 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, dropDecl, resolvedOf, texts } from './helpers.mjs';
+import { DATA, UNION, dropDecl, resolvedOf, texts } from './helpers.mjs';
 
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 const header = (t) => renderC(resolvedOf(t))[0].text;
@@ -95,7 +95,7 @@ test('a set\'s ids appended are MINOR, changed or removed MAJOR, its default add
 });
 
 test('the shipped data resolves, and the 1.3.0 items are all there', () => {
-  const r = resolveData(loadData(DATA));
+  const r = resolveData(loadData(UNION));
   for (const n of ['FBS_TRACK_SLOTS', 'DEFAULT_THRESHOLDS', 'HRP_MAX_VOICES', 'HRP_AMOUNT_RANGE', 'RTA_FFT_SIZE_MAX', 'BUS_INPUT_CAP', 'OPERATOR_EQ_BANDS_RESERVE',
     'EQ_BAND_TYPES', 'FILTER_SLOPES', 'EQ_BAND_COUNTS', 'DEESS_MODES', 'DRIVE_CURVES', 'DRIVE_BANDS', 'REVERB_ALGORITHMS', 'ROTARY_SPEEDS', 'TREMOLO_MODES',
     'GATE_KEY_SOURCES', 'PARAM_SCALES', 'ORACLE_FLOOR_RATES', 'RME_RATES', 'CHORUS_BASE_MS', 'FLANGER_BASE_MS', 'PHASER_F_TOP_HZ', 'REVERB_GATE_ATTACK_MS']) {

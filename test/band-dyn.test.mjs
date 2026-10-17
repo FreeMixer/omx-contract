@@ -9,10 +9,10 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { limitUnits } from '../tools/proof/limit-units.mjs';
-import { DATA, editData, scratchData } from './helpers.mjs';
+import { DATA, UNION, editData, scratchData } from './helpers.mjs';
 
 const TRAVELS = ['BAND_DYN_THRESHOLD_RANGE', 'BAND_DYN_RATIO_RANGE', 'BAND_DYN_RANGE_RANGE', 'BAND_DYN_ATTACK_RANGE', 'BAND_DYN_RELEASE_RANGE'];
-const resolved = (dir = DATA) => resolveData(loadData(dir));
+const resolved = (dir = UNION) => resolveData(loadData(dir));
 const header = (r) => renderC(r).find((f) => f.path === 'omxcontract/omx_contract_limits.h').text;
 
 test('every band-dynamics travel holds its default inside its range, and its range is not empty', () => {

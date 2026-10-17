@@ -12,7 +12,7 @@ import { main } from '../bin/omx-contract.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
 // omx-dsp's enum, verbatim: the consumer the contract's ids must agree with, index for index.
 const OMX_DSP_GEQ_MODE = `enum omx_geq_mode {
@@ -21,8 +21,8 @@ const OMX_DSP_GEQ_MODE = `enum omx_geq_mode {
 };`;
 const dspModes = () => [...OMX_DSP_GEQ_MODE.matchAll(/OMX_GEQ_MODE_([A-Z]+) = (\d+)/g)].map((m) => [m[1].toLowerCase(), Number(m[2])]);
 
-const json = (dir = DATA) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
-const header = (dir = DATA) => renderC(resolveData(loadData(dir)))[0].text;
+const json = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
+const header = (dir = UNION) => renderC(resolveData(loadData(dir)))[0].text;
 const rendered = (dir) => [...header(dir).matchAll(/^ {2}OMX_GEQ_MODES_([A-Z]+) = (\d+),$/gm)].map((m) => [m[1].toLowerCase(), Number(m[2])]);
 
 test('geq: mode is a choice appended after the band faders, standard | true, coming up standard', () => {
@@ -48,12 +48,12 @@ test('perturbation: swapped ids no longer match omx-dsp, and --check goes red', 
   const dir = scratchData();
   editData(dir, 'kernels/geq.json', (d, at) => { at('GEQ_MODES').ids = ['true', 'standard']; });
   assert.notDeepEqual(rendered(dir), dspModes());
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
 });
 
 test('perturbation: a moved come-up value moves the C default', () => {
   const dir = scratchData();
   editData(dir, 'kernels/geq.json', (d, at) => { at('GEQ_MODES').default = 'true'; });
   assert.match(header(dir), /^#define OMX_GEQ_MODES_DEFAULT OMX_GEQ_MODES_TRUE$/m);
-  assert.equal(main(['render', '--target', 'json', '--out', `${ROOT}/share/omx-contract`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
 });
