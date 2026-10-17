@@ -109,6 +109,10 @@
         "code": "contract.descriptor.when-unresolved",
         "doc": "a when that names no choice of the descriptor, or an id that choice does not have"
       },
+      "descriptorFaceDiffers": {
+        "code": "contract.descriptor.face-differs",
+        "doc": "a plugin's built face, scanned as a host scans it, states other than its authored descriptor; raised by the owner's face check, since the reader compares no faces"
+      },
       "sourceAbsent": {
         "code": "contract.source.absent",
         "doc": "a link's path does not exist"

@@ -154,6 +154,9 @@ file, the control or port, and the code; the reader refuses the whole read on th
 | `contract.descriptor.instrument` | An `instrument` block without the `instrument` feature or the feature without the block; an instrument without a note or MIDI input, or without an audio output. |
 | `contract.descriptor.when-unresolved` | A `when` whose `control` names no choice of the descriptor, or whose `is` is not one of that choice's ids. |
 | `contract.origin.misplaced` | A `scanned` descriptor installed in the contract directory. |
+| `contract.descriptor.face-differs` | A plugin's built face, scanned as a host scans it, states other than its authored descriptor. The reader compares no faces: the owner's face check raises it (omx-plugins `tools/face-descriptor-check.mjs`). |
 
 Each code has a test that breaks one fixture to raise it and reads its value back: `test/descriptor.test.mjs`,
-over the example files in `test/fixtures/descriptors/`.
+over the example files in `test/fixtures/descriptors/`. A code another package raises, such as
+`contract.descriptor.face-differs`, is named instead in `test/fixtures/codes-raised-elsewhere.json` with the
+code that raises it, and the test holds that list to the registered codes.
