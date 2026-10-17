@@ -96,3 +96,11 @@ test('fmt has one spelling of a kernel file: sections in order, a control\'s key
   assert.notEqual(JSON.stringify(scrambled, null, 2) + '\n', gate.text);
   assert.equal(formatDoc(scrambled), gate.text);
 });
+
+test('a travels table with fields of its own lives in an item file beside the kernels, never in a kernel\'s constants', () => {
+  const table = { kind: 'travels', doc: 'a host\'s continuous travels', fields: { thresholdDb: { min: -80, max: 0, unit: 'dB', default: -40 } } };
+  const valid = (t) => validateData(loadData(null, t)).map((p) => `${p.file}:${p.rule}`);
+  assert.deepEqual(valid({ 'data/primitives/x-continuous-travels.json': JSON.stringify({ $schema: '../../schema/omx-contract.schema.json', X_CONTINUOUS_TRAVELS: table }) }), []);
+  const k = { $schema: '../../schema/omx-contract.schema.json', controls: [{ name: 'a', kind: 'travel', doc: 'a', travel: { min: 0, max: 1, unit: '' } }], constants: { X_CONTINUOUS_TRAVELS: table } };
+  assert.ok(valid({ 'data/kernels/x.json': JSON.stringify(k) }).includes('data/kernels/x.json:shape'), 'a kernel\'s constant is a scalar, a list or a sheet');
+});
