@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.15.0",
+  "version": "2.16.0",
   "items": {
     "PARAM_SCALES": {
       "rel": "data/primitives.json",
@@ -55,11 +55,15 @@
         192000
       ]
     },
-    "RME_RATES": {
+    "ORACLE_FULL_RATES": {
       "rel": "data/rates.json",
       "kind": "list",
-      "doc": "The nine rates an RME interface clocks at, 32 to 192 kHz. STANDARD_SAMPLE_RATES is a subset of them; an oracle that runs here also covers 32, 64 and 128 kHz, where a kernel still has to meet its closed form even though the console never asks for them.",
+      "doc": "The full grid of rates a professional interface can clock at, nine of them from 32 to 192 kHz: where ORACLE_FLOOR_RATES is the four rates every kernel oracle must run at, this is the whole grid an oracle runs at when it runs at all of them. STANDARD_SAMPLE_RATES is a subset of it; an oracle that runs here also covers 32, 64 and 128 kHz, where a kernel still has to meet its closed form even though the console never asks for them.",
       "unit": "Hz",
+      "formerly": {
+        "name": "RME_RATES",
+        "removedIn": "2.17.0"
+      },
       "value": [
         32000,
         44100,
@@ -73,5 +77,11 @@
       ]
     }
   },
-  "kernels": {}
+  "kernels": {},
+  "formerNames": {
+    "RME_RATES": {
+      "name": "ORACLE_FULL_RATES",
+      "removedIn": "2.17.0"
+    }
+  }
 }

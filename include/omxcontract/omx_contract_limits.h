@@ -21,10 +21,16 @@
 /* Every list rendered to C, sorted by list: OMX_<LIST>_COUNT and OMX_<LIST>_INIT { a, b, … }. */
 #define OMX_ORACLE_FLOOR_RATES_COUNT 4u
 #define OMX_ORACLE_FLOOR_RATES_INIT { 44100, 48000, 96000, 192000 }
-#define OMX_RME_RATES_COUNT 9u
-#define OMX_RME_RATES_INIT { 32000, 44100, 48000, 64000, 88200, 96000, 128000, 176400, 192000 }
+#define OMX_ORACLE_FULL_RATES_COUNT 9u
+#define OMX_ORACLE_FULL_RATES_INIT { 32000, 44100, 48000, 64000, 88200, 96000, 128000, 176400, 192000 }
 #define OMX_STANDARD_SAMPLE_RATES_COUNT 6u
 #define OMX_STANDARD_SAMPLE_RATES_INIT { 44100, 48000, 88200, 96000, 176400, 192000 }
+
+/* The former names of renamed lists (an item's `formerly`), deprecated: each expands to the list's own define, so a
+ * reader of the old name builds unchanged until the release named beside it removes the name. */
+/* OMX_RME_RATES_* is the former name of OMX_ORACLE_FULL_RATES_*, kept until 2.17.0 removes it: read OMX_ORACLE_FULL_RATES_*. */
+#define OMX_RME_RATES_COUNT OMX_ORACLE_FULL_RATES_COUNT
+#define OMX_RME_RATES_INIT OMX_ORACLE_FULL_RATES_INIT
 
 /* Every set rendered to C, sorted by set: an enum of the ids (a named id's position, or a numeric id's number), `OMX_<SET>_COUNT` and,
  * where the set names a default, `OMX_<SET>_DEFAULT`. */

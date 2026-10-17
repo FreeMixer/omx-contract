@@ -1,3 +1,22 @@
+omx-contract (2.16.0) unstable; urgency=medium
+
+  * The nine-rate list RME_RATES is renamed ORACLE_FULL_RATES, the full grid
+    of rates a professional interface can clock at, 32 to 192 kHz, beside the
+    four-rate ORACLE_FLOOR_RATES. Its values are unchanged and its doc names
+    no vendor.
+  * The old name stays for this release as a deprecated alias of the new one:
+    OMX_RME_RATES_COUNT and OMX_RME_RATES_INIT expand to the
+    OMX_ORACLE_FULL_RATES_* defines, the TypeScript RME_RATES export is the
+    ORACLE_FULL_RATES export, and the JSON render lists it under formerNames.
+    2.17.0 removes it.
+  * The schema gains formerly, the word a renamed list keeps its old name
+    with, and the release that removes it.
+  * No owner needs a newer release: the alias keeps the old name building, so
+    the Breaks stay at libomxdsp-dev 0.22.0, libomx-clap-core-dev 0.10.0 and
+    omx-plugins-dev 0.10.0, as in 2.15.0.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Wed, 21 Oct 2026 00:00:00 +0000
+
 omx-contract (2.15.0) unstable; urgency=medium
 
   * Packages install their own definitions into a shared contract directory,
