@@ -24,7 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { ContractRefusal } from '../lib/codes.mjs';
 import { contractVersion, loadContractDir } from '../lib/contract-dir.mjs';
 import { KERNEL_SECTIONS, TOOL_FILES, isKernelFile, kernelDocOf, loadData, packageVersion, resolveData } from '../lib/data.mjs';
-import { checkLinks, sourcesOf } from '../lib/links.mjs';
+import { checkLinks, linksOf, sourcesOf } from '../lib/links.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
 import { classify, refusal } from '../lib/semver.mjs';
 import { fileProblems, validateData } from '../lib/validate.mjs';
@@ -237,9 +237,7 @@ function cmdLinks(argv) {
   if (!argv.includes('--check')) {
     for (const s of sourcesOf(data)) {
       if (only !== undefined && s.pkg !== only) continue;
-      for (const l of [s.source?.impl].flat().filter(Boolean)) console.log(`${s.name} impl ${l}${s.source.at ? ` at ${s.source.at}` : ''}`);
-      const from = s.source?.from;
-      for (const [f, l] of typeof from === 'string' ? [['', from]] : Object.entries(from ?? {})) console.log(`${s.name}${f ? `.${f}` : ''} from ${l}${s.source.at ? ` at ${s.source.at}` : ''}`);
+      for (const l of linksOf(s.source)) console.log(`${s.name}${l.field ? `.${l.field}` : ''} ${l.role} ${l.link}${l.at ? ` at ${l.at}` : ''}`);
     }
     return 0;
   }

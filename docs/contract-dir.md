@@ -71,6 +71,11 @@ file's place for that item.
 | `impl` | Connector: the code that implements the item. A link or a list of links. |
 | `at` | `<package>@<version>`: the links lie outside the owner's tree (a twin in another package). Absent: the owner's tree at the manifest's version. |
 
+A link may also carry its own `at`, `{ "link": "<link>", "at": "<package>@<version>" }`, in place of the source's: an
+`impl` in the owner's tree beside a `from` in the console's tree at the commit the value was imported from
+(`"from": { "link": "<path in the console's tree>#<symbol>", "at": "openmixer@<commit>" }`), so the import's provenance is
+the definition's `source.from` and no second record is kept. A `from` map's field may carry one too.
+
 A link is `<path>#<symbol>[.<field>|[<key>]]...`, the path relative to the owner's root:
 `include/omxdsp/omx_eq_design.h#OMX_EQ_LOWPASS_HANDOVER_Q_PEAK`, `include/omxdsp/omx_eq_design.h#enum omx_eq_kind`,
 `src/omx_hrp_correct.c#omx_hrp_correct_plan`. A table control's link sits on its table, since the field is no item
