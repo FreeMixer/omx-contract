@@ -6,7 +6,7 @@
  *
  *   omx-contract validate [<input>]                            schema + semantic checks
  *   omx-contract fmt [--check] [<input>]                       the one formatting
- *   omx-contract render --target c|ts|json --out <dir> [--check] [<input> | --sheet <fixture>]
+ *   omx-contract render --target c|ts|json --out <dir> [--check] [<input> [--package <name>] | --sheet <fixture>]
  *   omx-contract semver <previous tag> | --from-dir <data dir> --from-version <x.y.z>
  *   omx-contract links [--check] [--root <tree>] [<input>] [--package <name>] [--at <package>=<tree>]... [--require-impl]
  *
@@ -30,7 +30,7 @@ import { classify, refusal } from '../lib/semver.mjs';
 import { fileProblems, validateData } from '../lib/validate.mjs';
 import { renderC, renderSheetC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
-import { renderTs } from '../render/ts.mjs';
+import { renderOwnerTs, renderTs } from '../render/ts.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -136,6 +136,16 @@ export function renderTarget(target, argv) {
   }
   const data = load(argv);
   const resolved = resolveData(data);
+  const pkg = opt(argv, '--package');
+  if (pkg !== undefined) {
+    // An owner renders its own, framed by its files' render words: from a contract directory that package's files,
+    // from a data directory (the owner's tree) every file.
+    if (data.packages && !data.packages.has(pkg)) throw new Usage(`no package ${pkg} is installed`);
+    const files = data.files.filter((f) => (f.pkg ?? pkg) === pkg);
+    if (target === 'c') return renderC(resolved, { pkg });
+    if (target === 'ts') return renderOwnerTs(resolved, pkg, files);
+    throw new Usage('the json render is the whole read, named @openmixer/omx-contract: --package renders c and ts');
+  }
   if (target === 'c') return renderC(resolved);
   if (target === 'ts') return renderTs(resolved);
   if (target === 'json') return renderJson(resolved, contractVersion(data, packageVersion(ROOT)));
@@ -155,9 +165,10 @@ function cmdRender(argv) {
       if (!existsSync(p)) bad.push(`${f.path} is missing`);
       else if (readFileSync(p, 'utf8') !== f.text) bad.push(`${f.path} differs`);
     }
+    // An owner's header sits in its own tree among files the render does not write: only the whole render owns its directory.
     const scope = target === 'c' ? 'omxcontract' : '';
     const named = new Set(files.map((f) => f.path));
-    for (const rel of filesUnder(join(dir, scope))) if (!named.has(join(scope, rel))) bad.push(`${join(scope, rel)} is extra`);
+    if (opt(argv, '--package') === undefined) for (const rel of filesUnder(join(dir, scope))) if (!named.has(join(scope, rel))) bad.push(`${join(scope, rel)} is extra`);
     for (const b of bad) console.error(`omx-contract render --check: ${out.replace(/\/$/, '')}/${b}`);
     if (bad.length) return 1;
     console.log(`omx-contract render --target ${target} --check: ${files.length} files byte-identical under ${out}`);
@@ -250,7 +261,7 @@ function cmdLinks(argv) {
 
 const USAGE = `usage: omx-contract validate [<input>]
        omx-contract fmt [--check] [<input>]
-       omx-contract render --target c|ts|json --out <dir> [--check] [<input> | --sheet <fixture.json>]
+       omx-contract render --target c|ts|json --out <dir> [--check] [<input> [--package <name>] | --sheet <fixture.json>]
        omx-contract semver <previous tag> | --from-dir <data dir> --from-version <x.y.z> [--version <x.y.z>]
        omx-contract links [--check] [--root <tree>] [<input>] [--package <name>] [--at <package>=<tree>]... [--require-impl] [--json]
   <input>: --data <dir> | --contract-dir <dir> | --installed, a contract directory with [--needs <package>@'>= x.y.z']... [--json]`;

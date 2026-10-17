@@ -24,7 +24,10 @@ that names it is read by code. A removed or changed code is a MAJOR change, an a
 
 ## The render
 
-`omx-contract render --target c` writes `omxcontract/clap_host_limits.h` beside `omx_contract_limits.h`: one
-`CLAP_HOST_<FIELD>` define per core number (an integer as an unsigned literal, a level in dBFS as a float) and one
-`CLAP_HOST_CODE_<NAME>` define per refusal code, each followed by its prose as a `///<` comment. The CLAP core
-(omx-clap-core) commits that file, byte for byte, so it builds on its own and its source is public.
+The file's `render` word (docs/render.md) declares the CLAP core's own renders of these two items: `clap_host_limits.h`,
+one `CLAP_HOST_<FIELD>` define per core number (an integer as an unsigned literal, a level in dBFS as a float; the
+`worker*` fields left out) and one `CLAP_HOST_CODE_<NAME>` define per refusal code, each followed by its prose as a
+`///<` comment; `hosted_stage_limits.h`, every number as `OMX_HOSTED_STAGE_<FIELD>`, the worker fields included; and a
+TypeScript module of both items. omx-clap-core renders them with `omx-contract render --target c|ts --package
+omx-clap-core` and commits them, byte for byte, so it builds on its own and its source is public; the render of a whole
+read writes `clap_host_limits.h` as `omxcontract/clap_host_limits.h` beside `omx_contract_limits.h`.
