@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.15.0
+Version: 2.16.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -79,6 +79,22 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Wed Oct 21 2026 Pau Aliagas <linuxnow@gmail.com> - 2.16.0-1
+- The nine-rate list RME_RATES is renamed ORACLE_FULL_RATES, the full grid
+  of rates a professional interface can clock at, 32 to 192 kHz, beside the
+  four-rate ORACLE_FLOOR_RATES. Its values are unchanged and its doc names
+  no vendor.
+- The old name stays for this release as a deprecated alias of the new one:
+  OMX_RME_RATES_COUNT and OMX_RME_RATES_INIT expand to the
+  OMX_ORACLE_FULL_RATES_* defines, the TypeScript RME_RATES export is the
+  ORACLE_FULL_RATES export, and the JSON render lists it under formerNames.
+  2.17.0 removes it.
+- The schema gains formerly, the word a renamed list keeps its old name
+  with, and the release that removes it.
+- No owner needs a newer release: the alias keeps the old name building, so
+  the conflicts stay at omx-dsp-devel 0.22.0, omx-clap-core-devel 0.10.0
+  and omx-plugins-devel 0.10.0, as in 2.15.0.
+
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 2.15.0-1
 - Packages install their own definitions into a shared contract directory,
   contract.d/2/<package>/ with a MANIFEST.json, named by contractdir in
