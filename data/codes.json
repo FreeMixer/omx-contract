@@ -45,6 +45,10 @@
         "code": "contract.item.duplicate",
         "doc": "two files declare one name"
       },
+      "kernelDuplicate": {
+        "code": "contract.kernel.duplicate",
+        "doc": "two packages each declare a file of one kernel"
+      },
       "refUnresolved": {
         "code": "contract.ref.unresolved",
         "doc": "a reference names no item"
