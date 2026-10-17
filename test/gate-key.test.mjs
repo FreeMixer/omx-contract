@@ -11,9 +11,9 @@ import { main } from '../bin/omx-contract.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const resolved = (dir = DATA) => resolveData(loadData(dir));
+const resolved = (dir = UNION) => resolveData(loadData(dir));
 const header = (dir) => renderC(resolved(dir))[0].text;
 const json = (dir) => JSON.parse(renderJson(resolved(dir), '0.0.0')[0].text);
 
@@ -51,5 +51,5 @@ test('perturbation: a moved key filter edge leaves the console\'s travel, and --
   editData(dir, 'kernels/gate.json', (d, at) => { at('GATE_KEY_LIMITS.lpHz').max = 22000; });
   assert.notDeepEqual(json(dir).items.GATE_KEY_LIMITS.value.lpHz, CONSOLE);
   assert.match(header(dir), /^#define OMX_GATE_KEY_LP_HZ_MAX 22000\.0f$/m);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
 });

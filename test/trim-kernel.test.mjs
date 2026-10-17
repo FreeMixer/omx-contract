@@ -10,10 +10,10 @@ import { test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const header = (dir = DATA) => renderC(resolveData(loadData(dir))).find((f) => f.path === 'omxcontract/omx_contract_limits.h').text;
-const json = (dir = DATA) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
+const header = (dir = UNION) => renderC(resolveData(loadData(dir))).find((f) => f.path === 'omxcontract/omx_contract_limits.h').text;
+const json = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
 
 test('trim: one control, trimDb, a travel whose item is TRIM_RANGE', () => {
   assert.deepEqual(json().kernels.trim.controls, [{ name: 'trimDb', kind: 'travel', global: 'TRIM_RANGE' }]);

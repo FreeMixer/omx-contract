@@ -18,7 +18,7 @@ import { fileProblems } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT } from './helpers.mjs';
+import { DATA, ROOT, UNION } from './helpers.mjs';
 
 const FIXTURES = join(ROOT, 'test/fixtures/descriptors');
 const SCHEMA = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
@@ -81,8 +81,8 @@ test('the four example descriptors, one per origin and one stating unknown, are 
   assert.deepEqual([AUTHORED, BUILT, SCANNED_LV2, SCANNED_CLAP].map((x) => fixture(x).origin), ['authored', 'built', 'scanned', 'scanned']);
 });
 
-test('the authored delay states the contract\'s own delay travels, value for value', () => {
-  const r = resolveData(loadData(DATA));
+test('the authored delay states the delay kernel\'s travels, value for value (the owners\' fixture)', () => {
+  const r = resolveData(loadData(UNION));
   const d = fixture(AUTHORED);
   const by = Object.fromEntries(d.controls.map((c) => [c.name, c]));
   for (const [control, item] of [['fxDelayTime', 'FX_DELAY_TIME_RANGE'], ['fxDelayFeedback', 'FX_DELAY_FEEDBACK_RANGE'], ['tone', 'DELAY_TONE_RANGE'], ['mix', 'DELAY_MIX_RANGE']]) {

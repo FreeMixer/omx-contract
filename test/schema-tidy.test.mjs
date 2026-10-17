@@ -7,9 +7,9 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderJson } from '../render/json.mjs';
-import { DATA, ROOT } from './helpers.mjs';
+import { DATA, ROOT, UNION } from './helpers.mjs';
 
-const json = () => JSON.parse(renderJson(resolveData(loadData(DATA)), '0.0.0')[0].text);
+const json = () => JSON.parse(renderJson(resolveData(loadData(UNION)), '0.0.0')[0].text);
 
 test('the schema unit enum lists exactly the units the items and readouts use', () => {
   const schema = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));

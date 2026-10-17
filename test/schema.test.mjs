@@ -4,13 +4,24 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { loadData } from '../lib/data.mjs';
 import { validateData } from '../lib/validate.mjs';
-import { DATA, ROOT, texts } from './helpers.mjs';
+import { DATA, ROOT, UNION, texts } from './helpers.mjs';
 import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
 
 const rules = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 
-test('the shipped data is valid', () => {
+test('the shipped data is valid, alone and with the owners\' files', () => {
   assert.deepEqual(validateData(loadData(DATA)), []);
+  assert.deepEqual(validateData(loadData(UNION)), []);
+});
+
+test('data/ holds the union less the files their owners install: 79 of the 228 items of 2.14.0, none of them twice', () => {
+  const own = [...loadData(DATA).items.keys()];
+  const owners = new Set([...loadData(UNION).items.keys()].filter((n) => !own.includes(n)));
+  assert.equal(own.length, 79);
+  assert.equal(owners.size, 149);
+  assert.equal(loadData(UNION).items.size, 228);
+  for (const n of ['GATE_LIMITS', 'HOSTED_STAGE_LIMITS', 'HOSTING_CODES', 'FX_DELAY_TIME_RANGE', 'PAN_RANGE']) assert.ok(owners.has(n), `${n} is an owner's`);
+  for (const n of ['STANDARD_SAMPLE_RATES', 'PARAM_SCALES', 'READOUT_RATE_HZ', 'EQ_MAX_BANDS']) assert.ok(own.includes(n), `${n} stays`);
 });
 
 test('the shipped data holds exactly the specified items and the items of the kernels added since', () => {
@@ -27,7 +38,7 @@ test('the shipped data holds exactly the specified items and the items of the ke
   // the shared items added since, which no kernel answers and that carry no release of their own:
   // 1.2.0's plugin-face travels in primitives.json (TRIM_TRAVELS moved to the trim kernel in 2.3.0)
   want.push('GATE_CONTINUOUS_TRAVELS', 'COMP_CONTINUOUS_TRAVELS');
-  assert.deepEqual([...loadData(DATA).items.keys()].sort(), want.sort());
+  assert.deepEqual([...loadData(UNION).items.keys()].sort(), want.sort());
 });
 
 test('a unit outside the closed list is refused', () => {

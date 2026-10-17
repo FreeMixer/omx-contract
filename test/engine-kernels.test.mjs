@@ -11,9 +11,9 @@ import { main } from '../bin/omx-contract.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const resolved = (dir = DATA) => resolveData(loadData(dir));
+const resolved = (dir = UNION) => resolveData(loadData(dir));
 const header = (dir) => renderC(resolved(dir))[0].text;
 const json = (dir) => JSON.parse(renderJson(resolved(dir), '0.0.0')[0].text);
 const engine = new Map([...readFileSync(join(ROOT, 'test/fixtures/openmixer-6ee8a9bde101/engine_kernel_defines.h'), 'utf8')
@@ -97,7 +97,7 @@ test('perturbation: a moved tap count or a reordered waveform set disagrees with
   const taps = scratchData();
   editData(taps, 'kernels/src.json', (d, at) => { at('SRC_TAPS').value = 32; });
   assert.deepEqual(disagree(header(taps)), ['OMX_SRC_TAPS 64, OMX_SRC_TAPS 32']);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', taps]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', taps]), 1);
   const order = scratchData();
   editData(order, 'kernels/generator.json', (d, at) => { at('WAVEFORMS').ids.reverse(); });
   assert.deepEqual(disagree(header(order)), [
@@ -106,5 +106,5 @@ test('perturbation: a moved tap count or a reordered waveform set disagrees with
     'OMX_WAVE_SAW 2, OMX_WAVEFORMS_SAW 1',
     'OMX_WAVE_TRIANGLE 3, OMX_WAVEFORMS_TRIANGLE 0',
   ]);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', order]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', order]), 1);
 });

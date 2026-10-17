@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { roundTrip } from '../tools/proof/round-trip.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
-import { ROOT } from './helpers.mjs';
+import { ROOT, UNION } from './helpers.mjs';
 
 const r = roundTrip();
 
@@ -30,7 +30,7 @@ test('step 2: every shipped unit is byte-identical to omx-dsp\'s, in the same or
 });
 
 test('step 2: a unit omx-dsp lacks is refused when its item shipped in the first release', () => {
-  const resolved = resolveData(loadData(join(ROOT, 'data')));
+  const resolved = resolveData(loadData(UNION));
   const g = resolved.get('GATE_LIMITS');
   resolved.set('GATE_EXTRA_MS', { name: 'GATE_EXTRA_MS', rel: g.rel, kind: 'scalar', doc: 'x', unit: 'ms', value: 1 });
   const bad = roundTrip(resolved);
@@ -50,7 +50,7 @@ test('the moved renderer is openmixer\'s, line for line', () => {
 });
 
 test('step 2: a unit named as moved after the pin fails the proof once it is equal again', () => {
-  const resolved = resolveData(loadData(join(ROOT, 'data')));
+  const resolved = resolveData(loadData(UNION));
   const it = resolved.get('INPUT_ALIGN_DELAY_RANGE');
   resolved.set('INPUT_ALIGN_DELAY_RANGE', { ...it, value: { ...it.value, step: 0.01 } });
   const bad = roundTrip(resolved);
@@ -59,7 +59,7 @@ test('step 2: a unit named as moved after the pin fails the proof once it is equ
 });
 
 test('step 2: a unit the moved list does not name still fails when it differs from the pin', () => {
-  const resolved = resolveData(loadData(join(ROOT, 'data')));
+  const resolved = resolveData(loadData(UNION));
   const it = resolved.get('OUTPUT_DELAY_RANGE');
   resolved.set('OUTPUT_DELAY_RANGE', { ...it, value: { ...it.value, max: 2000 } });
   const bad = roundTrip(resolved);

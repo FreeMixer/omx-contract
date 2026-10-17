@@ -14,10 +14,10 @@ import { main } from '../bin/omx-contract.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const json = (dir = DATA) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
-const header = (dir = DATA) => renderC(resolveData(loadData(dir)))[0].text;
+const json = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
+const header = (dir = UNION) => renderC(resolveData(loadData(dir)))[0].text;
 
 // omx-dsp's enum omx_eq_kind order, which is core's BiquadKind order.
 const KINDS = ['peaking', 'lowShelf', 'highShelf', 'highpass', 'lowpass', 'notch', 'bandpass', 'allpass1', 'allpass2'];
@@ -53,13 +53,13 @@ test('perturbation: move a hand-over corner, the header and the json follow and 
   editData(dir, 'kernels/eq.json', (d, at) => { at('LOWPASS_HANDOVER').value.hiAtHiQ = 0.86; });
   assert.match(header(dir), /^#define OMX_LOWPASS_HANDOVER_HI_AT_HI_Q_DOUBLE 0\.86$/m);
   assert.equal(json(dir).items.LOWPASS_HANDOVER.value.hiAtHiQ, 0.86);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
-  assert.equal(main(['render', '--target', 'json', '--out', `${ROOT}/share/omx-contract`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
 });
 
 test('perturbation: swap two kinds, the integers move and --check goes red', () => {
   const dir = scratchData();
   editData(dir, 'primitives.json', (d) => { const ids = d.BIQUAD_KINDS.ids; [ids[3], ids[4]] = [ids[4], ids[3]]; });
   assert.match(header(dir), /^  OMX_BIQUAD_KINDS_LOWPASS = 3,$/m);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
 });

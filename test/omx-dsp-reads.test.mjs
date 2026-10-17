@@ -11,7 +11,7 @@ import { test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { limitUnits } from '../tools/proof/limit-units.mjs';
-import { ROOT, editData, scratchData } from './helpers.mjs';
+import { ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
 const FIX = join(ROOT, 'test/fixtures/omx-dsp-v0.1.5-8-g4108494');
 const units = (t) => new Map(limitUnits(t).filter((u) => u.frame === undefined).map((u) => [u.key, u.lines.join('\n')]));
@@ -19,7 +19,7 @@ const pin = units(readFileSync(join(FIX, 'omx_contract_limits.h'), 'utf8'));
 const reads = JSON.parse(readFileSync(join(FIX, 'read-units.json'), 'utf8')).read.map((r) => r.key);
 
 /** The units omx-dsp reads that the render of `dataDir` lacks, and those it spells differently. */
-function check(dataDir = join(ROOT, 'data')) {
+function check(dataDir = UNION) {
   const files = renderC(resolveData(loadData(dataDir)));
   const ours = units(files.find((f) => f.path === 'omxcontract/omx_contract_limits.h').text);
   return {

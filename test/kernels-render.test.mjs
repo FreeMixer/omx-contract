@@ -9,10 +9,10 @@ import { controlGlobal, loadData, resolveData } from '../lib/data.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
 import { validateData } from '../lib/validate.mjs';
 import { renderJson } from '../render/json.mjs';
-import { DATA, ROOT, editData, scratchData, texts } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData, texts } from './helpers.mjs';
 
-const render = (dir = DATA) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
-const kernelFiles = () => loadData(DATA).files.filter((f) => f.rel.startsWith('data/kernels/'));
+const render = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
+const kernelFiles = () => loadData(UNION).files.filter((f) => f.rel.startsWith('data/kernels/'));
 const problems = (t) => validateData(loadData(null, t));
 
 test('kernels: every kernel file, in file order, its controls in their declared order', () => {
@@ -63,7 +63,7 @@ test('kernels: the limiter look-ahead re-arms, and it is the only control that d
 });
 
 test('kernels is a new key: name, version and items are what a render without it writes', () => {
-  const r = resolveData(loadData(DATA));
+  const r = resolveData(loadData(UNION));
   const withKernels = JSON.parse(renderJson(r, '0.0.0')[0].text);
   assert.deepEqual(Object.keys(withKernels), ['name', 'version', 'items', 'kernels']);
   delete r.kernels;
@@ -78,7 +78,7 @@ test('perturbation: move a control in its kernel file, the render order follows 
   editData(dir, 'kernels/tremolo.json', (d) => { d.controls.reverse(); });
   const after = render(dir).kernels.tremolo.controls.map((c) => c.name);
   assert.deepEqual(after, [...before].reverse());
-  assert.equal(main(['render', '--target', 'json', '--out', `${ROOT}/share/omx-contract`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
 });
 
 test('perturbation: drop rearms from the limiter, the render loses it and --check goes red', () => {
@@ -86,10 +86,10 @@ test('perturbation: drop rearms from the limiter, the render loses it and --chec
   editData(dir, 'kernels/limiter.json', (d) => { for (const c of d.controls) delete c.rearms; });
   const c = render(dir).kernels.limiter.controls.find((x) => x.name === 'lookaheadMs');
   assert.ok(c && !('rearms' in c));
-  assert.equal(main(['render', '--target', 'json', '--out', `${ROOT}/share/omx-contract`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
   // rearms is no item: the c and ts renders do not move
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 0);
-  assert.equal(main(['render', '--target', 'ts', '--out', `${ROOT}/test/golden/ts`, '--check', '--data', dir]), 0);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 0);
+  assert.equal(main(['render', '--target', 'ts', '--out', `${RENDERS}/test/golden/ts`, '--check', '--data', dir]), 0);
 });
 
 test('perturbation: declare rearms on another control, the render carries it', () => {

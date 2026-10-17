@@ -24,7 +24,7 @@ all:
 
 # The header compiles on its own, warnings as errors.
 check: all
-	printf '#include <omxcontract/omx_contract_limits.h>\n#include <omxcontract/clap_host_limits.h>\nint main(void) { return CLAP_HOST_PARAM_COUNT_MAX == OMX_HOSTED_STAGE_PARAM_COUNT_MAX && OMX_FX_DELAY_TIME_RANGE_MAX > 0 && OMX_DECLARED_RATE_COUNT > 0 && OMX_GATE_READOUT_GAIN_REDUCTION_DB < OMX_GATE_READOUT_COUNT && OMX_GATE_READOUT_GAIN_REDUCTION_DB_SCALE == OMX_PARAM_SCALES_LINEAR ? 0 : 1; }\n' > check-headers.c
+	printf '#include <omxcontract/omx_contract_limits.h>\nint main(void) { return OMX_EQ_MAX_BANDS > 0 && OMX_DECLARED_RATE_COUNT > 0 && OMX_PARAM_SCALES_LINEAR < OMX_PARAM_SCALES_COUNT ? 0 : 1; }\n' > check-headers.c
 	$(CC) -std=c11 -Wall -Wextra -Werror -Wno-unused-function -Iinclude check-headers.c -o check-headers
 	./check-headers
 	rm -f check-headers check-headers.c

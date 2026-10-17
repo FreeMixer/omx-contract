@@ -12,9 +12,9 @@ import { isDeepStrictEqual } from 'node:util';
 import { entriesOf, isUse, kernelDocOf, loadData } from '../lib/data.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
 import { validateData } from '../lib/validate.mjs';
-import { DATA, ROOT, scratchData, texts } from './helpers.mjs';
+import { DATA, ROOT, UNION, scratchData, texts } from './helpers.mjs';
 
-const kernels = () => loadData(DATA).files.filter((f) => f.rel.startsWith('data/kernels/'));
+const kernels = () => loadData(UNION).files.filter((f) => f.rel.startsWith('data/kernels/'));
 const problems = (t) => validateData(loadData(null, t));
 
 // The control facts the items do not carry, published in the json render's `kernels` and in no item: `rearms`

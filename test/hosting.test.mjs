@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// The hosting limits and refusal codes (data/hosting.json) and clap_host_limits.h, their render (docs/hosting.md).
+// The hosting limits and refusal codes and clap_host_limits.h, their render (docs/hosting.md), over omx-clap-core's
+// file as the owners' fixture holds it (test/fixtures/owners-2.14.0/hosting.json, its render word included).
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -16,20 +17,20 @@ const render = (t) => renderC(resolvedOf(t)).find((f) => f.path === 'omxcontract
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 const defines = (text) => text.split('\n').filter((l) => l.startsWith('#define CLAP_HOST_'));
 
-test('the render carries the defines of the header omx-clap-core commits, line for line', () => {
+test('the render is the header omx-clap-core commits, byte for byte, its banner the render word\'s', () => {
   const committed = readFileSync(join(ROOT, 'test/fixtures/clap_host_limits-omx-clap-core.h'), 'utf8');
   const out = render(texts());
   assert.ok(defines(committed).length >= 26, 'positive control: the committed header carries the numbers and the codes');
-  assert.deepEqual(defines(out), defines(committed));
-  assert.equal(out.split('\n').slice(0, 19).join('\n'), committed.split('\n').slice(0, 19).join('\n'), 'the licence block');
+  assert.equal(out, committed);
 });
 
-test('render --package omx-clap-core: hosted_stage_limits.h, every number as OMX_HOSTED_STAGE_<FIELD>, the worker fields included, as omx-clap-core commits it', () => {
+test('render --package omx-clap-core: both headers it commits, the OMX_HOSTED_STAGE_ one with the worker fields, byte for byte', () => {
   const own = renderC(resolvedOf(texts()), { pkg: 'omx-clap-core' });
   assert.deepEqual(own.map((f) => f.path), ['clap_host_limits.h', 'hosted_stage_limits.h']);
+  assert.equal(own[0].text, readFileSync(join(ROOT, 'test/fixtures/clap_host_limits-omx-clap-core.h'), 'utf8'));
   assert.equal(own[1].text, readFileSync(join(ROOT, 'test/fixtures/hosted_stage_limits-omx-clap-core.h'), 'utf8'));
   assert.equal(own[1].text.split('\n').filter((l) => l.startsWith('#define OMX_HOSTED_STAGE_')).length, 20);
-  assert.equal(renderC(resolvedOf(texts())).some((f) => f.path.endsWith('hosted_stage_limits.h')), false, 'the whole read holds those defines in omx_contract_limits.h');
+  assert.match(own[1].text, /^#define OMX_HOSTED_STAGE_WORKER_RING_BYTES 16384$/m);
 });
 
 test('a level is a float literal, a count an unsigned one, a code a string, each with its prose', () => {

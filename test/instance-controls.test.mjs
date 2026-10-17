@@ -15,11 +15,11 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData, texts } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData, texts } from './helpers.mjs';
 
-const header = (dir = DATA) => renderC(resolveData(loadData(dir))).find((f) => f.path === 'omxcontract/omx_contract_limits.h').text;
-const json = (dir = DATA) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
-const ts = (dir = DATA) => renderTs(resolveData(loadData(dir))).map((f) => f.text).join('\n');
+const header = (dir = UNION) => renderC(resolveData(loadData(dir))).find((f) => f.path === 'omxcontract/omx_contract_limits.h').text;
+const json = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
+const ts = (dir = UNION) => renderTs(resolveData(loadData(dir))).map((f) => f.text).join('\n');
 const controls = (k, dir) => json(dir).kernels[k].controls;
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.rule}: ${p.message}`);
 
@@ -110,7 +110,7 @@ for (const [k, at, move, set, want] of moves) {
     assert.match(header(dir), new RegExp(`^#define OMX_${set}_DEFAULT ${C}$`, 'm'));
     assert.equal(json(dir).items[set].default, want);
     if (at === 'FX_DELAY_PINGPONG_DEFAULT') assert.match(ts(dir), /^export const FX_DELAY_PINGPONG_DEFAULT = true;$/m); // the ts render carries no set default; the scalar it reads is the home
-    assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+    assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
   });
 }
 
