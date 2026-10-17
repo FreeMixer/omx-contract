@@ -65,7 +65,7 @@ test('kernels: the limiter look-ahead re-arms, and it is the only control that d
 test('kernels is a new key: name, version and items are what a render without it writes', () => {
   const r = resolveData(loadData(UNION));
   const withKernels = JSON.parse(renderJson(r, '0.0.0')[0].text);
-  assert.deepEqual(Object.keys(withKernels), ['name', 'version', 'items', 'kernels']);
+  assert.deepEqual(Object.keys(withKernels), ['name', 'version', 'items', 'kernels', 'formerNames']);
   delete r.kernels;
   const without = renderJson(r, '0.0.0')[0].text;
   const { kernels, ...rest } = withKernels;

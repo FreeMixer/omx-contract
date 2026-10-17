@@ -52,10 +52,10 @@ export const ORACLE_FLOOR_RATES = [
 ];
 
 /**
- * The nine rates an RME interface clocks at, 32 to 192 kHz. STANDARD_SAMPLE_RATES is a subset of them; an oracle that runs here also covers 32, 64 and 128 kHz, where a kernel still has to meet its closed form even though the console never asks for them.
+ * The full grid of rates a professional interface can clock at, nine of them from 32 to 192 kHz: where ORACLE_FLOOR_RATES is the four rates every kernel oracle must run at, this is the whole grid an oracle runs at when it runs at all of them. STANDARD_SAMPLE_RATES is a subset of it; an oracle that runs here also covers 32, 64 and 128 kHz, where a kernel still has to meet its closed form even though the console never asks for them.
  * @see data/rates.json
  */
-export const RME_RATES = [
+export const ORACLE_FULL_RATES = [
   32000,
   44100,
   48000,
@@ -66,3 +66,9 @@ export const RME_RATES = [
   176400,
   192000
 ];
+
+/**
+ * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.17.0 removes it: read ORACLE_FULL_RATES.
+ * @see data/rates.json
+ */
+export const RME_RATES = ORACLE_FULL_RATES;

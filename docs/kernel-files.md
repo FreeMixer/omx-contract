@@ -68,6 +68,12 @@ Shapes a kernel file's items take beyond the sketch:
 - A `list` of numbers renders to C as a count and an initialiser (`OMX_<LIST>_COUNT`, `OMX_<LIST>_INIT`) unless it
   carries `"c": { "render": false }`, which keeps it in the JSON and TypeScript renders only. No list declared
   today sets it; it is the way to declare a list a C reader has no use for.
+- A renamed `list` keeps its old name for one release with `"formerly": { "name": "<OLD>", "removedIn": "x.y.z" }`,
+  so its readers move to the new name in their own release instead of in lockstep. The C render defines
+  `OMX_<OLD>_COUNT` and `OMX_<OLD>_INIT` as the new list's own defines, the TypeScript render exports `<OLD>` bound
+  to the new export and marked `@deprecated`, and the JSON render lists it under `formerNames` with the item to read
+  instead. None of them repeats the values. `test/formerly.test.mjs` fails once the package version reaches
+  `removedIn` while the word is still there, so the release that removes the name cannot forget it.
 - The repository commits its renders: `include/omxcontract/` (C), `share/omx-contract/` (JSON) and
   `test/golden/ts/` (TypeScript). CI regenerates each with `render --check` and fails on any byte of difference,
   so a data change and its renders land in one commit.

@@ -5,7 +5,8 @@
  * (its native limit tables, declared scalars and declared lists): a `travels`
  * table named <PREFIX>_LIMITS is a native table; every scalar, sheet and single travel is scalars
  * (its finite-number leaves, a travel's `unit`/`defaultFrom` labels skipped); a list is a declared
- * list unless its item says `"c": { "render": false }`; a set is an enum; a `c.alias` is the core-limit spelling.
+ * list unless its item says `"c": { "render": false }`; a set is an enum; a `c.alias` is the core-limit spelling; a
+ * declared list's `formerly` is a former name, spelled as the list's own defines.
  */
 
 const constantCase = (key) => key.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toUpperCase();
@@ -61,6 +62,9 @@ export function doors(resolved) {
     if (!ALIASES.has(fact)) ALIASES.set(fact, {});
     ALIASES.get(fact)[field] = r.value;
   }
+  const FORMER_LIST_NAMES = items.filter((r) => r.kind === 'list' && r.c?.render !== false && r.formerly)
+    .map((r) => ({ former: r.formerly.name, name: r.name, removedIn: r.formerly.removedIn }))
+    .sort((a, b) => (a.former < b.former ? -1 : a.former > b.former ? 1 : 0));
   const STANDARD_SAMPLE_RATES = resolved.get('STANDARD_SAMPLE_RATES')?.value;
-  return { NATIVE_LIMIT_TABLES, DECLARED_SCALARS, DECLARED_LISTS, DECLARED_SET_ITEMS, ALIASES, STANDARD_SAMPLE_RATES };
+  return { NATIVE_LIMIT_TABLES, DECLARED_SCALARS, DECLARED_LISTS, DECLARED_SET_ITEMS, ALIASES, FORMER_LIST_NAMES, STANDARD_SAMPLE_RATES };
 }
