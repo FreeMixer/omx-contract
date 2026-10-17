@@ -52,3 +52,12 @@ test('vendor: a changed, missing or extra tarball is named', () => {
     rmSync(d, { recursive: true, force: true });
   }
 });
+
+test('vendor: the RPM names each bundled dependency at the version vendor/ carries', () => {
+  const spec = readFileSync(join(ROOT, 'packaging', 'omx-contract.spec'), 'utf8');
+  const bundled = Object.fromEntries([...spec.matchAll(/^Provides: bundled\(nodejs-(\S+)\) = (\S+)$/gm)].map((m) => [m[1], m[2]]));
+  const carried = Object.fromEntries(readdirSync(join(ROOT, 'vendor')).filter((f) => f.endsWith('.tgz'))
+    .map((f) => /^(.+)-([0-9][^-]*)\.tgz$/.exec(f)).map((m) => [m[1], m[2]]));
+  assert.ok(Object.keys(carried).length > 0, 'positive control: vendor/ carries tarballs');
+  assert.deepEqual(bundled, carried);
+});

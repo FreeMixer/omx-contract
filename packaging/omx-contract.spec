@@ -3,7 +3,8 @@
 Name: omx-contract
 Version: 2.14.0
 Release: 1%{?dist}
-License: GPL-3.0-or-later
+# the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
+License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
 Summary: One shared source of truth for every FreeMixer knob, range and default
 URL: https://github.com/FreeMixer/omx-contract
 BuildArch: noarch
@@ -13,6 +14,15 @@ Source0: %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires: gcc
 BuildRequires: make
 BuildRequires: sed
+BuildRequires: tar
+BuildRequires: gzip
+
+Requires: nodejs
+Provides: bundled(nodejs-ajv) = 8.20.0
+Provides: bundled(nodejs-fast-deep-equal) = 3.1.3
+Provides: bundled(nodejs-fast-uri) = 3.1.8
+Provides: bundled(nodejs-json-schema-traverse) = 1.0.0
+Provides: bundled(nodejs-require-from-string) = 2.0.2
 
 %description
 A fader range, a default, a plugin parameter, a supported sample rate: in
@@ -22,8 +32,15 @@ on what a knob does and how far it turns. The declarations are plain JSON with
 a JSON Schema, so tools in any language can read them, and they are rendered
 as C headers for the code that is built from them.
 
+This package holds the omx-contract command, which validates, formats and
+renders the declarations, and reads the contract directory the packages
+install their definitions into as one checked set.
+
 %package devel
+License: GPL-3.0-or-later
 Summary: Headers, JSON data and schema to build on the FreeMixer declarations
+# the C headers and the resolved json need no node; the union of the contract directory is read by the command
+Recommends: %{name} = %{version}-%{release}
 Provides: %{name}-static = %{version}-%{release}
 
 %description devel
@@ -39,9 +56,16 @@ render and the JSON Schema under share/omx-contract, and omx-contract.pc
 
 %install
 %make_install PREFIX=%{_prefix} INCLUDEDIR=%{_includedir} DATADIR=%{_datadir}
+%{__make} install-cli DESTDIR=%{buildroot} PREFIX=%{_prefix} DATADIR=%{_datadir} BINDIR=%{_bindir} CLIDIR=%{_prefix}/lib/omx-contract MANDIR=%{_mandir}
 
 %check
 %make_build check
+
+%files
+%license LICENSE
+%{_bindir}/omx-contract
+%{_prefix}/lib/omx-contract/
+%{_mandir}/man1/omx-contract.1*
 
 %files devel
 %license LICENSE
