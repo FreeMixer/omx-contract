@@ -61,6 +61,50 @@
         "code": "contract.package.too-old",
         "doc": "a required package is installed below its floor"
       },
+      "originMisplaced": {
+        "code": "contract.origin.misplaced",
+        "doc": "a scanned plugin descriptor is installed in the contract directory: a scan is never read as a declaration"
+      },
+      "descriptorOriginSource": {
+        "code": "contract.descriptor.origin-source",
+        "doc": "an authored descriptor with no impl link, or a built or scanned one with a control that has no from link"
+      },
+      "descriptorUnknownAuthored": {
+        "code": "contract.descriptor.unknown-authored",
+        "doc": "an authored descriptor with a unit, a scale or a meaning of unknown"
+      },
+      "descriptorControlDuplicate": {
+        "code": "contract.descriptor.control-duplicate",
+        "doc": "two controls of a descriptor with one id, or with one name"
+      },
+      "descriptorPortDuplicate": {
+        "code": "contract.descriptor.port-duplicate",
+        "doc": "two ports of a descriptor of one kind and direction with one id"
+      },
+      "descriptorRange": {
+        "code": "contract.descriptor.range",
+        "doc": "a travel whose min is above its max, whose step is negative, or whose default lies outside it"
+      },
+      "descriptorChoice": {
+        "code": "contract.descriptor.choice",
+        "doc": "a choice whose default is not one of its ids, or whose labels or values are not one per id"
+      },
+      "descriptorScale": {
+        "code": "contract.descriptor.scale-undeclared",
+        "doc": "a scale that is neither an id of PARAM_SCALES nor unknown"
+      },
+      "descriptorPortWords": {
+        "code": "contract.descriptor.port-words",
+        "doc": "a layout word on a port that is not audio, dialects off a note port or missing on one, or a layout its channels contradict"
+      },
+      "descriptorInstrument": {
+        "code": "contract.descriptor.instrument",
+        "doc": "an instrument block without the instrument feature or the reverse, or an instrument with no note or MIDI input or no audio output"
+      },
+      "descriptorWhen": {
+        "code": "contract.descriptor.when-unresolved",
+        "doc": "a when that names no choice of the descriptor, or an id that choice does not have"
+      },
       "sourceAbsent": {
         "code": "contract.source.absent",
         "doc": "a link's path does not exist"

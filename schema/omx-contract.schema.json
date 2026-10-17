@@ -5,17 +5,200 @@
   "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet, a list or a set. GPL-3.0-or-later.",
   "x-omx-schema-version": "2.15.0",
   "type": "object",
-  "properties": {
-    "$schema": { "type": "string" },
-    "requires": { "$ref": "#/$defs/requires" },
-    "source": { "$ref": "#/$defs/source" }
+  "if": { "required": ["origin"] },
+  "then": { "$ref": "#/$defs/descriptor" },
+  "else": {
+    "properties": {
+      "$schema": { "type": "string" },
+      "requires": { "$ref": "#/$defs/requires" },
+      "source": { "$ref": "#/$defs/source" }
+    },
+    "propertyNames": { "anyOf": [{ "enum": ["$schema", "requires", "source"] }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
+    "additionalProperties": { "$ref": "#/$defs/item" }
   },
-  "propertyNames": { "anyOf": [{ "enum": ["$schema", "requires", "source"] }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
-  "additionalProperties": { "$ref": "#/$defs/item" },
   "$defs": {
     "unit": {
       "description": "The closed list of units the items use; \"s\" is seconds and \"min\" minutes, \"x\" is a multiplier, \"\" is a ratio or a fraction.",
       "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", ""]
+    },
+    "descriptorUnit": {
+      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS has no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
+      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "unknown"] }]
+    },
+    "meaning": {
+      "description": "What a control does, the closed list seeded from the panel roles; the LV2 param: or lv2:designation name where LV2 has the term (docs/descriptors.md). unknown: the plugin states none.",
+      "enum": [
+        "gain", "threshold", "ratio", "attack", "release", "hold", "decay", "frequency", "cutoffFrequency", "resonance", "bypass",
+        "wetDryRatio", "delay", "enabled",
+        "range", "knee", "hysteresis", "makeup", "lookahead", "ceiling", "output", "q", "slope", "width", "drive", "tone", "rate",
+        "depth", "feedback", "spread", "predelay", "size", "damping", "lowCut", "highCut", "shift", "fine", "sync", "division", "listen",
+        "unknown"
+      ]
+    },
+    "handle": {
+      "description": "A host's handle on a control or a port: a CLAP id (an integer) or an LV2 port symbol.",
+      "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" }]
+    },
+    "descriptor": {
+      "type": "object",
+      "description": "One plugin described in the contract's words (docs/descriptors.md): its identity, controls, ports, instrument, what it needs from a host and its latency. It declares no item.",
+      "properties": {
+        "$schema": { "type": "string" },
+        "requires": { "$ref": "#/$defs/requires" },
+        "origin": { "enum": ["authored", "built", "scanned"], "description": "authored by the owner; built from the owner's built binary; scanned on a user's machine." },
+        "plugin": { "$ref": "#/$defs/plugin" },
+        "controls": { "type": "array", "items": { "$ref": "#/$defs/descriptorControl" } },
+        "ports": { "type": "array", "items": { "$ref": "#/$defs/port" } },
+        "instrument": { "$ref": "#/$defs/instrument" },
+        "needs": { "$ref": "#/$defs/needs" },
+        "latency": { "$ref": "#/$defs/latency" },
+        "source": { "$ref": "#/$defs/source" }
+      },
+      "required": ["origin", "plugin", "controls", "ports"],
+      "additionalProperties": false
+    },
+    "plugin": {
+      "type": "object",
+      "description": "The plugin's identity as it states it: id, the CLAP id or the LV2 URI.",
+      "properties": {
+        "id": { "$ref": "#/$defs/text" },
+        "format": { "enum": ["clap", "lv2"] },
+        "uri": { "$ref": "#/$defs/text" },
+        "name": { "$ref": "#/$defs/text" },
+        "vendor": { "$ref": "#/$defs/text" },
+        "version": { "$ref": "#/$defs/text" },
+        "features": {
+          "description": "CLAP's feature names; LV2 classes map onto them.",
+          "type": "array",
+          "items": { "enum": ["audio-effect", "instrument", "note-effect", "analyzer"] },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": ["id", "format", "name", "features"],
+      "additionalProperties": false
+    },
+    "descriptorTravel": {
+      "type": "object",
+      "description": "A descriptor control's travel: the kernel travel's words, unit and scale always stated (unknown when the plugin states none).",
+      "properties": {
+        "min": { "$ref": "#/$defs/number" },
+        "max": { "$ref": "#/$defs/number" },
+        "step": { "$ref": "#/$defs/number" },
+        "unit": { "$ref": "#/$defs/descriptorUnit" },
+        "default": { "$ref": "#/$defs/number" },
+        "defaultFrom": { "enum": ["desk"] },
+        "scale": { "type": "string", "pattern": "^[a-z]+$", "description": "An id of PARAM_SCALES, or unknown." },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" }
+      },
+      "required": ["min", "max", "unit", "scale"],
+      "additionalProperties": false
+    },
+    "descriptorControl": {
+      "type": "object",
+      "description": "One control of a plugin: the kernel control's words, with the host's id, a label, a group, a meaning and the CLAP param flags.",
+      "properties": {
+        "id": { "$ref": "#/$defs/handle" },
+        "name": { "$ref": "#/$defs/text" },
+        "label": { "$ref": "#/$defs/text" },
+        "doc": { "$ref": "#/$defs/text" },
+        "kind": { "enum": ["travel", "choice", "toggle", "trigger"] },
+        "travel": { "$ref": "#/$defs/descriptorTravel" },
+        "ids": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9]+$" }, "minItems": 1, "uniqueItems": true },
+        "labels": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
+        "values": { "type": "array", "items": { "type": "number" }, "minItems": 1 },
+        "default": { "oneOf": [{ "type": "string", "pattern": "^[A-Za-z0-9]+$" }, { "type": "boolean" }] },
+        "count": { "$ref": "#/$defs/name" },
+        "when": {
+          "type": "object",
+          "properties": { "control": { "$ref": "#/$defs/text" }, "is": { "type": "string", "pattern": "^[A-Za-z0-9]+$" } },
+          "required": ["control", "is"],
+          "additionalProperties": false
+        },
+        "group": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
+        "meaning": { "$ref": "#/$defs/meaning" },
+        "hidden": { "type": "boolean" },
+        "readonly": { "type": "boolean" },
+        "automatable": { "type": "boolean" },
+        "source": { "$ref": "#/$defs/source" }
+      },
+      "required": ["id", "name", "kind"],
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "travel" } } },
+          "then": { "required": ["travel"], "properties": { "ids": false, "labels": false, "values": false, "default": false } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "choice" } } },
+          "then": { "required": ["ids"], "properties": { "travel": false, "default": { "type": "string" } } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "toggle" } } },
+          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "default": { "type": "boolean" } } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "trigger" } } },
+          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "default": false } }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "port": {
+      "type": "object",
+      "description": "One port of a plugin, in the plugin's order: an audio port's role, channels and layout; a note port's dialects.",
+      "properties": {
+        "id": { "$ref": "#/$defs/handle" },
+        "name": { "$ref": "#/$defs/text" },
+        "kind": { "enum": ["audio", "midi", "note", "cv"] },
+        "direction": { "enum": ["in", "out"] },
+        "role": { "enum": ["main", "sidechain", "aux"] },
+        "channels": { "type": "integer", "minimum": 1 },
+        "layout": { "enum": ["mono", "stereo", "surround"] },
+        "dialects": { "type": "array", "items": { "enum": ["clap", "midi", "midiMpe", "midi2"] }, "minItems": 1, "uniqueItems": true },
+        "source": { "$ref": "#/$defs/source" }
+      },
+      "required": ["id", "name", "kind", "direction"],
+      "additionalProperties": false
+    },
+    "instrument": {
+      "type": "object",
+      "description": "Present when the plugin's features hold instrument: notes in, audio out. voices only when the plugin states it.",
+      "properties": {
+        "voices": { "type": "integer", "minimum": 1 },
+        "polyphonic": { "type": "boolean" }
+      },
+      "required": ["polyphonic"],
+      "additionalProperties": false
+    },
+    "needs": {
+      "type": "object",
+      "description": "What the host must give: the transport, the tempo, the CLAP host extensions or LV2 features asked for.",
+      "properties": {
+        "transport": { "type": "boolean" },
+        "tempo": { "type": "boolean" },
+        "extensions": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "array", "items": { "$ref": "#/$defs/text" }, "uniqueItems": true },
+            "optional": { "type": "array", "items": { "$ref": "#/$defs/text" }, "uniqueItems": true }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "latency": {
+      "type": "object",
+      "description": "reports: the plugin reports its latency; frames: a constant the plugin or kernel defines, never a measured figure.",
+      "properties": {
+        "reports": { "type": "boolean" },
+        "frames": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "$ref": "#/$defs/ref" }] }
+      },
+      "required": ["reports"],
+      "additionalProperties": false
     },
     "text": { "type": "string", "minLength": 1 },
     "since": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "The release that first carried an item declared outside the kernels (rates.json, primitives.json); a kernel's items record it in recipes/answers/." },

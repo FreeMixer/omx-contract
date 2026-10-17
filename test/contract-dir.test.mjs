@@ -328,9 +328,17 @@ test('the codes are data: data/codes.json holds every code once, valid and in th
   assert.ok(!readFileSync(join(ROOT, 'include/omxcontract/omx_contract_limits.h'), 'utf8').includes('contract.dir.absent'));
 });
 
-// The links codes are raised in test/links.test.mjs; every reader code must have its arm here.
+test('a scanned plugin descriptor is no declaration: contract.origin.misplaced, the whole read', () => {
+  const root = installed();
+  const scanned = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/descriptors/scanned-clap-unknown.json'), 'utf8'));
+  addPackage(root, 'omx-plugins', { 'plugins/a.json': owned({ TEST_A: scalar(1) }), 'plugins/b.json': scanned });
+  assert.equal(refusalOf({ dir: root }), CONTRACT_CODES.originMisplaced);
+});
+
+// The links codes are raised in test/links.test.mjs and the descriptor codes in test/descriptor.test.mjs; every
+// other reader code must have its arm here.
 test('every reader refusal code was raised by an arm above (a code with no arm is a column with no reader)', () => {
-  const reader = Object.entries(CONTRACT_CODES).filter(([k]) => !k.startsWith('source')).map(([, c]) => c);
+  const reader = Object.entries(CONTRACT_CODES).filter(([k]) => !k.startsWith('source') && !k.startsWith('descriptor')).map(([, c]) => c);
   assert.deepEqual(reader.filter((c) => !codesRaised.has(c)), []);
   assert.ok(codesRaised.size >= 14);
 });
