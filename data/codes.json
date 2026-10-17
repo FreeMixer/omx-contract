@@ -1,0 +1,94 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "CONTRACT_CODES": {
+    "kind": "codes",
+    "since": "2.15.0",
+    "doc": "The refusals of the contract-directory reader and of the links check (docs/contract-dir.md), by the code a refusal is printed with. A code is never reworded. The reader's own table: not a declaration, so no render carries it and it is not installed in the contract directory.",
+    "codes": {
+      "dirAbsent": {
+        "code": "contract.dir.absent",
+        "doc": "no contract directory was found, or the one named does not exist"
+      },
+      "manifestAbsent": {
+        "code": "contract.manifest.absent",
+        "doc": "a package directory holds no MANIFEST.json"
+      },
+      "manifestInvalid": {
+        "code": "contract.manifest.invalid",
+        "doc": "a manifest is not JSON, lacks a field, or names another package or schema major than its place"
+      },
+      "manifestMismatch": {
+        "code": "contract.manifest.mismatch",
+        "doc": "a listed file is missing, a file is present but not listed, or its hash differs"
+      },
+      "schemaMajor": {
+        "code": "contract.schema.major",
+        "doc": "a file's $schema is not the installed form of the reader's schema major"
+      },
+      "schemaTooOld": {
+        "code": "contract.schema.too-old",
+        "doc": "a file's requires.omx-contract-schema floor is above the reader's schema"
+      },
+      "schemaFloorAbsent": {
+        "code": "contract.schema.floor-absent",
+        "doc": "an installed file of a package other than omx-contract states no schema floor"
+      },
+      "fileNotJson": {
+        "code": "contract.file.not-json",
+        "doc": "a file does not parse"
+      },
+      "fileInvalid": {
+        "code": "contract.file.invalid",
+        "doc": "a file breaks the schema or the kernel-file shape, an unknown key or word included"
+      },
+      "itemDuplicate": {
+        "code": "contract.item.duplicate",
+        "doc": "two files declare one name"
+      },
+      "refUnresolved": {
+        "code": "contract.ref.unresolved",
+        "doc": "a reference names no item"
+      },
+      "refUndeclared": {
+        "code": "contract.ref.undeclared",
+        "doc": "a reference names an item of a package the file does not require"
+      },
+      "packageAbsent": {
+        "code": "contract.package.absent",
+        "doc": "a package the consumer or a file requires is not installed"
+      },
+      "packageTooOld": {
+        "code": "contract.package.too-old",
+        "doc": "a required package is installed below its floor"
+      },
+      "sourceAbsent": {
+        "code": "contract.source.absent",
+        "doc": "a link's path does not exist"
+      },
+      "sourceSymbolAbsent": {
+        "code": "contract.source.symbol-absent",
+        "doc": "the path holds no definition of the link's symbol"
+      },
+      "sourceAmbiguous": {
+        "code": "contract.source.ambiguous",
+        "doc": "the path defines the link's symbol more than once"
+      },
+      "sourceDiffers": {
+        "code": "contract.source.differs",
+        "doc": "the value at a from link is not the declared value"
+      },
+      "sourceUnevaluable": {
+        "code": "contract.source.unevaluable",
+        "doc": "a from link whose value the tool cannot read"
+      },
+      "sourceUnread": {
+        "code": "contract.source.unread",
+        "doc": "an impl link whose definition does not name the item"
+      },
+      "sourceNone": {
+        "code": "contract.source.none",
+        "doc": "an item with no impl link, where every item must carry one"
+      }
+    }
+  }
+}
