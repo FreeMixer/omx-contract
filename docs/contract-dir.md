@@ -3,8 +3,8 @@
 # The contract directory
 
 A package that owns definitions installs them as files into one shared directory, and every reader reads that
-directory through one call. This page states the directory's layout, the two schema words a file carries to live
-there (`requires`, `source`), the refusals the reader names by code, and the `links` check. The bundled `data/`
+directory through one call. This page states the directory's layout, the schema words a file carries to live
+there (`requires`, `source`, `render`), the refusals the reader names by code, and the `links` check. The bundled `data/`
 stays the default input of every command; the directory is read only when it is asked for.
 
 ## The layout
@@ -41,7 +41,7 @@ stays the default input of every command; the directory is read only when it is 
 lookup for a developer's checkout and for a test. A release build never sets it. When two of its directories hold
 one package, the first one wins.
 
-## Two words of the schema
+## The words of the schema
 
 ### `requires`: a schema floor, and the packages a file refers to
 
@@ -75,6 +75,12 @@ A link is `<path>#<symbol>[.<field>|[<key>]]...`, the path relative to the owner
 `include/omxdsp/omx_eq_design.h#OMX_EQ_LOWPASS_HANDOVER_Q_PEAK`, `include/omxdsp/omx_eq_design.h#enum omx_eq_kind`,
 `src/omx_hrp_correct.c#omx_hrp_correct_plan`. A table control's link sits on its table, since the field is no item
 of its own.
+
+### `render`: an owner's own header
+
+A file may say how the owner's own C headers and TypeScript module spell its items: each header's path, guard,
+licence project, banner, brief and sections, and the module's name. `render --target c|ts --package <owner>` writes
+them; the tool names no item (docs/render.md).
 
 ## Reading the directory
 

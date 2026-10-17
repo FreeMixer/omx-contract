@@ -11,9 +11,10 @@
     "properties": {
       "$schema": { "type": "string" },
       "requires": { "$ref": "#/$defs/requires" },
-      "source": { "$ref": "#/$defs/source" }
+      "source": { "$ref": "#/$defs/source" },
+      "render": { "$ref": "#/$defs/render" }
     },
-    "propertyNames": { "anyOf": [{ "enum": ["$schema", "requires", "source"] }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
+    "propertyNames": { "anyOf": [{ "enum": ["$schema", "requires", "source", "render"] }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
     "additionalProperties": { "$ref": "#/$defs/item" }
   },
   "$defs": {
@@ -232,6 +233,67 @@
         "at": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*@[A-Za-z0-9._+-]+$" }
       },
       "minProperties": 1,
+      "additionalProperties": false
+    },
+    "render": {
+      "type": "object",
+      "description": "How the owner's own renders of this file are framed (docs/render.md): c, the headers rendered from the file's items (or its package's); ts, the module of the file's items. It declares no item; the tool reads it and names none.",
+      "properties": {
+        "c": { "type": "array", "items": { "$ref": "#/$defs/renderHeader" }, "minItems": 1 },
+        "ts": {
+          "type": "object",
+          "properties": { "module": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" } },
+          "required": ["module"],
+          "additionalProperties": false
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "renderLine": { "type": "string", "minLength": 1, "pattern": "^(?!.*\\*/)[^\\n\\r]*$", "description": "One line of prose inside a C comment: no line break, no comment end." },
+    "renderGlob": { "type": "string", "pattern": "^\\*?[A-Za-z][A-Za-z0-9]*\\*?$", "description": "A field name, its start (`worker*`), its end (`*Dbfs`) or a part of it (`*Ring*`)." },
+    "renderHeader": {
+      "type": "object",
+      "description": "One C header: its path, include guard, the project its licence block names, the banner under GENERATED, the @file brief, the system headers it includes, which items it reads (scope: the file's, the default, or the package's) and its sections. numbers: every sheet, each field <prefix><FIELD> with a u literal, a level field (levels) a float one, the omitted fields left out, each with its docs line. codes: every codes item, <prefix><NAME> its code string. scalars: every number spelled OMX_<macro> as omx_contract_limits.h spells it, sorted by macro. limits: every section of omx_contract_limits.h, the same defines.",
+      "properties": {
+        "header": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(/[a-z][a-z0-9_]*)*\\.h$" },
+        "guard": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*_H$" },
+        "project": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+        "banner": { "type": "array", "items": { "$ref": "#/$defs/renderLine" }, "minItems": 1 },
+        "brief": { "$ref": "#/$defs/renderLine" },
+        "includes": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9_/]*\\.h$" }, "uniqueItems": true },
+        "scope": { "enum": ["file", "package"] },
+        "numbers": {
+          "type": "object",
+          "properties": {
+            "comment": { "$ref": "#/$defs/renderLine" },
+            "prefix": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*_$" },
+            "omit": { "type": "array", "items": { "$ref": "#/$defs/renderGlob" }, "uniqueItems": true },
+            "levels": { "$ref": "#/$defs/renderGlob" }
+          },
+          "required": ["comment", "prefix"],
+          "additionalProperties": false
+        },
+        "codes": {
+          "type": "object",
+          "properties": { "comment": { "$ref": "#/$defs/renderLine" }, "prefix": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*_$" } },
+          "required": ["comment", "prefix"],
+          "additionalProperties": false
+        },
+        "scalars": {
+          "type": "object",
+          "properties": { "comment": { "$ref": "#/$defs/renderLine" } },
+          "required": ["comment"],
+          "additionalProperties": false
+        },
+        "limits": {
+          "type": "object",
+          "properties": { "comment": { "$ref": "#/$defs/renderLine" } },
+          "additionalProperties": false
+        }
+      },
+      "required": ["header", "guard", "project", "banner", "brief"],
+      "anyOf": [{ "required": ["numbers"] }, { "required": ["codes"] }, { "required": ["scalars"] }, { "required": ["limits"] }],
       "additionalProperties": false
     },
     "ref": {

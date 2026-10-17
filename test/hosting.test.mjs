@@ -24,6 +24,14 @@ test('the render carries the defines of the header omx-clap-core commits, line f
   assert.equal(out.split('\n').slice(0, 19).join('\n'), committed.split('\n').slice(0, 19).join('\n'), 'the licence block');
 });
 
+test('render --package omx-clap-core: hosted_stage_limits.h, every number as OMX_HOSTED_STAGE_<FIELD>, the worker fields included, as omx-clap-core commits it', () => {
+  const own = renderC(resolvedOf(texts()), { pkg: 'omx-clap-core' });
+  assert.deepEqual(own.map((f) => f.path), ['clap_host_limits.h', 'hosted_stage_limits.h']);
+  assert.equal(own[1].text, readFileSync(join(ROOT, 'test/fixtures/hosted_stage_limits-omx-clap-core.h'), 'utf8'));
+  assert.equal(own[1].text.split('\n').filter((l) => l.startsWith('#define OMX_HOSTED_STAGE_')).length, 20);
+  assert.equal(renderC(resolvedOf(texts())).some((f) => f.path.endsWith('hosted_stage_limits.h')), false, 'the whole read holds those defines in omx_contract_limits.h');
+});
+
 test('a level is a float literal, a count an unsigned one, a code a string, each with its prose', () => {
   const out = render(texts());
   assert.match(out, /^#define CLAP_HOST_CLAMP_DBFS 24\.0f {2}\/\/\/< the level the output is clamped at, in dBFS$/m);
@@ -60,7 +68,7 @@ test('a malformed declaration is refused, by item and rule', () => {
 });
 
 test('the render refuses a stage number that is neither a level nor a count', () => {
-  assert.throws(() => render(texts((d) => { d[hosting].HOSTED_STAGE_LIMITS.value.logBytes = 2.5; })), /neither a level \(Dbfs\) nor a non-negative integer/);
+  assert.throws(() => render(texts((d) => { d[hosting].HOSTED_STAGE_LIMITS.value.logBytes = 2.5; })), /neither a level \(\*Dbfs\) nor a non-negative integer/);
   assert.throws(() => render(texts((d) => { d[hosting].HOSTED_STAGE_LIMITS.docs.logBytes = 'two\nlines'; })), /no one-line description/);
 });
 

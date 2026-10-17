@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * The `c` target: `omxcontract/omx_contract_limits.h`, and `omxcontract/clap_host_limits.h` where the data declares the hosting limits and codes (docs/hosting.md). Every define is spelled by the console engine's
+ * The `c` target: `omxcontract/omx_contract_limits.h`, and beside it the header each file's `render.c` word declares
+ * (docs/render.md); with a package named, only that package's declared headers, at their own paths. Every define of
+ * omx_contract_limits.h is spelled by the console engine's
  * renderer, moved unchanged (c/contract-limits-render.mjs); only the frame (banner, section
  * comments) is this repository's. A plugin's parameter header is rendered by omx-plugins from its
  * declaration, by reference to the items here.
@@ -10,8 +12,9 @@ import {
   cStringLiteral, genCoreLimitBlock, genDeclaredListsBlock, genDeclaredRates, genDeclaredScalarsBlock, genLimitBlock, renderContractLimits,
   scalarLiteral,
 } from './c/contract-limits-render.mjs';
-import { renderClapHostLimits } from './c/clap-host-limits.mjs';
+import { renderOwnerHeader } from './c/owner-headers.mjs';
 import { doors } from './doors.mjs';
+import { packageItems } from '../lib/data.mjs';
 
 const defined = (text) => new Set([...text.matchAll(/^#define (OMX_\w+)/gm)].map((m) => m[1]));
 
@@ -144,8 +147,12 @@ static inline int omx_eq_default_type(unsigned index, unsigned count) {
 }`;
 }
 
-/** The limits header of the resolved data. */
-export function renderLimitsHeader(resolved) {
+/**
+ * The defines of omx_contract_limits.h over `resolved`, its sections each under its comment: the native tables, the
+ * aliases, the declared scalars, lists and sets, the kernels' readouts and the default EQ rule. What omx-contract's
+ * own header holds, and what an owner's `limits` section holds of its own items.
+ */
+export function limitsSections(resolved) {
   const d = doors(resolved);
   const tables = d.NATIVE_LIMIT_TABLES.map(([prefix, table]) => genLimitBlock(prefix, table)).join('\n\n');
   const coreLimits = new Map(d.ALIASES);
@@ -172,6 +179,12 @@ export function renderLimitsHeader(resolved) {
     [centres, `/* The default bands of an EQ with \`count\` bands: THE one rule, for every strip, host and count (omx-contract's
  * lib/eq-defaults.mjs; the ts render exports the same as eqDefaultCentres and eqDefaultTypes). Needs -lm. */`],
   ].filter(([body]) => body);
+  return sections.map(([body, comment]) => `${comment}\n${body}`).join('\n\n');
+}
+
+/** The limits header of the resolved data: omx-contract's own omx_contract_limits.h. */
+export function renderLimitsHeader(resolved) {
+  const d = doors(resolved);
   return `// SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 #ifndef OMX_CONTRACT_LIMITS_H
@@ -186,18 +199,54 @@ export function renderLimitsHeader(resolved) {
  * A C contract (OMX_PRE/OMX_POST/OMX_INVARIANT) reads a limit from HERE, never a literal.
  */
 
-${sections.map(([body, comment]) => `${comment}\n${body}`).join('\n\n')}
+${limitsSections(resolved)}
 
 #endif /* OMX_CONTRACT_LIMITS_H */
 ${d.STANDARD_SAMPLE_RATES ? ratesTail(d.STANDARD_SAMPLE_RATES) : ''}`;
 }
 
-/** Every file of the `c` target: `[{ path, text }]`, paths relative to the output directory. */
-export function renderC(resolved) {
+/** The OMX_ declared scalars of `resolved`, one block sorted by macro: an owner's `scalars` section. */
+const scalarsBlock = (resolved) => genDeclaredScalarsBlock(doors(resolved).DECLARED_SCALARS, new Set());
+
+/**
+ * The headers the `render.c` words of the data declare, `[{ path, text, pkg, omx }]`, `path` the word's `header`;
+ * `omx` when a section spells OMX_ names (scalars, limits), which omx_contract_limits.h of a whole read holds already.
+ * A header reads the items of the file that declares it, or with `scope: package` every item of its package. Those of
+ * one package when `pkg` is given (a data directory's files are the package named).
+ * @throws naming both files: two files that declare one header.
+ */
+export function ownerHeaders(resolved, { pkg, all = false } = {}) {
+  const out = [];
+  const seen = new Map();
+  for (const f of resolved.renders ?? []) {
+    if (!Array.isArray(f.render.c) || (!all && f.pkg !== undefined && f.pkg !== pkg)) continue;
+    for (const h of f.render.c) {
+      if (seen.has(h.header)) throw new Error(`${f.rel} and ${seen.get(h.header)} both declare the header ${h.header}`);
+      seen.set(h.header, f.rel);
+      let items;
+      if (h.scope === 'package') items = packageItems(resolved, f.pkg);
+      else {
+        items = new Map(f.items.map((n) => [n, resolved.get(n)]));
+        items.kernels = f.kernel !== undefined && resolved.kernels?.[f.kernel] ? { [f.kernel]: resolved.kernels[f.kernel] } : {};
+      }
+      const text = renderOwnerHeader(h, items, { scalars: scalarsBlock, limits: limitsSections });
+      out.push({ path: h.header, text, pkg: f.pkg, omx: Boolean(h.scalars || h.limits) });
+    }
+  }
+  return out;
+}
+
+/**
+ * Every file of the `c` target: `[{ path, text }]`, paths relative to the output directory. The whole data renders
+ * omx_contract_limits.h and, under `omxcontract/` beside it, every declared header that spells no OMX_ name (the
+ * layout omx-contract 2.14.0 installed); `{ pkg }` renders every header that package declares, each at its own path,
+ * for the owner to commit.
+ */
+export function renderC(resolved, { pkg } = {}) {
+  if (pkg !== undefined) return ownerHeaders(resolved, { pkg }).map(({ path, text }) => ({ path, text }));
   const files = [{ path: 'omxcontract/omx_contract_limits.h', text: renderLimitsHeader(resolved) }];
-  const stage = resolved.get('HOSTED_STAGE_LIMITS');
-  const codes = resolved.get('HOSTING_CODES');
-  if (stage && codes) files.push({ path: 'omxcontract/clap_host_limits.h', text: renderClapHostLimits(stage, codes) });
+  // a header of OMX_ names repeats lines of omx_contract_limits.h, which the whole read holds once
+  for (const h of ownerHeaders(resolved, { all: true })) if (!h.omx) files.push({ path: `omxcontract/${h.path}`, text: h.text });
   return files;
 }
 
