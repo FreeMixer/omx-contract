@@ -170,6 +170,7 @@ test('a word the schema does not have is contract.file.invalid, never skipped', 
     ['a travel without its unit', (d) => { delete d.controls[0].travel.unit; }],
     ['a travel without its scale', (d) => { delete d.controls[0].travel.scale; }],
     ['a control without its id', (d) => { delete d.controls[0].id; }],
+    ['a symbol that is no identifier', (d) => { d.controls[0].symbol = 'fx delay'; }],
   ];
   for (const [what, fn] of arms) {
     const d = broken(AUTHORED, fn);
@@ -189,6 +190,7 @@ const ARMS = [
   ['an authored meaning of unknown', AUTHORED, (d) => { d.controls[2].meaning = 'unknown'; }, 'descriptorUnknownAuthored'],
   ['two controls with one id', AUTHORED, (d) => { d.controls[1].id = 0; }, 'descriptorControlDuplicate'],
   ['two controls with one name', SCANNED_CLAP, (d) => { d.controls[1].name = 'shape'; }, 'descriptorControlDuplicate'],
+  ['two controls with one symbol', AUTHORED, (d) => { d.controls[1].symbol = d.controls[0].symbol; }, 'descriptorControlDuplicate'],
   ['two audio inputs with one id', AUTHORED, (d) => { d.ports.push({ ...d.ports[0], name: 'Again' }); }, 'descriptorPortDuplicate'],
   ['a default above the max', AUTHORED, (d) => { d.controls[0].travel.default = 2001; }, 'descriptorRange'],
   ['a min above the max', BUILT, (d) => { d.controls[0].travel.min = 30000; d.controls[0].travel.default = 25000; }, 'descriptorRange'],
