@@ -42,8 +42,10 @@ test('versions: the RPM Conflicts and the DEB Breaks name the same owners at the
   const rpm = Object.fromEntries([...read('packaging/omx-contract.spec').matchAll(/^Conflicts: (\S+) < (\S+)$/gm)].map((m) => [m[1], m[2]]));
   const breaks = /^Breaks: (.+)$/m.exec(read('debian/control'))?.[1] ?? '';
   const deb = Object.fromEntries([...breaks.matchAll(/([a-z0-9.+-]+) \(<< ([^)]+)\)/g)].map((m) => [m[1], m[2]]));
-  assert.deepEqual(rpm, Object.fromEntries(OWNER_FLOORS.map(([r, , v]) => [r, v])));
-  assert.deepEqual(deb, Object.fromEntries(OWNER_FLOORS.map(([, d, v]) => [d, v])));
+  // the floor ends in `~` so a pre-release snapshot of the floor release (0.22.0~git…) is not refused: in both RPM
+  // and DEB ordering `0.22.0~x` sorts before `0.22.0`, and the CI builds of the owners are exactly such snapshots
+  assert.deepEqual(rpm, Object.fromEntries(OWNER_FLOORS.map(([r, , v]) => [r, `${v}~`])));
+  assert.deepEqual(deb, Object.fromEntries(OWNER_FLOORS.map(([, d, v]) => [d, `${v}~`])));
   for (const [, , v] of OWNER_FLOORS) assert.match(read('debian/changelog').split('\n -- ')[0], new RegExp(v.replace(/\./g, '\\.')), `the newest changelog entry says ${v}`);
 });
 
