@@ -14,7 +14,7 @@ import { main } from '../bin/omx-contract.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
-import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, relOf, scratchData } from './helpers.mjs';
 
 const json = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
 const header = (dir = UNION) => renderC(resolveData(loadData(dir)))[0].text;
@@ -59,7 +59,7 @@ test('perturbation: move a hand-over corner, the header and the json follow and 
 
 test('perturbation: swap two kinds, the integers move and --check goes red', () => {
   const dir = scratchData();
-  editData(dir, 'primitives.json', (d) => { const ids = d.BIQUAD_KINDS.ids; [ids[3], ids[4]] = [ids[4], ids[3]]; });
+  editData(dir, relOf('BIQUAD_KINDS').slice('data/'.length), (d) => { const ids = d.BIQUAD_KINDS.ids; [ids[3], ids[4]] = [ids[4], ids[3]]; });
   assert.match(header(dir), /^  OMX_BIQUAD_KINDS_LOWPASS = 3,$/m);
   assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
 });

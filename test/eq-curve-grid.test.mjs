@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// The EQ curve grid (data/curves.json, docs/curves.md): the log frequency grid an EQ response curve is sampled on.
+// The EQ curve grid (omx-dsp's, read from the owners' fixture; docs/curves.md): the log frequency grid an EQ response curve is sampled on.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { loadData } from '../lib/data.mjs';
@@ -8,9 +8,9 @@ import { classify } from '../lib/semver.mjs';
 import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { resolvedOf, texts } from './helpers.mjs';
+import { relOf, resolvedOf, texts } from './helpers.mjs';
 
-const curves = 'data/curves.json';
+const curves = relOf('EQ_CURVE_GRID');
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 const gridOf = (t = texts()) => resolvedOf(t).get('EQ_CURVE_GRID').value;
 

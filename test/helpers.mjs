@@ -37,6 +37,14 @@ export function scratchUnion() {
 /** The union of data/ and the owners' fixture, read like a data directory: the 2.14.0 set of 228 items. */
 export const UNION = scratchUnion();
 
+const unionItems = loadData(UNION).items;
+/** The file of the union that declares item `name`, as a rel (`data/primitives/butterworth-q.json`). */
+export function relOf(name) {
+  const it = unionItems.get(name);
+  if (!it) throw new Error(`the union declares no ${name}`);
+  return it.rel;
+}
+
 /** A scratch copy of the union (and schema/ beside it), to perturb; returns its data directory. */
 export const scratchData = scratchUnion;
 

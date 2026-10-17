@@ -10,7 +10,7 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, UNION, dropDecl, resolvedOf, texts } from './helpers.mjs';
+import { DATA, UNION, dropDecl, relOf, resolvedOf, texts } from './helpers.mjs';
 
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 const header = (t) => renderC(resolvedOf(t))[0].text;
@@ -49,7 +49,7 @@ test('two enumerators of one name are refused', () => {
 test('a travel names its scale by an id of PARAM_SCALES', () => {
   const r = resolvedOf(texts());
   assert.deepEqual(['freqHz', 'hpfFreqHz', 'lpfFreqHz'].map((f) => r.get('EQ_CONTINUOUS_TRAVELS').value[f].scale), ['log', 'log', 'log']);
-  assert.ok(problems(texts((d) => { d['data/primitives.json'].EQ_CONTINUOUS_TRAVELS.fields.freqHz.scale = 'exp'; })).includes('EQ_CONTINUOUS_TRAVELS:scale'));
+  assert.ok(problems(texts((d) => { d[relOf('EQ_CONTINUOUS_TRAVELS')].EQ_CONTINUOUS_TRAVELS.fields.freqHz.scale = 'exp'; })).includes('EQ_CONTINUOUS_TRAVELS:scale'));
 });
 
 test('ceilSum rounds the sum of its terms up, and follows a term that moves', () => {
