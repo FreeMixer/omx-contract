@@ -148,8 +148,21 @@ static inline int omx_eq_default_type(unsigned index, unsigned count) {
 }
 
 /**
+ * A list's former names (its item's `formerly`): OMX_<FORMER>_COUNT and OMX_<FORMER>_INIT defined as the list's own
+ * defines, never as a second copy of its numbers, each under a line naming the release that removes it.
+ */
+function genFormerListNames(former) {
+  return former.map(({ former: f, name, removedIn }) => [
+    `/* OMX_${f}_* is the former name of OMX_${name}_*, kept until ${removedIn} removes it: read OMX_${name}_*. */`,
+    `#define OMX_${f}_COUNT OMX_${name}_COUNT`,
+    `#define OMX_${f}_INIT OMX_${name}_INIT`,
+  ].join('\n')).join('\n');
+}
+
+/**
  * The C names the c render spells for each item, `Map<name, Set<C name>>`, beyond OMX_<NAME>_*: a `_LIMITS` table's
- * fields (OMX_<PREFIX>_<FIELD>_MIN/_MAX/_DEFAULT), a `c.alias` (OMX_<FACT>_<FIELD>_*), a declared scalar's macro
+ * fields (OMX_<PREFIX>_<FIELD>_MIN/_MAX/_DEFAULT), a `c.alias` (OMX_<FACT>_<FIELD>_*), a list's former name
+ * (OMX_<FORMER>_COUNT/_INIT), a declared scalar's macro
  * (OMX_<MACRO>, a sheet's or `_KERNEL` item's leaves included) and the names a file's `render.c` word gives its items
  * (docs/render.md). What `links` takes as naming the item.
  */
@@ -161,6 +174,7 @@ export function cNamesOf(resolved) {
     if (isNativeTable(r)) for (const f of Object.keys(r.value)) travel(r.name, `OMX_${r.name.slice(0, -'_LIMITS'.length)}_${constCase(f)}`);
     if (r.c?.alias) travel(r.name, `OMX_${r.c.alias.fact.toUpperCase()}_${constCase(r.c.alias.field)}`);
   }
+  for (const f of doors(resolved).FORMER_LIST_NAMES) for (const s of ['COUNT', 'INIT']) add(f.name, `OMX_${f.former}_${s}`);
   for (const s of doors(resolved).DECLARED_SCALARS) {
     const head = s.path.split('.')[0];
     add(head, `OMX_${s.macro}`);
@@ -174,8 +188,8 @@ export function cNamesOf(resolved) {
 
 /**
  * The defines of omx_contract_limits.h over `resolved`, its sections each under its comment: the native tables, the
- * aliases, the declared scalars, lists and sets, the kernels' readouts and the default EQ rule. What omx-contract's
- * own header holds, and what an owner's `limits` section holds of its own items.
+ * aliases, the declared scalars, lists, the lists' former names and sets, the kernels' readouts and the default EQ
+ * rule. What omx-contract's own header holds, and what an owner's `limits` section holds of its own items.
  */
 export function limitsSections(resolved) {
   const d = doors(resolved);
@@ -185,6 +199,7 @@ export function limitsSections(resolved) {
   const above = defined([tables, aliases].join('\n'));
   const scalars = d.DECLARED_SCALARS.length ? genDeclaredScalarsBlock(d.DECLARED_SCALARS, above) : '';
   const lists = d.DECLARED_LISTS.length ? genDeclaredListsBlock(d.DECLARED_LISTS, defined([tables, aliases, scalars].join('\n'))) : '';
+  const former = d.FORMER_LIST_NAMES.length ? genFormerListNames(d.FORMER_LIST_NAMES) : '';
   const sets = d.DECLARED_SET_ITEMS.length ? genDeclaredSetsEnums(d.DECLARED_SET_ITEMS) : '';
   const readouts = genReadouts(resolved.kernels);
   const centres = resolved.has('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ') ? eqCentresFunction() : '';
@@ -196,6 +211,8 @@ export function limitsSections(resolved) {
     [scalars, `/* Every scalar, sheet leaf and single travel's numbers, one block sorted by macro. An integer value
  * is an integer literal, any other a float literal AND its OMX_<macro>_DOUBLE spelling. */`],
     [lists, `/* Every list rendered to C, sorted by list: OMX_<LIST>_COUNT and OMX_<LIST>_INIT { a, b, … }. */`],
+    [former, `/* The former names of renamed lists (an item's \`formerly\`), deprecated: each expands to the list's own define, so a
+ * reader of the old name builds unchanged until the release named beside it removes the name. */`],
     [sets, `/* Every set rendered to C, sorted by set: an enum of the ids (a named id's position, or a numeric id's number), \`OMX_<SET>_COUNT\` and,
  * where the set names a default, \`OMX_<SET>_DEFAULT\`. */`],
     [readouts, `/* Every kernel's readouts, the meters a host draws (docs/readouts.md): an enum of the readouts at their position,
