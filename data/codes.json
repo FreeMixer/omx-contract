@@ -75,7 +75,7 @@
       },
       "descriptorControlDuplicate": {
         "code": "contract.descriptor.control-duplicate",
-        "doc": "two controls of a descriptor with one id, or with one name"
+        "doc": "two controls of a descriptor with one id, one name or one symbol"
       },
       "descriptorPortDuplicate": {
         "code": "contract.descriptor.port-duplicate",

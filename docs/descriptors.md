@@ -56,6 +56,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | control | `kind`: `toggle`, `trigger` | On or off (LV2 `lv2:toggled`); a momentary action (LV2 `pprops:trigger`) | new |
 | control | `travel.min`, `.max`, `.step`, `.unit`, `.default`, `.defaultFrom`, `.scale` | Range, unit, scale (an id of `PARAM_SCALES`) and the come-up value | existing |
 | control | `id` | The host's handle: the CLAP `clap_id` (an integer) or the LV2 port symbol | new |
+| control | `symbol` | The stable name a session keys the control by, beside a CLAP `clap_id`: our authored plugins' parameter-contract symbol, so a restore finds the control when ids move. Optional; an LV2 control's `id` is its symbol already | new |
 | control | `label` | The display name, when it differs from `name` | new |
 | control | `group` | A path, outer first: `["Filter", "Envelope"]`. CLAP `module`, LV2 `pg:group`, our panel section | new |
 | control | `meaning` | What the control does, from the closed list below. A skin binds by meaning, never by id | new |
@@ -144,7 +145,7 @@ file, the control or port, and the code; the reader refuses the whole read on th
 |---|---|
 | `contract.descriptor.origin-source` | An `authored` descriptor with no `impl` link, or a `built` or `scanned` one with a control that has no `from` link (its own or the file's). |
 | `contract.descriptor.unknown-authored` | An `authored` descriptor with a unit, a scale or a meaning of `unknown`. |
-| `contract.descriptor.control-duplicate` | Two controls with one `id`, or with one `name`. |
+| `contract.descriptor.control-duplicate` | Two controls with one `id`, one `name` or one `symbol`. |
 | `contract.descriptor.port-duplicate` | Two ports of one kind and direction with one `id` (CLAP numbers audio and note ports, inputs and outputs, apart). |
 | `contract.descriptor.range` | A travel whose `min` is above its `max`, whose `step` is negative, or whose `default` lies outside it. |
 | `contract.descriptor.choice` | A choice whose `default` is not one of its ids, or whose `labels` or `values` are not one per id. |

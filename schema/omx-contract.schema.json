@@ -98,9 +98,10 @@
     },
     "descriptorControl": {
       "type": "object",
-      "description": "One control of a plugin: the kernel control's words, with the host's id, a label, a group, a meaning and the CLAP param flags.",
+      "description": "One control of a plugin: the kernel control's words, with the host's id, the symbol a session keys it by, a label, a group, a meaning and the CLAP param flags.",
       "properties": {
         "id": { "$ref": "#/$defs/handle" },
+        "symbol": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$", "description": "The stable name a session keys the control by, beside a CLAP clap_id: our authored plugins' parameter-contract symbol. An LV2 control's id is its symbol already." },
         "name": { "$ref": "#/$defs/text" },
         "label": { "$ref": "#/$defs/text" },
         "doc": { "$ref": "#/$defs/text" },

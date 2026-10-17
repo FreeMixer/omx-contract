@@ -16,6 +16,7 @@
   "controls": [
     {
       "id": 0,
+      "symbol": "fxDelayTime",
       "name": "fxDelayTime",
       "label": "Time",
       "kind": "travel",
@@ -26,6 +27,7 @@
     },
     {
       "id": 1,
+      "symbol": "fxDelayFeedback",
       "name": "fxDelayFeedback",
       "label": "Feedback",
       "kind": "travel",
@@ -36,6 +38,7 @@
     },
     {
       "id": 2,
+      "symbol": "tone",
       "name": "tone",
       "label": "Tone",
       "kind": "travel",
@@ -46,6 +49,7 @@
     },
     {
       "id": 3,
+      "symbol": "mix",
       "name": "mix",
       "label": "Mix",
       "kind": "travel",
@@ -56,6 +60,7 @@
     },
     {
       "id": 4,
+      "symbol": "pingpong",
       "name": "pingpong",
       "label": "Pingpong",
       "kind": "toggle",
