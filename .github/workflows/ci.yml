@@ -34,6 +34,17 @@ jobs:
           node bin/omx-contract.mjs render --target c --out include --check
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check
+      - id: handback-contract-dir
+        name: The data installed as the contract directory renders the same bytes, and its links hold
+        run: |
+          make install DESTDIR="$RUNNER_TEMP/inst" PREFIX=/usr DATADIR=/usr/share INCLUDEDIR=/usr/include
+          dir="$RUNNER_TEMP/inst/usr/share/omx-contract/contract.d"
+          node bin/omx-contract.mjs validate --contract-dir "$dir"
+          node bin/omx-contract.mjs fmt --check --contract-dir "$dir"
+          node bin/omx-contract.mjs render --target c --out include --check --contract-dir "$dir"
+          node bin/omx-contract.mjs render --target json --out share/omx-contract --check --contract-dir "$dir"
+          node bin/omx-contract.mjs render --target ts --out test/golden/ts --check --contract-dir "$dir"
+          node bin/omx-contract.mjs links --check
       - id: handback-test
         name: Tests (schema, semantic checks, goldens, perturbation, semver, round trip)
         run: npm test
