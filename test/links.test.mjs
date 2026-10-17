@@ -173,6 +173,43 @@ test('the CLI: links --check exits 1 naming the code first, 0 over a clean tree;
   rmSync(dir, { recursive: true, force: true });
 });
 
+put(TREE, 'src/names.c', `int gate_clamp(float r) { return r < OMX_GATE_RATIO_MIN; }
+float pan_clamp(float p) { return p > OMX_PAN_PAN_MAX ? OMX_PAN_PAN_MAX : p; }
+int stage_warm(void) { return CLAP_HOST_WARMUP_BLOCKS; }
+const char *stage_refusal(void) { return CLAP_HOST_CODE_NOTE_INPUT; }
+int stage_worker(void) { return CLAP_HOST_WORKER_RING_BYTES; }
+int kernel_taps(void) { return OMX_FX_TAPS_MAX; }
+int unrelated(void) { return OMX_OTHER_THING; }
+`);
+
+test('an impl names its item by any C name the render spells for it: a limit table\'s field, an alias, a kernel macro, an owner\'s prefix', () => {
+  const at = (sym) => ({ impl: `src/names.c#${sym}` });
+  const doc = (impl) => ({
+    $schema: '../schema/omx-contract.schema.json',
+    render: { c: [{ header: 'clap_host_limits.h', guard: 'CLAP_HOST_LIMITS_H', project: 'p', banner: ['b'], brief: 'b', numbers: { comment: 'c', prefix: 'CLAP_HOST_', omit: ['worker*'] }, codes: { comment: 'c', prefix: 'CLAP_HOST_CODE_' } }] },
+    STAGE_LIMITS: { kind: 'sheet', doc: 'd', value: { warmupBlocks: 64, workerRingBytes: 16384 }, source: at(impl.STAGE_LIMITS ?? 'stage_warm') },
+    STAGE_CODES: { kind: 'codes', doc: 'd', codes: { noteInput: { code: 'hosting.clap.note-input' } }, source: at(impl.STAGE_CODES ?? 'stage_refusal') },
+  });
+  const other = (impl) => ({
+    $schema: '../../schema/omx-contract.schema.json',
+    controls: [{ name: 'pan', kind: 'travel', global: 'PAN_RANGE', doc: 'd', travel: { min: -1, max: 1 }, c: { alias: { fact: 'pan', field: 'pan' } }, source: at(impl.PAN_RANGE ?? 'pan_clamp') }],
+    tables: { GATE_LIMITS: { doc: 'd', source: at(impl.GATE_LIMITS ?? 'gate_clamp') } },
+    constants: { FX_TAPS_KERNEL: { kind: 'sheet', doc: 'd', value: { max: 4 }, source: at(impl.FX_TAPS_KERNEL ?? 'kernel_taps') } },
+  });
+  const run = (impl = {}) => {
+    const k = other(impl);
+    k.controls.push({ name: 'ratio', kind: 'travel', table: 'GATE_LIMITS', travel: { min: 1, max: 10 } });
+    const data = loadData(null, { 'data/x.json': JSON.stringify(doc(impl)), 'data/kernels/fx.json': JSON.stringify(k) });
+    return checkLinks(data, { root: TREE }).problems.map((p) => `${p.item}:${p.code}`);
+  };
+  assert.deepEqual(run(), [], 'GATE_LIMITS by OMX_GATE_RATIO_MIN, PAN_RANGE by OMX_PAN_PAN_MAX, FX_TAPS_KERNEL by OMX_FX_TAPS_MAX, the sheet by CLAP_HOST_*, the codes by CLAP_HOST_CODE_*');
+  // sabotage: each item's connector reads something else, and is refused as unread
+  const unread = CONTRACT_CODES.sourceUnread;
+  for (const item of ['GATE_LIMITS', 'PAN_RANGE', 'FX_TAPS_KERNEL', 'STAGE_LIMITS', 'STAGE_CODES']) assert.deepEqual(run({ [item]: 'unrelated' }), [`${item}:${unread}`], item);
+  assert.deepEqual(run({ STAGE_LIMITS: 'stage_worker' }), [`STAGE_LIMITS:${unread}`], 'an omitted field is no C name of the item');
+  raised.add(unread);
+});
+
 test('every source code has its arm', () => {
   const source = Object.entries(CONTRACT_CODES).filter(([k]) => k.startsWith('source')).map(([, c]) => c);
   assert.deepEqual(source.filter((c) => !raised.has(c)), []);

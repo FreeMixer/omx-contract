@@ -147,7 +147,10 @@ Run by the owner's CI over its own tree; a consumer never resolves links. For ev
 
 - every `impl` link: its path exists under the root, it defines its symbol once, and that definition (the line of
   a `#define`, the body of a function or enum, the statement of a declaration) names the item, as its name, its C
-  spelling `OMX_<NAME>` or one of that spelling's derived names. An `impl` that is also the item's whole-value
+  spelling `OMX_<NAME>` or one of that spelling's derived names, or any other C name the render spells for it: a
+  `_LIMITS` table's `OMX_<PREFIX>_<FIELD>_MIN` (`GATE_LIMITS` is read as `OMX_GATE_RATIO_MIN`), a `c.alias`
+  (`PAN_RANGE` as `OMX_PAN_PAN_MIN`), a declared scalar's macro, and the names a file's `render` word gives its
+  items (`CLAP_HOST_<FIELD>`, `CLAP_HOST_CODE_<NAME>`; a field the word omits is no name of the item). An `impl` that is also the item's whole-value
   `from` link is the twin that holds the value, and its equality is what names it;
 - every `from` link: the value it defines equals the declared value. A `#define` of a number or a string, a TS or
   JS `const` of a number or a string, and an `enum` (its enumerators in order, read without their common prefix,

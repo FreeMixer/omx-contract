@@ -73,3 +73,8 @@ omx-contract 2.14.0 installed. An owner's items are items like any other, so the
 omx_contract_limits.h of a whole read once, not a second time. A define of a package header whose value names another
 package's (a readout's `OMX_PARAM_SCALES_*` scale) needs that package's header included first.
 
+## Links
+
+`omx-contract links --check` takes a C name a header spells as naming its item, as it takes `OMX_<NAME>`: an `impl`
+link to a function that reads `CLAP_HOST_CLAMP_DBFS` names `HOSTED_STAGE_LIMITS`; an omitted field is no name of it
+(docs/contract-dir.md).
