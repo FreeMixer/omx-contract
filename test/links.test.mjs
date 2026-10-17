@@ -12,6 +12,7 @@ import { after, test } from 'node:test';
 import { CONTRACT_CODES } from '../lib/codes.mjs';
 import { loadData } from '../lib/data.mjs';
 import { checkLinks, definitions, parseLink } from '../lib/links.mjs';
+import { validateData } from '../lib/validate.mjs';
 import { ROOT } from './helpers.mjs';
 
 const TREE = mkdtempSync(join(tmpdir(), 'omx-links-'));
@@ -208,6 +209,23 @@ test('an impl names its item by any C name the render spells for it: a limit tab
   for (const item of ['GATE_LIMITS', 'PAN_RANGE', 'FX_TAPS_KERNEL', 'STAGE_LIMITS', 'STAGE_CODES']) assert.deepEqual(run({ [item]: 'unrelated' }), [`${item}:${unread}`], item);
   assert.deepEqual(run({ STAGE_LIMITS: 'stage_worker' }), [`STAGE_LIMITS:${unread}`], 'an omitted field is no C name of the item');
   raised.add(unread);
+});
+
+test('a link may carry its own at: an impl in the owner\'s tree beside a from in another tree at the commit it was read', () => {
+  put(TREE, 'src/limit.c', 'int k_limit_clamp(int v) { return v > OMX_K_LIMIT ? OMX_K_LIMIT : v; }\n');
+  const doc = items({ K_LIMIT: { kind: 'scalar', doc: 'd', unit: '', value: 7, source: { impl: 'src/limit.c#k_limit_clamp', from: { link: 'src/k.ts#K_LIMIT', at: 'openmixer@6ee8a9b' } } } });
+  const r = checkLinks(dataOf(doc), { root: TREE });
+  assert.deepEqual(r.problems, []);
+  assert.ok(r.unchecked.includes('K_LIMIT src/k.ts#K_LIMIT (at openmixer@6ee8a9b)'), 'the from lies in a tree not named');
+  assert.ok(!r.unchecked.some((u) => u.startsWith('K_LIMIT src/limit.c')), 'the impl, at no at of its own, is the owner\'s and checked');
+  assert.deepEqual(checkLinks(dataOf(doc), { root: TREE, trees: { openmixer: OTHER } }).problems, [], 'named, the from is read there and holds 7');
+  doc.K_LIMIT.value = 8;
+  assert.deepEqual(codesOf(doc, { trees: { openmixer: OTHER } }), [`K_LIMIT:${CONTRACT_CODES.sourceDiffers}`], 'and a moved value is red');
+  const map = items({ K_TRAVEL: { ...items().K_TRAVEL, source: { impl: 'src/omx_k.c#omx_k_travel_clamp', from: { max: { link: 'src/k.ts#K_LIMIT', at: 'openmixer@6ee8a9b' } } } } });
+  assert.deepEqual(codesOf(map, { trees: { openmixer: OTHER } }), [`K_TRAVEL:${CONTRACT_CODES.sourceDiffers}`], 'a field of a from map with its own at: K_LIMIT 7 is not the max 100');
+  assert.deepEqual(validateData(dataOf(doc)).filter((p) => p.rule === 'schema'), [], 'the schema takes { link, at }');
+  const bad = items({ K_X: { kind: 'scalar', doc: 'd', unit: '', value: 1, source: { from: { link: 'src/k.ts#K_LIMIT', at: 'not a package' } } } });
+  assert.ok(validateData(dataOf(bad)).some((p) => p.item === 'K_X' && p.rule === 'schema'), 'an at that is no <package>@<version> is refused');
 });
 
 test('every source code has its arm', () => {

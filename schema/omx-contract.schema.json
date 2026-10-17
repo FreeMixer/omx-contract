@@ -219,19 +219,28 @@
       "description": "<path>#<symbol>[.<field>|[<key>]]...: a path relative to the owner's root, a symbol defined there (enum X and struct X name a tag), and selectors into its value.",
       "pattern": "^[A-Za-z0-9_+.-]+(/[A-Za-z0-9_+.-]+)*#((enum|struct|union) )?[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*|\\[[A-Za-z0-9_.-]+\\])*$"
     },
-    "links": { "oneOf": [{ "$ref": "#/$defs/link" }, { "type": "array", "items": { "$ref": "#/$defs/link" }, "minItems": 1, "uniqueItems": true }] },
+    "linkAt": {
+      "type": "object",
+      "description": "One link with its own at: <package>@<version> of the tree it lies in, in place of the source's (an impl in the owner's tree beside a from in the console's, at the commit it was imported from).",
+      "properties": { "link": { "$ref": "#/$defs/link" }, "at": { "$ref": "#/$defs/at" } },
+      "required": ["link", "at"],
+      "additionalProperties": false
+    },
+    "oneLink": { "oneOf": [{ "$ref": "#/$defs/link" }, { "$ref": "#/$defs/linkAt" }] },
+    "at": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*@[A-Za-z0-9._+-]+$" },
+    "links": { "oneOf": [{ "$ref": "#/$defs/oneLink" }, { "type": "array", "items": { "$ref": "#/$defs/oneLink" }, "minItems": 1, "uniqueItems": true }] },
     "source": {
       "type": "object",
-      "description": "Where a definition comes from and where it is implemented (docs/contract-dir.md): from, the provenance, a link compared to the whole value or a map from a field path of the value to a link; impl, the connector; at, <package>@<version> of links outside the owner's tree.",
+      "description": "Where a definition comes from and where it is implemented (docs/contract-dir.md): from, the provenance, a link compared to the whole value or a map from a field path of the value to a link; impl, the connector; at, <package>@<version> of links outside the owner's tree. A link may carry its own at ({ link, at }), which stands for it in place of the source's.",
       "properties": {
         "from": {
           "oneOf": [
-            { "$ref": "#/$defs/link" },
-            { "type": "object", "propertyNames": { "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$" }, "additionalProperties": { "$ref": "#/$defs/link" }, "minProperties": 1 }
+            { "$ref": "#/$defs/oneLink" },
+            { "type": "object", "propertyNames": { "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$" }, "additionalProperties": { "$ref": "#/$defs/oneLink" }, "minProperties": 1 }
           ]
         },
         "impl": { "$ref": "#/$defs/links" },
-        "at": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*@[A-Za-z0-9._+-]+$" }
+        "at": { "$ref": "#/$defs/at" }
       },
       "minProperties": 1,
       "additionalProperties": false
