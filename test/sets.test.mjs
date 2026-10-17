@@ -10,7 +10,7 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, resolvedOf, texts } from './helpers.mjs';
+import { DATA, dropDecl, resolvedOf, texts } from './helpers.mjs';
 
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 const header = (t) => renderC(resolvedOf(t))[0].text;
@@ -67,6 +67,9 @@ test('the EQ band budget: the reserve and both planters must fit EQ_MAX_BANDS', 
   assert.ok(problems(texts((d, at) => { at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 11; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
   assert.ok(problems(texts((d, at) => { at('data/kernels/hrp.json', 'HRP_DEFAULT_MAX_AUTO_BANDS').value = 12; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
   assert.ok(problems(texts((d, at) => { at(eq, 'EQ_MAX_BANDS').value = 22; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
+  // a read without one of the terms (the console's FBS default is not installed) skips the sum and says no NaN
+  const without = problems(texts((d, at) => { dropDecl('data/kernels/fbs.json', d['data/kernels/fbs.json'], 'FBS_DEFAULT_MAX_AUTO_BANDS'); at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 30; }));
+  assert.ok(!without.includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'), JSON.stringify(without));
 });
 
 test('a strip type never starts with more bands than it may hold, and the rule answers for its count', () => {
