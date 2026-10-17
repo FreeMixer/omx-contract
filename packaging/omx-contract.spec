@@ -43,9 +43,9 @@ Summary: Headers, JSON data and schema to build on the FreeMixer declarations
 Recommends: %{name} = %{version}-%{release}
 Provides: %{name}-static = %{version}-%{release}
 # the owners' releases before they installed their own definitions read names this release no longer carries
-Conflicts: omx-dsp-devel < 0.22.0
-Conflicts: omx-clap-core-devel < 0.10.0
-Conflicts: omx-plugins-devel < 0.10.0
+Conflicts: omx-dsp-devel < 0.22.0~
+Conflicts: omx-clap-core-devel < 0.10.0~
+Conflicts: omx-plugins-devel < 0.10.0~
 
 %description devel
 Everything you need to build against omx-contract: the C render of omx-contract under include/omxcontract (the limits header), the resolved json
