@@ -474,6 +474,16 @@
           "type": "object",
           "properties": { "render": { "type": "boolean" } },
           "additionalProperties": false
+        },
+        "formerly": {
+          "type": "object",
+          "description": "The name the list carried before a rename, kept for one release as a deprecated alias of this one (C defines that expand to this list's, a TypeScript export bound to this one, an entry of the JSON render's formerNames), so its readers move to the new name in their own release. `removedIn` is the release that drops the alias.",
+          "properties": {
+            "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+            "removedIn": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+          },
+          "required": ["name", "removedIn"],
+          "additionalProperties": false
         }
       },
       "required": ["kind", "doc", "unit", "values"],
