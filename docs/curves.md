@@ -3,8 +3,9 @@
 # The EQ curve grid
 
 An EQ response curve is a list of frequencies and the summed response at each. The frequencies come from one
-declaration, `EQ_CURVE_GRID` in `data/curves.json`, so the code that evaluates a curve and the server that serves it
-sample the same points, and no client spells them.
+declaration, `EQ_CURVE_GRID`, so the code that evaluates a curve and the server that serves it sample the same points,
+and no client spells them. omx-dsp declares it, in its `data/primitives/eq-curve-grid.json`, and installs it into the
+contract directory; this page says what the words mean.
 
 ## The grid
 

@@ -20,9 +20,9 @@ import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const resolved = (dir = DATA) => resolveData(loadData(dir));
+const resolved = (dir = UNION) => resolveData(loadData(dir));
 const items = (dir) => JSON.parse(renderJson(resolved(dir), '0.0.0')[0].text).items;
 const header = (dir) => renderC(resolved(dir))[0].text;
 const dts = (dir) => renderTs(resolved(dir)).find((f) => f.path.endsWith('.d.ts')).text;
@@ -52,6 +52,6 @@ test('perturbation: dropping the default leaves the readers nothing to derive fr
   editData(dir, 'kernels/hrp.json', (d, at) => { delete at('HRP_AMOUNT_RANGE').travel.default; delete at('HRP_AMOUNT_RANGE').travel.defaultFrom; });
   assert.notDeepEqual(items(dir).HRP_AMOUNT_RANGE.value, CONSUMER);
   assert.doesNotMatch(header(dir), /OMX_HRP_AMOUNT_RANGE_DEFAULT/);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
-  assert.equal(main(['render', '--target', 'ts', '--out', `${ROOT}/test/golden/ts`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'ts', '--out', `${RENDERS}/test/golden/ts`, '--check', '--data', dir]), 1);
 });

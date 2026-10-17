@@ -10,7 +10,7 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, resolvedOf, texts } from './helpers.mjs';
+import { DATA, UNION, dropDecl, relOf, resolvedOf, texts } from './helpers.mjs';
 
 const problems = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 const header = (t) => renderC(resolvedOf(t))[0].text;
@@ -49,7 +49,7 @@ test('two enumerators of one name are refused', () => {
 test('a travel names its scale by an id of PARAM_SCALES', () => {
   const r = resolvedOf(texts());
   assert.deepEqual(['freqHz', 'hpfFreqHz', 'lpfFreqHz'].map((f) => r.get('EQ_CONTINUOUS_TRAVELS').value[f].scale), ['log', 'log', 'log']);
-  assert.ok(problems(texts((d) => { d['data/primitives.json'].EQ_CONTINUOUS_TRAVELS.fields.freqHz.scale = 'exp'; })).includes('EQ_CONTINUOUS_TRAVELS:scale'));
+  assert.ok(problems(texts((d) => { d[relOf('EQ_CONTINUOUS_TRAVELS')].EQ_CONTINUOUS_TRAVELS.fields.freqHz.scale = 'exp'; })).includes('EQ_CONTINUOUS_TRAVELS:scale'));
 });
 
 test('ceilSum rounds the sum of its terms up, and follows a term that moves', () => {
@@ -67,6 +67,9 @@ test('the EQ band budget: the reserve and both planters must fit EQ_MAX_BANDS', 
   assert.ok(problems(texts((d, at) => { at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 11; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
   assert.ok(problems(texts((d, at) => { at('data/kernels/hrp.json', 'HRP_DEFAULT_MAX_AUTO_BANDS').value = 12; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
   assert.ok(problems(texts((d, at) => { at(eq, 'EQ_MAX_BANDS').value = 22; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
+  // a read without one of the terms (the console's FBS default is not installed) skips the sum and says no NaN
+  const without = problems(texts((d, at) => { dropDecl('data/kernels/fbs.json', d['data/kernels/fbs.json'], 'FBS_DEFAULT_MAX_AUTO_BANDS'); at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 30; }));
+  assert.ok(!without.includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'), JSON.stringify(without));
 });
 
 test('a strip type never starts with more bands than it may hold, and the rule answers for its count', () => {
@@ -92,7 +95,7 @@ test('a set\'s ids appended are MINOR, changed or removed MAJOR, its default add
 });
 
 test('the shipped data resolves, and the 1.3.0 items are all there', () => {
-  const r = resolveData(loadData(DATA));
+  const r = resolveData(loadData(UNION));
   for (const n of ['FBS_TRACK_SLOTS', 'DEFAULT_THRESHOLDS', 'HRP_MAX_VOICES', 'HRP_AMOUNT_RANGE', 'RTA_FFT_SIZE_MAX', 'BUS_INPUT_CAP', 'OPERATOR_EQ_BANDS_RESERVE',
     'EQ_BAND_TYPES', 'FILTER_SLOPES', 'EQ_BAND_COUNTS', 'DEESS_MODES', 'DRIVE_CURVES', 'DRIVE_BANDS', 'REVERB_ALGORITHMS', 'ROTARY_SPEEDS', 'TREMOLO_MODES',
     'GATE_KEY_SOURCES', 'PARAM_SCALES', 'ORACLE_FLOOR_RATES', 'RME_RATES', 'CHORUS_BASE_MS', 'FLANGER_BASE_MS', 'PHASER_F_TOP_HZ', 'REVERB_GATE_ATTACK_MS']) {

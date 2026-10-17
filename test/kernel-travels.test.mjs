@@ -14,10 +14,10 @@ import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
-const json = (dir = DATA) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
-const header = (dir = DATA) => renderC(resolveData(loadData(dir))).find((f) => f.path === 'omxcontract/omx_contract_limits.h').text;
+const json = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text);
+const header = (dir = UNION) => renderC(resolveData(loadData(dir))).find((f) => f.path === 'omxcontract/omx_contract_limits.h').text;
 
 /** name -> [the file declaring it, the value the console engine uses]. */
 const CONSUMER = {
@@ -100,7 +100,7 @@ test('the travels carry no come-up value: the console engine states each come-up
 });
 
 test('the two band caps read their ceiling from EQ_MAX_BANDS', () => {
-  const d = loadData(DATA);
+  const d = loadData(UNION);
   for (const n of ['FBS_AUTO_BANDS_RANGE', 'HRP_AUTO_BANDS_RANGE']) assert.deepEqual(d.items.get(n).item.travel.max, { ref: 'EQ_MAX_BANDS' }, n);
 });
 
@@ -135,8 +135,8 @@ test('perturbation: move each value, the json and C renders follow and render --
     editData(dir, file, (d, at) => move(at(name)));
     assert.notDeepEqual(json(dir).items[name].value, CONSUMER[name][1], `${name}: the moved value reads back`);
     assert.match(header(dir), line, name);
-    assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1, `${name}: c --check`);
-    assert.equal(main(['render', '--target', 'json', '--out', `${ROOT}/share/omx-contract`, '--check', '--data', dir]), 1, `${name}: json --check`);
+    assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1, `${name}: c --check`);
+    assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1, `${name}: json --check`);
   }
 });
 

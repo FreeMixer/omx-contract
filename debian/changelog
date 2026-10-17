@@ -1,3 +1,28 @@
+omx-contract (2.15.0) unstable; urgency=medium
+
+  * Packages install their own definitions into a shared contract directory,
+    contract.d/2/<package>/ with a MANIFEST.json, named by contractdir in
+    omx-contract.pc, and every reader reads it through one call that refuses an
+    incomplete, altered or conflicting set with a named contract.* code.
+    A definition file states the lowest schema it needs (requires) and where its
+    values come from and which code implements them (source); links --check
+    holds those links to the owner's code.
+  * The schema gains the plugin descriptor words: controls with their ids,
+    symbols, groups, meanings and flags, audio and note ports, instruments, what
+    a plugin needs from its host, and latency, with five more units.
+  * An owner frames its own C headers and TypeScript module with a render word
+    in its files, and renders them with render --package.
+  * The kernels, the DSP design constants and the hosting limits and codes now
+    ship with omx-dsp and omx-clap-core, and the console-only rows with the
+    console. This package keeps the shared facts: the sample rate sets, the
+    hard real-time target, the readout rate and the parameter scales.
+    clap_host_limits.h is no longer installed here.
+  * It breaks libomxdsp-dev before 0.22.0, libomx-clap-core-dev before 0.10.0
+    and omx-plugins-dev before 0.10.0, the releases that do not yet ship their
+    own definitions.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 20 Oct 2026 00:00:00 +0000
+
 omx-contract (2.14.0) unstable; urgency=medium
 
   * The kernel files declare what the console engine still typed as literals: the FBS, HRP, balance,

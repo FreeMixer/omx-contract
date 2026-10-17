@@ -1,5 +1,5 @@
 {
-  "$schema": "../schema/omx-contract.schema.json",
+  "$schema": "../../schema/omx-contract.schema.json",
   "EQ_CURVE_GRID": {
     "kind": "sheet",
     "since": "2.13.0",

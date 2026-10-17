@@ -17,10 +17,10 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData, texts } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData, texts } from './helpers.mjs';
 
-const items = (dir = DATA) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text).items;
-const header = (dir = DATA) => renderC(resolveData(loadData(dir)))[0].text;
+const items = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text).items;
+const header = (dir = UNION) => renderC(resolveData(loadData(dir)))[0].text;
 
 test('the tap count travels 1..4 step 1 and comes up at 1, rendered as the integer OMX_FX_DELAY_TAPS_RANGE_MAX and the float alias OMX_DELAY_TAPS_MAX', () => {
   assert.deepEqual(items().FX_DELAY_TAPS_RANGE.value, { min: 1, max: 4, step: 1, unit: '', default: 1, defaultFrom: 'desk' });
@@ -48,8 +48,8 @@ test('perturbation: move the tap ceiling, every render follows and --check goes 
   assert.match(renderTs(r)[0].text, /^export const FX_DELAY_TAPS_RANGE = \{[^}]*"max": 6/m);
   assert.equal(items(dir).FX_DELAY_TAPS_RANGE.value.max, 6);
   assert.doesNotMatch(header(dir), /OMX_DELAY_TAPS_MAX 4/);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
-  assert.equal(main(['render', '--target', 'json', '--out', `${ROOT}/share/omx-contract`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
 });
 
 test('perturbation: move a tap pan come-up value, the header and the json follow', () => {
@@ -57,7 +57,7 @@ test('perturbation: move a tap pan come-up value, the header and the json follow
   editData(dir, 'kernels/delay.json', (d, at) => { at('DELAY_TAP_LIMITS.tap2Pan').default = 0.25; });
   assert.match(header(dir), /^#define OMX_DELAY_TAP_TAP2_PAN_DEFAULT 0\.25f$/m);
   assert.equal(items(dir).DELAY_TAP_LIMITS.value.tap2Pan.default, 0.25);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
 });
 
 // A tap factor such as '1/2' is a fraction, not a C identifier: rendered as an enumerator or a macro name it
@@ -70,7 +70,7 @@ test('a set id that is no C identifier, like the tap factor \'1/2\', is refused 
 const excerpt = readFileSync(join(ROOT, 'test/fixtures/omx-dsp-0f23bed/delay_taps_excerpt.h'), 'utf8');
 const ints = (text, re) => (re.exec(text)?.[1].match(/\d+/g) ?? []).map(Number);
 /** The C render's factor lists against omx-dsp's TAP_NUM and TAP_DEN: the names of those that differ. */
-function factorsDiffer(dir = DATA) {
+function factorsDiffer(dir = UNION) {
   const h = header(dir);
   const pairs = [['NUMS', /^static const int TAP_NUM\[\] = \{([^}]*)\};$/m], ['DENS', /^static const int TAP_DEN\[\] = \{([^}]*)\};$/m]];
   return pairs.filter(([n, re]) => {
@@ -105,6 +105,6 @@ test('perturbation: move a factor numerator, then a denominator: each is named a
     const dir = scratchData();
     editData(dir, 'kernels/delay.json', (d, at) => edit(at));
     assert.deepEqual(factorsDiffer(dir), [name]);
-    assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
+    assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
   }
 });

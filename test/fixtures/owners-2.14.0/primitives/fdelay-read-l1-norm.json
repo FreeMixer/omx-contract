@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "FDELAY_READ_L1_NORM": {
+    "kind": "scalar",
+    "doc": "`Λ` for the chorus/flanger read — ONE value; the header and every law read this.",
+    "unit": "",
+    "value": {
+      "derive": "lagrangeReadL1",
+      "order": {
+        "ref": "FDELAY_MOD_READ_ORDER"
+      }
+    }
+  }
+}

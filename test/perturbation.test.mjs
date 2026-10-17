@@ -13,7 +13,7 @@ import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
 import { roundTrip } from '../tools/proof/round-trip.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
 const all = (dir) => {
   const r = resolveData(loadData(dir));
@@ -31,9 +31,9 @@ test('move the delay time ceiling: every target follows', () => {
   assert.match(renderTs(r)[0].text, /"max": 1500/);
   assert.equal(JSON.parse(renderJson(r, '0.0.0')[0].text).items.FX_DELAY_TIME_RANGE.value.max, 1500);
   assert.doesNotMatch(text, /OMX_DELAY_TIME_MS_MAX 2000/);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', dir]), 1);
-  assert.equal(main(['render', '--target', 'json', '--out', `${ROOT}/share/omx-contract`, '--check', '--data', dir]), 1);
-  assert.equal(main(['render', '--target', 'ts', '--out', `${ROOT}/test/golden/ts`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
+  assert.equal(main(['render', '--target', 'ts', '--out', `${RENDERS}/test/golden/ts`, '--check', '--data', dir]), 1);
   const proof = roundTrip(r);
   assert.equal(proof.ok, false);
   assert.ok(proof.step2.differing.includes('OMX_FX_DELAY_TIME_RANGE_MAX') && proof.step2.differing.includes('OMX_DELAY_TIME_MS_MAX'));
@@ -58,6 +58,7 @@ test('move the sample rates: the list, the rate block and RT target readers foll
 });
 
 test('the unperturbed data passes every check', () => {
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', UNION]), 0);
   assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', DATA]), 0);
   assert.equal(roundTrip().ok, true);
 });
@@ -76,7 +77,7 @@ test('move an FBS detector gate, an HRP value, the RTA size and the bus input ca
   assert.match(f.c, /^#define OMX_GROWTH_MIN_TOTAL_RISE_DB 7$/m);
   assert.match(f.c, /^#define OMX_DEFAULT_THRESHOLDS_GROWTH_MIN_TOTAL_RISE_DB 7$/m, 'the sheet that refers to it follows');
   assert.equal(f.json.DEFAULT_THRESHOLDS.value.growthMinTotalRiseDb, 7);
-  assert.equal(main(['render', '--target', 'c', '--out', `${ROOT}/include`, '--check', '--data', f.dir]), 1);
+  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', f.dir]), 1);
   const h = moved('kernels/hrp.json', (d, at) => { at('HRP_AMOUNT_RANGE').travel.default = 0.25; });
   assert.match(h.c, /^#define OMX_HRP_AMOUNT_RANGE_DEFAULT 0\.25f$/m);
   assert.match(h.ts, /"default": 0\.25/);
