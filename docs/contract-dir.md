@@ -87,7 +87,9 @@ refusal stops the whole read and nothing is returned, so there is never a partia
 2. Read every `<package>/MANIFEST.json`, then every file it lists, checking each hash. A file on disk that the
    manifest does not list is refused too.
 3. Check each file's `$schema` major and its `requires.omx-contract-schema` floor against the reader's schema,
-   then validate the file against the schema and the kernel-file shape.
+   then validate the file against the schema and the kernel-file shape. A plugin descriptor
+   ([descriptors.md](descriptors.md)) of origin `scanned` is refused here; any other is held to the schema and then
+   to its own rules, each refused by its own code. A descriptor declares no item.
 4. Merge into one namespace: one name, one declaration. A reference names an item of the same package, of
    omx-contract, or of a package the file's `requires` names.
 5. Check what the consumer needs (`--needs <package>@>=<x.y.z>`, repeatable).
@@ -118,6 +120,7 @@ carry it and it is not installed in the directory.
 | `contract.ref.undeclared` | A reference names an item of a package the file does not require. |
 | `contract.package.absent` | A package the consumer or a file requires is not installed. |
 | `contract.package.too-old` | It is installed below the floor. |
+| `contract.origin.misplaced` | A `scanned` plugin descriptor ([descriptors.md](descriptors.md)): a scan is never read as a declaration. |
 | `contract.source.absent` | A link's path does not exist. |
 | `contract.source.symbol-absent` | The path holds no definition of the link's symbol. |
 | `contract.source.ambiguous` | The path defines the symbol twice. |
@@ -125,6 +128,8 @@ carry it and it is not installed in the directory.
 | `contract.source.unevaluable` | A `from` link whose value the tool cannot read (a selector into a table, a definition that is not a number, a string or an enum). |
 | `contract.source.unread` | An `impl` link whose definition does not name the item. |
 | `contract.source.none` | With `--require-impl`: an item with no `impl` link. |
+
+A plugin descriptor's own rules carry the `contract.descriptor.*` codes listed in [descriptors.md](descriptors.md).
 
 ## `links --check`
 
