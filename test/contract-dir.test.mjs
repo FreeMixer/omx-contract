@@ -242,6 +242,15 @@ test('contract.item.duplicate: two packages declare one name', () => {
   assert.equal(refusalOf({ dir: root }), CONTRACT_CODES.itemDuplicate);
 });
 
+test('contract.kernel.duplicate: two packages each install a file of one kernel, even with names of their own', () => {
+  const root = installed();
+  addPackage(root, 'openmixer', { 'kernels/hrp.json': { ...owned({}), controls: [{ name: 'consoleOnly', kind: 'travel', doc: 'a console row', travel: { min: 0, max: 1, unit: '' } }] } });
+  assert.equal(refusalOf({ dir: root }), CONTRACT_CODES.kernelDuplicate);
+  const other = installed();
+  addPackage(other, 'openmixer', { 'kernels/console_hrp.json': { ...owned({}), controls: [{ name: 'consoleOnly', kind: 'travel', doc: 'a console row', travel: { min: 0, max: 1, unit: '' } }] } });
+  assert.ok(loadContractDir({ dir: other }).items.has('CONSOLE_HRP_CONSOLE_ONLY_RANGE'), 'a kernel of its own is read');
+});
+
 test('contract.ref.unresolved and contract.ref.undeclared, and a reference its requires names is read', () => {
   let root = installed();
   addPackage(root, 'omx-dsp', { 'x.json': owned({ TEST_A: scalar({ ref: 'NO_SUCH_ITEM' }) }) });

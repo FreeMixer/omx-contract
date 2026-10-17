@@ -127,6 +127,7 @@ carry it and it is not installed in the directory.
 | `contract.file.not-json` | A file that does not parse. |
 | `contract.file.invalid` | A schema or shape violation, an unknown key or word included. |
 | `contract.item.duplicate` | Two files declare one name. |
+| `contract.kernel.duplicate` | Two packages each install a file of one kernel (`kernels/<k>.json`): a kernel's controls are one file's, in its order. |
 | `contract.ref.unresolved` | A reference names no item. |
 | `contract.ref.undeclared` | A reference names an item of a package the file does not require. |
 | `contract.package.absent` | A package the consumer or a file requires is not installed. |
