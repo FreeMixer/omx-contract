@@ -78,10 +78,12 @@ of its own.
 
 ## Reading the directory
 
-`loadContractDir()` (`lib/contract-dir.mjs`) and the CLI's `--contract-dir <dir>` read it in this order; any
+`loadContractDir()` (`lib/contract-dir.mjs`) and the CLI's `--contract-dir <dir>` (or `--installed`, which looks it
+up as step 1 says) read it in this order; any
 refusal stops the whole read and nothing is returned, so there is never a partial set:
 
-1. Find the directory: `--contract-dir`, else `$OMX_CONTRACT_PATH`, else pkg-config.
+1. Find the directory: `--contract-dir`, else `$OMX_CONTRACT_PATH`, else pkg-config. A directory of `validate`,
+   `fmt --check`, `render` and `links` alike; `fmt` never writes one.
 2. Read every `<package>/MANIFEST.json`, then every file it lists, checking each hash. A file on disk that the
    manifest does not list is refused too.
 3. Check each file's `$schema` major and its `requires.omx-contract-schema` floor against the reader's schema,
@@ -134,7 +136,8 @@ Run by the owner's CI over its own tree; a consumer never resolves links. For ev
 
 - every `impl` link: its path exists under the root, it defines its symbol once, and that definition (the line of
   a `#define`, the body of a function or enum, the statement of a declaration) names the item, as its name, its C
-  spelling `OMX_<NAME>` or one of that spelling's derived names;
+  spelling `OMX_<NAME>` or one of that spelling's derived names. An `impl` that is also the item's whole-value
+  `from` link is the twin that holds the value, and its equality is what names it;
 - every `from` link: the value it defines equals the declared value. A `#define` of a number or a string, a TS or
   JS `const` of a number or a string, and an `enum` (its enumerators in order, read without their common prefix,
   against a set's ids or a list's values, case and underscores aside) are read; anything else is

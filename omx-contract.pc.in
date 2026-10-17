@@ -3,6 +3,8 @@
 prefix=@PREFIX@
 includedir=@INCLUDEDIR@
 datadir=@DATADIR@/omx-contract
+# the contract directory (docs/contract-dir.md): <contractdir>/<schema major>/<package>/
+contractdir=@CONTRACTDIR@
 
 Name: omx-contract
 Description: The FreeMixer declarations as data, rendered as C headers (omxcontract/)

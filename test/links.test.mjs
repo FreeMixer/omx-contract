@@ -1,0 +1,180 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+// `omx-contract links --check` (docs/contract-dir.md): the source links of the definitions checked against an owner's
+// tree. A fixture tree holds a define, an enum, a function, a static table and a TS const; each refusal code has its
+// sabotage arm, and the good links pass with the values they hold.
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
+import { after, test } from 'node:test';
+import { CONTRACT_CODES } from '../lib/codes.mjs';
+import { loadData } from '../lib/data.mjs';
+import { checkLinks, definitions, parseLink } from '../lib/links.mjs';
+import { ROOT } from './helpers.mjs';
+
+const TREE = mkdtempSync(join(tmpdir(), 'omx-links-'));
+const OTHER = mkdtempSync(join(tmpdir(), 'omx-links-other-'));
+after(() => { rmSync(TREE, { recursive: true, force: true }); rmSync(OTHER, { recursive: true, force: true }); });
+const put = (root, rel, text) => { mkdirSync(dirname(join(root, rel)), { recursive: true }); writeFileSync(join(root, rel), text); };
+
+put(TREE, 'include/omxdsp/omx_k.h', `/* OMX_K_MAX_MS is the longest; a comment that names omx_k_plan( { is no definition */
+#define OMX_K_MAX_MS 100
+#define OMX_K_Q 0.70710678f
+#define OMX_K_NAME "kay"
+#define OMX_K_SQUARE(x) ((x) * (x))
+#define OMX_K_TWICE 1
+#define OMX_K_TWICE 1
+enum omx_k_kind {
+  OMX_K_KIND_PEAK = 0,
+  OMX_K_KIND_LOW_SHELF,
+  OMX_K_KIND_HIGH_SHELF,
+  OMX_K_KIND_COUNT
+};
+void omx_k_plan(int n);
+`);
+put(TREE, 'src/omx_k.c', `#include "omxdsp/omx_k.h"
+struct omx_k_row { int maxVoices; };
+static const struct omx_k_row omx_k_table[] = { { 4 } };
+void
+omx_k_plan(int n)
+{
+  if (omx_k_other(n)) { return; }
+  int ms = OMX_K_MAX_MS_DOUBLE;
+  (void)ms;
+}
+int omx_k_other(int n) { return n > 0; }
+int omx_k_travel_clamp(int v) { return v > OMX_K_TRAVEL_MAX ? OMX_K_TRAVEL_MAX : v; }
+`);
+put(OTHER, 'src/k.ts', `export const K_RATES = [44100, 48000] as const;
+export const K_LIMIT = 7;
+`);
+
+const items = (extra = {}) => ({
+  $schema: '../schema/omx-contract.schema.json',
+  K_MAX_MS: { kind: 'scalar', doc: 'd', unit: 'ms', value: 100, source: { from: 'include/omxdsp/omx_k.h#OMX_K_MAX_MS', impl: 'src/omx_k.c#omx_k_plan' } },
+  K_Q: { kind: 'scalar', doc: 'd', unit: '', value: 0.7071067811865476, source: { from: 'include/omxdsp/omx_k.h#OMX_K_Q', impl: 'include/omxdsp/omx_k.h#OMX_K_Q' } },
+  K_KINDS: { kind: 'set', doc: 'd', ids: ['peak', 'lowShelf', 'highShelf'], source: { from: 'include/omxdsp/omx_k.h#enum omx_k_kind', impl: 'include/omxdsp/omx_k.h#enum omx_k_kind' } },
+  K_TRAVEL: { kind: 'travels', doc: 'd', travel: { min: 0, max: 100, unit: 'ms' }, source: { from: { max: 'include/omxdsp/omx_k.h#OMX_K_MAX_MS' }, impl: 'src/omx_k.c#omx_k_travel_clamp' } },
+  K_RATES: { kind: 'list', doc: 'd', unit: '', values: [44100, 48000], source: { from: 'src/k.ts#K_RATES', impl: 'src/k.ts#K_RATES', at: 'openmixer@6ee8a9b' } },
+  ...extra,
+});
+const dataOf = (doc) => loadData(null, { 'data/x.json': JSON.stringify(doc) });
+const codesOf = (doc, opts = {}) => checkLinks(dataOf(doc), { root: TREE, ...opts }).problems.map((p) => `${p.item}:${p.code}`);
+const raised = new Set();
+const arm = (doc, item, name, opts) => {
+  const got = codesOf(doc, opts);
+  assert.deepEqual(got, [`${item}:${CONTRACT_CODES[name]}`]);
+  raised.add(CONTRACT_CODES[name]);
+};
+
+test('a link splits into path, tag, symbol and selectors', () => {
+  assert.deepEqual(parseLink('include/omxdsp/omx_eq_design.h#enum omx_eq_kind'), { path: 'include/omxdsp/omx_eq_design.h', tag: 'enum', symbol: 'omx_eq_kind', selectors: [] });
+  assert.deepEqual(parseLink('a/b.h#omx_hrp_family_search[guitar].maxVoices').selectors, [{ key: 'guitar' }, { field: 'maxVoices' }]);
+  assert.equal(parseLink('no-symbol'), undefined);
+});
+
+test('definitions: a define, an enum body, a function body (a prototype and a call are none), a table, a TS const', () => {
+  const h = definitions(`#define A 1\nint f(int);\nint g(void) { return f(1); }\nint f(int x)\n{\n  return x;\n}\nstatic int T[2] = { 1, 2 };\n`, 'f');
+  assert.deepEqual(h.map((d) => d.kind), ['function']);
+  assert.match(h[0].text, /return x;\n\}$/);
+  assert.deepEqual(definitions('static int T[2] = { 1, 2 };\nif (T == 0) {}\n', 'T').map((d) => d.kind), ['var']);
+  assert.deepEqual(definitions('export const A = 3;\n', 'A').map((d) => [d.kind, d.text]), [['const', 'export const A = 3;']]);
+  assert.equal(definitions('/* #define A 1 */\n// int A = 2;\n', 'A').length, 0, 'a comment defines nothing');
+});
+
+test('the good links pass, with the value each defines; at-links are unchecked until --at names their tree', () => {
+  const r = checkLinks(dataOf(items()), { root: TREE });
+  assert.deepEqual(r.problems, []);
+  assert.equal(r.checked, 8);
+  assert.deepEqual(r.unchecked, ['K_RATES src/k.ts#K_RATES (at openmixer@6ee8a9b)', 'K_RATES src/k.ts#K_RATES (at openmixer@6ee8a9b)']);
+  assert.equal(r.none, 0);
+  const at = checkLinks(dataOf(items()), { root: TREE, trees: { openmixer: OTHER } });
+  assert.deepEqual(at.problems, []);
+  assert.equal(at.checked, 10);
+  assert.deepEqual(at.unchecked, []);
+});
+
+test('contract.source.absent: the link\'s path is not in the tree, or leaves it', () => {
+  arm(items({ K_A: { kind: 'scalar', doc: 'd', unit: '', value: 1, source: { impl: 'src/gone.c#omx_k_plan' } } }), 'K_A', 'sourceAbsent');
+  arm(items({ K_A: { kind: 'scalar', doc: 'd', unit: '', value: 1, source: { impl: '../outside.c#omx_k_plan' } } }), 'K_A', 'sourceAbsent');
+});
+
+test('contract.source.symbol-absent: the symbol was renamed or moved', () => {
+  arm(items({ K_A: { kind: 'scalar', doc: 'd', unit: '', value: 1, source: { impl: 'src/omx_k.c#omx_k_plan_renamed' } } }), 'K_A', 'sourceSymbolAbsent');
+  arm(items({ K_A: { kind: 'scalar', doc: 'd', unit: '', value: 1, source: { impl: 'include/omxdsp/omx_k.h#struct omx_k_kind' } } }), 'K_A', 'sourceSymbolAbsent');
+});
+
+test('contract.source.ambiguous: the path defines the symbol twice', () => {
+  arm(items({ K_A: { kind: 'scalar', doc: 'd', unit: '', value: 1, source: { from: 'include/omxdsp/omx_k.h#OMX_K_TWICE' } } }), 'K_A', 'sourceAmbiguous');
+});
+
+test('contract.source.differs: the code holds another value than the definition', () => {
+  const doc = items();
+  doc.K_MAX_MS.value = 101;
+  arm(doc, 'K_MAX_MS', 'sourceDiffers');
+  const set = items();
+  set.K_KINDS.ids = ['peak', 'highShelf', 'lowShelf'];
+  arm(set, 'K_KINDS', 'sourceDiffers');
+  const field = items();
+  field.K_TRAVEL.travel.max = 99;
+  arm(field, 'K_TRAVEL', 'sourceDiffers');
+  const f32 = items();
+  f32.K_Q.value = 0.7071;
+  arm(f32, 'K_Q', 'sourceDiffers');
+  const list = items();
+  list.K_RATES.values = [44100, 96000];
+  assert.deepEqual(codesOf(list, { trees: { openmixer: OTHER } }), [`K_RATES:${CONTRACT_CODES.sourceDiffers}`]);
+});
+
+test('contract.source.unevaluable: a selector into a table, a function, a macro with parameters', () => {
+  for (const from of ['src/omx_k.c#omx_k_table[0].maxVoices', 'src/omx_k.c#omx_k_plan', 'include/omxdsp/omx_k.h#OMX_K_SQUARE']) {
+    arm(items({ K_A: { kind: 'scalar', doc: 'd', unit: '', value: 4, source: { from } } }), 'K_A', 'sourceUnevaluable');
+  }
+});
+
+test('contract.source.unread: the connector does not name the item', () => {
+  arm(items({ K_LIMIT: { kind: 'scalar', doc: 'd', unit: '', value: 1, source: { impl: 'src/omx_k.c#omx_k_other' } } }), 'K_LIMIT', 'sourceUnread');
+  // the enum is K_KINDS's twin: an impl that is the item's own from link holds it; any other enum must name it
+  const twin = items();
+  twin.K_KINDS.source.impl = 'include/omxdsp/omx_k.h#enum omx_k_kind';
+  assert.deepEqual(codesOf(twin), []);
+  delete twin.K_KINDS.source.from;
+  arm(twin, 'K_KINDS', 'sourceUnread');
+  // the function body names OMX_K_MAX_MS_DOUBLE, a name derived from OMX_K_MAX_MS: K_MAX_MS is read there
+  assert.deepEqual(codesOf(items()).filter((c) => c.startsWith('K_MAX_MS')), []);
+});
+
+test('contract.source.none only with --require-impl; a file\'s source stands for its items', () => {
+  const doc = items({ K_BARE: { kind: 'scalar', doc: 'd', unit: '', value: 1 } });
+  assert.deepEqual(codesOf(doc), []);
+  arm(doc, 'K_BARE', 'sourceNone', { requireImpl: true });
+  const filed = { ...items(), source: { impl: 'src/omx_k.c#omx_k_plan' }, K_MAX_MS_DOUBLE: { kind: 'scalar', doc: 'd', unit: 'ms', value: 200 } };
+  assert.deepEqual(codesOf(filed, { requireImpl: true }), []);
+});
+
+test('the CLI: links --check exits 1 naming the code first, 0 over a clean tree; the shipped data carries no link yet', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'omx-links-cli-'));
+  const doc = items();
+  doc.K_MAX_MS.value = 101;
+  put(dir, 'data/x.json', JSON.stringify(doc));
+  const run = (...a) => spawnSync(process.execPath, [join(ROOT, 'bin/omx-contract.mjs'), 'links', ...a], { encoding: 'utf8' });
+  const bad = run('--check', '--root', TREE, '--data', join(dir, 'data'), '--json');
+  assert.equal(bad.status, 1);
+  assert.match(bad.stderr, /^contract\.source\.differs data\/x\.json: K_MAX_MS: include\/omxdsp\/omx_k\.h#OMX_K_MAX_MS: /m);
+  assert.deepEqual(JSON.parse(bad.stdout.split('\n')[0]).problems.map((p) => p.code), ['contract.source.differs']);
+  put(dir, 'data/x.json', JSON.stringify(items()));
+  assert.equal(run('--check', '--root', TREE, '--data', join(dir, 'data')).status, 0);
+  const shipped = run('--check', '--root', ROOT);
+  assert.equal(shipped.status, 0);
+  assert.match(shipped.stdout, /0 links checked .* 228 items with no impl link/);
+  assert.equal(run('--check', '--root', ROOT, '--require-impl').status, 1, 'every shipped item lacks its impl link today');
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test('every source code has its arm', () => {
+  const source = Object.entries(CONTRACT_CODES).filter(([k]) => k.startsWith('source')).map(([, c]) => c);
+  assert.deepEqual(source.filter((c) => !raised.has(c)), []);
+  assert.equal(source.length, 7);
+});
