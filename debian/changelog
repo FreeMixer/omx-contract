@@ -1,3 +1,27 @@
+omx-contract (2.17.0) unstable; urgency=medium
+
+  * The command has a DEB of its own, omx-contract: the CLI, its vendored
+    npm packages and its man page, as the RPM has shipped it since 2.15.0.
+    It depends on nodejs with no version and runs on bookworm's node 18.
+    libomx-contract-dev recommends it.
+  * Both command packages recommend pkg-config, which --installed reads to
+    find the contract directory: the DEB pkgconf | pkg-config, the RPM
+    /usr/bin/pkg-config.
+  * The deprecated RME_RATES alias stays until 2.18.0: omx-dsp, omx-clap-core
+    and omx-plugins still read it. The schema's formerly gains readers, the
+    consumers whose main still reads the former name, and a test holds the
+    removal release to them.
+  * omx-new-kernel resolves a bare source name to the one archive directory
+    whose file of that name declares the symbol, and refuses none or two
+    with a named reason.
+  * The -dev and -devel descriptions say a consumer requires the contract at
+    a floor, not at an exact version. The C render's rate tail names
+    STANDARD_SAMPLE_RATES in rates.json; only the comment changes.
+  * No owner needs a newer release, so the Breaks stay at libomxdsp-dev
+    0.22.0, libomx-clap-core-dev 0.10.0 and omx-plugins-dev 0.10.0.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Thu, 22 Oct 2026 00:00:00 +0000
+
 omx-contract (2.16.0) unstable; urgency=medium
 
   * The nine-rate list RME_RATES is renamed ORACLE_FULL_RATES, the full grid
