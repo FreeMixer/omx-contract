@@ -106,27 +106,42 @@ export function extractEngine(checkout, ref, dirs) {
   return { tree, commit, dirs, cleanup: () => rmSync(tree, { recursive: true, force: true }) };
 }
 
-/** A cited path as the extracted tree holds it: as given, or relative to one of the archive directories (answers name the file only). */
-export function sourceFile(eng, path) {
-  for (const p of [path, ...(eng.dirs ?? []).map((d) => `${d}/${path}`)]) if (existsSync(join(eng.tree, p))) return p;
-  return path;
+/** The pattern of the line that declares a source's symbol: `export const <name>` in a module, `#define <name>` in a header. */
+const declares = (source) => (source.define ? new RegExp(`^#define ${source.define}\\s`, 'm') : new RegExp(`^export const ${source.export}\\b`, 'm'));
+
+/**
+ * A cited path as the extracted tree holds it. A path inside one of the archive directories is taken as given; a
+ * bare name (what the answers record: the archive directories are a private tree) is the file of that name, in the
+ * one archive directory whose copy declares the symbol. Refused when no copy declares it, or more than one does.
+ */
+export function sourceFile(eng, name, source) {
+  const dirs = eng.dirs ?? [];
+  const inDir = dirs.some((d) => source.path.startsWith(`${d}/`));
+  const candidates = inDir ? [source.path] : dirs.map((d) => `${d}/${source.path}`);
+  const symbol = source.export ?? source.define;
+  const hits = candidates.filter((p) => existsSync(join(eng.tree, p)) && declares(source).test(readFileSync(join(eng.tree, p), 'utf8')));
+  if (!hits.length) refuse(`${name}: no ${source.path} of the engine at ${eng.commit} declares ${symbol}`);
+  if (hits.length > 1) refuse(`${name}: ${source.path} declares ${symbol} in ${hits.map((p) => p.slice(0, -source.path.length - 1)).join(' and ')}; cite it with --from`);
+  return hits[0];
 }
 
-/** Where the engine declares `name`: `{ path, export }` or `{ path, define }` (the path relative to its archive directory); refused when nowhere or twice. */
+/**
+ * Where the engine declares `name`: `{ path, export }` or `{ path, define }`, the path the file's name inside its
+ * archive directory (sourceFile resolves it back by the symbol); refused when nowhere or twice.
+ */
 export function findSource(tree, dirs, name) {
   const hits = [];
-  const exp = new RegExp(`^export const ${name}\\b`, 'm');
-  const def = new RegExp(`^#define ${name}\\s`, 'm');
   for (const d of dirs) {
     for (const rel of walk(join(tree, d), tree, (f) => (f.endsWith('.ts') && !/\.(test|fake|d)\.ts$/.test(f)) || f.endsWith('.h'))) {
       const text = readFileSync(join(tree, rel), 'utf8');
-      if (rel.endsWith('.ts') && exp.test(text)) hits.push({ path: relative(join(tree, d), join(tree, rel)), export: name });
-      if (rel.endsWith('.h') && def.test(text)) hits.push({ path: relative(join(tree, d), join(tree, rel)), define: name });
+      const path = relative(join(tree, d), join(tree, rel));
+      if (rel.endsWith('.ts') && declares({ export: name }).test(text)) hits.push({ at: rel, source: { path, export: name } });
+      if (rel.endsWith('.h') && declares({ define: name }).test(text)) hits.push({ at: rel, source: { path, define: name } });
     }
   }
   if (!hits.length) refuse(`${name}: the engine declares no export const or #define of that name`);
-  if (hits.length > 1) refuse(`${name}: declared in ${hits.map((h) => h.path).join(' and ')}; name the one with --from`);
-  return hits[0];
+  if (hits.length > 1) refuse(`${name}: declared in ${hits.map((h) => h.at).join(' and ')}; name the one with --from`);
+  return hits[0].source;
 }
 
 /** The doc comment above the declaration, as one paragraph. */
@@ -179,9 +194,8 @@ function keptFacts(root, recipe, kernel) {
 }
 
 /** One cited value, read at the extracted engine: `{ text, value }`. */
-async function readSource(eng, ref, name, source) {
-  const file = sourceFile(eng, source.path);
-  if (!existsSync(join(eng.tree, file))) refuse(`${name}: ${source.path} is not in ${ref}`);
+async function readSource(eng, name, source) {
+  const file = sourceFile(eng, name, source);
   const text = readFileSync(join(eng.tree, file), 'utf8');
   if (source.define) return { text, value: defineValue(text, source.define) };
   const mod = await evaluate(eng.tree, file);
@@ -201,7 +215,7 @@ export async function verifyAnswers(answers, checkout, root = ROOT) {
     const bad = [];
     for (const it of answers.items) {
       if (it.source.origin) continue; // no engine source to read again
-      const { value } = await readSource(eng, answers.engine.commit, it.name, it.source);
+      const { value } = await readSource(eng, it.name, it.source);
       if (JSON.stringify(value) !== JSON.stringify(it.value)) bad.push(`${it.name}: the answers hold ${JSON.stringify(it.value)}, ${it.source.path} gives ${JSON.stringify(value)}`);
     }
     return bad;
@@ -244,7 +258,7 @@ export async function importKernel(o, root = ROOT) {
         if (!path || !sym) refuse(`--from ${name}=${froms.get(name)}: give <path>:<export or define>`);
         source = path.endsWith('.h') ? { path, define: sym } : { path, export: sym };
       } else source = findSource(eng.tree, recipe.engine.archive, name);
-      const { text, value, raw } = await readSource(eng, ref, name, source);
+      const { text, value, raw } = await readSource(eng, name, source);
       if (raw !== null && typeof raw === 'object') raws.set(name, raw);
       const k = kept?.get(name) ?? {};
       const it = { name, source, value, doc: docs.get(name) ?? docAt(text, source) ?? k.doc ?? refuse(`${name}: ${source.path} has no doc comment above it; write one in the engine`) };
