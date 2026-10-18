@@ -477,10 +477,11 @@
         },
         "formerly": {
           "type": "object",
-          "description": "The name the list carried before a rename, kept for one release as a deprecated alias of this one (C defines that expand to this list's, a TypeScript export bound to this one, an entry of the JSON render's formerNames), so its readers move to the new name in their own release. `removedIn` is the release that drops the alias.",
+          "description": "The name the list carried before a rename, kept for one release as a deprecated alias of this one (C defines that expand to this list's, a TypeScript export bound to this one, an entry of the JSON render's formerNames), so its readers move to the new name in their own release. `removedIn` is the release that drops the alias; `readers` the consumers whose main still reads the former name, which keep that release beyond the next minor until they have moved.",
           "properties": {
             "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
-            "removedIn": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+            "removedIn": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+            "readers": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" }, "minItems": 1, "uniqueItems": true }
           },
           "required": ["name", "removedIn"],
           "additionalProperties": false
