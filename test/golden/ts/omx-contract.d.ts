@@ -42,7 +42,7 @@ export declare const ORACLE_FLOOR_RATES: readonly [44100, 48000, 96000, 192000];
 export declare const ORACLE_FULL_RATES: readonly [32000, 44100, 48000, 64000, 88200, 96000, 128000, 176400, 192000];
 
 /**
- * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.17.0 removes it: read ORACLE_FULL_RATES.
+ * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.18.0 removes it: read ORACLE_FULL_RATES.
  * @see data/rates.json
  */
 export declare const RME_RATES: typeof ORACLE_FULL_RATES;

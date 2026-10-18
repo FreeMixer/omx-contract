@@ -51,7 +51,12 @@
     ],
     "formerly": {
       "name": "RME_RATES",
-      "removedIn": "2.17.0"
+      "removedIn": "2.18.0",
+      "readers": [
+        "omx-clap-core",
+        "omx-dsp",
+        "omx-plugins"
+      ]
     }
   }
 }
