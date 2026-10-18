@@ -79,3 +79,14 @@ test('versions: npm publishes from publish.yml, by OIDC with no token', () => {
   // release.yml no longer publishes to npm: one publisher, the one npmjs.com trusts
   assert.doesNotMatch(read('.github/workflows/release.yml'), /npm publish/);
 });
+
+// Every consumer requires the contract at a floor (`>= x.y.z`, omx-contract-schema and the owners' BuildRequires
+// alike); a package description that says it pins an exact version describes a rule no consumer keeps
+// (FreeMixer/omx-contract#108).
+test('packaging: the -devel and -dev descriptions say a consumer requires a floor, never an exact version', () => {
+  for (const f of ['packaging/omx-contract.spec', 'debian/control']) {
+    const text = read(f).split('%changelog')[0];
+    assert.doesNotMatch(text, /exactly the version/, `${f} says a consumer pins an exact version`);
+    assert.match(text.replace(/\n \.?/g, ' ').replace(/\s+/g, ' '), /requires it at a floor/, `${f} says a consumer requires a floor`);
+  }
+});

@@ -140,9 +140,9 @@ carries `readouts` too, in their declared order, every reference resolved:
 - PATCH: doc and why text, and a set's labels.
 
 The development phase: while every consumer is one of the FreeMixer repositories `DEVELOPMENT_PHASE` names
-(omx-dsp, omx-plugins, the console engine), an item or a readout removed is MINOR, and a release whose changes the
-check finds MAJOR passes with a minor bump. The pull request that makes such a change says why it is released as
-a minor. The phase ends, and the rule with it, in the release that names the first consumer outside the list.
+(omx-clap-core, omx-dsp, omx-plugins, plugin-qualify and the console engine), an item or a readout removed is MINOR,
+and a release whose changes the check finds MAJOR passes with a minor bump. The pull request that makes such a change
+says why it is released as a minor. The phase ends, and the rule with it, in the release that names the first consumer outside the list.
 
 It does not look at how the renders are produced. Two kinds of change are judged by hand, by the reviewer of the
 pull request that makes them: a change to the naming scheme of the rendered symbols (`OMX_<ITEM>_…` in C, the
