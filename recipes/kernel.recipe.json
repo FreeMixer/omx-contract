@@ -15,7 +15,7 @@
       "packages/declarations/src",
       "packages/pipewire-native/src"
     ],
-    "sources": "the TypeScript module (an export) or C header (a #define of a plain number) where the engine declares the value today, named relative to one of the archive directories"
+    "sources": "the TypeScript module (an export) or C header (a #define of a plain number) where the engine declares the value today, named by its path inside its archive directory, which resolves to the one archive directory whose file of that name declares it"
   },
   "questions": {
     "kernel": {
