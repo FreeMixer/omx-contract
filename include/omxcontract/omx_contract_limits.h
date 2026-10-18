@@ -44,11 +44,10 @@ enum omx_param_scales {
 
 #endif /* OMX_CONTRACT_LIMITS_H */
 
-/* The sample rates the console declares (core's STANDARD_SAMPLE_RATES, row-codecs.ts): the set a
- * contract's rate-is-declared precondition accepts, through omx_rate_is_declared(), and the grid a
- * native tool iterates. Guarded on its own so a tool built against a pinned copy of this header
- * (lv2-inprocess-pin.sh) can include this tree's copy after it and gain the rates without mixing
- * the pin's limits. */
+/* The standard sample rates (STANDARD_SAMPLE_RATES, declared in omx-contract's rates.json): the set
+ * a rate is checked against and the grid a native tool iterates. Guarded on its own, outside the
+ * include guard, so a tool built against an older copy of this header can include this one after
+ * it and gain the rates without mixing the two copies' limits. */
 #ifndef OMX_DECLARED_RATE_COUNT
 #define OMX_DECLARED_RATE_COUNT 6u
 static const float OMX_DECLARED_RATES[OMX_DECLARED_RATE_COUNT] = { 44100.0f, 48000.0f, 88200.0f, 96000.0f, 176400.0f, 192000.0f };
