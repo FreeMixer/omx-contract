@@ -68,7 +68,7 @@ export const ORACLE_FULL_RATES = [
 ];
 
 /**
- * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.17.0 removes it: read ORACLE_FULL_RATES.
+ * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.18.0 removes it: read ORACLE_FULL_RATES.
  * @see data/rates.json
  */
 export const RME_RATES = ORACLE_FULL_RATES;

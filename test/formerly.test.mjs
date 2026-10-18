@@ -13,7 +13,7 @@ import { test } from 'node:test';
 import { main } from '../bin/omx-contract.mjs';
 import { atLeast } from '../lib/contract-dir.mjs';
 import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
-import { classify } from '../lib/semver.mjs';
+import { DEVELOPMENT_PHASE, classify } from '../lib/semver.mjs';
 import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
@@ -116,6 +116,36 @@ test('formerly: no former name outlives the release that removes it', () => {
   assert.deepEqual(synthetic('9.8.9'), []);
 });
 
+/**
+ * The former names a release at `version` would remove while a consumer still reads them: a `formerly` with `readers`
+ * whose `removedIn` the version reaches. Each as `<OLD> (removedIn x.y.z, read by …)`.
+ */
+const removedWhileRead = (resolved, version) => [...resolved.values()].filter((r) => r.formerly?.readers && atLeast(version, r.formerly.removedIn))
+  .map((r) => `${r.formerly.name} (removedIn ${r.formerly.removedIn}, read by ${r.formerly.readers.join(', ')})`);
+
+// A former name is removed only once no consumer reads it. While `readers` names one, a release that reaches
+// `removedIn` is red here, before the removal arm above can ask for the word to be deleted: the fix is to move
+// `removedIn` to a later release, or, once every reader has moved, to drop the word with its alias. The readers are
+// consumers the development phase registers (lib/semver.mjs), so a reader nobody tracks cannot be recorded
+// (FreeMixer/omx-contract#108).
+test('formerly: no release reaches removedIn while a registered consumer still reads the former name', () => {
+  const resolved = resolveData(loadData(UNION));
+  assert.deepEqual(removedWhileRead(resolved, packageVersion(ROOT)), [], 'move removedIn to a later release, or record that the readers have moved');
+  for (const r of resolved.values()) {
+    for (const reader of r.formerly?.readers ?? []) assert.ok(DEVELOPMENT_PHASE.consumers.includes(reader), `${r.name}.formerly.readers: ${reader} is no registered consumer`);
+  }
+  // the arm reads a version and the readers: a rename removed in 9.9.0 and still read is red at 9.9.0 and after, not
+  // before, and never once nobody reads it
+  const withReaders = resolvedOf(texts((d) => {
+    const { ORACLE_FLOOR_RATES: it, ...rest } = d['data/rates.json'];
+    d['data/rates.json'] = { ...rest, FLOOR_RENAMED: { ...it, formerly: { name: 'ORACLE_FLOOR_RATES', removedIn: '9.9.0', readers: ['omx-dsp'] } } };
+  }));
+  const floor = (r, v) => removedWhileRead(r, v).filter((x) => x.startsWith('ORACLE_FLOOR_RATES '));
+  assert.deepEqual(floor(withReaders, '9.9.0'), ['ORACLE_FLOOR_RATES (removedIn 9.9.0, read by omx-dsp)']);
+  assert.deepEqual(floor(withReaders, '9.8.9'), []);
+  assert.deepEqual(floor(resolvedOf(rename()), '9.9.0'), []);
+});
+
 const NINE = [32000, 44100, 48000, 64000, 88200, 96000, 128000, 176400, 192000];
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 
@@ -123,7 +153,7 @@ test('ORACLE_FULL_RATES: the nine rates, its doc names no vendor, and the floor 
   const r = resolveData(loadData(DATA));
   const full = r.get('ORACLE_FULL_RATES');
   assert.deepEqual(full.value, NINE);
-  assert.deepEqual(full.formerly, { name: 'RME_RATES', removedIn: '2.17.0' });
+  assert.deepEqual(full.formerly, { name: 'RME_RATES', removedIn: '2.18.0', readers: ['omx-clap-core', 'omx-dsp', 'omx-plugins'] });
   assert.doesNotMatch(full.doc, /RME/);
   for (const n of ['ORACLE_FLOOR_RATES', 'STANDARD_SAMPLE_RATES']) for (const v of r.get(n).value) assert.ok(NINE.includes(v), `${n} ${v}`);
   assert.equal(r.has('RME_RATES'), false, 'the old name is no item, only an alias');
@@ -133,7 +163,7 @@ test('RME_RATES, the deprecated alias, answers the values of ORACLE_FULL_RATES i
   const h = read('include/omxcontract/omx_contract_limits.h');
   assert.match(h, /^#define OMX_RME_RATES_COUNT OMX_ORACLE_FULL_RATES_COUNT$/m);
   assert.match(h, /^#define OMX_RME_RATES_INIT OMX_ORACLE_FULL_RATES_INIT$/m);
-  assert.match(h, /kept until 2\.17\.0 removes it/);
+  assert.match(h, /kept until 2\.18\.0 removes it/);
   assert.deepEqual(expand(h, 'OMX_RME_RATES_INIT'), NINE);
   assert.deepEqual(expand(h, 'OMX_ORACLE_FULL_RATES_INIT'), NINE);
   assert.equal(expand(h, 'OMX_RME_RATES_COUNT'), 9);
@@ -144,7 +174,7 @@ test('RME_RATES, the deprecated alias, answers the values of ORACLE_FULL_RATES i
   assert.deepEqual(ts.RME_RATES, NINE);
   assert.match(read('test/golden/ts/omx-contract.d.ts'), /^export declare const RME_RATES: typeof ORACLE_FULL_RATES;$/m);
   const json = JSON.parse(read('share/omx-contract/omx-contract.json'));
-  assert.deepEqual(json.formerNames, { RME_RATES: { name: 'ORACLE_FULL_RATES', removedIn: '2.17.0' } });
+  assert.deepEqual(json.formerNames, { RME_RATES: { name: 'ORACLE_FULL_RATES', removedIn: '2.18.0' } });
   assert.deepEqual(json.items[json.formerNames.RME_RATES.name].value, NINE);
 });
 
