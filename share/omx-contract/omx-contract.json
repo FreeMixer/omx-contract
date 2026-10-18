@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.16.0",
+  "version": "2.17.0",
   "items": {
     "PARAM_SCALES": {
       "rel": "data/primitives.json",

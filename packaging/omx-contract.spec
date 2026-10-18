@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.16.0
+Version: 2.17.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -82,6 +82,27 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Thu Oct 22 2026 Pau Aliagas <linuxnow@gmail.com> - 2.17.0-1
+- The command has a DEB of its own, omx-contract: the CLI, its vendored
+  npm packages and its man page, as the RPM has shipped it since 2.15.0.
+  It depends on nodejs with no version and runs on bookworm's node 18.
+  libomx-contract-dev recommends it.
+- Both command packages recommend pkg-config, which --installed reads to
+  find the contract directory: the DEB pkgconf | pkg-config, the RPM
+  /usr/bin/pkg-config.
+- The deprecated RME_RATES alias stays until 2.18.0: omx-dsp, omx-clap-core
+  and omx-plugins still read it. The schema's formerly gains readers, the
+  consumers whose main still reads the former name, and a test holds the
+  removal release to them.
+- omx-new-kernel resolves a bare source name to the one archive directory
+  whose file of that name declares the symbol, and refuses none or two
+  with a named reason.
+- The -dev and -devel descriptions say a consumer requires the contract at
+  a floor, not at an exact version. The C render's rate tail names
+  STANDARD_SAMPLE_RATES in rates.json; only the comment changes.
+- No owner needs a newer release, so the conflicts stay at omx-dsp-devel
+  0.22.0, omx-clap-core-devel 0.10.0 and omx-plugins-devel 0.10.0.
+
 * Wed Oct 21 2026 Pau Aliagas <linuxnow@gmail.com> - 2.16.0-1
 - The nine-rate list RME_RATES is renamed ORACLE_FULL_RATES, the full grid
   of rates a professional interface can clock at, 32 to 192 kHz, beside the
