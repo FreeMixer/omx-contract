@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { main } from '../bin/omx-contract.mjs';
-import { bumpOf, classify, refusal } from '../lib/semver.mjs';
+import { DEVELOPMENT_PHASE, bumpOf, classify, refusal } from '../lib/semver.mjs';
 import { DATA, dropDecl, editData, relOf, resolvedOf, scratchData, texts } from './helpers.mjs';
 
 const base = resolvedOf(texts());
@@ -22,7 +22,7 @@ test('an item added is MINOR, removed is MINOR in the development phase and MAJO
   const gone = texts((d) => { dropDecl('data/kernels/chorus.json', d['data/kernels/chorus.json'], 'CHORUS_SPREAD_RANGE'); });
   const r = classify(resolvedOf(texts()), resolvedOf(gone));
   assert.equal(r.level, 'minor');
-  assert.match(r.changes[0].what, /development phase: every consumer is omx-dsp, omx-plugins, openmixer/);
+  assert.ok(r.changes[0].what.includes(`development phase: every consumer is ${DEVELOPMENT_PHASE.consumers.join(', ')}`), r.changes[0].what);
   assert.equal(classify(resolvedOf(texts()), resolvedOf(gone), { developmentPhase: null }).level, 'major');
 });
 test('a list member appended is MINOR, changed is MAJOR', () => {
@@ -69,4 +69,11 @@ test('a set id that changes type is visible in the change message (#29)', () => 
   const what = classify(numeric, base).changes.filter((c) => c.item === 'DRIVE_HF_ROLLOFFS').map((c) => c.what);
   assert.ok(what.includes('DRIVE_HF_ROLLOFFS[1]: 12000 -> "12000"'), what.join('\n'));
   assert.ok(what.includes('DRIVE_HF_ROLLOFFS[0]: 0 -> "off"'));
+});
+
+// Every repository whose main reads a name the contract renders (a header define, a TypeScript export or the json
+// render) is a consumer the development-phase rule speaks for: omx-clap-core's host tests and plugin-qualify's
+// declarations read the C header and the rates as omx-dsp and omx-plugins do (FreeMixer/omx-contract#108).
+test('the development phase names every FreeMixer repository that reads the contract', () => {
+  assert.deepEqual([...DEVELOPMENT_PHASE.consumers].sort(), ['omx-clap-core', 'omx-dsp', 'omx-plugins', 'openmixer', 'plugin-qualify']);
 });
