@@ -50,7 +50,8 @@ Conflicts: omx-plugins-devel < 0.10.0~
 %description devel
 Everything you need to build against omx-contract: the C render of omx-contract under include/omxcontract (the limits header), the resolved json
 render and the JSON Schema under share/omx-contract, and omx-contract.pc
-(version, datadir). A consumer requires it at exactly the version it pins.
+(version, datadir). A consumer requires it at a floor, the lowest release
+whose declarations it builds against.
 
 %prep
 %autosetup

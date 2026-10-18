@@ -22,4 +22,5 @@ Description: one shared source of truth for every FreeMixer knob, range, default
  .
  This package holds the c render under /usr/include/omxcontract, the
  resolved json render and the schema under /usr/share/omx-contract, and
- omx-contract.pc. A consumer requires it at exactly the version it pins.
+ omx-contract.pc. A consumer requires it at a floor, the lowest release
+ whose declarations it builds against.
