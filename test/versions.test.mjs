@@ -90,3 +90,28 @@ test('packaging: the -devel and -dev descriptions say a consumer requires a floo
     assert.match(text.replace(/\n \.?/g, ' ').replace(/\s+/g, ' '), /requires it at a floor/, `${f} says a consumer requires a floor`);
   }
 });
+
+// The omx-contract command ships in a package of its own in both formats: the RPM omx-contract and the DEB
+// omx-contract, each with the command, its CLI tree and its man page, beside the -devel / -dev package of headers and
+// data. A packaged consumer names it as a build dependency to read the union of the contract directory
+// (FreeMixer/omx-contract#99).
+test('packaging: the DEB ships the omx-contract command in its own package, as the RPM does', () => {
+  const control = read('debian/control');
+  const packages = [...control.matchAll(/^Package: (\S+)$/gm)].map((m) => m[1]);
+  assert.deepEqual(packages.sort(), ['libomx-contract-dev', 'omx-contract']);
+  const cli = control.slice(control.indexOf('Package: omx-contract\n')).split('\n\n')[0];
+  assert.match(cli, /^Architecture: all$/m);
+  // node as the RPM requires it, with no version: the command's own code runs on every node the DEB releases carry
+  // (bookworm's 18 included), and a floor above a release's node makes the package uninstallable there
+  assert.match(cli, /^Depends: .*\bnodejs$/m, 'the command runs on node');
+  assert.match(read('packaging/omx-contract.spec'), /^Requires: nodejs$/m, 'positive control: the RPM requires node, with no version');
+  // `--installed` finds the contract directory through pkg-config: both command packages recommend it
+  assert.match(cli, /^Recommends: .*\bpkg-?conf/m, 'the DEB command recommends pkg-config');
+  assert.match(read('packaging/omx-contract.spec').split('%package devel')[0], /^Recommends: \/usr\/bin\/pkg-config$/m, 'the RPM command recommends pkg-config');
+  const rpmFiles = read('packaging/omx-contract.spec').split('%files\n')[1].split('\n\n')[0];
+  for (const p of ['%{_bindir}/omx-contract', '%{_prefix}/lib/omx-contract/', '%{_mandir}/man1/omx-contract.1*']) assert.ok(rpmFiles.includes(p), `positive control: the RPM ships ${p}`);
+  assert.deepEqual(read('debian/omx-contract.install').trim().split('\n'), ['usr/bin/omx-contract', 'usr/lib/omx-contract', 'usr/share/man/man1/omx-contract.1']);
+  assert.match(read('debian/rules'), /\$\(MAKE\) install-cli DESTDIR=\$\(CURDIR\)\/debian\/tmp /, 'the rules install the command');
+  const names = /binary-names: (.+)$/m.exec(read('.github/workflows/release.yml').split('\n  deb:\n')[1])[1].trim().split(/\s+/);
+  assert.deepEqual(names.sort(), packages.sort(), 'the release builds every DEB the control declares');
+});

@@ -18,6 +18,8 @@ BuildRequires: tar
 BuildRequires: gzip
 
 Requires: nodejs
+# --installed finds the contract directory through pkg-config
+Recommends: /usr/bin/pkg-config
 Provides: bundled(nodejs-ajv) = 8.20.0
 Provides: bundled(nodejs-fast-deep-equal) = 3.1.3
 Provides: bundled(nodejs-fast-uri) = 3.1.8
