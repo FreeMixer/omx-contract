@@ -62,3 +62,16 @@ int main(void) {
   execFileSync(cc[0], [...cc.slice(1), '-std=c11', '-Wall', '-Wextra', '-Werror', '-Wno-unused-function', '-I', join(RENDERS, 'include'), src, '-o', join(dir, 't'), '-lm']);
   assert.equal(execFileSync(join(dir, 't'), { encoding: 'utf8' }), '-80 0.707107 31 6 4.3 800 2000\n');
 });
+
+// The C header's rate tail says where the list it renders is declared: the data file that declares
+// STANDARD_SAMPLE_RATES (read off the data, by the name it is installed under in the contract directory too), not the
+// console engine module it came from (FreeMixer/omx-contract#108).
+test('c: the rate tail of omx_contract_limits.h names the data file that declares the rates', () => {
+  const file = own().get('STANDARD_SAMPLE_RATES').rel.split('/').pop();
+  const h = readFileSync(join(ROOT, 'include/omxcontract/omx_contract_limits.h'), 'utf8');
+  const tail = h.slice(h.lastIndexOf('#endif /* OMX_CONTRACT_LIMITS_H */') + 1);
+  const prose = tail.slice(0, tail.indexOf('#ifndef OMX_DECLARED_RATE_COUNT'));
+  assert.ok(prose.includes('STANDARD_SAMPLE_RATES'), 'positive control: the tail introduces the rates');
+  assert.ok(prose.includes(`omx-contract's ${file}`), `the rate tail names omx-contract's ${file}`);
+  assert.doesNotMatch(prose, /row-codecs\.ts|core's/, 'the rate tail names a console module as the list\'s home');
+});
