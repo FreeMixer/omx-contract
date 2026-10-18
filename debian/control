@@ -30,6 +30,7 @@ Package: omx-contract
 Architecture: all
 Section: devel
 Depends: ${misc:Depends}, nodejs
+Recommends: pkgconf | pkg-config
 Description: command that checks and renders the FreeMixer declarations
  A fader range, a default, a plugin parameter, a supported sample rate: in
  FreeMixer each of these is written down once, in omx-contract, and everything
