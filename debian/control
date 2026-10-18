@@ -11,6 +11,7 @@ Package: libomx-contract-dev
 Architecture: all
 Multi-Arch: foreign
 Depends: ${misc:Depends}
+Recommends: omx-contract (= ${source:Version})
 Breaks: libomxdsp-dev (<< 0.22.0~), libomx-clap-core-dev (<< 0.10.0~), omx-plugins-dev (<< 0.10.0~)
 Description: one shared source of truth for every FreeMixer knob, range, default
  A fader range, a default, a plugin parameter, a supported sample rate: in
@@ -24,3 +25,18 @@ Description: one shared source of truth for every FreeMixer knob, range, default
  resolved json render and the schema under /usr/share/omx-contract, and
  omx-contract.pc. A consumer requires it at a floor, the lowest release
  whose declarations it builds against.
+
+Package: omx-contract
+Architecture: all
+Section: devel
+Depends: ${misc:Depends}, nodejs
+Description: command that checks and renders the FreeMixer declarations
+ A fader range, a default, a plugin parameter, a supported sample rate: in
+ FreeMixer each of these is written down once, in omx-contract, and everything
+ else reads it. The declarations are plain JSON with a JSON Schema.
+ .
+ This package holds the omx-contract command, which validates, formats and
+ renders the declarations, and reads the contract directory the packages
+ install their definitions into as one checked set. It carries the npm
+ packages it runs on (ajv and its dependencies), so it needs node and
+ nothing else.

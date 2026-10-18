@@ -4,7 +4,7 @@
 
 Needs Node.js 20 or newer and npm for the CLI and the test suite. The data package (omx-contract-devel,
 libomx-contract-dev) needs no node, only `make` and a C compiler to check the header; the command package
-(omx-contract, RPM only for now) needs node at run time and nothing else, since it carries its dependencies from `vendor/`.
+(omx-contract, RPM and deb) needs node at run time and nothing else, since it carries its dependencies from `vendor/`.
 
 ```
 npm ci
@@ -46,7 +46,7 @@ test/                        schema, semantic checks, goldens, perturbation, sem
   fixtures/answers-2.14.0/   the kernels' answers that went with them; `make completeness` runs over both
 recipes/kernel.recipe.json   what a complete kernel has; an owner's recipes/answers/ records where each value comes from
 tools/omx-new-kernel.mjs     the kernel wizard and importer; tools/kernel-recipe.mjs is `make completeness`
-packaging/ debian/           omx-contract-devel (RPM) and libomx-contract-dev (deb), the data; omx-contract (RPM), the command
+packaging/ debian/           omx-contract-devel (RPM) and libomx-contract-dev (deb), the data; omx-contract (RPM and deb), the command
 ```
 
 How a kernel file is written: [docs/kernel-files.md](docs/kernel-files.md).
