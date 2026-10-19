@@ -349,6 +349,258 @@ export const HOSTING_WORKER_CODES = {
 };
 
 /**
+ * The measurable dimensions a measurement document declares it covers: latency and cost since the format's 1.0, stability, RT safety and features since 1.1, for the hosting verdict.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_DIMENSIONS = {
+  "latency": {
+    "word": "latency"
+  },
+  "cost": {
+    "word": "cost"
+  },
+  "stability": {
+    "word": "stability"
+  },
+  "rtSafety": {
+    "word": "rtSafety"
+  },
+  "features": {
+    "word": "features"
+  }
+};
+
+/**
+ * What an absent figure means for a merge, the one distinction that changes behaviour: a property of the plugin, a failure of this run, or a dimension the run did not cover.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_UNMEASURED_KINDS = {
+  "nothingToMeasure": {
+    "word": "nothing-to-measure",
+    "doc": "A property of the plugin: any prober on any machine reaches it, so it may override a figure."
+  },
+  "probeFailed": {
+    "word": "probe-failed",
+    "doc": "A property of this run: it says nothing about the plugin and never overrides a figure."
+  },
+  "notAttempted": {
+    "word": "not-attempted",
+    "doc": "The run did not cover this plugin or this dimension: a partial run, not a finding."
+  }
+};
+
+/**
+ * Every reason a figure may be absent, each of its kind: an outcome a sweep produced, never a hypothetical. A reader that meets a reason it does not know treats it as probe-failed.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_UNMEASURED_REASONS = {
+  "noAudioIn": {
+    "word": "no-audio-in",
+    "group": "nothing-to-measure",
+    "doc": "No audio input port: nothing to drive."
+  },
+  "noAudioOut": {
+    "word": "no-audio-out",
+    "group": "nothing-to-measure",
+    "doc": "No audio output port: nothing to read."
+  },
+  "silentOutput": {
+    "word": "silent-output",
+    "group": "nothing-to-measure",
+    "doc": "Driven, and silent under a stimulus that should have passed."
+  },
+  "needsCarrier": {
+    "word": "needs-carrier",
+    "group": "nothing-to-measure",
+    "doc": "Needs a second audio input the prober did not supply."
+  },
+  "needsImpulseResponse": {
+    "word": "needs-impulse-response",
+    "group": "nothing-to-measure",
+    "doc": "A convolver needing an impulse response the prober did not load."
+  },
+  "unpinnable": {
+    "word": "unpinnable",
+    "group": "nothing-to-measure",
+    "doc": "The files the host loads cannot be pinned."
+  },
+  "noVoices": {
+    "word": "no-voices",
+    "group": "nothing-to-measure",
+    "doc": "An instrument whose voice-info declares a capacity of 0."
+  },
+  "notesUnplayable": {
+    "word": "notes-unplayable",
+    "group": "nothing-to-measure",
+    "doc": "An instrument whose note input reads no dialect the prober speaks."
+  },
+  "voicesUnknown": {
+    "word": "voices-unknown",
+    "group": "not-attempted",
+    "doc": "An instrument that declares no voice capacity, run with no probe count."
+  },
+  "refusedInstantiation": {
+    "word": "refused-instantiation",
+    "group": "probe-failed",
+    "doc": "The plugin would not instantiate at this rate or block size."
+  },
+  "probeCrashed": {
+    "word": "probe-crashed",
+    "group": "probe-failed",
+    "doc": "The probe worker died while hosting the plugin."
+  },
+  "probeTimeout": {
+    "word": "probe-timeout",
+    "group": "probe-failed",
+    "doc": "The probe passed its per-plugin time limit."
+  },
+  "nonFiniteOutput": {
+    "word": "non-finite-output",
+    "group": "probe-failed",
+    "doc": "The output held NaN or infinity."
+  },
+  "notInstalled": {
+    "word": "not-installed",
+    "group": "probe-failed",
+    "doc": "The plugin is not installed on this machine."
+  },
+  "workerNonconforming": {
+    "word": "worker-nonconforming",
+    "group": "probe-failed",
+    "doc": "An LV2 worker interface with work or work_response NULL."
+  },
+  "probeError": {
+    "word": "probe-error",
+    "group": "probe-failed",
+    "doc": "A failure with no more specific reason; its own words are kept beside it."
+  },
+  "notAttempted": {
+    "word": "not-attempted",
+    "group": "not-attempted",
+    "doc": "The run did not cover this plugin for this dimension."
+  }
+};
+
+/**
+ * How a latency figure was taken. note-onset is an instrument's: a held note's first sound.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_LATENCY_METHODS = {
+  "impulseOnset": {
+    "word": "impulse-onset",
+    "doc": "The delay from a unit impulse to the first output sample above the residual floor: what the plugin does."
+  },
+  "declaredPort": {
+    "word": "declared-port",
+    "doc": "Read from the plugin's own latency report: what it claims."
+  },
+  "noteOnset": {
+    "word": "note-onset",
+    "doc": "The delay from a note on to the first output sample above the floor."
+  }
+};
+
+/**
+ * How a cost figure was taken.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_COST_METHODS = {
+  "blockTimePercentile": {
+    "word": "block-time-percentile",
+    "doc": "A percentile of per-block wall time under a sustained stimulus, warm-up discarded, in nanoseconds per sample."
+  }
+};
+
+/**
+ * How latency moves with the sample rate, derived from readings at several rates, never assumed from a plugin's name.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_LATENCY_SCALING = {
+  "fixedFrame": {
+    "word": "fixed-frame",
+    "doc": "The same frame count at every rate."
+  },
+  "fixedTime": {
+    "word": "fixed-time",
+    "doc": "The same milliseconds at every rate."
+  },
+  "zero": {
+    "word": "zero",
+    "doc": "No latency a mix can notice at any measured rate."
+  },
+  "nonconforming": {
+    "word": "nonconforming",
+    "doc": "Fits neither law at a magnitude that reaches a mix: flagged, never averaged."
+  },
+  "singleRate": {
+    "word": "single-rate",
+    "doc": "One usable reading: no law can be fitted."
+  },
+  "unmeasured": {
+    "word": "unmeasured",
+    "doc": "No rate produced a figure."
+  }
+};
+
+/**
+ * Why a derived scaling class is not the naive fit over every reading.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_LATENCY_SCALING_NOTES = {
+  "belowBudget": {
+    "word": "below-budget",
+    "doc": "The readings fit no law but every one is inside the latency budget: the detector's noise."
+  },
+  "informationalRate": {
+    "word": "informational-rate",
+    "doc": "Only a reading below the operational rates breaks the law; it stays as information."
+  }
+};
+
+/**
+ * Why one rate's reading was left out of the fit and of every rate resolution.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_LATENCY_EXCLUSIONS = {
+  "impossibleZero": {
+    "word": "impossible-zero",
+    "doc": "Zero frames at this rate while another rate measured non-zero."
+  }
+};
+
+/**
+ * Where the number of notes an instrument's cost was measured with came from: the voice capacity the plugin declares (CLAP voice-info), or a count the caller gave.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_VOICE_BASES = {
+  "declared": {
+    "word": "declared"
+  },
+  "probe": {
+    "word": "probe"
+  }
+};
+
+/**
+ * The four ratings a verdict speaks, in order from the best.
+ * @see data/measurement.json
+ */
+export const MEASUREMENT_VERDICT_RATINGS = {
+  "suitable": {
+    "word": "suitable"
+  },
+  "conditional": {
+    "word": "conditional"
+  },
+  "unknown": {
+    "word": "unknown"
+  },
+  "unsuitable": {
+    "word": "unsuitable"
+  }
+};
+
+/**
  * How a host draws a parameter: linear, logarithmic (a frequency, a time) or in discrete steps. The words omx-plugins' declarations and plugin-hostd's protocol use; a travel names its own with `scale`.
  * @see data/primitives.json
  */

@@ -349,6 +349,258 @@ export declare const HOSTING_WORKER_CODES: {
 };
 
 /**
+ * The measurable dimensions a measurement document declares it covers: latency and cost since the format's 1.0, stability, RT safety and features since 1.1, for the hosting verdict.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_DIMENSIONS: {
+  readonly latency: {
+    readonly word: "latency";
+  };
+  readonly cost: {
+    readonly word: "cost";
+  };
+  readonly stability: {
+    readonly word: "stability";
+  };
+  readonly rtSafety: {
+    readonly word: "rtSafety";
+  };
+  readonly features: {
+    readonly word: "features";
+  };
+};
+
+/**
+ * What an absent figure means for a merge, the one distinction that changes behaviour: a property of the plugin, a failure of this run, or a dimension the run did not cover.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_UNMEASURED_KINDS: {
+  readonly nothingToMeasure: {
+    readonly word: "nothing-to-measure";
+    readonly doc: "A property of the plugin: any prober on any machine reaches it, so it may override a figure.";
+  };
+  readonly probeFailed: {
+    readonly word: "probe-failed";
+    readonly doc: "A property of this run: it says nothing about the plugin and never overrides a figure.";
+  };
+  readonly notAttempted: {
+    readonly word: "not-attempted";
+    readonly doc: "The run did not cover this plugin or this dimension: a partial run, not a finding.";
+  };
+};
+
+/**
+ * Every reason a figure may be absent, each of its kind: an outcome a sweep produced, never a hypothetical. A reader that meets a reason it does not know treats it as probe-failed.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_UNMEASURED_REASONS: {
+  readonly noAudioIn: {
+    readonly word: "no-audio-in";
+    readonly group: "nothing-to-measure";
+    readonly doc: "No audio input port: nothing to drive.";
+  };
+  readonly noAudioOut: {
+    readonly word: "no-audio-out";
+    readonly group: "nothing-to-measure";
+    readonly doc: "No audio output port: nothing to read.";
+  };
+  readonly silentOutput: {
+    readonly word: "silent-output";
+    readonly group: "nothing-to-measure";
+    readonly doc: "Driven, and silent under a stimulus that should have passed.";
+  };
+  readonly needsCarrier: {
+    readonly word: "needs-carrier";
+    readonly group: "nothing-to-measure";
+    readonly doc: "Needs a second audio input the prober did not supply.";
+  };
+  readonly needsImpulseResponse: {
+    readonly word: "needs-impulse-response";
+    readonly group: "nothing-to-measure";
+    readonly doc: "A convolver needing an impulse response the prober did not load.";
+  };
+  readonly unpinnable: {
+    readonly word: "unpinnable";
+    readonly group: "nothing-to-measure";
+    readonly doc: "The files the host loads cannot be pinned.";
+  };
+  readonly noVoices: {
+    readonly word: "no-voices";
+    readonly group: "nothing-to-measure";
+    readonly doc: "An instrument whose voice-info declares a capacity of 0.";
+  };
+  readonly notesUnplayable: {
+    readonly word: "notes-unplayable";
+    readonly group: "nothing-to-measure";
+    readonly doc: "An instrument whose note input reads no dialect the prober speaks.";
+  };
+  readonly voicesUnknown: {
+    readonly word: "voices-unknown";
+    readonly group: "not-attempted";
+    readonly doc: "An instrument that declares no voice capacity, run with no probe count.";
+  };
+  readonly refusedInstantiation: {
+    readonly word: "refused-instantiation";
+    readonly group: "probe-failed";
+    readonly doc: "The plugin would not instantiate at this rate or block size.";
+  };
+  readonly probeCrashed: {
+    readonly word: "probe-crashed";
+    readonly group: "probe-failed";
+    readonly doc: "The probe worker died while hosting the plugin.";
+  };
+  readonly probeTimeout: {
+    readonly word: "probe-timeout";
+    readonly group: "probe-failed";
+    readonly doc: "The probe passed its per-plugin time limit.";
+  };
+  readonly nonFiniteOutput: {
+    readonly word: "non-finite-output";
+    readonly group: "probe-failed";
+    readonly doc: "The output held NaN or infinity.";
+  };
+  readonly notInstalled: {
+    readonly word: "not-installed";
+    readonly group: "probe-failed";
+    readonly doc: "The plugin is not installed on this machine.";
+  };
+  readonly workerNonconforming: {
+    readonly word: "worker-nonconforming";
+    readonly group: "probe-failed";
+    readonly doc: "An LV2 worker interface with work or work_response NULL.";
+  };
+  readonly probeError: {
+    readonly word: "probe-error";
+    readonly group: "probe-failed";
+    readonly doc: "A failure with no more specific reason; its own words are kept beside it.";
+  };
+  readonly notAttempted: {
+    readonly word: "not-attempted";
+    readonly group: "not-attempted";
+    readonly doc: "The run did not cover this plugin for this dimension.";
+  };
+};
+
+/**
+ * How a latency figure was taken. note-onset is an instrument's: a held note's first sound.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_LATENCY_METHODS: {
+  readonly impulseOnset: {
+    readonly word: "impulse-onset";
+    readonly doc: "The delay from a unit impulse to the first output sample above the residual floor: what the plugin does.";
+  };
+  readonly declaredPort: {
+    readonly word: "declared-port";
+    readonly doc: "Read from the plugin's own latency report: what it claims.";
+  };
+  readonly noteOnset: {
+    readonly word: "note-onset";
+    readonly doc: "The delay from a note on to the first output sample above the floor.";
+  };
+};
+
+/**
+ * How a cost figure was taken.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_COST_METHODS: {
+  readonly blockTimePercentile: {
+    readonly word: "block-time-percentile";
+    readonly doc: "A percentile of per-block wall time under a sustained stimulus, warm-up discarded, in nanoseconds per sample.";
+  };
+};
+
+/**
+ * How latency moves with the sample rate, derived from readings at several rates, never assumed from a plugin's name.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_LATENCY_SCALING: {
+  readonly fixedFrame: {
+    readonly word: "fixed-frame";
+    readonly doc: "The same frame count at every rate.";
+  };
+  readonly fixedTime: {
+    readonly word: "fixed-time";
+    readonly doc: "The same milliseconds at every rate.";
+  };
+  readonly zero: {
+    readonly word: "zero";
+    readonly doc: "No latency a mix can notice at any measured rate.";
+  };
+  readonly nonconforming: {
+    readonly word: "nonconforming";
+    readonly doc: "Fits neither law at a magnitude that reaches a mix: flagged, never averaged.";
+  };
+  readonly singleRate: {
+    readonly word: "single-rate";
+    readonly doc: "One usable reading: no law can be fitted.";
+  };
+  readonly unmeasured: {
+    readonly word: "unmeasured";
+    readonly doc: "No rate produced a figure.";
+  };
+};
+
+/**
+ * Why a derived scaling class is not the naive fit over every reading.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_LATENCY_SCALING_NOTES: {
+  readonly belowBudget: {
+    readonly word: "below-budget";
+    readonly doc: "The readings fit no law but every one is inside the latency budget: the detector's noise.";
+  };
+  readonly informationalRate: {
+    readonly word: "informational-rate";
+    readonly doc: "Only a reading below the operational rates breaks the law; it stays as information.";
+  };
+};
+
+/**
+ * Why one rate's reading was left out of the fit and of every rate resolution.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_LATENCY_EXCLUSIONS: {
+  readonly impossibleZero: {
+    readonly word: "impossible-zero";
+    readonly doc: "Zero frames at this rate while another rate measured non-zero.";
+  };
+};
+
+/**
+ * Where the number of notes an instrument's cost was measured with came from: the voice capacity the plugin declares (CLAP voice-info), or a count the caller gave.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_VOICE_BASES: {
+  readonly declared: {
+    readonly word: "declared";
+  };
+  readonly probe: {
+    readonly word: "probe";
+  };
+};
+
+/**
+ * The four ratings a verdict speaks, in order from the best.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_VERDICT_RATINGS: {
+  readonly suitable: {
+    readonly word: "suitable";
+  };
+  readonly conditional: {
+    readonly word: "conditional";
+  };
+  readonly unknown: {
+    readonly word: "unknown";
+  };
+  readonly unsuitable: {
+    readonly word: "unsuitable";
+  };
+};
+
+/**
  * How a host draws a parameter: linear, logarithmic (a frequency, a time) or in discrete steps. The words omx-plugins' declarations and plugin-hostd's protocol use; a travel names its own with `scale`.
  * @see data/primitives.json
  */
