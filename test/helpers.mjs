@@ -13,6 +13,15 @@ export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 /** omx-contract's own data: the schema's shared facts, what the committed renders are rendered from. */
 export const DATA = join(ROOT, 'data');
 
+/** The kinds of the vocabulary (docs/data-layout.md): hosting codes, words and a format's mapped terms. */
+export const VOCABULARY_KINDS = ['codes', 'words', 'terms'];
+
+/** The names of data/'s vocabulary items, which 2.14.0's union did not hold. */
+export const VOCABULARY = new Set([...loadData(DATA).items.values()].filter(({ item }) => VOCABULARY_KINDS.includes(item.kind)).map(({ name }) => name));
+
+/** How many items data/ declares. */
+export const DATA_ITEMS = loadData(DATA).items.size;
+
 /**
  * The definitions omx-contract carried until 2.14.0 and their owners now install (omx-dsp's kernels, omx-clap-core's
  * hosting file with its render word), frozen at their 2.14.0 bytes: the fixture the tool's tests read real-shaped
