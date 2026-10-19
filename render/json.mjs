@@ -10,7 +10,9 @@
  * never repeats its values.
  */
 
-/** Every file of the `json` target: `[{ path, text }]`. */
+import { renderVocabularySchema } from './vocabulary.mjs';
+
+/** Every file of the `json` target: `[{ path, text }]`: the resolved data and the vocabulary's schema fragment. */
 export function renderJson(resolved, version) {
   const items = {};
   for (const r of resolved.values()) {
@@ -21,5 +23,8 @@ export function renderJson(resolved, version) {
   if (resolved.kernels) doc.kernels = resolved.kernels;
   const former = [...resolved.values()].filter((r) => r.kind === 'list' && r.formerly);
   if (former.length) doc.formerNames = Object.fromEntries(former.map((r) => [r.formerly.name, { name: r.name, removedIn: r.formerly.removedIn }]));
-  return [{ path: 'omx-contract.json', text: `${JSON.stringify(doc, null, 2)}\n` }];
+  const files = [{ path: 'omx-contract.json', text: `${JSON.stringify(doc, null, 2)}\n` }];
+  const vocabulary = renderVocabularySchema(resolved, version);
+  if (vocabulary) files.push({ path: 'omx-vocabulary.schema.json', text: vocabulary });
+  return files;
 }

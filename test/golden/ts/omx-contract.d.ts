@@ -6144,7 +6144,7 @@ export declare const RESOURCE_UNITS: {
   readonly bytes: {
     readonly word: "bytes";
   };
-  readonly count: {
+  readonly plainCount: {
     readonly word: "count";
   };
   readonly ratio: {
@@ -6265,3 +6265,153 @@ export declare const RESOURCE_THREAD_SCHEDULING: {
  * @see data/rates.json
  */
 export declare const RME_RATES: typeof ORACLE_FULL_RATES;
+
+/**
+ * The words of MACHINE_CLASS_FIELDS, in their declared order.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_CLASS_FIELDS_WORDS: readonly ["arch", "family", "coreBand", "clockBand", "preemptRt", "cstatesLimited"];
+
+/**
+ * The words of MACHINE_PROFILE_FIELDS, in their declared order.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_PROFILE_FIELDS_WORDS: readonly ["governor", "turbo", "smt", "preempt", "cpuidle"];
+
+/**
+ * The words of MACHINE_CORE_BANDS, in their declared order.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_CORE_BANDS_WORDS: readonly ["1-2", "3-4", "5-8", "9-16", "17-32", "33+"];
+
+/**
+ * The words of MACHINE_CLOCK_BANDS, in their declared order.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_CLOCK_BANDS_WORDS: readonly ["<1.5GHz", "1.5-2.5GHz", "2.5-3.5GHz", "3.5-4.5GHz", "4.5GHz+"];
+
+/**
+ * The words of MACHINE_ARCHES, in their declared order.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_ARCHES_WORDS: readonly ["x86_64", "aarch64"];
+
+/**
+ * The words of MACHINE_CLASSES, in their declared order.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_CLASSES_WORDS: readonly ["desk", "raspberry-pi-4", "raspberry-pi-5"];
+
+/**
+ * The words of MEASUREMENT_DIMENSIONS, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_DIMENSIONS_WORDS: readonly ["latency", "cost", "stability", "rtSafety", "features"];
+
+/**
+ * The words of MEASUREMENT_UNMEASURED_KINDS, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_UNMEASURED_KINDS_WORDS: readonly ["nothing-to-measure", "probe-failed", "not-attempted"];
+
+/**
+ * The words of MEASUREMENT_UNMEASURED_REASONS, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_UNMEASURED_REASONS_WORDS: readonly ["no-audio-in", "no-audio-out", "silent-output", "needs-carrier", "needs-impulse-response", "unpinnable", "no-voices", "notes-unplayable", "voices-unknown", "refused-instantiation", "probe-crashed", "probe-timeout", "non-finite-output", "not-installed", "worker-nonconforming", "probe-error", "not-attempted"];
+
+/**
+ * The words of MEASUREMENT_LATENCY_METHODS, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_LATENCY_METHODS_WORDS: readonly ["impulse-onset", "declared-port", "note-onset"];
+
+/**
+ * The words of MEASUREMENT_COST_METHODS, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_COST_METHODS_WORDS: readonly ["block-time-percentile"];
+
+/**
+ * The words of MEASUREMENT_LATENCY_SCALING, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_LATENCY_SCALING_WORDS: readonly ["fixed-frame", "fixed-time", "zero", "nonconforming", "single-rate", "unmeasured"];
+
+/**
+ * The words of MEASUREMENT_LATENCY_SCALING_NOTES, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_LATENCY_SCALING_NOTES_WORDS: readonly ["below-budget", "informational-rate"];
+
+/**
+ * The words of MEASUREMENT_LATENCY_EXCLUSIONS, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_LATENCY_EXCLUSIONS_WORDS: readonly ["impossible-zero"];
+
+/**
+ * The words of MEASUREMENT_VOICE_BASES, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_VOICE_BASES_WORDS: readonly ["declared", "probe"];
+
+/**
+ * The words of MEASUREMENT_VERDICT_RATINGS, in their declared order.
+ * @see data/measurement.json
+ */
+export declare const MEASUREMENT_VERDICT_RATINGS_WORDS: readonly ["suitable", "conditional", "unknown", "unsuitable"];
+
+/**
+ * The words of RESOURCE_KINDS, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_KINDS_WORDS: readonly ["cpu", "memory", "scratch-memory", "latency", "tail", "voices", "startup", "threads", "worker", "block-length", "open-files", "disk-io", "network", "state"];
+
+/**
+ * The words of RESOURCE_UNITS, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_UNITS_WORDS: readonly ["ns-per-sample", "frames", "ms", "us", "s", "bytes", "count", "ratio"];
+
+/**
+ * The words of RESOURCE_BASES, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_BASES_WORDS: readonly ["declared", "measured", "probe"];
+
+/**
+ * The words of RESOURCE_MEMORY_PHASES, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_MEMORY_PHASES_WORDS: readonly ["after-instantiate", "after-activate", "at-rest", "notes-held", "second-instance"];
+
+/**
+ * The words of RESOURCE_UNMEASURED_REASONS, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_UNMEASURED_REASONS_WORDS: readonly ["unmeasured-on-class", "limit-exceeded"];
+
+/**
+ * The words of RESOURCE_BUDGET_SCOPES, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_BUDGET_SCOPES_WORDS: readonly ["per-instance", "per-console"];
+
+/**
+ * The words of RESOURCE_HOST_ISOLATIONS, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_HOST_ISOLATIONS_WORDS: readonly ["in-process", "per-process", "shared-process"];
+
+/**
+ * The words of RESOURCE_HOST_LATENCY_HANDLING, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_HOST_LATENCY_HANDLING_WORDS: readonly ["compensated", "uncompensated"];
+
+/**
+ * The words of RESOURCE_THREAD_SCHEDULING, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_THREAD_SCHEDULING_WORDS: readonly ["none", "fifo"];
