@@ -1,0 +1,1608 @@
+{
+  "format": "clap",
+  "from": "the CLAP headers (clap package), private/ left out",
+  "version": "1.2.10",
+  "headers": {
+    "color": [
+      {
+        "name": "CLAP_COLOR_TRANSPARENT",
+        "group": "const",
+        "value": "{ 0, 0, 0, 0 }"
+      }
+    ],
+    "events": [
+      {
+        "name": "CLAP_CORE_EVENT_SPACE_ID",
+        "group": "const",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_EVENT_IS_LIVE",
+        "group": "clap_event_flags",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_EVENT_DONT_RECORD",
+        "group": "clap_event_flags",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_EVENT_NOTE_ON",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_EVENT_NOTE_OFF",
+        "group": "enum",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_EVENT_NOTE_CHOKE",
+        "group": "enum",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_EVENT_NOTE_END",
+        "group": "enum",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_EVENT_NOTE_EXPRESSION",
+        "group": "enum",
+        "value": "4"
+      },
+      {
+        "name": "CLAP_EVENT_PARAM_VALUE",
+        "group": "enum",
+        "value": "5"
+      },
+      {
+        "name": "CLAP_EVENT_PARAM_MOD",
+        "group": "enum",
+        "value": "6"
+      },
+      {
+        "name": "CLAP_EVENT_PARAM_GESTURE_BEGIN",
+        "group": "enum",
+        "value": "7"
+      },
+      {
+        "name": "CLAP_EVENT_PARAM_GESTURE_END",
+        "group": "enum",
+        "value": "8"
+      },
+      {
+        "name": "CLAP_EVENT_TRANSPORT",
+        "group": "enum",
+        "value": "9"
+      },
+      {
+        "name": "CLAP_EVENT_MIDI",
+        "group": "enum",
+        "value": "10"
+      },
+      {
+        "name": "CLAP_EVENT_MIDI_SYSEX",
+        "group": "enum",
+        "value": "11"
+      },
+      {
+        "name": "CLAP_EVENT_MIDI2",
+        "group": "enum",
+        "value": "12"
+      },
+      {
+        "name": "CLAP_NOTE_EXPRESSION_VOLUME",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_NOTE_EXPRESSION_PAN",
+        "group": "enum",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_NOTE_EXPRESSION_TUNING",
+        "group": "enum",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_NOTE_EXPRESSION_VIBRATO",
+        "group": "enum",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_NOTE_EXPRESSION_EXPRESSION",
+        "group": "enum",
+        "value": "4"
+      },
+      {
+        "name": "CLAP_NOTE_EXPRESSION_BRIGHTNESS",
+        "group": "enum",
+        "value": "5"
+      },
+      {
+        "name": "CLAP_NOTE_EXPRESSION_PRESSURE",
+        "group": "enum",
+        "value": "6"
+      },
+      {
+        "name": "CLAP_TRANSPORT_HAS_TEMPO",
+        "group": "clap_transport_flags",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_TRANSPORT_HAS_BEATS_TIMELINE",
+        "group": "clap_transport_flags",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_TRANSPORT_HAS_SECONDS_TIMELINE",
+        "group": "clap_transport_flags",
+        "value": "1 << 2"
+      },
+      {
+        "name": "CLAP_TRANSPORT_HAS_TIME_SIGNATURE",
+        "group": "clap_transport_flags",
+        "value": "1 << 3"
+      },
+      {
+        "name": "CLAP_TRANSPORT_IS_PLAYING",
+        "group": "clap_transport_flags",
+        "value": "1 << 4"
+      },
+      {
+        "name": "CLAP_TRANSPORT_IS_RECORDING",
+        "group": "clap_transport_flags",
+        "value": "1 << 5"
+      },
+      {
+        "name": "CLAP_TRANSPORT_IS_LOOP_ACTIVE",
+        "group": "clap_transport_flags",
+        "value": "1 << 6"
+      },
+      {
+        "name": "CLAP_TRANSPORT_IS_WITHIN_PRE_ROLL",
+        "group": "clap_transport_flags",
+        "value": "1 << 7"
+      }
+    ],
+    "ext/ambisonic": [
+      {
+        "name": "CLAP_EXT_AMBISONIC",
+        "group": "string",
+        "value": "clap.ambisonic/3"
+      },
+      {
+        "name": "CLAP_EXT_AMBISONIC_COMPAT",
+        "group": "string",
+        "value": "clap.ambisonic.draft/3"
+      },
+      {
+        "name": "CLAP_PORT_AMBISONIC",
+        "group": "string",
+        "value": "ambisonic"
+      },
+      {
+        "name": "CLAP_AMBISONIC_ORDERING_FUMA",
+        "group": "clap_ambisonic_ordering",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_AMBISONIC_ORDERING_ACN",
+        "group": "clap_ambisonic_ordering",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_AMBISONIC_NORMALIZATION_MAXN",
+        "group": "clap_ambisonic_normalization",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_AMBISONIC_NORMALIZATION_SN3D",
+        "group": "clap_ambisonic_normalization",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_AMBISONIC_NORMALIZATION_N3D",
+        "group": "clap_ambisonic_normalization",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_AMBISONIC_NORMALIZATION_SN2D",
+        "group": "clap_ambisonic_normalization",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_AMBISONIC_NORMALIZATION_N2D",
+        "group": "clap_ambisonic_normalization",
+        "value": "4"
+      }
+    ],
+    "ext/audio-ports-activation": [
+      {
+        "name": "CLAP_EXT_AUDIO_PORTS_ACTIVATION",
+        "group": "string",
+        "value": "clap.audio-ports-activation/2"
+      },
+      {
+        "name": "CLAP_EXT_AUDIO_PORTS_ACTIVATION_COMPAT",
+        "group": "string",
+        "value": "clap.audio-ports-activation/draft-2"
+      }
+    ],
+    "ext/audio-ports-config": [
+      {
+        "name": "CLAP_EXT_AUDIO_PORTS_CONFIG",
+        "group": "string",
+        "value": "clap.audio-ports-config"
+      },
+      {
+        "name": "CLAP_EXT_AUDIO_PORTS_CONFIG_INFO",
+        "group": "string",
+        "value": "clap.audio-ports-config-info/1"
+      },
+      {
+        "name": "CLAP_EXT_AUDIO_PORTS_CONFIG_INFO_COMPAT",
+        "group": "string",
+        "value": "clap.audio-ports-config-info/draft-0"
+      }
+    ],
+    "ext/audio-ports": [
+      {
+        "name": "CLAP_EXT_AUDIO_PORTS",
+        "group": "string",
+        "value": "clap.audio-ports"
+      },
+      {
+        "name": "CLAP_PORT_MONO",
+        "group": "string",
+        "value": "mono"
+      },
+      {
+        "name": "CLAP_PORT_STEREO",
+        "group": "string",
+        "value": "stereo"
+      },
+      {
+        "name": "CLAP_AUDIO_PORT_IS_MAIN",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_AUDIO_PORT_SUPPORTS_64BITS",
+        "group": "enum",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_AUDIO_PORT_PREFERS_64BITS",
+        "group": "enum",
+        "value": "1 << 2"
+      },
+      {
+        "name": "CLAP_AUDIO_PORT_REQUIRES_COMMON_SAMPLE_SIZE",
+        "group": "enum",
+        "value": "1 << 3"
+      },
+      {
+        "name": "CLAP_AUDIO_PORTS_RESCAN_NAMES",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_AUDIO_PORTS_RESCAN_FLAGS",
+        "group": "enum",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_AUDIO_PORTS_RESCAN_CHANNEL_COUNT",
+        "group": "enum",
+        "value": "1 << 2"
+      },
+      {
+        "name": "CLAP_AUDIO_PORTS_RESCAN_PORT_TYPE",
+        "group": "enum",
+        "value": "1 << 3"
+      },
+      {
+        "name": "CLAP_AUDIO_PORTS_RESCAN_IN_PLACE_PAIR",
+        "group": "enum",
+        "value": "1 << 4"
+      },
+      {
+        "name": "CLAP_AUDIO_PORTS_RESCAN_LIST",
+        "group": "enum",
+        "value": "1 << 5"
+      }
+    ],
+    "ext/configurable-audio-ports": [
+      {
+        "name": "CLAP_EXT_CONFIGURABLE_AUDIO_PORTS",
+        "group": "string",
+        "value": "clap.configurable-audio-ports/1"
+      },
+      {
+        "name": "CLAP_EXT_CONFIGURABLE_AUDIO_PORTS_COMPAT",
+        "group": "string",
+        "value": "clap.configurable-audio-ports.draft1"
+      }
+    ],
+    "ext/context-menu": [
+      {
+        "name": "CLAP_EXT_CONTEXT_MENU",
+        "group": "string",
+        "value": "clap.context-menu/1"
+      },
+      {
+        "name": "CLAP_EXT_CONTEXT_MENU_COMPAT",
+        "group": "string",
+        "value": "clap.context-menu.draft/0"
+      },
+      {
+        "name": "CLAP_CONTEXT_MENU_TARGET_KIND_GLOBAL",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_CONTEXT_MENU_TARGET_KIND_PARAM",
+        "group": "enum",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_CONTEXT_MENU_ITEM_ENTRY",
+        "group": "enum",
+        "value": null
+      },
+      {
+        "name": "CLAP_CONTEXT_MENU_ITEM_CHECK_ENTRY",
+        "group": "enum",
+        "value": null
+      },
+      {
+        "name": "CLAP_CONTEXT_MENU_ITEM_SEPARATOR",
+        "group": "enum",
+        "value": null
+      },
+      {
+        "name": "CLAP_CONTEXT_MENU_ITEM_BEGIN_SUBMENU",
+        "group": "enum",
+        "value": null
+      },
+      {
+        "name": "CLAP_CONTEXT_MENU_ITEM_END_SUBMENU",
+        "group": "enum",
+        "value": null
+      },
+      {
+        "name": "CLAP_CONTEXT_MENU_ITEM_TITLE",
+        "group": "enum",
+        "value": null
+      }
+    ],
+    "ext/draft/background-activation": [
+      {
+        "name": "CLAP_EXT_BACKGROUND_ACTIVATION",
+        "group": "string",
+        "value": "clap.background-activation/1"
+      }
+    ],
+    "ext/draft/background-progress": [
+      {
+        "name": "CLAP_EXT_BACKGROUND_PROGRESS",
+        "group": "string",
+        "value": "clap.background-progress/1"
+      }
+    ],
+    "ext/draft/background-state-context": [
+      {
+        "name": "CLAP_EXT_BACKGROUND_STATE_CONTEXT",
+        "group": "string",
+        "value": "clap.background-state-context/1"
+      }
+    ],
+    "ext/draft/extensible-audio-ports": [
+      {
+        "name": "CLAP_EXT_EXTENSIBLE_AUDIO_PORTS",
+        "group": "string",
+        "value": "clap.extensible-audio-ports/1"
+      }
+    ],
+    "ext/draft/flush-events": [
+      {
+        "name": "CLAP_EXT_FLUSH_EVENTS",
+        "group": "string",
+        "value": "clap.flush-events/1"
+      }
+    ],
+    "ext/draft/gain-adjustment-metering": [
+      {
+        "name": "CLAP_EXT_GAIN_ADJUSTMENT_METERING",
+        "group": "string",
+        "value": "clap.gain-adjustment-metering/0"
+      }
+    ],
+    "ext/draft/mini-curve-display": [
+      {
+        "name": "CLAP_EXT_MINI_CURVE_DISPLAY",
+        "group": "string",
+        "value": "clap.mini-curve-display/3"
+      },
+      {
+        "name": "CLAP_MINI_CURVE_DISPLAY_CURVE_KIND_UNSPECIFIED",
+        "group": "clap_mini_curve_display_curve_kind",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_MINI_CURVE_DISPLAY_CURVE_KIND_GAIN_RESPONSE",
+        "group": "clap_mini_curve_display_curve_kind",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_MINI_CURVE_DISPLAY_CURVE_KIND_PHASE_RESPONSE",
+        "group": "clap_mini_curve_display_curve_kind",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_MINI_CURVE_DISPLAY_CURVE_KIND_TRANSFER_CURVE",
+        "group": "clap_mini_curve_display_curve_kind",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_MINI_CURVE_DISPLAY_CURVE_KIND_GAIN_REDUCTION",
+        "group": "clap_mini_curve_display_curve_kind",
+        "value": "4"
+      },
+      {
+        "name": "CLAP_MINI_CURVE_DISPLAY_CURVE_KIND_TIME_SERIES",
+        "group": "clap_mini_curve_display_curve_kind",
+        "value": "5"
+      },
+      {
+        "name": "CLAP_MINI_CURVE_DISPLAY_CURVE_CHANGED",
+        "group": "clap_mini_curve_display_change_flags",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_MINI_CURVE_DISPLAY_AXIS_NAME_CHANGED",
+        "group": "clap_mini_curve_display_change_flags",
+        "value": "1 << 1"
+      }
+    ],
+    "ext/draft/octave-number": [
+      {
+        "name": "CLAP_EXT_OCTAVE_NUMBER",
+        "group": "string",
+        "value": "clap.octave-number/1"
+      }
+    ],
+    "ext/draft/param-hovered": [
+      {
+        "name": "CLAP_EXT_PARAM_HOVERED",
+        "group": "string",
+        "value": "clap.param-hovered/1"
+      }
+    ],
+    "ext/draft/params-origin": [
+      {
+        "name": "CLAP_EXT_PARAMS_ORIGIN",
+        "group": "string",
+        "value": "clap.params-origin/1"
+      }
+    ],
+    "ext/draft/project-location": [
+      {
+        "name": "CLAP_EXT_PROJECT_LOCATION",
+        "group": "string",
+        "value": "clap.project-location/2"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_PROJECT",
+        "group": "clap_project_location_kind",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_TRACK_GROUP",
+        "group": "clap_project_location_kind",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_TRACK",
+        "group": "clap_project_location_kind",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_DEVICE",
+        "group": "clap_project_location_kind",
+        "value": "4"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_NESTED_DEVICE_CHAIN",
+        "group": "clap_project_location_kind",
+        "value": "5"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_INSTUMENT_TRACK",
+        "group": "clap_project_location_track_kind",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_AUDIO_TRACK",
+        "group": "clap_project_location_track_kind",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_HYBRID_TRACK",
+        "group": "clap_project_location_track_kind",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_RETURN_TRACK",
+        "group": "clap_project_location_track_kind",
+        "value": "4"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_MASTER_TRACK",
+        "group": "clap_project_location_track_kind",
+        "value": "5"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_HAS_INDEX",
+        "group": "clap_project_location_flags",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_PROJECT_LOCATION_HAS_COLOR",
+        "group": "clap_project_location_flags",
+        "value": "1 << 1"
+      }
+    ],
+    "ext/draft/resource-directory": [
+      {
+        "name": "CLAP_EXT_RESOURCE_DIRECTORY",
+        "group": "string",
+        "value": "clap.resource-directory/1"
+      }
+    ],
+    "ext/draft/scratch-memory": [
+      {
+        "name": "CLAP_EXT_SCRATCH_MEMORY",
+        "group": "string",
+        "value": "clap.scratch-memory/1"
+      }
+    ],
+    "ext/draft/transport-control": [
+      {
+        "name": "CLAP_EXT_TRANSPORT_CONTROL",
+        "group": "string",
+        "value": "clap.transport-control/2"
+      }
+    ],
+    "ext/draft/triggers": [
+      {
+        "name": "CLAP_EXT_TRIGGERS",
+        "group": "string",
+        "value": "clap.triggers/1"
+      },
+      {
+        "name": "CLAP_TRIGGER_IS_AUTOMATABLE_PER_NOTE_ID",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_TRIGGER_IS_AUTOMATABLE_PER_KEY",
+        "group": "enum",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_TRIGGER_IS_AUTOMATABLE_PER_CHANNEL",
+        "group": "enum",
+        "value": "1 << 2"
+      },
+      {
+        "name": "CLAP_TRIGGER_IS_AUTOMATABLE_PER_PORT",
+        "group": "enum",
+        "value": "1 << 3"
+      },
+      {
+        "name": "CLAP_EVENT_TRIGGER",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_TRIGGER_RESCAN_INFO",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_TRIGGER_RESCAN_ALL",
+        "group": "enum",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_TRIGGER_CLEAR_ALL",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_TRIGGER_CLEAR_AUTOMATIONS",
+        "group": "enum",
+        "value": "1 << 1"
+      }
+    ],
+    "ext/draft/tuning": [
+      {
+        "name": "CLAP_EXT_TUNING",
+        "group": "string",
+        "value": "clap.tuning/2"
+      }
+    ],
+    "ext/draft/undo": [
+      {
+        "name": "CLAP_EXT_UNDO",
+        "group": "string",
+        "value": "clap.undo/4"
+      },
+      {
+        "name": "CLAP_EXT_UNDO_CONTEXT",
+        "group": "string",
+        "value": "clap.undo_context/4"
+      },
+      {
+        "name": "CLAP_EXT_UNDO_DELTA",
+        "group": "string",
+        "value": "clap.undo_delta/4"
+      }
+    ],
+    "ext/draft/webview": [
+      {
+        "name": "CLAP_EXT_WEBVIEW",
+        "group": "string",
+        "value": "clap.webview/3"
+      },
+      {
+        "name": "CLAP_WINDOW_API_WEBVIEW",
+        "group": "string",
+        "value": "webview"
+      }
+    ],
+    "ext/event-registry": [
+      {
+        "name": "CLAP_EXT_EVENT_REGISTRY",
+        "group": "string",
+        "value": "clap.event-registry"
+      }
+    ],
+    "ext/gui": [
+      {
+        "name": "CLAP_EXT_GUI",
+        "group": "string",
+        "value": "clap.gui"
+      },
+      {
+        "name": "CLAP_WINDOW_API_WIN32",
+        "group": "string",
+        "value": "win32"
+      },
+      {
+        "name": "CLAP_WINDOW_API_COCOA",
+        "group": "string",
+        "value": "cocoa"
+      },
+      {
+        "name": "CLAP_WINDOW_API_UIKIT",
+        "group": "string",
+        "value": "uikit"
+      },
+      {
+        "name": "CLAP_WINDOW_API_X11",
+        "group": "string",
+        "value": "x11"
+      },
+      {
+        "name": "CLAP_WINDOW_API_WAYLAND",
+        "group": "string",
+        "value": "wayland"
+      }
+    ],
+    "ext/latency": [
+      {
+        "name": "CLAP_EXT_LATENCY",
+        "group": "string",
+        "value": "clap.latency"
+      }
+    ],
+    "ext/log": [
+      {
+        "name": "CLAP_EXT_LOG",
+        "group": "string",
+        "value": "clap.log"
+      },
+      {
+        "name": "CLAP_LOG_DEBUG",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_LOG_INFO",
+        "group": "enum",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_LOG_WARNING",
+        "group": "enum",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_LOG_ERROR",
+        "group": "enum",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_LOG_FATAL",
+        "group": "enum",
+        "value": "4"
+      },
+      {
+        "name": "CLAP_LOG_HOST_MISBEHAVING",
+        "group": "enum",
+        "value": "5"
+      },
+      {
+        "name": "CLAP_LOG_PLUGIN_MISBEHAVING",
+        "group": "enum",
+        "value": "6"
+      }
+    ],
+    "ext/note-name": [
+      {
+        "name": "CLAP_EXT_NOTE_NAME",
+        "group": "string",
+        "value": "clap.note-name"
+      }
+    ],
+    "ext/note-ports": [
+      {
+        "name": "CLAP_EXT_NOTE_PORTS",
+        "group": "string",
+        "value": "clap.note-ports"
+      },
+      {
+        "name": "CLAP_NOTE_DIALECT_CLAP",
+        "group": "clap_note_dialect",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_NOTE_DIALECT_MIDI",
+        "group": "clap_note_dialect",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_NOTE_DIALECT_MIDI_MPE",
+        "group": "clap_note_dialect",
+        "value": "1 << 2"
+      },
+      {
+        "name": "CLAP_NOTE_DIALECT_MIDI2",
+        "group": "clap_note_dialect",
+        "value": "1 << 3"
+      },
+      {
+        "name": "CLAP_NOTE_PORTS_RESCAN_ALL",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_NOTE_PORTS_RESCAN_NAMES",
+        "group": "enum",
+        "value": "1 << 1"
+      }
+    ],
+    "ext/param-indication": [
+      {
+        "name": "CLAP_EXT_PARAM_INDICATION",
+        "group": "string",
+        "value": "clap.param-indication/4"
+      },
+      {
+        "name": "CLAP_EXT_PARAM_INDICATION_COMPAT",
+        "group": "string",
+        "value": "clap.param-indication.draft/4"
+      },
+      {
+        "name": "CLAP_PARAM_INDICATION_AUTOMATION_NONE",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_PARAM_INDICATION_AUTOMATION_PRESENT",
+        "group": "enum",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_PARAM_INDICATION_AUTOMATION_PLAYING",
+        "group": "enum",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_PARAM_INDICATION_AUTOMATION_RECORDING",
+        "group": "enum",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_PARAM_INDICATION_AUTOMATION_OVERRIDING",
+        "group": "enum",
+        "value": "4"
+      }
+    ],
+    "ext/params": [
+      {
+        "name": "CLAP_EXT_PARAMS",
+        "group": "string",
+        "value": "clap.params"
+      },
+      {
+        "name": "CLAP_PARAM_IS_STEPPED",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_PARAM_IS_PERIODIC",
+        "group": "enum",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_PARAM_IS_HIDDEN",
+        "group": "enum",
+        "value": "1 << 2"
+      },
+      {
+        "name": "CLAP_PARAM_IS_READONLY",
+        "group": "enum",
+        "value": "1 << 3"
+      },
+      {
+        "name": "CLAP_PARAM_IS_BYPASS",
+        "group": "enum",
+        "value": "1 << 4"
+      },
+      {
+        "name": "CLAP_PARAM_IS_AUTOMATABLE",
+        "group": "enum",
+        "value": "1 << 5"
+      },
+      {
+        "name": "CLAP_PARAM_IS_AUTOMATABLE_PER_NOTE_ID",
+        "group": "enum",
+        "value": "1 << 6"
+      },
+      {
+        "name": "CLAP_PARAM_IS_AUTOMATABLE_PER_KEY",
+        "group": "enum",
+        "value": "1 << 7"
+      },
+      {
+        "name": "CLAP_PARAM_IS_AUTOMATABLE_PER_CHANNEL",
+        "group": "enum",
+        "value": "1 << 8"
+      },
+      {
+        "name": "CLAP_PARAM_IS_AUTOMATABLE_PER_PORT",
+        "group": "enum",
+        "value": "1 << 9"
+      },
+      {
+        "name": "CLAP_PARAM_IS_MODULATABLE",
+        "group": "enum",
+        "value": "1 << 10"
+      },
+      {
+        "name": "CLAP_PARAM_IS_MODULATABLE_PER_NOTE_ID",
+        "group": "enum",
+        "value": "1 << 11"
+      },
+      {
+        "name": "CLAP_PARAM_IS_MODULATABLE_PER_KEY",
+        "group": "enum",
+        "value": "1 << 12"
+      },
+      {
+        "name": "CLAP_PARAM_IS_MODULATABLE_PER_CHANNEL",
+        "group": "enum",
+        "value": "1 << 13"
+      },
+      {
+        "name": "CLAP_PARAM_IS_MODULATABLE_PER_PORT",
+        "group": "enum",
+        "value": "1 << 14"
+      },
+      {
+        "name": "CLAP_PARAM_REQUIRES_PROCESS",
+        "group": "enum",
+        "value": "1 << 15"
+      },
+      {
+        "name": "CLAP_PARAM_IS_ENUM",
+        "group": "enum",
+        "value": "1 << 16"
+      },
+      {
+        "name": "CLAP_PARAM_RESCAN_VALUES",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_PARAM_RESCAN_TEXT",
+        "group": "enum",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_PARAM_RESCAN_INFO",
+        "group": "enum",
+        "value": "1 << 2"
+      },
+      {
+        "name": "CLAP_PARAM_RESCAN_ALL",
+        "group": "enum",
+        "value": "1 << 3"
+      },
+      {
+        "name": "CLAP_PARAM_CLEAR_ALL",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_PARAM_CLEAR_AUTOMATIONS",
+        "group": "enum",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_PARAM_CLEAR_MODULATIONS",
+        "group": "enum",
+        "value": "1 << 2"
+      }
+    ],
+    "ext/posix-fd-support": [
+      {
+        "name": "CLAP_EXT_POSIX_FD_SUPPORT",
+        "group": "string",
+        "value": "clap.posix-fd-support"
+      },
+      {
+        "name": "CLAP_POSIX_FD_READ",
+        "group": "enum",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_POSIX_FD_WRITE",
+        "group": "enum",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_POSIX_FD_ERROR",
+        "group": "enum",
+        "value": "1 << 2"
+      }
+    ],
+    "ext/preset-load": [
+      {
+        "name": "CLAP_EXT_PRESET_LOAD",
+        "group": "string",
+        "value": "clap.preset-load/2"
+      },
+      {
+        "name": "CLAP_EXT_PRESET_LOAD_COMPAT",
+        "group": "string",
+        "value": "clap.preset-load.draft/2"
+      }
+    ],
+    "ext/remote-controls": [
+      {
+        "name": "CLAP_EXT_REMOTE_CONTROLS",
+        "group": "string",
+        "value": "clap.remote-controls/2"
+      },
+      {
+        "name": "CLAP_EXT_REMOTE_CONTROLS_COMPAT",
+        "group": "string",
+        "value": "clap.remote-controls.draft/2"
+      },
+      {
+        "name": "CLAP_REMOTE_CONTROLS_COUNT",
+        "group": "enum",
+        "value": "8"
+      }
+    ],
+    "ext/render": [
+      {
+        "name": "CLAP_EXT_RENDER",
+        "group": "string",
+        "value": "clap.render"
+      },
+      {
+        "name": "CLAP_RENDER_REALTIME",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_RENDER_OFFLINE",
+        "group": "enum",
+        "value": "1"
+      }
+    ],
+    "ext/state-context": [
+      {
+        "name": "CLAP_EXT_STATE_CONTEXT",
+        "group": "string",
+        "value": "clap.state-context/2"
+      },
+      {
+        "name": "CLAP_STATE_CONTEXT_FOR_PRESET",
+        "group": "clap_plugin_state_context_type",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_STATE_CONTEXT_FOR_DUPLICATE",
+        "group": "clap_plugin_state_context_type",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_STATE_CONTEXT_FOR_PROJECT",
+        "group": "clap_plugin_state_context_type",
+        "value": "3"
+      }
+    ],
+    "ext/state": [
+      {
+        "name": "CLAP_EXT_STATE",
+        "group": "string",
+        "value": "clap.state"
+      }
+    ],
+    "ext/surround": [
+      {
+        "name": "CLAP_EXT_SURROUND",
+        "group": "string",
+        "value": "clap.surround/4"
+      },
+      {
+        "name": "CLAP_EXT_SURROUND_COMPAT",
+        "group": "string",
+        "value": "clap.surround.draft/4"
+      },
+      {
+        "name": "CLAP_PORT_SURROUND",
+        "group": "string",
+        "value": "surround"
+      },
+      {
+        "name": "CLAP_SURROUND_FL",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_SURROUND_FR",
+        "group": "enum",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_SURROUND_FC",
+        "group": "enum",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_SURROUND_LFE",
+        "group": "enum",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_SURROUND_BL",
+        "group": "enum",
+        "value": "4"
+      },
+      {
+        "name": "CLAP_SURROUND_BR",
+        "group": "enum",
+        "value": "5"
+      },
+      {
+        "name": "CLAP_SURROUND_FLC",
+        "group": "enum",
+        "value": "6"
+      },
+      {
+        "name": "CLAP_SURROUND_FRC",
+        "group": "enum",
+        "value": "7"
+      },
+      {
+        "name": "CLAP_SURROUND_BC",
+        "group": "enum",
+        "value": "8"
+      },
+      {
+        "name": "CLAP_SURROUND_SL",
+        "group": "enum",
+        "value": "9"
+      },
+      {
+        "name": "CLAP_SURROUND_SR",
+        "group": "enum",
+        "value": "10"
+      },
+      {
+        "name": "CLAP_SURROUND_TC",
+        "group": "enum",
+        "value": "11"
+      },
+      {
+        "name": "CLAP_SURROUND_TFL",
+        "group": "enum",
+        "value": "12"
+      },
+      {
+        "name": "CLAP_SURROUND_TFC",
+        "group": "enum",
+        "value": "13"
+      },
+      {
+        "name": "CLAP_SURROUND_TFR",
+        "group": "enum",
+        "value": "14"
+      },
+      {
+        "name": "CLAP_SURROUND_TBL",
+        "group": "enum",
+        "value": "15"
+      },
+      {
+        "name": "CLAP_SURROUND_TBC",
+        "group": "enum",
+        "value": "16"
+      },
+      {
+        "name": "CLAP_SURROUND_TBR",
+        "group": "enum",
+        "value": "17"
+      },
+      {
+        "name": "CLAP_SURROUND_TSL",
+        "group": "enum",
+        "value": "18"
+      },
+      {
+        "name": "CLAP_SURROUND_TSR",
+        "group": "enum",
+        "value": "19"
+      }
+    ],
+    "ext/tail": [
+      {
+        "name": "CLAP_EXT_TAIL",
+        "group": "string",
+        "value": "clap.tail"
+      }
+    ],
+    "ext/thread-check": [
+      {
+        "name": "CLAP_EXT_THREAD_CHECK",
+        "group": "string",
+        "value": "clap.thread-check"
+      }
+    ],
+    "ext/thread-pool": [
+      {
+        "name": "CLAP_EXT_THREAD_POOL",
+        "group": "string",
+        "value": "clap.thread-pool"
+      }
+    ],
+    "ext/timer-support": [
+      {
+        "name": "CLAP_EXT_TIMER_SUPPORT",
+        "group": "string",
+        "value": "clap.timer-support"
+      }
+    ],
+    "ext/track-info": [
+      {
+        "name": "CLAP_EXT_TRACK_INFO",
+        "group": "string",
+        "value": "clap.track-info/1"
+      },
+      {
+        "name": "CLAP_EXT_TRACK_INFO_COMPAT",
+        "group": "string",
+        "value": "clap.track-info.draft/1"
+      },
+      {
+        "name": "CLAP_TRACK_INFO_HAS_TRACK_NAME",
+        "group": "enum",
+        "value": "(1 << 0)"
+      },
+      {
+        "name": "CLAP_TRACK_INFO_HAS_TRACK_COLOR",
+        "group": "enum",
+        "value": "(1 << 1)"
+      },
+      {
+        "name": "CLAP_TRACK_INFO_HAS_AUDIO_CHANNEL",
+        "group": "enum",
+        "value": "(1 << 2)"
+      },
+      {
+        "name": "CLAP_TRACK_INFO_IS_FOR_RETURN_TRACK",
+        "group": "enum",
+        "value": "(1 << 3)"
+      },
+      {
+        "name": "CLAP_TRACK_INFO_IS_FOR_BUS",
+        "group": "enum",
+        "value": "(1 << 4)"
+      },
+      {
+        "name": "CLAP_TRACK_INFO_IS_FOR_MASTER",
+        "group": "enum",
+        "value": "(1 << 5)"
+      }
+    ],
+    "ext/voice-info": [
+      {
+        "name": "CLAP_EXT_VOICE_INFO",
+        "group": "string",
+        "value": "clap.voice-info"
+      },
+      {
+        "name": "CLAP_VOICE_INFO_SUPPORTS_OVERLAPPING_NOTES",
+        "group": "enum",
+        "value": "1 << 0"
+      }
+    ],
+    "factory/draft/plugin-invalidation": [
+      {
+        "name": "CLAP_PLUGIN_INVALIDATION_FACTORY_ID",
+        "group": "string",
+        "value": "clap.plugin-invalidation-factory/1"
+      }
+    ],
+    "factory/draft/plugin-state-converter": [
+      {
+        "name": "CLAP_PLUGIN_STATE_CONVERTER_FACTORY_ID",
+        "group": "string",
+        "value": "clap.plugin-state-converter-factory/1"
+      }
+    ],
+    "factory/plugin-factory": [
+      {
+        "name": "CLAP_PLUGIN_FACTORY_ID",
+        "group": "string",
+        "value": "clap.plugin-factory"
+      }
+    ],
+    "factory/preset-discovery": [
+      {
+        "name": "CLAP_PRESET_DISCOVERY_FACTORY_ID",
+        "group": "string",
+        "value": "clap.preset-discovery-factory/2"
+      },
+      {
+        "name": "CLAP_PRESET_DISCOVERY_FACTORY_ID_COMPAT",
+        "group": "string",
+        "value": "clap.preset-discovery-factory/draft-2"
+      },
+      {
+        "name": "CLAP_PRESET_DISCOVERY_LOCATION_FILE",
+        "group": "clap_preset_discovery_location_kind",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_PRESET_DISCOVERY_LOCATION_PLUGIN",
+        "group": "clap_preset_discovery_location_kind",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_PRESET_DISCOVERY_IS_FACTORY_CONTENT",
+        "group": "clap_preset_discovery_flags",
+        "value": "1 << 0"
+      },
+      {
+        "name": "CLAP_PRESET_DISCOVERY_IS_USER_CONTENT",
+        "group": "clap_preset_discovery_flags",
+        "value": "1 << 1"
+      },
+      {
+        "name": "CLAP_PRESET_DISCOVERY_IS_DEMO_CONTENT",
+        "group": "clap_preset_discovery_flags",
+        "value": "1 << 2"
+      },
+      {
+        "name": "CLAP_PRESET_DISCOVERY_IS_FAVORITE",
+        "group": "clap_preset_discovery_flags",
+        "value": "1 << 3"
+      }
+    ],
+    "fixedpoint": [
+      {
+        "name": "CLAP_BEATTIME_FACTOR",
+        "group": "const",
+        "value": "1LL << 31"
+      },
+      {
+        "name": "CLAP_SECTIME_FACTOR",
+        "group": "const",
+        "value": "1LL << 31"
+      }
+    ],
+    "id": [
+      {
+        "name": "CLAP_INVALID_ID",
+        "group": "const",
+        "value": "UINT32_MAX"
+      }
+    ],
+    "plugin-features": [
+      {
+        "name": "CLAP_PLUGIN_FEATURE_INSTRUMENT",
+        "group": "string",
+        "value": "instrument"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_AUDIO_EFFECT",
+        "group": "string",
+        "value": "audio-effect"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_NOTE_EFFECT",
+        "group": "string",
+        "value": "note-effect"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_NOTE_DETECTOR",
+        "group": "string",
+        "value": "note-detector"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_ANALYZER",
+        "group": "string",
+        "value": "analyzer"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_SYNTHESIZER",
+        "group": "string",
+        "value": "synthesizer"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_SAMPLER",
+        "group": "string",
+        "value": "sampler"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_DRUM",
+        "group": "string",
+        "value": "drum"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_DRUM_MACHINE",
+        "group": "string",
+        "value": "drum-machine"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_FILTER",
+        "group": "string",
+        "value": "filter"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_PHASER",
+        "group": "string",
+        "value": "phaser"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_EQUALIZER",
+        "group": "string",
+        "value": "equalizer"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_DEESSER",
+        "group": "string",
+        "value": "de-esser"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_PHASE_VOCODER",
+        "group": "string",
+        "value": "phase-vocoder"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_GRANULAR",
+        "group": "string",
+        "value": "granular"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER",
+        "group": "string",
+        "value": "frequency-shifter"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_PITCH_SHIFTER",
+        "group": "string",
+        "value": "pitch-shifter"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_DISTORTION",
+        "group": "string",
+        "value": "distortion"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_TRANSIENT_SHAPER",
+        "group": "string",
+        "value": "transient-shaper"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_COMPRESSOR",
+        "group": "string",
+        "value": "compressor"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_EXPANDER",
+        "group": "string",
+        "value": "expander"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_GATE",
+        "group": "string",
+        "value": "gate"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_LIMITER",
+        "group": "string",
+        "value": "limiter"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_FLANGER",
+        "group": "string",
+        "value": "flanger"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_CHORUS",
+        "group": "string",
+        "value": "chorus"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_DELAY",
+        "group": "string",
+        "value": "delay"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_REVERB",
+        "group": "string",
+        "value": "reverb"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_TREMOLO",
+        "group": "string",
+        "value": "tremolo"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_GLITCH",
+        "group": "string",
+        "value": "glitch"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_UTILITY",
+        "group": "string",
+        "value": "utility"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_PITCH_CORRECTION",
+        "group": "string",
+        "value": "pitch-correction"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_RESTORATION",
+        "group": "string",
+        "value": "restoration"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_MULTI_EFFECTS",
+        "group": "string",
+        "value": "multi-effects"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_MIXING",
+        "group": "string",
+        "value": "mixing"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_MASTERING",
+        "group": "string",
+        "value": "mastering"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_MONO",
+        "group": "string",
+        "value": "mono"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_STEREO",
+        "group": "string",
+        "value": "stereo"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_SURROUND",
+        "group": "string",
+        "value": "surround"
+      },
+      {
+        "name": "CLAP_PLUGIN_FEATURE_AMBISONIC",
+        "group": "string",
+        "value": "ambisonic"
+      }
+    ],
+    "process": [
+      {
+        "name": "CLAP_PROCESS_ERROR",
+        "group": "enum",
+        "value": "0"
+      },
+      {
+        "name": "CLAP_PROCESS_CONTINUE",
+        "group": "enum",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_PROCESS_CONTINUE_IF_NOT_QUIET",
+        "group": "enum",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_PROCESS_TAIL",
+        "group": "enum",
+        "value": "3"
+      },
+      {
+        "name": "CLAP_PROCESS_SLEEP",
+        "group": "enum",
+        "value": "4"
+      }
+    ],
+    "string-sizes": [
+      {
+        "name": "CLAP_NAME_SIZE",
+        "group": "enum",
+        "value": "256"
+      },
+      {
+        "name": "CLAP_PATH_SIZE",
+        "group": "enum",
+        "value": "1024"
+      }
+    ],
+    "timestamp": [
+      {
+        "name": "CLAP_TIMESTAMP_UNKNOWN",
+        "group": "const",
+        "value": "0"
+      }
+    ],
+    "version": [
+      {
+        "name": "CLAP_VERSION_MAJOR",
+        "group": "define",
+        "value": "1"
+      },
+      {
+        "name": "CLAP_VERSION_MINOR",
+        "group": "define",
+        "value": "2"
+      },
+      {
+        "name": "CLAP_VERSION_REVISION",
+        "group": "define",
+        "value": "10"
+      },
+      {
+        "name": "CLAP_VERSION",
+        "group": "const",
+        "value": "CLAP_VERSION_INIT"
+      }
+    ]
+  }
+}
