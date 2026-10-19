@@ -62,7 +62,7 @@ Every term carries one:
 
 | Status | Means | Carries |
 |---|---|---|
-| `used` | a consumer reads or writes it today | `by`: the consumers' files, `<repository>:<path>` |
+| `used` | a consumer reads or writes it today | `by`: the consumers' files, `<repository>:<path>`; the console, whose tree is not public, as `openmixer:console` |
 | `supported-later` | we will support it | `issue`: the issue that brings it |
 | `out-of-scope` | we will not support it | `ruling`: why, with its source; `by` may still name a consumer that reads it to refuse it |
 

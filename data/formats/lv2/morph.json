@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_MORPH_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Morph specification (morph.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/morph",
+    "version": "1.0",
+    "terms": {
+      "AutoMorphPort": {
+        "uri": "http://lv2plug.in/ns/ext/morph#AutoMorphPort",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "MorphPort": {
+        "uri": "http://lv2plug.in/ns/ext/morph#MorphPort",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "currentType": {
+        "uri": "http://lv2plug.in/ns/ext/morph#currentType",
+        "kind": "option",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "morph.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/morph",
+        "kind": "specification",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "supportsType": {
+        "uri": "http://lv2plug.in/ns/ext/morph#supportsType",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}

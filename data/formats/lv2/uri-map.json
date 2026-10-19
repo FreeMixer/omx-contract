@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_URI_MAP_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 URI Map specification (uri-map.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/uri-map",
+    "version": "1.6",
+    "deprecated": true,
+    "terms": {
+      "uri-map.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/uri-map",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the uri-map extension (owl:deprecated on http://lv2plug.in/ns/ext/uri-map); a consumer that reads it does so to refuse it.",
+        "deprecated": true
+      }
+    }
+  }
+}
