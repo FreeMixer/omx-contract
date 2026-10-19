@@ -52,7 +52,7 @@ not the one its path gives.
   ascent). A word may name its `group`, a word of the item its `groups` names, and the format terms it is
   name-compatible with (`from: ["LV2_CORE_TERMS#latency", "CLAP_EXT_LATENCY_TERMS#latency"]`); each resolves.
 - A `terms` item's terms are sorted by name (`omx-contract fmt` sorts them). The name is the format's own: an LV2
-  term's local name (the specification's own URI is named after its bundle), a CLAP string constant's text less
+  term's local name (the specification's own URI after its bundle, `state.lv2`, apart from the term `state`), a CLAP string constant's text less
   `clap.`, any other CLAP identifier in lowerCamel less `CLAP_`. Beside the name stands the URI or the identifier, so
   the mapping reads against the format one line at a time.
 
