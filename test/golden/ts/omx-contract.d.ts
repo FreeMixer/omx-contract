@@ -5898,6 +5898,7 @@ export declare const MEASUREMENT_LATENCY_METHODS: {
   };
   readonly declaredPort: {
     readonly word: "declared-port";
+    readonly from: readonly ["LV2_CORE_TERMS#latency", "CLAP_EXT_LATENCY_TERMS#latency"];
     readonly doc: "Read from the plugin's own latency report: what it claims.";
   };
   readonly noteOnset: {
@@ -5981,6 +5982,7 @@ export declare const MEASUREMENT_LATENCY_EXCLUSIONS: {
 export declare const MEASUREMENT_VOICE_BASES: {
   readonly declared: {
     readonly word: "declared";
+    readonly from: readonly ["CLAP_EXT_VOICE_INFO_TERMS#voice-info"];
   };
   readonly probe: {
     readonly word: "probe";
@@ -6060,18 +6062,22 @@ export declare const RESOURCE_KINDS: {
   };
   readonly scratchMemory: {
     readonly word: "scratch-memory";
+    readonly from: readonly ["CLAP_EXT_DRAFT_SCRATCH_MEMORY_TERMS#scratch-memory/1"];
     readonly doc: "The memory a plugin asks of its host for its process call.";
   };
   readonly latency: {
     readonly word: "latency";
+    readonly from: readonly ["LV2_CORE_TERMS#latency", "CLAP_EXT_LATENCY_TERMS#latency"];
     readonly doc: "The frames a plugin delays its output by, per rate and quantum.";
   };
   readonly tail: {
     readonly word: "tail";
+    readonly from: readonly ["CLAP_EXT_TAIL_TERMS#tail"];
     readonly doc: "How long a plugin keeps sounding once its input goes silent.";
   };
   readonly voices: {
     readonly word: "voices";
+    readonly from: readonly ["CLAP_EXT_VOICE_INFO_TERMS#voice-info"];
     readonly doc: "The notes an instrument plays at once.";
   };
   readonly startup: {
@@ -6080,14 +6086,17 @@ export declare const RESOURCE_KINDS: {
   };
   readonly threads: {
     readonly word: "threads";
+    readonly from: readonly ["CLAP_EXT_THREAD_POOL_TERMS#thread-pool"];
     readonly doc: "The threads a plugin starts and their scheduling class, or the host thread pool it asks for.";
   };
   readonly worker: {
     readonly word: "worker";
+    readonly from: readonly ["LV2_WORKER_TERMS#schedule", "LV2_WORKER_TERMS#interface"];
     readonly doc: "The work a plugin hands to a non-real-time thread of the host.";
   };
   readonly blockLength: {
     readonly word: "block-length";
+    readonly from: readonly ["LV2_BUF_SIZE_TERMS#boundedBlockLength", "LV2_BUF_SIZE_TERMS#maxBlockLength", "LV2_BUF_SIZE_TERMS#minBlockLength", "LV2_BUF_SIZE_TERMS#nominalBlockLength", "LV2_OPTIONS_TERMS#options"];
     readonly doc: "The block lengths a plugin accepts.";
   };
   readonly openFiles: {
@@ -6104,6 +6113,7 @@ export declare const RESOURCE_KINDS: {
   };
   readonly state: {
     readonly word: "state";
+    readonly from: readonly ["LV2_STATE_TERMS#interface", "CLAP_EXT_STATE_TERMS#state"];
     readonly doc: "The size of a plugin's saved state, its save and restore time, and its round trip.";
   };
 };
@@ -6118,15 +6128,18 @@ export declare const RESOURCE_UNITS: {
   };
   readonly frames: {
     readonly word: "frames";
+    readonly from: readonly ["LV2_UNITS_TERMS#frame"];
   };
   readonly ms: {
     readonly word: "ms";
+    readonly from: readonly ["LV2_UNITS_TERMS#ms"];
   };
   readonly us: {
     readonly word: "us";
   };
   readonly s: {
     readonly word: "s";
+    readonly from: readonly ["LV2_UNITS_TERMS#s"];
   };
   readonly bytes: {
     readonly word: "bytes";

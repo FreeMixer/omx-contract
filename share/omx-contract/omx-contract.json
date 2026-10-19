@@ -6998,6 +6998,10 @@
         },
         "declaredPort": {
           "word": "declared-port",
+          "from": [
+            "LV2_CORE_TERMS#latency",
+            "CLAP_EXT_LATENCY_TERMS#latency"
+          ],
           "doc": "Read from the plugin's own latency report: what it claims."
         },
         "noteOnset": {
@@ -7080,7 +7084,10 @@
       "doc": "Where the number of notes an instrument's cost was measured with came from: the voice capacity the plugin declares (CLAP voice-info), or a count the caller gave.",
       "value": {
         "declared": {
-          "word": "declared"
+          "word": "declared",
+          "from": [
+            "CLAP_EXT_VOICE_INFO_TERMS#voice-info"
+          ]
         },
         "probe": {
           "word": "probe"
@@ -7200,18 +7207,31 @@
         },
         "scratchMemory": {
           "word": "scratch-memory",
+          "from": [
+            "CLAP_EXT_DRAFT_SCRATCH_MEMORY_TERMS#scratch-memory/1"
+          ],
           "doc": "The memory a plugin asks of its host for its process call."
         },
         "latency": {
           "word": "latency",
+          "from": [
+            "LV2_CORE_TERMS#latency",
+            "CLAP_EXT_LATENCY_TERMS#latency"
+          ],
           "doc": "The frames a plugin delays its output by, per rate and quantum."
         },
         "tail": {
           "word": "tail",
+          "from": [
+            "CLAP_EXT_TAIL_TERMS#tail"
+          ],
           "doc": "How long a plugin keeps sounding once its input goes silent."
         },
         "voices": {
           "word": "voices",
+          "from": [
+            "CLAP_EXT_VOICE_INFO_TERMS#voice-info"
+          ],
           "doc": "The notes an instrument plays at once."
         },
         "startup": {
@@ -7220,14 +7240,28 @@
         },
         "threads": {
           "word": "threads",
+          "from": [
+            "CLAP_EXT_THREAD_POOL_TERMS#thread-pool"
+          ],
           "doc": "The threads a plugin starts and their scheduling class, or the host thread pool it asks for."
         },
         "worker": {
           "word": "worker",
+          "from": [
+            "LV2_WORKER_TERMS#schedule",
+            "LV2_WORKER_TERMS#interface"
+          ],
           "doc": "The work a plugin hands to a non-real-time thread of the host."
         },
         "blockLength": {
           "word": "block-length",
+          "from": [
+            "LV2_BUF_SIZE_TERMS#boundedBlockLength",
+            "LV2_BUF_SIZE_TERMS#maxBlockLength",
+            "LV2_BUF_SIZE_TERMS#minBlockLength",
+            "LV2_BUF_SIZE_TERMS#nominalBlockLength",
+            "LV2_OPTIONS_TERMS#options"
+          ],
           "doc": "The block lengths a plugin accepts."
         },
         "openFiles": {
@@ -7244,6 +7278,10 @@
         },
         "state": {
           "word": "state",
+          "from": [
+            "LV2_STATE_TERMS#interface",
+            "CLAP_EXT_STATE_TERMS#state"
+          ],
           "doc": "The size of a plugin's saved state, its save and restore time, and its round trip."
         }
       }
@@ -7257,16 +7295,25 @@
           "word": "ns-per-sample"
         },
         "frames": {
-          "word": "frames"
+          "word": "frames",
+          "from": [
+            "LV2_UNITS_TERMS#frame"
+          ]
         },
         "ms": {
-          "word": "ms"
+          "word": "ms",
+          "from": [
+            "LV2_UNITS_TERMS#ms"
+          ]
         },
         "us": {
           "word": "us"
         },
         "s": {
-          "word": "s"
+          "word": "s",
+          "from": [
+            "LV2_UNITS_TERMS#s"
+          ]
         },
         "bytes": {
           "word": "bytes"
