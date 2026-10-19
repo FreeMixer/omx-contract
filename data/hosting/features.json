@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "HOSTING_FEATURES_CODES": {
+    "kind": "codes",
+    "since": "2.18.0",
+    "doc": "The hosting codes of the features dimension: hosting.features.*, the verdict and refusal codes a qualifier, a host or the console write and read by code, never by prose (docs/data-layout.md).",
+    "codes": {
+      "featuresAtomInUnfed": {
+        "code": "hosting.features.atom-in-unfed",
+        "doc": "a non-MIDI atom input no buffer here can feed"
+      },
+      "featuresCv": {
+        "code": "hosting.features.cv-ports"
+      },
+      "featuresDisqualifying": {
+        "code": "hosting.features.host-not-provided"
+      },
+      "featuresMidiIn": {
+        "code": "hosting.features.midi-in-fed-empty"
+      },
+      "featuresMissing": {
+        "code": "hosting.features.required-not-provided"
+      },
+      "featuresMissingAtLoad": {
+        "code": "hosting.features.missing"
+      },
+      "featuresProvided": {
+        "code": "hosting.features.all-provided"
+      },
+      "featuresUnscanned": {
+        "code": "hosting.features.scan-predates-field"
+      }
+    }
+  }
+}

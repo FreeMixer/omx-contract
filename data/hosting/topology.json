@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "HOSTING_TOPOLOGY_CODES": {
+    "kind": "codes",
+    "since": "2.18.0",
+    "doc": "The hosting codes of the topology dimension: hosting.topology.*, the verdict and refusal codes a qualifier, a host or the console write and read by code, never by prose (docs/data-layout.md).",
+    "codes": {
+      "topologyExtraInputs": {
+        "code": "hosting.topology.extra-inputs-fed-silence",
+        "doc": "the plugin has extra inputs, fed silence"
+      },
+      "topologyInstrument": {
+        "code": "hosting.topology.instrument"
+      },
+      "topologyMatched": {
+        "code": "hosting.topology.matched"
+      },
+      "topologyNoAudioInput": {
+        "code": "hosting.topology.no-audio-input",
+        "doc": "the plugin has no audio input"
+      },
+      "topologyNoAudioOutput": {
+        "code": "hosting.topology.no-audio-output",
+        "doc": "the plugin has no audio output"
+      },
+      "topologyWiderThanStrip": {
+        "code": "hosting.topology.wider-than-strip",
+        "doc": "the plugin is wider than the strip"
+      }
+    }
+  }
+}
