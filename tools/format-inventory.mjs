@@ -75,7 +75,7 @@ const turtle = (file) => parseNTriples(execFileSync('serdi', ['-q', '-i', 'turtl
  * One LV2 bundle's specification: `{ bundle, uri, version, terms: [{ uri, name, types, deprecated?, label? }] }`, the
  * terms every IRI a triple of its non-manifest files is about that lies in the specification's namespace (its URI
  * then `#` or `/`) and the specification's own URI (a feature or an extension-data URI in data-access,
- * instance-access and others; named after the bundle), sorted by IRI. Version is lv2:minorVersion.lv2:microVersion of the manifest.
+ * instance-access and others; named after its bundle, state.lv2, so it never meets a term of its own such as state:state), sorted by IRI. Version is lv2:minorVersion.lv2:microVersion of the manifest.
  */
 export function readLv2Bundle(dir) {
   const manifest = turtle(join(dir, 'manifest.ttl'));
@@ -89,7 +89,7 @@ export function readLv2Bundle(dir) {
   const terms = new Map();
   for (const [s, p, o] of triples) {
     if (!inNs(s)) continue;
-    if (!terms.has(s)) terms.set(s, { uri: s, name: s === uri ? bundle.replace(/\.lv2$/, '') : s.slice(uri.length + 1), types: new Set() });
+    if (!terms.has(s)) terms.set(s, { uri: s, name: s === uri ? bundle : s.slice(uri.length + 1), types: new Set() });
     const t = terms.get(s);
     if (p === `${RDF}type`) t.types.add(curie(o));
     if (p === `${OWL}deprecated` && /^"(true|1)"$/.test(o)) t.deprecated = true;

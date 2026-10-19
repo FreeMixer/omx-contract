@@ -10,7 +10,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/atom",
-          "name": "atom",
+          "name": "atom.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -294,7 +294,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/buf-size",
-          "name": "buf-size",
+          "name": "buf-size.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -382,7 +382,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/lv2core",
-          "name": "core",
+          "name": "core.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -1229,7 +1229,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/data-access",
-          "name": "data-access",
+          "name": "data-access.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "lv2:Feature"
@@ -1245,7 +1245,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/dynmanifest",
-          "name": "dynmanifest",
+          "name": "dynmanifest.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -1270,7 +1270,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/event",
-          "name": "event",
+          "name": "event.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -1372,7 +1372,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/instance-access",
-          "name": "instance-access",
+          "name": "instance-access.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "lv2:Feature"
@@ -1388,7 +1388,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/log",
-          "name": "log",
+          "name": "log.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -1452,7 +1452,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/midi",
-          "name": "midi",
+          "name": "midi.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -1826,7 +1826,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/morph",
-          "name": "morph",
+          "name": "morph.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -1879,7 +1879,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/options",
-          "name": "options",
+          "name": "options.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -1937,7 +1937,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/parameters",
-          "name": "parameters",
+          "name": "parameters.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -2153,7 +2153,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/patch",
-          "name": "patch",
+          "name": "patch.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -2404,7 +2404,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/port-groups",
-          "name": "port-groups",
+          "name": "port-groups.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -2938,7 +2938,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/port-props",
-          "name": "port-props",
+          "name": "port-props.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -3052,7 +3052,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/presets",
-          "name": "presets",
+          "name": "presets.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -3112,7 +3112,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/resize-port",
-          "name": "resize-port",
+          "name": "resize-port.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -3155,7 +3155,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/state",
-          "name": "state",
+          "name": "state.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -3244,7 +3244,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/time",
-          "name": "time",
+          "name": "time.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -3387,7 +3387,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/extensions/ui",
-          "name": "ui",
+          "name": "ui.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -3712,7 +3712,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/extensions/units",
-          "name": "units",
+          "name": "units.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -4002,7 +4002,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/uri-map",
-          "name": "uri-map",
+          "name": "uri-map.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "lv2:Feature"
@@ -4019,7 +4019,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/urid",
-          "name": "urid",
+          "name": "urid.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
@@ -4051,7 +4051,7 @@
       "terms": [
         {
           "uri": "http://lv2plug.in/ns/ext/worker",
-          "name": "worker",
+          "name": "worker.lv2",
           "types": [
             "http://usefulinc.com/ns/doap#Project",
             "owl:Ontology"
