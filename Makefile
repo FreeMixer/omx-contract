@@ -56,7 +56,7 @@ install-cli: all
 	install -m 0644 render/*.mjs $(DESTDIR)$(CLIDIR)/render/
 	install -m 0644 render/c/*.mjs $(DESTDIR)$(CLIDIR)/render/c/
 	install -m 0644 schema/omx-contract.schema.json $(DESTDIR)$(CLIDIR)/schema/
-	install -m 0644 data/*.json $(DESTDIR)$(CLIDIR)/data/
+	cd data && find . -name '*.json' | LC_ALL=C sort | while read -r f; do install -D -m 0644 "$$f" "$(DESTDIR)$(CLIDIR)/data/$$f" || exit 1; done
 	install -m 0644 package.json $(DESTDIR)$(CLIDIR)/
 	for t in vendor/*.tgz; do \
 	  m=$$(basename $$t .tgz | sed 's/-[0-9][^-]*$$//'); \
