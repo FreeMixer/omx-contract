@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_NOTE_NAME_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/note-name.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/note-name.h",
+    "version": "1.2.10",
+    "terms": {
+      "note-name": {
+        "id": "CLAP_EXT_NOTE_NAME",
+        "value": "clap.note-name",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host_extensions.h",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      }
+    }
+  }
+}

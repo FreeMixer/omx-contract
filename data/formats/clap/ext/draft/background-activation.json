@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_BACKGROUND_ACTIVATION_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/background-activation.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/background-activation.h",
+    "version": "1.2.10",
+    "terms": {
+      "background-activation/1": {
+        "id": "CLAP_EXT_BACKGROUND_ACTIVATION",
+        "value": "clap.background-activation/1",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      }
+    }
+  }
+}

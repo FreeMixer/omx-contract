@@ -1,0 +1,157 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_SURROUND_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/surround.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/surround.h",
+    "version": "1.2.10",
+    "terms": {
+      "surround": {
+        "id": "CLAP_PORT_SURROUND",
+        "value": "surround",
+        "kind": "port-type",
+        "status": "used",
+        "by": [
+          "omx-contract:docs/descriptors.md"
+        ],
+        "word": "layout surround"
+      },
+      "surround.draft/4": {
+        "id": "CLAP_EXT_SURROUND_COMPAT",
+        "value": "clap.surround.draft/4",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surround/4": {
+        "id": "CLAP_EXT_SURROUND",
+        "value": "clap.surround/4",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundBc": {
+        "id": "CLAP_SURROUND_BC",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundBl": {
+        "id": "CLAP_SURROUND_BL",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundBr": {
+        "id": "CLAP_SURROUND_BR",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundFc": {
+        "id": "CLAP_SURROUND_FC",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundFl": {
+        "id": "CLAP_SURROUND_FL",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundFlc": {
+        "id": "CLAP_SURROUND_FLC",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundFr": {
+        "id": "CLAP_SURROUND_FR",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundFrc": {
+        "id": "CLAP_SURROUND_FRC",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundLfe": {
+        "id": "CLAP_SURROUND_LFE",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundSl": {
+        "id": "CLAP_SURROUND_SL",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundSr": {
+        "id": "CLAP_SURROUND_SR",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTbc": {
+        "id": "CLAP_SURROUND_TBC",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTbl": {
+        "id": "CLAP_SURROUND_TBL",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTbr": {
+        "id": "CLAP_SURROUND_TBR",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTc": {
+        "id": "CLAP_SURROUND_TC",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTfc": {
+        "id": "CLAP_SURROUND_TFC",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTfl": {
+        "id": "CLAP_SURROUND_TFL",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTfr": {
+        "id": "CLAP_SURROUND_TFR",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTsl": {
+        "id": "CLAP_SURROUND_TSL",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "surroundTsr": {
+        "id": "CLAP_SURROUND_TSR",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_TRACK_INFO_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/track-info.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/track-info.h",
+    "version": "1.2.10",
+    "terms": {
+      "track-info.draft/1": {
+        "id": "CLAP_EXT_TRACK_INFO_COMPAT",
+        "value": "clap.track-info.draft/1",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "track-info/1": {
+        "id": "CLAP_EXT_TRACK_INFO",
+        "value": "clap.track-info/1",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c",
+          "omx-plugins:tools/clap-ext-probe.c",
+          "omx-plugins:plugins/omx-tremolo/omx_tremolo_clap.c"
+        ]
+      },
+      "trackInfoHasAudioChannel": {
+        "id": "CLAP_TRACK_INFO_HAS_AUDIO_CHANNEL",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "trackInfoHasTrackColor": {
+        "id": "CLAP_TRACK_INFO_HAS_TRACK_COLOR",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "trackInfoHasTrackName": {
+        "id": "CLAP_TRACK_INFO_HAS_TRACK_NAME",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "trackInfoIsForBus": {
+        "id": "CLAP_TRACK_INFO_IS_FOR_BUS",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:src/clap_host.c",
+          "omx-plugins:tools/clap-ext-probe.c"
+        ]
+      },
+      "trackInfoIsForMaster": {
+        "id": "CLAP_TRACK_INFO_IS_FOR_MASTER",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:src/clap_host.c",
+          "omx-plugins:tools/clap-ext-probe.c"
+        ]
+      },
+      "trackInfoIsForReturnTrack": {
+        "id": "CLAP_TRACK_INFO_IS_FOR_RETURN_TRACK",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:src/clap_host.c",
+          "omx-plugins:tools/clap-ext-probe.c"
+        ]
+      }
+    }
+  }
+}

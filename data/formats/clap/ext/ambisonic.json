@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_AMBISONIC_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/ambisonic.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/ambisonic.h",
+    "version": "1.2.10",
+    "terms": {
+      "ambisonic": {
+        "id": "CLAP_PORT_AMBISONIC",
+        "value": "ambisonic",
+        "kind": "port-type",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonic.draft/3": {
+        "id": "CLAP_EXT_AMBISONIC_COMPAT",
+        "value": "clap.ambisonic.draft/3",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonic/3": {
+        "id": "CLAP_EXT_AMBISONIC",
+        "value": "clap.ambisonic/3",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonicNormalizationMaxn": {
+        "id": "CLAP_AMBISONIC_NORMALIZATION_MAXN",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonicNormalizationN2d": {
+        "id": "CLAP_AMBISONIC_NORMALIZATION_N2D",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonicNormalizationN3d": {
+        "id": "CLAP_AMBISONIC_NORMALIZATION_N3D",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonicNormalizationSn2d": {
+        "id": "CLAP_AMBISONIC_NORMALIZATION_SN2D",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonicNormalizationSn3d": {
+        "id": "CLAP_AMBISONIC_NORMALIZATION_SN3D",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonicOrderingAcn": {
+        "id": "CLAP_AMBISONIC_ORDERING_ACN",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ambisonicOrderingFuma": {
+        "id": "CLAP_AMBISONIC_ORDERING_FUMA",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      }
+    }
+  }
+}

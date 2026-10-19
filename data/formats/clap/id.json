@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "CLAP_ID_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/id.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/id.h",
+    "version": "1.2.10",
+    "terms": {
+      "invalidId": {
+        "id": "CLAP_INVALID_ID",
+        "kind": "constant",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c",
+          "omx-plugins:plugins/omx-test-sine-voice/omx_test_sine_voice_clap.c"
+        ]
+      }
+    }
+  }
+}

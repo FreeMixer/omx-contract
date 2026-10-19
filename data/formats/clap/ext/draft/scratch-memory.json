@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_SCRATCH_MEMORY_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/scratch-memory.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/scratch-memory.h",
+    "version": "1.2.10",
+    "terms": {
+      "scratch-memory/1": {
+        "id": "CLAP_EXT_SCRATCH_MEMORY",
+        "value": "clap.scratch-memory/1",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/plugin-qualify#116"
+      }
+    }
+  }
+}

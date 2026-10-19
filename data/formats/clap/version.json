@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "CLAP_VERSION_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/version.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/version.h",
+    "version": "1.2.10",
+    "terms": {
+      "version": {
+        "id": "CLAP_VERSION",
+        "kind": "constant",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "versionMajor": {
+        "id": "CLAP_VERSION_MAJOR",
+        "kind": "constant",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "versionMinor": {
+        "id": "CLAP_VERSION_MINOR",
+        "kind": "constant",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "versionRevision": {
+        "id": "CLAP_VERSION_REVISION",
+        "kind": "constant",
+        "status": "used",
+        "by": [
+          "openmixer:console"
+        ]
+      }
+    }
+  }
+}

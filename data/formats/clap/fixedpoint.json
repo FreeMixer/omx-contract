@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "CLAP_FIXEDPOINT_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/fixedpoint.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/fixedpoint.h",
+    "version": "1.2.10",
+    "terms": {
+      "beattimeFactor": {
+        "id": "CLAP_BEATTIME_FACTOR",
+        "kind": "constant",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/host_transport.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "sectimeFactor": {
+        "id": "CLAP_SECTIME_FACTOR",
+        "kind": "constant",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/host_transport.h"
+        ]
+      }
+    }
+  }
+}

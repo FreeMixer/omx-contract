@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_TRIGGERS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/triggers.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/triggers.h",
+    "version": "1.2.10",
+    "terms": {
+      "eventTrigger": {
+        "id": "CLAP_EVENT_TRIGGER",
+        "kind": "event-type",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggerClearAll": {
+        "id": "CLAP_TRIGGER_CLEAR_ALL",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggerClearAutomations": {
+        "id": "CLAP_TRIGGER_CLEAR_AUTOMATIONS",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggerIsAutomatablePerChannel": {
+        "id": "CLAP_TRIGGER_IS_AUTOMATABLE_PER_CHANNEL",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggerIsAutomatablePerKey": {
+        "id": "CLAP_TRIGGER_IS_AUTOMATABLE_PER_KEY",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggerIsAutomatablePerNoteId": {
+        "id": "CLAP_TRIGGER_IS_AUTOMATABLE_PER_NOTE_ID",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggerIsAutomatablePerPort": {
+        "id": "CLAP_TRIGGER_IS_AUTOMATABLE_PER_PORT",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggerRescanAll": {
+        "id": "CLAP_TRIGGER_RESCAN_ALL",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggerRescanInfo": {
+        "id": "CLAP_TRIGGER_RESCAN_INFO",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "triggers/1": {
+        "id": "CLAP_EXT_TRIGGERS",
+        "value": "clap.triggers/1",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      }
+    }
+  }
+}

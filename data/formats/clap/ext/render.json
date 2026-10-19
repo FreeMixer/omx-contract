@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_RENDER_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/render.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/render.h",
+    "version": "1.2.10",
+    "terms": {
+      "render": {
+        "id": "CLAP_EXT_RENDER",
+        "value": "clap.render",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "renderOffline": {
+        "id": "CLAP_RENDER_OFFLINE",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "renderRealtime": {
+        "id": "CLAP_RENDER_REALTIME",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      }
+    }
+  }
+}
