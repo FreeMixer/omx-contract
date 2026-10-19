@@ -1,0 +1,93 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_BUF_SIZE_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Buf Size specification (buf-size.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/buf-size",
+    "version": "1.4",
+    "terms": {
+      "boundedBlockLength": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "plugin-qualify:src/host-profiles.ts",
+          "plugin-qualify:native/lv2-measure-options.h"
+        ]
+      },
+      "buf-size.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/benchmark.py",
+          "plugin-qualify:src/hosting-suitability.ts",
+          "plugin-qualify:src/host-profiles.ts"
+        ]
+      },
+      "coarseBlockLength": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size#coarseBlockLength",
+        "kind": "feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "fixedBlockLength": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size#fixedBlockLength",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "plugin-qualify:src/hosting-suitability.ts"
+        ]
+      },
+      "maxBlockLength": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size#maxBlockLength",
+        "kind": "option",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "plugin-qualify:tools/lv2-measure.mjs",
+          "plugin-qualify:native/lv2-measure-options.c"
+        ]
+      },
+      "minBlockLength": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size#minBlockLength",
+        "kind": "option",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "plugin-qualify:tools/lv2-measure.mjs",
+          "plugin-qualify:native/lv2-measure-options.c"
+        ]
+      },
+      "nominalBlockLength": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size#nominalBlockLength",
+        "kind": "option",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "plugin-qualify:tools/lv2-measure.mjs",
+          "plugin-qualify:native/lv2-measure-options.c"
+        ]
+      },
+      "powerOf2BlockLength": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size#powerOf2BlockLength",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "plugin-qualify:src/hosting-suitability.ts"
+        ]
+      },
+      "sequenceSize": {
+        "uri": "http://lv2plug.in/ns/ext/buf-size#sequenceSize",
+        "kind": "option",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}

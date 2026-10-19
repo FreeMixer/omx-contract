@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_STATE_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 State specification (state.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/state",
+    "version": "2.10",
+    "terms": {
+      "State": {
+        "uri": "http://lv2plug.in/ns/ext/state#State",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "StateChanged": {
+        "uri": "http://lv2plug.in/ns/ext/state#StateChanged",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "freePath": {
+        "uri": "http://lv2plug.in/ns/ext/state#freePath",
+        "kind": "feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "interface": {
+        "uri": "http://lv2plug.in/ns/ext/state#interface",
+        "kind": "extension-data",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core_internal.h"
+        ]
+      },
+      "loadDefaultState": {
+        "uri": "http://lv2plug.in/ns/ext/state#loadDefaultState",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core_internal.h"
+        ]
+      },
+      "makePath": {
+        "uri": "http://lv2plug.in/ns/ext/state#makePath",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_features.c"
+        ]
+      },
+      "mapPath": {
+        "uri": "http://lv2plug.in/ns/ext/state#mapPath",
+        "kind": "feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "state": {
+        "uri": "http://lv2plug.in/ns/ext/state#state",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/lv2_presets.py"
+        ]
+      },
+      "state.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/state",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/lv2_presets.py",
+          "plugin-qualify:src/host-profiles.ts"
+        ]
+      },
+      "threadSafeRestore": {
+        "uri": "http://lv2plug.in/ns/ext/state#threadSafeRestore",
+        "kind": "feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_PRESETS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Presets specification (presets.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/presets",
+    "version": "2.8",
+    "terms": {
+      "Bank": {
+        "uri": "http://lv2plug.in/ns/ext/presets#Bank",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Preset": {
+        "uri": "http://lv2plug.in/ns/ext/presets#Preset",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "plugin-qualify:tools/lv2_presets.py"
+        ]
+      },
+      "bank": {
+        "uri": "http://lv2plug.in/ns/ext/presets#bank",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "openmixer:console"
+        ]
+      },
+      "preset": {
+        "uri": "http://lv2plug.in/ns/ext/presets#preset",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "presets.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/presets",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/lv2_presets.py"
+        ]
+      },
+      "value": {
+        "uri": "http://lv2plug.in/ns/ext/presets#value",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}

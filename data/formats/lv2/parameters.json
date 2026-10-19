@@ -1,0 +1,212 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_PARAMETERS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Parameters specification (parameters.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/parameters",
+    "version": "1.4",
+    "terms": {
+      "CompressorControls": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#CompressorControls",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "ControlGroup": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#ControlGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "EnvelopeControls": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#EnvelopeControls",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "FilterControls": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#FilterControls",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "OscillatorControls": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#OscillatorControls",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "amplitude": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#amplitude",
+        "kind": "parameter",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "attack": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#attack",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning attack"
+      },
+      "bypass": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#bypass",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning bypass"
+      },
+      "cutoffFrequency": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#cutoffFrequency",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning cutoffFrequency"
+      },
+      "decay": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#decay",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning decay"
+      },
+      "delay": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#delay",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning delay"
+      },
+      "dryLevel": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#dryLevel",
+        "kind": "parameter",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "frequency": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#frequency",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning frequency"
+      },
+      "gain": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#gain",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning gain"
+      },
+      "hold": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#hold",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning hold"
+      },
+      "parameters.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/parameters",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/benchmark.py"
+        ]
+      },
+      "pulseWidth": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#pulseWidth",
+        "kind": "parameter",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "ratio": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#ratio",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning ratio"
+      },
+      "release": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#release",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning release"
+      },
+      "resonance": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#resonance",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning resonance"
+      },
+      "sampleRate": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#sampleRate",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h"
+        ]
+      },
+      "sustain": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#sustain",
+        "kind": "parameter",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "threshold": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#threshold",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning threshold"
+      },
+      "waveform": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#waveform",
+        "kind": "parameter",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "wetDryRatio": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#wetDryRatio",
+        "kind": "parameter",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/meaning"
+        ],
+        "word": "meaning wetDryRatio"
+      },
+      "wetLevel": {
+        "uri": "http://lv2plug.in/ns/ext/parameters#wetLevel",
+        "kind": "parameter",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}

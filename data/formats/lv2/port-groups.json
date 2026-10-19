@@ -1,0 +1,421 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_PORT_GROUPS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Port Groups specification (port-groups.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/port-groups",
+    "version": "1.4",
+    "terms": {
+      "ACN0": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN0",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN1": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN1",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN10": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN10",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN11": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN11",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN12": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN12",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN13": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN13",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN14": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN14",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN15": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN15",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN2": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN2",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN3": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN3",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN4": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN4",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN5": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN5",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN6": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN6",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN7": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN7",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN8": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN8",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "ACN9": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ACN9",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH1P0Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH1P0Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH1P1Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH1P1Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH2P0Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH2P0Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH2P1Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH2P1Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH2P2Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH2P2Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH3P0Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH3P0Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH3P1Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH3P1Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH3P2Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH3P2Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicBH3P3Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH3P3Group",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "AmbisonicGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "DiscreteGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#DiscreteGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Element": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#Element",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "FivePointOneGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#FivePointOneGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "FivePointZeroGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#FivePointZeroGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "FourPointZeroGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#FourPointZeroGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "Group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#Group",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ]
+      },
+      "InputGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#InputGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "MidSideGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#MidSideGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "MonoGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#MonoGroup",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-contract:docs/descriptors.md"
+        ],
+        "word": "layout mono"
+      },
+      "OutputGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#OutputGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SevenPointOneGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#SevenPointOneGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "SevenPointOneWideGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#SevenPointOneWideGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "SixPointOneGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#SixPointOneGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "StereoGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#StereoGroup",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-contract:docs/descriptors.md"
+        ],
+        "word": "layout stereo"
+      },
+      "ThreePointZeroGroup": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#ThreePointZeroGroup",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "center": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#center",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "centerLeft": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#centerLeft",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "centerRight": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#centerRight",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "element": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#element",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "group": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#group",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-plugins:tools/port-groups-probe.c",
+          "omx-plugins:tools/gen.mjs"
+        ],
+        "word": "group"
+      },
+      "harmonicDegree": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#harmonicDegree",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "harmonicIndex": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#harmonicIndex",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "left": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#left",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "letterCode": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#letterCode",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "lowFrequencyEffects": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#lowFrequencyEffects",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "mainInput": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#mainInput",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c"
+        ]
+      },
+      "mainOutput": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#mainOutput",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "port-groups.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/port-groups-probe.c",
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c"
+        ]
+      },
+      "rearCenter": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#rearCenter",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "rearLeft": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#rearLeft",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "rearRight": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#rearRight",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "right": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#right",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "side": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#side",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "sideChainOf": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#sideChainOf",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c"
+        ],
+        "word": "role sidechain"
+      },
+      "sideLeft": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#sideLeft",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "sideRight": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#sideRight",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "source": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#source",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "subGroupOf": {
+        "uri": "http://lv2plug.in/ns/ext/port-groups#subGroupOf",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}
