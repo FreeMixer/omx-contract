@@ -23,6 +23,15 @@ The numbers whose field name starts with `worker` belong to the LV2 adapter, not
 `hosting.<group>.<reason>`, all lower case) and optionally one line of prose. A code is never reworded: a verdict
 that names it is read by code. A removed or changed code is a MAJOR change, an added one MINOR.
 
+## Every hosting code, in the core
+
+More than one package writes or reads a hosting code (the qualifier in its verdicts, the CLAP core and its LV2
+adapter in their refusals, the console when it renders them), so every one of them is declared once in omx-contract's
+own `data/hosting/`, one file per dimension (docs/data-layout.md): `HOSTING_STABILITY_CODES`,
+`HOSTING_RT_SAFETY_CODES`, `HOSTING_TOPOLOGY_CODES` and the rest, with `HOSTING_REALISED_CODES` for what the
+console did with a verdict. Each code's name is the operator-facing key a consumer reads it by, unique across the
+tree. The CLAP core's `HOSTING_CODES` above repeats nine of them until it reads the core's instead.
+
 ## The render
 
 The file's `render` word (docs/render.md) declares the CLAP core's own renders of these two items: `clap_host_limits.h`,

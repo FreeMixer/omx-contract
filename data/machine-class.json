@@ -1,0 +1,135 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "MACHINE_CLASS_FIELDS": {
+    "kind": "words",
+    "since": "2.18.0",
+    "doc": "What identifies the machine a figure was taken on (plugin-qualify#115): a verdict for a host profile reads only figures of the class it names.",
+    "words": {
+      "arch": {
+        "word": "arch",
+        "doc": "The machine architecture as uname -m names it."
+      },
+      "family": {
+        "word": "family",
+        "doc": "The CPU family and model."
+      },
+      "coreBand": {
+        "word": "coreBand",
+        "doc": "The cores, as a band of MACHINE_CORE_BANDS."
+      },
+      "clockBand": {
+        "word": "clockBand",
+        "doc": "The clock, as a band of MACHINE_CLOCK_BANDS."
+      },
+      "preemptRt": {
+        "word": "preemptRt",
+        "doc": "Whether the kernel is PREEMPT_RT."
+      },
+      "cstatesLimited": {
+        "word": "cstatesLimited",
+        "doc": "Whether the deep idle states are limited."
+      }
+    }
+  },
+  "MACHINE_PROFILE_FIELDS": {
+    "kind": "words",
+    "since": "2.18.0",
+    "doc": "How the machine was set when a figure was taken: the frequency policy and isolation a figure depends on.",
+    "words": {
+      "governor": {
+        "word": "governor"
+      },
+      "turbo": {
+        "word": "turbo"
+      },
+      "smt": {
+        "word": "smt"
+      },
+      "preempt": {
+        "word": "preempt"
+      },
+      "cpuidle": {
+        "word": "cpuidle"
+      }
+    }
+  },
+  "MACHINE_CORE_BANDS": {
+    "kind": "words",
+    "since": "2.18.0",
+    "doc": "The bands a machine's core count falls in, ascending.",
+    "words": {
+      "cores1To2": {
+        "word": "1-2"
+      },
+      "cores3To4": {
+        "word": "3-4"
+      },
+      "cores5To8": {
+        "word": "5-8"
+      },
+      "cores9To16": {
+        "word": "9-16"
+      },
+      "cores17To32": {
+        "word": "17-32"
+      },
+      "cores33Up": {
+        "word": "33+"
+      }
+    }
+  },
+  "MACHINE_CLOCK_BANDS": {
+    "kind": "words",
+    "since": "2.18.0",
+    "doc": "The bands a machine's clock falls in, ascending.",
+    "words": {
+      "under1500MHz": {
+        "word": "<1.5GHz"
+      },
+      "from1500To2500MHz": {
+        "word": "1.5-2.5GHz"
+      },
+      "from2500To3500MHz": {
+        "word": "2.5-3.5GHz"
+      },
+      "from3500To4500MHz": {
+        "word": "3.5-4.5GHz"
+      },
+      "from4500MHz": {
+        "word": "4.5GHz+"
+      }
+    }
+  },
+  "MACHINE_ARCHES": {
+    "kind": "words",
+    "since": "2.18.0",
+    "doc": "The architectures a host profile names, as uname -m spells them.",
+    "words": {
+      "x8664": {
+        "word": "x86_64"
+      },
+      "aarch64": {
+        "word": "aarch64"
+      }
+    }
+  },
+  "MACHINE_CLASSES": {
+    "kind": "words",
+    "since": "2.18.0",
+    "doc": "The machine classes a host profile budgets for (plugin-qualify#114, #115): the desk, and the Raspberry Pi 4 and 5 a small console runs on.",
+    "words": {
+      "desk": {
+        "word": "desk",
+        "doc": "An x86-64 desk."
+      },
+      "raspberryPi4": {
+        "word": "raspberry-pi-4",
+        "doc": "A Raspberry Pi 4, aarch64."
+      },
+      "raspberryPi5": {
+        "word": "raspberry-pi-5",
+        "doc": "A Raspberry Pi 5, aarch64."
+      }
+    }
+  }
+}
