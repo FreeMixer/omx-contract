@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_FACTORY_DRAFT_PLUGIN_STATE_CONVERTER_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/factory/draft/plugin-state-converter.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/factory/draft/plugin-state-converter.h",
+    "version": "1.2.10",
+    "terms": {
+      "plugin-state-converter-factory/1": {
+        "id": "CLAP_PLUGIN_STATE_CONVERTER_FACTORY_ID",
+        "value": "clap.plugin-state-converter-factory/1",
+        "kind": "factory",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      }
+    }
+  }
+}

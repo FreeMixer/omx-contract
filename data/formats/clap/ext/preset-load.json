@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_PRESET_LOAD_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/preset-load.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/preset-load.h",
+    "version": "1.2.10",
+    "terms": {
+      "preset-load.draft/2": {
+        "id": "CLAP_EXT_PRESET_LOAD_COMPAT",
+        "value": "clap.preset-load.draft/2",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "preset-load/2": {
+        "id": "CLAP_EXT_PRESET_LOAD",
+        "value": "clap.preset-load/2",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c",
+          "plugin-qualify:src/host-profiles.ts"
+        ]
+      }
+    }
+  }
+}

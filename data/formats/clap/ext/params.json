@@ -1,0 +1,239 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_PARAMS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/params.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/params.h",
+    "version": "1.2.10",
+    "terms": {
+      "paramClearAll": {
+        "id": "CLAP_PARAM_CLEAR_ALL",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "paramClearAutomations": {
+        "id": "CLAP_PARAM_CLEAR_AUTOMATIONS",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "paramClearModulations": {
+        "id": "CLAP_PARAM_CLEAR_MODULATIONS",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "paramIsAutomatable": {
+        "id": "CLAP_PARAM_IS_AUTOMATABLE",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c",
+          "omx-plugins:plugins/omx-tremolo/omx_tremolo_clap.c"
+        ],
+        "word": "automatable"
+      },
+      "paramIsAutomatablePerChannel": {
+        "id": "CLAP_PARAM_IS_AUTOMATABLE_PER_CHANNEL",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsAutomatablePerKey": {
+        "id": "CLAP_PARAM_IS_AUTOMATABLE_PER_KEY",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsAutomatablePerNoteId": {
+        "id": "CLAP_PARAM_IS_AUTOMATABLE_PER_NOTE_ID",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsAutomatablePerPort": {
+        "id": "CLAP_PARAM_IS_AUTOMATABLE_PER_PORT",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsBypass": {
+        "id": "CLAP_PARAM_IS_BYPASS",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/param_contract.h",
+          "omx-clap-core:src/effects.c"
+        ],
+        "word": "meaning bypass"
+      },
+      "paramIsEnum": {
+        "id": "CLAP_PARAM_IS_ENUM",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/param_contract.h",
+          "omx-clap-core:src/clap_host.h"
+        ],
+        "word": "kind choice"
+      },
+      "paramIsHidden": {
+        "id": "CLAP_PARAM_IS_HIDDEN",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/clap_host.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ],
+        "word": "hidden"
+      },
+      "paramIsModulatable": {
+        "id": "CLAP_PARAM_IS_MODULATABLE",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "paramIsModulatablePerChannel": {
+        "id": "CLAP_PARAM_IS_MODULATABLE_PER_CHANNEL",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsModulatablePerKey": {
+        "id": "CLAP_PARAM_IS_MODULATABLE_PER_KEY",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsModulatablePerNoteId": {
+        "id": "CLAP_PARAM_IS_MODULATABLE_PER_NOTE_ID",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsModulatablePerPort": {
+        "id": "CLAP_PARAM_IS_MODULATABLE_PER_PORT",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsPeriodic": {
+        "id": "CLAP_PARAM_IS_PERIODIC",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/param_contract.h",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramIsReadonly": {
+        "id": "CLAP_PARAM_IS_READONLY",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/param_contract.h",
+          "omx-clap-core:src/effects.c"
+        ],
+        "word": "readonly"
+      },
+      "paramIsStepped": {
+        "id": "CLAP_PARAM_IS_STEPPED",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/param_contract.h",
+          "omx-clap-core:src/omx_clap_ext.h"
+        ],
+        "word": "scale stepped"
+      },
+      "paramRequiresProcess": {
+        "id": "CLAP_PARAM_REQUIRES_PROCESS",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "paramRescanAll": {
+        "id": "CLAP_PARAM_RESCAN_ALL",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "paramRescanInfo": {
+        "id": "CLAP_PARAM_RESCAN_INFO",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.h"
+        ]
+      },
+      "paramRescanText": {
+        "id": "CLAP_PARAM_RESCAN_TEXT",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "paramRescanValues": {
+        "id": "CLAP_PARAM_RESCAN_VALUES",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "params": {
+        "id": "CLAP_EXT_PARAMS",
+        "value": "clap.params",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host_extensions.h",
+          "omx-clap-core:src/clap_host.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      }
+    }
+  }
+}

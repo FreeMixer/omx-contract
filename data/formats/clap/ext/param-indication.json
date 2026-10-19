@@ -1,0 +1,57 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_PARAM_INDICATION_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/param-indication.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/param-indication.h",
+    "version": "1.2.10",
+    "terms": {
+      "param-indication.draft/4": {
+        "id": "CLAP_EXT_PARAM_INDICATION_COMPAT",
+        "value": "clap.param-indication.draft/4",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#187"
+      },
+      "param-indication/4": {
+        "id": "CLAP_EXT_PARAM_INDICATION",
+        "value": "clap.param-indication/4",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#187"
+      },
+      "paramIndicationAutomationNone": {
+        "id": "CLAP_PARAM_INDICATION_AUTOMATION_NONE",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#187"
+      },
+      "paramIndicationAutomationOverriding": {
+        "id": "CLAP_PARAM_INDICATION_AUTOMATION_OVERRIDING",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#187"
+      },
+      "paramIndicationAutomationPlaying": {
+        "id": "CLAP_PARAM_INDICATION_AUTOMATION_PLAYING",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#187"
+      },
+      "paramIndicationAutomationPresent": {
+        "id": "CLAP_PARAM_INDICATION_AUTOMATION_PRESENT",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#187"
+      },
+      "paramIndicationAutomationRecording": {
+        "id": "CLAP_PARAM_INDICATION_AUTOMATION_RECORDING",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#187"
+      }
+    }
+  }
+}

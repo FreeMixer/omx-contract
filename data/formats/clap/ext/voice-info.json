@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_VOICE_INFO_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/voice-info.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/voice-info.h",
+    "version": "1.2.10",
+    "terms": {
+      "voice-info": {
+        "id": "CLAP_EXT_VOICE_INFO",
+        "value": "clap.voice-info",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/clap_host_extensions.h",
+          "omx-clap-core:src/clap_host.c"
+        ],
+        "word": "instrument.voices"
+      },
+      "voiceInfoSupportsOverlappingNotes": {
+        "id": "CLAP_VOICE_INFO_SUPPORTS_OVERLAPPING_NOTES",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/scan.c",
+          "omx-clap-core:src/clap_host.h"
+        ]
+      }
+    }
+  }
+}

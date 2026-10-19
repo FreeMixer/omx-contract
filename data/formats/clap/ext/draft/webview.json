@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_WEBVIEW_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/webview.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/webview.h",
+    "version": "1.2.10",
+    "terms": {
+      "webview": {
+        "id": "CLAP_WINDOW_API_WEBVIEW",
+        "value": "webview",
+        "kind": "window-api",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "webview/3": {
+        "id": "CLAP_EXT_WEBVIEW",
+        "value": "clap.webview/3",
+        "kind": "extension",
+        "status": "out-of-scope",
+        "ruling": "A plugin's own UI, as `gui` (GUI ruling 2026-10-19) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      }
+    }
+  }
+}

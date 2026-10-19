@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_UNDO_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/undo.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/undo.h",
+    "version": "1.2.10",
+    "terms": {
+      "undo/4": {
+        "id": "CLAP_EXT_UNDO",
+        "value": "clap.undo/4",
+        "kind": "extension",
+        "status": "out-of-scope",
+        "ruling": "The console keeps its own undo (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "undo_context/4": {
+        "id": "CLAP_EXT_UNDO_CONTEXT",
+        "value": "clap.undo_context/4",
+        "kind": "extension",
+        "status": "out-of-scope",
+        "ruling": "The console keeps its own undo (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "undo_delta/4": {
+        "id": "CLAP_EXT_UNDO_DELTA",
+        "value": "clap.undo_delta/4",
+        "kind": "extension",
+        "status": "out-of-scope",
+        "ruling": "The console keeps its own undo (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      }
+    }
+  }
+}

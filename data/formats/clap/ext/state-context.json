@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_STATE_CONTEXT_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/state-context.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/state-context.h",
+    "version": "1.2.10",
+    "terms": {
+      "state-context/2": {
+        "id": "CLAP_EXT_STATE_CONTEXT",
+        "value": "clap.state-context/2",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "stateContextForDuplicate": {
+        "id": "CLAP_STATE_CONTEXT_FOR_DUPLICATE",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "stateContextForPreset": {
+        "id": "CLAP_STATE_CONTEXT_FOR_PRESET",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "stateContextForProject": {
+        "id": "CLAP_STATE_CONTEXT_FOR_PROJECT",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      }
+    }
+  }
+}

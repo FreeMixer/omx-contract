@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_PARAM_HOVERED_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/param-hovered.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/param-hovered.h",
+    "version": "1.2.10",
+    "terms": {
+      "param-hovered/1": {
+        "id": "CLAP_EXT_PARAM_HOVERED",
+        "value": "clap.param-hovered/1",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      }
+    }
+  }
+}

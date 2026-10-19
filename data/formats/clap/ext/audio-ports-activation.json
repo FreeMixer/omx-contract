@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_AUDIO_PORTS_ACTIVATION_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/audio-ports-activation.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/audio-ports-activation.h",
+    "version": "1.2.10",
+    "terms": {
+      "audio-ports-activation/2": {
+        "id": "CLAP_EXT_AUDIO_PORTS_ACTIVATION",
+        "value": "clap.audio-ports-activation/2",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "audio-ports-activation/draft-2": {
+        "id": "CLAP_EXT_AUDIO_PORTS_ACTIVATION_COMPAT",
+        "value": "clap.audio-ports-activation/draft-2",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      }
+    }
+  }
+}

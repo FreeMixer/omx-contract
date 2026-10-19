@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_CONFIGURABLE_AUDIO_PORTS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/configurable-audio-ports.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/configurable-audio-ports.h",
+    "version": "1.2.10",
+    "terms": {
+      "configurable-audio-ports.draft1": {
+        "id": "CLAP_EXT_CONFIGURABLE_AUDIO_PORTS_COMPAT",
+        "value": "clap.configurable-audio-ports.draft1",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      },
+      "configurable-audio-ports/1": {
+        "id": "CLAP_EXT_CONFIGURABLE_AUDIO_PORTS",
+        "value": "clap.configurable-audio-ports/1",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#92"
+      }
+    }
+  }
+}

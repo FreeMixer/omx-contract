@@ -1,0 +1,351 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "CLAP_PLUGIN_FEATURES_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/plugin-features.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/plugin-features.h",
+    "version": "1.2.10",
+    "terms": {
+      "ambisonic": {
+        "id": "CLAP_PLUGIN_FEATURE_AMBISONIC",
+        "value": "ambisonic",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "analyzer": {
+        "id": "CLAP_PLUGIN_FEATURE_ANALYZER",
+        "value": "analyzer",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/descriptor.mjs"
+        ],
+        "word": "features analyzer"
+      },
+      "audio-effect": {
+        "id": "CLAP_PLUGIN_FEATURE_AUDIO_EFFECT",
+        "value": "audio-effect",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h",
+          "omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"
+        ],
+        "word": "features audio-effect"
+      },
+      "chorus": {
+        "id": "CLAP_PLUGIN_FEATURE_CHORUS",
+        "value": "chorus",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h"
+        ]
+      },
+      "compressor": {
+        "id": "CLAP_PLUGIN_FEATURE_COMPRESSOR",
+        "value": "compressor",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"
+        ]
+      },
+      "de-esser": {
+        "id": "CLAP_PLUGIN_FEATURE_DEESSER",
+        "value": "de-esser",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-deesser/generated/omx_deesser_params.h"
+        ]
+      },
+      "delay": {
+        "id": "CLAP_PLUGIN_FEATURE_DELAY",
+        "value": "delay",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-delay/generated/omx_delay_params.h"
+        ]
+      },
+      "distortion": {
+        "id": "CLAP_PLUGIN_FEATURE_DISTORTION",
+        "value": "distortion",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-drive/generated/omx_drive_params.h"
+        ]
+      },
+      "drum": {
+        "id": "CLAP_PLUGIN_FEATURE_DRUM",
+        "value": "drum",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "openmixer:console"
+        ]
+      },
+      "drum-machine": {
+        "id": "CLAP_PLUGIN_FEATURE_DRUM_MACHINE",
+        "value": "drum-machine",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "equalizer": {
+        "id": "CLAP_PLUGIN_FEATURE_EQUALIZER",
+        "value": "equalizer",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-eq16/generated/omx_eq16_params.h",
+          "omx-plugins:plugins/omx-eq32/generated/omx_eq32_params.h"
+        ]
+      },
+      "expander": {
+        "id": "CLAP_PLUGIN_FEATURE_EXPANDER",
+        "value": "expander",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "openmixer:console",
+          "omx-plugins:tools/gen-presets.mjs"
+        ]
+      },
+      "filter": {
+        "id": "CLAP_PLUGIN_FEATURE_FILTER",
+        "value": "filter",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
+        ]
+      },
+      "flanger": {
+        "id": "CLAP_PLUGIN_FEATURE_FLANGER",
+        "value": "flanger",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-flanger/generated/omx_flanger_params.h"
+        ]
+      },
+      "frequency-shifter": {
+        "id": "CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER",
+        "value": "frequency-shifter",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "gate": {
+        "id": "CLAP_PLUGIN_FEATURE_GATE",
+        "value": "gate",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-keyed-gate/generated/omx_gate_params.h",
+          "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
+        ]
+      },
+      "glitch": {
+        "id": "CLAP_PLUGIN_FEATURE_GLITCH",
+        "value": "glitch",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "granular": {
+        "id": "CLAP_PLUGIN_FEATURE_GRANULAR",
+        "value": "granular",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "instrument": {
+        "id": "CLAP_PLUGIN_FEATURE_INSTRUMENT",
+        "value": "instrument",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-test-sine-voice/generated/omx_test_sine_voice_decl.h"
+        ],
+        "word": "features instrument"
+      },
+      "limiter": {
+        "id": "CLAP_PLUGIN_FEATURE_LIMITER",
+        "value": "limiter",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-limiter/generated/omx_limiter_params.h"
+        ]
+      },
+      "mastering": {
+        "id": "CLAP_PLUGIN_FEATURE_MASTERING",
+        "value": "mastering",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "mixing": {
+        "id": "CLAP_PLUGIN_FEATURE_MIXING",
+        "value": "mixing",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
+        ]
+      },
+      "mono": {
+        "id": "CLAP_PLUGIN_FEATURE_MONO",
+        "value": "mono",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "openmixer:console",
+          "omx-plugins:tools/descriptor.mjs"
+        ]
+      },
+      "multi-effects": {
+        "id": "CLAP_PLUGIN_FEATURE_MULTI_EFFECTS",
+        "value": "multi-effects",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "note-detector": {
+        "id": "CLAP_PLUGIN_FEATURE_NOTE_DETECTOR",
+        "value": "note-detector",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "note-effect": {
+        "id": "CLAP_PLUGIN_FEATURE_NOTE_EFFECT",
+        "value": "note-effect",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-test-note-echo/generated/omx_test_note_echo_decl.h"
+        ],
+        "word": "features note-effect"
+      },
+      "phase-vocoder": {
+        "id": "CLAP_PLUGIN_FEATURE_PHASE_VOCODER",
+        "value": "phase-vocoder",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "phaser": {
+        "id": "CLAP_PLUGIN_FEATURE_PHASER",
+        "value": "phaser",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-phaser/generated/omx_phaser_params.h"
+        ]
+      },
+      "pitch-correction": {
+        "id": "CLAP_PLUGIN_FEATURE_PITCH_CORRECTION",
+        "value": "pitch-correction",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "pitch-shifter": {
+        "id": "CLAP_PLUGIN_FEATURE_PITCH_SHIFTER",
+        "value": "pitch-shifter",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-pitch/generated/omx_pitch_params.h"
+        ]
+      },
+      "restoration": {
+        "id": "CLAP_PLUGIN_FEATURE_RESTORATION",
+        "value": "restoration",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "reverb": {
+        "id": "CLAP_PLUGIN_FEATURE_REVERB",
+        "value": "reverb",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-reverb/generated/omx_reverb_params.h"
+        ]
+      },
+      "sampler": {
+        "id": "CLAP_PLUGIN_FEATURE_SAMPLER",
+        "value": "sampler",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "openmixer:console"
+        ]
+      },
+      "stereo": {
+        "id": "CLAP_PLUGIN_FEATURE_STEREO",
+        "value": "stereo",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h",
+          "omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"
+        ]
+      },
+      "surround": {
+        "id": "CLAP_PLUGIN_FEATURE_SURROUND",
+        "value": "surround",
+        "kind": "plugin-feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "synthesizer": {
+        "id": "CLAP_PLUGIN_FEATURE_SYNTHESIZER",
+        "value": "synthesizer",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-test-sine-voice/generated/omx_test_sine_voice_decl.h"
+        ]
+      },
+      "transient-shaper": {
+        "id": "CLAP_PLUGIN_FEATURE_TRANSIENT_SHAPER",
+        "value": "transient-shaper",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-transient/generated/omx_transient_params.h"
+        ]
+      },
+      "tremolo": {
+        "id": "CLAP_PLUGIN_FEATURE_TREMOLO",
+        "value": "tremolo",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-tremolo/generated/omx_tremolo_params.h"
+        ]
+      },
+      "utility": {
+        "id": "CLAP_PLUGIN_FEATURE_UTILITY",
+        "value": "utility",
+        "kind": "plugin-feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-test-note-echo/generated/omx_test_note_echo_decl.h",
+          "omx-plugins:plugins/omx-test-transport-probe/generated/omx_test_transport_probe_decl.h"
+        ]
+      }
+    }
+  }
+}
