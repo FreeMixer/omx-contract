@@ -349,6 +349,138 @@ export const HOSTING_WORKER_CODES = {
 };
 
 /**
+ * What identifies the machine a figure was taken on (plugin-qualify#115): a verdict for a host profile reads only figures of the class it names.
+ * @see data/machine-class.json
+ */
+export const MACHINE_CLASS_FIELDS = {
+  "arch": {
+    "word": "arch",
+    "doc": "The machine architecture as uname -m names it."
+  },
+  "family": {
+    "word": "family",
+    "doc": "The CPU family and model."
+  },
+  "coreBand": {
+    "word": "coreBand",
+    "doc": "The cores, as a band of MACHINE_CORE_BANDS."
+  },
+  "clockBand": {
+    "word": "clockBand",
+    "doc": "The clock, as a band of MACHINE_CLOCK_BANDS."
+  },
+  "preemptRt": {
+    "word": "preemptRt",
+    "doc": "Whether the kernel is PREEMPT_RT."
+  },
+  "cstatesLimited": {
+    "word": "cstatesLimited",
+    "doc": "Whether the deep idle states are limited."
+  }
+};
+
+/**
+ * How the machine was set when a figure was taken: the frequency policy and isolation a figure depends on.
+ * @see data/machine-class.json
+ */
+export const MACHINE_PROFILE_FIELDS = {
+  "governor": {
+    "word": "governor"
+  },
+  "turbo": {
+    "word": "turbo"
+  },
+  "smt": {
+    "word": "smt"
+  },
+  "preempt": {
+    "word": "preempt"
+  },
+  "cpuidle": {
+    "word": "cpuidle"
+  }
+};
+
+/**
+ * The bands a machine's core count falls in, ascending.
+ * @see data/machine-class.json
+ */
+export const MACHINE_CORE_BANDS = {
+  "cores1To2": {
+    "word": "1-2"
+  },
+  "cores3To4": {
+    "word": "3-4"
+  },
+  "cores5To8": {
+    "word": "5-8"
+  },
+  "cores9To16": {
+    "word": "9-16"
+  },
+  "cores17To32": {
+    "word": "17-32"
+  },
+  "cores33Up": {
+    "word": "33+"
+  }
+};
+
+/**
+ * The bands a machine's clock falls in, ascending.
+ * @see data/machine-class.json
+ */
+export const MACHINE_CLOCK_BANDS = {
+  "under1500MHz": {
+    "word": "<1.5GHz"
+  },
+  "from1500To2500MHz": {
+    "word": "1.5-2.5GHz"
+  },
+  "from2500To3500MHz": {
+    "word": "2.5-3.5GHz"
+  },
+  "from3500To4500MHz": {
+    "word": "3.5-4.5GHz"
+  },
+  "from4500MHz": {
+    "word": "4.5GHz+"
+  }
+};
+
+/**
+ * The architectures a host profile names, as uname -m spells them.
+ * @see data/machine-class.json
+ */
+export const MACHINE_ARCHES = {
+  "x8664": {
+    "word": "x86_64"
+  },
+  "aarch64": {
+    "word": "aarch64"
+  }
+};
+
+/**
+ * The machine classes a host profile budgets for (plugin-qualify#114, #115): the desk, and the Raspberry Pi 4 and 5 a small console runs on.
+ * @see data/machine-class.json
+ */
+export const MACHINE_CLASSES = {
+  "desk": {
+    "word": "desk",
+    "doc": "An x86-64 desk."
+  },
+  "raspberryPi4": {
+    "word": "raspberry-pi-4",
+    "doc": "A Raspberry Pi 4, aarch64."
+  },
+  "raspberryPi5": {
+    "word": "raspberry-pi-5",
+    "doc": "A Raspberry Pi 5, aarch64."
+  }
+};
+
+/**
  * The measurable dimensions a measurement document declares it covers: latency and cost since the format's 1.0, stability, RT safety and features since 1.1, for the hosting verdict.
  * @see data/measurement.json
  */
@@ -664,6 +796,208 @@ export const ORACLE_FULL_RATES = [
   176400,
   192000
 ];
+
+/**
+ * Every resource a host plans a plugin for (FreeMixer/plugin-qualify#116): each measured per machine class, judged per host profile, and unknown, never a pass, when it has no figure.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_KINDS = {
+  "cpu": {
+    "word": "cpu",
+    "doc": "The cost per sample at a rate and quantum, its percentile and its tail (plugin-qualify#115)."
+  },
+  "memory": {
+    "word": "memory",
+    "doc": "The footprint per instance and its growth over a soak (plugin-qualify#114)."
+  },
+  "scratchMemory": {
+    "word": "scratch-memory",
+    "doc": "The memory a plugin asks of its host for its process call."
+  },
+  "latency": {
+    "word": "latency",
+    "doc": "The frames a plugin delays its output by, per rate and quantum."
+  },
+  "tail": {
+    "word": "tail",
+    "doc": "How long a plugin keeps sounding once its input goes silent."
+  },
+  "voices": {
+    "word": "voices",
+    "doc": "The notes an instrument plays at once."
+  },
+  "startup": {
+    "word": "startup",
+    "doc": "The wall time of instantiate, activate and the first block."
+  },
+  "threads": {
+    "word": "threads",
+    "doc": "The threads a plugin starts and their scheduling class, or the host thread pool it asks for."
+  },
+  "worker": {
+    "word": "worker",
+    "doc": "The work a plugin hands to a non-real-time thread of the host."
+  },
+  "blockLength": {
+    "word": "block-length",
+    "doc": "The block lengths a plugin accepts."
+  },
+  "openFiles": {
+    "word": "open-files",
+    "doc": "The file descriptors a plugin holds after activate, and their growth."
+  },
+  "diskIo": {
+    "word": "disk-io",
+    "doc": "The bytes a plugin reads at load and while it processes."
+  },
+  "network": {
+    "word": "network",
+    "doc": "Any socket a plugin opens."
+  },
+  "state": {
+    "word": "state",
+    "doc": "The size of a plugin's saved state, its save and restore time, and its round trip."
+  }
+};
+
+/**
+ * The units a resource figure is given in; an LV2 unit's name where LV2 has one.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_UNITS = {
+  "nsPerSample": {
+    "word": "ns-per-sample"
+  },
+  "frames": {
+    "word": "frames"
+  },
+  "ms": {
+    "word": "ms"
+  },
+  "us": {
+    "word": "us"
+  },
+  "s": {
+    "word": "s"
+  },
+  "bytes": {
+    "word": "bytes"
+  },
+  "count": {
+    "word": "count"
+  },
+  "ratio": {
+    "word": "ratio"
+  }
+};
+
+/**
+ * How a resource figure was known: what the plugin declares, what a run measured, or a count the caller gave the probe.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_BASES = {
+  "declared": {
+    "word": "declared"
+  },
+  "measured": {
+    "word": "measured"
+  },
+  "probe": {
+    "word": "probe"
+  }
+};
+
+/**
+ * When a plugin's memory is read, per instance (plugin-qualify#114): after instantiate, after activate, at rest after processing, with notes held, and for a second instance, so a shared one-time load is told apart from the per-instance cost.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_MEMORY_PHASES = {
+  "afterInstantiate": {
+    "word": "after-instantiate"
+  },
+  "afterActivate": {
+    "word": "after-activate"
+  },
+  "atRest": {
+    "word": "at-rest"
+  },
+  "notesHeld": {
+    "word": "notes-held"
+  },
+  "secondInstance": {
+    "word": "second-instance"
+  }
+};
+
+/**
+ * Why a resource has no figure a host profile can read, beside the measurement's own reasons (MEASUREMENT_UNMEASURED_REASONS).
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_UNMEASURED_REASONS = {
+  "unmeasuredOnClass": {
+    "word": "unmeasured-on-class",
+    "doc": "The only figure was taken on another machine class: never read as a pass, never scaled."
+  },
+  "limitExceeded": {
+    "word": "limit-exceeded",
+    "doc": "The run hit the limit probe isolation set for the resource; the limit is recorded beside it."
+  }
+};
+
+/**
+ * What a host profile's budget for a resource is counted over (plugin-qualify#114, #115): one plugin instance, or the whole console.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_BUDGET_SCOPES = {
+  "perInstance": {
+    "word": "per-instance"
+  },
+  "perConsole": {
+    "word": "per-console"
+  }
+};
+
+/**
+ * How a host runs its plugins.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_HOST_ISOLATIONS = {
+  "inProcess": {
+    "word": "in-process"
+  },
+  "perProcess": {
+    "word": "per-process"
+  },
+  "sharedProcess": {
+    "word": "shared-process"
+  }
+};
+
+/**
+ * Whether a host aligns on a plugin's reported latency or only passes it on.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_HOST_LATENCY_HANDLING = {
+  "compensated": {
+    "word": "compensated"
+  },
+  "uncompensated": {
+    "word": "uncompensated"
+  }
+};
+
+/**
+ * The scheduling class a host gives its plugin's threads, as the probe output records it.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_THREAD_SCHEDULING = {
+  "none": {
+    "word": "none"
+  },
+  "fifo": {
+    "word": "fifo"
+  }
+};
 
 /**
  * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.18.0 removes it: read ORACLE_FULL_RATES.

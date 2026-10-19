@@ -349,6 +349,138 @@ export declare const HOSTING_WORKER_CODES: {
 };
 
 /**
+ * What identifies the machine a figure was taken on (plugin-qualify#115): a verdict for a host profile reads only figures of the class it names.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_CLASS_FIELDS: {
+  readonly arch: {
+    readonly word: "arch";
+    readonly doc: "The machine architecture as uname -m names it.";
+  };
+  readonly family: {
+    readonly word: "family";
+    readonly doc: "The CPU family and model.";
+  };
+  readonly coreBand: {
+    readonly word: "coreBand";
+    readonly doc: "The cores, as a band of MACHINE_CORE_BANDS.";
+  };
+  readonly clockBand: {
+    readonly word: "clockBand";
+    readonly doc: "The clock, as a band of MACHINE_CLOCK_BANDS.";
+  };
+  readonly preemptRt: {
+    readonly word: "preemptRt";
+    readonly doc: "Whether the kernel is PREEMPT_RT.";
+  };
+  readonly cstatesLimited: {
+    readonly word: "cstatesLimited";
+    readonly doc: "Whether the deep idle states are limited.";
+  };
+};
+
+/**
+ * How the machine was set when a figure was taken: the frequency policy and isolation a figure depends on.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_PROFILE_FIELDS: {
+  readonly governor: {
+    readonly word: "governor";
+  };
+  readonly turbo: {
+    readonly word: "turbo";
+  };
+  readonly smt: {
+    readonly word: "smt";
+  };
+  readonly preempt: {
+    readonly word: "preempt";
+  };
+  readonly cpuidle: {
+    readonly word: "cpuidle";
+  };
+};
+
+/**
+ * The bands a machine's core count falls in, ascending.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_CORE_BANDS: {
+  readonly cores1To2: {
+    readonly word: "1-2";
+  };
+  readonly cores3To4: {
+    readonly word: "3-4";
+  };
+  readonly cores5To8: {
+    readonly word: "5-8";
+  };
+  readonly cores9To16: {
+    readonly word: "9-16";
+  };
+  readonly cores17To32: {
+    readonly word: "17-32";
+  };
+  readonly cores33Up: {
+    readonly word: "33+";
+  };
+};
+
+/**
+ * The bands a machine's clock falls in, ascending.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_CLOCK_BANDS: {
+  readonly under1500MHz: {
+    readonly word: "<1.5GHz";
+  };
+  readonly from1500To2500MHz: {
+    readonly word: "1.5-2.5GHz";
+  };
+  readonly from2500To3500MHz: {
+    readonly word: "2.5-3.5GHz";
+  };
+  readonly from3500To4500MHz: {
+    readonly word: "3.5-4.5GHz";
+  };
+  readonly from4500MHz: {
+    readonly word: "4.5GHz+";
+  };
+};
+
+/**
+ * The architectures a host profile names, as uname -m spells them.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_ARCHES: {
+  readonly x8664: {
+    readonly word: "x86_64";
+  };
+  readonly aarch64: {
+    readonly word: "aarch64";
+  };
+};
+
+/**
+ * The machine classes a host profile budgets for (plugin-qualify#114, #115): the desk, and the Raspberry Pi 4 and 5 a small console runs on.
+ * @see data/machine-class.json
+ */
+export declare const MACHINE_CLASSES: {
+  readonly desk: {
+    readonly word: "desk";
+    readonly doc: "An x86-64 desk.";
+  };
+  readonly raspberryPi4: {
+    readonly word: "raspberry-pi-4";
+    readonly doc: "A Raspberry Pi 4, aarch64.";
+  };
+  readonly raspberryPi5: {
+    readonly word: "raspberry-pi-5";
+    readonly doc: "A Raspberry Pi 5, aarch64.";
+  };
+};
+
+/**
  * The measurable dimensions a measurement document declares it covers: latency and cost since the format's 1.0, stability, RT safety and features since 1.1, for the hosting verdict.
  * @see data/measurement.json
  */
@@ -638,6 +770,208 @@ export declare const ORACLE_FLOOR_RATES: readonly [44100, 48000, 96000, 192000];
  * @see data/rates.json
  */
 export declare const ORACLE_FULL_RATES: readonly [32000, 44100, 48000, 64000, 88200, 96000, 128000, 176400, 192000];
+
+/**
+ * Every resource a host plans a plugin for (FreeMixer/plugin-qualify#116): each measured per machine class, judged per host profile, and unknown, never a pass, when it has no figure.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_KINDS: {
+  readonly cpu: {
+    readonly word: "cpu";
+    readonly doc: "The cost per sample at a rate and quantum, its percentile and its tail (plugin-qualify#115).";
+  };
+  readonly memory: {
+    readonly word: "memory";
+    readonly doc: "The footprint per instance and its growth over a soak (plugin-qualify#114).";
+  };
+  readonly scratchMemory: {
+    readonly word: "scratch-memory";
+    readonly doc: "The memory a plugin asks of its host for its process call.";
+  };
+  readonly latency: {
+    readonly word: "latency";
+    readonly doc: "The frames a plugin delays its output by, per rate and quantum.";
+  };
+  readonly tail: {
+    readonly word: "tail";
+    readonly doc: "How long a plugin keeps sounding once its input goes silent.";
+  };
+  readonly voices: {
+    readonly word: "voices";
+    readonly doc: "The notes an instrument plays at once.";
+  };
+  readonly startup: {
+    readonly word: "startup";
+    readonly doc: "The wall time of instantiate, activate and the first block.";
+  };
+  readonly threads: {
+    readonly word: "threads";
+    readonly doc: "The threads a plugin starts and their scheduling class, or the host thread pool it asks for.";
+  };
+  readonly worker: {
+    readonly word: "worker";
+    readonly doc: "The work a plugin hands to a non-real-time thread of the host.";
+  };
+  readonly blockLength: {
+    readonly word: "block-length";
+    readonly doc: "The block lengths a plugin accepts.";
+  };
+  readonly openFiles: {
+    readonly word: "open-files";
+    readonly doc: "The file descriptors a plugin holds after activate, and their growth.";
+  };
+  readonly diskIo: {
+    readonly word: "disk-io";
+    readonly doc: "The bytes a plugin reads at load and while it processes.";
+  };
+  readonly network: {
+    readonly word: "network";
+    readonly doc: "Any socket a plugin opens.";
+  };
+  readonly state: {
+    readonly word: "state";
+    readonly doc: "The size of a plugin's saved state, its save and restore time, and its round trip.";
+  };
+};
+
+/**
+ * The units a resource figure is given in; an LV2 unit's name where LV2 has one.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_UNITS: {
+  readonly nsPerSample: {
+    readonly word: "ns-per-sample";
+  };
+  readonly frames: {
+    readonly word: "frames";
+  };
+  readonly ms: {
+    readonly word: "ms";
+  };
+  readonly us: {
+    readonly word: "us";
+  };
+  readonly s: {
+    readonly word: "s";
+  };
+  readonly bytes: {
+    readonly word: "bytes";
+  };
+  readonly count: {
+    readonly word: "count";
+  };
+  readonly ratio: {
+    readonly word: "ratio";
+  };
+};
+
+/**
+ * How a resource figure was known: what the plugin declares, what a run measured, or a count the caller gave the probe.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_BASES: {
+  readonly declared: {
+    readonly word: "declared";
+  };
+  readonly measured: {
+    readonly word: "measured";
+  };
+  readonly probe: {
+    readonly word: "probe";
+  };
+};
+
+/**
+ * When a plugin's memory is read, per instance (plugin-qualify#114): after instantiate, after activate, at rest after processing, with notes held, and for a second instance, so a shared one-time load is told apart from the per-instance cost.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_MEMORY_PHASES: {
+  readonly afterInstantiate: {
+    readonly word: "after-instantiate";
+  };
+  readonly afterActivate: {
+    readonly word: "after-activate";
+  };
+  readonly atRest: {
+    readonly word: "at-rest";
+  };
+  readonly notesHeld: {
+    readonly word: "notes-held";
+  };
+  readonly secondInstance: {
+    readonly word: "second-instance";
+  };
+};
+
+/**
+ * Why a resource has no figure a host profile can read, beside the measurement's own reasons (MEASUREMENT_UNMEASURED_REASONS).
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_UNMEASURED_REASONS: {
+  readonly unmeasuredOnClass: {
+    readonly word: "unmeasured-on-class";
+    readonly doc: "The only figure was taken on another machine class: never read as a pass, never scaled.";
+  };
+  readonly limitExceeded: {
+    readonly word: "limit-exceeded";
+    readonly doc: "The run hit the limit probe isolation set for the resource; the limit is recorded beside it.";
+  };
+};
+
+/**
+ * What a host profile's budget for a resource is counted over (plugin-qualify#114, #115): one plugin instance, or the whole console.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_BUDGET_SCOPES: {
+  readonly perInstance: {
+    readonly word: "per-instance";
+  };
+  readonly perConsole: {
+    readonly word: "per-console";
+  };
+};
+
+/**
+ * How a host runs its plugins.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_HOST_ISOLATIONS: {
+  readonly inProcess: {
+    readonly word: "in-process";
+  };
+  readonly perProcess: {
+    readonly word: "per-process";
+  };
+  readonly sharedProcess: {
+    readonly word: "shared-process";
+  };
+};
+
+/**
+ * Whether a host aligns on a plugin's reported latency or only passes it on.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_HOST_LATENCY_HANDLING: {
+  readonly compensated: {
+    readonly word: "compensated";
+  };
+  readonly uncompensated: {
+    readonly word: "uncompensated";
+  };
+};
+
+/**
+ * The scheduling class a host gives its plugin's threads, as the probe output records it.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_THREAD_SCHEDULING: {
+  readonly none: {
+    readonly word: "none";
+  };
+  readonly fifo: {
+    readonly word: "fifo";
+  };
+};
 
 /**
  * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.18.0 removes it: read ORACLE_FULL_RATES.
