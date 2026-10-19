@@ -24,7 +24,7 @@ SCHEMA_MAJOR := $(shell sed -n 's/^  "x-omx-schema-version": "\([0-9]*\)\..*",$$
 CC ?= cc
 VERSION := $(shell sed -n 's/^  "version": "\(.*\)",$$/\1/p' package.json)
 
-.PHONY: all check completeness public-sources install install-cli test
+.PHONY: all check completeness inventory-check layout public-sources install install-cli test
 
 all:
 	@test -n "$(VERSION)" || { echo "no version in package.json" >&2; exit 1; }
@@ -75,6 +75,15 @@ test:
 # omx-contract carried until 2.14.0 (test/fixtures/owners-2.14.0/), since this tree holds none of its own.
 completeness:
 	node tools/kernel-recipe.mjs --owners-fixture
+
+# Every word of data/ in the file its rule places it, and every LV2 and CLAP term of inventory/ mapped with a status
+# (docs/data-layout.md).
+layout:
+	node tools/data-layout.mjs
+
+# inventory/ is the LV2 and CLAP installed here (needs serdi, the LV2 bundles and the CLAP headers).
+inventory-check:
+	node tools/format-inventory.mjs --check
 
 # No tracked file points into a private repository, branch, issue or path (the few exemptions are listed in the tool).
 public-sources:
