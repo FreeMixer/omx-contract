@@ -546,7 +546,7 @@
       "dependentRequired": { "values": ["unit"], "unit": ["values"] },
       "additionalProperties": false
     },
-    "word": { "type": "string", "pattern": "^[A-Za-z0-9<][A-Za-z0-9.+<-]*$", "description": "A word of a vocabulary as it is written on the wire: letters, digits, '-', '.', '+' and a leading '<' (a band such as <1.5GHz)." },
+    "word": { "type": "string", "pattern": "^[A-Za-z0-9<][A-Za-z0-9._+<-]*$", "description": "A word of a vocabulary as it is written on the wire: letters, digits, '-', '_', '.', '+' and a leading '<' (a band such as <1.5GHz)." },
     "termRef": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*#[A-Za-z0-9][A-Za-z0-9._/+-]*$", "description": "<TERMS item>#<term>: one term of a format's vocabulary (data/formats/), the format word a word of ours borrows its name from." },
     "words": {
       "type": "object",
