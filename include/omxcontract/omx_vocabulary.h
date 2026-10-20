@@ -33,7 +33,7 @@
 #define OMX_HOSTING_FEATURES_CV_PORTS "hosting.features.cv-ports"
 #define OMX_HOSTING_FEATURES_HOST_NOT_PROVIDED "hosting.features.host-not-provided"
 #define OMX_HOSTING_FEATURES_MIDI_IN_FED_EMPTY "hosting.features.midi-in-fed-empty"
-#define OMX_HOSTING_FEATURES_REQUIRED_NOT_PROVIDED "hosting.features.required-not-provided"
+#define OMX_HOSTING_FEATURES_REQUIRED_NOT_PROVIDED "hosting.features.required-not-provided" ///< retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it
 #define OMX_HOSTING_FEATURES_MISSING "hosting.features.missing"
 #define OMX_HOSTING_FEATURES_ALL_PROVIDED "hosting.features.all-provided"
 #define OMX_HOSTING_FEATURES_SCAN_PREDATES_FIELD "hosting.features.scan-predates-field"
@@ -105,12 +105,17 @@
 #define OMX_HOSTING_STATE_UNREADABLE "hosting.state.unreadable"
 
 /* HOSTING_TOPOLOGY_CODES (data/hosting/topology.json) */
-#define OMX_HOSTING_TOPOLOGY_EXTRA_INPUTS_FED_SILENCE "hosting.topology.extra-inputs-fed-silence" ///< the plugin has extra inputs, fed silence
+#define OMX_HOSTING_TOPOLOGY_AMBISONIC_CONFIG "hosting.topology.ambisonic-config" ///< an ambisonic port refuses the carrier's ordering or normalisation
+#define OMX_HOSTING_TOPOLOGY_CHANNEL_MAP_UNKNOWN "hosting.topology.channel-map-unknown" ///< a surround port names a channel id the host does not know, or refuses the carrier's channel mask
+#define OMX_HOSTING_TOPOLOGY_EXTRA_INPUTS_FED_SILENCE "hosting.topology.extra-inputs-fed-silence" ///< retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it
 #define OMX_HOSTING_TOPOLOGY_INSTRUMENT "hosting.topology.instrument"
 #define OMX_HOSTING_TOPOLOGY_MATCHED "hosting.topology.matched"
 #define OMX_HOSTING_TOPOLOGY_NO_AUDIO_INPUT "hosting.topology.no-audio-input" ///< the plugin has no audio input
 #define OMX_HOSTING_TOPOLOGY_NO_AUDIO_OUTPUT "hosting.topology.no-audio-output" ///< the plugin has no audio output
-#define OMX_HOSTING_TOPOLOGY_WIDER_THAN_STRIP "hosting.topology.wider-than-strip" ///< the plugin is wider than the strip
+#define OMX_HOSTING_TOPOLOGY_PORT_TOO_WIDE "hosting.topology.port-too-wide" ///< a port of more channels than the limit, or an ambisonic port whose channels are not (order+1)²
+#define OMX_HOSTING_TOPOLOGY_PORT_WITHOUT_CHANNELS "hosting.topology.port-without-channels" ///< a port of zero channels
+#define OMX_HOSTING_TOPOLOGY_TOO_MANY_PORTS "hosting.topology.too-many-ports" ///< more than the limit of auxiliary ports on one side, or more than one main port on a side
+#define OMX_HOSTING_TOPOLOGY_WIDER_THAN_STRIP "hosting.topology.wider-than-strip" ///< a main port is wider than the lane the caller runs the plugin on
 
 /* HOSTING_WORKER_CODES (data/hosting/worker.json) */
 #define OMX_HOSTING_WORKER_NONCONFORMING "hosting.worker.nonconforming"

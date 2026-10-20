@@ -6204,7 +6204,8 @@ export const HOSTING_FEATURES_CODES = {
     "code": "hosting.features.midi-in-fed-empty"
   },
   "featuresMissing": {
-    "code": "hosting.features.required-not-provided"
+    "code": "hosting.features.required-not-provided",
+    "doc": "retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it"
   },
   "featuresMissingAtLoad": {
     "code": "hosting.features.missing"
@@ -6439,9 +6440,17 @@ export const HOSTING_STATE_CODES = {
  * @see data/hosting/topology.json
  */
 export const HOSTING_TOPOLOGY_CODES = {
+  "topologyAmbisonicConfig": {
+    "code": "hosting.topology.ambisonic-config",
+    "doc": "an ambisonic port refuses the carrier's ordering or normalisation"
+  },
+  "topologyChannelMapUnknown": {
+    "code": "hosting.topology.channel-map-unknown",
+    "doc": "a surround port names a channel id the host does not know, or refuses the carrier's channel mask"
+  },
   "topologyExtraInputs": {
     "code": "hosting.topology.extra-inputs-fed-silence",
-    "doc": "the plugin has extra inputs, fed silence"
+    "doc": "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it"
   },
   "topologyInstrument": {
     "code": "hosting.topology.instrument"
@@ -6457,9 +6466,21 @@ export const HOSTING_TOPOLOGY_CODES = {
     "code": "hosting.topology.no-audio-output",
     "doc": "the plugin has no audio output"
   },
+  "topologyPortTooWide": {
+    "code": "hosting.topology.port-too-wide",
+    "doc": "a port of more channels than the limit, or an ambisonic port whose channels are not (order+1)²"
+  },
+  "topologyPortWithoutChannels": {
+    "code": "hosting.topology.port-without-channels",
+    "doc": "a port of zero channels"
+  },
+  "topologyTooManyPorts": {
+    "code": "hosting.topology.too-many-ports",
+    "doc": "more than the limit of auxiliary ports on one side, or more than one main port on a side"
+  },
   "topologyWiderThanStrip": {
     "code": "hosting.topology.wider-than-strip",
-    "doc": "the plugin is wider than the strip"
+    "doc": "a main port is wider than the lane the caller runs the plugin on"
   }
 };
 
@@ -7170,12 +7191,6 @@ export const RESOURCE_THREAD_SCHEDULING = {
     "word": "fifo"
   }
 };
-
-/**
- * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.19.0 removes it: read ORACLE_FULL_RATES.
- * @see data/rates.json
- */
-export const RME_RATES = ORACLE_FULL_RATES;
 
 /**
  * The words of MACHINE_CLASS_FIELDS, in their declared order.

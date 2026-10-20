@@ -76,7 +76,8 @@ Shapes a kernel file's items take beyond the sketch:
   `removedIn` while the word is still there, so the release that removes the name cannot forget it. `readers` names
   the registered consumers (`DEVELOPMENT_PHASE` in `lib/semver.mjs`) whose main still reads the old name; while it
   names one, the same test fails as soon as the package version reaches `removedIn`, and the fix is to move
-  `removedIn` later, never to drop the alias under a reader.
+  `removedIn` later, never to drop the alias under a reader. No list carries a former name today (2.19.0
+  removed `RME_RATES`); the mechanism's tests rename a list in a scratch copy of the data.
 - The repository commits its renders: `include/omxcontract/` (C), `share/omx-contract/` (JSON) and
   `test/golden/ts/` (TypeScript). CI regenerates each with `render --check` and fails on any byte of difference,
   so a data change and its renders land in one commit.

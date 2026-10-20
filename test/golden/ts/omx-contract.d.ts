@@ -5354,6 +5354,7 @@ export declare const HOSTING_FEATURES_CODES: {
   };
   readonly featuresMissing: {
     readonly code: "hosting.features.required-not-provided";
+    readonly doc: "retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it";
   };
   readonly featuresMissingAtLoad: {
     readonly code: "hosting.features.missing";
@@ -5588,9 +5589,17 @@ export declare const HOSTING_STATE_CODES: {
  * @see data/hosting/topology.json
  */
 export declare const HOSTING_TOPOLOGY_CODES: {
+  readonly topologyAmbisonicConfig: {
+    readonly code: "hosting.topology.ambisonic-config";
+    readonly doc: "an ambisonic port refuses the carrier's ordering or normalisation";
+  };
+  readonly topologyChannelMapUnknown: {
+    readonly code: "hosting.topology.channel-map-unknown";
+    readonly doc: "a surround port names a channel id the host does not know, or refuses the carrier's channel mask";
+  };
   readonly topologyExtraInputs: {
     readonly code: "hosting.topology.extra-inputs-fed-silence";
-    readonly doc: "the plugin has extra inputs, fed silence";
+    readonly doc: "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it";
   };
   readonly topologyInstrument: {
     readonly code: "hosting.topology.instrument";
@@ -5606,9 +5615,21 @@ export declare const HOSTING_TOPOLOGY_CODES: {
     readonly code: "hosting.topology.no-audio-output";
     readonly doc: "the plugin has no audio output";
   };
+  readonly topologyPortTooWide: {
+    readonly code: "hosting.topology.port-too-wide";
+    readonly doc: "a port of more channels than the limit, or an ambisonic port whose channels are not (order+1)²";
+  };
+  readonly topologyPortWithoutChannels: {
+    readonly code: "hosting.topology.port-without-channels";
+    readonly doc: "a port of zero channels";
+  };
+  readonly topologyTooManyPorts: {
+    readonly code: "hosting.topology.too-many-ports";
+    readonly doc: "more than the limit of auxiliary ports on one side, or more than one main port on a side";
+  };
   readonly topologyWiderThanStrip: {
     readonly code: "hosting.topology.wider-than-strip";
-    readonly doc: "the plugin is wider than the strip";
+    readonly doc: "a main port is wider than the lane the caller runs the plugin on";
   };
 };
 
@@ -6259,12 +6280,6 @@ export declare const RESOURCE_THREAD_SCHEDULING: {
     readonly word: "fifo";
   };
 };
-
-/**
- * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.19.0 removes it: read ORACLE_FULL_RATES.
- * @see data/rates.json
- */
-export declare const RME_RATES: typeof ORACLE_FULL_RATES;
 
 /**
  * The words of MACHINE_CLASS_FIELDS, in their declared order.
