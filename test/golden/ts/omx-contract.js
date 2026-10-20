@@ -6886,6 +6886,62 @@ export const MEASUREMENT_VERDICT_RATINGS = {
 };
 
 /**
+ * A family a CLAP plugin feature or LV2 plugin class maps onto (its `word`, docs/data-layout.md) when it is not one of the four `plugin.features` words: no consumer reads these yet (FreeMixer/omx-contract#120).
+ * @see data/plugin-families.json
+ */
+export const PLUGIN_FAMILY_WORDS = {
+  "ambisonic": {
+    "word": "ambisonic",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#ambisonic"
+    ],
+    "doc": "A plugin whose audio capability is ambisonic, a CLAP Audio Capability with no LV2 or ports.layout match."
+  },
+  "generator": {
+    "word": "generator",
+    "from": [
+      "LV2_CORE_TERMS#GeneratorPlugin"
+    ],
+    "doc": "A plugin that produces a signal with no note or audio input: neither an instrument (no notes in) nor an audio-effect (no audio in)."
+  },
+  "mono": {
+    "word": "mono",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#mono"
+    ],
+    "doc": "A plugin whose audio capability is mono, a CLAP Audio Capability distinct from a port's own `layout`."
+  },
+  "noteDetector": {
+    "word": "note-detector",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#note-detector"
+    ],
+    "doc": "A plugin that converts audio to notes, CLAP's mirror of note-effect; no plugin.features word names it."
+  },
+  "plugin": {
+    "word": "plugin",
+    "from": [
+      "LV2_CORE_TERMS#Plugin"
+    ],
+    "doc": "LV2's base plugin class: every LV2 plugin is one, so it names no specific kind."
+  },
+  "stereo": {
+    "word": "stereo",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#stereo"
+    ],
+    "doc": "A plugin whose audio capability is stereo, a CLAP Audio Capability distinct from a port's own `layout`."
+  },
+  "surround": {
+    "word": "surround",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#surround"
+    ],
+    "doc": "A plugin whose audio capability is surround, a CLAP Audio Capability distinct from a port's own `layout`."
+  }
+};
+
+/**
  * How a host draws a parameter: linear, logarithmic (a frequency, a time) or in discrete steps. The words omx-plugins' declarations and plugin-hostd's protocol use; a travel names its own with `scale`.
  * @see data/primitives.json
  */
@@ -7373,6 +7429,20 @@ export const MEASUREMENT_VERDICT_RATINGS_WORDS = [
   "conditional",
   "unknown",
   "unsuitable"
+];
+
+/**
+ * The words of PLUGIN_FAMILY_WORDS, in their declared order.
+ * @see data/plugin-families.json
+ */
+export const PLUGIN_FAMILY_WORDS_WORDS = [
+  "ambisonic",
+  "generator",
+  "mono",
+  "note-detector",
+  "plugin",
+  "stereo",
+  "surround"
 ];
 
 /**

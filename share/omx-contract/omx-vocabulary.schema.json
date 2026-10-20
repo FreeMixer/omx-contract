@@ -313,6 +313,18 @@
         "unsuitable"
       ]
     },
+    "PLUGIN_FAMILY_WORDS": {
+      "description": "A family a CLAP plugin feature or LV2 plugin class maps onto (its `word`, docs/data-layout.md) when it is not one of the four `plugin.features` words: no consumer reads these yet (FreeMixer/omx-contract#120).",
+      "enum": [
+        "ambisonic",
+        "generator",
+        "mono",
+        "note-detector",
+        "plugin",
+        "stereo",
+        "surround"
+      ]
+    },
     "RESOURCE_KINDS": {
       "description": "Every resource a host plans a plugin for (FreeMixer/plugin-qualify#116): each measured per machine class, judged per host profile, and unknown, never a pass, when it has no figure.",
       "enum": [

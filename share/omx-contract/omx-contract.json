@@ -7134,6 +7134,62 @@
         }
       }
     },
+    "PLUGIN_FAMILY_WORDS": {
+      "rel": "data/plugin-families.json",
+      "kind": "words",
+      "doc": "A family a CLAP plugin feature or LV2 plugin class maps onto (its `word`, docs/data-layout.md) when it is not one of the four `plugin.features` words: no consumer reads these yet (FreeMixer/omx-contract#120).",
+      "value": {
+        "ambisonic": {
+          "word": "ambisonic",
+          "from": [
+            "CLAP_PLUGIN_FEATURES_TERMS#ambisonic"
+          ],
+          "doc": "A plugin whose audio capability is ambisonic, a CLAP Audio Capability with no LV2 or ports.layout match."
+        },
+        "generator": {
+          "word": "generator",
+          "from": [
+            "LV2_CORE_TERMS#GeneratorPlugin"
+          ],
+          "doc": "A plugin that produces a signal with no note or audio input: neither an instrument (no notes in) nor an audio-effect (no audio in)."
+        },
+        "mono": {
+          "word": "mono",
+          "from": [
+            "CLAP_PLUGIN_FEATURES_TERMS#mono"
+          ],
+          "doc": "A plugin whose audio capability is mono, a CLAP Audio Capability distinct from a port's own `layout`."
+        },
+        "noteDetector": {
+          "word": "note-detector",
+          "from": [
+            "CLAP_PLUGIN_FEATURES_TERMS#note-detector"
+          ],
+          "doc": "A plugin that converts audio to notes, CLAP's mirror of note-effect; no plugin.features word names it."
+        },
+        "plugin": {
+          "word": "plugin",
+          "from": [
+            "LV2_CORE_TERMS#Plugin"
+          ],
+          "doc": "LV2's base plugin class: every LV2 plugin is one, so it names no specific kind."
+        },
+        "stereo": {
+          "word": "stereo",
+          "from": [
+            "CLAP_PLUGIN_FEATURES_TERMS#stereo"
+          ],
+          "doc": "A plugin whose audio capability is stereo, a CLAP Audio Capability distinct from a port's own `layout`."
+        },
+        "surround": {
+          "word": "surround",
+          "from": [
+            "CLAP_PLUGIN_FEATURES_TERMS#surround"
+          ],
+          "doc": "A plugin whose audio capability is surround, a CLAP Audio Capability distinct from a port's own `layout`."
+        }
+      }
+    },
     "PARAM_SCALES": {
       "rel": "data/primitives.json",
       "kind": "set",
