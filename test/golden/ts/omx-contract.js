@@ -6207,6 +6207,10 @@ export const HOSTING_FEATURES_CODES = {
   "featuresMissingAtLoad": {
     "code": "hosting.features.missing"
   },
+  "featuresPortsUnreadable": {
+    "code": "hosting.features.ports-unreadable",
+    "doc": "the plugin declares ports its reader cannot read (a port node shared by several plugins of one bundle, a port with no symbol), so none reaches the host: the bundle's data is the fault, not the layout (omx-clap-core#255)"
+  },
   "featuresProvided": {
     "code": "hosting.features.all-provided"
   },
