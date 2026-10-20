@@ -6030,6 +6030,48 @@ export declare const MEASUREMENT_VERDICT_RATINGS: {
 };
 
 /**
+ * A family a CLAP plugin feature or LV2 plugin class maps onto (its `word`, docs/data-layout.md) when it is not one of the four `plugin.features` words: no consumer reads these yet (FreeMixer/omx-contract#120).
+ * @see data/plugin-families.json
+ */
+export declare const PLUGIN_FAMILY_WORDS: {
+  readonly ambisonic: {
+    readonly word: "ambisonic";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#ambisonic"];
+    readonly doc: "A plugin whose audio capability is ambisonic, a CLAP Audio Capability with no LV2 or ports.layout match.";
+  };
+  readonly generator: {
+    readonly word: "generator";
+    readonly from: readonly ["LV2_CORE_TERMS#GeneratorPlugin"];
+    readonly doc: "A plugin that produces a signal with no note or audio input: neither an instrument (no notes in) nor an audio-effect (no audio in).";
+  };
+  readonly mono: {
+    readonly word: "mono";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#mono"];
+    readonly doc: "A plugin whose audio capability is mono, a CLAP Audio Capability distinct from a port's own `layout`.";
+  };
+  readonly noteDetector: {
+    readonly word: "note-detector";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#note-detector"];
+    readonly doc: "A plugin that converts audio to notes, CLAP's mirror of note-effect; no plugin.features word names it.";
+  };
+  readonly plugin: {
+    readonly word: "plugin";
+    readonly from: readonly ["LV2_CORE_TERMS#Plugin"];
+    readonly doc: "LV2's base plugin class: every LV2 plugin is one, so it names no specific kind.";
+  };
+  readonly stereo: {
+    readonly word: "stereo";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#stereo"];
+    readonly doc: "A plugin whose audio capability is stereo, a CLAP Audio Capability distinct from a port's own `layout`.";
+  };
+  readonly surround: {
+    readonly word: "surround";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#surround"];
+    readonly doc: "A plugin whose audio capability is surround, a CLAP Audio Capability distinct from a port's own `layout`.";
+  };
+};
+
+/**
  * How a host draws a parameter: linear, logarithmic (a frequency, a time) or in discrete steps. The words omx-plugins' declarations and plugin-hostd's protocol use; a travel names its own with `scale`.
  * @see data/primitives.json
  */
@@ -6376,6 +6418,12 @@ export declare const MEASUREMENT_VOICE_BASES_WORDS: readonly ["declared", "probe
  * @see data/measurement.json
  */
 export declare const MEASUREMENT_VERDICT_RATINGS_WORDS: readonly ["suitable", "conditional", "unknown", "unsuitable"];
+
+/**
+ * The words of PLUGIN_FAMILY_WORDS, in their declared order.
+ * @see data/plugin-families.json
+ */
+export declare const PLUGIN_FAMILY_WORDS_WORDS: readonly ["ambisonic", "generator", "mono", "note-detector", "plugin", "stereo", "surround"];
 
 /**
  * The words of RESOURCE_KINDS, in their declared order.

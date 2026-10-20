@@ -255,6 +255,17 @@
 #define OMX_MEASUREMENT_VERDICT_RATINGS_COUNT 4u
 #define OMX_MEASUREMENT_VERDICT_RATINGS_INIT { "suitable", "conditional", "unknown", "unsuitable" }
 
+/* PLUGIN_FAMILY_WORDS (data/plugin-families.json) */
+#define OMX_PLUGIN_FAMILY_WORDS_AMBISONIC "ambisonic" ///< A plugin whose audio capability is ambisonic, a CLAP Audio Capability with no LV2 or ports.layout match.
+#define OMX_PLUGIN_FAMILY_WORDS_GENERATOR "generator" ///< A plugin that produces a signal with no note or audio input: neither an instrument (no notes in) nor an audio-effect (no audio in).
+#define OMX_PLUGIN_FAMILY_WORDS_MONO "mono" ///< A plugin whose audio capability is mono, a CLAP Audio Capability distinct from a port's own `layout`.
+#define OMX_PLUGIN_FAMILY_WORDS_NOTE_DETECTOR "note-detector" ///< A plugin that converts audio to notes, CLAP's mirror of note-effect; no plugin.features word names it.
+#define OMX_PLUGIN_FAMILY_WORDS_PLUGIN "plugin" ///< LV2's base plugin class: every LV2 plugin is one, so it names no specific kind.
+#define OMX_PLUGIN_FAMILY_WORDS_STEREO "stereo" ///< A plugin whose audio capability is stereo, a CLAP Audio Capability distinct from a port's own `layout`.
+#define OMX_PLUGIN_FAMILY_WORDS_SURROUND "surround" ///< A plugin whose audio capability is surround, a CLAP Audio Capability distinct from a port's own `layout`.
+#define OMX_PLUGIN_FAMILY_WORDS_COUNT 7u
+#define OMX_PLUGIN_FAMILY_WORDS_INIT { "ambisonic", "generator", "mono", "note-detector", "plugin", "stereo", "surround" }
+
 /* RESOURCE_KINDS (data/resource-profile.json) */
 #define OMX_RESOURCE_KINDS_CPU "cpu" ///< The cost per sample at a rate and quantum, its percentile and its tail (plugin-qualify#115).
 #define OMX_RESOURCE_KINDS_MEMORY "memory" ///< The footprint per instance and its growth over a soak (plugin-qualify#114).

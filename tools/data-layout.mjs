@@ -30,6 +30,7 @@ export const pathName = (p) => p.replace(/[^A-Za-z0-9]+/g, '_').toUpperCase();
 export const TOP = {
   'codes.json': null, 'primitives.json': null, 'rates.json': null,
   'measurement.json': 'MEASUREMENT_', 'resource-profile.json': 'RESOURCE_', 'machine-class.json': 'MACHINE_',
+  'plugin-families.json': 'PLUGIN_FAMILY_',
 };
 
 /** A CLAP identifier's name in its file: a string constant's text less `clap.`, any other in lowerCamel less `CLAP_`. */
