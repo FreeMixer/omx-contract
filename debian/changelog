@@ -4,6 +4,24 @@ omx-contract (3.0.0) unstable; urgency=medium
     c.alias (a travel's second C spelling) are removed, x-omx-schema-version
     is 3.0.0, an installed file's $schema is the v3 URL and the reader reads
     contract.d/3/ only.
+  * The hosting codes leave: the 16 data/hosting files move to omx-clap-core
+    byte for byte, installed as contract.d/3/omx-clap-core/hosting/.
+    omx_vocabulary.h, the JSON render, the vocabulary schema and the ts golden
+    hold no hosting code; omx-clap-core renders them with render --package
+    omx-clap-core, under the C names omx_vocabulary.h gave them.
+  * render --target c|ts --package <pkg> also writes the package's vocabulary
+    (<stem>_vocabulary.h, <stem>-vocabulary.js and .d.ts): every codes and
+    words item of its files with no render word, spelled as the whole read
+    spells it, a code by its code, never by its key.
+  * The default EQ rule leaves for omx-dsp (#1841): lib/eq-defaults.mjs, the
+    C render's omx_eq_default_centres() and omx_eq_default_type(), the ts
+    module's eqDefault exports and the validator's three EQ rules. The file
+    word checks declares a budget (a sum of named numbers held at or under a
+    named one), and a count sheet's default is held inside its min and max.
+  * Descriptor words: extensions (a per-format bag, carried verbatim),
+    plugin.doc, the ratio unit, and the item kind formatMap (a format's
+    source fields, each mapped to a word, carried as an extension or dropped
+    by a named ruling).
   * It breaks libomxdsp-dev before 0.25.0, libomx-clap-core-dev before 0.13.0
     and omx-plugins-dev before 0.13.0, the releases built against schema 3.
 
