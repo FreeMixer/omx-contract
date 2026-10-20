@@ -23,8 +23,8 @@
       "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", ""]
     },
     "descriptorUnit": {
-      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS has no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
-      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "unknown"] }]
+      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, dBu, dB/oct, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS, dBu, dB/oct and ratio, n:1, have no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
+      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "dBu", "dB/oct", "ratio", "unknown"] }]
     },
     "meaning": {
       "description": "What a control does, the closed list seeded from the panel roles; the LV2 param: or lv2:designation name where LV2 has the term (docs/descriptors.md). unknown: the plugin states none.",
@@ -33,6 +33,7 @@
         "wetDryRatio", "delay", "enabled",
         "range", "knee", "hysteresis", "makeup", "lookahead", "ceiling", "output", "q", "slope", "width", "drive", "tone", "rate",
         "depth", "feedback", "spread", "predelay", "size", "damping", "lowCut", "highCut", "shift", "fine", "sync", "division", "listen",
+        "speed", "shape", "model", "algorithm", "mode", "type", "pingpong", "on",
         "unknown"
       ]
     },
@@ -68,6 +69,7 @@
         "name": { "$ref": "#/$defs/text" },
         "vendor": { "$ref": "#/$defs/text" },
         "version": { "$ref": "#/$defs/text" },
+        "doc": { "$ref": "#/$defs/text", "description": "The plugin's one-line description: CLAP description, LV2 rdfs:comment." },
         "features": {
           "description": "CLAP's feature names; LV2 classes map onto them.",
           "type": "array",
@@ -90,6 +92,13 @@
         "default": { "$ref": "#/$defs/number" },
         "defaultFrom": { "enum": ["desk"] },
         "scale": { "type": "string", "pattern": "^[a-z]+$", "description": "An id of PARAM_SCALES, or unknown." },
+        "byKind": {
+          "description": "The come-up value per kind of strip (fxReturn), the kernel travel's byKind: a kind with no entry comes up at default.",
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
+          "additionalProperties": { "$ref": "#/$defs/number" },
+          "minProperties": 1
+        },
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" }
       },
@@ -110,6 +119,7 @@
         "ids": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9]+$" }, "minItems": 1, "uniqueItems": true },
         "labels": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
         "values": { "type": "array", "items": { "type": "number" }, "minItems": 1 },
+        "unit": { "$ref": "#/$defs/descriptorUnit", "description": "A choice's unit: the unit of its values." },
         "default": { "oneOf": [{ "type": "string", "pattern": "^[A-Za-z0-9]+$" }, { "type": "boolean" }] },
         "count": { "$ref": "#/$defs/name" },
         "when": {
@@ -123,13 +133,21 @@
         "hidden": { "type": "boolean" },
         "readonly": { "type": "boolean" },
         "automatable": { "type": "boolean" },
+        "measurement": {
+          "description": "What a meter measures, on a read-only travel (docs/descriptors.md).",
+          "enum": ["peak", "rms", "vu", "ppm", "lufs", "gainReduction"]
+        },
         "source": { "$ref": "#/$defs/source" }
       },
       "required": ["id", "name", "kind"],
+      "dependentRequired": { "unit": ["values"] },
+      "dependentSchemas": {
+        "measurement": { "required": ["readonly"], "properties": { "kind": { "const": "travel" }, "readonly": { "const": true } } }
+      },
       "allOf": [
         {
           "if": { "properties": { "kind": { "const": "travel" } } },
-          "then": { "required": ["travel"], "properties": { "ids": false, "labels": false, "values": false, "default": false } }
+          "then": { "required": ["travel"], "properties": { "ids": false, "labels": false, "values": false, "unit": false, "default": false } }
         },
         {
           "if": { "properties": { "kind": { "const": "choice" } } },
@@ -137,11 +155,11 @@
         },
         {
           "if": { "properties": { "kind": { "const": "toggle" } } },
-          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "default": { "type": "boolean" } } }
+          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "unit": false, "default": { "type": "boolean" } } }
         },
         {
           "if": { "properties": { "kind": { "const": "trigger" } } },
-          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "default": false } }
+          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "unit": false, "default": false } }
         }
       ],
       "additionalProperties": false
