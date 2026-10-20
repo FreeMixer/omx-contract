@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.17.0",
+  "version": "2.18.0",
   "items": {
     "CLAP_COLOR_TERMS": {
       "rel": "data/formats/clap/color.json",
@@ -7173,7 +7173,7 @@
       "unit": "Hz",
       "formerly": {
         "name": "RME_RATES",
-        "removedIn": "2.18.0",
+        "removedIn": "2.19.0",
         "readers": [
           "omx-clap-core",
           "omx-dsp",
@@ -7439,7 +7439,7 @@
   "formerNames": {
     "RME_RATES": {
       "name": "ORACLE_FULL_RATES",
-      "removedIn": "2.18.0"
+      "removedIn": "2.19.0"
     }
   }
 }

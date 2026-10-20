@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.17.0
+Version: 2.18.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -82,6 +82,22 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Fri Oct 23 2026 Pau Aliagas <linuxnow@gmail.com> - 2.18.0-1
+- The hosting vocabulary: 73 hosting.* codes in data/hosting/, one file per
+  dimension, with the measurement terms, the plugin resource profile and the
+  machine classes beside them.
+- The whole LV2 vocabulary of lv2 1.18.10 (24 specifications, 452 terms) and
+  the whole CLAP vocabulary of clap 1.2.10 (all 58 headers, 297 identifiers),
+  one file per specification or extension.
+- Renders: a C header omx_vocabulary.h, the JSON-schema enums and the
+  TypeScript constants, each generated from the data; checks hold the layout
+  and the coverage.
+- Additive: no term is removed or renamed, so a consumer built against 2.17.0
+  reads the same data. The deprecated RME_RATES alias stays while its readers
+  do.
+- No owner needs a newer release, so the conflicts stay at omx-dsp-devel
+  0.22.0, omx-clap-core-devel 0.10.0 and omx-plugins-devel 0.10.0.
+
 * Thu Oct 22 2026 Pau Aliagas <linuxnow@gmail.com> - 2.17.0-1
 - The command has a DEB of its own, omx-contract: the CLI, its vendored
   npm packages and its man page, as the RPM has shipped it since 2.15.0.
@@ -119,7 +135,7 @@ whose declarations it builds against.
   the conflicts stay at omx-dsp-devel 0.22.0, omx-clap-core-devel 0.10.0
   and omx-plugins-devel 0.10.0, as in 2.15.0.
 
-* Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 2.15.0-1
+* Fri Oct 23 2026 Pau Aliagas <linuxnow@gmail.com> - 2.15.0-1
 - Packages install their own definitions into a shared contract directory,
   contract.d/2/<package>/ with a MANIFEST.json, named by contractdir in
   omx-contract.pc, and every reader reads it through one call that refuses an
