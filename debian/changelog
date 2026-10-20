@@ -1,3 +1,21 @@
+omx-contract (2.20.0) unstable; urgency=medium
+
+  * hosting.features.cv-ports is removed: its only writer, omx-clap-core's LV2
+    adapter, no longer refuses CV ports (a CV port counts against the
+    auxiliary limit of 64 a side, and one past it is
+    hosting.topology.too-many-ports). A code its writers stop writing is
+    removed in the next release, never carried as retired; semver classes a
+    removed code MINOR in the development phase.
+  * omx_vocabulary.h loses OMX_HOSTING_FEATURES_CV_PORTS; the JSON render, the
+    vocabulary schema and the ts golden follow the data.
+  * No installed definition file of an owner names the removed code (only
+    omx-clap-core's sources and tests did, and omx-clap-core#269 stops them),
+    so the Breaks stay at libomxdsp-dev 0.22.0, libomx-clap-core-dev 0.10.0 and
+    omx-plugins-dev 0.10.0.
+  * Every changelog entry is dated by its tag.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 20 Oct 2026 17:10:00 +0200
+
 omx-contract (2.19.0) unstable; urgency=medium
 
   * Five hosting codes for the audio layouts omx-clap-core writes, in
