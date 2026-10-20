@@ -143,11 +143,16 @@
     "HOSTING_TOPOLOGY_CODES": {
       "description": "The hosting codes of the topology dimension: hosting.topology.*, the verdict and refusal codes a qualifier, a host or the console write and read by code, never by prose (docs/data-layout.md).",
       "enum": [
+        "hosting.topology.ambisonic-config",
+        "hosting.topology.channel-map-unknown",
         "hosting.topology.extra-inputs-fed-silence",
         "hosting.topology.instrument",
         "hosting.topology.matched",
         "hosting.topology.no-audio-input",
         "hosting.topology.no-audio-output",
+        "hosting.topology.port-too-wide",
+        "hosting.topology.port-without-channels",
+        "hosting.topology.too-many-ports",
         "hosting.topology.wider-than-strip"
       ]
     },

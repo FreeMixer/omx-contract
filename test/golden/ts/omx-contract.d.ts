@@ -5588,6 +5588,14 @@ export declare const HOSTING_STATE_CODES: {
  * @see data/hosting/topology.json
  */
 export declare const HOSTING_TOPOLOGY_CODES: {
+  readonly topologyAmbisonicConfig: {
+    readonly code: "hosting.topology.ambisonic-config";
+    readonly doc: "an ambisonic port refuses the carrier's ordering or normalisation";
+  };
+  readonly topologyChannelMapUnknown: {
+    readonly code: "hosting.topology.channel-map-unknown";
+    readonly doc: "a surround port names a channel id the host does not know, or refuses the carrier's channel mask";
+  };
   readonly topologyExtraInputs: {
     readonly code: "hosting.topology.extra-inputs-fed-silence";
     readonly doc: "the plugin has extra inputs, fed silence";
@@ -5605,6 +5613,18 @@ export declare const HOSTING_TOPOLOGY_CODES: {
   readonly topologyNoAudioOutput: {
     readonly code: "hosting.topology.no-audio-output";
     readonly doc: "the plugin has no audio output";
+  };
+  readonly topologyPortTooWide: {
+    readonly code: "hosting.topology.port-too-wide";
+    readonly doc: "a port of more channels than the limit, or an ambisonic port whose channels are not (order+1)²";
+  };
+  readonly topologyPortWithoutChannels: {
+    readonly code: "hosting.topology.port-without-channels";
+    readonly doc: "a port of zero channels";
+  };
+  readonly topologyTooManyPorts: {
+    readonly code: "hosting.topology.too-many-ports";
+    readonly doc: "more than the limit of auxiliary ports on one side, or more than one main port on a side";
   };
   readonly topologyWiderThanStrip: {
     readonly code: "hosting.topology.wider-than-strip";
