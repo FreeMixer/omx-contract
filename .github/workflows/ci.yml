@@ -58,6 +58,9 @@ jobs:
       - id: handback-test
         name: Tests (schema, semantic checks, goldens, perturbation, semver, round trip)
         run: npm test
+      - id: handback-layout
+        name: Every word in the file its rule places it; every installed LV2 and CLAP term mapped with a status
+        run: make layout
       - id: handback-completeness
         name: Every kernel has every artifact of the kernel recipe, its values cited from the engine
         run: make completeness

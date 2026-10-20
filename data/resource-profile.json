@@ -126,7 +126,7 @@
       "bytes": {
         "word": "bytes"
       },
-      "count": {
+      "plainCount": {
         "word": "count"
       },
       "ratio": {

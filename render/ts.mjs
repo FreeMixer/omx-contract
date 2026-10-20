@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 import { eqDefaultBands, eqDefaultCentres, eqDefaultParams, eqDefaultTypes } from '../lib/eq-defaults.mjs';
+import { wordsExports } from './vocabulary.mjs';
 
 /**
  * The `ts` target: one ESM module and its type declarations, every item exported under its own
@@ -146,7 +147,8 @@ export function renderTs(resolved) {
   const readouts = readoutsExport(resolved);
   const values = setValuesExports(resolved);
   const former = formerNames(items);
-  const js = BANNER + items.map((r) => `\n${docComment(r)}\nexport const ${r.name} = ${JSON.stringify(tsValue(r), null, 2)};\n`).join('') + former.js + values.js + readouts.js + rule.js;
-  const dts = BANNER + items.map((r) => `\n${docComment(r)}\nexport declare const ${r.name}: ${tsType(tsValue(r))};\n`).join('') + former.dts + values.dts + readouts.dts + rule.dts;
+  const words = wordsExports(resolved, tsType);
+  const js = BANNER + items.map((r) => `\n${docComment(r)}\nexport const ${r.name} = ${JSON.stringify(tsValue(r), null, 2)};\n`).join('') + former.js + values.js + words.js + readouts.js + rule.js;
+  const dts = BANNER + items.map((r) => `\n${docComment(r)}\nexport declare const ${r.name}: ${tsType(tsValue(r))};\n`).join('') + former.dts + values.dts + words.dts + readouts.dts + rule.dts;
   return [{ path: 'omx-contract.js', text: js }, { path: 'omx-contract.d.ts', text: dts }];
 }
