@@ -67,6 +67,16 @@ directory the package is one installed there; read from `--data` the data direct
 package named. Every reference resolves over the whole read. The json render is the whole read and takes no
 `--package`.
 
+Beside its headers and modules, `--package` renders the package's vocabulary: every codes and words item of its files
+that carry no `render` word, spelled by kind exactly as the whole read spells it (docs/data-layout.md), so a file moves
+between packages byte for byte and its C names do not change. A code is `OMX_` and the code in upper snake case, never
+its key; a word is `OMX_<ITEM>_<NAME>`, each words item with its `_COUNT` and `_INIT`. The c target writes
+`<stem>_vocabulary.h` (guard `<STEM>_VOCABULARY_H`), the ts target `<stem>-vocabulary.js` and `.d.ts` (each item
+exported under its name, and `<ITEM>_WORDS`), at the top of `--out`. The stem is the package's name, `omx` for
+omx-contract: `render --target c --package omx-contract --out include/omxcontract` is `omx_vocabulary.h` byte for byte,
+and omx-clap-core's is `omx_clap_core_vocabulary.h`, guard `OMX_CLAP_CORE_VOCABULARY_H`, so the two include together.
+A package with no such item renders no vocabulary file.
+
 The render of a whole read (no `--package`) writes `omxcontract/omx_contract_limits.h` and, beside it as
 `omxcontract/<header>`, every declared header that spells no `OMX_` name (no `scalars`, no `limits`): the layout
 omx-contract 2.14.0 installed. Beside them it writes `omxcontract/omx_vocabulary.h`, and the json render
