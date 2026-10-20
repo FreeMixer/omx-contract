@@ -32,7 +32,7 @@
 #define OMX_HOSTING_FEATURES_ATOM_IN_UNFED "hosting.features.atom-in-unfed" ///< a non-MIDI atom input no buffer here can feed
 #define OMX_HOSTING_FEATURES_HOST_NOT_PROVIDED "hosting.features.host-not-provided"
 #define OMX_HOSTING_FEATURES_MIDI_IN_FED_EMPTY "hosting.features.midi-in-fed-empty"
-#define OMX_HOSTING_FEATURES_REQUIRED_NOT_PROVIDED "hosting.features.required-not-provided" ///< retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it
+#define OMX_HOSTING_FEATURES_REQUIRED_NOT_PROVIDED "hosting.features.required-not-provided" ///< retired (omx-contract#127): hosting.features.missing names the same fact; removed in the release after plugin-qualify stops naming it (omx-contract#132)
 #define OMX_HOSTING_FEATURES_MISSING "hosting.features.missing"
 #define OMX_HOSTING_FEATURES_ALL_PROVIDED "hosting.features.all-provided"
 #define OMX_HOSTING_FEATURES_SCAN_PREDATES_FIELD "hosting.features.scan-predates-field"
@@ -106,7 +106,7 @@
 /* HOSTING_TOPOLOGY_CODES (data/hosting/topology.json) */
 #define OMX_HOSTING_TOPOLOGY_AMBISONIC_CONFIG "hosting.topology.ambisonic-config" ///< an ambisonic port refuses the carrier's ordering or normalisation
 #define OMX_HOSTING_TOPOLOGY_CHANNEL_MAP_UNKNOWN "hosting.topology.channel-map-unknown" ///< a surround port names a channel id the host does not know, or refuses the carrier's channel mask
-#define OMX_HOSTING_TOPOLOGY_EXTRA_INPUTS_FED_SILENCE "hosting.topology.extra-inputs-fed-silence" ///< retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it
+#define OMX_HOSTING_TOPOLOGY_EXTRA_INPUTS_FED_SILENCE "hosting.topology.extra-inputs-fed-silence" ///< retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody since omx-clap-core#92, removed with required-not-provided (omx-contract#132)
 #define OMX_HOSTING_TOPOLOGY_INSTRUMENT "hosting.topology.instrument"
 #define OMX_HOSTING_TOPOLOGY_MATCHED "hosting.topology.matched"
 #define OMX_HOSTING_TOPOLOGY_NO_AUDIO_INPUT "hosting.topology.no-audio-input" ///< the plugin has no audio input
