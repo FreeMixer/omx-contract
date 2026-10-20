@@ -65,7 +65,9 @@ omx-contract render --target c|ts --package <owner> --out <dir> [--check] [--dat
 exactly those files, so the owner's other files beside them are never reported as extra. Read from a contract
 directory the package is one installed there; read from `--data` the data directory is the owner's own tree and is the
 package named. Every reference resolves over the whole read. The json render is the whole read and takes no
-`--package`.
+`--package`. Read from a contract directory it names, on each item and each kernel, the `package` that installed it,
+so a reader needs no manifest to know an item's owner; read from `--data` it names none, a data directory being no
+installed package.
 
 The render of a whole read (no `--package`) writes `omxcontract/omx_contract_limits.h` and, beside it as
 `omxcontract/<header>`, every declared header that spells no `OMX_` name (no `scalars`, no `limits`): the layout
