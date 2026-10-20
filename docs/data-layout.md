@@ -13,9 +13,6 @@ vocabulary is mapped beside them, so a word is there before a consumer asks for 
 data/
   codes.json                   CONTRACT_CODES, the reader's own refusals (a tool table: not installed, not rendered)
   primitives.json  rates.json  the parameter scales, the readout rate, the sample rates
-  hosting/<dimension>.json     HOSTING_<DIMENSION>_CODES: every hosting.<dimension>.* code
-  hosting/realised.json        HOSTING_REALISED_CODES: hosting.realised.* and the outcomes with no dimension
-                               (hosting.disabled, hosting.unjudged, hosting.no-realisation, hosting.linked)
   measurement.json             MEASUREMENT_*: how a figure was taken, why it is absent, what a verdict says
   resource-profile.json        RESOURCE_*: what a host plans a plugin for, and the host profile's budget shape
   machine-class.json           MACHINE_*: the machine a figure was taken on, and the classes a profile names
@@ -25,30 +22,30 @@ data/
 inventory/lv2.json  clap.json  the formats as installed, written by tools/format-inventory.mjs, never by hand
 ```
 
+The hosting codes are not here. Since 3.0.0 they are omx-clap-core's, one file per dimension in its own
+`data/hosting/`, installed as `contract.d/3/omx-clap-core/hosting/` (docs/hosting.md).
+
 ## Where a new word goes
 
 | A word that is | Goes in | Its item |
 |---|---|---|
-| a hosting code `hosting.<dimension>.<reason>` | `hosting/<dimension>.json` | `HOSTING_<DIMENSION>_CODES`, kind `codes` |
-| a hosting code with no dimension, `hosting.<reason>`, or `hosting.realised.<reason>` | `hosting/realised.json` | `HOSTING_REALISED_CODES` |
 | a word of the measurement format: a method, an absent figure's reason, a rating | `measurement.json` | `MEASUREMENT_<LIST>`, kind `words` |
 | a resource a host plans for, its unit, its basis, a budget's scope | `resource-profile.json` | `RESOURCE_<LIST>`, kind `words` |
 | a field of a machine class, a band, a named class | `machine-class.json` | `MACHINE_<LIST>`, kind `words` |
 | an LV2 term `<spec URI>#<name>` | `formats/lv2/<spec>.json`, `<spec>` the bundle it is defined in | `LV2_<SPEC>_TERMS`, kind `terms` |
 | a CLAP identifier declared in `clap/<header>.h` | `formats/clap/<header>.json` | `CLAP_<HEADER>_TERMS`, the path in upper snake case |
 
-`<DIMENSION>`, `<SPEC>` and `<HEADER>` are the file's path below its domain directory in upper snake case
-(`rt-safety` is `RT_SAFETY`, `ext/draft/scratch-memory` is `EXT_DRAFT_SCRATCH_MEMORY`). A file holds the items of its
-domain only: `test/data-layout.test.mjs` fails on a hosting code outside `hosting/<its dimension>.json`, an LV2 URI
+`<SPEC>` and `<HEADER>` are the file's path below its domain directory in upper snake case
+(`ext/draft/scratch-memory` is `EXT_DRAFT_SCRATCH_MEMORY`). A file holds the items of its
+domain only: `test/data-layout.test.mjs` fails on a file under `hosting/`, a codes item outside `codes.json`, an LV2 URI
 outside the file of its specification, a CLAP identifier outside the file of its header, and an item whose name is
 not the one its path gives.
 
 ## Inside a file
 
-- A `codes` item's codes are sorted by name; the name is the operator-facing key a consumer reads the code by, unique
-  across every file of `hosting/`, and the code is never reworded. A changed code is a MAJOR change, an added one
-  MINOR, a removed one MAJOR outside the development phase and MINOR in it (`semver`, as an item's removal). A code
-  its writers stop writing is removed in the next release, never carried as retired (operator ruling 2026-10-20,
+- A `codes` item's codes are sorted by name; the name is the operator-facing key a consumer reads the code by, and the
+  code is never reworded. A changed code is a MAJOR change, an added one MINOR, a removed one MAJOR outside the
+  development phase and MINOR in it (`semver`, as an item's removal). A code its writers stop writing is removed in the next release, never carried as retired (operator ruling 2026-10-20,
   omx-contract#130: no backwards compatibility before the first public release); the release's changelog names the
   code that takes its place, if any, and every consumer that still read the key moves in its own pin bump.
 - A `words` item's words keep their declared order, which is part of the contract (a rating's severity, a band's
