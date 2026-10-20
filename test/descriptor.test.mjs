@@ -18,7 +18,7 @@ import { fileProblems } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, UNION } from './helpers.mjs';
+import { DATA, ROOT, UNION, unowned } from './helpers.mjs';
 
 const FIXTURES = join(ROOT, 'test/fixtures/descriptors');
 const SCHEMA = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
@@ -260,7 +260,9 @@ test('the reader reads authored and built descriptors beside the items; they dec
   for (const [render, dir] of [[renderC, 'include'], [renderTs, 'test/golden/ts']]) {
     for (const f of render(a)) assert.equal(f.text, readFileSync(join(ROOT, dir, f.path), 'utf8'), `${dir}/${f.path}`);
   }
-  assert.equal(renderJson(a, packageVersion(ROOT))[0].text, readFileSync(join(ROOT, 'share/omx-contract/omx-contract.json'), 'utf8'));
+  const { text, owners } = unowned(renderJson(a, packageVersion(ROOT))[0].text);
+  assert.deepEqual([...owners], ['omx-contract'], 'the descriptors\' package owns no item');
+  assert.equal(text, readFileSync(join(ROOT, 'share/omx-contract/omx-contract.json'), 'utf8'));
 });
 
 test('a scanned descriptor in the contract directory is contract.origin.misplaced, and the read stops', () => {

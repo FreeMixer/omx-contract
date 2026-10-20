@@ -17,7 +17,7 @@ import { SCHEMA_VERSION, fileProblems } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, DATA_ITEMS, ROOT } from './helpers.mjs';
+import { DATA, DATA_ITEMS, ROOT, unowned } from './helpers.mjs';
 
 const SCRATCH = mkdtempSync(join(tmpdir(), 'omx-contract-dir-'));
 after(() => rmSync(SCRATCH, { recursive: true, force: true }));
@@ -119,8 +119,17 @@ test('read back through the reader, omx-contract renders c, ts and json byte for
   }
   const json = renderJson(a, contractVersion(fromDir, 'none'));
   assert.equal(contractVersion(fromDir, 'none'), VERSION, 'the json render carries the manifest\'s version');
-  assert.equal(json[0].text, readFileSync(join(ROOT, 'share/omx-contract/omx-contract.json'), 'utf8'));
-  for (const target of ['c', 'json', 'ts']) {
+  // read from a contract directory, the json render names the package of each item and kernel: here every one is
+  // omx-contract's, and with the packages taken out it is data/'s render byte for byte
+  const { text, owners } = unowned(json[0].text);
+  assert.deepEqual([...owners], ['omx-contract']);
+  const out = mkdtempSync(join(tmpdir(), 'omx-contract-json-'));
+  assert.equal(main(['render', '--target', 'json', '--out', out, '--contract-dir', root]), 0);
+  assert.equal(unowned(readFileSync(join(out, 'omx-contract.json'), 'utf8')).text, text, 'the CLI writes the same render');
+  rmSync(out, { recursive: true, force: true });
+  assert.equal(text, readFileSync(join(ROOT, 'share/omx-contract/omx-contract.json'), 'utf8'));
+  assert.ok(!readFileSync(join(ROOT, 'share/omx-contract/omx-contract.json'), 'utf8').includes('"package"'), 'read from data/, no item names a package');
+  for (const target of ['c', 'ts']) {
     const out = { c: 'include', json: 'share/omx-contract', ts: 'test/golden/ts' }[target];
     assert.equal(main(['render', '--target', target, '--out', join(ROOT, out), '--check', '--contract-dir', root]), 0, target);
   }
@@ -251,6 +260,21 @@ test('contract.kernel.duplicate: two packages each install a file of one kernel,
   const other = installed();
   addPackage(other, 'openmixer', { 'kernels/console_hrp.json': { ...owned({}), controls: [{ name: 'consoleOnly', kind: 'travel', doc: 'a console row', travel: { min: 0, max: 1, unit: '' } }] } });
   assert.ok(loadContractDir({ dir: other }).items.has('CONSOLE_HRP_CONSOLE_ONLY_RANGE'), 'a kernel of its own is read');
+});
+
+test('the json render of a contract directory names the package of each item and kernel', () => {
+  const root = installed();
+  addPackage(root, 'omx-dsp', { 'x.json': owned({ TEST_A: scalar(1) }), 'kernels/k.json': { ...owned({}), controls: [{ name: 'amount', kind: 'travel', doc: 'a row', travel: { min: 0, max: 1, unit: '' } }] } });
+  const read = loadContractDir({ dir: root });
+  const doc = JSON.parse(renderJson(resolveData(read), contractVersion(read, 'none'))[0].text);
+  assert.equal(doc.items.TEST_A.package, 'omx-dsp');
+  assert.equal(doc.items.K_AMOUNT_RANGE.package, 'omx-dsp');
+  assert.equal(doc.kernels.k.package, 'omx-dsp');
+  assert.deepEqual(Object.keys(doc.items.TEST_A).slice(0, 2), ['rel', 'package'], 'the package follows the rel it is the owner of');
+  assert.deepEqual(Object.keys(doc.kernels.k), ['package', 'controls']);
+  const theirs = Object.entries(doc.items).filter(([, v]) => v.package !== 'omx-dsp').map(([, v]) => v.package);
+  assert.equal(theirs.length, DATA_ITEMS);
+  assert.deepEqual([...new Set(theirs)], ['omx-contract']);
 });
 
 test('contract.ref.unresolved and contract.ref.undeclared, and a reference its requires names is read', () => {

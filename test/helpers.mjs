@@ -122,3 +122,17 @@ export function texts(fn) {
 }
 
 export const resolvedOf = (t) => resolveData(loadData(null, t));
+
+/**
+ * A json render read from a contract directory, its owners taken out: `{ text, owners }`, `text` the render as a data
+ * directory's would be (no `package` on an item or a kernel) and `owners` the set of packages it named.
+ */
+export function unowned(text) {
+  const doc = JSON.parse(text);
+  const owners = new Set();
+  for (const v of [...Object.values(doc.items), ...Object.values(doc.kernels ?? {})]) {
+    owners.add(v.package);
+    delete v.package;
+  }
+  return { text: `${JSON.stringify(doc, null, 2)}\n`, owners };
+}
