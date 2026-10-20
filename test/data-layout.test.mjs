@@ -4,9 +4,11 @@
  * data/ against docs/data-layout.md: every word in the file its rule names, and each rule red when it is broken.
  */
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { test } from 'node:test';
 import { layoutProblems, readFiles } from '../tools/data-layout.mjs';
-import { DATA } from './helpers.mjs';
+import { DATA, ROOT } from './helpers.mjs';
 
 const files = () => structuredClone(readFiles(DATA));
 const doc = (fs, rel) => fs.find((f) => f.rel === rel).doc;
@@ -15,35 +17,27 @@ test('every file of data/ sits where its rule places it', () => {
   assert.deepEqual(layoutProblems(files()), []);
 });
 
-test('every hosting code is unique, with a key of its own across the tree, in the file of its dimension', () => {
-  const all = files().filter((f) => f.rel.startsWith('hosting/')).flatMap((f) => Object.entries(Object.values(f.doc).find((v) => v?.kind === 'codes').codes));
-  assert.ok(all.length >= 73, `${all.length} hosting codes`);
-  assert.equal(new Set(all.map(([k]) => k)).size, all.length, 'one key per code');
-  assert.equal(new Set(all.map(([, c]) => c.code)).size, all.length, 'one code per key');
-  for (const [k] of all) assert.match(k, /^[a-z][A-Za-z0-9]*$/, `${k}: an operator-facing key is a lowerCamel name, never prose`);
-});
-
-test('sabotage: a hosting code in another dimension\'s file is named', () => {
+test('data/ holds no hosting code: they are omx-clap-core\'s, and only the reader\'s own codes are a codes item', () => {
   const fs = files();
-  doc(fs, 'hosting/cost.json').HOSTING_COST_CODES.codes.zzStray = { code: 'hosting.latency.stray' };
-  assert.deepEqual(layoutProblems(fs), ['hosting/cost.json: zzStray: hosting.latency.stray belongs in hosting/latency.json']);
+  assert.ok(fs.length > 1, 'positive control: the files');
+  assert.deepEqual(fs.filter((f) => f.rel.startsWith('hosting/')).map((f) => f.rel), []);
+  assert.deepEqual(fs.filter((f) => Object.values(f.doc).some((v) => v?.kind === 'codes')).map((f) => f.rel), ['codes.json']);
 });
 
-test('sabotage: a key or a code two files carry is named', () => {
-  let fs = files();
-  doc(fs, 'hosting/latency.json').HOSTING_LATENCY_CODES.codes.costAboveCeiling = { code: 'hosting.latency.other' };
-  assert.ok(layoutProblems(fs).some((p) => /costAboveCeiling: the key is hosting\/cost\.json's too|costAboveCeiling: the key is hosting\/latency\.json's too/.test(p)));
-  fs = files();
-  doc(fs, 'hosting/realised.json').HOSTING_REALISED_CODES.codes.zzTwice = { code: 'hosting.realised.in-process' };
-  assert.ok(layoutProblems(fs).some((p) => /hosting\.realised\.in-process: hosting\/realised\.json carries it too/.test(p)));
+test('sabotage: an owner\'s hosting file put back into data/ is named', () => {
+  const fs = files();
+  fs.push({ rel: 'hosting/cost.json', doc: JSON.parse(readFileSync(join(ROOT, 'test/fixtures/package-codes/hosting/cost.json'), 'utf8')) });
+  assert.deepEqual(layoutProblems(fs), ['hosting/cost.json: the hosting codes are omx-clap-core\'s (contract.d/3/omx-clap-core/hosting/), never omx-contract\'s']);
 });
 
-test('sabotage: unsorted codes and unsorted terms are named', () => {
-  let fs = files();
-  const c = doc(fs, 'hosting/cost.json').HOSTING_COST_CODES;
-  c.codes = Object.fromEntries(Object.entries(c.codes).reverse());
-  assert.deepEqual(layoutProblems(fs), ['hosting/cost.json: its codes are not sorted by name']);
-  fs = files();
+test('sabotage: a codes item outside codes.json is named', () => {
+  const fs = files();
+  doc(fs, 'measurement.json').MEASUREMENT_STRAY_CODES = { kind: 'codes', doc: 'd', codes: { stray: { code: 'hosting.cost.stray' } } };
+  assert.deepEqual(layoutProblems(fs), ['measurement.json: MEASUREMENT_STRAY_CODES: a codes item outside codes.json']);
+});
+
+test('sabotage: unsorted terms are named', () => {
+  const fs = files();
   const t = doc(fs, 'formats/lv2/worker.json').LV2_WORKER_TERMS;
   t.terms = Object.fromEntries(Object.entries(t.terms).reverse());
   assert.deepEqual(layoutProblems(fs), ['formats/lv2/worker.json: LV2_WORKER_TERMS: its terms are not sorted by name']);

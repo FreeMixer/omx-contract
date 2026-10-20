@@ -7,10 +7,9 @@
  *
  *   node tools/data-layout.mjs [--data <dir>] [--inventory <dir>]
  *
- * Layout: a hosting code only in data/hosting/<its dimension>.json (hosting.<reason> and hosting.realised.* in
- * realised.json), sorted, its key and its code unique across the tree; an LV2 term only in the file of the
- * specification whose URI it extends; a CLAP identifier only in the file of its header; every item named by its
- * path; the vocabulary files' items by their prefix. Coverage: every term of inventory/lv2.json and inventory/clap.json
+ * Layout: no hosting code (omx-clap-core's since 3.0.0, docs/hosting.md) and no codes item outside codes.json; an
+ * LV2 term only in the file of the specification whose URI it extends; a CLAP identifier only in the file of its
+ * header; every item named by its path; the vocabulary files' items by their prefix. Coverage: every term of inventory/lv2.json and inventory/clap.json
  * mapped under its name with its URI or identifier and a status, the specification and its version equal, and no
  * mapped term the inventory lacks.
  *
@@ -45,32 +44,16 @@ const sorted = (keys) => keys.every((k, i) => i === 0 || keys[i - 1] < k);
 /** The layout problems of `files` (`[{ rel, doc }]`, rel below data/): `[message]`. */
 export function layoutProblems(files) {
   const out = [];
-  const keys = new Map();
-  const codes = new Map();
   for (const { rel, doc } of files) {
     const items = itemsOf(doc);
     const say = (m) => out.push(`${rel}: ${m}`);
-    const hostingCodes = items.flatMap(([, it]) => (it.kind === 'codes' ? Object.entries(it.codes ?? {}) : []));
+    const codesItems = items.filter(([, it]) => it.kind === 'codes');
     const text = JSON.stringify(doc);
     if (!rel.startsWith('formats/lv2/') && /lv2plug\.in\/ns\//.test(text)) say('an LV2 URI outside data/formats/lv2/');
     if (!rel.startsWith('formats/clap/') && items.some(([, it]) => it.kind === 'terms' && it.format === 'clap')) say('CLAP terms outside data/formats/clap/');
     let m;
-    if ((m = /^hosting\/([a-z0-9-]+)\.json$/.exec(rel))) {
-      const dim = m[1];
-      const want = `HOSTING_${pathName(dim)}_CODES`;
-      if (items.length !== 1 || items[0][0] !== want || items[0][1].kind !== 'codes') say(`holds one codes item, ${want}`);
-      const names = hostingCodes.map(([k]) => k);
-      if (!sorted(names)) say('its codes are not sorted by name');
-      for (const [k, c] of hostingCodes) {
-        const parts = c.code.split('.');
-        const of = parts.length === 2 || parts[1] === 'realised' ? 'realised' : parts[1];
-        if (parts[0] !== 'hosting') say(`${k}: ${c.code} is no hosting code`);
-        else if (of !== dim) say(`${k}: ${c.code} belongs in hosting/${of}.json`);
-        if (keys.has(k)) say(`${k}: the key is ${keys.get(k)}'s too`);
-        keys.set(k, rel);
-        if (codes.has(c.code)) say(`${c.code}: ${codes.get(c.code)} carries it too`);
-        codes.set(c.code, rel);
-      }
+    if (rel.startsWith('hosting/')) {
+      say('the hosting codes are omx-clap-core\'s (contract.d/3/omx-clap-core/hosting/), never omx-contract\'s');
     } else if ((m = /^formats\/(lv2|clap)\/(.+)\.json$/.exec(rel))) {
       const [, format, path] = m;
       const want = `${format.toUpperCase()}_${pathName(path)}_TERMS`;
@@ -85,7 +68,7 @@ export function layoutProblems(files) {
       }
     } else if (Object.hasOwn(TOP, rel)) {
       for (const [n] of items) if (TOP[rel] && !n.startsWith(TOP[rel])) say(`${n}: an item of ${rel} is named ${TOP[rel]}...`);
-      if (hostingCodes.length && rel !== 'codes.json') say('hosting codes outside data/hosting/');
+      if (codesItems.length && rel !== 'codes.json') say(`${codesItems.map(([n]) => n).join(', ')}: a codes item outside codes.json`);
     } else {
       say('no rule of docs/data-layout.md places this file');
     }

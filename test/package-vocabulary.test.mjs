@@ -2,17 +2,16 @@
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // render --package spells a package's vocabulary (its codes and words items of files with no render word) by kind,
 // exactly as the whole read spells it (docs/render.md): omx-contract's is omx_vocabulary.h byte for byte, and a file
-// moved to another package keeps its C names (a code by its code, never by its key) under that package's own guard.
+// of another package keeps its C names (a code by its code, never by its key) under that package's own guard.
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { after, test } from 'node:test';
 import { main } from '../bin/omx-contract.mjs';
 import { SCHEMA_MAJOR } from '../lib/contract-dir.mjs';
 import { packageVersion } from '../lib/data.mjs';
-import { SCHEMA_VERSION } from '../lib/validate.mjs';
 import { DATA, ROOT } from './helpers.mjs';
 
 const SCRATCH = mkdtempSync(join(tmpdir(), 'omx-contract-vocabulary-'));
@@ -45,29 +44,24 @@ test('render --package omx-contract is omx_vocabulary.h byte for byte, and its t
   assert.ok(Object.keys(mod).some((k) => k.endsWith('_WORDS')), 'positive control: a words item');
 });
 
-/** A contract directory: omx-contract's data/ less `moved`, and package `pkg` holding the moved files. */
-function moved(pkg, files) {
+/**
+ * A codes file as an owner holds it: omx-clap-core's hosting/cost.json, byte for byte as omx-contract carried it until
+ * 3.0.0 moved the hosting codes to omx-clap-core (docs/hosting.md). Its key costSpiky differs from its code.
+ */
+const PACKAGE_CODES = join(ROOT, 'test/fixtures/package-codes');
+
+/** A contract directory: omx-contract's data/, and package `pkg` holding the files of `dir`. */
+function withPackage(pkg, dir) {
   const root = join(SCRATCH, `cd-${n++}`);
-  const own = join(SCRATCH, `own-${n++}`);
-  const theirs = join(SCRATCH, `theirs-${n++}`);
-  cpSync(DATA, own, { recursive: true });
-  for (const f of files) {
-    const doc = JSON.parse(readFileSync(join(DATA, f), 'utf8'));
-    const out = { $schema: doc.$schema, requires: doc.requires ?? { 'omx-contract-schema': `>= ${SCHEMA_VERSION}` }, ...doc };
-    cpSync(join(DATA, f), join(theirs, f));
-    writeFileSync(join(theirs, f), `${JSON.stringify(out, null, 2)}\n`);
-    rmSync(join(own, f));
-  }
   const sh = (...a) => execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), ...a], { stdio: 'ignore' });
-  sh('-x', 'codes.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), own, root, 'data');
-  sh(pkg, '0.13.0', String(SCHEMA_MAJOR), theirs, root, 'data');
+  sh('-x', 'codes.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data');
+  sh(pkg, '0.13.0', String(SCHEMA_MAJOR), dir, root, 'data');
   return root;
 }
 
-test('a codes file moved to another package keeps its C names, under that package\'s own header and guard', () => {
-  const hosting = readdirSync(join(DATA, 'hosting')).map((f) => `hosting/${f}`);
-  assert.ok(hosting.length > 0, 'positive control: the hosting files');
-  const root = moved('acme-core', hosting);
+test('a codes file of another package keeps its C names, under that package\'s own header and guard', () => {
+  assert.ok(readdirSync(join(PACKAGE_CODES, 'hosting')).length > 0, 'positive control: the owner\'s codes file');
+  const root = withPackage('acme-core', PACKAGE_CODES);
   const out = join(SCRATCH, `pkg-${n++}`);
   assert.equal(quiet(() => main(['render', '--target', 'c', '--contract-dir', root, '--package', 'acme-core', '--out', out])), 0);
   assert.deepEqual(readdirSync(out), ['acme_core_vocabulary.h']);
@@ -79,9 +73,10 @@ test('a codes file moved to another package keeps its C names, under that packag
   const mine = join(SCRATCH, `own-out-${n++}`);
   assert.equal(quiet(() => main(['render', '--target', 'c', '--contract-dir', root, '--package', 'omx-contract', '--out', mine])), 0);
   const own = readFileSync(join(mine, 'omx_vocabulary.h'), 'utf8');
-  assert.doesNotMatch(own, /OMX_HOSTING_/, 'the moved codes left omx-contract\'s');
-  assert.deepEqual([...defines(own), ...defines(theirs)].sort(), defines(COMMITTED).sort(), 'the two packages\' defines are the committed header\'s, each once');
+  assert.equal(own, COMMITTED, 'omx-contract\'s own is the committed header, which holds no hosting code');
+  assert.doesNotMatch(own, /OMX_HOSTING_/);
   const whole = join(SCRATCH, `whole-${n++}`);
   assert.equal(quiet(() => main(['render', '--target', 'c', '--contract-dir', root, '--out', whole])), 0);
-  assert.equal(readFileSync(join(whole, 'omxcontract/omx_vocabulary.h'), 'utf8'), COMMITTED, 'the whole read is unchanged by the move');
+  const all = readFileSync(join(whole, 'omxcontract/omx_vocabulary.h'), 'utf8');
+  assert.deepEqual(defines(all).sort(), [...defines(own), ...defines(theirs)].sort(), 'the whole read\'s defines are the two packages\', each once');
 });

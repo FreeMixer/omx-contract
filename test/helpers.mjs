@@ -36,9 +36,9 @@ export const ALIAS_NAMES = (() => {
 
 /**
  * The definitions omx-contract carried until 2.14.0 and their owners now install (omx-dsp's kernels, omx-clap-core's
- * hosting file with its render word), frozen at their 2.14.0 bytes: the fixture the tool's tests read real-shaped
- * kernels and an owner's render word from, so no owner's tree is needed. They test the tool, not the owners' values,
- * which each owner's own CI holds.
+ * hosting file with its render word, less the two refusal codes 3.0.0 removed), frozen at their 2.14.0 bytes: the
+ * fixture the tool's tests read real-shaped kernels and an owner's render word from, so no owner's tree is needed.
+ * They test the tool, not the owners' values, which each owner's own CI holds.
  */
 export const OWNERS = join(ROOT, 'test/fixtures/owners-2.14.0');
 
