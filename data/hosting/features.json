@@ -1,5 +1,8 @@
 {
   "$schema": "../../schema/omx-contract.schema.json",
+  "requires": {
+    "omx-contract-schema": ">= 2.18.0"
+  },
   "HOSTING_FEATURES_CODES": {
     "kind": "codes",
     "since": "2.18.0",

@@ -16,7 +16,7 @@ test('every file of data/ sits where its rule places it', () => {
 });
 
 test('every hosting code is unique, with a key of its own across the tree, in the file of its dimension', () => {
-  const all = files().filter((f) => f.rel.startsWith('hosting/')).flatMap((f) => Object.entries(Object.values(f.doc)[1].codes));
+  const all = files().filter((f) => f.rel.startsWith('hosting/')).flatMap((f) => Object.entries(Object.values(f.doc).find((v) => v?.kind === 'codes').codes));
   assert.ok(all.length >= 73, `${all.length} hosting codes`);
   assert.equal(new Set(all.map(([k]) => k)).size, all.length, 'one key per code');
   assert.equal(new Set(all.map(([, c]) => c.code)).size, all.length, 'one code per key');
