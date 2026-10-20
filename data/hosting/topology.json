@@ -15,7 +15,7 @@
       },
       "topologyExtraInputs": {
         "code": "hosting.topology.extra-inputs-fed-silence",
-        "doc": "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it"
+        "doc": "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody since omx-clap-core#92, removed with required-not-provided (omx-contract#132)"
       },
       "topologyInstrument": {
         "code": "hosting.topology.instrument"

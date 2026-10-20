@@ -21,7 +21,9 @@ The numbers whose field name starts with `worker` belong to the LV2 adapter, not
 
 `HOSTING_CODES` is a `codes` item: the refusals the CLAP core returns, each a lowerCamel name, its code (a string
 `hosting.<group>.<reason>`, all lower case) and optionally one line of prose. A code is never reworded: a verdict
-that names it is read by code. A removed or changed code is a MAJOR change, an added one MINOR.
+that names it is read by code. A changed code is a MAJOR change, an added one MINOR; a removed one is MAJOR outside
+the development phase and MINOR in it, and a code its writers stop writing is removed, never carried
+(docs/data-layout.md).
 
 ## Every hosting code, in the core
 

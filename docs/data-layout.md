@@ -46,9 +46,11 @@ not the one its path gives.
 ## Inside a file
 
 - A `codes` item's codes are sorted by name; the name is the operator-facing key a consumer reads the code by, unique
-  across every file of `hosting/`, and the code is never reworded. A removed or changed code is a MAJOR change, an
-  added one MINOR. A code its writers stop writing stays declared, retired: its doc opens with `retired`, names
-  the code that takes its place, and the first major release removes it.
+  across every file of `hosting/`, and the code is never reworded. A changed code is a MAJOR change, an added one
+  MINOR, a removed one MAJOR outside the development phase and MINOR in it (`semver`, as an item's removal). A code
+  its writers stop writing is removed in the next release, never carried as retired (operator ruling 2026-10-20,
+  omx-contract#130: no backwards compatibility before the first public release); the release's changelog names the
+  code that takes its place, if any, and every consumer that still read the key moves in its own pin bump.
 - A `words` item's words keep their declared order, which is part of the contract (a rating's severity, a band's
   ascent). A word may name its `group`, a word of the item its `groups` names, and the format terms it is
   name-compatible with (`from: ["LV2_CORE_TERMS#latency", "CLAP_EXT_LATENCY_TERMS#latency"]`); each resolves.

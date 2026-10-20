@@ -5343,9 +5343,6 @@ export declare const HOSTING_FEATURES_CODES: {
     readonly code: "hosting.features.atom-in-unfed";
     readonly doc: "a non-MIDI atom input no buffer here can feed";
   };
-  readonly featuresCv: {
-    readonly code: "hosting.features.cv-ports";
-  };
   readonly featuresDisqualifying: {
     readonly code: "hosting.features.host-not-provided";
   };
@@ -5354,7 +5351,7 @@ export declare const HOSTING_FEATURES_CODES: {
   };
   readonly featuresMissing: {
     readonly code: "hosting.features.required-not-provided";
-    readonly doc: "retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it";
+    readonly doc: "retired (omx-contract#127): hosting.features.missing names the same fact; removed in the release after plugin-qualify stops naming it (omx-contract#132)";
   };
   readonly featuresMissingAtLoad: {
     readonly code: "hosting.features.missing";
@@ -5599,7 +5596,7 @@ export declare const HOSTING_TOPOLOGY_CODES: {
   };
   readonly topologyExtraInputs: {
     readonly code: "hosting.topology.extra-inputs-fed-silence";
-    readonly doc: "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it";
+    readonly doc: "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody since omx-clap-core#92, removed with required-not-provided (omx-contract#132)";
   };
   readonly topologyInstrument: {
     readonly code: "hosting.topology.instrument";

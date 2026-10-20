@@ -73,10 +73,13 @@ test('the render refuses a stage number that is neither a level nor a count', ()
   assert.throws(() => render(texts((d) => { d[hosting].HOSTED_STAGE_LIMITS.docs.logBytes = 'two\nlines'; })), /no one-line description/);
 });
 
-test('semver: a code removed or reworded is MAJOR, one added MINOR, its prose PATCH', () => {
+test('semver: a code reworded is MAJOR, one removed MAJOR outside the development phase and MINOR in it, one added MINOR, its prose PATCH', () => {
   const base = resolvedOf(texts());
   const level = (fn) => classify(base, resolvedOf(texts(fn))).level;
-  assert.equal(level((d) => { delete d[hosting].HOSTING_CODES.codes.noteInput; }), 'major');
+  const released = (fn) => classify(base, resolvedOf(texts(fn)), { developmentPhase: null }).level;
+  // a code its writers stop writing is removed, never carried (operator ruling 2026-10-20, omx-contract#130)
+  assert.equal(level((d) => { delete d[hosting].HOSTING_CODES.codes.noteInput; }), 'minor');
+  assert.equal(released((d) => { delete d[hosting].HOSTING_CODES.codes.noteInput; }), 'major');
   assert.equal(level((d) => { d[hosting].HOSTING_CODES.codes.noteInput.code = 'hosting.clap.note-input-x'; }), 'major');
   assert.equal(level((d) => { d[hosting].HOSTING_CODES.codes.fresh = { code: 'hosting.clap.fresh' }; }), 'minor');
   assert.equal(level((d) => { d[hosting].HOSTING_CODES.codes.noteInput.doc = 'reworded'; }), 'patch');
