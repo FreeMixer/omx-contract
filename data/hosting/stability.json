@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/omx-contract.schema.json",
   "requires": {
-    "omx-contract-schema": ">= 2.18.0"
+    "omx-contract-schema": ">= 3.0.0"
   },
   "HOSTING_STABILITY_CODES": {
     "kind": "codes",
