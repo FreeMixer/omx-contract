@@ -32,7 +32,6 @@
       "description": "The hosting codes of the features dimension: hosting.features.*, the verdict and refusal codes a qualifier, a host or the console write and read by code, never by prose (docs/data-layout.md).",
       "enum": [
         "hosting.features.atom-in-unfed",
-        "hosting.features.cv-ports",
         "hosting.features.host-not-provided",
         "hosting.features.midi-in-fed-empty",
         "hosting.features.required-not-provided",
