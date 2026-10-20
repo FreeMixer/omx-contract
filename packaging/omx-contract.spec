@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.19.0
+Version: 2.20.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -82,6 +82,20 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 2.20.0-1
+- hosting.features.cv-ports is removed: its only writer, omx-clap-core's LV2
+  adapter, no longer refuses CV ports (a CV port counts against the auxiliary
+  limit of 64 a side, and one past it is hosting.topology.too-many-ports). A
+  code its writers stop writing is removed in the next release, never carried
+  as retired; semver classes a removed code MINOR in the development phase.
+- omx_vocabulary.h loses OMX_HOSTING_FEATURES_CV_PORTS; the JSON render, the
+  vocabulary schema and the ts golden follow the data.
+- No installed definition file of an owner names the removed code (only
+  omx-clap-core's sources and tests did, and omx-clap-core#269 stops them), so
+  the conflicts stay at omx-dsp-devel 0.22.0, omx-clap-core-devel 0.10.0 and
+  omx-plugins-devel 0.10.0.
+- Every changelog entry is dated by its tag.
+
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 2.19.0-1
 - Five hosting codes for the audio layouts omx-clap-core writes, in
   data/hosting/topology.json: hosting.topology.too-many-ports, port-too-wide,
