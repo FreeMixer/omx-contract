@@ -144,7 +144,7 @@ carries `readouts` too, in their declared order, every reference resolved:
 - PATCH: doc and why text, and a set's labels.
 
 The development phase: while every consumer is one of the FreeMixer repositories `DEVELOPMENT_PHASE` names
-(omx-clap-core, omx-dsp, omx-plugins, plugin-qualify and the console engine), an item or a readout removed is MINOR,
+(omx-clap-core, omx-dsp, omx-plugins, plugin-qualify and the console engine), an item, a readout or a code removed is MINOR,
 and a release whose changes the check finds MAJOR passes with a minor bump. The pull request that makes such a change
 says why it is released as a minor. The phase ends, and the rule with it, in the release that names the first consumer outside the list.
 

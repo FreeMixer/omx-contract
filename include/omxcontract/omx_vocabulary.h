@@ -30,7 +30,6 @@
 
 /* HOSTING_FEATURES_CODES (data/hosting/features.json) */
 #define OMX_HOSTING_FEATURES_ATOM_IN_UNFED "hosting.features.atom-in-unfed" ///< a non-MIDI atom input no buffer here can feed
-#define OMX_HOSTING_FEATURES_CV_PORTS "hosting.features.cv-ports"
 #define OMX_HOSTING_FEATURES_HOST_NOT_PROVIDED "hosting.features.host-not-provided"
 #define OMX_HOSTING_FEATURES_MIDI_IN_FED_EMPTY "hosting.features.midi-in-fed-empty"
 #define OMX_HOSTING_FEATURES_REQUIRED_NOT_PROVIDED "hosting.features.required-not-provided" ///< retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it
