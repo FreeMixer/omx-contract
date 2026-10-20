@@ -77,3 +77,15 @@ test('a set id that changes type is visible in the change message (#29)', () => 
 test('the development phase names every FreeMixer repository that reads the contract', () => {
   assert.deepEqual([...DEVELOPMENT_PHASE.consumers].sort(), ['omx-clap-core', 'omx-dsp', 'omx-plugins', 'openmixer', 'plugin-qualify']);
 });
+
+test('a tag read against unchanged data reports no CONTRACT_CODES change (#104): codes.json is a tool file on both sides', () => {
+  const lines = [];
+  const { log, error } = console;
+  console.log = (s) => lines.push(s);
+  console.error = (s) => lines.push(s);
+  let code;
+  try { code = main(['semver', 'v2.19.0', '--version', '2.19.0']); } finally { console.log = log; console.error = error; }
+  assert.equal(code, 0, lines.join('\n'));
+  assert.ok(!lines.some((l) => l.includes('CONTRACT_CODES')), lines.join('\n'));
+  assert.deepEqual(JSON.parse(lines.find((l) => l.startsWith('{'))), { from: '2.19.0', to: '2.19.0', level: 'none', changes: 0, ok: true });
+});

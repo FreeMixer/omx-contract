@@ -191,7 +191,7 @@ function dataAtTag(tag) {
   const git = (...a) => execFileSync('git', ['-C', ROOT, ...a], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   try { git('rev-parse', '--verify', `${tag}^{commit}`); } catch { throw new Usage(`no tag ${tag} in ${ROOT}`); }
   const texts = {};
-  for (const rel of git('ls-tree', '-r', '--name-only', tag, '--', 'data').split('\n').filter((p) => p.endsWith('.json'))) {
+  for (const rel of git('ls-tree', '-r', '--name-only', tag, '--', 'data').split('\n').filter((p) => p.endsWith('.json') && !TOOL_FILES.includes(p.slice('data/'.length)))) {
     const text = git('show', `${tag}:${rel}`);
     let doc;
     try { doc = JSON.parse(text); } catch { texts[rel] = text; continue; }
