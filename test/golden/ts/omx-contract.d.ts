@@ -5356,6 +5356,10 @@ export declare const HOSTING_FEATURES_CODES: {
   readonly featuresMissingAtLoad: {
     readonly code: "hosting.features.missing";
   };
+  readonly featuresPortsUnreadable: {
+    readonly code: "hosting.features.ports-unreadable";
+    readonly doc: "the plugin declares ports its reader cannot read (a port node shared by several plugins of one bundle, a port with no symbol), so none reaches the host: the bundle's data is the fault, not the layout (omx-clap-core#255)";
+  };
   readonly featuresProvided: {
     readonly code: "hosting.features.all-provided";
   };

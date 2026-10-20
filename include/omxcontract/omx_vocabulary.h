@@ -34,6 +34,7 @@
 #define OMX_HOSTING_FEATURES_MIDI_IN_FED_EMPTY "hosting.features.midi-in-fed-empty"
 #define OMX_HOSTING_FEATURES_REQUIRED_NOT_PROVIDED "hosting.features.required-not-provided" ///< retired (omx-contract#127): hosting.features.missing names the same fact; removed in the release after plugin-qualify stops naming it (omx-contract#132)
 #define OMX_HOSTING_FEATURES_MISSING "hosting.features.missing"
+#define OMX_HOSTING_FEATURES_PORTS_UNREADABLE "hosting.features.ports-unreadable" ///< the plugin declares ports its reader cannot read (a port node shared by several plugins of one bundle, a port with no symbol), so none reaches the host: the bundle's data is the fault, not the layout (omx-clap-core#255)
 #define OMX_HOSTING_FEATURES_ALL_PROVIDED "hosting.features.all-provided"
 #define OMX_HOSTING_FEATURES_SCAN_PREDATES_FIELD "hosting.features.scan-predates-field"
 

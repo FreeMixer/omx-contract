@@ -36,6 +36,7 @@
         "hosting.features.midi-in-fed-empty",
         "hosting.features.required-not-provided",
         "hosting.features.missing",
+        "hosting.features.ports-unreadable",
         "hosting.features.all-provided",
         "hosting.features.scan-predates-field"
       ]
