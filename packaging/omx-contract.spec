@@ -82,7 +82,7 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
-* Sat Oct 24 2026 Pau Aliagas <linuxnow@gmail.com> - 2.19.0-1
+* Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 2.19.0-1
 - Five hosting codes for the audio layouts omx-clap-core writes, in
   data/hosting/topology.json: hosting.topology.too-many-ports, port-too-wide,
   port-without-channels, channel-map-unknown and ambisonic-config, each with
@@ -102,7 +102,7 @@ whose declarations it builds against.
   conflicts stay at omx-dsp-devel 0.22.0, omx-clap-core-devel 0.10.0 and
   omx-plugins-devel 0.10.0.
 
-* Fri Oct 23 2026 Pau Aliagas <linuxnow@gmail.com> - 2.18.0-1
+* Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 2.18.0-1
 - The hosting vocabulary: 73 hosting.* codes in data/hosting/, one file per
   dimension, with the measurement terms, the plugin resource profile and the
   machine classes beside them.
@@ -118,7 +118,7 @@ whose declarations it builds against.
 - No owner needs a newer release, so the conflicts stay at omx-dsp-devel
   0.22.0, omx-clap-core-devel 0.10.0 and omx-plugins-devel 0.10.0.
 
-* Thu Oct 22 2026 Pau Aliagas <linuxnow@gmail.com> - 2.17.0-1
+* Mon Oct 19 2026 Pau Aliagas <linuxnow@gmail.com> - 2.17.0-1
 - The command has a DEB of its own, omx-contract: the CLI, its vendored
   npm packages and its man page, as the RPM has shipped it since 2.15.0.
   It depends on nodejs with no version and runs on bookworm's node 18.
@@ -139,7 +139,7 @@ whose declarations it builds against.
 - No owner needs a newer release, so the conflicts stay at omx-dsp-devel
   0.22.0, omx-clap-core-devel 0.10.0 and omx-plugins-devel 0.10.0.
 
-* Wed Oct 21 2026 Pau Aliagas <linuxnow@gmail.com> - 2.16.0-1
+* Sat Oct 17 2026 Pau Aliagas <linuxnow@gmail.com> - 2.16.0-1
 - The nine-rate list RME_RATES is renamed ORACLE_FULL_RATES, the full grid
   of rates a professional interface can clock at, 32 to 192 kHz, beside the
   four-rate ORACLE_FLOOR_RATES. Its values are unchanged and its doc names
@@ -155,7 +155,7 @@ whose declarations it builds against.
   the conflicts stay at omx-dsp-devel 0.22.0, omx-clap-core-devel 0.10.0
   and omx-plugins-devel 0.10.0, as in 2.15.0.
 
-* Fri Oct 23 2026 Pau Aliagas <linuxnow@gmail.com> - 2.15.0-1
+* Sat Oct 17 2026 Pau Aliagas <linuxnow@gmail.com> - 2.15.0-1
 - Packages install their own definitions into a shared contract directory,
   contract.d/2/<package>/ with a MANIFEST.json, named by contractdir in
   omx-contract.pc, and every reader reads it through one call that refuses an
@@ -180,7 +180,7 @@ whose declarations it builds against.
   man page and the npm packages it runs on, so the union of the contract
   directory can be read on a system with node and nothing else installed.
 
-* Mon Oct 19 2026 Pau Aliagas <linuxnow@gmail.com> - 2.14.0-1
+* Sat Oct 17 2026 Pau Aliagas <linuxnow@gmail.com> - 2.14.0-1
 - The kernel files declare what the console engine still typed as literals: the FBS, HRP, balance,
   generator, align and idelay travels and constants, and the multiband compressor's limits
   (MBC_MIN_BANDS, MBC_MAX_BANDS, MBC_CORNER_MAX_FRACTION and the come-up corners by band count).
@@ -191,13 +191,13 @@ whose declarations it builds against.
   declare their come-up; HRP_AMOUNT_RANGE's come-up is held to what its readers derive; seconds and minutes join the unit list.
   The docs say what semver classifies and the development-phase rule, and describe the shapes the data uses.
 
-* Sun Oct 18 2026 Pau Aliagas <linuxnow@gmail.com> - 2.13.0-1
+* Fri Oct 16 2026 Pau Aliagas <linuxnow@gmail.com> - 2.13.0-1
 - The EQ curve grid is contract data now: EQ_CURVE_GRID declares the start frequency
   (20 Hz), the points per decade (53) and the upper bound (0.999 of the Nyquist
   frequency); the C render has OMX_EQ_CURVE_GRID_* defines and the TypeScript
   render the EQ_CURVE_GRID export, so an engine and a UI draw the same curve.
 
-* Sat Oct 17 2026 Pau Aliagas <linuxnow@gmail.com> - 2.12.1-1
+* Fri Oct 16 2026 Pau Aliagas <linuxnow@gmail.com> - 2.12.1-1
 - Packages for 2.12.0 were not built because the release workflow lacked
   a permission; 2.12.1 is the same data with the fix
 
@@ -245,20 +245,20 @@ whose declarations it builds against.
   waveform sets (generator: GENERATOR_KINDS, WAVEFORMS); the C header
   keeps every 2.5.0 define
 
-* Mon Oct 12 2026 Pau Aliagas <linuxnow@gmail.com> - 2.5.0-1
+* Tue Oct 13 2026 Pau Aliagas <linuxnow@gmail.com> - 2.5.0-1
 - The compressor's detector topology is a control, detectorTopology
   (DETECTOR_TOPOLOGY: feedforward, feedback), and the feedback loop's
   one-sample delay is a constant, DYN_FB_LOOP_DELAY_SAMPLES; the C header
   keeps every 2.4.0 define
 
-* Sun Oct 11 2026 Pau Aliagas <linuxnow@gmail.com> - 2.4.0-1
+* Mon Oct 12 2026 Pau Aliagas <linuxnow@gmail.com> - 2.4.0-1
 - Readouts: a kernel file may list the meters the kernel reports, each
   with its unit, display range, scale and publish rate (docs/readouts.md)
 - The compressor, the de-esser, the gate and the limiter declare their
   gain reduction, its range read off the travel that bounds it; the C
   header spells them OMX_<KERNEL>_READOUT_* and keeps every 2.3.0 define
 
-* Fri Oct 09 2026 Pau Aliagas <linuxnow@gmail.com> - 2.3.0-1
+* Sat Oct 10 2026 Pau Aliagas <linuxnow@gmail.com> - 2.3.0-1
 - The input trim is a kernel, trim, with the one control trimDb (the
   console's TRIM_RANGE, -24 to +24 dB); the C header spells it
   OMX_TRIM_RANGE_* and keeps every 2.2.0 define
@@ -375,7 +375,7 @@ whose declarations it builds against.
   a doc for a value that shares its comment, and the importer resolves
   `@openmixer/omx-contract` from the engine's installed copy.
 
-* Thu Oct 08 2026 Pau Aliagas <linuxnow@gmail.com> - 1.2.1-1
+* Wed Oct 07 2026 Pau Aliagas <linuxnow@gmail.com> - 1.2.1-1
 - 1.2.1 repackages 1.2.0 with no data change. The 1.2.0 Debian changelog
   carried the same date as 1.1.0, which lintian refuses, so the Debian
   packages of 1.2.0 were never built.
@@ -427,7 +427,7 @@ whose declarations it builds against.
 - The rotary kernel: 20 values, read from the engine where it declares them.
 - The tremolo kernel: 4 values, read from the engine where it declares them.
 
-* Mon Oct 05 2026 Pau Aliagas <linuxnow@gmail.com> - 1.0.0-1
+* Wed Oct 07 2026 Pau Aliagas <linuxnow@gmail.com> - 1.0.0-1
 - First release: the shared declarations the FreeMixer DSP library needs
   (value ranges, defaults, kernel constants, sample rates and plugin parameter
   choices), as JSON data with a JSON Schema and as C headers. The headers
