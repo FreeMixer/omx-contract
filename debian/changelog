@@ -1,3 +1,14 @@
+omx-contract (3.0.0) unstable; urgency=medium
+
+  * Schema major 3: the word formerly (a list's former name) and the word
+    c.alias (a travel's second C spelling) are removed, x-omx-schema-version
+    is 3.0.0, an installed file's $schema is the v3 URL and the reader reads
+    contract.d/3/ only.
+  * It breaks libomxdsp-dev before 0.25.0, libomx-clap-core-dev before 0.13.0
+    and omx-plugins-dev before 0.13.0, the releases built against schema 3.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 20 Oct 2026 21:28:39 +0200
+
 omx-contract (2.20.0) unstable; urgency=medium
 
   * hosting.features.cv-ports is removed: its only writer, omx-clap-core's LV2

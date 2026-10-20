@@ -63,17 +63,9 @@ test('kernels: the limiter look-ahead re-arms, and it is the only control that d
 });
 
 test('kernels is a new key: name, version and items are what a render without it writes', () => {
-  // a list renamed in a scratch copy of the data, its old name kept, so the render carries formerNames after kernels
-  const dir = scratchData();
-  editData(dir, 'rates.json', (d) => {
-    const { ORACLE_FLOOR_RATES: it } = d;
-    delete d.ORACLE_FLOOR_RATES;
-    d.FLOOR_RENAMED = { ...it, formerly: { name: 'ORACLE_FLOOR_RATES', removedIn: '9.9.0' } };
-  });
-  const r = resolveData(loadData(dir));
+  const r = resolveData(loadData(UNION));
   const withKernels = JSON.parse(renderJson(r, '0.0.0')[0].text);
-  assert.deepEqual(Object.keys(withKernels), ['name', 'version', 'items', 'kernels', 'formerNames']);
-  assert.deepEqual(Object.keys(render()), ['name', 'version', 'items', 'kernels'], 'the data renames no list: no formerNames');
+  assert.deepEqual(Object.keys(withKernels), ['name', 'version', 'items', 'kernels']);
   delete r.kernels;
   const without = renderJson(r, '0.0.0')[0].text;
   const { kernels, ...rest } = withKernels;

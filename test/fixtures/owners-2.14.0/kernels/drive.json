@@ -12,12 +12,6 @@
         "unit": "dB",
         "default": 0,
         "defaultFrom": "desk"
-      },
-      "c": {
-        "alias": {
-          "fact": "drive",
-          "field": "driveDb"
-        }
       }
     },
     {
@@ -31,12 +25,6 @@
         "unit": "",
         "default": 0,
         "defaultFrom": "desk"
-      },
-      "c": {
-        "alias": {
-          "fact": "drive",
-          "field": "character"
-        }
       }
     },
     {
@@ -50,12 +38,6 @@
         "unit": "Hz",
         "default": 2000,
         "defaultFrom": "desk"
-      },
-      "c": {
-        "alias": {
-          "fact": "drive",
-          "field": "bandHz"
-        }
       }
     },
     {
@@ -69,12 +51,6 @@
         "unit": "%",
         "default": 100,
         "defaultFrom": "desk"
-      },
-      "c": {
-        "alias": {
-          "fact": "drive",
-          "field": "mix"
-        }
       }
     },
     {
@@ -88,12 +64,6 @@
         "unit": "dB",
         "default": 0,
         "defaultFrom": "desk"
-      },
-      "c": {
-        "alias": {
-          "fact": "drive",
-          "field": "trimDb"
-        }
       }
     },
     {

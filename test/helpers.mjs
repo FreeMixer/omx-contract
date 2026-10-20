@@ -23,6 +23,18 @@ export const VOCABULARY = new Set([...loadData(DATA).items.values()].filter(({ i
 export const DATA_ITEMS = loadData(DATA).items.size;
 
 /**
+ * The macro names 3.0.0's removal of `c.alias` dropped: a travel's second C spelling,
+ * OMX_<FACT>_<FIELD>_MIN/_MAX/_DEFAULT. Read generically from the released 2.10.0 header, the last one to carry the
+ * aliases section, rather than hand-listed: an old omx-dsp fixture that reads one of these is before 0.25.0, which
+ * omx-contract-devel 3.0.0 conflicts with.
+ */
+export const ALIAS_NAMES = (() => {
+  const h = readFileSync(join(ROOT, 'test/fixtures/omx-contract-2.10.0/omx_contract_limits.h'), 'utf8');
+  const section = /\/\* The second C spelling of a travel[\s\S]*?\n\n(?=\/\* Every scalar)/.exec(h)[0];
+  return new Set([...section.matchAll(/^#define (OMX_\w+)/gm)].map((m) => m[1]));
+})();
+
+/**
  * The definitions omx-contract carried until 2.14.0 and their owners now install (omx-dsp's kernels, omx-clap-core's
  * hosting file with its render word), frozen at their 2.14.0 bytes: the fixture the tool's tests read real-shaped
  * kernels and an owner's render word from, so no owner's tree is needed. They test the tool, not the owners' values,

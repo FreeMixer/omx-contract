@@ -13,12 +13,6 @@
         "unit": "ms",
         "default": 300,
         "defaultFrom": "desk"
-      },
-      "c": {
-        "alias": {
-          "fact": "delay",
-          "field": "timeMs"
-        }
       }
     },
     {
@@ -92,12 +86,6 @@
         "unit": "",
         "default": 1,
         "defaultFrom": "desk"
-      },
-      "c": {
-        "alias": {
-          "fact": "delay",
-          "field": "taps"
-        }
       }
     },
     {

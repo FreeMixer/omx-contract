@@ -77,10 +77,11 @@ test('a hand-formatted kernel file is a gap', () => {
 test('a unit or c block that differs between the kernel file and the answers is a gap', () => {
   const root = scratchTree();
   edit(root, 'recipes/answers/transient.json', (a) => { a.items.find((i) => i.name === 'TRANSIENT_FAST_ATTACK_MS').unit = 's'; });
-  edit(root, 'recipes/answers/delay.json', (a) => { delete a.items.find((i) => i.name === 'FX_DELAY_TIME_RANGE').c; });
+  // a list keeps `c: { render: false }` to leave it out of the C render; the answers do not track that word
+  edit(root, 'data/kernels/delay.json', (d, at) => { at('DELAY_TAP_FACTOR_NUMS').c = { render: false }; });
   const g = gapsOf(root);
   assert.match(g, /TRANSIENT_FAST_ATTACK_MS: unit "ms" in the kernel file, "s" in the answers/);
-  assert.match(g, /FX_DELAY_TIME_RANGE: c .* in the kernel file, undefined in the answers/);
+  assert.match(g, /DELAY_TAP_FACTOR_NUMS: c .* in the kernel file, undefined in the answers/);
 });
 
 test('an item the engine does not declare is cited by an origin sentence, and a set\'s default and labels are held to the answers', () => {
