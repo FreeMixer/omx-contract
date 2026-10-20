@@ -1,0 +1,238 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_UI_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 UI specification (ui.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/extensions/ui",
+    "version": "2.24",
+    "terms": {
+      "CocoaUI": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#CocoaUI",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "Gtk3UI": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#Gtk3UI",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "GtkUI": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#GtkUI",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "PortNotification": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#PortNotification",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "PortProtocol": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#PortProtocol",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "Qt4UI": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#Qt4UI",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "Qt5UI": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#Qt5UI",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "UI": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#UI",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "WindowsUI": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#WindowsUI",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "X11UI": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#X11UI",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "backgroundColor": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#backgroundColor",
+        "kind": "option",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "binary": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#binary",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180).",
+        "deprecated": true
+      },
+      "fixedSize": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#fixedSize",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "floatProtocol": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#floatProtocol",
+        "kind": "port-protocol",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "foregroundColor": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#foregroundColor",
+        "kind": "option",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "idleInterface": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#idleInterface",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "by": [
+          "plugin-qualify:src/hosting-suitability.ts"
+        ],
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "makeSONameResident": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#makeSONameResident",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180).",
+        "deprecated": true
+      },
+      "noUserResize": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#noUserResize",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "notifyType": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#notifyType",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "parent": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#parent",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "peakProtocol": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#peakProtocol",
+        "kind": "port-protocol",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "plugin": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#plugin",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "portIndex": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#portIndex",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "portMap": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#portMap",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "portNotification": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#portNotification",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "portSubscribe": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#portSubscribe",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "protocol": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#protocol",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "requestValue": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#requestValue",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "resize": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#resize",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180).",
+        "deprecated": true
+      },
+      "scaleFactor": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#scaleFactor",
+        "kind": "option",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "showInterface": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#showInterface",
+        "kind": "extension-data",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "touch": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#touch",
+        "kind": "feature",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "ui": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#ui",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "ui.lv2": {
+        "uri": "http://lv2plug.in/ns/extensions/ui",
+        "kind": "specification",
+        "status": "out-of-scope",
+        "by": [
+          "plugin-qualify:src/hosting-suitability.ts"
+        ],
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "updateRate": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#updateRate",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "windowTitle": {
+        "uri": "http://lv2plug.in/ns/extensions/ui#windowTitle",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      }
+    }
+  }
+}

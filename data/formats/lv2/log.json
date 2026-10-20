@@ -1,0 +1,69 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_LOG_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Log specification (log.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/log",
+    "version": "2.4",
+    "terms": {
+      "Entry": {
+        "uri": "http://lv2plug.in/ns/ext/log#Entry",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Error": {
+        "uri": "http://lv2plug.in/ns/ext/log#Error",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h"
+        ]
+      },
+      "Note": {
+        "uri": "http://lv2plug.in/ns/ext/log#Note",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h"
+        ]
+      },
+      "Trace": {
+        "uri": "http://lv2plug.in/ns/ext/log#Trace",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h"
+        ]
+      },
+      "Warning": {
+        "uri": "http://lv2plug.in/ns/ext/log#Warning",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h"
+        ]
+      },
+      "log": {
+        "uri": "http://lv2plug.in/ns/ext/log#log",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_features.c"
+        ]
+      },
+      "log.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/log",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "plugin-qualify:src/host-profiles.ts"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_TIME_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Time specification (time.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/time",
+    "version": "1.6",
+    "terms": {
+      "Position": {
+        "uri": "http://lv2plug.in/ns/ext/time#Position",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ],
+        "word": "needs.transport"
+      },
+      "Rate": {
+        "uri": "http://lv2plug.in/ns/ext/time#Rate",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Time": {
+        "uri": "http://lv2plug.in/ns/ext/time#Time",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "bar": {
+        "uri": "http://lv2plug.in/ns/ext/time#bar",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "barBeat": {
+        "uri": "http://lv2plug.in/ns/ext/time#barBeat",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "beat": {
+        "uri": "http://lv2plug.in/ns/ext/time#beat",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "beatUnit": {
+        "uri": "http://lv2plug.in/ns/ext/time#beatUnit",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "beatsPerBar": {
+        "uri": "http://lv2plug.in/ns/ext/time#beatsPerBar",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "beatsPerMinute": {
+        "uri": "http://lv2plug.in/ns/ext/time#beatsPerMinute",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ],
+        "word": "needs.tempo"
+      },
+      "frame": {
+        "uri": "http://lv2plug.in/ns/ext/time#frame",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "framesPerSecond": {
+        "uri": "http://lv2plug.in/ns/ext/time#framesPerSecond",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "position": {
+        "uri": "http://lv2plug.in/ns/ext/time#position",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "speed": {
+        "uri": "http://lv2plug.in/ns/ext/time#speed",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "time.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/time",
+        "kind": "specification",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}

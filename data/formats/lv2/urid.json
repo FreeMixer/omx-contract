@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_URID_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 URID specification (urid.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/urid",
+    "version": "1.4",
+    "terms": {
+      "map": {
+        "uri": "http://lv2plug.in/ns/ext/urid#map",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_features.c"
+        ]
+      },
+      "unmap": {
+        "uri": "http://lv2plug.in/ns/ext/urid#unmap",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/omx_lv2_features.h",
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_features.c"
+        ]
+      },
+      "urid.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/urid",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/benchmark.py",
+          "plugin-qualify:src/host-profiles.ts"
+        ]
+      }
+    }
+  }
+}

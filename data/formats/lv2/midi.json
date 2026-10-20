@@ -1,0 +1,273 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_MIDI_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 MIDI specification (midi.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/midi",
+    "version": "1.10",
+    "terms": {
+      "ActiveSense": {
+        "uri": "http://lv2plug.in/ns/ext/midi#ActiveSense",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Aftertouch": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Aftertouch",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Bender": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Bender",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "ChannelPressure": {
+        "uri": "http://lv2plug.in/ns/ext/midi#ChannelPressure",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Chunk": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Chunk",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Clock": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Clock",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Continue": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Continue",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Controller": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Controller",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "HexByte": {
+        "uri": "http://lv2plug.in/ns/ext/midi#HexByte",
+        "kind": "datatype",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "MidiEvent": {
+        "uri": "http://lv2plug.in/ns/ext/midi#MidiEvent",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ],
+        "word": "ports.kind midi"
+      },
+      "NoteOff": {
+        "uri": "http://lv2plug.in/ns/ext/midi#NoteOff",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "NoteOn": {
+        "uri": "http://lv2plug.in/ns/ext/midi#NoteOn",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "ProgramChange": {
+        "uri": "http://lv2plug.in/ns/ext/midi#ProgramChange",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "QuarterFrame": {
+        "uri": "http://lv2plug.in/ns/ext/midi#QuarterFrame",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Reset": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Reset",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SongPosition": {
+        "uri": "http://lv2plug.in/ns/ext/midi#SongPosition",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SongSelect": {
+        "uri": "http://lv2plug.in/ns/ext/midi#SongSelect",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Start": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Start",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Stop": {
+        "uri": "http://lv2plug.in/ns/ext/midi#Stop",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SystemCommon": {
+        "uri": "http://lv2plug.in/ns/ext/midi#SystemCommon",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SystemExclusive": {
+        "uri": "http://lv2plug.in/ns/ext/midi#SystemExclusive",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SystemMessage": {
+        "uri": "http://lv2plug.in/ns/ext/midi#SystemMessage",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SystemRealtime": {
+        "uri": "http://lv2plug.in/ns/ext/midi#SystemRealtime",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "TuneRequest": {
+        "uri": "http://lv2plug.in/ns/ext/midi#TuneRequest",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "VoiceMessage": {
+        "uri": "http://lv2plug.in/ns/ext/midi#VoiceMessage",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "benderValue": {
+        "uri": "http://lv2plug.in/ns/ext/midi#benderValue",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "binding": {
+        "uri": "http://lv2plug.in/ns/ext/midi#binding",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "byteNumber": {
+        "uri": "http://lv2plug.in/ns/ext/midi#byteNumber",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "channel": {
+        "uri": "http://lv2plug.in/ns/ext/midi#channel",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "chunk": {
+        "uri": "http://lv2plug.in/ns/ext/midi#chunk",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "controllerNumber": {
+        "uri": "http://lv2plug.in/ns/ext/midi#controllerNumber",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "controllerValue": {
+        "uri": "http://lv2plug.in/ns/ext/midi#controllerValue",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "midi.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/midi",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/scan.py",
+          "plugin-qualify:tools/benchmark.py"
+        ]
+      },
+      "noteNumber": {
+        "uri": "http://lv2plug.in/ns/ext/midi#noteNumber",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "pressure": {
+        "uri": "http://lv2plug.in/ns/ext/midi#pressure",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "programNumber": {
+        "uri": "http://lv2plug.in/ns/ext/midi#programNumber",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "property": {
+        "uri": "http://lv2plug.in/ns/ext/midi#property",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "songNumber": {
+        "uri": "http://lv2plug.in/ns/ext/midi#songNumber",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "songPosition": {
+        "uri": "http://lv2plug.in/ns/ext/midi#songPosition",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "status": {
+        "uri": "http://lv2plug.in/ns/ext/midi#status",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "statusMask": {
+        "uri": "http://lv2plug.in/ns/ext/midi#statusMask",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "velocity": {
+        "uri": "http://lv2plug.in/ns/ext/midi#velocity",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}

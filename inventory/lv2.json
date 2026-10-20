@@ -1,0 +1,4080 @@
+{
+  "format": "lv2",
+  "from": "the LV2 specification bundles (lv2 package)",
+  "version": "1.18.10",
+  "specs": {
+    "atom": {
+      "bundle": "atom.lv2",
+      "uri": "http://lv2plug.in/ns/ext/atom",
+      "version": "2.4",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom",
+          "name": "atom.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Atom"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Atom",
+          "name": "Atom",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Atom"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#AtomPort",
+          "name": "AtomPort",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Atom Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Blank",
+          "name": "Blank",
+          "types": [
+            "rdfs:Class"
+          ],
+          "deprecated": true,
+          "label": "Blank"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Bool",
+          "name": "Bool",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "Bool"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Chunk",
+          "name": "Chunk",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "Chunk"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Double",
+          "name": "Double",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "Double"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Event",
+          "name": "Event",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Event"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Float",
+          "name": "Float",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "Float"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Int",
+          "name": "Int",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "Int"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Literal",
+          "name": "Literal",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Literal"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Long",
+          "name": "Long",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "Long"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Number",
+          "name": "Number",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Number"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Object",
+          "name": "Object",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Object"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Path",
+          "name": "Path",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "Path"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Property",
+          "name": "Property",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Property"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Resource",
+          "name": "Resource",
+          "types": [
+            "rdfs:Class"
+          ],
+          "deprecated": true,
+          "label": "Resource"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Sequence",
+          "name": "Sequence",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Sequence"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Sound",
+          "name": "Sound",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Sound"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#String",
+          "name": "String",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "String"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Tuple",
+          "name": "Tuple",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Tuple"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#URI",
+          "name": "URI",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "URI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#URID",
+          "name": "URID",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "URID"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#Vector",
+          "name": "Vector",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Vector"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#atomTransfer",
+          "name": "atomTransfer",
+          "types": [
+            "ui:PortProtocol"
+          ],
+          "label": "atom transfer"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#beatTime",
+          "name": "beatTime",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "beat time"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#bufferType",
+          "name": "bufferType",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "buffer type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#cType",
+          "name": "cType",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "C type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#childType",
+          "name": "childType",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "child type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#eventTransfer",
+          "name": "eventTransfer",
+          "types": [
+            "ui:PortProtocol"
+          ],
+          "label": "event transfer"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#frameTime",
+          "name": "frameTime",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "frame time"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/atom#supports",
+          "name": "supports",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "supports"
+        }
+      ]
+    },
+    "buf-size": {
+      "bundle": "buf-size.lv2",
+      "uri": "http://lv2plug.in/ns/ext/buf-size",
+      "version": "1.4",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size",
+          "name": "buf-size.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Buf Size"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength",
+          "name": "boundedBlockLength",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "bounded block length"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size#coarseBlockLength",
+          "name": "coarseBlockLength",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "coarse block length"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size#fixedBlockLength",
+          "name": "fixedBlockLength",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "fixed block length"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size#maxBlockLength",
+          "name": "maxBlockLength",
+          "types": [
+            "opts:Option",
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "maximum block length"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size#minBlockLength",
+          "name": "minBlockLength",
+          "types": [
+            "opts:Option",
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "minimum block length"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size#nominalBlockLength",
+          "name": "nominalBlockLength",
+          "types": [
+            "opts:Option",
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "nominal block length"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size#powerOf2BlockLength",
+          "name": "powerOf2BlockLength",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "power of 2 block length"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/buf-size#sequenceSize",
+          "name": "sequenceSize",
+          "types": [
+            "opts:Option",
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "sequence size"
+        }
+      ]
+    },
+    "core": {
+      "bundle": "core.lv2",
+      "uri": "http://lv2plug.in/ns/lv2core",
+      "version": "18.6",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/lv2core",
+          "name": "core.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#AllpassPlugin",
+          "name": "AllpassPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Allpass Filter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#AmplifierPlugin",
+          "name": "AmplifierPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Amplifier Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#AnalyserPlugin",
+          "name": "AnalyserPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Analyser Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#AudioPort",
+          "name": "AudioPort",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Audio Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#BandpassPlugin",
+          "name": "BandpassPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Bandpass Filter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#CVPort",
+          "name": "CVPort",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "CV Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Channel",
+          "name": "Channel",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Channel"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ChorusPlugin",
+          "name": "ChorusPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Chorus Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#CombPlugin",
+          "name": "CombPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Comb Filter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#CompressorPlugin",
+          "name": "CompressorPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Compressor Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ConstantPlugin",
+          "name": "ConstantPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Constant Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ControlPort",
+          "name": "ControlPort",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Control Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ConverterPlugin",
+          "name": "ConverterPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Converter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#DelayPlugin",
+          "name": "DelayPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Delay Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Designation",
+          "name": "Designation",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Designation"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#DistortionPlugin",
+          "name": "DistortionPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Distortion Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#DynamicsPlugin",
+          "name": "DynamicsPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Dynamics Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#EQPlugin",
+          "name": "EQPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "EQ Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#EnvelopePlugin",
+          "name": "EnvelopePlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Envelope Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ExpanderPlugin",
+          "name": "ExpanderPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Expander Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ExtensionData",
+          "name": "ExtensionData",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Extension Data"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Feature",
+          "name": "Feature",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Feature"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#FilterPlugin",
+          "name": "FilterPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Filter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#FlangerPlugin",
+          "name": "FlangerPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Flanger Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#FunctionPlugin",
+          "name": "FunctionPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Function Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#GatePlugin",
+          "name": "GatePlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Gate Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#GeneratorPlugin",
+          "name": "GeneratorPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Generator Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#HighpassPlugin",
+          "name": "HighpassPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Highpass Filter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#InputPort",
+          "name": "InputPort",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Input Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#InstrumentPlugin",
+          "name": "InstrumentPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Instrument Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#LimiterPlugin",
+          "name": "LimiterPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Limiter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#LowpassPlugin",
+          "name": "LowpassPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Lowpass Filter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#MIDIPlugin",
+          "name": "MIDIPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "MIDI Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Markdown",
+          "name": "Markdown",
+          "types": [
+            "rdfs:Datatype"
+          ],
+          "label": "Markdown"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#MixerPlugin",
+          "name": "MixerPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Mixer Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ModulatorPlugin",
+          "name": "ModulatorPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Modulator Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#MultiEQPlugin",
+          "name": "MultiEQPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Multiband EQ Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#OscillatorPlugin",
+          "name": "OscillatorPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Oscillator Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#OutputPort",
+          "name": "OutputPort",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Output Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ParaEQPlugin",
+          "name": "ParaEQPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Parametric EQ Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Parameter",
+          "name": "Parameter",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Parameter"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#PhaserPlugin",
+          "name": "PhaserPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Phaser Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#PitchPlugin",
+          "name": "PitchPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Pitch Shifter Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Plugin",
+          "name": "Plugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#PluginBase",
+          "name": "PluginBase",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Plugin Base"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Point",
+          "name": "Point",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Point"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Port",
+          "name": "Port",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#PortBase",
+          "name": "PortBase",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Port Base"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#PortProperty",
+          "name": "PortProperty",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Port Property"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ReverbPlugin",
+          "name": "ReverbPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Reverb Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#ScalePoint",
+          "name": "ScalePoint",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Scale Point"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#SimulatorPlugin",
+          "name": "SimulatorPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Simulator Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#SpatialPlugin",
+          "name": "SpatialPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Spatial Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Specification",
+          "name": "Specification",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Specification"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#SpectralPlugin",
+          "name": "SpectralPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Spectral Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#Symbol",
+          "name": "Symbol",
+          "types": [
+            "rdfs:Datatype"
+          ],
+          "label": "Symbol"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#UtilityPlugin",
+          "name": "UtilityPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Utility Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#WaveshaperPlugin",
+          "name": "WaveshaperPlugin",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Waveshaper Plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#appliesTo",
+          "name": "appliesTo",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "applies to"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#binary",
+          "name": "binary",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "binary"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#connectionOptional",
+          "name": "connectionOptional",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "connection optional"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#control",
+          "name": "control",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "control"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#default",
+          "name": "default",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "default"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#designation",
+          "name": "designation",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "designation"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#documentation",
+          "name": "documentation",
+          "types": [
+            "owl:AnnotationProperty",
+            "rdf:Property"
+          ],
+          "label": "documentation"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#enabled",
+          "name": "enabled",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "enabled"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#enumeration",
+          "name": "enumeration",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "enumeration"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#extensionData",
+          "name": "extensionData",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "extension data"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#freeWheeling",
+          "name": "freeWheeling",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "free-wheeling"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#hardRTCapable",
+          "name": "hardRTCapable",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "hard real-time capable"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#inPlaceBroken",
+          "name": "inPlaceBroken",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "in-place broken"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#index",
+          "name": "index",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "index"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#integer",
+          "name": "integer",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "integer"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#isLive",
+          "name": "isLive",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "is live"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#isSideChain",
+          "name": "isSideChain",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "is side-chain"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#latency",
+          "name": "latency",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "latency"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#maximum",
+          "name": "maximum",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "maximum"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#microVersion",
+          "name": "microVersion",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "micro version"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#minimum",
+          "name": "minimum",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "minimum"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#minorVersion",
+          "name": "minorVersion",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "minor version"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#name",
+          "name": "name",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "name"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#optionalFeature",
+          "name": "optionalFeature",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "optional feature"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#port",
+          "name": "port",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#portProperty",
+          "name": "portProperty",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "port property"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#project",
+          "name": "project",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "project"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#prototype",
+          "name": "prototype",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "prototype"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#reportsLatency",
+          "name": "reportsLatency",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "deprecated": true,
+          "label": "reports latency"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#requiredFeature",
+          "name": "requiredFeature",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "required feature"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#sampleRate",
+          "name": "sampleRate",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "sample rate"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#scalePoint",
+          "name": "scalePoint",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "scale point"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#shortName",
+          "name": "shortName",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "short name"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#symbol",
+          "name": "symbol",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "symbol"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/lv2core#toggled",
+          "name": "toggled",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "toggled"
+        }
+      ]
+    },
+    "data-access": {
+      "bundle": "data-access.lv2",
+      "uri": "http://lv2plug.in/ns/ext/data-access",
+      "version": "1.6",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/data-access",
+          "name": "data-access.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "lv2:Feature"
+          ],
+          "label": "data access"
+        }
+      ]
+    },
+    "dynmanifest": {
+      "bundle": "dynmanifest.lv2",
+      "uri": "http://lv2plug.in/ns/ext/dynmanifest",
+      "version": "1.6",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/dynmanifest",
+          "name": "dynmanifest.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Dyn Manifest"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/dynmanifest#DynManifest",
+          "name": "DynManifest",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Dynamic Manifest"
+        }
+      ]
+    },
+    "event": {
+      "bundle": "event.lv2",
+      "uri": "http://lv2plug.in/ns/ext/event",
+      "version": "1.14",
+      "deprecated": true,
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/event",
+          "name": "event.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "deprecated": true,
+          "label": "LV2 Event"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#Event",
+          "name": "Event",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Event"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#EventPort",
+          "name": "EventPort",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Event Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#FrameStamp",
+          "name": "FrameStamp",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Audio Frame Time Stamp"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#TimeStamp",
+          "name": "TimeStamp",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Event Time Stamp"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#generatesTimeStamp",
+          "name": "generatesTimeStamp",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "generates time stamp type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#generic",
+          "name": "generic",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "generic event port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#inheritsEvent",
+          "name": "inheritsEvent",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "inherits event type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#inheritsTimeStamp",
+          "name": "inheritsTimeStamp",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "inherits time stamp type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#supportsEvent",
+          "name": "supportsEvent",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "supports event type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/event#supportsTimeStamp",
+          "name": "supportsTimeStamp",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "supports time stamp type"
+        }
+      ]
+    },
+    "instance-access": {
+      "bundle": "instance-access.lv2",
+      "uri": "http://lv2plug.in/ns/ext/instance-access",
+      "version": "1.6",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/instance-access",
+          "name": "instance-access.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "lv2:Feature"
+          ],
+          "label": "instance access"
+        }
+      ]
+    },
+    "log": {
+      "bundle": "log.lv2",
+      "uri": "http://lv2plug.in/ns/ext/log",
+      "version": "2.4",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/log",
+          "name": "log.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Log"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/log#Entry",
+          "name": "Entry",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Log Entry"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/log#Error",
+          "name": "Error",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Error"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/log#Note",
+          "name": "Note",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Note"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/log#Trace",
+          "name": "Trace",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Trace"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/log#Warning",
+          "name": "Warning",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Warning"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/log#log",
+          "name": "log",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "log"
+        }
+      ]
+    },
+    "midi": {
+      "bundle": "midi.lv2",
+      "uri": "http://lv2plug.in/ns/ext/midi",
+      "version": "1.10",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi",
+          "name": "midi.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 MIDI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#ActiveSense",
+          "name": "ActiveSense",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Active Sense"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Aftertouch",
+          "name": "Aftertouch",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Aftertouch"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Bender",
+          "name": "Bender",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Bender"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#ChannelPressure",
+          "name": "ChannelPressure",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Channel Pressure"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Chunk",
+          "name": "Chunk",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Chunk"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Clock",
+          "name": "Clock",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Clock"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Continue",
+          "name": "Continue",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Continue"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Controller",
+          "name": "Controller",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Controller"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#HexByte",
+          "name": "HexByte",
+          "types": [
+            "rdfs:Datatype"
+          ],
+          "label": "Hex Byte"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#MidiEvent",
+          "name": "MidiEvent",
+          "types": [
+            "rdfs:Class",
+            "rdfs:Datatype"
+          ],
+          "label": "MIDI Message"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#NoteOff",
+          "name": "NoteOff",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Note Off"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#NoteOn",
+          "name": "NoteOn",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Note On"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#ProgramChange",
+          "name": "ProgramChange",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Program Change"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#QuarterFrame",
+          "name": "QuarterFrame",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Quarter Frame"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Reset",
+          "name": "Reset",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Reset"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#SongPosition",
+          "name": "SongPosition",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Song Position"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#SongSelect",
+          "name": "SongSelect",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Song Select"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Start",
+          "name": "Start",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Start"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#Stop",
+          "name": "Stop",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Stop"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#SystemCommon",
+          "name": "SystemCommon",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "System Common"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#SystemExclusive",
+          "name": "SystemExclusive",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "System Exclusive"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#SystemMessage",
+          "name": "SystemMessage",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "System Message"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#SystemRealtime",
+          "name": "SystemRealtime",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "System Realtime"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#TuneRequest",
+          "name": "TuneRequest",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Tune Request"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#VoiceMessage",
+          "name": "VoiceMessage",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Voice Message"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#benderValue",
+          "name": "benderValue",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "bender value"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#binding",
+          "name": "binding",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "binding"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#byteNumber",
+          "name": "byteNumber",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "byte number"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#channel",
+          "name": "channel",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "MIDI channel"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#chunk",
+          "name": "chunk",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "MIDI chunk"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#controllerNumber",
+          "name": "controllerNumber",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "MIDI controller number"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#controllerValue",
+          "name": "controllerValue",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "MIDI controller value"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#noteNumber",
+          "name": "noteNumber",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "note number"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#pressure",
+          "name": "pressure",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "key pressure"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#programNumber",
+          "name": "programNumber",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "program number"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#property",
+          "name": "property",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "property"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#songNumber",
+          "name": "songNumber",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "song number"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#songPosition",
+          "name": "songPosition",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "song position"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#status",
+          "name": "status",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "status byte"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#statusMask",
+          "name": "statusMask",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "status mask"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/midi#velocity",
+          "name": "velocity",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "velocity"
+        }
+      ]
+    },
+    "morph": {
+      "bundle": "morph.lv2",
+      "uri": "http://lv2plug.in/ns/ext/morph",
+      "version": "1.0",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/morph",
+          "name": "morph.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Morph"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/morph#AutoMorphPort",
+          "name": "AutoMorphPort",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Auto Morph Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/morph#MorphPort",
+          "name": "MorphPort",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Morph Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/morph#currentType",
+          "name": "currentType",
+          "types": [
+            "opts:Option",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "current type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/morph#supportsType",
+          "name": "supportsType",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "supports type"
+        }
+      ]
+    },
+    "options": {
+      "bundle": "options.lv2",
+      "uri": "http://lv2plug.in/ns/ext/options",
+      "version": "1.4",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/options",
+          "name": "options.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Options"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/options#Option",
+          "name": "Option",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Option"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/options#interface",
+          "name": "interface",
+          "types": [
+            "lv2:ExtensionData"
+          ],
+          "label": "interface"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/options#options",
+          "name": "options",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "options"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/options#requiredOption",
+          "name": "requiredOption",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "required option"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/options#supportedOption",
+          "name": "supportedOption",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "supported option"
+        }
+      ]
+    },
+    "parameters": {
+      "bundle": "parameters.lv2",
+      "uri": "http://lv2plug.in/ns/ext/parameters",
+      "version": "1.4",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters",
+          "name": "parameters.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Parameters"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#CompressorControls",
+          "name": "CompressorControls",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Compressor Controls"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#ControlGroup",
+          "name": "ControlGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Control Group"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#EnvelopeControls",
+          "name": "EnvelopeControls",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Envelope Controls"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#FilterControls",
+          "name": "FilterControls",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Filter Controls"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#OscillatorControls",
+          "name": "OscillatorControls",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Oscillator Controls"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#amplitude",
+          "name": "amplitude",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "amplitude"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#attack",
+          "name": "attack",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "attack"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#bypass",
+          "name": "bypass",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "bypass"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#cutoffFrequency",
+          "name": "cutoffFrequency",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "cutoff frequency"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#decay",
+          "name": "decay",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "decay"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#delay",
+          "name": "delay",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "delay"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#dryLevel",
+          "name": "dryLevel",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "dry level"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#frequency",
+          "name": "frequency",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "frequency"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#gain",
+          "name": "gain",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "gain"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#hold",
+          "name": "hold",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "hold"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#pulseWidth",
+          "name": "pulseWidth",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "pulse width"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#ratio",
+          "name": "ratio",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "ratio"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#release",
+          "name": "release",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "release"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#resonance",
+          "name": "resonance",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "resonance"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#sampleRate",
+          "name": "sampleRate",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "sample rate"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#sustain",
+          "name": "sustain",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "sustain"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#threshold",
+          "name": "threshold",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "threshold"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#waveform",
+          "name": "waveform",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "waveform"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#wetDryRatio",
+          "name": "wetDryRatio",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "wet/dry ratio"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/parameters#wetLevel",
+          "name": "wetLevel",
+          "types": [
+            "lv2:Parameter"
+          ],
+          "label": "wet level"
+        }
+      ]
+    },
+    "patch": {
+      "bundle": "patch.lv2",
+      "uri": "http://lv2plug.in/ns/ext/patch",
+      "version": "2.10",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch",
+          "name": "patch.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Patch"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Ack",
+          "name": "Ack",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ack"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Copy",
+          "name": "Copy",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Copy"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Delete",
+          "name": "Delete",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Delete"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Error",
+          "name": "Error",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Error"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Get",
+          "name": "Get",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Get"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Insert",
+          "name": "Insert",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Insert"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Message",
+          "name": "Message",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Patch Message"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Move",
+          "name": "Move",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Move"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Patch",
+          "name": "Patch",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Patch"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Put",
+          "name": "Put",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Put"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Request",
+          "name": "Request",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Request"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Response",
+          "name": "Response",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Response"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#Set",
+          "name": "Set",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Set"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#accept",
+          "name": "accept",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "accept"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#add",
+          "name": "add",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "add"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#body",
+          "name": "body",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "body"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#context",
+          "name": "context",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "context"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#destination",
+          "name": "destination",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "destination"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#property",
+          "name": "property",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "property"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#readable",
+          "name": "readable",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "readable"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#remove",
+          "name": "remove",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "remove"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#request",
+          "name": "request",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "request"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#sequenceNumber",
+          "name": "sequenceNumber",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "sequence number"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#subject",
+          "name": "subject",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "subject"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#value",
+          "name": "value",
+          "types": [
+            "rdf:Property"
+          ],
+          "label": "value"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#wildcard",
+          "name": "wildcard",
+          "types": [
+            "owl:Thing"
+          ],
+          "label": "wildcard"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/patch#writable",
+          "name": "writable",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "writable"
+        }
+      ]
+    },
+    "port-groups": {
+      "bundle": "port-groups.lv2",
+      "uri": "http://lv2plug.in/ns/ext/port-groups",
+      "version": "1.4",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups",
+          "name": "port-groups.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Port Groups"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN0",
+          "name": "ACN0",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN0"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN1",
+          "name": "ACN1",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN1"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN10",
+          "name": "ACN10",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN10"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN11",
+          "name": "ACN11",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN11"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN12",
+          "name": "ACN12",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN12"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN13",
+          "name": "ACN13",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN13"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN14",
+          "name": "ACN14",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN14"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN15",
+          "name": "ACN15",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN15"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN2",
+          "name": "ACN2",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN2"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN3",
+          "name": "ACN3",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN3"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN4",
+          "name": "ACN4",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN4"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN5",
+          "name": "ACN5",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN5"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN6",
+          "name": "ACN6",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN6"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN7",
+          "name": "ACN7",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN7"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN8",
+          "name": "ACN8",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN8"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ACN9",
+          "name": "ACN9",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "ACN9"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH1P0Group",
+          "name": "AmbisonicBH1P0Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH1P0"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH1P1Group",
+          "name": "AmbisonicBH1P1Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH1P1"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH2P0Group",
+          "name": "AmbisonicBH2P0Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH2P0"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH2P1Group",
+          "name": "AmbisonicBH2P1Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH2P1"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH2P2Group",
+          "name": "AmbisonicBH2P2Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH2P2"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH3P0Group",
+          "name": "AmbisonicBH3P0Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH3P0"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH3P1Group",
+          "name": "AmbisonicBH3P1Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH3P1"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH3P2Group",
+          "name": "AmbisonicBH3P2Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH3P2"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicBH3P3Group",
+          "name": "AmbisonicBH3P3Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic BH3P3"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#AmbisonicGroup",
+          "name": "AmbisonicGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Ambisonic Group"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#DiscreteGroup",
+          "name": "DiscreteGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Discrete Group"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#Element",
+          "name": "Element",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Element"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#FivePointOneGroup",
+          "name": "FivePointOneGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "5.1 Surround"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#FivePointZeroGroup",
+          "name": "FivePointZeroGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "5.0 Surround"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#FourPointZeroGroup",
+          "name": "FourPointZeroGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "4.0 Surround"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#Group",
+          "name": "Group",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Port Group"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#InputGroup",
+          "name": "InputGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Input Group"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#MidSideGroup",
+          "name": "MidSideGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Mid-Side Stereo"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#MonoGroup",
+          "name": "MonoGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Mono"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#OutputGroup",
+          "name": "OutputGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Output Group"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#SevenPointOneGroup",
+          "name": "SevenPointOneGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "7.1 Surround"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#SevenPointOneWideGroup",
+          "name": "SevenPointOneWideGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "7.1 Surround (Wide)"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#SixPointOneGroup",
+          "name": "SixPointOneGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "6.1 Surround"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#StereoGroup",
+          "name": "StereoGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Stereo"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#ThreePointZeroGroup",
+          "name": "ThreePointZeroGroup",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "3.0 Surround"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#center",
+          "name": "center",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "center"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#centerLeft",
+          "name": "centerLeft",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "center left"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#centerRight",
+          "name": "centerRight",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "center right"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#element",
+          "name": "element",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "element"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#group",
+          "name": "group",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "group"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#harmonicDegree",
+          "name": "harmonicDegree",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "harmonic degree"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#harmonicIndex",
+          "name": "harmonicIndex",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "harmonic index"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#left",
+          "name": "left",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "left"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#letterCode",
+          "name": "letterCode",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "ambisonic letter code"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#lowFrequencyEffects",
+          "name": "lowFrequencyEffects",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "low-frequency effects"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#mainInput",
+          "name": "mainInput",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "main input"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#mainOutput",
+          "name": "mainOutput",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "main output"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#rearCenter",
+          "name": "rearCenter",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "rear center"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#rearLeft",
+          "name": "rearLeft",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "rear left"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#rearRight",
+          "name": "rearRight",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "rear right"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#right",
+          "name": "right",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "right"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#side",
+          "name": "side",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "side"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#sideChainOf",
+          "name": "sideChainOf",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "side-chain of"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#sideLeft",
+          "name": "sideLeft",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "side left"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#sideRight",
+          "name": "sideRight",
+          "types": [
+            "lv2:Channel"
+          ],
+          "label": "side right"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#source",
+          "name": "source",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "source"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-groups#subGroupOf",
+          "name": "subGroupOf",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "sub-group of"
+        }
+      ]
+    },
+    "port-props": {
+      "bundle": "port-props.lv2",
+      "uri": "http://lv2plug.in/ns/ext/port-props",
+      "version": "1.2",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props",
+          "name": "port-props.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Port Properties"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#causesArtifacts",
+          "name": "causesArtifacts",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "changes cause artifacts"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#continuousCV",
+          "name": "continuousCV",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "smooth modulation signal"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#discreteCV",
+          "name": "discreteCV",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "discrete modulation signal"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#displayPriority",
+          "name": "displayPriority",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "display priority"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#expensive",
+          "name": "expensive",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "changes are expensive"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#hasStrictBounds",
+          "name": "hasStrictBounds",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "has strict bounds"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#logarithmic",
+          "name": "logarithmic",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "logarithmic"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#notAutomatic",
+          "name": "notAutomatic",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "not automatic"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#notOnGUI",
+          "name": "notOnGUI",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "not on GUI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#rangeSteps",
+          "name": "rangeSteps",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "range steps"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#supportsStrictBounds",
+          "name": "supportsStrictBounds",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "supports strict bounds"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/port-props#trigger",
+          "name": "trigger",
+          "types": [
+            "lv2:PortProperty"
+          ],
+          "label": "trigger"
+        }
+      ]
+    },
+    "presets": {
+      "bundle": "presets.lv2",
+      "uri": "http://lv2plug.in/ns/ext/presets",
+      "version": "2.8",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/presets",
+          "name": "presets.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Presets"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/presets#Bank",
+          "name": "Bank",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Bank"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/presets#Preset",
+          "name": "Preset",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Preset"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/presets#bank",
+          "name": "bank",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "bank"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/presets#preset",
+          "name": "preset",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "preset"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/presets#value",
+          "name": "value",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "value"
+        }
+      ]
+    },
+    "resize-port": {
+      "bundle": "resize-port.lv2",
+      "uri": "http://lv2plug.in/ns/ext/resize-port",
+      "version": "1.0",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/resize-port",
+          "name": "resize-port.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Resize Port"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/resize-port#asLargeAs",
+          "name": "asLargeAs",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "as large as"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/resize-port#minimumSize",
+          "name": "minimumSize",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "minimum size"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/resize-port#resize",
+          "name": "resize",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "resize"
+        }
+      ]
+    },
+    "state": {
+      "bundle": "state.lv2",
+      "uri": "http://lv2plug.in/ns/ext/state",
+      "version": "2.10",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/state",
+          "name": "state.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 State"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#State",
+          "name": "State",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "State"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#StateChanged",
+          "name": "StateChanged",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "State Changed"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#freePath",
+          "name": "freePath",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "free path"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#interface",
+          "name": "interface",
+          "types": [
+            "lv2:ExtensionData"
+          ],
+          "label": "interface"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#loadDefaultState",
+          "name": "loadDefaultState",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "load default state"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#makePath",
+          "name": "makePath",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "make path"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#mapPath",
+          "name": "mapPath",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "map path"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#state",
+          "name": "state",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "state"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/state#threadSafeRestore",
+          "name": "threadSafeRestore",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "thread-safe restore"
+        }
+      ]
+    },
+    "time": {
+      "bundle": "time.lv2",
+      "uri": "http://lv2plug.in/ns/ext/time",
+      "version": "1.6",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/time",
+          "name": "time.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Time"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#Position",
+          "name": "Position",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Position"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#Rate",
+          "name": "Rate",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Rate"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#Time",
+          "name": "Time",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Time"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#bar",
+          "name": "bar",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "bar"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#barBeat",
+          "name": "barBeat",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "beat within bar"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#beat",
+          "name": "beat",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "beat"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#beatUnit",
+          "name": "beatUnit",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "beat unit"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#beatsPerBar",
+          "name": "beatsPerBar",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "beats per bar"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#beatsPerMinute",
+          "name": "beatsPerMinute",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "beats per minute"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#frame",
+          "name": "frame",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "frame"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#framesPerSecond",
+          "name": "framesPerSecond",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "frames per second"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#position",
+          "name": "position",
+          "types": [
+            "owl:FunctionalProperty",
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "position"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/time#speed",
+          "name": "speed",
+          "types": [
+            "owl:DatatypeProperty",
+            "owl:FunctionalProperty",
+            "rdf:Property"
+          ],
+          "label": "speed"
+        }
+      ]
+    },
+    "ui": {
+      "bundle": "ui.lv2",
+      "uri": "http://lv2plug.in/ns/extensions/ui",
+      "version": "2.24",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui",
+          "name": "ui.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 UI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#CocoaUI",
+          "name": "CocoaUI",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Cocoa UI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#Gtk3UI",
+          "name": "Gtk3UI",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "GTK3 UI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#GtkUI",
+          "name": "GtkUI",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "GTK2 UI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#PortNotification",
+          "name": "PortNotification",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Port Notification"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#PortProtocol",
+          "name": "PortProtocol",
+          "types": [
+            "rdfs:Class"
+          ],
+          "label": "Port Protocol"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#Qt4UI",
+          "name": "Qt4UI",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Qt4 UI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#Qt5UI",
+          "name": "Qt5UI",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Qt5 UI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#UI",
+          "name": "UI",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "User Interface"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#WindowsUI",
+          "name": "WindowsUI",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Windows UI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#X11UI",
+          "name": "X11UI",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "X11 UI"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#backgroundColor",
+          "name": "backgroundColor",
+          "types": [
+            "opts:Option",
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "background color"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#binary",
+          "name": "binary",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "deprecated": true,
+          "label": "binary"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#fixedSize",
+          "name": "fixedSize",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "fixed size"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#floatProtocol",
+          "name": "floatProtocol",
+          "types": [
+            "ui:PortProtocol"
+          ],
+          "label": "float protocol"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#foregroundColor",
+          "name": "foregroundColor",
+          "types": [
+            "opts:Option",
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "foreground color"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#idleInterface",
+          "name": "idleInterface",
+          "types": [
+            "lv2:ExtensionData",
+            "lv2:Feature"
+          ],
+          "label": "idle interface"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#makeSONameResident",
+          "name": "makeSONameResident",
+          "types": [
+            "lv2:Feature"
+          ],
+          "deprecated": true,
+          "label": "make SO name resident"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#noUserResize",
+          "name": "noUserResize",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "no user resize"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#notifyType",
+          "name": "notifyType",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "notify type"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#parent",
+          "name": "parent",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "parent"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#peakProtocol",
+          "name": "peakProtocol",
+          "types": [
+            "ui:PortProtocol"
+          ],
+          "label": "peak protocol"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#plugin",
+          "name": "plugin",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "plugin"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#portIndex",
+          "name": "portIndex",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "port index"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#portMap",
+          "name": "portMap",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "port map"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#portNotification",
+          "name": "portNotification",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "port notification"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#portSubscribe",
+          "name": "portSubscribe",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "port subscribe"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#protocol",
+          "name": "protocol",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "protocol"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#requestValue",
+          "name": "requestValue",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "request value"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#resize",
+          "name": "resize",
+          "types": [
+            "lv2:ExtensionData",
+            "lv2:Feature"
+          ],
+          "deprecated": true,
+          "label": "resize"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#scaleFactor",
+          "name": "scaleFactor",
+          "types": [
+            "opts:Option",
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "scale factor"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#showInterface",
+          "name": "showInterface",
+          "types": [
+            "lv2:ExtensionData"
+          ],
+          "label": "show interface"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#touch",
+          "name": "touch",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "touch"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#ui",
+          "name": "ui",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "user interface"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#updateRate",
+          "name": "updateRate",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "update rate"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/ui#windowTitle",
+          "name": "windowTitle",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "window title"
+        }
+      ]
+    },
+    "units": {
+      "bundle": "units.lv2",
+      "uri": "http://lv2plug.in/ns/extensions/units",
+      "version": "5.12",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units",
+          "name": "units.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Units"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#Conversion",
+          "name": "Conversion",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Conversion"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#Unit",
+          "name": "Unit",
+          "types": [
+            "owl:Class",
+            "rdfs:Class"
+          ],
+          "label": "Unit"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#bar",
+          "name": "bar",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "bars"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#beat",
+          "name": "beat",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "beats"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#bpm",
+          "name": "bpm",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "beats per minute"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#cent",
+          "name": "cent",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "cents"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#cm",
+          "name": "cm",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "centimetres"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#coef",
+          "name": "coef",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "coefficient"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#conversion",
+          "name": "conversion",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "conversion"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#db",
+          "name": "db",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "decibels"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#degree",
+          "name": "degree",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "degrees"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#factor",
+          "name": "factor",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "conversion factor"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#frame",
+          "name": "frame",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "audio frames"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#hz",
+          "name": "hz",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "hertz"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#inch",
+          "name": "inch",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "inches"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#khz",
+          "name": "khz",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "kilohertz"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#km",
+          "name": "km",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "kilometres"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#m",
+          "name": "m",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "metres"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#mhz",
+          "name": "mhz",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "megahertz"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#midiNote",
+          "name": "midiNote",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "MIDI note"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#mile",
+          "name": "mile",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "miles"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#min",
+          "name": "min",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "minutes"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#mm",
+          "name": "mm",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "millimetres"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#ms",
+          "name": "ms",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "milliseconds"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#oct",
+          "name": "oct",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "octaves"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#pc",
+          "name": "pc",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "percent"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#prefixConversion",
+          "name": "prefixConversion",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "prefix conversion"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#render",
+          "name": "render",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "unit format string"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#s",
+          "name": "s",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "seconds"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#semitone12TET",
+          "name": "semitone12TET",
+          "types": [
+            "units:Unit"
+          ],
+          "label": "semitones"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#symbol",
+          "name": "symbol",
+          "types": [
+            "owl:DatatypeProperty",
+            "rdf:Property"
+          ],
+          "label": "unit symbol"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#to",
+          "name": "to",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "conversion target"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/extensions/units#unit",
+          "name": "unit",
+          "types": [
+            "owl:ObjectProperty",
+            "rdf:Property"
+          ],
+          "label": "unit"
+        }
+      ]
+    },
+    "uri-map": {
+      "bundle": "uri-map.lv2",
+      "uri": "http://lv2plug.in/ns/ext/uri-map",
+      "version": "1.6",
+      "deprecated": true,
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/uri-map",
+          "name": "uri-map.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "lv2:Feature"
+          ],
+          "deprecated": true,
+          "label": "LV2 URI Map"
+        }
+      ]
+    },
+    "urid": {
+      "bundle": "urid.lv2",
+      "uri": "http://lv2plug.in/ns/ext/urid",
+      "version": "1.4",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/urid",
+          "name": "urid.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 URID"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/urid#map",
+          "name": "map",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "map"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/urid#unmap",
+          "name": "unmap",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "unmap"
+        }
+      ]
+    },
+    "worker": {
+      "bundle": "worker.lv2",
+      "uri": "http://lv2plug.in/ns/ext/worker",
+      "version": "1.2",
+      "terms": [
+        {
+          "uri": "http://lv2plug.in/ns/ext/worker",
+          "name": "worker.lv2",
+          "types": [
+            "http://usefulinc.com/ns/doap#Project",
+            "owl:Ontology"
+          ],
+          "label": "LV2 Worker"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/worker#interface",
+          "name": "interface",
+          "types": [
+            "lv2:ExtensionData"
+          ],
+          "label": "work interface"
+        },
+        {
+          "uri": "http://lv2plug.in/ns/ext/worker#schedule",
+          "name": "schedule",
+          "types": [
+            "lv2:Feature"
+          ],
+          "label": "work schedule"
+        }
+      ]
+    }
+  }
+}

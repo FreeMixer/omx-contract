@@ -1,0 +1,299 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_UNITS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Units specification (units.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/extensions/units",
+    "version": "5.12",
+    "terms": {
+      "Conversion": {
+        "uri": "http://lv2plug.in/ns/extensions/units#Conversion",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Unit": {
+        "uri": "http://lv2plug.in/ns/extensions/units#Unit",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl",
+          "omx-plugins:plugins/omx-reverb/generated/omx-reverb.lv2/omx-reverb.ttl"
+        ]
+      },
+      "bar": {
+        "uri": "http://lv2plug.in/ns/extensions/units#bar",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "beat": {
+        "uri": "http://lv2plug.in/ns/extensions/units#beat",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "bpm": {
+        "uri": "http://lv2plug.in/ns/extensions/units#bpm",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "bpm"
+      },
+      "cent": {
+        "uri": "http://lv2plug.in/ns/extensions/units#cent",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-pitch/generated/omx-pitch.lv2/omx-pitch.ttl",
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "cents"
+      },
+      "cm": {
+        "uri": "http://lv2plug.in/ns/extensions/units#cm",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "coef": {
+        "uri": "http://lv2plug.in/ns/extensions/units#coef",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-rotary/generated/omx-rotary.lv2/omx-rotary.ttl"
+        ]
+      },
+      "conversion": {
+        "uri": "http://lv2plug.in/ns/extensions/units#conversion",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/param_contract.h"
+        ]
+      },
+      "db": {
+        "uri": "http://lv2plug.in/ns/extensions/units#db",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/eq-identity.c",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl",
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "dB"
+      },
+      "degree": {
+        "uri": "http://lv2plug.in/ns/extensions/units#degree",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "deg"
+      },
+      "factor": {
+        "uri": "http://lv2plug.in/ns/extensions/units#factor",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "frame": {
+        "uri": "http://lv2plug.in/ns/extensions/units#frame",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl",
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "frames"
+      },
+      "hz": {
+        "uri": "http://lv2plug.in/ns/extensions/units#hz",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/eq-identity.c",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl",
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "Hz"
+      },
+      "inch": {
+        "uri": "http://lv2plug.in/ns/extensions/units#inch",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "khz": {
+        "uri": "http://lv2plug.in/ns/extensions/units#khz",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "km": {
+        "uri": "http://lv2plug.in/ns/extensions/units#km",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "m": {
+        "uri": "http://lv2plug.in/ns/extensions/units#m",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "mhz": {
+        "uri": "http://lv2plug.in/ns/extensions/units#mhz",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "midiNote": {
+        "uri": "http://lv2plug.in/ns/extensions/units#midiNote",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "midiNote"
+      },
+      "mile": {
+        "uri": "http://lv2plug.in/ns/extensions/units#mile",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "min": {
+        "uri": "http://lv2plug.in/ns/extensions/units#min",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "min"
+      },
+      "mm": {
+        "uri": "http://lv2plug.in/ns/extensions/units#mm",
+        "kind": "unit",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "ms": {
+        "uri": "http://lv2plug.in/ns/extensions/units#ms",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl",
+          "omx-plugins:plugins/omx-reverb/generated/omx-reverb.lv2/omx-reverb.ttl",
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "ms"
+      },
+      "oct": {
+        "uri": "http://lv2plug.in/ns/extensions/units#oct",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-phaser/generated/omx-phaser.lv2/omx-phaser.ttl",
+          "omx-plugins:plugins/omx-deesser/generated/omx-deesser.lv2/omx-deesser.ttl",
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "oct"
+      },
+      "pc": {
+        "uri": "http://lv2plug.in/ns/extensions/units#pc",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl",
+          "omx-plugins:plugins/omx-rotary/generated/omx-rotary.lv2/omx-rotary.ttl",
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "%"
+      },
+      "prefixConversion": {
+        "uri": "http://lv2plug.in/ns/extensions/units#prefixConversion",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "render": {
+        "uri": "http://lv2plug.in/ns/extensions/units#render",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl",
+          "omx-plugins:plugins/omx-reverb/generated/omx-reverb.lv2/omx-reverb.ttl"
+        ]
+      },
+      "s": {
+        "uri": "http://lv2plug.in/ns/extensions/units#s",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "s"
+      },
+      "semitone12TET": {
+        "uri": "http://lv2plug.in/ns/extensions/units#semitone12TET",
+        "kind": "unit",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-pitch/generated/omx-pitch.lv2/omx-pitch.ttl",
+          "omx-contract:schema/omx-contract.schema.json#/$defs/descriptorUnit"
+        ],
+        "word": "st"
+      },
+      "symbol": {
+        "uri": "http://lv2plug.in/ns/extensions/units#symbol",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl",
+          "omx-plugins:plugins/omx-reverb/generated/omx-reverb.lv2/omx-reverb.ttl"
+        ]
+      },
+      "to": {
+        "uri": "http://lv2plug.in/ns/extensions/units#to",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "unit": {
+        "uri": "http://lv2plug.in/ns/extensions/units#unit",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/port-hints.mjs",
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c"
+        ]
+      },
+      "units.lv2": {
+        "uri": "http://lv2plug.in/ns/extensions/units",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c",
+          "omx-plugins:tools/eq-identity.c"
+        ]
+      }
+    }
+  }
+}

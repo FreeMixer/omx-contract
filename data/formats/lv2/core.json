@@ -1,0 +1,783 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_CORE_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 specification (core.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/lv2core",
+    "version": "18.6",
+    "terms": {
+      "AllpassPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#AllpassPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "AmplifierPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#AmplifierPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "AnalyserPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#AnalyserPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-contract:docs/descriptors.md"
+        ],
+        "word": "features analyzer"
+      },
+      "AudioPort": {
+        "uri": "http://lv2plug.in/ns/lv2core#AudioPort",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ],
+        "word": "ports.kind audio"
+      },
+      "BandpassPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#BandpassPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "CVPort": {
+        "uri": "http://lv2plug.in/ns/lv2core#CVPort",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ],
+        "word": "ports.kind cv"
+      },
+      "Channel": {
+        "uri": "http://lv2plug.in/ns/lv2core#Channel",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "ChorusPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#ChorusPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-chorus/generated/omx-chorus.lv2/omx-chorus.ttl"
+        ]
+      },
+      "CombPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#CombPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "CompressorPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#CompressorPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-comp/generated/omx-comp.lv2/omx-comp.ttl",
+          "openmixer:console"
+        ]
+      },
+      "ConstantPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#ConstantPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "ControlPort": {
+        "uri": "http://lv2plug.in/ns/lv2core#ControlPort",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ]
+      },
+      "ConverterPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#ConverterPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "DelayPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#DelayPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/omx-new-plugin.mjs",
+          "omx-plugins:plugins/omx-delay/generated/omx-delay.lv2/omx-delay.ttl"
+        ]
+      },
+      "Designation": {
+        "uri": "http://lv2plug.in/ns/lv2core#Designation",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "DistortionPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#DistortionPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-drive/generated/omx-drive.lv2/omx-drive.ttl"
+        ]
+      },
+      "DynamicsPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#DynamicsPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/omx-new-plugin.mjs",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl",
+          "omx-plugins:plugins/omx-deesser/generated/omx-deesser.lv2/omx-deesser.ttl"
+        ]
+      },
+      "EQPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#EQPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-geq/generated/omx-geq.lv2/omx-geq.ttl",
+          "openmixer:console"
+        ]
+      },
+      "EnvelopePlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#EnvelopePlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "ExpanderPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#ExpanderPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "ExtensionData": {
+        "uri": "http://lv2plug.in/ns/lv2core#ExtensionData",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Feature": {
+        "uri": "http://lv2plug.in/ns/lv2core#Feature",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "FilterPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#FilterPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "FlangerPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#FlangerPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-flanger/generated/omx-flanger.lv2/omx-flanger.ttl"
+        ]
+      },
+      "FunctionPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#FunctionPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "GatePlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#GatePlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-keyed-gate/generated/omx-keyed-gate.lv2/omx-keyed-gate.ttl",
+          "openmixer:console"
+        ]
+      },
+      "GeneratorPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#GeneratorPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "HighpassPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#HighpassPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "InputPort": {
+        "uri": "http://lv2plug.in/ns/lv2core#InputPort",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ],
+        "word": "ports.direction in"
+      },
+      "InstrumentPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#InstrumentPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/benchmark.py"
+        ],
+        "word": "features instrument"
+      },
+      "LimiterPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#LimiterPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-limiter/generated/omx-limiter.lv2/omx-limiter.ttl"
+        ]
+      },
+      "LowpassPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#LowpassPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "MIDIPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#MIDIPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "Markdown": {
+        "uri": "http://lv2plug.in/ns/lv2core#Markdown",
+        "kind": "datatype",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "MixerPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#MixerPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/omx-new-plugin.mjs",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl"
+        ]
+      },
+      "ModulatorPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#ModulatorPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/omx-new-plugin.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl"
+        ]
+      },
+      "MultiEQPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#MultiEQPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "openmixer:console"
+        ]
+      },
+      "OscillatorPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#OscillatorPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "OutputPort": {
+        "uri": "http://lv2plug.in/ns/lv2core#OutputPort",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ],
+        "word": "ports.direction out"
+      },
+      "ParaEQPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#ParaEQPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-eq8/generated/omx-eq8.lv2/omx-eq8.ttl",
+          "omx-plugins:plugins/omx-eq32/generated/omx-eq32.lv2/omx-eq32.ttl",
+          "omx-plugins:plugins/omx-eq16/generated/omx-eq16.lv2/omx-eq16.ttl"
+        ]
+      },
+      "Parameter": {
+        "uri": "http://lv2plug.in/ns/lv2core#Parameter",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "openmixer:console"
+        ]
+      },
+      "PhaserPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#PhaserPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-phaser/generated/omx-phaser.lv2/omx-phaser.ttl"
+        ]
+      },
+      "PitchPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#PitchPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-pitch/generated/omx-pitch.lv2/omx-pitch.ttl"
+        ]
+      },
+      "Plugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#Plugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/manifest.ttl"
+        ]
+      },
+      "PluginBase": {
+        "uri": "http://lv2plug.in/ns/lv2core#PluginBase",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Point": {
+        "uri": "http://lv2plug.in/ns/lv2core#Point",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Port": {
+        "uri": "http://lv2plug.in/ns/lv2core#Port",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "PortBase": {
+        "uri": "http://lv2plug.in/ns/lv2core#PortBase",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "PortProperty": {
+        "uri": "http://lv2plug.in/ns/lv2core#PortProperty",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "ReverbPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#ReverbPlugin",
+        "kind": "plugin-class",
+        "status": "used",
+        "by": [
+          "omx-plugins:plugins/omx-reverb/generated/omx-reverb.lv2/omx-reverb.ttl"
+        ]
+      },
+      "ScalePoint": {
+        "uri": "http://lv2plug.in/ns/lv2core#ScalePoint",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SimulatorPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#SimulatorPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "SpatialPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#SpatialPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "Specification": {
+        "uri": "http://lv2plug.in/ns/lv2core#Specification",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "SpectralPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#SpectralPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "Symbol": {
+        "uri": "http://lv2plug.in/ns/lv2core#Symbol",
+        "kind": "datatype",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "UtilityPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#UtilityPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "WaveshaperPlugin": {
+        "uri": "http://lv2plug.in/ns/lv2core#WaveshaperPlugin",
+        "kind": "plugin-class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-contract#120"
+      },
+      "appliesTo": {
+        "uri": "http://lv2plug.in/ns/lv2core#appliesTo",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "binary": {
+        "uri": "http://lv2plug.in/ns/lv2core#binary",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/manifest.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/manifest.ttl"
+        ]
+      },
+      "connectionOptional": {
+        "uri": "http://lv2plug.in/ns/lv2core#connectionOptional",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-keyed-gate/generated/omx-keyed-gate.lv2/omx-keyed-gate.ttl"
+        ]
+      },
+      "control": {
+        "uri": "http://lv2plug.in/ns/lv2core#control",
+        "kind": "channel",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "core.lv2": {
+        "uri": "http://lv2plug.in/ns/lv2core",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-plugins:tools/port-groups-probe.c",
+          "omx-plugins:tools/modgui-gen.mjs"
+        ]
+      },
+      "default": {
+        "uri": "http://lv2plug.in/ns/lv2core#default",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-plugins:tools/gen.mjs"
+        ],
+        "word": "travel.default"
+      },
+      "designation": {
+        "uri": "http://lv2plug.in/ns/lv2core#designation",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl"
+        ],
+        "word": "meaning"
+      },
+      "documentation": {
+        "uri": "http://lv2plug.in/ns/lv2core#documentation",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "enabled": {
+        "uri": "http://lv2plug.in/ns/lv2core#enabled",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-plugins:tools/gen.mjs"
+        ],
+        "word": "meaning enabled"
+      },
+      "enumeration": {
+        "uri": "http://lv2plug.in/ns/lv2core#enumeration",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/port-hints.mjs",
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c"
+        ],
+        "word": "kind choice"
+      },
+      "extensionData": {
+        "uri": "http://lv2plug.in/ns/lv2core#extensionData",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "openmixer:console"
+        ]
+      },
+      "freeWheeling": {
+        "uri": "http://lv2plug.in/ns/lv2core#freeWheeling",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "hardRTCapable": {
+        "uri": "http://lv2plug.in/ns/lv2core#hardRTCapable",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ]
+      },
+      "inPlaceBroken": {
+        "uri": "http://lv2plug.in/ns/lv2core#inPlaceBroken",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_instance.c"
+        ]
+      },
+      "index": {
+        "uri": "http://lv2plug.in/ns/lv2core#index",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/modgui-terms.ttl",
+          "omx-plugins:tools/modgui-gen.mjs",
+          "omx-plugins:tools/gen.mjs"
+        ],
+        "word": "source"
+      },
+      "integer": {
+        "uri": "http://lv2plug.in/ns/lv2core#integer",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl"
+        ],
+        "word": "scale stepped"
+      },
+      "isLive": {
+        "uri": "http://lv2plug.in/ns/lv2core#isLive",
+        "kind": "feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "isSideChain": {
+        "uri": "http://lv2plug.in/ns/lv2core#isSideChain",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c",
+          "omx-plugins:tools/gen.mjs"
+        ],
+        "word": "role sidechain"
+      },
+      "latency": {
+        "uri": "http://lv2plug.in/ns/lv2core#latency",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ],
+        "word": "latency.reports"
+      },
+      "maximum": {
+        "uri": "http://lv2plug.in/ns/lv2core#maximum",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl"
+        ],
+        "word": "travel.max"
+      },
+      "microVersion": {
+        "uri": "http://lv2plug.in/ns/lv2core#microVersion",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ]
+      },
+      "minimum": {
+        "uri": "http://lv2plug.in/ns/lv2core#minimum",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-plugins:tools/gen.mjs"
+        ],
+        "word": "travel.min"
+      },
+      "minorVersion": {
+        "uri": "http://lv2plug.in/ns/lv2core#minorVersion",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ]
+      },
+      "name": {
+        "uri": "http://lv2plug.in/ns/lv2core#name",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c",
+          "omx-plugins:tools/modgui-terms.ttl"
+        ],
+        "word": "name"
+      },
+      "optionalFeature": {
+        "uri": "http://lv2plug.in/ns/lv2core#optionalFeature",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ],
+        "word": "needs.extensions.optional"
+      },
+      "port": {
+        "uri": "http://lv2plug.in/ns/lv2core#port",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ]
+      },
+      "portProperty": {
+        "uri": "http://lv2plug.in/ns/lv2core#portProperty",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ]
+      },
+      "project": {
+        "uri": "http://lv2plug.in/ns/lv2core#project",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ]
+      },
+      "prototype": {
+        "uri": "http://lv2plug.in/ns/lv2core#prototype",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "reportsLatency": {
+        "uri": "http://lv2plug.in/ns/lv2core#reportsLatency",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl"
+        ],
+        "deprecated": true
+      },
+      "requiredFeature": {
+        "uri": "http://lv2plug.in/ns/lv2core#requiredFeature",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "plugin-qualify:native/lv2-measure.c"
+        ],
+        "word": "needs.extensions.required"
+      },
+      "sampleRate": {
+        "uri": "http://lv2plug.in/ns/lv2core#sampleRate",
+        "kind": "port-property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "scalePoint": {
+        "uri": "http://lv2plug.in/ns/lv2core#scalePoint",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
+          "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl"
+        ],
+        "word": "labels"
+      },
+      "shortName": {
+        "uri": "http://lv2plug.in/ns/lv2core#shortName",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "symbol": {
+        "uri": "http://lv2plug.in/ns/lv2core#symbol",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ],
+        "word": "id"
+      },
+      "toggled": {
+        "uri": "http://lv2plug.in/ns/lv2core#toggled",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c",
+          "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl"
+        ],
+        "word": "kind toggle"
+      }
+    }
+  }
+}

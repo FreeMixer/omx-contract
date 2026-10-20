@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_EVENT_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Event specification (event.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/event",
+    "version": "1.14",
+    "deprecated": true,
+    "terms": {
+      "Event": {
+        "uri": "http://lv2plug.in/ns/ext/event#Event",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "EventPort": {
+        "uri": "http://lv2plug.in/ns/ext/event#EventPort",
+        "kind": "class",
+        "status": "out-of-scope",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c"
+        ],
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "FrameStamp": {
+        "uri": "http://lv2plug.in/ns/ext/event#FrameStamp",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "TimeStamp": {
+        "uri": "http://lv2plug.in/ns/ext/event#TimeStamp",
+        "kind": "class",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "event.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/event",
+        "kind": "specification",
+        "status": "out-of-scope",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c"
+        ],
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it.",
+        "deprecated": true
+      },
+      "generatesTimeStamp": {
+        "uri": "http://lv2plug.in/ns/ext/event#generatesTimeStamp",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "generic": {
+        "uri": "http://lv2plug.in/ns/ext/event#generic",
+        "kind": "port-property",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "inheritsEvent": {
+        "uri": "http://lv2plug.in/ns/ext/event#inheritsEvent",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "inheritsTimeStamp": {
+        "uri": "http://lv2plug.in/ns/ext/event#inheritsTimeStamp",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "supportsEvent": {
+        "uri": "http://lv2plug.in/ns/ext/event#supportsEvent",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      },
+      "supportsTimeStamp": {
+        "uri": "http://lv2plug.in/ns/ext/event#supportsTimeStamp",
+        "kind": "property",
+        "status": "out-of-scope",
+        "ruling": "LV2 deprecates the event extension (owl:deprecated on http://lv2plug.in/ns/ext/event); a consumer that reads it does so to refuse it."
+      }
+    }
+  }
+}

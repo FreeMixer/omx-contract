@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_RESIZE_PORT_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Resize Port specification (resize-port.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/resize-port",
+    "version": "1.0",
+    "terms": {
+      "asLargeAs": {
+        "uri": "http://lv2plug.in/ns/ext/resize-port#asLargeAs",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "minimumSize": {
+        "uri": "http://lv2plug.in/ns/ext/resize-port#minimumSize",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "resize": {
+        "uri": "http://lv2plug.in/ns/ext/resize-port#resize",
+        "kind": "feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "resize-port.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/resize-port",
+        "kind": "specification",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      }
+    }
+  }
+}
