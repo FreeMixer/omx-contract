@@ -1,0 +1,68 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_FACTORY_PRESET_DISCOVERY_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/factory/preset-discovery.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/factory/preset-discovery.h",
+    "version": "1.2.10",
+    "terms": {
+      "preset-discovery-factory/2": {
+        "id": "CLAP_PRESET_DISCOVERY_FACTORY_ID",
+        "value": "clap.preset-discovery-factory/2",
+        "kind": "factory",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#95"
+      },
+      "preset-discovery-factory/draft-2": {
+        "id": "CLAP_PRESET_DISCOVERY_FACTORY_ID_COMPAT",
+        "value": "clap.preset-discovery-factory/draft-2",
+        "kind": "factory",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#95"
+      },
+      "presetDiscoveryIsDemoContent": {
+        "id": "CLAP_PRESET_DISCOVERY_IS_DEMO_CONTENT",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#95"
+      },
+      "presetDiscoveryIsFactoryContent": {
+        "id": "CLAP_PRESET_DISCOVERY_IS_FACTORY_CONTENT",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#95"
+      },
+      "presetDiscoveryIsFavorite": {
+        "id": "CLAP_PRESET_DISCOVERY_IS_FAVORITE",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#95"
+      },
+      "presetDiscoveryIsUserContent": {
+        "id": "CLAP_PRESET_DISCOVERY_IS_USER_CONTENT",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#95"
+      },
+      "presetDiscoveryLocationFile": {
+        "id": "CLAP_PRESET_DISCOVERY_LOCATION_FILE",
+        "kind": "enum-value",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "presetDiscoveryLocationPlugin": {
+        "id": "CLAP_PRESET_DISCOVERY_LOCATION_PLUGIN",
+        "kind": "enum-value",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      }
+    }
+  }
+}

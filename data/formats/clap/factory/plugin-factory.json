@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_FACTORY_PLUGIN_FACTORY_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/factory/plugin-factory.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/factory/plugin-factory.h",
+    "version": "1.2.10",
+    "terms": {
+      "plugin-factory": {
+        "id": "CLAP_PLUGIN_FACTORY_ID",
+        "value": "clap.plugin-factory",
+        "kind": "factory",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/omx_clap_raw.h",
+          "omx-clap-core:src/effects.c",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "CLAP_PROCESS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/process.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/process.h",
+    "version": "1.2.10",
+    "terms": {
+      "processContinue": {
+        "id": "CLAP_PROCESS_CONTINUE",
+        "kind": "process-status",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/clap/lv2_clap.c",
+          "omx-plugins:plugins/omx-tremolo/omx_tremolo_clap.c",
+          "omx-plugins:plugins/omx-transient/omx_transient_clap.c"
+        ]
+      },
+      "processContinueIfNotQuiet": {
+        "id": "CLAP_PROCESS_CONTINUE_IF_NOT_QUIET",
+        "kind": "process-status",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "processError": {
+        "id": "CLAP_PROCESS_ERROR",
+        "kind": "process-status",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/hosted_stage.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "processSleep": {
+        "id": "CLAP_PROCESS_SLEEP",
+        "kind": "process-status",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "processTail": {
+        "id": "CLAP_PROCESS_TAIL",
+        "kind": "process-status",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      }
+    }
+  }
+}

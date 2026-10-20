@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_CONTEXT_MENU_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/context-menu.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/context-menu.h",
+    "version": "1.2.10",
+    "terms": {
+      "context-menu.draft/0": {
+        "id": "CLAP_EXT_CONTEXT_MENU_COMPAT",
+        "value": "clap.context-menu.draft/0",
+        "kind": "extension",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "context-menu/1": {
+        "id": "CLAP_EXT_CONTEXT_MENU",
+        "value": "clap.context-menu/1",
+        "kind": "extension",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "contextMenuItemBeginSubmenu": {
+        "id": "CLAP_CONTEXT_MENU_ITEM_BEGIN_SUBMENU",
+        "kind": "enum-value",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "contextMenuItemCheckEntry": {
+        "id": "CLAP_CONTEXT_MENU_ITEM_CHECK_ENTRY",
+        "kind": "enum-value",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "contextMenuItemEndSubmenu": {
+        "id": "CLAP_CONTEXT_MENU_ITEM_END_SUBMENU",
+        "kind": "enum-value",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "contextMenuItemEntry": {
+        "id": "CLAP_CONTEXT_MENU_ITEM_ENTRY",
+        "kind": "enum-value",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "contextMenuItemSeparator": {
+        "id": "CLAP_CONTEXT_MENU_ITEM_SEPARATOR",
+        "kind": "enum-value",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "contextMenuItemTitle": {
+        "id": "CLAP_CONTEXT_MENU_ITEM_TITLE",
+        "kind": "enum-value",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "contextMenuTargetKindGlobal": {
+        "id": "CLAP_CONTEXT_MENU_TARGET_KIND_GLOBAL",
+        "kind": "enum-value",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "contextMenuTargetKindParam": {
+        "id": "CLAP_CONTEXT_MENU_TARGET_KIND_PARAM",
+        "kind": "enum-value",
+        "status": "out-of-scope",
+        "ruling": "The console draws its own menus (ruled 2026-10-19, #95) (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      }
+    }
+  }
+}

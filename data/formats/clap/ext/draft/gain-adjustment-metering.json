@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_GAIN_ADJUSTMENT_METERING_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/gain-adjustment-metering.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/gain-adjustment-metering.h",
+    "version": "1.2.10",
+    "terms": {
+      "gain-adjustment-metering/0": {
+        "id": "CLAP_EXT_GAIN_ADJUSTMENT_METERING",
+        "value": "clap.gain-adjustment-metering/0",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/effects.c"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_NOTE_PORTS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/note-ports.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/note-ports.h",
+    "version": "1.2.10",
+    "terms": {
+      "note-ports": {
+        "id": "CLAP_EXT_NOTE_PORTS",
+        "value": "clap.note-ports",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host_extensions.h",
+          "omx-clap-core:src/clap_host.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ],
+        "word": "ports.kind note"
+      },
+      "noteDialectClap": {
+        "id": "CLAP_NOTE_DIALECT_CLAP",
+        "kind": "note-dialect",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ],
+        "word": "dialects clap"
+      },
+      "noteDialectMidi": {
+        "id": "CLAP_NOTE_DIALECT_MIDI",
+        "kind": "note-dialect",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ],
+        "word": "dialects midi"
+      },
+      "noteDialectMidi2": {
+        "id": "CLAP_NOTE_DIALECT_MIDI2",
+        "kind": "note-dialect",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ],
+        "word": "dialects midi2"
+      },
+      "noteDialectMidiMpe": {
+        "id": "CLAP_NOTE_DIALECT_MIDI_MPE",
+        "kind": "note-dialect",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ],
+        "word": "dialects midiMpe"
+      },
+      "notePortsRescanAll": {
+        "id": "CLAP_NOTE_PORTS_RESCAN_ALL",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "notePortsRescanNames": {
+        "id": "CLAP_NOTE_PORTS_RESCAN_NAMES",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      }
+    }
+  }
+}

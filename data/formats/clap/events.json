@@ -1,0 +1,274 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "CLAP_EVENTS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/events.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/events.h",
+    "version": "1.2.10",
+    "terms": {
+      "coreEventSpaceId": {
+        "id": "CLAP_CORE_EVENT_SPACE_ID",
+        "kind": "constant",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/omx_clap_midi.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "eventDontRecord": {
+        "id": "CLAP_EVENT_DONT_RECORD",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "eventIsLive": {
+        "id": "CLAP_EVENT_IS_LIVE",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "eventMidi": {
+        "id": "CLAP_EVENT_MIDI",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c",
+          "omx-plugins:plugins/omx-test-sine-voice/omx_test_sine_voice_clap.c"
+        ]
+      },
+      "eventMidi2": {
+        "id": "CLAP_EVENT_MIDI2",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h"
+        ]
+      },
+      "eventMidiSysex": {
+        "id": "CLAP_EVENT_MIDI_SYSEX",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/omx_clap_midi.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "eventNoteChoke": {
+        "id": "CLAP_EVENT_NOTE_CHOKE",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/omx_clap_midi.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "eventNoteEnd": {
+        "id": "CLAP_EVENT_NOTE_END",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "omx-plugins:plugins/omx-test-sine-voice/omx_test_sine_voice_clap.c"
+        ]
+      },
+      "eventNoteExpression": {
+        "id": "CLAP_EVENT_NOTE_EXPRESSION",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "eventNoteOff": {
+        "id": "CLAP_EVENT_NOTE_OFF",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/omx_clap_midi.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "eventNoteOn": {
+        "id": "CLAP_EVENT_NOTE_ON",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/omx_clap_midi.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "eventParamGestureBegin": {
+        "id": "CLAP_EVENT_PARAM_GESTURE_BEGIN",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "eventParamGestureEnd": {
+        "id": "CLAP_EVENT_PARAM_GESTURE_END",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "eventParamMod": {
+        "id": "CLAP_EVENT_PARAM_MOD",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "eventParamValue": {
+        "id": "CLAP_EVENT_PARAM_VALUE",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:src/clap_host.h",
+          "omx-clap-core:src/clap_host.c"
+        ]
+      },
+      "eventTransport": {
+        "id": "CLAP_EVENT_TRANSPORT",
+        "kind": "event-type",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h"
+        ],
+        "word": "needs.transport"
+      },
+      "noteExpressionBrightness": {
+        "id": "CLAP_NOTE_EXPRESSION_BRIGHTNESS",
+        "kind": "enum-value",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h"
+        ]
+      },
+      "noteExpressionExpression": {
+        "id": "CLAP_NOTE_EXPRESSION_EXPRESSION",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "noteExpressionPan": {
+        "id": "CLAP_NOTE_EXPRESSION_PAN",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "noteExpressionPressure": {
+        "id": "CLAP_NOTE_EXPRESSION_PRESSURE",
+        "kind": "enum-value",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "noteExpressionTuning": {
+        "id": "CLAP_NOTE_EXPRESSION_TUNING",
+        "kind": "enum-value",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_stage.h",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "noteExpressionVibrato": {
+        "id": "CLAP_NOTE_EXPRESSION_VIBRATO",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "noteExpressionVolume": {
+        "id": "CLAP_NOTE_EXPRESSION_VOLUME",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "transportHasBeatsTimeline": {
+        "id": "CLAP_TRANSPORT_HAS_BEATS_TIMELINE",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/host_transport.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "transportHasSecondsTimeline": {
+        "id": "CLAP_TRANSPORT_HAS_SECONDS_TIMELINE",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/host_transport.h",
+          "omx-clap-core:src/clap_stage.h"
+        ]
+      },
+      "transportHasTempo": {
+        "id": "CLAP_TRANSPORT_HAS_TEMPO",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/host_transport.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:src/clap_host.h"
+        ],
+        "word": "needs.tempo"
+      },
+      "transportHasTimeSignature": {
+        "id": "CLAP_TRANSPORT_HAS_TIME_SIGNATURE",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/host_transport.h",
+          "omx-clap-core:src/clap_stage.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "transportIsLoopActive": {
+        "id": "CLAP_TRANSPORT_IS_LOOP_ACTIVE",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "transportIsPlaying": {
+        "id": "CLAP_TRANSPORT_IS_PLAYING",
+        "kind": "flag",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/host_transport.h",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "transportIsRecording": {
+        "id": "CLAP_TRANSPORT_IS_RECORDING",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "transportIsWithinPreRoll": {
+        "id": "CLAP_TRANSPORT_IS_WITHIN_PRE_ROLL",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      }
+    }
+  }
+}

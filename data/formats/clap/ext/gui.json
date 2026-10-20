@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_GUI_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/gui.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/gui.h",
+    "version": "1.2.10",
+    "terms": {
+      "cocoa": {
+        "id": "CLAP_WINDOW_API_COCOA",
+        "value": "cocoa",
+        "kind": "window-api",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "gui": {
+        "id": "CLAP_EXT_GUI",
+        "value": "clap.gui",
+        "kind": "extension",
+        "status": "out-of-scope",
+        "ruling": "Never in the console (GUI ruling 2026-10-19); native windows in the standalone omx-clap-host are #180 (omx-clap-core doc/reference.md, FreeMixer/omx-clap-core#95)."
+      },
+      "uikit": {
+        "id": "CLAP_WINDOW_API_UIKIT",
+        "value": "uikit",
+        "kind": "window-api",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "wayland": {
+        "id": "CLAP_WINDOW_API_WAYLAND",
+        "value": "wayland",
+        "kind": "window-api",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "win32": {
+        "id": "CLAP_WINDOW_API_WIN32",
+        "value": "win32",
+        "kind": "window-api",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      },
+      "x11": {
+        "id": "CLAP_WINDOW_API_X11",
+        "value": "x11",
+        "kind": "window-api",
+        "status": "out-of-scope",
+        "ruling": "The console draws every panel: no plugin UI runs in the console (GUI ruling 2026-10-19; native windows only in the standalone omx-clap-host, FreeMixer/omx-clap-core#180)."
+      }
+    }
+  }
+}
