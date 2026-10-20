@@ -38,7 +38,8 @@ changes.
 ```
 
 A file is a descriptor when it carries `origin`; it then declares no item, and only the words below may stand at
-its top: `$schema`, `requires`, `origin`, `plugin`, `controls`, `ports`, `instrument`, `needs`, `latency`, `source`.
+its top: `$schema`, `requires`, `origin`, `plugin`, `controls`, `ports`, `instrument`, `needs`, `latency`,
+`extensions`, `source`.
 Any other key or word is `contract.file.invalid`, never skipped.
 
 ## The words
@@ -51,6 +52,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | file | `origin` | `authored`, `built` or `scanned` (below) | new |
 | `plugin` | `id`, `format` (`clap`, `lv2`), `uri`, `name`, `vendor`, `version` | Identity as the plugin states it; `id` is the CLAP id or the LV2 URI | new |
 | `plugin` | `features` | `audio-effect`, `instrument`, `note-effect`, `analyzer`: CLAP's feature names, LV2 classes mapped onto them | new |
+| `plugin` | `doc` | The plugin's one-line description, one word for both faces: CLAP `clap_plugin_descriptor.description`, LV2 `rdfs:comment`. Optional; one line | new (3.0.0) |
 | control | `name`, `doc`, `kind`, `ids`, `labels`, `values`, `default`, `count`, `when` | As in kernel files; `name` is the plugin's own name for the control | existing |
 | control | `kind`: `travel`, `choice` | A continuous or stepped travel; a list of named values | existing |
 | control | `kind`: `toggle`, `trigger` | On or off (LV2 `lv2:toggled`); a momentary action (LV2 `pprops:trigger`) | new |
@@ -62,7 +64,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | control | `meaning` | What the control does, from the closed list below. A skin binds by meaning, never by id | new |
 | control | `hidden`, `readonly`, `automatable` | CLAP `IS_HIDDEN`, `IS_READONLY`, `IS_AUTOMATABLE`; LV2 `pprops:notOnGUI`, an output control | new |
 | control | `source` | The control's own links, in the place of the file's | existing |
-| `travel` | units `frames`, `bpm`, `midiNote`, `LUFS`, `deg` | Units a plugin uses that no item does (below) | new |
+| `travel` | units `frames`, `bpm`, `midiNote`, `LUFS`, `deg`, `ratio` | Units a plugin uses that no item does (below) | new; `ratio` 3.0.0 |
 | `travel` | `unit: "unknown"`, `scale: "unknown"` | The plugin states no unit or scale, or one with no word here | new |
 | `ports[]` | `id`, `name`, `kind` (`audio`, `midi`, `note`, `cv`), `direction` (`in`, `out`) | One entry per port, in the plugin's order | new |
 | `ports[]` | `role` (`main`, `sidechain`, `aux`), `channels`, `layout` (`mono`, `stereo`, `surround`) | An audio port's layout: CLAP audio ports (`IS_MAIN`, channel count, port type), LV2 `pg:` groups and `lv2:isSideChain` | new |
@@ -70,6 +72,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | `instrument` | `voices`, `polyphonic` | Present exactly when `features` holds `instrument`: notes in, audio out. `voices` only when the plugin states it (CLAP voice info) | new |
 | `needs` | `transport`, `tempo`, `extensions.required`, `extensions.optional` | What the host must give: CLAP host extensions, LV2 `lv2:requiredFeature` and `lv2:optionalFeature`, a `time:Position` input | new |
 | `latency` | `reports`, `frames` | `reports: true` when the plugin reports its latency; `frames` only for a constant the plugin defines, never a measured figure | new |
+| `extensions` | `clap`, `lv2`: each `{ <source field>: <value> }` | The extension bag: a format's facts no word of ours carries, carried verbatim (below) | new (3.0.0) |
 | `source` | `from`, `impl`, `at` | As in [contract-dir.md](contract-dir.md); for a scan, links into the `.ttl` or the CLAP binary | existing |
 
 Never in a descriptor: measured latency per rate, CPU cost, stability, real-time safety, verdicts. They are
@@ -87,7 +90,7 @@ measurements of one machine and belong to a qualification record, which no descr
 ### Units
 
 A descriptor's `travel.unit` is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x` and `""`), one of
-the five below, or `unknown`.
+the six below, or `unknown`.
 
 | Unit | Taken from |
 |---|---|
@@ -96,9 +99,10 @@ the five below, or `unknown`.
 | `midiNote` | LV2 `units:midiNote` (its symbol is `note`) |
 | `LUFS` | No LV2 unit: loudness, ITU-R BS.1770 |
 | `deg` | LV2 `units:degree`, whose symbol is `deg` |
+| `ratio` | No LV2 unit: a ratio `n:1`, a compressor's or a de-esser's (`""` says no unit, and an LV2 face writes none for it, so a scan could not tell the two apart) |
 | `unknown` | The plugin states no unit (every CLAP parameter; an LV2 port without `units:unit`), or one with no word here; the LV2 unit stays in `source` |
 
-The item list stays the units the items use; these six are for descriptors only.
+The item list stays the units the items use; these seven are for descriptors only.
 
 ### Scales
 
@@ -120,6 +124,33 @@ has the term, the meaning carries its name.
 
 A control with no meaning in the list leaves `meaning` out and is shown by its `group` and `name`. A new meaning is
 a schema minor.
+
+### The extension bag
+
+`extensions` holds, per format (`clap`, `lv2`), the facts of that format no word of ours carries, each under its
+source field and carried verbatim: `{ "clap": { "clap_plugin_descriptor.features": ["delay", "stereo"] }, "lv2": {
+"rdf:type": "lv2:CompressorPlugin" } }`. An `authored` descriptor may carry the extras its faces write (CLAP's open
+features, the LV2 class); a `scanned` one carries what its format map classes `extension`. A reader never reads a bag
+value as a word: a fact that has a word is written in the word, never in the bag.
+
+## The format maps
+
+A `formatMap` item is one format's mapping table (`PLUGIN_HOSTD_CLAP_MAP`, `PLUGIN_HOSTD_LV2_MAP`, which plugin-hostd
+installs): how each field a scan of that format reads becomes a descriptor, and, read backwards, how a generator
+writes a face from one. Its `rows` are keyed by the source field (`units:unit`, `clap_param_info.min_value`), and each
+row has exactly one class:
+
+| Class | Carries | Meaning |
+|---|---|---|
+| `word` | `{ word, transform, values? \| factor? }` | The descriptor word it becomes (`controls[].travel.unit`), the name of the transform that converts it (one of the closed list of the module that applies the map: plugin-hostd's `TRANSFORMS(X)`), and that transform's data: `values`, a map read forwards and backwards, or `factor`, a number. Never code. |
+| `extension` | `true` | Carried verbatim into the descriptor's `extensions.<format>.<field>`. |
+| `dropped` | `{ ruling }` | Left out, by the ruling it names (a spec path and section, or the term's `out-of-scope` ruling). |
+
+Each row names what it covers, one of two: `term`, a term of a format file (`LV2_UNITS_TERMS#unit`, docs/data-layout.md),
+of the map's format; or `from`, a link to the header or the specification line of a field no terms file lists (the
+CLAP struct fields, `rdfs:comment`, `doap:name`). `validate` refuses (rule `map-term`) a `term` that is no term of a
+terms item, or a term of another format. The coverage test of the package that installs the map holds every field
+mapped once; the tool names no field.
 
 ## The three origins
 
