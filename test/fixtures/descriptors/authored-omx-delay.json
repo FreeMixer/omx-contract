@@ -11,6 +11,7 @@
     "name": "omx delay",
     "vendor": "openmixer",
     "version": "0.5.0",
+    "doc": "A stereo delay with feedback, tone and ping-pong",
     "features": ["audio-effect"]
   },
   "controls": [
@@ -53,7 +54,7 @@
       "name": "mix",
       "label": "Mix",
       "kind": "travel",
-      "travel": { "min": 0, "max": 1, "step": 0, "unit": "", "default": 0.3, "defaultFrom": "desk", "scale": "linear" },
+      "travel": { "min": 0, "max": 1, "step": 0, "unit": "", "default": 0.3, "defaultFrom": "desk", "scale": "linear", "byKind": { "fxReturn": 1 } },
       "group": ["Output"],
       "meaning": "wetDryRatio",
       "automatable": true
@@ -66,6 +67,7 @@
       "kind": "toggle",
       "default": false,
       "group": ["Delay"],
+      "meaning": "pingpong",
       "automatable": true
     }
   ],

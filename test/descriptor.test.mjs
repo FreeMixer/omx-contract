@@ -87,13 +87,14 @@ test('the authored delay states the delay kernel\'s travels, value for value (th
   const by = Object.fromEntries(d.controls.map((c) => [c.name, c]));
   for (const [control, item] of [['fxDelayTime', 'FX_DELAY_TIME_RANGE'], ['fxDelayFeedback', 'FX_DELAY_FEEDBACK_RANGE'], ['tone', 'DELAY_TONE_RANGE'], ['mix', 'DELAY_MIX_RANGE']]) {
     const { scale, ...t } = by[control].travel;
-    const { byKind, ...want } = r.get(item).value;
-    assert.deepEqual(t, want, `${control} is ${item}`);
+    assert.deepEqual(t, r.get(item).value, `${control} is ${item}, its byKind with it`);
     assert.equal(scale, 'linear');
   }
   assert.equal(by.pingpong.kind, 'toggle');
   assert.equal(by.pingpong.default, r.get('FX_DELAY_PINGPONG_DEFAULT').value);
-  assert.deepEqual(d.controls.map((c) => c.meaning), ['delay', 'feedback', 'tone', 'wetDryRatio', undefined]);
+  assert.deepEqual(by.mix.travel.byKind, { fxReturn: 1 }, 'a return comes up fully wet');
+  assert.deepEqual(d.controls.map((c) => c.meaning), ['delay', 'feedback', 'tone', 'wetDryRatio', 'pingpong']);
+  assert.equal(d.plugin.doc, 'A stereo delay with feedback, tone and ping-pong');
   assert.deepEqual(d.controls.map((c) => c.id), [0, 1, 2, 3, 4]);
   assert.deepEqual(d.latency, { reports: true, frames: 0 });
 });
@@ -132,16 +133,19 @@ test('the scanned LV2 plugin: its units, a unit with no word as unknown, a side-
 
 test('the words are the closed lists of docs/descriptors.md', () => {
   const $ = SCHEMA.$defs;
-  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'unknown'] }]);
-  for (const u of ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
+  const own = ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'dBu', 'dB/oct', 'ratio'];
+  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: [...own, 'unknown'] }]);
+  for (const u of [...own, 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
   assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', ''], 'the items\' units are as they were');
   assert.deepEqual($.meaning.enum, [
     'gain', 'threshold', 'ratio', 'attack', 'release', 'hold', 'decay', 'frequency', 'cutoffFrequency', 'resonance', 'bypass',
     'wetDryRatio', 'delay', 'enabled',
     'range', 'knee', 'hysteresis', 'makeup', 'lookahead', 'ceiling', 'output', 'q', 'slope', 'width', 'drive', 'tone', 'rate',
     'depth', 'feedback', 'spread', 'predelay', 'size', 'damping', 'lowCut', 'highCut', 'shift', 'fine', 'sync', 'division', 'listen',
+    'speed', 'shape', 'model', 'algorithm', 'mode', 'type', 'pingpong', 'on',
     'unknown',
   ]);
+  assert.deepEqual($.descriptorControl.properties.measurement.enum, ['peak', 'rms', 'vu', 'ppm', 'lufs', 'gainReduction']);
   assert.deepEqual($.descriptor.properties.origin.enum, ['authored', 'built', 'scanned']);
   assert.deepEqual($.descriptorControl.properties.kind.enum, ['travel', 'choice', 'toggle', 'trigger']);
   assert.deepEqual($.port.properties.kind.enum, ['audio', 'midi', 'note', 'cv']);
@@ -152,7 +156,7 @@ test('the words are the closed lists of docs/descriptors.md', () => {
   assert.deepEqual(Object.keys($.descriptor.properties), ['$schema', 'requires', 'origin', 'plugin', 'controls', 'ports', 'instrument', 'needs', 'latency', 'source']);
   assert.deepEqual(PARAM_SCALE_IDS, ['linear', 'log', 'stepped']);
   const doc = readFileSync(join(ROOT, 'docs/descriptors.md'), 'utf8');
-  for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
+  for (const w of [...$.meaning.enum, ...own, ...$.descriptorControl.properties.measurement.enum, 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
 });
 
 test('a word the schema does not have is contract.file.invalid, never skipped', () => {
@@ -171,14 +175,35 @@ test('a word the schema does not have is contract.file.invalid, never skipped', 
     ['a travel without its scale', (d) => { delete d.controls[0].travel.scale; }],
     ['a control without its id', (d) => { delete d.controls[0].id; }],
     ['a symbol that is no identifier', (d) => { d.controls[0].symbol = 'fx delay'; }],
+    ['a measurement with no word', (d) => { d.controls[0].readonly = true; d.controls[0].measurement = 'loudness'; }],
+    ['a measurement on a control that is not read-only', (d) => { d.controls[0].measurement = 'peak'; }],
+    ['a measurement on a read-only toggle', (d) => { d.controls[4].readonly = true; d.controls[4].measurement = 'peak'; }],
+    ['a unit beside a travel, not in it', (d) => { d.controls[0].unit = 'ms'; }],
+    ['a unit on a toggle', (d) => { d.controls[4].unit = 'dB'; }],
+    ['a byKind entry that is no kind name', (d) => { d.controls[3].travel.byKind = { 'fx-return': 1 }; }],
+    ['a plugin doc that is no text', (d) => { d.plugin.doc = 1; }],
   ];
   for (const [what, fn] of arms) {
     const d = broken(AUTHORED, fn);
     assert.deepEqual(codesOf(d), ['schema'], what);
     assert.equal(readerRefusal(d), CONTRACT_CODES.fileInvalid, what);
   }
+  const slope = broken(SCANNED_CLAP, (d) => { d.controls[0].unit = 'dB/oct'; delete d.controls[0].values; });
+  assert.deepEqual(codesOf(slope), ['schema'], 'a choice\'s unit is the unit of its values: none without them');
   const midi1 = broken(BUILT, (d) => { d.ports[0].dialects = ['midi1']; });
   assert.deepEqual(codesOf(midi1), ['schema'], 'midi1 is CLAP\'s midi');
+});
+
+test('the words the plugin declarations needed are valid: a choice\'s unit, the descriptor units, the meanings, a measurement, plugin.doc', () => {
+  const arms = [
+    ['an EQ slope in dB/oct, a choice\'s unit', SCANNED_CLAP, (d) => { Object.assign(d.controls[0], { ids: ['12', '24'], labels: ['12', '24'], values: [12, 24], unit: 'dB/oct', default: '12' }); }],
+    ['a ratio, n:1', SCANNED_LV2, (d) => { d.controls[1].travel.unit = 'ratio'; }],
+    ['a level in dBu', SCANNED_LV2, (d) => { d.controls[0].travel.unit = 'dBu'; }],
+    ['a gain-reduction meter on a read-only travel', SCANNED_LV2, (d) => { Object.assign(d.controls[5], { readonly: true, measurement: 'gainReduction' }); }],
+    ['an authored band switch, its type and a rotor speed', AUTHORED, (d) => { d.controls[4].meaning = 'on'; d.controls[2].meaning = 'type'; d.controls[1].meaning = 'speed'; }],
+    ['a scanned plugin\'s description', SCANNED_CLAP, (d) => { d.plugin.doc = 'A synth'; }],
+  ];
+  for (const [what, name, fn] of arms) assert.deepEqual(problemsOf(broken(name, fn)), [], what);
 });
 
 /** One arm per descriptor code: the fixture, the break, the code it is refused with. */
@@ -195,6 +220,8 @@ const ARMS = [
   ['a default above the max', AUTHORED, (d) => { d.controls[0].travel.default = 2001; }, 'descriptorRange'],
   ['a min above the max', BUILT, (d) => { d.controls[0].travel.min = 30000; d.controls[0].travel.default = 25000; }, 'descriptorRange'],
   ['a negative step', AUTHORED, (d) => { d.controls[0].travel.step = -1; }, 'descriptorRange'],
+  ['a byKind value above the max', AUTHORED, (d) => { d.controls[3].travel.byKind.fxReturn = 1.5; }, 'descriptorRange'],
+  ['an authored choice unit of unknown', BUILT, (d) => { d.origin = 'authored'; d.source = { impl: 'src/synth.c#params' }; d.controls.forEach((c) => { delete c.source; if (c.travel) Object.assign(c.travel, { unit: 'ms', scale: 'linear' }); if (c.meaning === 'unknown') delete c.meaning; }); Object.assign(d.controls[4], { values: d.controls[4].ids.map((_, k) => k), unit: 'unknown' }); }, 'descriptorUnknownAuthored'],
   ['a choice default that is no id', BUILT, (d) => { d.controls[4].default = 'triangle'; }, 'descriptorChoice'],
   ['two labels for three ids', SCANNED_CLAP, (d) => { d.controls[0].labels.pop(); }, 'descriptorChoice'],
   ['four values for three ids', SCANNED_CLAP, (d) => { d.controls[0].values.push(3); }, 'descriptorChoice'],
