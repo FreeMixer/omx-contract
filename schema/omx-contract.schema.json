@@ -24,8 +24,8 @@
       "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", ""]
     },
     "descriptorUnit": {
-      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS has no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
-      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "unknown"] }]
+      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS and ratio, n:1, have no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
+      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "ratio", "unknown"] }]
     },
     "meaning": {
       "description": "What a control does, the closed list seeded from the panel roles; the LV2 param: or lv2:designation name where LV2 has the term (docs/descriptors.md). unknown: the plugin states none.",
@@ -54,11 +54,24 @@
         "instrument": { "$ref": "#/$defs/instrument" },
         "needs": { "$ref": "#/$defs/needs" },
         "latency": { "$ref": "#/$defs/latency" },
+        "extensions": { "$ref": "#/$defs/extensions" },
         "source": { "$ref": "#/$defs/source" }
       },
       "required": ["origin", "plugin", "controls", "ports"],
       "additionalProperties": false
     },
+    "extensions": {
+      "type": "object",
+      "description": "The extension bag (docs/descriptors.md): per format, the facts of that format no word carries, each under its source field and carried verbatim. A reader never reads a bag value as a word.",
+      "propertyNames": { "enum": ["clap", "lv2"] },
+      "additionalProperties": {
+        "type": "object",
+        "propertyNames": { "$ref": "#/$defs/sourceField" },
+        "minProperties": 1
+      },
+      "minProperties": 1
+    },
+    "sourceField": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*([.:#/][A-Za-z0-9_][A-Za-z0-9_-]*)*$", "description": "A field a scan of a format reads, as the format names it: a CLAP struct field (clap_param_info.min_value) or an LV2 predicate (units:unit)." },
     "plugin": {
       "type": "object",
       "description": "The plugin's identity as it states it: id, the CLAP id or the LV2 URI.",
@@ -69,6 +82,7 @@
         "name": { "$ref": "#/$defs/text" },
         "vendor": { "$ref": "#/$defs/text" },
         "version": { "$ref": "#/$defs/text" },
+        "doc": { "type": "string", "minLength": 1, "pattern": "^[^\\n\\r]*$", "description": "The plugin's one-line description, one word for both faces: CLAP clap_plugin_descriptor.description, LV2 rdfs:comment." },
         "features": {
           "description": "CLAP's feature names; LV2 classes map onto them.",
           "type": "array",
@@ -651,10 +665,62 @@
       "required": ["kind", "doc", "format", "spec", "version", "terms"],
       "additionalProperties": false
     },
+    "formatMapRow": {
+      "type": "object",
+      "description": "One source field of a format map: exactly one class (word, extension or dropped) and what it covers (a term, or a from link).",
+      "properties": {
+        "term": { "$ref": "#/$defs/termRef" },
+        "from": { "oneOf": [{ "$ref": "#/$defs/link" }, { "type": "string", "pattern": "^https?://[^\\s]+$" }] },
+        "word": {
+          "type": "object",
+          "description": "The descriptor word the field becomes, the name of the transform that converts it and that transform's data: values, a map read both ways, or factor. Never code.",
+          "properties": {
+            "word": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*(\\[\\])?(\\.[a-z][A-Za-z0-9]*(\\[\\])?)*$" },
+            "transform": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+            "values": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] }, "minProperties": 1 },
+            "factor": { "type": "number" }
+          },
+          "required": ["word", "transform"],
+          "not": { "required": ["values", "factor"] },
+          "additionalProperties": false
+        },
+        "extension": { "const": true },
+        "dropped": {
+          "type": "object",
+          "properties": { "ruling": { "$ref": "#/$defs/text" } },
+          "required": ["ruling"],
+          "additionalProperties": false
+        },
+        "doc": { "$ref": "#/$defs/text" }
+      },
+      "oneOf": [{ "required": ["word"] }, { "required": ["extension"] }, { "required": ["dropped"] }],
+      "allOf": [{ "oneOf": [{ "required": ["term"] }, { "required": ["from"] }] }],
+      "additionalProperties": false
+    },
+    "formatMap": {
+      "type": "object",
+      "description": "One format's mapping table (docs/descriptors.md): every field a scan of the format reads, keyed by its source field, mapped to a descriptor word, carried in the extension bag or dropped by a named ruling.",
+      "properties": {
+        "kind": { "const": "formatMap" },
+        "since": { "$ref": "#/$defs/since" },
+        "source": { "$ref": "#/$defs/source" },
+        "doc": { "$ref": "#/$defs/text" },
+        "why": { "$ref": "#/$defs/text" },
+        "format": { "enum": ["lv2", "clap"] },
+        "rows": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/sourceField" },
+          "additionalProperties": { "$ref": "#/$defs/formatMapRow" },
+          "minProperties": 1
+        }
+      },
+      "required": ["kind", "doc", "format", "rows"],
+      "additionalProperties": false
+    },
     "item": {
       "type": "object",
       "required": ["kind"],
-      "properties": { "kind": { "enum": ["scalar", "travels", "sheet", "list", "set", "codes", "words", "terms"] } },
+      "properties": { "kind": { "enum": ["scalar", "travels", "sheet", "list", "set", "codes", "words", "terms", "formatMap"] } },
       "allOf": [
         { "if": { "properties": { "kind": { "const": "scalar" } } }, "then": { "$ref": "#/$defs/scalar" } },
         { "if": { "properties": { "kind": { "const": "travels" } } }, "then": { "$ref": "#/$defs/travels" } },
@@ -663,7 +729,8 @@
         { "if": { "properties": { "kind": { "const": "set" } } }, "then": { "$ref": "#/$defs/set" } },
         { "if": { "properties": { "kind": { "const": "codes" } } }, "then": { "$ref": "#/$defs/codes" } },
         { "if": { "properties": { "kind": { "const": "words" } } }, "then": { "$ref": "#/$defs/words" } },
-        { "if": { "properties": { "kind": { "const": "terms" } } }, "then": { "$ref": "#/$defs/terms" } }
+        { "if": { "properties": { "kind": { "const": "terms" } } }, "then": { "$ref": "#/$defs/terms" } },
+        { "if": { "properties": { "kind": { "const": "formatMap" } } }, "then": { "$ref": "#/$defs/formatMap" } }
       ]
     }
   }
