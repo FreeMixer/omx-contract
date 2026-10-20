@@ -6282,12 +6282,6 @@ export declare const RESOURCE_THREAD_SCHEDULING: {
 };
 
 /**
- * @deprecated The former name of ORACLE_FULL_RATES, kept until 2.19.0 removes it: read ORACLE_FULL_RATES.
- * @see data/rates.json
- */
-export declare const RME_RATES: typeof ORACLE_FULL_RATES;
-
-/**
  * The words of MACHINE_CLASS_FIELDS, in their declared order.
  * @see data/machine-class.json
  */

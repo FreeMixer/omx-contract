@@ -48,15 +48,6 @@
       128000,
       176400,
       192000
-    ],
-    "formerly": {
-      "name": "RME_RATES",
-      "removedIn": "2.19.0",
-      "readers": [
-        "omx-clap-core",
-        "omx-dsp",
-        "omx-plugins"
-      ]
-    }
+    ]
   }
 }
