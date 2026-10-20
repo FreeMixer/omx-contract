@@ -7,7 +7,8 @@
  * table field, `rearms` when changing it re-arms the kernel's state) and, where it declares any, its readouts, so a
  * reader needs no kernel file. `formerNames`, present while a renamed list keeps its former name, maps each former
  * name to `{ name, removedIn }`: the item to read instead, and the release that drops the entry. It names the item and
- * never repeats its values.
+ * never repeats its values. Read from a contract directory, each item and each kernel names the `package` that installed
+ * it, after its `rel`; read from a data directory, which is no installed package, none does.
  */
 
 import { renderVocabularySchema } from './vocabulary.mjs';
@@ -16,11 +17,17 @@ import { renderVocabularySchema } from './vocabulary.mjs';
 export function renderJson(resolved, version) {
   const items = {};
   for (const r of resolved.values()) {
-    const { name, ...rest } = r;
-    items[name] = rest;
+    const { name, rel, ...rest } = r;
+    const pkg = resolved.packageOf?.get(name);
+    items[name] = pkg === undefined ? { rel, ...rest } : { rel, package: pkg, ...rest };
   }
   const doc = { name: '@openmixer/omx-contract', version, items };
-  if (resolved.kernels) doc.kernels = resolved.kernels;
+  if (resolved.kernels) {
+    doc.kernels = Object.fromEntries(Object.entries(resolved.kernels).map(([k, v]) => {
+      const pkg = resolved.kernelPackageOf?.get(k);
+      return [k, pkg === undefined ? v : { package: pkg, ...v }];
+    }));
+  }
   const former = [...resolved.values()].filter((r) => r.kind === 'list' && r.formerly);
   if (former.length) doc.formerNames = Object.fromEntries(former.map((r) => [r.formerly.name, { name: r.name, removedIn: r.formerly.removedIn }]));
   const files = [{ path: 'omx-contract.json', text: `${JSON.stringify(doc, null, 2)}\n` }];
