@@ -1953,6 +1953,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "family ambisonic";
   };
   readonly analyzer: {
     readonly id: "CLAP_PLUGIN_FEATURE_ANALYZER";
@@ -1976,6 +1977,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly compressor: {
     readonly id: "CLAP_PLUGIN_FEATURE_COMPRESSOR";
@@ -1983,6 +1985,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly "de-esser": {
     readonly id: "CLAP_PLUGIN_FEATURE_DEESSER";
@@ -1990,6 +1993,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-deesser/generated/omx_deesser_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly delay: {
     readonly id: "CLAP_PLUGIN_FEATURE_DELAY";
@@ -1997,6 +2001,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-delay/generated/omx_delay_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly distortion: {
     readonly id: "CLAP_PLUGIN_FEATURE_DISTORTION";
@@ -2004,6 +2009,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-drive/generated/omx_drive_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly drum: {
     readonly id: "CLAP_PLUGIN_FEATURE_DRUM";
@@ -2011,6 +2017,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["openmixer:console"];
+    readonly word: "features instrument";
   };
   readonly "drum-machine": {
     readonly id: "CLAP_PLUGIN_FEATURE_DRUM_MACHINE";
@@ -2018,6 +2025,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features instrument";
   };
   readonly equalizer: {
     readonly id: "CLAP_PLUGIN_FEATURE_EQUALIZER";
@@ -2025,6 +2033,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-eq16/generated/omx_eq16_params.h", "omx-plugins:plugins/omx-eq32/generated/omx_eq32_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly expander: {
     readonly id: "CLAP_PLUGIN_FEATURE_EXPANDER";
@@ -2032,6 +2041,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["openmixer:console", "omx-plugins:tools/gen-presets.mjs"];
+    readonly word: "features audio-effect";
   };
   readonly filter: {
     readonly id: "CLAP_PLUGIN_FEATURE_FILTER";
@@ -2039,6 +2049,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly flanger: {
     readonly id: "CLAP_PLUGIN_FEATURE_FLANGER";
@@ -2046,6 +2057,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-flanger/generated/omx_flanger_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly "frequency-shifter": {
     readonly id: "CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER";
@@ -2053,6 +2065,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly gate: {
     readonly id: "CLAP_PLUGIN_FEATURE_GATE";
@@ -2060,6 +2073,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-keyed-gate/generated/omx_gate_params.h", "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly glitch: {
     readonly id: "CLAP_PLUGIN_FEATURE_GLITCH";
@@ -2067,6 +2081,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly granular: {
     readonly id: "CLAP_PLUGIN_FEATURE_GRANULAR";
@@ -2074,6 +2089,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly instrument: {
     readonly id: "CLAP_PLUGIN_FEATURE_INSTRUMENT";
@@ -2089,6 +2105,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-limiter/generated/omx_limiter_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly mastering: {
     readonly id: "CLAP_PLUGIN_FEATURE_MASTERING";
@@ -2096,6 +2113,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly mixing: {
     readonly id: "CLAP_PLUGIN_FEATURE_MIXING";
@@ -2103,6 +2121,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly mono: {
     readonly id: "CLAP_PLUGIN_FEATURE_MONO";
@@ -2110,6 +2129,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["openmixer:console", "omx-plugins:tools/descriptor.mjs"];
+    readonly word: "family mono";
   };
   readonly "multi-effects": {
     readonly id: "CLAP_PLUGIN_FEATURE_MULTI_EFFECTS";
@@ -2117,6 +2137,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly "note-detector": {
     readonly id: "CLAP_PLUGIN_FEATURE_NOTE_DETECTOR";
@@ -2124,6 +2145,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "family note-detector";
   };
   readonly "note-effect": {
     readonly id: "CLAP_PLUGIN_FEATURE_NOTE_EFFECT";
@@ -2139,6 +2161,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly phaser: {
     readonly id: "CLAP_PLUGIN_FEATURE_PHASER";
@@ -2146,6 +2169,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-phaser/generated/omx_phaser_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly "pitch-correction": {
     readonly id: "CLAP_PLUGIN_FEATURE_PITCH_CORRECTION";
@@ -2153,6 +2177,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly "pitch-shifter": {
     readonly id: "CLAP_PLUGIN_FEATURE_PITCH_SHIFTER";
@@ -2160,6 +2185,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-pitch/generated/omx_pitch_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly restoration: {
     readonly id: "CLAP_PLUGIN_FEATURE_RESTORATION";
@@ -2167,6 +2193,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly reverb: {
     readonly id: "CLAP_PLUGIN_FEATURE_REVERB";
@@ -2174,6 +2201,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-reverb/generated/omx_reverb_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly sampler: {
     readonly id: "CLAP_PLUGIN_FEATURE_SAMPLER";
@@ -2181,6 +2209,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["openmixer:console"];
+    readonly word: "features instrument";
   };
   readonly stereo: {
     readonly id: "CLAP_PLUGIN_FEATURE_STEREO";
@@ -2188,6 +2217,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h", "omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"];
+    readonly word: "family stereo";
   };
   readonly surround: {
     readonly id: "CLAP_PLUGIN_FEATURE_SURROUND";
@@ -2195,6 +2225,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "family surround";
   };
   readonly synthesizer: {
     readonly id: "CLAP_PLUGIN_FEATURE_SYNTHESIZER";
@@ -2202,6 +2233,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-test-sine-voice/generated/omx_test_sine_voice_decl.h"];
+    readonly word: "features instrument";
   };
   readonly "transient-shaper": {
     readonly id: "CLAP_PLUGIN_FEATURE_TRANSIENT_SHAPER";
@@ -2209,6 +2241,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-transient/generated/omx_transient_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly tremolo: {
     readonly id: "CLAP_PLUGIN_FEATURE_TREMOLO";
@@ -2216,6 +2249,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-tremolo/generated/omx_tremolo_params.h"];
+    readonly word: "features audio-effect";
   };
   readonly utility: {
     readonly id: "CLAP_PLUGIN_FEATURE_UTILITY";
@@ -2223,6 +2257,7 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly kind: "plugin-feature";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-test-note-echo/generated/omx_test_note_echo_decl.h", "omx-plugins:plugins/omx-test-transport-probe/generated/omx_test_transport_probe_decl.h"];
+    readonly word: "features audio-effect";
   };
 };
 
@@ -2598,12 +2633,14 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly AmplifierPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#AmplifierPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly AnalyserPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#AnalyserPlugin";
@@ -2624,6 +2661,7 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly CVPort: {
     readonly uri: "http://lv2plug.in/ns/lv2core#CVPort";
@@ -2643,24 +2681,28 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-chorus/generated/omx-chorus.lv2/omx-chorus.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly CombPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#CombPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly CompressorPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#CompressorPlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-comp/generated/omx-comp.lv2/omx-comp.ttl", "openmixer:console"];
+    readonly word: "features audio-effect";
   };
   readonly ConstantPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ConstantPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "family generator";
   };
   readonly ControlPort: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ControlPort";
@@ -2673,12 +2715,14 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly DelayPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#DelayPlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:tools/omx-new-plugin.mjs", "omx-plugins:plugins/omx-delay/generated/omx-delay.lv2/omx-delay.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly Designation: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Designation";
@@ -2691,30 +2735,35 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-drive/generated/omx-drive.lv2/omx-drive.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly DynamicsPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#DynamicsPlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:tools/omx-new-plugin.mjs", "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl", "omx-plugins:plugins/omx-deesser/generated/omx-deesser.lv2/omx-deesser.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly EQPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#EQPlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-geq/generated/omx-geq.lv2/omx-geq.ttl", "openmixer:console"];
+    readonly word: "features audio-effect";
   };
   readonly EnvelopePlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#EnvelopePlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly ExpanderPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ExpanderPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly ExtensionData: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ExtensionData";
@@ -2733,36 +2782,42 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly FlangerPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#FlangerPlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-flanger/generated/omx-flanger.lv2/omx-flanger.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly FunctionPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#FunctionPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly GatePlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#GatePlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-keyed-gate/generated/omx-keyed-gate.lv2/omx-keyed-gate.ttl", "openmixer:console"];
+    readonly word: "features audio-effect";
   };
   readonly GeneratorPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#GeneratorPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "family generator";
   };
   readonly HighpassPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#HighpassPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly InputPort: {
     readonly uri: "http://lv2plug.in/ns/lv2core#InputPort";
@@ -2783,18 +2838,21 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-limiter/generated/omx-limiter.lv2/omx-limiter.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly LowpassPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#LowpassPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly MIDIPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#MIDIPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features note-effect";
   };
   readonly Markdown: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Markdown";
@@ -2807,24 +2865,28 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:tools/omx-new-plugin.mjs", "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly ModulatorPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ModulatorPlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:tools/omx-new-plugin.mjs", "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly MultiEQPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#MultiEQPlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["openmixer:console"];
+    readonly word: "features audio-effect";
   };
   readonly OscillatorPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#OscillatorPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "family generator";
   };
   readonly OutputPort: {
     readonly uri: "http://lv2plug.in/ns/lv2core#OutputPort";
@@ -2838,6 +2900,7 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-eq8/generated/omx-eq8.lv2/omx-eq8.ttl", "omx-plugins:plugins/omx-eq32/generated/omx-eq32.lv2/omx-eq32.ttl", "omx-plugins:plugins/omx-eq16/generated/omx-eq16.lv2/omx-eq16.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly Parameter: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Parameter";
@@ -2850,18 +2913,21 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-phaser/generated/omx-phaser.lv2/omx-phaser.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly PitchPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#PitchPlugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-pitch/generated/omx-pitch.lv2/omx-pitch.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly Plugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Plugin";
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:tools/gen.mjs", "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl", "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/manifest.ttl"];
+    readonly word: "family plugin";
   };
   readonly PluginBase: {
     readonly uri: "http://lv2plug.in/ns/lv2core#PluginBase";
@@ -2898,6 +2964,7 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-reverb/generated/omx-reverb.lv2/omx-reverb.ttl"];
+    readonly word: "features audio-effect";
   };
   readonly ScalePoint: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ScalePoint";
@@ -2910,12 +2977,14 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly SpatialPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#SpatialPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly Specification: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Specification";
@@ -2928,6 +2997,7 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly Symbol: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Symbol";
@@ -2940,12 +3010,14 @@ export declare const LV2_CORE_TERMS: {
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly WaveshaperPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#WaveshaperPlugin";
     readonly kind: "plugin-class";
     readonly status: "supported-later";
     readonly issue: "FreeMixer/omx-contract#120";
+    readonly word: "features audio-effect";
   };
   readonly appliesTo: {
     readonly uri: "http://lv2plug.in/ns/lv2core#appliesTo";
