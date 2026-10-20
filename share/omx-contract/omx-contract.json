@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "2.18.0",
+  "version": "2.19.0",
   "items": {
     "CLAP_COLOR_TERMS": {
       "rel": "data/formats/clap/color.json",
