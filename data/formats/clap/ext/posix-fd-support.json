@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_POSIX_FD_SUPPORT_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/posix-fd-support.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/posix-fd-support.h",
+    "version": "1.2.10",
+    "terms": {
+      "posix-fd-support": {
+        "id": "CLAP_EXT_POSIX_FD_SUPPORT",
+        "value": "clap.posix-fd-support",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "posixFdError": {
+        "id": "CLAP_POSIX_FD_ERROR",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "posixFdRead": {
+        "id": "CLAP_POSIX_FD_READ",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      },
+      "posixFdWrite": {
+        "id": "CLAP_POSIX_FD_WRITE",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      }
+    }
+  }
+}

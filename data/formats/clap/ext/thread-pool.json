@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_THREAD_POOL_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/thread-pool.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/thread-pool.h",
+    "version": "1.2.10",
+    "terms": {
+      "thread-pool": {
+        "id": "CLAP_EXT_THREAD_POOL",
+        "value": "clap.thread-pool",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#90"
+      }
+    }
+  }
+}

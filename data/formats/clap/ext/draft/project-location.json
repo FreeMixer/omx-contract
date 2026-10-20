@@ -1,0 +1,92 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_PROJECT_LOCATION_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/project-location.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/project-location.h",
+    "version": "1.2.10",
+    "terms": {
+      "project-location/2": {
+        "id": "CLAP_EXT_PROJECT_LOCATION",
+        "value": "clap.project-location/2",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationAudioTrack": {
+        "id": "CLAP_PROJECT_LOCATION_AUDIO_TRACK",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationDevice": {
+        "id": "CLAP_PROJECT_LOCATION_DEVICE",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationHasColor": {
+        "id": "CLAP_PROJECT_LOCATION_HAS_COLOR",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationHasIndex": {
+        "id": "CLAP_PROJECT_LOCATION_HAS_INDEX",
+        "kind": "flag",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationHybridTrack": {
+        "id": "CLAP_PROJECT_LOCATION_HYBRID_TRACK",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationInstumentTrack": {
+        "id": "CLAP_PROJECT_LOCATION_INSTUMENT_TRACK",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationMasterTrack": {
+        "id": "CLAP_PROJECT_LOCATION_MASTER_TRACK",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationNestedDeviceChain": {
+        "id": "CLAP_PROJECT_LOCATION_NESTED_DEVICE_CHAIN",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationProject": {
+        "id": "CLAP_PROJECT_LOCATION_PROJECT",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationReturnTrack": {
+        "id": "CLAP_PROJECT_LOCATION_RETURN_TRACK",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationTrack": {
+        "id": "CLAP_PROJECT_LOCATION_TRACK",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      },
+      "projectLocationTrackGroup": {
+        "id": "CLAP_PROJECT_LOCATION_TRACK_GROUP",
+        "kind": "enum-value",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      }
+    }
+  }
+}

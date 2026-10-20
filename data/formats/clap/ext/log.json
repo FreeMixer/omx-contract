@@ -1,0 +1,70 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_LOG_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/log.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/log.h",
+    "version": "1.2.10",
+    "terms": {
+      "log": {
+        "id": "CLAP_EXT_LOG",
+        "value": "clap.log",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host_extensions.h",
+          "omx-clap-core:src/clap_host.c",
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "logDebug": {
+        "id": "CLAP_LOG_DEBUG",
+        "kind": "log-severity",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "logError": {
+        "id": "CLAP_LOG_ERROR",
+        "kind": "log-severity",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      },
+      "logFatal": {
+        "id": "CLAP_LOG_FATAL",
+        "kind": "log-severity",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "logHostMisbehaving": {
+        "id": "CLAP_LOG_HOST_MISBEHAVING",
+        "kind": "log-severity",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "logInfo": {
+        "id": "CLAP_LOG_INFO",
+        "kind": "log-severity",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "logPluginMisbehaving": {
+        "id": "CLAP_LOG_PLUGIN_MISBEHAVING",
+        "kind": "log-severity",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#196"
+      },
+      "logWarning": {
+        "id": "CLAP_LOG_WARNING",
+        "kind": "log-severity",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/clap/lv2_clap.c"
+        ]
+      }
+    }
+  }
+}

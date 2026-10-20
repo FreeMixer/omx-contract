@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_DRAFT_PARAMS_ORIGIN_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/draft/params-origin.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/draft/params-origin.h",
+    "version": "1.2.10",
+    "terms": {
+      "params-origin/1": {
+        "id": "CLAP_EXT_PARAMS_ORIGIN",
+        "value": "clap.params-origin/1",
+        "kind": "extension",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#207"
+      }
+    }
+  }
+}

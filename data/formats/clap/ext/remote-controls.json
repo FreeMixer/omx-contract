@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schema/omx-contract.schema.json",
+  "CLAP_EXT_REMOTE_CONTROLS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The identifiers of the CLAP header clap/ext/remote-controls.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "clap",
+    "spec": "clap/ext/remote-controls.h",
+    "version": "1.2.10",
+    "terms": {
+      "remote-controls.draft/2": {
+        "id": "CLAP_EXT_REMOTE_CONTROLS_COMPAT",
+        "value": "clap.remote-controls.draft/2",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c",
+          "plugin-qualify:native/clap-qualify.c"
+        ]
+      },
+      "remote-controls/2": {
+        "id": "CLAP_EXT_REMOTE_CONTROLS",
+        "value": "clap.remote-controls/2",
+        "kind": "extension",
+        "status": "used",
+        "by": [
+          "omx-clap-core:src/clap_host.c",
+          "omx-plugins:tools/clap-ext-probe.c",
+          "omx-plugins:plugins/omx-tremolo/omx_tremolo_clap.c"
+        ]
+      },
+      "remoteControlsCount": {
+        "id": "CLAP_REMOTE_CONTROLS_COUNT",
+        "kind": "enum-value",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/panel-description.mjs",
+          "omx-plugins:tools/clap-ext-probe.c",
+          "omx-plugins:plugins/omx-tremolo/omx_tremolo_clap.c"
+        ]
+      }
+    }
+  }
+}

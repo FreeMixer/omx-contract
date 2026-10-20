@@ -145,6 +145,10 @@
       },
       "declaredPort": {
         "word": "declared-port",
+        "from": [
+          "LV2_CORE_TERMS#latency",
+          "CLAP_EXT_LATENCY_TERMS#latency"
+        ],
         "doc": "Read from the plugin's own latency report: what it claims."
       },
       "noteOnset": {
@@ -227,7 +231,10 @@
     "doc": "Where the number of notes an instrument's cost was measured with came from: the voice capacity the plugin declares (CLAP voice-info), or a count the caller gave.",
     "words": {
       "declared": {
-        "word": "declared"
+        "word": "declared",
+        "from": [
+          "CLAP_EXT_VOICE_INFO_TERMS#voice-info"
+        ]
       },
       "probe": {
         "word": "probe"
