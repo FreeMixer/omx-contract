@@ -87,6 +87,22 @@ A file may say how the owner's own C headers and TypeScript module spell its ite
 licence project, banner, brief and sections, and the module's name. `render --target c|ts --package <owner>` writes
 them; the tool names no item (docs/render.md).
 
+### `checks`: a sum held under a bound
+
+```json
+{ "checks": [
+    { "name": "eqBandBudget", "doc": "The operator's reserve and both planters fit the EQ's band maximum.",
+      "sum": ["OPERATOR_EQ_BANDS_RESERVE", "FBS_DEFAULT_MAX_AUTO_BANDS", "HRP_DEFAULT_MAX_AUTO_BANDS"],
+      "atMost": "EQ_MAX_BANDS" } ] }
+```
+
+A file may declare a relation between numbers that several packages state, which no one item can carry: `validate`
+adds the numbers `sum` names and refuses (rule `check`, the check's `name`) a total above the number `atMost` names.
+Each term is an item name, or an item and the path to one of its leaves (`EQ_BAND_COUNTS.channel.max`). A read that
+lacks an item a check names cannot judge it and skips it (omx-dsp's own read never holds the console's FBS default);
+the package that sees every term judges it. A term that resolves to anything but a finite number is refused. The
+package that owns the relation declares it; the tool names none.
+
 ## Reading the directory
 
 `loadContractDir()` (`lib/contract-dir.mjs`) and the CLI's `--contract-dir <dir>` (or `--installed`, which looks it

@@ -36,7 +36,10 @@ and nothing else. A sketch, values abridged
 - A USE is a control with a `global` and no `travel` or `ids`: it takes the item another control of the kernel
   declares, of its kind, and adds no item (the EQ's `lpfSlope` takes FILTER_SLOPES, which `hpfSlope` declares).
 - `count` names the item that counts a control the kernel takes once per band: a positive integer scalar
-  (`GEQ_BANDS`), or a sheet whose every variant gives its count as `max` (`EQ_BAND_COUNTS.eq8.max`).
+  (`GEQ_BANDS`), or a sheet whose every variant gives its count as `max` (`EQ_BAND_COUNTS.eq8.max`), a positive
+  integer, and the count it starts with as `default`, where it states one, a positive integer too. In every sheet, a
+  group that states a `default` beside its `min` or `max` keeps it inside them (rule `sheet-default`): a strip never
+  starts with more bands than it may hold.
 - `of` and `when` mark a travel that is no control of its own but the travel the control `of` names reaches while
   the choice `when.control` holds `when.is` (the EQ's `notchQ`: the Q's travel while the band is a notch).
 - A choice of named ids may carry `values`, one per id in id order, in its `unit`, `null` for an id that carries
