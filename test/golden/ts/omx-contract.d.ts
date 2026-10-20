@@ -5354,6 +5354,7 @@ export declare const HOSTING_FEATURES_CODES: {
   };
   readonly featuresMissing: {
     readonly code: "hosting.features.required-not-provided";
+    readonly doc: "retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it";
   };
   readonly featuresMissingAtLoad: {
     readonly code: "hosting.features.missing";
@@ -5598,7 +5599,7 @@ export declare const HOSTING_TOPOLOGY_CODES: {
   };
   readonly topologyExtraInputs: {
     readonly code: "hosting.topology.extra-inputs-fed-silence";
-    readonly doc: "the plugin has extra inputs, fed silence";
+    readonly doc: "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it";
   };
   readonly topologyInstrument: {
     readonly code: "hosting.topology.instrument";

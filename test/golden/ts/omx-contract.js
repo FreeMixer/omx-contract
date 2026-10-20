@@ -6204,7 +6204,8 @@ export const HOSTING_FEATURES_CODES = {
     "code": "hosting.features.midi-in-fed-empty"
   },
   "featuresMissing": {
-    "code": "hosting.features.required-not-provided"
+    "code": "hosting.features.required-not-provided",
+    "doc": "retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it"
   },
   "featuresMissingAtLoad": {
     "code": "hosting.features.missing"
@@ -6449,7 +6450,7 @@ export const HOSTING_TOPOLOGY_CODES = {
   },
   "topologyExtraInputs": {
     "code": "hosting.topology.extra-inputs-fed-silence",
-    "doc": "the plugin has extra inputs, fed silence"
+    "doc": "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it"
   },
   "topologyInstrument": {
     "code": "hosting.topology.instrument"

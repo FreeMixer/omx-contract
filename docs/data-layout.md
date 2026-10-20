@@ -47,7 +47,8 @@ not the one its path gives.
 
 - A `codes` item's codes are sorted by name; the name is the operator-facing key a consumer reads the code by, unique
   across every file of `hosting/`, and the code is never reworded. A removed or changed code is a MAJOR change, an
-  added one MINOR.
+  added one MINOR. A code its writers stop writing stays declared, retired: its doc opens with `retired`, names
+  the code that takes its place, and the first major release removes it.
 - A `words` item's words keep their declared order, which is part of the contract (a rating's severity, a band's
   ascent). A word may name its `group`, a word of the item its `groups` names, and the format terms it is
   name-compatible with (`from: ["LV2_CORE_TERMS#latency", "CLAP_EXT_LATENCY_TERMS#latency"]`); each resolves.
