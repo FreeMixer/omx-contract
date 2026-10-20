@@ -1,0 +1,106 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_PORT_PROPS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Port Properties specification (port-props.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/port-props",
+    "version": "1.2",
+    "terms": {
+      "causesArtifacts": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#causesArtifacts",
+        "kind": "port-property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "continuousCV": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#continuousCV",
+        "kind": "port-property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "discreteCV": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#discreteCV",
+        "kind": "port-property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "displayPriority": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#displayPriority",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "expensive": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#expensive",
+        "kind": "port-property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "hasStrictBounds": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#hasStrictBounds",
+        "kind": "port-property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "logarithmic": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#logarithmic",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/port-hints.mjs",
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c"
+        ],
+        "word": "scale log"
+      },
+      "notAutomatic": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#notAutomatic",
+        "kind": "port-property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "notOnGUI": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#notOnGUI",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "openmixer:console"
+        ],
+        "word": "hidden"
+      },
+      "port-props.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/port-props",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "omx-plugins:tools/gen.mjs",
+          "omx-plugins:tools/face-scan.c",
+          "omx-plugins:tools/eq-identity.c"
+        ]
+      },
+      "rangeSteps": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#rangeSteps",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "supportsStrictBounds": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#supportsStrictBounds",
+        "kind": "feature",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "trigger": {
+        "uri": "http://lv2plug.in/ns/ext/port-props#trigger",
+        "kind": "port-property",
+        "status": "used",
+        "by": [
+          "openmixer:console"
+        ],
+        "word": "kind trigger"
+      }
+    }
+  }
+}

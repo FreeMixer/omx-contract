@@ -1,0 +1,204 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_PATCH_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the LV2 Patch specification (patch.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/patch",
+    "version": "2.10",
+    "terms": {
+      "Ack": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Ack",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Copy": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Copy",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Delete": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Delete",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Error": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Error",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Get": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Get",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Insert": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Insert",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Message": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Message",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h"
+        ]
+      },
+      "Move": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Move",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Patch": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Patch",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Put": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Put",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-clap-core:lv2/clap/omx_clap_lv2.h"
+        ]
+      },
+      "Request": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Request",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Response": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Response",
+        "kind": "class",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "Set": {
+        "uri": "http://lv2plug.in/ns/ext/patch#Set",
+        "kind": "class",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_instance.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-clap-core:lv2/clap/omx_clap_lv2.h"
+        ]
+      },
+      "accept": {
+        "uri": "http://lv2plug.in/ns/ext/patch#accept",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "add": {
+        "uri": "http://lv2plug.in/ns/ext/patch#add",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "body": {
+        "uri": "http://lv2plug.in/ns/ext/patch#body",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_instance.c"
+        ]
+      },
+      "context": {
+        "uri": "http://lv2plug.in/ns/ext/patch#context",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "destination": {
+        "uri": "http://lv2plug.in/ns/ext/patch#destination",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "patch.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/patch",
+        "kind": "specification",
+        "status": "used",
+        "by": [
+          "plugin-qualify:tools/scan.py"
+        ]
+      },
+      "property": {
+        "uri": "http://lv2plug.in/ns/ext/patch#property",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_instance.c"
+        ]
+      },
+      "readable": {
+        "uri": "http://lv2plug.in/ns/ext/patch#readable",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "remove": {
+        "uri": "http://lv2plug.in/ns/ext/patch#remove",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "request": {
+        "uri": "http://lv2plug.in/ns/ext/patch#request",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "sequenceNumber": {
+        "uri": "http://lv2plug.in/ns/ext/patch#sequenceNumber",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "subject": {
+        "uri": "http://lv2plug.in/ns/ext/patch#subject",
+        "kind": "property",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "value": {
+        "uri": "http://lv2plug.in/ns/ext/patch#value",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_instance.c"
+        ]
+      },
+      "wildcard": {
+        "uri": "http://lv2plug.in/ns/ext/patch#wildcard",
+        "kind": "individual",
+        "status": "supported-later",
+        "issue": "FreeMixer/omx-clap-core#94"
+      },
+      "writable": {
+        "uri": "http://lv2plug.in/ns/ext/patch#writable",
+        "kind": "property",
+        "status": "used",
+        "by": [
+          "omx-clap-core:lv2/core/lv2_world.c",
+          "omx-clap-core:lv2/core/lv2_core.h",
+          "omx-clap-core:lv2/clap/omx_clap_lv2.h"
+        ]
+      }
+    }
+  }
+}

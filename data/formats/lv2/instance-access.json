@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schema/omx-contract.schema.json",
+  "LV2_INSTANCE_ACCESS_TERMS": {
+    "kind": "terms",
+    "since": "2.18.0",
+    "doc": "The terms of the instance access specification (instance-access.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
+    "format": "lv2",
+    "spec": "http://lv2plug.in/ns/ext/instance-access",
+    "version": "1.6",
+    "terms": {
+      "instance-access.lv2": {
+        "uri": "http://lv2plug.in/ns/ext/instance-access",
+        "kind": "feature",
+        "status": "used",
+        "by": [
+          "plugin-qualify:src/hosting-suitability.ts"
+        ]
+      }
+    }
+  }
+}
