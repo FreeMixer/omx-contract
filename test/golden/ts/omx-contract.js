@@ -2225,7 +2225,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "value": "ambisonic",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "family ambisonic"
   },
   "analyzer": {
     "id": "CLAP_PLUGIN_FEATURE_ANALYZER",
@@ -2255,7 +2256,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "compressor": {
     "id": "CLAP_PLUGIN_FEATURE_COMPRESSOR",
@@ -2264,7 +2266,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "de-esser": {
     "id": "CLAP_PLUGIN_FEATURE_DEESSER",
@@ -2273,7 +2276,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-deesser/generated/omx_deesser_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "delay": {
     "id": "CLAP_PLUGIN_FEATURE_DELAY",
@@ -2282,7 +2286,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-delay/generated/omx_delay_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "distortion": {
     "id": "CLAP_PLUGIN_FEATURE_DISTORTION",
@@ -2291,7 +2296,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-drive/generated/omx_drive_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "drum": {
     "id": "CLAP_PLUGIN_FEATURE_DRUM",
@@ -2300,14 +2306,16 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "openmixer:console"
-    ]
+    ],
+    "word": "features instrument"
   },
   "drum-machine": {
     "id": "CLAP_PLUGIN_FEATURE_DRUM_MACHINE",
     "value": "drum-machine",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features instrument"
   },
   "equalizer": {
     "id": "CLAP_PLUGIN_FEATURE_EQUALIZER",
@@ -2317,7 +2325,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "by": [
       "omx-plugins:plugins/omx-eq16/generated/omx_eq16_params.h",
       "omx-plugins:plugins/omx-eq32/generated/omx_eq32_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "expander": {
     "id": "CLAP_PLUGIN_FEATURE_EXPANDER",
@@ -2327,7 +2336,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "by": [
       "openmixer:console",
       "omx-plugins:tools/gen-presets.mjs"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "filter": {
     "id": "CLAP_PLUGIN_FEATURE_FILTER",
@@ -2336,7 +2346,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "flanger": {
     "id": "CLAP_PLUGIN_FEATURE_FLANGER",
@@ -2345,14 +2356,16 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-flanger/generated/omx_flanger_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "frequency-shifter": {
     "id": "CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER",
     "value": "frequency-shifter",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "gate": {
     "id": "CLAP_PLUGIN_FEATURE_GATE",
@@ -2362,21 +2375,24 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "by": [
       "omx-plugins:plugins/omx-keyed-gate/generated/omx_gate_params.h",
       "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "glitch": {
     "id": "CLAP_PLUGIN_FEATURE_GLITCH",
     "value": "glitch",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "granular": {
     "id": "CLAP_PLUGIN_FEATURE_GRANULAR",
     "value": "granular",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "instrument": {
     "id": "CLAP_PLUGIN_FEATURE_INSTRUMENT",
@@ -2395,14 +2411,16 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-limiter/generated/omx_limiter_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "mastering": {
     "id": "CLAP_PLUGIN_FEATURE_MASTERING",
     "value": "mastering",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "mixing": {
     "id": "CLAP_PLUGIN_FEATURE_MIXING",
@@ -2411,7 +2429,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "mono": {
     "id": "CLAP_PLUGIN_FEATURE_MONO",
@@ -2421,21 +2440,24 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "by": [
       "openmixer:console",
       "omx-plugins:tools/descriptor.mjs"
-    ]
+    ],
+    "word": "family mono"
   },
   "multi-effects": {
     "id": "CLAP_PLUGIN_FEATURE_MULTI_EFFECTS",
     "value": "multi-effects",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "note-detector": {
     "id": "CLAP_PLUGIN_FEATURE_NOTE_DETECTOR",
     "value": "note-detector",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "family note-detector"
   },
   "note-effect": {
     "id": "CLAP_PLUGIN_FEATURE_NOTE_EFFECT",
@@ -2452,7 +2474,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "value": "phase-vocoder",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "phaser": {
     "id": "CLAP_PLUGIN_FEATURE_PHASER",
@@ -2461,14 +2484,16 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-phaser/generated/omx_phaser_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "pitch-correction": {
     "id": "CLAP_PLUGIN_FEATURE_PITCH_CORRECTION",
     "value": "pitch-correction",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "pitch-shifter": {
     "id": "CLAP_PLUGIN_FEATURE_PITCH_SHIFTER",
@@ -2477,14 +2502,16 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-pitch/generated/omx_pitch_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "restoration": {
     "id": "CLAP_PLUGIN_FEATURE_RESTORATION",
     "value": "restoration",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "reverb": {
     "id": "CLAP_PLUGIN_FEATURE_REVERB",
@@ -2493,7 +2520,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-reverb/generated/omx_reverb_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "sampler": {
     "id": "CLAP_PLUGIN_FEATURE_SAMPLER",
@@ -2502,7 +2530,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "openmixer:console"
-    ]
+    ],
+    "word": "features instrument"
   },
   "stereo": {
     "id": "CLAP_PLUGIN_FEATURE_STEREO",
@@ -2512,14 +2541,16 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "by": [
       "omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h",
       "omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"
-    ]
+    ],
+    "word": "family stereo"
   },
   "surround": {
     "id": "CLAP_PLUGIN_FEATURE_SURROUND",
     "value": "surround",
     "kind": "plugin-feature",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "family surround"
   },
   "synthesizer": {
     "id": "CLAP_PLUGIN_FEATURE_SYNTHESIZER",
@@ -2528,7 +2559,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-test-sine-voice/generated/omx_test_sine_voice_decl.h"
-    ]
+    ],
+    "word": "features instrument"
   },
   "transient-shaper": {
     "id": "CLAP_PLUGIN_FEATURE_TRANSIENT_SHAPER",
@@ -2537,7 +2569,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-transient/generated/omx_transient_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "tremolo": {
     "id": "CLAP_PLUGIN_FEATURE_TREMOLO",
@@ -2546,7 +2579,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-tremolo/generated/omx_tremolo_params.h"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "utility": {
     "id": "CLAP_PLUGIN_FEATURE_UTILITY",
@@ -2556,7 +2590,8 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "by": [
       "omx-plugins:plugins/omx-test-note-echo/generated/omx_test_note_echo_decl.h",
       "omx-plugins:plugins/omx-test-transport-probe/generated/omx_test_transport_probe_decl.h"
-    ]
+    ],
+    "word": "features audio-effect"
   }
 };
 
@@ -3006,13 +3041,15 @@ export const LV2_CORE_TERMS = {
     "uri": "http://lv2plug.in/ns/lv2core#AllpassPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "AmplifierPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#AmplifierPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "AnalyserPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#AnalyserPlugin",
@@ -3038,7 +3075,8 @@ export const LV2_CORE_TERMS = {
     "uri": "http://lv2plug.in/ns/lv2core#BandpassPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "CVPort": {
     "uri": "http://lv2plug.in/ns/lv2core#CVPort",
@@ -3062,13 +3100,15 @@ export const LV2_CORE_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-chorus/generated/omx-chorus.lv2/omx-chorus.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "CombPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#CombPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "CompressorPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#CompressorPlugin",
@@ -3077,13 +3117,15 @@ export const LV2_CORE_TERMS = {
     "by": [
       "omx-plugins:plugins/omx-comp/generated/omx-comp.lv2/omx-comp.ttl",
       "openmixer:console"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "ConstantPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#ConstantPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "family generator"
   },
   "ControlPort": {
     "uri": "http://lv2plug.in/ns/lv2core#ControlPort",
@@ -3099,7 +3141,8 @@ export const LV2_CORE_TERMS = {
     "uri": "http://lv2plug.in/ns/lv2core#ConverterPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "DelayPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#DelayPlugin",
@@ -3108,7 +3151,8 @@ export const LV2_CORE_TERMS = {
     "by": [
       "omx-plugins:tools/omx-new-plugin.mjs",
       "omx-plugins:plugins/omx-delay/generated/omx-delay.lv2/omx-delay.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "Designation": {
     "uri": "http://lv2plug.in/ns/lv2core#Designation",
@@ -3122,7 +3166,8 @@ export const LV2_CORE_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-drive/generated/omx-drive.lv2/omx-drive.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "DynamicsPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#DynamicsPlugin",
@@ -3132,7 +3177,8 @@ export const LV2_CORE_TERMS = {
       "omx-plugins:tools/omx-new-plugin.mjs",
       "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl",
       "omx-plugins:plugins/omx-deesser/generated/omx-deesser.lv2/omx-deesser.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "EQPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#EQPlugin",
@@ -3141,19 +3187,22 @@ export const LV2_CORE_TERMS = {
     "by": [
       "omx-plugins:plugins/omx-geq/generated/omx-geq.lv2/omx-geq.ttl",
       "openmixer:console"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "EnvelopePlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#EnvelopePlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "ExpanderPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#ExpanderPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "ExtensionData": {
     "uri": "http://lv2plug.in/ns/lv2core#ExtensionData",
@@ -3171,7 +3220,8 @@ export const LV2_CORE_TERMS = {
     "uri": "http://lv2plug.in/ns/lv2core#FilterPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "FlangerPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#FlangerPlugin",
@@ -3179,13 +3229,15 @@ export const LV2_CORE_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-flanger/generated/omx-flanger.lv2/omx-flanger.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "FunctionPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#FunctionPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "GatePlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#GatePlugin",
@@ -3194,19 +3246,22 @@ export const LV2_CORE_TERMS = {
     "by": [
       "omx-plugins:plugins/omx-keyed-gate/generated/omx-keyed-gate.lv2/omx-keyed-gate.ttl",
       "openmixer:console"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "GeneratorPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#GeneratorPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "family generator"
   },
   "HighpassPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#HighpassPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "InputPort": {
     "uri": "http://lv2plug.in/ns/lv2core#InputPort",
@@ -3234,19 +3289,22 @@ export const LV2_CORE_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-limiter/generated/omx-limiter.lv2/omx-limiter.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "LowpassPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#LowpassPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "MIDIPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#MIDIPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features note-effect"
   },
   "Markdown": {
     "uri": "http://lv2plug.in/ns/lv2core#Markdown",
@@ -3261,7 +3319,8 @@ export const LV2_CORE_TERMS = {
     "by": [
       "omx-plugins:tools/omx-new-plugin.mjs",
       "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "ModulatorPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#ModulatorPlugin",
@@ -3270,7 +3329,8 @@ export const LV2_CORE_TERMS = {
     "by": [
       "omx-plugins:tools/omx-new-plugin.mjs",
       "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "MultiEQPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#MultiEQPlugin",
@@ -3278,13 +3338,15 @@ export const LV2_CORE_TERMS = {
     "status": "used",
     "by": [
       "openmixer:console"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "OscillatorPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#OscillatorPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "family generator"
   },
   "OutputPort": {
     "uri": "http://lv2plug.in/ns/lv2core#OutputPort",
@@ -3305,7 +3367,8 @@ export const LV2_CORE_TERMS = {
       "omx-plugins:plugins/omx-eq8/generated/omx-eq8.lv2/omx-eq8.ttl",
       "omx-plugins:plugins/omx-eq32/generated/omx-eq32.lv2/omx-eq32.ttl",
       "omx-plugins:plugins/omx-eq16/generated/omx-eq16.lv2/omx-eq16.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "Parameter": {
     "uri": "http://lv2plug.in/ns/lv2core#Parameter",
@@ -3323,7 +3386,8 @@ export const LV2_CORE_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-phaser/generated/omx-phaser.lv2/omx-phaser.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "PitchPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#PitchPlugin",
@@ -3331,7 +3395,8 @@ export const LV2_CORE_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-pitch/generated/omx-pitch.lv2/omx-pitch.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "Plugin": {
     "uri": "http://lv2plug.in/ns/lv2core#Plugin",
@@ -3341,7 +3406,8 @@ export const LV2_CORE_TERMS = {
       "omx-plugins:tools/gen.mjs",
       "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
       "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/manifest.ttl"
-    ]
+    ],
+    "word": "family plugin"
   },
   "PluginBase": {
     "uri": "http://lv2plug.in/ns/lv2core#PluginBase",
@@ -3379,7 +3445,8 @@ export const LV2_CORE_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-reverb/generated/omx-reverb.lv2/omx-reverb.ttl"
-    ]
+    ],
+    "word": "features audio-effect"
   },
   "ScalePoint": {
     "uri": "http://lv2plug.in/ns/lv2core#ScalePoint",
@@ -3391,13 +3458,15 @@ export const LV2_CORE_TERMS = {
     "uri": "http://lv2plug.in/ns/lv2core#SimulatorPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "SpatialPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#SpatialPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "Specification": {
     "uri": "http://lv2plug.in/ns/lv2core#Specification",
@@ -3409,7 +3478,8 @@ export const LV2_CORE_TERMS = {
     "uri": "http://lv2plug.in/ns/lv2core#SpectralPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "Symbol": {
     "uri": "http://lv2plug.in/ns/lv2core#Symbol",
@@ -3421,13 +3491,15 @@ export const LV2_CORE_TERMS = {
     "uri": "http://lv2plug.in/ns/lv2core#UtilityPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "WaveshaperPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#WaveshaperPlugin",
     "kind": "plugin-class",
     "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "issue": "FreeMixer/omx-contract#120",
+    "word": "features audio-effect"
   },
   "appliesTo": {
     "uri": "http://lv2plug.in/ns/lv2core#appliesTo",
