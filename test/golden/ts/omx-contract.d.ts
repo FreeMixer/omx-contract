@@ -5343,9 +5343,6 @@ export declare const HOSTING_FEATURES_CODES: {
     readonly code: "hosting.features.atom-in-unfed";
     readonly doc: "a non-MIDI atom input no buffer here can feed";
   };
-  readonly featuresCv: {
-    readonly code: "hosting.features.cv-ports";
-  };
   readonly featuresDisqualifying: {
     readonly code: "hosting.features.host-not-provided";
   };

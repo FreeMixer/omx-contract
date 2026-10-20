@@ -6194,9 +6194,6 @@ export const HOSTING_FEATURES_CODES = {
     "code": "hosting.features.atom-in-unfed",
     "doc": "a non-MIDI atom input no buffer here can feed"
   },
-  "featuresCv": {
-    "code": "hosting.features.cv-ports"
-  },
   "featuresDisqualifying": {
     "code": "hosting.features.host-not-provided"
   },
