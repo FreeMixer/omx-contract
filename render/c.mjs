@@ -103,51 +103,6 @@ function genReadouts(kernels) {
 }
 
 /**
- * The default band centres of an EQ (lib/eq-defaults.mjs is the rule; this is its C spelling, held
- * equal to it for every count by test/eq-defaults.test.mjs). Writes \`count\` centres to \`out\` and returns
- * \`count\`, or returns 0 for a count that is 0 or has no distinct preferred centres.
- */
-function eqCentresFunction() {
-  return `static inline unsigned omx_eq_default_centres(unsigned count, float *out) {
-  static const double r10[] = OMX_ISO_THIRD_OCTAVE_CENTRES_HZ_INIT;
-  static const double r20[] = OMX_EQ_CENTRE_SERIES_R20_HZ_INIT;
-  static const double four[] = OMX_EQ_DEFAULT_CENTRES_FOUR_BAND_HZ_INIT;
-  if (count == 0) return 0;
-  if (count == 4) {
-    for (unsigned i = 0; i < 4; i++) out[i] = (float)four[i];
-    return 4;
-  }
-  const double lo = log((double)OMX_EQ_FREQ_RANGE_MIN);
-  const double span = log((double)OMX_EQ_FREQ_RANGE_MAX / (double)OMX_EQ_FREQ_RANGE_MIN);
-  for (unsigned s = 0; s < 2; s++) {
-    const double *series = s ? r20 : r10;
-    const unsigned n = s ? OMX_EQ_CENTRE_SERIES_R20_HZ_COUNT : OMX_ISO_THIRD_OCTAVE_CENTRES_HZ_COUNT;
-    int distinct = count <= n;
-    for (unsigned i = 0; distinct && i < count; i++) {
-      const double t = lo + span * ((double)i + 0.5) / (double)count;
-      unsigned best = 0;
-      double best_d = 1e300;
-      for (unsigned k = 0; k < n; k++) {
-        const double d = fabs(log(series[k]) - t);
-        if (d < best_d) { best_d = d; best = k; }
-      }
-      out[i] = (float)series[best];
-      if (i > 0 && out[i] == out[i - 1]) distinct = 0;
-    }
-    if (distinct) return count;
-  }
-  return 0;
-}
-
-/* The default type of band \`index\` of an EQ with \`count\` bands: a low shelf first, a high shelf last, bells
- * between (a single band is a bell). An OMX_EQ_BAND_TYPES_* member. */
-static inline int omx_eq_default_type(unsigned index, unsigned count) {
-  if (count < 2) return OMX_EQ_BAND_TYPES_BELL;
-  return index == 0 ? OMX_EQ_BAND_TYPES_LOW_SHELF : index == count - 1 ? OMX_EQ_BAND_TYPES_HIGH_SHELF : OMX_EQ_BAND_TYPES_BELL;
-}`;
-}
-
-/**
  * A list's former names (its item's `formerly`): OMX_<FORMER>_COUNT and OMX_<FORMER>_INIT defined as the list's own
  * defines, never as a second copy of its numbers, each under a line naming the release that removes it.
  */
@@ -188,8 +143,7 @@ export function cNamesOf(resolved) {
 
 /**
  * The defines of omx_contract_limits.h over `resolved`, its sections each under its comment: the native tables, the
- * aliases, the declared scalars, lists, the lists' former names and sets, the kernels' readouts and the default EQ
- * rule. What omx-contract's own header holds, and what an owner's `limits` section holds of its own items.
+ * aliases, the declared scalars, lists, the lists' former names and sets, and the kernels' readouts. What omx-contract's own header holds, and what an owner's `limits` section holds of its own items.
  */
 export function limitsSections(resolved) {
   const d = doors(resolved);
@@ -202,7 +156,6 @@ export function limitsSections(resolved) {
   const former = d.FORMER_LIST_NAMES.length ? genFormerListNames(d.FORMER_LIST_NAMES) : '';
   const sets = d.DECLARED_SET_ITEMS.length ? genDeclaredSetsEnums(d.DECLARED_SET_ITEMS) : '';
   const readouts = genReadouts(resolved.kernels);
-  const centres = resolved.has('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ') ? eqCentresFunction() : '';
   const sections = [
     [tables, `/* Per-parameter numeric travel, one block per \`travels\` table named <PREFIX>_LIMITS:
  * OMX_<PREFIX>_<FIELD>_MIN/_MAX/_DEFAULT, float literals. */`],
@@ -218,8 +171,6 @@ export function limitsSections(resolved) {
     [readouts, `/* Every kernel's readouts, the meters a host draws (docs/readouts.md): an enum of the readouts at their position,
  * \`OMX_<KERNEL>_READOUT_COUNT\`, and per readout its display range (_MIN, _MAX), _RATE_HZ, _SCALE (an OMX_PARAM_SCALES_*
  * member) and _UNIT. */`],
-    [centres, `/* The default bands of an EQ with \`count\` bands: THE one rule, for every strip, host and count (omx-contract's
- * lib/eq-defaults.mjs; the ts render exports the same as eqDefaultCentres and eqDefaultTypes). Needs -lm. */`],
   ].filter(([body]) => body);
   return sections.map(([body, comment]) => `${comment}\n${body}`).join('\n\n');
 }

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // The `set` kind (ordered ids, an optional default, labels), the travel scale it names, the ceilSum
-// derivation and the rules about the EQ band budget and counts (1.3.0).
+// derivation (1.3.0), and the rules that judge the EQ band budget and counts with no item named: a declared check, the
+// count rule and the sheet-default rule (3.0.0, #1841).
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
@@ -61,27 +62,44 @@ test('ceilSum rounds the sum of its terms up, and follows a term that moves', ()
   assert.match(problems(texts((d, at) => { at('data/kernels/chorus.json', 'CHORUS_MAX_MS').value.of = [{ ref: 'CHORUS_BASE_MS' }]; })).join(), /CHORUS_MAX_MS:schema/);
 });
 
-test('the EQ band budget: the reserve and both planters must fit EQ_MAX_BANDS', () => {
-  assert.deepEqual(problems(texts()), []);
-  assert.deepEqual(problems(texts((d, at) => { at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 10; })), [], 'RESERVE 10: 10 + 6 + 8 = 24 still fits the 24');
-  assert.ok(problems(texts((d, at) => { at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 11; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
-  assert.ok(problems(texts((d, at) => { at('data/kernels/hrp.json', 'HRP_DEFAULT_MAX_AUTO_BANDS').value = 12; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
-  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_MAX_BANDS').value = 22; })).includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'));
+/** The EQ band budget as its owner declares it (docs/contract-dir.md, `checks`), in a file of its own. */
+const BUDGET = 'data/eq-budget.json';
+const budget = (fn) => texts((d, at) => {
+  d[BUDGET] = {
+    $schema: '../schema/omx-contract.schema.json',
+    checks: [{ name: 'eqBandBudget', doc: 'The operator\'s reserve and both planters fit the EQ\'s band maximum.',
+      sum: ['OPERATOR_EQ_BANDS_RESERVE', 'FBS_DEFAULT_MAX_AUTO_BANDS', 'HRP_DEFAULT_MAX_AUTO_BANDS'], atMost: 'EQ_MAX_BANDS' }],
+  };
+  fn?.(d, at);
+});
+
+test('a declared check: the EQ band budget, the reserve and both planters must fit EQ_MAX_BANDS', () => {
+  assert.deepEqual(problems(budget()), []);
+  assert.deepEqual(problems(texts((d, at) => { at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 30; })), [], 'the tool judges no budget nobody declares');
+  assert.deepEqual(problems(budget((d, at) => { at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 10; })), [], 'RESERVE 10: 10 + 6 + 8 = 24 still fits the 24');
+  assert.ok(problems(budget((d, at) => { at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 11; })).includes('eqBandBudget:check'));
+  assert.ok(problems(budget((d, at) => { at('data/kernels/hrp.json', 'HRP_DEFAULT_MAX_AUTO_BANDS').value = 12; })).includes('eqBandBudget:check'));
+  assert.ok(problems(budget((d, at) => { at(eq, 'EQ_MAX_BANDS').value = 22; })).includes('eqBandBudget:check'));
+  const said = validateData(loadData(null, budget((d, at) => { at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 11; }))).find((p) => p.rule === 'check');
+  assert.deepEqual([said.file, said.message], [BUDGET, 'OPERATOR_EQ_BANDS_RESERVE 11 + FBS_DEFAULT_MAX_AUTO_BANDS 6 + HRP_DEFAULT_MAX_AUTO_BANDS 8 = 25 exceeds EQ_MAX_BANDS 24']);
   // a read without one of the terms (the console's FBS default is not installed) skips the sum and says no NaN
-  const without = problems(texts((d, at) => { dropDecl('data/kernels/fbs.json', d['data/kernels/fbs.json'], 'FBS_DEFAULT_MAX_AUTO_BANDS'); at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 30; }));
-  assert.ok(!without.includes('OPERATOR_EQ_BANDS_RESERVE:eq-band-budget'), JSON.stringify(without));
+  const without = problems(budget((d, at) => { dropDecl('data/kernels/fbs.json', d['data/kernels/fbs.json'], 'FBS_DEFAULT_MAX_AUTO_BANDS'); at(eq, 'OPERATOR_EQ_BANDS_RESERVE').value = 30; }));
+  assert.ok(!without.includes('eqBandBudget:check'), JSON.stringify(without));
+  // a leaf by its path; a term that is no number is refused, never added
+  assert.ok(problems(budget((d) => { d[BUDGET].checks[0].atMost = 'EQ_BAND_COUNTS.eq8.max'; })).includes('eqBandBudget:check'), '9 + 6 + 8 exceeds 8');
+  assert.deepEqual(problems(budget((d) => { d[BUDGET].checks[0].sum = ['EQ_BAND_COUNTS.strip.default']; d[BUDGET].checks[0].atMost = 'EQ_BAND_COUNTS.channel.max'; })), []);
+  assert.ok(problems(budget((d) => { d[BUDGET].checks[0].atMost = 'EQ_BAND_COUNTS.channel'; })).includes('eqBandBudget:check'));
+  assert.ok(problems(budget((d) => { d[BUDGET].checks[0].sum = []; })).some((p) => p.endsWith(':schema')), 'a check sums one term or more');
 });
 
-test('a strip type never starts with more bands than it may hold, and the rule answers for its count', () => {
-  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_COUNTS').value.eq8.default = 9; })).includes('EQ_BAND_COUNTS:eq-band-counts'));
-  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_COUNTS').value.channel.default = 0; })).includes('EQ_BAND_COUNTS:eq-band-counts'));
-  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_COUNTS').value.eq32 = { default: 62, max: 62 }; })).includes('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ:eq-default-rule'));
-});
-
-test('the default rule\'s inputs must agree', () => {
-  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_DEFAULT_CENTRES_FOUR_BAND_HZ').values = [100, 400, 2000]; })).includes('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ:eq-default-rule'));
-  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_DEFAULT_CENTRES_FOUR_BAND_HZ').values = [100, 400, 2000, 8100]; })).includes('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ:eq-default-rule'), 'a preferred value of the series only');
-  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_TYPES').ids = ['bell', 'highShelf', 'notch']; delete at(eq, 'EQ_BAND_TYPES').labels; })).includes('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ:eq-default-rule'));
+test('a strip type never starts with more bands than it may hold: the generic count and sheet-default rules', () => {
+  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_COUNTS').value.eq8.default = 9; })).includes('EQ_BAND_COUNTS:sheet-default'));
+  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_COUNTS').value.channel.default = 0; })).includes('EQ_BAND_ONS:count'), 'a count that starts with no band');
+  assert.ok(problems(texts((d, at) => { at(eq, 'EQ_BAND_COUNTS').value.channel.default = 2.5; })).includes('EQ_BAND_ONS:count'));
+  assert.deepEqual(problems(texts((d, at) => { at(eq, 'EQ_BAND_COUNTS').value.eq32 = { default: 62, max: 62 }; })), [], 'the default centres are omx-dsp\'s to answer, no rule here');
+  // any sheet, not the EQ's only: a group's default below its min
+  assert.ok(problems(texts((d) => { d['data/limits.json'] = { $schema: '../schema/omx-contract.schema.json', ACME_SHEET: { kind: 'sheet', doc: 'A sheet.', value: { knob: { min: 2, default: 1, max: 4 } } } }; }))
+    .includes('ACME_SHEET:sheet-default'));
 });
 
 test('a set\'s ids appended are MINOR, changed or removed MAJOR, its default added or removed MAJOR', () => {

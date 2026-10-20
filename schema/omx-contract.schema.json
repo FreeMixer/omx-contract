@@ -12,9 +12,10 @@
       "$schema": { "type": "string" },
       "requires": { "$ref": "#/$defs/requires" },
       "source": { "$ref": "#/$defs/source" },
-      "render": { "$ref": "#/$defs/render" }
+      "render": { "$ref": "#/$defs/render" },
+      "checks": { "$ref": "#/$defs/checks" }
     },
-    "propertyNames": { "anyOf": [{ "enum": ["$schema", "requires", "source", "render"] }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
+    "propertyNames": { "anyOf": [{ "enum": ["$schema", "requires", "source", "render", "checks"] }, { "pattern": "^[A-Z][A-Z0-9_]*$" }] },
     "additionalProperties": { "$ref": "#/$defs/item" }
   },
   "$defs": {
@@ -260,6 +261,23 @@
       "minProperties": 1,
       "additionalProperties": false
     },
+    "checks": {
+      "type": "array",
+      "description": "Relations between numbers several packages state, which no one item can carry (docs/contract-dir.md): validate refuses (rule check) a sum of the numbers `sum` names above the number `atMost` names. A read that lacks an item a check names skips the check. It declares no item.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
+          "doc": { "$ref": "#/$defs/text" },
+          "sum": { "type": "array", "items": { "$ref": "#/$defs/checkTerm" }, "minItems": 1 },
+          "atMost": { "$ref": "#/$defs/checkTerm" }
+        },
+        "required": ["name", "doc", "sum", "atMost"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "checkTerm": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*(\\.[A-Za-z][A-Za-z0-9]*)*$", "description": "An item name, or an item and the path to one of its leaves (`EQ_BAND_COUNTS.channel.max`)." },
     "renderLine": { "type": "string", "minLength": 1, "pattern": "^(?!.*\\*/)[^\\n\\r]*$", "description": "One line of prose inside a C comment: no line break, no comment end." },
     "renderGlob": { "type": "string", "pattern": "^\\*?[A-Za-z][A-Za-z0-9]*\\*?$", "description": "A field name, its start (`worker*`), its end (`*Dbfs`) or a part of it (`*Ring*`)." },
     "renderHeader": {
