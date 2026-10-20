@@ -5629,7 +5629,7 @@ export declare const HOSTING_TOPOLOGY_CODES: {
   };
   readonly topologyWiderThanStrip: {
     readonly code: "hosting.topology.wider-than-strip";
-    readonly doc: "the plugin is wider than the strip";
+    readonly doc: "a main port is wider than the lane the caller runs the plugin on";
   };
 };
 

@@ -6480,7 +6480,7 @@ export const HOSTING_TOPOLOGY_CODES = {
   },
   "topologyWiderThanStrip": {
     "code": "hosting.topology.wider-than-strip",
-    "doc": "the plugin is wider than the strip"
+    "doc": "a main port is wider than the lane the caller runs the plugin on"
   }
 };
 
