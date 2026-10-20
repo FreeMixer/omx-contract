@@ -39,7 +39,7 @@ export function clapName(id, group, value) {
   return parts[0] + parts.slice(1).map((p) => p.slice(0, 1).toUpperCase() + p.slice(1)).join('');
 }
 
-const itemsOf = (doc) => Object.entries(doc).filter(([k]) => !k.startsWith('$') && !['requires', 'source', 'render'].includes(k));
+const itemsOf = (doc) => Object.entries(doc).filter(([k]) => !k.startsWith('$') && !['requires', 'source', 'render', 'checks'].includes(k));
 const sorted = (keys) => keys.every((k, i) => i === 0 || keys[i - 1] < k);
 
 /** The layout problems of `files` (`[{ rel, doc }]`, rel below data/): `[message]`. */

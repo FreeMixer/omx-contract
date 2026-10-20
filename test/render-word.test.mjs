@@ -233,12 +233,10 @@ test('the tool names no item an owner installs: the owner\'s file is the only pl
   const own = new Set(loadData(DATA).items.keys());
   const owned = [...loadData(UNION).items.keys()].filter((n) => !own.has(n));
   assert.ok(owned.includes('HOSTED_STAGE_LIMITS') && owned.includes('GATE_LIMITS'), 'positive control: the owners\' items');
-  // Still named until each moves to its owner (spec 9.1): the default EQ rule (lib/eq-defaults.mjs, its C and ts
-  // functions), the EQ band counts' rule, and the EQ band budget, whose terms span omx-dsp and the console.
-  const STILL_NAMED = ['EQ_BAND_COUNTS', 'EQ_BAND_DEFAULTS', 'EQ_BAND_TYPES', 'EQ_CENTRE_SERIES_R20_HZ', 'EQ_DEFAULT_CENTRES_FOUR_BAND_HZ',
-    'EQ_FREQ_RANGE', 'EQ_MAX_BANDS', 'FBS_DEFAULT_MAX_AUTO_BANDS', 'HRP_DEFAULT_MAX_AUTO_BANDS', 'ISO_THIRD_OCTAVE_CENTRES_HZ', 'OPERATOR_EQ_BANDS_RESERVE'];
   const named = owned.filter((name) => sources.some(([, text]) => new RegExp(`\\b${name}\\b`).test(text)));
-  assert.deepEqual(named.sort(), STILL_NAMED, 'no other rule, render or comment of the tool names an owner\'s item');
+  // The default EQ rule, the EQ band counts' rule and the band budget were the last (#1841): the rule left for omx-dsp,
+  // the counts are the generic count and sheet-default rules, the budget a check its owner declares (docs/contract-dir.md).
+  assert.deepEqual(named, [], 'no rule, render or comment of the tool names an owner\'s item');
 });
 
 /** An owner's data directory: a kernel, a sheet, and the file that carries its omx-style word. */
