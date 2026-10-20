@@ -6439,6 +6439,14 @@ export const HOSTING_STATE_CODES = {
  * @see data/hosting/topology.json
  */
 export const HOSTING_TOPOLOGY_CODES = {
+  "topologyAmbisonicConfig": {
+    "code": "hosting.topology.ambisonic-config",
+    "doc": "an ambisonic port refuses the carrier's ordering or normalisation"
+  },
+  "topologyChannelMapUnknown": {
+    "code": "hosting.topology.channel-map-unknown",
+    "doc": "a surround port names a channel id the host does not know, or refuses the carrier's channel mask"
+  },
   "topologyExtraInputs": {
     "code": "hosting.topology.extra-inputs-fed-silence",
     "doc": "the plugin has extra inputs, fed silence"
@@ -6456,6 +6464,18 @@ export const HOSTING_TOPOLOGY_CODES = {
   "topologyNoAudioOutput": {
     "code": "hosting.topology.no-audio-output",
     "doc": "the plugin has no audio output"
+  },
+  "topologyPortTooWide": {
+    "code": "hosting.topology.port-too-wide",
+    "doc": "a port of more channels than the limit, or an ambisonic port whose channels are not (order+1)²"
+  },
+  "topologyPortWithoutChannels": {
+    "code": "hosting.topology.port-without-channels",
+    "doc": "a port of zero channels"
+  },
+  "topologyTooManyPorts": {
+    "code": "hosting.topology.too-many-ports",
+    "doc": "more than the limit of auxiliary ports on one side, or more than one main port on a side"
   },
   "topologyWiderThanStrip": {
     "code": "hosting.topology.wider-than-strip",

@@ -105,11 +105,16 @@
 #define OMX_HOSTING_STATE_UNREADABLE "hosting.state.unreadable"
 
 /* HOSTING_TOPOLOGY_CODES (data/hosting/topology.json) */
+#define OMX_HOSTING_TOPOLOGY_AMBISONIC_CONFIG "hosting.topology.ambisonic-config" ///< an ambisonic port refuses the carrier's ordering or normalisation
+#define OMX_HOSTING_TOPOLOGY_CHANNEL_MAP_UNKNOWN "hosting.topology.channel-map-unknown" ///< a surround port names a channel id the host does not know, or refuses the carrier's channel mask
 #define OMX_HOSTING_TOPOLOGY_EXTRA_INPUTS_FED_SILENCE "hosting.topology.extra-inputs-fed-silence" ///< the plugin has extra inputs, fed silence
 #define OMX_HOSTING_TOPOLOGY_INSTRUMENT "hosting.topology.instrument"
 #define OMX_HOSTING_TOPOLOGY_MATCHED "hosting.topology.matched"
 #define OMX_HOSTING_TOPOLOGY_NO_AUDIO_INPUT "hosting.topology.no-audio-input" ///< the plugin has no audio input
 #define OMX_HOSTING_TOPOLOGY_NO_AUDIO_OUTPUT "hosting.topology.no-audio-output" ///< the plugin has no audio output
+#define OMX_HOSTING_TOPOLOGY_PORT_TOO_WIDE "hosting.topology.port-too-wide" ///< a port of more channels than the limit, or an ambisonic port whose channels are not (order+1)²
+#define OMX_HOSTING_TOPOLOGY_PORT_WITHOUT_CHANNELS "hosting.topology.port-without-channels" ///< a port of zero channels
+#define OMX_HOSTING_TOPOLOGY_TOO_MANY_PORTS "hosting.topology.too-many-ports" ///< more than the limit of auxiliary ports on one side, or more than one main port on a side
 #define OMX_HOSTING_TOPOLOGY_WIDER_THAN_STRIP "hosting.topology.wider-than-strip" ///< the plugin is wider than the strip
 
 /* HOSTING_WORKER_CODES (data/hosting/worker.json) */
