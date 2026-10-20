@@ -44,7 +44,7 @@ and one section or more, in this order:
 | `numbers` `{ comment, prefix, omit?, levels? }` | Every sheet: field `f` as `<prefix><F>`, `F` in upper snake case; a field matching `levels` (a glob) is a level, a float literal, every other a non-negative integer, an unsigned literal; fields matching `omit` are left out. Each define carries the field's `docs` line as a trailing `///<` comment. |
 | `codes` `{ comment, prefix }` | Every codes item: code `n` as `<prefix><N>`, a string literal, with its `doc`. |
 | `scalars` `{ comment }` | Every number spelled `OMX_<macro>` as `omx_contract_limits.h` spells it, sorted by macro. |
-| `limits` `{ comment? }` | Every section of `omx_contract_limits.h`, the same defines under the same comments: the tables, aliases, scalars, lists, sets, readouts and the default EQ rule. With `scope: package` this is an owner's whole header (omx-dsp's `omxdsp/omxdsp_definitions.h`). |
+| `limits` `{ comment? }` | Every section of `omx_contract_limits.h`, the same defines under the same comments: the tables, aliases, scalars, lists, sets and readouts. With `scope: package` this is an owner's whole header (omx-dsp's `omxdsp/omxdsp_definitions.h`). |
 
 A glob is a name, its start (`worker*`), its end (`*Dbfs`) or a part (`*Ring*`). `validate` refuses (rule `render-c`)
 a section with nothing to render, a number that is neither a level nor a non-negative integer, a prose of more than one

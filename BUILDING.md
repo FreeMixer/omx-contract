@@ -34,7 +34,6 @@ share/omx-contract` and `render --target ts --out test/golden/ts`; CI holds all 
 data/                        omx-contract's own definitions, one file per group, edited by hand
   rates.json  primitives.json
 schema/omx-contract.schema.json   JSON Schema 2020-12: five kinds (scalar, travels, sheet, list, set), closed units, refs, closed derivations
-lib/eq-defaults.mjs          the one default rule for a fresh EQ's bands; the ts and c renders carry it
 bin/omx-contract.mjs         the CLI
 man/omx-contract.1           its man page
 vendor/                      the CLI's runtime dependencies, the npm tarballs package-lock.json pins (test/vendor.test.mjs)
