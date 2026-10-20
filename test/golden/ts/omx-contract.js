@@ -6202,7 +6202,7 @@ export const HOSTING_FEATURES_CODES = {
   },
   "featuresMissing": {
     "code": "hosting.features.required-not-provided",
-    "doc": "retired (omx-contract#127): hosting.features.missing names the same fact; plugin-qualify stops writing this one (plugin-qualify#120), and the first major release removes it"
+    "doc": "retired (omx-contract#127): hosting.features.missing names the same fact; removed in the release after plugin-qualify stops naming it (omx-contract#132)"
   },
   "featuresMissingAtLoad": {
     "code": "hosting.features.missing"
@@ -6447,7 +6447,7 @@ export const HOSTING_TOPOLOGY_CODES = {
   },
   "topologyExtraInputs": {
     "code": "hosting.topology.extra-inputs-fed-silence",
-    "doc": "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody once omx-clap-core#92 lands, and the first major release removes it"
+    "doc": "retired for hosting.topology.too-many-ports: the plugin has extra inputs, fed silence; written by nobody since omx-clap-core#92, removed with required-not-provided (omx-contract#132)"
   },
   "topologyInstrument": {
     "code": "hosting.topology.instrument"
