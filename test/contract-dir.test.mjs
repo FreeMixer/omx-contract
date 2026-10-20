@@ -91,7 +91,8 @@ test('the install writes omx-contract\'s data/ with its manifest: every file, it
   assert.deepEqual(Object.keys(m.files).sort(), want);
   assert.ok(!want.includes('codes.json'), 'the reader\'s own codes are not installed');
   assert.equal(want.length, dataFiles(DATA).length);
-  assert.ok(want.includes('rates.json') && want.includes('primitives.json') && want.some((r) => r.startsWith('hosting/')), 'the shared facts and the vocabulary tree');
+  assert.ok(want.includes('rates.json') && want.includes('primitives.json') && want.some((r) => r.startsWith('formats/')), 'the shared facts and the vocabulary tree');
+  assert.ok(!want.some((r) => r.startsWith('hosting/')), 'the hosting codes are omx-clap-core\'s (docs/hosting.md)');
   for (const rel of want) {
     const bytes = readFileSync(join(dir, rel));
     assert.equal(m.files[rel], sha256(bytes), `${rel}: the manifest lists its hash`);
