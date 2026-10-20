@@ -24,7 +24,7 @@ SCHEMA_MAJOR := $(shell sed -n 's/^  "x-omx-schema-version": "\([0-9]*\)\..*",$$
 CC ?= cc
 VERSION := $(shell sed -n 's/^  "version": "\(.*\)",$$/\1/p' package.json)
 
-.PHONY: all check completeness public-sources install install-cli test
+.PHONY: all check completeness inventory-check layout public-sources install install-cli test
 
 all:
 	@test -n "$(VERSION)" || { echo "no version in package.json" >&2; exit 1; }
@@ -32,7 +32,7 @@ all:
 
 # The header compiles on its own, warnings as errors.
 check: all
-	printf '#include <omxcontract/omx_contract_limits.h>\nint main(void) { return OMX_READOUT_RATE_HZ > 0 && OMX_DECLARED_RATE_COUNT > 0 && OMX_PARAM_SCALES_LINEAR < OMX_PARAM_SCALES_COUNT ? 0 : 1; }\n' > check-headers.c
+	printf '#include <omxcontract/omx_contract_limits.h>\n#include <omxcontract/omx_vocabulary.h>\nstatic const char *const voice_bases[] = OMX_MEASUREMENT_VOICE_BASES_INIT;\nint main(void) { return OMX_READOUT_RATE_HZ > 0 && OMX_DECLARED_RATE_COUNT > 0 && OMX_PARAM_SCALES_LINEAR < OMX_PARAM_SCALES_COUNT && sizeof voice_bases / sizeof voice_bases[0] == OMX_MEASUREMENT_VOICE_BASES_COUNT && OMX_HOSTING_NO_REALISATION[0] == 0x68 ? 0 : 1; }\n' > check-headers.c
 	$(CC) -std=c11 -Wall -Wextra -Werror -Wno-unused-function -Iinclude check-headers.c -o check-headers
 	./check-headers
 	rm -f check-headers check-headers.c
@@ -40,7 +40,7 @@ check: all
 install: all
 	install -d $(DESTDIR)$(INCLUDEDIR)/omxcontract $(DESTDIR)$(DATADIR)/omx-contract $(DESTDIR)$(PKGCONFIGDIR)
 	install -m 0644 include/omxcontract/*.h $(DESTDIR)$(INCLUDEDIR)/omxcontract/
-	install -m 0644 share/omx-contract/omx-contract.json schema/omx-contract.schema.json $(DESTDIR)$(DATADIR)/omx-contract/
+	install -m 0644 share/omx-contract/omx-contract.json share/omx-contract/omx-vocabulary.schema.json schema/omx-contract.schema.json $(DESTDIR)$(DATADIR)/omx-contract/
 	install -m 0755 tools/install-contract-dir.sh $(DESTDIR)$(DATADIR)/omx-contract/
 	sh tools/install-contract-dir.sh -x codes.json omx-contract $(VERSION) $(SCHEMA_MAJOR) data $(DESTDIR)$(CONTRACTDIR) data
 	sed -e 's|@PREFIX@|$(PREFIX)|' -e 's|@INCLUDEDIR@|$(INCLUDEDIR)|' -e 's|@DATADIR@|$(DATADIR)|' -e 's|@VERSION@|$(VERSION)|' \
@@ -75,6 +75,15 @@ test:
 # omx-contract carried until 2.14.0 (test/fixtures/owners-2.14.0/), since this tree holds none of its own.
 completeness:
 	node tools/kernel-recipe.mjs --owners-fixture
+
+# Every word of data/ in the file its rule places it, and every LV2 and CLAP term of inventory/ mapped with a status
+# (docs/data-layout.md).
+layout:
+	node tools/data-layout.mjs
+
+# inventory/ is the LV2 and CLAP installed here (needs serdi, the LV2 bundles and the CLAP headers).
+inventory-check:
+	node tools/format-inventory.mjs --check
 
 # No tracked file points into a private repository, branch, issue or path (the few exemptions are listed in the tool).
 public-sources:
