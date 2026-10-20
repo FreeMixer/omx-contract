@@ -50,19 +50,22 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | file | `$schema`, `requires` | As every installed file ([contract-dir.md](contract-dir.md)) | existing |
 | file | `origin` | `authored`, `built` or `scanned` (below) | new |
 | `plugin` | `id`, `format` (`clap`, `lv2`), `uri`, `name`, `vendor`, `version` | Identity as the plugin states it; `id` is the CLAP id or the LV2 URI | new |
+| `plugin` | `doc` | The plugin's one-line description: CLAP `description`, LV2 `rdfs:comment` | new |
 | `plugin` | `features` | `audio-effect`, `instrument`, `note-effect`, `analyzer`: CLAP's feature names, LV2 classes mapped onto them | new |
 | control | `name`, `doc`, `kind`, `ids`, `labels`, `values`, `default`, `count`, `when` | As in kernel files; `name` is the plugin's own name for the control | existing |
 | control | `kind`: `travel`, `choice` | A continuous or stepped travel; a list of named values | existing |
 | control | `kind`: `toggle`, `trigger` | On or off (LV2 `lv2:toggled`); a momentary action (LV2 `pprops:trigger`) | new |
-| control | `travel.min`, `.max`, `.step`, `.unit`, `.default`, `.defaultFrom`, `.scale` | Range, unit, scale (an id of `PARAM_SCALES`) and the come-up value | existing |
+| control | `travel.min`, `.max`, `.step`, `.unit`, `.default`, `.defaultFrom`, `.scale`, `.byKind` | Range, unit, scale (an id of `PARAM_SCALES`), the come-up value and the come-up value per kind of strip | existing |
+| control | `unit` | A choice's unit: the unit of its `values` (an EQ slope's 12 and 24 `dB/oct`) | new |
 | control | `id` | The host's handle: the CLAP `clap_id` (an integer) or the LV2 port symbol | new |
 | control | `symbol` | The stable name a session keys the control by, beside a CLAP `clap_id`: our authored plugins' parameter-contract symbol, so a restore finds the control when ids move. Optional; an LV2 control's `id` is its symbol already | new |
 | control | `label` | The display name, when it differs from `name` | new |
 | control | `group` | A path, outer first: `["Filter", "Envelope"]`. CLAP `module`, LV2 `pg:group`, our panel section | new |
 | control | `meaning` | What the control does, from the closed list below. A skin binds by meaning, never by id | new |
 | control | `hidden`, `readonly`, `automatable` | CLAP `IS_HIDDEN`, `IS_READONLY`, `IS_AUTOMATABLE`; LV2 `pprops:notOnGUI`, an output control | new |
+| control | `measurement` | What a meter measures, on a read-only travel: `peak`, `rms`, `vu`, `ppm`, `lufs`, `gainReduction` (below) | new |
 | control | `source` | The control's own links, in the place of the file's | existing |
-| `travel` | units `frames`, `bpm`, `midiNote`, `LUFS`, `deg` | Units a plugin uses that no item does (below) | new |
+| `travel` | units `frames`, `bpm`, `midiNote`, `LUFS`, `deg`, `dBu`, `dB/oct`, `ratio` | Units a plugin uses that no item does (below) | new |
 | `travel` | `unit: "unknown"`, `scale: "unknown"` | The plugin states no unit or scale, or one with no word here | new |
 | `ports[]` | `id`, `name`, `kind` (`audio`, `midi`, `note`, `cv`), `direction` (`in`, `out`) | One entry per port, in the plugin's order | new |
 | `ports[]` | `role` (`main`, `sidechain`, `aux`), `channels`, `layout` (`mono`, `stereo`, `surround`) | An audio port's layout: CLAP audio ports (`IS_MAIN`, channel count, port type), LV2 `pg:` groups and `lv2:isSideChain` | new |
@@ -80,14 +83,14 @@ measurements of one machine and belong to a qualification record, which no descr
 | `kind` | Carries | Leaves out |
 |---|---|---|
 | `travel` | `travel`, with `unit` and `scale` always stated | `ids`, `labels`, `values` |
-| `choice` | `ids`; optionally `labels` (one per id), `values` (one number per id: the value the plugin reads for it) and a `default` among the ids | `travel` |
-| `toggle` | optionally a boolean `default` | `travel`, `ids` |
-| `trigger` | nothing more: a trigger has no state, so no `default` | `travel`, `ids`, `default` |
+| `choice` | `ids`; optionally `labels` (one per id), `values` (one number per id: the value the plugin reads for it), the `unit` of those values (only beside `values`) and a `default` among the ids | `travel` |
+| `toggle` | optionally a boolean `default` | `travel`, `ids`, `unit` |
+| `trigger` | nothing more: a trigger has no state, so no `default`; a momentary control is a trigger | `travel`, `ids`, `default`, `unit` |
 
 ### Units
 
-A descriptor's `travel.unit` is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x` and `""`), one of
-the five below, or `unknown`.
+A descriptor's `travel.unit`, and a choice's `unit`, is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x`
+and `""`), one of the eight below, or `unknown`.
 
 | Unit | Taken from |
 |---|---|
@@ -96,9 +99,12 @@ the five below, or `unknown`.
 | `midiNote` | LV2 `units:midiNote` (its symbol is `note`) |
 | `LUFS` | No LV2 unit: loudness, ITU-R BS.1770 |
 | `deg` | LV2 `units:degree`, whose symbol is `deg` |
+| `dBu` | No LV2 unit: a level in dB re 0.775 V, the unit param-contract serves |
+| `dB/oct` | No LV2 unit: a filter slope, in dB per octave |
+| `ratio` | No LV2 unit: a ratio n:1, the value n (a compressor's ratio), the unit param-contract serves; the item list has only `x` |
 | `unknown` | The plugin states no unit (every CLAP parameter; an LV2 port without `units:unit`), or one with no word here; the LV2 unit stays in `source` |
 
-The item list stays the units the items use; these six are for descriptors only.
+The item list stays the units the items use; these nine are for descriptors only.
 
 ### Scales
 
@@ -116,10 +122,28 @@ has the term, the meaning carries its name.
 | `delay` (a delay time) | `param:delay` |
 | `enabled` (on when the control is on; the inverse of `bypass`) | `lv2:enabled` |
 | `range`, `knee`, `hysteresis`, `makeup`, `lookahead`, `ceiling`, `output`, `q`, `slope`, `width`, `drive`, `tone`, `rate`, `depth`, `feedback`, `spread`, `predelay`, `size`, `damping`, `lowCut`, `highCut`, `shift`, `fine`, `sync`, `division`, `listen` | none |
+| `speed` (a rotor's speed, or its speed switch), `shape` (an LFO's waveform), `model` (the circuit a drive models), `algorithm` (a reverb's algorithm), `mode` (a de-esser's or a detector's mode), `type` (a filter's or a band's type), `pingpong` (a delay's ping-pong switch) | none |
+| `on` (a band's or a stage's own switch, on when it runs; the whole plugin's is `enabled`) | none |
 | `unknown` | The plugin states no meaning |
 
 A control with no meaning in the list leaves `meaning` out and is shown by its `group` and `name`. A new meaning is
 a schema minor.
+
+### Measurements
+
+`measurement` says what a meter reads, so a host draws it as that meter. It stands only on a `travel` control that
+is `readonly`; anywhere else it is `contract.file.invalid`.
+
+| Measurement | What the meter reads |
+|---|---|
+| `peak` | The sample peak over the meter's window |
+| `rms` | The RMS level over the meter's window |
+| `vu` | A VU meter's reading (IEC 60268-17) |
+| `ppm` | A peak programme meter's reading (IEC 60268-10) |
+| `lufs` | Loudness, ITU-R BS.1770 |
+| `gainReduction` | The gain a dynamics stage takes off |
+
+A new measurement is a schema minor.
 
 ## The three origins
 
@@ -129,8 +153,8 @@ a schema minor.
 | `built` | A plugin we build whose parameter list lives only in its code (a ported or wrapped plugin) | The owner's build, from a scan of its built binary; the extras authored on top | the contract directory, shipped by the owner | `from` the built binary |
 | `scanned` | Third-party CLAP and LV2 plugins | A scan on the user's machine, from the plugin's own metadata only | the console's own state directory: never the contract directory, never shipped | `from` the `.ttl` or the CLAP binary |
 
-- An `authored` descriptor states what a person declared, so it never says `unknown`: a unit, a scale or a meaning
-  of `unknown` in it is refused.
+- An `authored` descriptor states what a person declared, so it never says `unknown`: a unit (a travel's or a
+  choice's), a scale or a meaning of `unknown` in it is refused.
 - A `built` or `scanned` descriptor writes only what the plugin states: what it does not state is `unknown`.
 - The contract-directory reader refuses a `scanned` descriptor: what a machine found about itself is not a
   declaration.
@@ -144,10 +168,10 @@ file, the control or port, and the code; the reader refuses the whole read on th
 | Code | When |
 |---|---|
 | `contract.descriptor.origin-source` | An `authored` descriptor with no `impl` link, or a `built` or `scanned` one with a control that has no `from` link (its own or the file's). |
-| `contract.descriptor.unknown-authored` | An `authored` descriptor with a unit, a scale or a meaning of `unknown`. |
+| `contract.descriptor.unknown-authored` | An `authored` descriptor with a unit (a travel's or a choice's), a scale or a meaning of `unknown`. |
 | `contract.descriptor.control-duplicate` | Two controls with one `id`, one `name` or one `symbol`. |
 | `contract.descriptor.port-duplicate` | Two ports of one kind and direction with one `id` (CLAP numbers audio and note ports, inputs and outputs, apart). |
-| `contract.descriptor.range` | A travel whose `min` is above its `max`, whose `step` is negative, or whose `default` lies outside it. |
+| `contract.descriptor.range` | A travel whose `min` is above its `max`, whose `step` is negative, or whose `default` or a `byKind` value lies outside it. |
 | `contract.descriptor.choice` | A choice whose `default` is not one of its ids, or whose `labels` or `values` are not one per id. |
 | `contract.descriptor.scale-undeclared` | A scale that is neither an id of `PARAM_SCALES` nor `unknown`. |
 | `contract.descriptor.port-words` | `role`, `channels` or `layout` on a port that is not audio; `dialects` on a port that is not a note port, or a note port without them; a `layout` its `channels` contradict (`mono` 1, `stereo` 2, `surround` more than 2). |
