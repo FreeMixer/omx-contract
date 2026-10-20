@@ -20,8 +20,8 @@ changes.
 
 ```json
 {
-  "$schema": "https://github.com/FreeMixer/omx-contract/raw/v2/schema/omx-contract.schema.json",
-  "requires": { "omx-contract-schema": ">= 2.15.0" },
+  "$schema": "https://github.com/FreeMixer/omx-contract/raw/v3/schema/omx-contract.schema.json",
+  "requires": { "omx-contract-schema": ">= 3.0.0" },
   "origin": "authored",
   "plugin": { "id": "org.example.delay", "format": "clap", "name": "Delay", "features": ["audio-effect"] },
   "controls": [
