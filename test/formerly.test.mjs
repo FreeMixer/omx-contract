@@ -8,7 +8,7 @@
 import assert from 'node:assert/strict';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { test } from 'node:test';
 import { main } from '../bin/omx-contract.mjs';
 import { atLeast } from '../lib/contract-dir.mjs';
@@ -18,7 +18,7 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, RENDERS, ROOT, UNION, editData, resolvedOf, scratchData, texts } from './helpers.mjs';
+import { DATA, ROOT, UNION, editData, resolvedOf, scratchData, texts } from './helpers.mjs';
 
 // ORACLE_FLOOR_RATES renamed FLOOR_RENAMED, its old name kept until 9.9.0
 const rename = (values) => texts((d) => {
@@ -153,51 +153,72 @@ test('ORACLE_FULL_RATES: the nine rates, its doc names no vendor, and the floor 
   const r = resolveData(loadData(DATA));
   const full = r.get('ORACLE_FULL_RATES');
   assert.deepEqual(full.value, NINE);
-  assert.deepEqual(full.formerly, { name: 'RME_RATES', removedIn: '2.19.0', readers: ['omx-clap-core', 'omx-dsp', 'omx-plugins'] });
   assert.doesNotMatch(full.doc, /RME/);
   for (const n of ['ORACLE_FLOOR_RATES', 'STANDARD_SAMPLE_RATES']) for (const v of r.get(n).value) assert.ok(NINE.includes(v), `${n} ${v}`);
-  assert.equal(r.has('RME_RATES'), false, 'the old name is no item, only an alias');
+  // the numbers a reader of its former name, RME_RATES, built against until 2.15.0
+  assert.deepEqual(expand(read('test/fixtures/omx-contract-2.10.0/omx_contract_limits.h'), 'OMX_RME_RATES_INIT'), NINE);
 });
 
-test('RME_RATES, the deprecated alias, answers the values of ORACLE_FULL_RATES in every committed render', async () => {
-  const h = read('include/omxcontract/omx_contract_limits.h');
-  assert.match(h, /^#define OMX_RME_RATES_COUNT OMX_ORACLE_FULL_RATES_COUNT$/m);
-  assert.match(h, /^#define OMX_RME_RATES_INIT OMX_ORACLE_FULL_RATES_INIT$/m);
-  assert.match(h, /kept until 2\.19\.0 removes it/);
-  assert.deepEqual(expand(h, 'OMX_RME_RATES_INIT'), NINE);
-  assert.deepEqual(expand(h, 'OMX_ORACLE_FULL_RATES_INIT'), NINE);
-  assert.equal(expand(h, 'OMX_RME_RATES_COUNT'), 9);
-  // the numbers a reader of the old name built against until 2.15.0
-  assert.deepEqual(expand(read('test/fixtures/omx-contract-2.10.0/omx_contract_limits.h'), 'OMX_RME_RATES_INIT'), NINE);
+test('RME_RATES is gone: no item, no former name, in the data and in every committed render (2.19.0, #125)', async () => {
+  const r = resolveData(loadData(DATA));
+  assert.equal(r.has('RME_RATES'), false);
+  assert.deepEqual([...r.values()].filter((x) => x.formerly).map((x) => x.name), []);
+  assert.doesNotMatch(read('include/omxcontract/omx_contract_limits.h'), /RME_RATES/);
   const ts = await import(join(ROOT, 'test/golden/ts/omx-contract.js'));
-  assert.equal(ts.RME_RATES, ts.ORACLE_FULL_RATES);
-  assert.deepEqual(ts.RME_RATES, NINE);
-  assert.match(read('test/golden/ts/omx-contract.d.ts'), /^export declare const RME_RATES: typeof ORACLE_FULL_RATES;$/m);
-  const json = JSON.parse(read('share/omx-contract/omx-contract.json'));
-  assert.deepEqual(json.formerNames, { RME_RATES: { name: 'ORACLE_FULL_RATES', removedIn: '2.19.0' } });
-  assert.deepEqual(json.items[json.formerNames.RME_RATES.name].value, NINE);
+  assert.equal(ts.RME_RATES, undefined);
+  assert.doesNotMatch(read('test/golden/ts/omx-contract.d.ts'), /RME_RATES/);
+  assert.equal(JSON.parse(read('share/omx-contract/omx-contract.json')).formerNames, undefined);
 });
+
+/**
+ * The fixture instance of the mechanism: a scratch copy of the data in which ORACLE_FLOOR_RATES is renamed
+ * FLOOR_RENAMED, its old name kept until 9.9.0 (`fn(rates)` edits its rates.json further), with its C render written
+ * beside it. The renders a reader of the old name builds against are the ones held here, never a real alias.
+ */
+function aliasFixture(fn) {
+  const dir = scratchData();
+  editData(dir, 'rates.json', (d) => {
+    const it = d.ORACLE_FLOOR_RATES;
+    delete d.ORACLE_FLOOR_RATES;
+    d.FLOOR_RENAMED = { ...it, formerly: { name: 'ORACLE_FLOOR_RATES', removedIn: '9.9.0' } };
+    fn?.(d);
+  });
+  const out = mkdtempSync(join(tmpdir(), 'omx-contract-formerly-'));
+  for (const f of renderC(resolveData(loadData(dir)))) {
+    mkdirSync(dirname(join(out, f.path)), { recursive: true });
+    writeFileSync(join(out, f.path), f.text);
+  }
+  return { dir, out, header: () => readFileSync(join(out, 'omxcontract/omx_contract_limits.h'), 'utf8') };
+}
 
 test('sabotage: the alias edited by hand into a copy of the numbers is red, though the numbers agree', () => {
-  const out = mkdtempSync(join(tmpdir(), 'omx-contract-formerly-'));
+  const { dir, out, header } = aliasFixture();
   try {
-    const h = read('include/omxcontract/omx_contract_limits.h').replace(/^#define OMX_RME_RATES_INIT .+$/m, `#define OMX_RME_RATES_INIT { ${NINE.join(', ')} }`);
-    mkdirSync(join(out, 'omxcontract'));
+    const FLOOR = [44100, 48000, 96000, 192000];
+    assert.match(header(), /^#define OMX_ORACLE_FLOOR_RATES_INIT OMX_FLOOR_RENAMED_INIT$/m);
+    assert.equal(main(['render', '--target', 'c', '--out', out, '--check', '--data', dir]), 0, 'the fixture\'s own render is clean');
+    const h = header().replace(/^#define OMX_ORACLE_FLOOR_RATES_INIT .+$/m, `#define OMX_ORACLE_FLOOR_RATES_INIT { ${FLOOR.join(', ')} }`);
     writeFileSync(join(out, 'omxcontract/omx_contract_limits.h'), h);
-    assert.deepEqual(expand(h, 'OMX_RME_RATES_INIT'), NINE, 'the hand copy holds the same numbers');
-    assert.equal(main(['render', '--target', 'c', '--out', out, '--check']), 1);
-    assert.doesNotMatch(h, /^#define OMX_RME_RATES_INIT OMX_ORACLE_FULL_RATES_INIT$/m);
+    assert.deepEqual(expand(h, 'OMX_ORACLE_FLOOR_RATES_INIT'), FLOOR, 'the hand copy holds the same numbers');
+    assert.equal(main(['render', '--target', 'c', '--out', out, '--check', '--data', dir]), 1);
   } finally {
     rmSync(out, { recursive: true, force: true });
   }
 });
 
-test('perturbation: a rate moved in ORACLE_FULL_RATES moves the old name with it, and --check goes red', () => {
-  const dir = scratchData();
-  editData(dir, 'rates.json', (d) => { d.ORACLE_FULL_RATES.values[0] = 31000; });
-  const r = resolveData(loadData(dir));
-  const h = renderC(r)[0].text;
-  assert.deepEqual(expand(h, 'OMX_RME_RATES_INIT'), [31000, ...NINE.slice(1)]);
-  assert.match(renderTs(r)[0].text, /^export const RME_RATES = ORACLE_FULL_RATES;$/m);
-  assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
+test('perturbation: a rate moved in the renamed list moves the old name with it, and --check goes red', () => {
+  const { out } = aliasFixture();
+  try {
+    const moved = aliasFixture((d) => { d.FLOOR_RENAMED.values[0] = 32000; });
+    try {
+      const r = resolveData(loadData(moved.dir));
+      assert.deepEqual(expand(moved.header(), 'OMX_ORACLE_FLOOR_RATES_INIT'), [32000, 48000, 96000, 192000]);
+      assert.match(renderTs(r)[0].text, /^export const ORACLE_FLOOR_RATES = FLOOR_RENAMED;$/m);
+      assert.equal(main(['render', '--target', 'c', '--out', out, '--check', '--data', moved.dir]), 1);
+    } finally {
+      rmSync(moved.out, { recursive: true, force: true });
+    }
+  } finally {
+    rmSync(out, { recursive: true, force: true });
+  }
 });

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.18.0
+Version: 2.19.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -82,6 +82,26 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sat Oct 24 2026 Pau Aliagas <linuxnow@gmail.com> - 2.19.0-1
+- Five hosting codes for the audio layouts omx-clap-core writes, in
+  data/hosting/topology.json: hosting.topology.too-many-ports, port-too-wide,
+  port-without-channels, channel-map-unknown and ambisonic-config, each with
+  its meaning and an OMX_HOSTING_TOPOLOGY_* define in omx_vocabulary.h.
+- Two codes retired, still declared because removing a code needs a major
+  release: hosting.features.required-not-provided, for
+  hosting.features.missing, which names the same fact, and
+  hosting.topology.extra-inputs-fed-silence, for too-many-ports. Their docs
+  say so; the first major release removes them.
+- hosting.topology.wider-than-strip reads as a main port wider than the lane
+  the caller runs the plugin on; the code is unchanged.
+- The RME_RATES alias is gone: read ORACLE_FULL_RATES, as every consumer's
+  main already does. OMX_RME_RATES_COUNT, OMX_RME_RATES_INIT, the RME_RATES
+  export and the JSON render's formerNames go with it.
+- Only the test suites of omx-dsp 0.23.0, omx-clap-core 0.10.0 and
+  omx-plugins 0.10.0 read RME_RATES, none of their installed files, so the
+  conflicts stay at omx-dsp-devel 0.22.0, omx-clap-core-devel 0.10.0 and
+  omx-plugins-devel 0.10.0.
+
 * Fri Oct 23 2026 Pau Aliagas <linuxnow@gmail.com> - 2.18.0-1
 - The hosting vocabulary: 73 hosting.* codes in data/hosting/, one file per
   dimension, with the measurement terms, the plugin resource profile and the
