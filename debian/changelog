@@ -1,3 +1,25 @@
+omx-contract (2.18.0) unstable; urgency=medium
+
+  * The hosting vocabulary: 73 hosting.* codes in data/hosting/, one file per
+    dimension (clap, cost, features, integrity, latency, output, override,
+    patch, preset, provenance, realised, rt-safety, stability, state,
+    topology, worker), with the measurement terms, the plugin resource
+    profile and the machine classes beside them.
+  * The whole LV2 vocabulary of lv2 1.18.10 (24 specifications, 452 terms) and
+    the whole CLAP vocabulary of clap 1.2.10 (all 58 headers, 297
+    identifiers), one file per specification or extension, so a host, a
+    qualifier and a console name the same thing the same way.
+  * Renders: a C header omx_vocabulary.h, the JSON-schema enums and the
+    TypeScript constants, each generated from the data; checks hold the
+    layout and the coverage, and a render that differs from its data fails.
+  * Additive: no term is removed or renamed, so a consumer built against
+    2.17.0 reads the same data. The deprecated RME_RATES alias stays while
+    its readers do.
+  * No owner needs a newer release, so the Breaks stay at libomxdsp-dev
+    0.22.0, libomx-clap-core-dev 0.10.0 and omx-plugins-dev 0.10.0.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 23 Oct 2026 08:00:00 +0000
+
 omx-contract (2.17.0) unstable; urgency=medium
 
   * The command has a DEB of its own, omx-contract: the CLI, its vendored

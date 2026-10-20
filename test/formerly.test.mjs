@@ -153,7 +153,7 @@ test('ORACLE_FULL_RATES: the nine rates, its doc names no vendor, and the floor 
   const r = resolveData(loadData(DATA));
   const full = r.get('ORACLE_FULL_RATES');
   assert.deepEqual(full.value, NINE);
-  assert.deepEqual(full.formerly, { name: 'RME_RATES', removedIn: '2.18.0', readers: ['omx-clap-core', 'omx-dsp', 'omx-plugins'] });
+  assert.deepEqual(full.formerly, { name: 'RME_RATES', removedIn: '2.19.0', readers: ['omx-clap-core', 'omx-dsp', 'omx-plugins'] });
   assert.doesNotMatch(full.doc, /RME/);
   for (const n of ['ORACLE_FLOOR_RATES', 'STANDARD_SAMPLE_RATES']) for (const v of r.get(n).value) assert.ok(NINE.includes(v), `${n} ${v}`);
   assert.equal(r.has('RME_RATES'), false, 'the old name is no item, only an alias');
@@ -163,7 +163,7 @@ test('RME_RATES, the deprecated alias, answers the values of ORACLE_FULL_RATES i
   const h = read('include/omxcontract/omx_contract_limits.h');
   assert.match(h, /^#define OMX_RME_RATES_COUNT OMX_ORACLE_FULL_RATES_COUNT$/m);
   assert.match(h, /^#define OMX_RME_RATES_INIT OMX_ORACLE_FULL_RATES_INIT$/m);
-  assert.match(h, /kept until 2\.18\.0 removes it/);
+  assert.match(h, /kept until 2\.19\.0 removes it/);
   assert.deepEqual(expand(h, 'OMX_RME_RATES_INIT'), NINE);
   assert.deepEqual(expand(h, 'OMX_ORACLE_FULL_RATES_INIT'), NINE);
   assert.equal(expand(h, 'OMX_RME_RATES_COUNT'), 9);
@@ -174,7 +174,7 @@ test('RME_RATES, the deprecated alias, answers the values of ORACLE_FULL_RATES i
   assert.deepEqual(ts.RME_RATES, NINE);
   assert.match(read('test/golden/ts/omx-contract.d.ts'), /^export declare const RME_RATES: typeof ORACLE_FULL_RATES;$/m);
   const json = JSON.parse(read('share/omx-contract/omx-contract.json'));
-  assert.deepEqual(json.formerNames, { RME_RATES: { name: 'ORACLE_FULL_RATES', removedIn: '2.18.0' } });
+  assert.deepEqual(json.formerNames, { RME_RATES: { name: 'ORACLE_FULL_RATES', removedIn: '2.19.0' } });
   assert.deepEqual(json.items[json.formerNames.RME_RATES.name].value, NINE);
 });
 
