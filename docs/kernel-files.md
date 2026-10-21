@@ -36,7 +36,10 @@ and nothing else. A sketch, values abridged
 - A USE is a control with a `global` and no `travel` or `ids`: it takes the item another control of the kernel
   declares, of its kind, and adds no item (the EQ's `lpfSlope` takes FILTER_SLOPES, which `hpfSlope` declares).
 - `count` names the item that counts a control the kernel takes once per band: a positive integer scalar
-  (`GEQ_BANDS`), or a sheet whose every variant gives its count as `max` (`EQ_BAND_COUNTS.eq8.max`).
+  (`GEQ_BANDS`), or a sheet whose every variant gives its count as `max` (`EQ_BAND_COUNTS.eq8.max`), a positive
+  integer, and the count it starts with as `default`, where it states one, a positive integer too. In every sheet, a
+  group that states a `default` beside its `min` or `max` keeps it inside them (rule `sheet-default`): a strip never
+  starts with more bands than it may hold.
 - `of` and `when` mark a travel that is no control of its own but the travel the control `of` names reaches while
   the choice `when.control` holds `when.is` (the EQ's `notchQ`: the Q's travel while the band is a notch).
 - A choice of named ids may carry `values`, one per id in id order, in its `unit`, `null` for an id that carries
@@ -64,20 +67,13 @@ Shapes a kernel file's items take beyond the sketch:
 - A `scalar` is a number or a boolean (`FX_DELAY_PINGPONG_DEFAULT` is a boolean); a choice's `default` may point
   at one, as above.
 - A `travels` item holds either `fields` (a table of travels, or references to controls declared once) or a single
-  `travel`; the single travel is the item's value directly, and it is the one shape `c.alias` applies to.
+  `travel`; the single travel is the item's value directly.
 - A `list` of numbers renders to C as a count and an initialiser (`OMX_<LIST>_COUNT`, `OMX_<LIST>_INIT`) unless it
   carries `"c": { "render": false }`, which keeps it in the JSON and TypeScript renders only. No list declared
   today sets it; it is the way to declare a list a C reader has no use for.
-- A renamed `list` keeps its old name for one release with `"formerly": { "name": "<OLD>", "removedIn": "x.y.z" }`,
-  so its readers move to the new name in their own release instead of in lockstep. The C render defines
-  `OMX_<OLD>_COUNT` and `OMX_<OLD>_INIT` as the new list's own defines, the TypeScript render exports `<OLD>` bound
-  to the new export and marked `@deprecated`, and the JSON render lists it under `formerNames` with the item to read
-  instead. None of them repeats the values. `test/formerly.test.mjs` fails once the package version reaches
-  `removedIn` while the word is still there, so the release that removes the name cannot forget it. `readers` names
-  the registered consumers (`DEVELOPMENT_PHASE` in `lib/semver.mjs`) whose main still reads the old name; while it
-  names one, the same test fails as soon as the package version reaches `removedIn`, and the fix is to move
-  `removedIn` later, never to drop the alias under a reader. No list carries a former name today (2.19.0
-  removed `RME_RATES`); the mechanism's tests rename a list in a scratch copy of the data.
+- An item has one name and one C spelling. Schema 3.0.0 removed the two second names: a list's `formerly` (a former
+  name kept for one release) and an item's `c.alias` (a travel's second C spelling, `OMX_<FACT>_<FIELD>_*`). A
+  rename is a MAJOR of the owner, with its readers moved in the same batch; the schema refuses either word.
 - The repository commits its renders: `include/omxcontract/` (C), `share/omx-contract/` (JSON) and
   `test/golden/ts/` (TypeScript). CI regenerates each with `render --check` and fails on any byte of difference,
   so a data change and its renders land in one commit.
@@ -134,11 +130,11 @@ carries `readouts` too, in their declared order, every reference resolved:
 `omx-contract semver` compares two resolved declarations, the data only, and names the bump the difference needs.
 `lib/semver.mjs` holds the rules, and is the authority where this summary is short:
 
-- MAJOR: a field, alias, `byKind` entry, set's `values` or code removed; a unit or kind changed; a travel
+- MAJOR: a field, `byKind` entry, set's `values` or code removed; a unit or kind changed; a travel
   narrowed; a default added to or removed from a travel or a set; a constant a kernel computes with changed (a
   scalar, a sheet leaf, a derived value, a list member, a set id, a value an id carries, a code); a list taken out
   of the C render; a readout removed, renamed or moved, or its unit changed.
-- MINOR: an item, field, sheet leaf, list member, set id, `byKind` entry, alias or readout added; a set's `values`
+- MINOR: an item, field, sheet leaf, list member, set id, `byKind` entry or readout added; a set's `values`
   added; a travel widened; a default moved (inside its travel, or to another id of its set); a step,
   `defaultFrom`, scale or `byKind` value changed; a readout's range, scale or rate changed.
 - PATCH: doc and why text, and a set's labels.

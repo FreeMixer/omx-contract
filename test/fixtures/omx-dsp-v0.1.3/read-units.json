@@ -201,12 +201,6 @@
    ]
   },
   {
-   "key": "OMX_DELAY_TIME_MS_MAX",
-   "readBy": [
-    "include"
-   ]
-  },
-  {
    "key": "OMX_ALLPASS_UNITY_TOLERANCE",
    "readBy": [
     "include",

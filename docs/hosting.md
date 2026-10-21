@@ -6,7 +6,9 @@ The code that hosts a third-party plugin in a strip (the stage around the plugin
 two kinds of declared fact: the numbers it limits itself to, and the codes it names a refusal by. Both are declared
 by the CLAP core, omx-clap-core, in its own `data/hosting.json`, and installed into the contract directory as its
 package (docs/contract-dir.md); omx-contract holds the words they are written in and the tool that renders them. The
-tool's tests read that file as it stood in 2.14.0, with its render word, from `test/fixtures/owners-2.14.0/`.
+tool's tests read that file as it stood in 2.14.0, with its render word, from `test/fixtures/owners-2.14.0/`, less the
+two refusal codes 3.0.0 removed from omx-clap-core (they and their two `CLAP_HOST_CODE_` defines left the fixture and
+its header with them).
 
 ## The stage limits
 
@@ -28,11 +30,14 @@ the development phase and MINOR in it, and a code its writers stop writing is re
 ## Every hosting code, in the core
 
 More than one package writes or reads a hosting code (the qualifier in its verdicts, the CLAP core and its LV2
-adapter in their refusals, the console when it renders them), so every one of them is declared once in omx-contract's
-own `data/hosting/`, one file per dimension (docs/data-layout.md): `HOSTING_STABILITY_CODES`,
-`HOSTING_RT_SAFETY_CODES`, `HOSTING_TOPOLOGY_CODES` and the rest, with `HOSTING_REALISED_CODES` for what the
-console did with a verdict. Each code's name is the operator-facing key a consumer reads it by, unique across the
-tree. The CLAP core's `HOSTING_CODES` above repeats nine of them until it reads the core's instead.
+adapter in their refusals, the console when it renders them), so every one of them is declared once, by the CLAP
+core: omx-clap-core's own `data/hosting/`, one file per dimension (`HOSTING_STABILITY_CODES`,
+`HOSTING_RT_SAFETY_CODES`, `HOSTING_TOPOLOGY_CODES` and the rest, with `HOSTING_REALISED_CODES` for what the console
+did with a verdict), installed as `contract.d/3/omx-clap-core/hosting/`. omx-contract declared them in its own
+`data/hosting/` until 2.20.0; 3.0.0 moved the 16 files to omx-clap-core byte for byte and holds no hosting code. Each
+code's name is the operator-facing key a consumer reads it by, unique across the files. omx-clap-core renders them
+with `omx-contract render --target c|ts --package omx-clap-core` (docs/render.md), as `omx_clap_core_vocabulary.h`
+and its ts module, with the C names omx-contract's `omx_vocabulary.h` gave them.
 
 ## The render
 

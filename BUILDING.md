@@ -34,7 +34,6 @@ share/omx-contract` and `render --target ts --out test/golden/ts`; CI holds all 
 data/                        omx-contract's own definitions, one file per group, edited by hand
   rates.json  primitives.json
 schema/omx-contract.schema.json   JSON Schema 2020-12: five kinds (scalar, travels, sheet, list, set), closed units, refs, closed derivations
-lib/eq-defaults.mjs          the one default rule for a fresh EQ's bands; the ts and c renders carry it
 bin/omx-contract.mjs         the CLI
 man/omx-contract.1           its man page
 vendor/                      the CLI's runtime dependencies, the npm tarballs package-lock.json pins (test/vendor.test.mjs)
@@ -42,8 +41,9 @@ render/                      the c, ts and json renderers
 include/omxcontract/         the committed c render (what omx-contract-devel installs)
 share/omx-contract/          the committed json render (resolved data)
 test/                        schema, semantic checks, goldens, perturbation, semver, round trip
-  fixtures/owners-2.14.0/    the definitions omx-dsp, omx-clap-core and the console now hold, at their 2.14.0 bytes: what the tests read kernels from
+  fixtures/owners-2.14.0/    the definitions omx-dsp, omx-clap-core and the console now hold, at their 2.14.0 bytes (the hosting file less the two codes 3.0.0 removed): what the tests read kernels from
   fixtures/answers-2.14.0/   the kernels' answers that went with them; `make completeness` runs over both
+  fixtures/package-codes/    omx-clap-core's hosting/cost.json as omx-contract held it until 2.20.0: the codes kind's fixture
 recipes/kernel.recipe.json   what a complete kernel has; an owner's recipes/answers/ records where each value comes from
 tools/omx-new-kernel.mjs     the kernel wizard and importer; tools/kernel-recipe.mjs is `make completeness`
 packaging/ debian/           omx-contract-devel (RPM) and libomx-contract-dev (deb), the data; omx-contract (RPM and deb), the command

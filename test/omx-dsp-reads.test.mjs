@@ -11,25 +11,31 @@ import { test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { limitUnits } from '../tools/proof/limit-units.mjs';
-import { ROOT, UNION, editData, scratchData } from './helpers.mjs';
+import { ALIAS_NAMES, ROOT, UNION, dropDecl, editData, scratchData } from './helpers.mjs';
 
 const FIX = join(ROOT, 'test/fixtures/omx-dsp-v0.1.5-8-g4108494');
 const units = (t) => new Map(limitUnits(t).filter((u) => u.frame === undefined).map((u) => [u.key, u.lines.join('\n')]));
 const pin = units(readFileSync(join(FIX, 'omx_contract_limits.h'), 'utf8'));
 const reads = JSON.parse(readFileSync(join(FIX, 'read-units.json'), 'utf8')).read.map((r) => r.key);
+// This pin is old enough to read several c.alias spellings, which 3.0.0 removed outright; an omx-dsp old enough to
+// read them is before 0.25.0, which omx-contract-devel 3.0.0 conflicts with, so they are excluded from what a
+// current render is held to.
+const aliasReads = reads.filter((k) => ALIAS_NAMES.has(k));
+const checkedReads = reads.filter((k) => !ALIAS_NAMES.has(k));
 
-/** The units omx-dsp reads that the render of `dataDir` lacks, and those it spells differently. */
+/** The units omx-dsp reads (the c.alias spellings 3.0.0 removed left out) that the render of `dataDir` lacks, and those it spells differently. */
 function check(dataDir = UNION) {
   const files = renderC(resolveData(loadData(dataDir)));
   const ours = units(files.find((f) => f.path === 'omxcontract/omx_contract_limits.h').text);
   return {
-    missing: reads.filter((k) => !ours.has(k)),
-    differing: reads.filter((k) => ours.has(k) && ours.get(k) !== pin.get(k)),
+    missing: checkedReads.filter((k) => !ours.has(k)),
+    differing: checkedReads.filter((k) => ours.has(k) && ours.get(k) !== pin.get(k)),
   };
 }
 
-test('every limit omx-dsp reads is in the c render with the same value', () => {
-  assert.ok(reads.length >= 190, `omx-dsp reads ${reads.length} units: a short list proves nothing`);
+test('every limit omx-dsp reads, but the c.alias spellings 3.0.0 removed, is in the c render with the same value', () => {
+  assert.ok(checkedReads.length >= 170, `omx-dsp reads ${checkedReads.length} non-alias units: a short list proves nothing`);
+  assert.ok(aliasReads.length > 0, 'a positive control: the pin reads at least one alias spelling, excluded above');
   const r = check();
   assert.deepEqual(r.differing, []);
   assert.deepEqual(r.missing, []);
@@ -47,6 +53,6 @@ test('a moved value and a removed travel are caught, naming the unit', () => {
   editData(moved, 'kernels/chorus.json', (d, at) => { at('CHORUS_RATE_RANGE').travel.default = 0.7; });
   assert.deepEqual(check(moved).differing, ['OMX_CHORUS_RATE_RANGE_DEFAULT']);
   const removed = scratchData();
-  editData(removed, 'kernels/balance.json', (d, at) => { delete at('PAN_RANGE').c; });
-  assert.deepEqual(check(removed).missing, ['OMX_PAN_PAN_MIN', 'OMX_PAN_PAN_MAX']);
+  editData(removed, 'kernels/reverb.json', (d) => { dropDecl('data/kernels/reverb.json', d, 'REVERB_GATE_THRESHOLD_RANGE'); });
+  assert.deepEqual(check(removed).missing, ['OMX_REVERB_GATE_THRESHOLD_RANGE_DEFAULT', 'OMX_REVERB_GATE_THRESHOLD_RANGE_MAX', 'OMX_REVERB_GATE_THRESHOLD_RANGE_MIN']);
 });

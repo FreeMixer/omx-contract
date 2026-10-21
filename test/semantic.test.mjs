@@ -30,8 +30,8 @@ test('a reference cycle is refused', () => {
   assert.ok(problems(t).some((p) => p.rule === 'reference' && /cycle/.test(p.message)));
 });
 
-test('a c.alias that spells another item is refused', () => {
-  assert.ok(has(texts((d, at) => { at('data/kernels/delay.json', 'FX_DELAY_TIME_RANGE').c.alias = { fact: 'delay', field: 'toneRange' }; }), 'FX_DELAY_TIME_RANGE', 'alias'));
+test('a c.alias is refused by the schema (3.0.0 removed the word)', () => {
+  assert.ok(has(texts((d, at) => { at('data/kernels/delay.json', 'FX_DELAY_TIME_RANGE').c = { alias: { fact: 'delay', field: 'toneRange' } }; }), 'FX_DELAY_TIME_RANGE', 'schema'));
 });
 
 test('two items rendering one C name are refused', () => {
