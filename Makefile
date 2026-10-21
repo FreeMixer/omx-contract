@@ -32,7 +32,7 @@ all:
 
 # The header compiles on its own, warnings as errors.
 check: all
-	printf '#include <omxcontract/omx_contract_limits.h>\n#include <omxcontract/omx_vocabulary.h>\nstatic const char *const voice_bases[] = OMX_MEASUREMENT_VOICE_BASES_INIT;\nint main(void) { return OMX_READOUT_RATE_HZ > 0 && OMX_DECLARED_RATE_COUNT > 0 && OMX_PARAM_SCALES_LINEAR < OMX_PARAM_SCALES_COUNT && sizeof voice_bases / sizeof voice_bases[0] == OMX_MEASUREMENT_VOICE_BASES_COUNT && OMX_HOSTING_NO_REALISATION[0] == 0x68 ? 0 : 1; }\n' > check-headers.c
+	printf '#include <omxcontract/omx_contract_limits.h>\n#include <omxcontract/omx_vocabulary.h>\nstatic const char *const voice_bases[] = OMX_MEASUREMENT_VOICE_BASES_INIT;\nint main(void) { return OMX_READOUT_RATE_HZ > 0 && OMX_DECLARED_RATE_COUNT > 0 && OMX_PARAM_SCALES_LINEAR < OMX_PARAM_SCALES_COUNT && sizeof voice_bases / sizeof voice_bases[0] == OMX_MEASUREMENT_VOICE_BASES_COUNT && OMX_MACHINE_CLASS_FIELDS_ARCH[0] == 0x61 ? 0 : 1; }\n' > check-headers.c
 	$(CC) -std=c11 -Wall -Wextra -Werror -Wno-unused-function -Iinclude check-headers.c -o check-headers
 	./check-headers
 	rm -f check-headers check-headers.c

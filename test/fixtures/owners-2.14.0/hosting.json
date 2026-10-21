@@ -105,10 +105,6 @@
       "headlessFailed": {
         "code": "hosting.clap.headless-failed"
       },
-      "notAudioEffect": {
-        "code": "hosting.clap.not-audio-effect",
-        "doc": "the plugin is not an audio effect"
-      },
       "noteInput": {
         "code": "hosting.clap.note-input",
         "doc": "the plugin declares a note input the configuration refuses"
@@ -124,10 +120,6 @@
       "widerThanStrip": {
         "code": "hosting.topology.wider-than-strip",
         "doc": "the plugin is wider than the strip"
-      },
-      "extraInputs": {
-        "code": "hosting.topology.extra-inputs-fed-silence",
-        "doc": "the plugin has extra inputs, fed silence"
       },
       "crashedLive": {
         "code": "hosting.stability.crashed-live-on-this-rig",

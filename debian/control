@@ -12,7 +12,7 @@ Architecture: all
 Multi-Arch: foreign
 Depends: ${misc:Depends}
 Recommends: omx-contract (= ${source:Version})
-Breaks: libomxdsp-dev (<< 0.22.0~), libomx-clap-core-dev (<< 0.10.0~), omx-plugins-dev (<< 0.10.0~)
+Breaks: libomxdsp-dev (<< 0.25.0~), libomx-clap-core-dev (<< 0.13.0~), omx-plugins-dev (<< 0.13.0~)
 Description: one shared source of truth for every FreeMixer knob, range, default
  A fader range, a default, a plugin parameter, a supported sample rate: in
  FreeMixer each of these is written down once, in omx-contract, and everything

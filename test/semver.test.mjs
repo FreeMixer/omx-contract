@@ -29,8 +29,6 @@ test('a list member appended is MINOR, changed is MAJOR', () => {
   assert.equal(level((d) => { d['data/rates.json'].STANDARD_SAMPLE_RATES.values.push(384000); }), 'minor');
   assert.equal(level((d) => { d['data/rates.json'].STANDARD_SAMPLE_RATES.values[0] = 32000; }), 'major');
 });
-test('an alias removed is MAJOR', () => assert.equal(level((d, at) => { delete at('data/kernels/delay.json', 'FX_DELAY_TIME_RANGE').c; }), 'major'));
-
 test('the bump must cover the class', () => {
   assert.equal(bumpOf('1.0.0', '1.1.0'), 'minor');
   assert.equal(refusal('minor', '1.0.0', '1.0.1'), 'the changes since 1.0.0 are MINOR, and 1.0.0 -> 1.0.1 is a patch bump');

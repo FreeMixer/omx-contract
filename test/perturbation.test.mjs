@@ -27,16 +27,15 @@ test('move the delay time ceiling: every target follows', () => {
   const c = renderC(r);
   const limits = c.find((f) => f.path.endsWith('omx_contract_limits.h')).text;
   assert.match(limits, /^#define OMX_FX_DELAY_TIME_RANGE_MAX 1500$/m);
-  assert.match(limits, /^#define OMX_DELAY_TIME_MS_MAX 1500\.0f$/m);
   assert.match(renderTs(r)[0].text, /"max": 1500/);
   assert.equal(JSON.parse(renderJson(r, '0.0.0')[0].text).items.FX_DELAY_TIME_RANGE.value.max, 1500);
-  assert.doesNotMatch(text, /OMX_DELAY_TIME_MS_MAX 2000/);
+  assert.doesNotMatch(text, /OMX_FX_DELAY_TIME_RANGE_MAX 2000/);
   assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
   assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
   assert.equal(main(['render', '--target', 'ts', '--out', `${RENDERS}/test/golden/ts`, '--check', '--data', dir]), 1);
   const proof = roundTrip(r);
   assert.equal(proof.ok, false);
-  assert.ok(proof.step2.differing.includes('OMX_FX_DELAY_TIME_RANGE_MAX') && proof.step2.differing.includes('OMX_DELAY_TIME_MS_MAX'));
+  assert.ok(proof.step2.differing.includes('OMX_FX_DELAY_TIME_RANGE_MAX'));
 });
 
 test('move a gate default: its table block, the ts and json renders follow', () => {

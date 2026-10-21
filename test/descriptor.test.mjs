@@ -132,8 +132,8 @@ test('the scanned LV2 plugin: its units, a unit with no word as unknown, a side-
 
 test('the words are the closed lists of docs/descriptors.md', () => {
   const $ = SCHEMA.$defs;
-  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'unknown'] }]);
-  for (const u of ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
+  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown'] }]);
+  for (const u of ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
   assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', ''], 'the items\' units are as they were');
   assert.deepEqual($.meaning.enum, [
     'gain', 'threshold', 'ratio', 'attack', 'release', 'hold', 'decay', 'frequency', 'cutoffFrequency', 'resonance', 'bypass',
@@ -149,10 +149,10 @@ test('the words are the closed lists of docs/descriptors.md', () => {
   assert.deepEqual($.port.properties.layout.enum, ['mono', 'stereo', 'surround']);
   assert.deepEqual($.port.properties.dialects.items.enum, ['clap', 'midi', 'midiMpe', 'midi2']);
   assert.deepEqual($.plugin.properties.features.items.enum, ['audio-effect', 'instrument', 'note-effect', 'analyzer']);
-  assert.deepEqual(Object.keys($.descriptor.properties), ['$schema', 'requires', 'origin', 'plugin', 'controls', 'ports', 'instrument', 'needs', 'latency', 'source']);
+  assert.deepEqual(Object.keys($.descriptor.properties), ['$schema', 'requires', 'origin', 'plugin', 'controls', 'ports', 'instrument', 'needs', 'latency', 'extensions', 'source']);
   assert.deepEqual(PARAM_SCALE_IDS, ['linear', 'log', 'stepped']);
   const doc = readFileSync(join(ROOT, 'docs/descriptors.md'), 'utf8');
-  for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
+  for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
 });
 
 test('a word the schema does not have is contract.file.invalid, never skipped', () => {

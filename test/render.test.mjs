@@ -55,7 +55,7 @@ test('the c headers of the union compile, and a C reader sees the declared value
 int main(void) {
   printf("%g %g %d %u %g %d %d\\n", (double)OMX_GATE_THRESHOLD_DB_MIN, OMX_BUTTERWORTH_Q_DOUBLE, OMX_GEQ_BANDS,
          OMX_DECLARED_RATE_COUNT, (double)OMX_GEQ_BAND_Q, (int)OMX_ROTARY_CROSSOVER_HZ,
-         (int)OMX_DELAY_TIME_MS_MAX);
+         (int)OMX_FX_DELAY_TIME_RANGE_MAX);
   return 0;
 }
 `);

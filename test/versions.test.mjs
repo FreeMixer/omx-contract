@@ -30,12 +30,12 @@ test('versions: the schema is no newer than the package, and nothing shipped nee
   for (const [f, floor] of floors) assert.ok(n(floor) <= n(schema), `${f} requires schema ${floor}, newer than ${schema}`);
 });
 
-// The owners whose releases before the split read names this one no longer carries: each owner's RPM -devel and DEB
-// -dev package, and the first release that ships its own definitions.
+// The owners whose releases before schema 3 read words and names this one no longer carries: each owner's RPM -devel and DEB
+// -dev package, and the first release built against schema 3.
 const OWNER_FLOORS = [
-  ['omx-dsp-devel', 'libomxdsp-dev', '0.22.0'],
-  ['omx-clap-core-devel', 'libomx-clap-core-dev', '0.10.0'],
-  ['omx-plugins-devel', 'omx-plugins-dev', '0.10.0'],
+  ['omx-dsp-devel', 'libomxdsp-dev', '0.25.0'],
+  ['omx-clap-core-devel', 'libomx-clap-core-dev', '0.13.0'],
+  ['omx-plugins-devel', 'omx-plugins-dev', '0.13.0'],
 ];
 
 test('versions: the RPM Conflicts and the DEB Breaks name the same owners at the same releases', () => {

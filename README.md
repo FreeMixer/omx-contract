@@ -8,7 +8,7 @@ engine, the DSP library and the plugins all take their ranges, defaults and cons
 definitions, so a knob means the same thing on the console, in a plugin and in a test.
 
 - One declaration per value, validated against a closed schema. This package holds the schema, the one tool,
-  and the facts no single package owns (`data/`: the sample rates, the readout rate, the parameter scales, the hosting codes, the measurement, resource and machine-class words, and the whole LV2 and CLAP vocabulary mapped, laid out by [docs/data-layout.md](docs/data-layout.md)); a package that implements a definition ships its own file into the
+  and the facts no single package owns (`data/`: the sample rates, the readout rate, the parameter scales, the measurement, resource and machine-class words, and the whole LV2 and CLAP vocabulary mapped, laid out by [docs/data-layout.md](docs/data-layout.md)); a package that implements a definition ships its own file into the
   contract directory ([docs/contract-dir.md](docs/contract-dir.md)): omx-dsp its kernels and design constants,
   omx-clap-core its hosting limits.
 - Renders for C (a header), TypeScript and resolved JSON, each held equal to the data by CI.

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * The FX delay's read taps: the tap-count travel (FX_DELAY_TAPS_RANGE, rendered as OMX_DELAY_TAPS_MAX for the
- * kernel's tap arrays) and the flat DELAY_TAP_LIMITS sheet keyed by the delay row's own field. Moving a value in
+ * The FX delay's read taps: the tap-count travel (FX_DELAY_TAPS_RANGE, rendered as the integer OMX_FX_DELAY_TAPS_RANGE_MAX
+ * the kernel sizes its tap arrays by; 3.0.0 dropped its former float alias OMX_DELAY_TAPS_MAX) and the flat
+ * DELAY_TAP_LIMITS sheet keyed by the delay row's own field. Moving a value in
  * the data moves every render and turns `render --check` red. The tap factor set is two integer lists in member order
  * (DELAY_TAP_FACTOR_NUMS, DELAY_TAP_FACTOR_DENS), held against omx-dsp's tap oracle, copied verbatim into
  * test/fixtures/omx-dsp-0f23bed/delay_taps_excerpt.h with the kernel's own tap-array ceiling.
@@ -22,10 +23,10 @@ import { DATA, RENDERS, ROOT, UNION, editData, scratchData, texts } from './help
 const items = (dir = UNION) => JSON.parse(renderJson(resolveData(loadData(dir)), '0.0.0')[0].text).items;
 const header = (dir = UNION) => renderC(resolveData(loadData(dir)))[0].text;
 
-test('the tap count travels 1..4 step 1 and comes up at 1, rendered as the integer OMX_FX_DELAY_TAPS_RANGE_MAX and the float alias OMX_DELAY_TAPS_MAX', () => {
+test('the tap count travels 1..4 step 1 and comes up at 1, rendered as the integer OMX_FX_DELAY_TAPS_RANGE_MAX; 3.0.0 dropped its float alias', () => {
   assert.deepEqual(items().FX_DELAY_TAPS_RANGE.value, { min: 1, max: 4, step: 1, unit: '', default: 1, defaultFrom: 'desk' });
-  assert.match(header(), /^#define OMX_DELAY_TAPS_MAX 4\.0f$/m);
   assert.match(header(), /^#define OMX_FX_DELAY_TAPS_RANGE_MAX 4$/m);
+  assert.doesNotMatch(header(), /OMX_DELAY_TAPS_MAX/, 'the alias OMX_DELAY_TAPS_MAX is gone in 3.0.0');
 });
 
 test('each tap carries its own gain and pan limit, keyed by the delay row field', () => {
@@ -44,10 +45,10 @@ test('perturbation: move the tap ceiling, every render follows and --check goes 
   const dir = scratchData();
   editData(dir, 'kernels/delay.json', (d, at) => { at('FX_DELAY_TAPS_RANGE').travel.max = 6; });
   const r = resolveData(loadData(dir));
-  assert.match(header(dir), /^#define OMX_DELAY_TAPS_MAX 6\.0f$/m);
+  assert.match(header(dir), /^#define OMX_FX_DELAY_TAPS_RANGE_MAX 6$/m);
   assert.match(renderTs(r)[0].text, /^export const FX_DELAY_TAPS_RANGE = \{[^}]*"max": 6/m);
   assert.equal(items(dir).FX_DELAY_TAPS_RANGE.value.max, 6);
-  assert.doesNotMatch(header(dir), /OMX_DELAY_TAPS_MAX 4/);
+  assert.doesNotMatch(header(dir), /OMX_FX_DELAY_TAPS_RANGE_MAX 4$/m);
   assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
   assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
 });
@@ -92,11 +93,11 @@ test('the tap factor set is omx-dsp\'s, eleven members 1/4 .. 3 in order, every 
   assert.ok(num.every((n, i) => i === 0 || n * den[i - 1] > num[i - 1] * den[i]), 'ascending');
 });
 
-test('the tap-array ceiling the kernel sizes its arrays by is the integer OMX_FX_DELAY_TAPS_RANGE_MAX; the alias is a float', () => {
+test('the tap-array ceiling the kernel sizes its arrays by is the integer OMX_FX_DELAY_TAPS_RANGE_MAX; its former float alias is gone', () => {
   const kernel = /^#define OMX_FXDELAY_MAX_TAPS (\d+)$/m.exec(excerpt)?.[1];
   assert.equal(kernel, '4');
   assert.match(header(), new RegExp(`^#define OMX_FX_DELAY_TAPS_RANGE_MAX ${kernel}$`, 'm'), 'an integer literal, usable as an array extent');
-  assert.match(header(), /^#define OMX_DELAY_TAPS_MAX 4\.0f$/m, 'the alias is a float: no array extent');
+  assert.doesNotMatch(header(), /OMX_DELAY_TAPS_MAX/, '3.0.0 dropped the float alias');
 });
 
 test('perturbation: move a factor numerator, then a denominator: each is named and render --check goes red', () => {

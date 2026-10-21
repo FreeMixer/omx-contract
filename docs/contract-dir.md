@@ -16,14 +16,14 @@ stays the default input of every command; the directory is read only when it is 
 ```
 
 - `contractdir` is a variable of `omx-contract.pc`: `pkg-config --variable=contractdir omx-contract`. It names
-  the directory above the majors; a reader appends its own schema major (`2`) and reads nothing else, so a future
+  the directory above the majors; a reader appends its own schema major (`3`) and reads nothing else (an owner of schema 2 under `2/` is never read), so a future
   major installs beside this one and is never half-read.
 - One directory per package. The owner is the path, two packages never ship one file, and a package's files leave
   with it.
 - `MANIFEST.json`, written at install, is the list of the package's files and their hashes:
 
   ```json
-  { "package": "omx-dsp", "version": "0.21.0", "schemaMajor": 2, "tree": "data",
+  { "package": "omx-dsp", "version": "0.25.0", "schemaMajor": 3, "tree": "data",
     "files": { "kernels/eq.json": "<sha256 hex of the installed bytes>" } }
   ```
 
@@ -46,8 +46,8 @@ one package, the first one wins.
 ### `requires`: a schema floor, and the packages a file refers to
 
 ```json
-{ "$schema": "https://github.com/FreeMixer/omx-contract/raw/v2/schema/omx-contract.schema.json",
-  "requires": { "omx-contract-schema": ">= 2.15.0", "omx-dsp": ">= 0.21.0" } }
+{ "$schema": "https://github.com/FreeMixer/omx-contract/raw/v3/schema/omx-contract.schema.json",
+  "requires": { "omx-contract-schema": ">= 3.0.0", "omx-dsp": ">= 0.25.0" } }
 ```
 
 - The schema states the version of its vocabulary: `"x-omx-schema-version"`, the omx-contract release that last
@@ -86,6 +86,22 @@ of its own.
 A file may say how the owner's own C headers and TypeScript module spell its items: each header's path, guard,
 licence project, banner, brief and sections, and the module's name. `render --target c|ts --package <owner>` writes
 them; the tool names no item (docs/render.md).
+
+### `checks`: a sum held under a bound
+
+```json
+{ "checks": [
+    { "name": "eqBandBudget", "doc": "The operator's reserve and both planters fit the EQ's band maximum.",
+      "sum": ["OPERATOR_EQ_BANDS_RESERVE", "FBS_DEFAULT_MAX_AUTO_BANDS", "HRP_DEFAULT_MAX_AUTO_BANDS"],
+      "atMost": "EQ_MAX_BANDS" } ] }
+```
+
+A file may declare a relation between numbers that several packages state, which no one item can carry: `validate`
+adds the numbers `sum` names and refuses (rule `check`, the check's `name`) a total above the number `atMost` names.
+Each term is an item name, or an item and the path to one of its leaves (`EQ_BAND_COUNTS.channel.max`). A read that
+lacks an item a check names cannot judge it and skips it (omx-dsp's own read never holds the console's FBS default);
+the package that sees every term judges it. A term that resolves to anything but a finite number is refused. The
+package that owns the relation declares it; the tool names none.
 
 ## Reading the directory
 
@@ -154,8 +170,7 @@ Run by the owner's CI over its own tree; a consumer never resolves links. For ev
 - every `impl` link: its path exists under the root, it defines its symbol once, and that definition (the line of
   a `#define`, the body of a function or enum, the statement of a declaration) names the item, as its name, its C
   spelling `OMX_<NAME>` or one of that spelling's derived names, or any other C name the render spells for it: a
-  `_LIMITS` table's `OMX_<PREFIX>_<FIELD>_MIN` (`GATE_LIMITS` is read as `OMX_GATE_RATIO_MIN`), a `c.alias`
-  (`PAN_RANGE` as `OMX_PAN_PAN_MIN`), a declared scalar's macro, and the names a file's `render` word gives its
+  `_LIMITS` table's `OMX_<PREFIX>_<FIELD>_MIN` (`GATE_LIMITS` is read as `OMX_GATE_RATIO_MIN`), a declared scalar's macro, and the names a file's `render` word gives its
   items (`CLAP_HOST_<FIELD>`, `CLAP_HOST_CODE_<NAME>`; a field the word omits is no name of the item). An `impl` that is also the item's whole-value
   `from` link is the twin that holds the value, and its equality is what names it;
 - every `from` link: the value it defines equals the declared value. A `#define` of a number or a string, a TS or

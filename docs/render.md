@@ -44,7 +44,7 @@ and one section or more, in this order:
 | `numbers` `{ comment, prefix, omit?, levels? }` | Every sheet: field `f` as `<prefix><F>`, `F` in upper snake case; a field matching `levels` (a glob) is a level, a float literal, every other a non-negative integer, an unsigned literal; fields matching `omit` are left out. Each define carries the field's `docs` line as a trailing `///<` comment. |
 | `codes` `{ comment, prefix }` | Every codes item: code `n` as `<prefix><N>`, a string literal, with its `doc`. |
 | `scalars` `{ comment }` | Every number spelled `OMX_<macro>` as `omx_contract_limits.h` spells it, sorted by macro. |
-| `limits` `{ comment? }` | Every section of `omx_contract_limits.h`, the same defines under the same comments: the tables, aliases, scalars, lists, sets, readouts and the default EQ rule. With `scope: package` this is an owner's whole header (omx-dsp's `omxdsp/omxdsp_definitions.h`). |
+| `limits` `{ comment? }` | Every section of `omx_contract_limits.h`, the same defines under the same comments: the tables, scalars, lists, sets and readouts. With `scope: package` this is an owner's whole header (omx-dsp's `omxdsp/omxdsp_definitions.h`). |
 
 A glob is a name, its start (`worker*`), its end (`*Dbfs`) or a part (`*Ring*`). `validate` refuses (rule `render-c`)
 a section with nothing to render, a number that is neither a level nor a non-negative integer, a prose of more than one
@@ -66,6 +66,16 @@ exactly those files, so the owner's other files beside them are never reported a
 directory the package is one installed there; read from `--data` the data directory is the owner's own tree and is the
 package named. Every reference resolves over the whole read. The json render is the whole read and takes no
 `--package`.
+
+Beside its headers and modules, `--package` renders the package's vocabulary: every codes and words item of its files
+that carry no `render` word, spelled by kind exactly as the whole read spells it (docs/data-layout.md), so a file moves
+between packages byte for byte and its C names do not change. A code is `OMX_` and the code in upper snake case, never
+its key; a word is `OMX_<ITEM>_<NAME>`, each words item with its `_COUNT` and `_INIT`. The c target writes
+`<stem>_vocabulary.h` (guard `<STEM>_VOCABULARY_H`), the ts target `<stem>-vocabulary.js` and `.d.ts` (each item
+exported under its name, and `<ITEM>_WORDS`), at the top of `--out`. The stem is the package's name, `omx` for
+omx-contract: `render --target c --package omx-contract --out include/omxcontract` is `omx_vocabulary.h` byte for byte,
+and omx-clap-core's is `omx_clap_core_vocabulary.h`, guard `OMX_CLAP_CORE_VOCABULARY_H`, so the two include together.
+A package with no such item renders no vocabulary file.
 
 The render of a whole read (no `--package`) writes `omxcontract/omx_contract_limits.h` and, beside it as
 `omxcontract/<header>`, every declared header that spells no `OMX_` name (no `scalars`, no `limits`): the layout

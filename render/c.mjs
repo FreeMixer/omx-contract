@@ -9,13 +9,13 @@
  * declaration, by reference to the items here.
  */
 import {
-  cStringLiteral, genCoreLimitBlock, genDeclaredListsBlock, genDeclaredRates, genDeclaredScalarsBlock, genLimitBlock, renderContractLimits,
+  cStringLiteral, genDeclaredListsBlock, genDeclaredRates, genDeclaredScalarsBlock, genLimitBlock, renderContractLimits,
   scalarLiteral,
 } from './c/contract-limits-render.mjs';
 import { ownerNames, renderOwnerHeader } from './c/owner-headers.mjs';
 import { doors, isNativeTable } from './doors.mjs';
 import { packageItems } from '../lib/data.mjs';
-import { renderVocabularyHeader } from './vocabulary.mjs';
+import { packageVocabularyC, renderVocabularyHeader } from './vocabulary.mjs';
 
 const defined = (text) => new Set([...text.matchAll(/^#define (OMX_\w+)/gm)].map((m) => m[1]));
 
@@ -103,66 +103,8 @@ function genReadouts(kernels) {
 }
 
 /**
- * The default band centres of an EQ (lib/eq-defaults.mjs is the rule; this is its C spelling, held
- * equal to it for every count by test/eq-defaults.test.mjs). Writes \`count\` centres to \`out\` and returns
- * \`count\`, or returns 0 for a count that is 0 or has no distinct preferred centres.
- */
-function eqCentresFunction() {
-  return `static inline unsigned omx_eq_default_centres(unsigned count, float *out) {
-  static const double r10[] = OMX_ISO_THIRD_OCTAVE_CENTRES_HZ_INIT;
-  static const double r20[] = OMX_EQ_CENTRE_SERIES_R20_HZ_INIT;
-  static const double four[] = OMX_EQ_DEFAULT_CENTRES_FOUR_BAND_HZ_INIT;
-  if (count == 0) return 0;
-  if (count == 4) {
-    for (unsigned i = 0; i < 4; i++) out[i] = (float)four[i];
-    return 4;
-  }
-  const double lo = log((double)OMX_EQ_FREQ_RANGE_MIN);
-  const double span = log((double)OMX_EQ_FREQ_RANGE_MAX / (double)OMX_EQ_FREQ_RANGE_MIN);
-  for (unsigned s = 0; s < 2; s++) {
-    const double *series = s ? r20 : r10;
-    const unsigned n = s ? OMX_EQ_CENTRE_SERIES_R20_HZ_COUNT : OMX_ISO_THIRD_OCTAVE_CENTRES_HZ_COUNT;
-    int distinct = count <= n;
-    for (unsigned i = 0; distinct && i < count; i++) {
-      const double t = lo + span * ((double)i + 0.5) / (double)count;
-      unsigned best = 0;
-      double best_d = 1e300;
-      for (unsigned k = 0; k < n; k++) {
-        const double d = fabs(log(series[k]) - t);
-        if (d < best_d) { best_d = d; best = k; }
-      }
-      out[i] = (float)series[best];
-      if (i > 0 && out[i] == out[i - 1]) distinct = 0;
-    }
-    if (distinct) return count;
-  }
-  return 0;
-}
-
-/* The default type of band \`index\` of an EQ with \`count\` bands: a low shelf first, a high shelf last, bells
- * between (a single band is a bell). An OMX_EQ_BAND_TYPES_* member. */
-static inline int omx_eq_default_type(unsigned index, unsigned count) {
-  if (count < 2) return OMX_EQ_BAND_TYPES_BELL;
-  return index == 0 ? OMX_EQ_BAND_TYPES_LOW_SHELF : index == count - 1 ? OMX_EQ_BAND_TYPES_HIGH_SHELF : OMX_EQ_BAND_TYPES_BELL;
-}`;
-}
-
-/**
- * A list's former names (its item's `formerly`): OMX_<FORMER>_COUNT and OMX_<FORMER>_INIT defined as the list's own
- * defines, never as a second copy of its numbers, each under a line naming the release that removes it.
- */
-function genFormerListNames(former) {
-  return former.map(({ former: f, name, removedIn }) => [
-    `/* OMX_${f}_* is the former name of OMX_${name}_*, kept until ${removedIn} removes it: read OMX_${name}_*. */`,
-    `#define OMX_${f}_COUNT OMX_${name}_COUNT`,
-    `#define OMX_${f}_INIT OMX_${name}_INIT`,
-  ].join('\n')).join('\n');
-}
-
-/**
  * The C names the c render spells for each item, `Map<name, Set<C name>>`, beyond OMX_<NAME>_*: a `_LIMITS` table's
- * fields (OMX_<PREFIX>_<FIELD>_MIN/_MAX/_DEFAULT), a `c.alias` (OMX_<FACT>_<FIELD>_*), a list's former name
- * (OMX_<FORMER>_COUNT/_INIT), a declared scalar's macro
+ * fields (OMX_<PREFIX>_<FIELD>_MIN/_MAX/_DEFAULT), a declared scalar's macro
  * (OMX_<MACRO>, a sheet's or `_KERNEL` item's leaves included) and the names a file's `render.c` word gives its items
  * (docs/render.md). What `links` takes as naming the item.
  */
@@ -172,9 +114,7 @@ export function cNamesOf(resolved) {
   const travel = (name, p) => { for (const s of ['MIN', 'MAX', 'DEFAULT']) add(name, `${p}_${s}`); };
   for (const r of resolved.values()) {
     if (isNativeTable(r)) for (const f of Object.keys(r.value)) travel(r.name, `OMX_${r.name.slice(0, -'_LIMITS'.length)}_${constCase(f)}`);
-    if (r.c?.alias) travel(r.name, `OMX_${r.c.alias.fact.toUpperCase()}_${constCase(r.c.alias.field)}`);
   }
-  for (const f of doors(resolved).FORMER_LIST_NAMES) for (const s of ['COUNT', 'INIT']) add(f.name, `OMX_${f.former}_${s}`);
   for (const s of doors(resolved).DECLARED_SCALARS) {
     const head = s.path.split('.')[0];
     add(head, `OMX_${s.macro}`);
@@ -188,38 +128,27 @@ export function cNamesOf(resolved) {
 
 /**
  * The defines of omx_contract_limits.h over `resolved`, its sections each under its comment: the native tables, the
- * aliases, the declared scalars, lists, the lists' former names and sets, the kernels' readouts and the default EQ
- * rule. What omx-contract's own header holds, and what an owner's `limits` section holds of its own items.
+ * declared scalars, lists and sets, and the kernels' readouts. What omx-contract's own header holds, and what an owner's `limits` section holds of its own items.
  */
 export function limitsSections(resolved) {
   const d = doors(resolved);
   const tables = d.NATIVE_LIMIT_TABLES.map(([prefix, table]) => genLimitBlock(prefix, table)).join('\n\n');
-  const coreLimits = new Map(d.ALIASES);
-  const aliases = [...coreLimits.keys()].map((fact) => genCoreLimitBlock(coreLimits, fact)).join('\n\n');
-  const above = defined([tables, aliases].join('\n'));
+  const above = defined(tables);
   const scalars = d.DECLARED_SCALARS.length ? genDeclaredScalarsBlock(d.DECLARED_SCALARS, above) : '';
-  const lists = d.DECLARED_LISTS.length ? genDeclaredListsBlock(d.DECLARED_LISTS, defined([tables, aliases, scalars].join('\n'))) : '';
-  const former = d.FORMER_LIST_NAMES.length ? genFormerListNames(d.FORMER_LIST_NAMES) : '';
+  const lists = d.DECLARED_LISTS.length ? genDeclaredListsBlock(d.DECLARED_LISTS, defined([tables, scalars].join('\n'))) : '';
   const sets = d.DECLARED_SET_ITEMS.length ? genDeclaredSetsEnums(d.DECLARED_SET_ITEMS) : '';
   const readouts = genReadouts(resolved.kernels);
-  const centres = resolved.has('EQ_DEFAULT_CENTRES_FOUR_BAND_HZ') ? eqCentresFunction() : '';
   const sections = [
     [tables, `/* Per-parameter numeric travel, one block per \`travels\` table named <PREFIX>_LIMITS:
  * OMX_<PREFIX>_<FIELD>_MIN/_MAX/_DEFAULT, float literals. */`],
-    [aliases, `/* The second C spelling of a travel, its item's \`c.alias\` { fact, field }:
- * OMX_<FACT>_<FIELD>_MIN/_MAX/_DEFAULT. Removed by a MAJOR release once no consumer reads it. */`],
     [scalars, `/* Every scalar, sheet leaf and single travel's numbers, one block sorted by macro. An integer value
  * is an integer literal, any other a float literal AND its OMX_<macro>_DOUBLE spelling. */`],
     [lists, `/* Every list rendered to C, sorted by list: OMX_<LIST>_COUNT and OMX_<LIST>_INIT { a, b, … }. */`],
-    [former, `/* The former names of renamed lists (an item's \`formerly\`), deprecated: each expands to the list's own define, so a
- * reader of the old name builds unchanged until the release named beside it removes the name. */`],
     [sets, `/* Every set rendered to C, sorted by set: an enum of the ids (a named id's position, or a numeric id's number), \`OMX_<SET>_COUNT\` and,
  * where the set names a default, \`OMX_<SET>_DEFAULT\`. */`],
     [readouts, `/* Every kernel's readouts, the meters a host draws (docs/readouts.md): an enum of the readouts at their position,
  * \`OMX_<KERNEL>_READOUT_COUNT\`, and per readout its display range (_MIN, _MAX), _RATE_HZ, _SCALE (an OMX_PARAM_SCALES_*
  * member) and _UNIT. */`],
-    [centres, `/* The default bands of an EQ with \`count\` bands: THE one rule, for every strip, host and count (omx-contract's
- * lib/eq-defaults.mjs; the ts render exports the same as eqDefaultCentres and eqDefaultTypes). Needs -lm. */`],
   ].filter(([body]) => body);
   return sections.map(([body, comment]) => `${comment}\n${body}`).join('\n\n');
 }
@@ -282,10 +211,10 @@ export function ownerHeaders(resolved, { pkg, all = false } = {}) {
  * Every file of the `c` target: `[{ path, text }]`, paths relative to the output directory. The whole data renders
  * omx_contract_limits.h and, under `omxcontract/` beside it, every declared header that spells no OMX_ name (the
  * layout omx-contract 2.14.0 installed) and omx_vocabulary.h, the vocabulary's codes and words (render/vocabulary.mjs); `{ pkg }` renders every header that package declares, each at its own path,
- * for the owner to commit.
+ * for the owner to commit, and its vocabulary, `<stem>_vocabulary.h` (render/vocabulary.mjs).
  */
 export function renderC(resolved, { pkg } = {}) {
-  if (pkg !== undefined) return ownerHeaders(resolved, { pkg }).map(({ path, text }) => ({ path, text }));
+  if (pkg !== undefined) return [...ownerHeaders(resolved, { pkg }).map(({ path, text }) => ({ path, text })), ...packageVocabularyC(resolved, pkg)];
   const files = [{ path: 'omxcontract/omx_contract_limits.h', text: renderLimitsHeader(resolved) }];
   // a header of OMX_ names repeats lines of omx_contract_limits.h, which the whole read holds once
   for (const h of ownerHeaders(resolved, { all: true })) if (!h.omx) files.push({ path: `omxcontract/${h.path}`, text: h.text });

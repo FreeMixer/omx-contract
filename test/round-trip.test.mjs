@@ -20,8 +20,12 @@ test('step 2: every shipped unit is byte-identical to omx-dsp\'s, in the same or
   assert.deepEqual(r.step2.notInPin, []);
   assert.equal(r.step2.inOrder, true);
   assert.equal(r.step2.identical, r.step2.units - r.step2.addedLater.length - r.step2.moved.length);
-  assert.equal(r.step2.identical - (r.step2.heldLater.length - r.step2.moved.length), 155, 'every 1.0.0 unit is still rendered: a lost one shrinks this');
-  assert.equal(r.step2.identical, 501, 'with the 81 units 1.1.0 added, the 135 of 1.2.0, the 53 of 1.3.0, the 2 DETECTOR_OVERSAMPLE_AUTO_MS units of 2.0.0, the 10 hosted-stage units of 2.12.0 the 34 kernel-travel units and the 31 HRP_FAMILY_SEARCH units of 2.14.0 omx-dsp already holds, all of them omx-dsp\'s own');
+  assert.equal(r.step2.identical - (r.step2.heldLater.length - r.step2.moved.length), 152, 'every 1.0.0 unit is still rendered: a lost one shrinks this');
+  // with the 81 units 1.1.0 added, the 135 of 1.2.0, the 53 of 1.3.0, the 2 DETECTOR_OVERSAMPLE_AUTO_MS units of 2.0.0,
+  // the 10 hosted-stage units of 2.12.0, the 34 kernel-travel units and the 31 HRP_FAMILY_SEARCH units of 2.14.0
+  // omx-dsp already holds, all of them omx-dsp's own, less the 20 units of the c.alias spellings 3.0.0 removed
+  // outright (the pin still carries them; the current render never does)
+  assert.equal(r.step2.identical, 481);
   assert.deepEqual(r.step2.moved, ['OMX_INPUT_ALIGN_DELAY_RANGE_STEP', 'OMX_INPUT_ALIGN_DELAY_RANGE_STEP_DOUBLE'], 'the one travel the console engine moved after the pin');
   assert.deepEqual(r.step2.movedStale, []);
   assert.ok(r.step2.heldLater.includes('OMX_CHORUS_RATE_RANGE_DEFAULT'), 'a later item omx-dsp\'s header holds is compared, not skipped');
@@ -38,8 +42,11 @@ test('step 2: a unit omx-dsp lacks is refused when its item shipped in the first
   assert.equal(bad.ok, false);
 });
 
-test('step 2: the 64 units omx-dsp reads are all among them', () => {
-  assert.equal(r.step2.read, 64);
+test('step 2: the 63 units omx-dsp reads are all among them', () => {
+  // the v0.1.3 pin held one c.alias spelling among its reads, OMX_DELAY_TIME_MS_MAX; 3.0.0 removes the word outright,
+  // and an omx-dsp old enough to read that spelling is before 0.25.0, which omx-contract-devel 3.0.0 conflicts with,
+  // so the frozen fixture (test/fixtures/omx-dsp-v0.1.3/read-units.json) leaves it out: 64 minus that one.
+  assert.equal(r.step2.read, 64 - 1);
   assert.deepEqual(r.step2.readMissing, []);
 });
 

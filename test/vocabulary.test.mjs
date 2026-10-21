@@ -5,13 +5,16 @@
  * generic renders.
  */
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { cpSync, mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { after, test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, texts } from './helpers.mjs';
+import { DATA, ROOT, texts } from './helpers.mjs';
 
 const problems = (t) => validateData(loadData(null, t));
 const has = (t, item, rule) => problems(t).some((p) => p.item === item && p.rule === rule);
@@ -56,10 +59,19 @@ test('a word whose C name meets a words item\'s _COUNT is refused', () => {
 
 const resolved = resolveData(loadData(DATA));
 
+// data/ holds no codes item to render since the hosting codes moved to omx-clap-core (docs/hosting.md): the codes
+// kind is read beside it from an owner's codes file (test/fixtures/package-codes/hosting/cost.json).
+const SCRATCH = mkdtempSync(join(tmpdir(), 'omx-contract-codes-'));
+after(() => rmSync(SCRATCH, { recursive: true, force: true }));
+cpSync(DATA, join(SCRATCH, 'data'), { recursive: true });
+cpSync(join(ROOT, 'test/fixtures/package-codes'), join(SCRATCH, 'data'), { recursive: true });
+cpSync(join(ROOT, 'schema'), join(SCRATCH, 'schema'), { recursive: true });
+const withCodes = resolveData(loadData(join(SCRATCH, 'data')));
+
 test('the C render defines every code and word once, by its code and by its item', () => {
-  const h = renderC(resolved).find((f) => f.path === 'omxcontract/omx_vocabulary.h').text;
-  assert.match(h, /^#define OMX_HOSTING_RT_SAFETY_UNMEASURED "hosting\.rt-safety\.unmeasured"$/m);
-  assert.match(h, /^#define OMX_HOSTING_NO_REALISATION "hosting\.no-realisation"$/m);
+  const h = renderC(withCodes).find((f) => f.path === 'omxcontract/omx_vocabulary.h').text;
+  assert.match(h, /^#define OMX_HOSTING_COST_SPIKY_TAIL "hosting\.cost\.spiky-tail"$/m, 'a code by its code');
+  assert.doesNotMatch(h, /OMX_HOSTING_COST_COST_SPIKY|OMX_HOSTING_COST_SPIKY /, 'never by its key');
   assert.match(h, /^#define OMX_MEASUREMENT_LATENCY_METHODS_NOTE_ONSET "note-onset" \/\/\/< /m);
   assert.match(h, /^#define OMX_MACHINE_CLOCK_BANDS_INIT \{ "<1\.5GHz", "1\.5-2\.5GHz", "2\.5-3\.5GHz", "3\.5-4\.5GHz", "4\.5GHz\+" \}$/m);
   assert.match(h, /^#define OMX_MEASUREMENT_VOICE_BASES_COUNT 2u$/m);
@@ -67,11 +79,11 @@ test('the C render defines every code and word once, by its code and by its item
 });
 
 test('the JSON Schema fragment gives one enum per codes and words item, in order', () => {
-  const f = JSON.parse(renderJson(resolved, '0.0.0').find((x) => x.path === 'omx-vocabulary.schema.json').text);
+  const f = JSON.parse(renderJson(withCodes, '0.0.0').find((x) => x.path === 'omx-vocabulary.schema.json').text);
   assert.deepEqual(f.$defs.MEASUREMENT_LATENCY_METHODS.enum, ['impulse-onset', 'declared-port', 'note-onset']);
   assert.deepEqual(f.$defs.MEASUREMENT_VOICE_BASES.enum, ['declared', 'probe']);
   assert.deepEqual(f.$defs.MACHINE_CORE_BANDS.enum, ['1-2', '3-4', '5-8', '9-16', '17-32', '33+']);
-  assert.ok(f.$defs.HOSTING_TOPOLOGY_CODES.enum.includes('hosting.topology.wider-than-strip'));
+  assert.deepEqual(f.$defs.HOSTING_COST_CODES.enum, ['hosting.cost.above-ceiling', 'hosting.cost.fields-missing', 'hosting.cost.spiky-tail', 'hosting.cost.unmeasured-at-rate-and-quantum', 'hosting.cost.within-ceiling']);
   assert.equal(f.$defs.LV2_CORE_TERMS, undefined);
 });
 

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 2.20.0
+Version: 3.0.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -44,10 +44,10 @@ Summary: Headers, JSON data and schema to build on the FreeMixer declarations
 # the C headers and the resolved json need no node; the union of the contract directory is read by the command
 Recommends: %{name} = %{version}-%{release}
 Provides: %{name}-static = %{version}-%{release}
-# the owners' releases before they installed their own definitions read names this release no longer carries
-Conflicts: omx-dsp-devel < 0.22.0~
-Conflicts: omx-clap-core-devel < 0.10.0~
-Conflicts: omx-plugins-devel < 0.10.0~
+# the owners' releases before schema 3 read words and names this release no longer carries
+Conflicts: omx-dsp-devel < 0.25.0~
+Conflicts: omx-clap-core-devel < 0.13.0~
+Conflicts: omx-plugins-devel < 0.13.0~
 
 %description devel
 Everything you need to build against omx-contract: the C render of omx-contract under include/omxcontract (the limits header), the resolved json
@@ -82,6 +82,33 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 3.0.0-1
+- Schema major 3: the word formerly (a list's former name) and the word
+  c.alias (a travel's second C spelling) are removed, x-omx-schema-version is
+  3.0.0, an installed file's $schema is the v3 URL and the reader reads
+  contract.d/3/ only.
+- The hosting codes leave: the 16 data/hosting files move to omx-clap-core
+  byte for byte, installed as contract.d/3/omx-clap-core/hosting/.
+  omx_vocabulary.h, the JSON render, the vocabulary schema and the ts golden
+  hold no hosting code; omx-clap-core renders them with render --package
+  omx-clap-core, under the C names omx_vocabulary.h gave them.
+- render --target c|ts --package <pkg> also writes the package's vocabulary
+  (<stem>_vocabulary.h, <stem>-vocabulary.js and .d.ts): every codes and words
+  item of its files with no render word, spelled as the whole read spells it,
+  a code by its code, never by its key.
+- The default EQ rule leaves for omx-dsp (#1841): lib/eq-defaults.mjs, the C
+  render's omx_eq_default_centres() and omx_eq_default_type(), the ts module's
+  eqDefault exports and the validator's three EQ rules. The file word checks
+  declares a budget (a sum of named numbers held at or under a named one), and
+  a count sheet's default is held inside its min and max.
+- Descriptor words: extensions (a per-format bag, carried verbatim),
+  plugin.doc, the ratio unit, and the item kind formatMap (a format's source
+  fields, each mapped to a word, carried as an extension or dropped by a named
+  ruling).
+- It conflicts with omx-dsp-devel before 0.25.0, omx-clap-core-devel before
+  0.13.0 and omx-plugins-devel before 0.13.0, the releases built against
+  schema 3.
+
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 2.20.0-1
 - hosting.features.cv-ports is removed: its only writer, omx-clap-core's LV2
   adapter, no longer refuses CV ports (a CV port counts against the auxiliary
