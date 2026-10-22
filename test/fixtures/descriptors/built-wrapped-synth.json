@@ -79,6 +79,18 @@
       "travel": { "min": 0, "max": 16, "step": 1, "unit": "", "scale": "stepped" },
       "readonly": true,
       "hidden": true
+    },
+    {
+      "id": 50,
+      "name": "filterSlope",
+      "kind": "choice",
+      "ids": ["12", "24"],
+      "labels": ["12 dB/oct", "24 dB/oct"],
+      "values": [12, 24],
+      "unit": "dB/oct",
+      "default": "12",
+      "group": ["Filter"],
+      "meaning": "slope"
     }
   ],
   "ports": [

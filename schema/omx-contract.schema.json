@@ -24,8 +24,8 @@
       "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", ""]
     },
     "descriptorUnit": {
-      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS and ratio, n:1, have no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
-      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "ratio", "unknown"] }]
+      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, ratio, m, dBu, dB/oct: LV2 units:frame, units:bpm, units:midiNote, units:degree, units:m; LUFS, ratio (n:1) and dBu have no LV2 unit; dB/oct is a choice's value, the EQ's filter slope), or unknown, the plugin states none (docs/descriptors.md).",
+      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "ratio", "m", "dBu", "dB/oct", "unknown"] }]
     },
     "meaning": {
       "description": "What a control does, the closed list seeded from the panel roles; the LV2 param: or lv2:designation name where LV2 has the term (docs/descriptors.md). unknown: the plugin states none.",
@@ -34,6 +34,7 @@
         "wetDryRatio", "delay", "enabled",
         "range", "knee", "hysteresis", "makeup", "lookahead", "ceiling", "output", "q", "slope", "width", "drive", "tone", "rate",
         "depth", "feedback", "spread", "predelay", "size", "damping", "lowCut", "highCut", "shift", "fine", "sync", "division", "listen",
+        "speed", "shape", "model", "algorithm", "mode", "type", "on", "pingpong",
         "unknown"
       ]
     },
@@ -125,6 +126,7 @@
         "ids": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z0-9]+$" }, "minItems": 1, "uniqueItems": true },
         "labels": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
         "values": { "type": "array", "items": { "type": "number" }, "minItems": 1 },
+        "unit": { "$ref": "#/$defs/descriptorUnit" },
         "default": { "oneOf": [{ "type": "string", "pattern": "^[A-Za-z0-9]+$" }, { "type": "boolean" }] },
         "count": { "$ref": "#/$defs/name" },
         "when": {
@@ -144,7 +146,7 @@
       "allOf": [
         {
           "if": { "properties": { "kind": { "const": "travel" } } },
-          "then": { "required": ["travel"], "properties": { "ids": false, "labels": false, "values": false, "default": false } }
+          "then": { "required": ["travel"], "properties": { "ids": false, "labels": false, "values": false, "unit": false, "default": false } }
         },
         {
           "if": { "properties": { "kind": { "const": "choice" } } },
@@ -152,11 +154,11 @@
         },
         {
           "if": { "properties": { "kind": { "const": "toggle" } } },
-          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "default": { "type": "boolean" } } }
+          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "unit": false, "default": { "type": "boolean" } } }
         },
         {
           "if": { "properties": { "kind": { "const": "trigger" } } },
-          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "default": false } }
+          "then": { "properties": { "travel": false, "ids": false, "labels": false, "values": false, "unit": false, "default": false } }
         }
       ],
       "additionalProperties": false

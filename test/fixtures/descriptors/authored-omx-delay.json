@@ -66,6 +66,7 @@
       "kind": "toggle",
       "default": false,
       "group": ["Delay"],
+      "meaning": "pingpong",
       "automatable": true
     }
   ],
