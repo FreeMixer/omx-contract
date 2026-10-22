@@ -76,11 +76,14 @@ const turtle = (file) => parseNTriples(execFileSync('serdi', ['-q', '-i', 'turtl
  * terms every IRI a triple of its non-manifest files is about that lies in the specification's namespace (its URI
  * then `#` or `/`) and the specification's own URI (a feature or an extension-data URI in data-access,
  * instance-access and others; named after its bundle, state.lv2, so it never meets a term of its own such as state:state), sorted by IRI. Version is lv2:minorVersion.lv2:microVersion of the manifest.
+ * Null for a bundle that names no specification: an installed LV2 plugin, not a specification (a host's lv2 dir
+ * holds both). Ambiguous (more than one) is still an error.
  */
 export function readLv2Bundle(dir) {
   const manifest = turtle(join(dir, 'manifest.ttl'));
   const specs = manifest.filter(([, p, o]) => p === `${RDF}type` && o === `${LV2}Specification`).map(([s]) => s);
-  if (specs.length !== 1) throw new Error(`${dir}: the manifest names ${specs.length} specifications`);
+  if (specs.length > 1) throw new Error(`${dir}: the manifest names ${specs.length} specifications`);
+  if (specs.length === 0) return null;
   const uri = specs[0];
   const num = (p) => manifest.find(([s, q]) => s === uri && q === `${LV2}${p}`)?.[2]?.replace(/"/g, '');
   const triples = readdirSync(dir).filter((f) => f.endsWith('.ttl') && f !== 'manifest.ttl').sort().flatMap((f) => turtle(join(dir, f)));
@@ -113,7 +116,10 @@ export function readLv2(dir) {
   const bundles = readdirSync(dir).filter((b) => b.endsWith('.lv2') && !NOT_SPECS.includes(b) && existsSync(join(dir, b, 'manifest.ttl'))).sort();
   if (!bundles.length) throw new Error(`no LV2 bundle under ${dir}`);
   const specs = {};
-  for (const b of bundles) specs[b.replace(/\.lv2$/, '')] = readLv2Bundle(join(dir, b));
+  for (const b of bundles) {
+    const spec = readLv2Bundle(join(dir, b));
+    if (spec) specs[b.replace(/\.lv2$/, '')] = spec;
+  }
   return specs;
 }
 

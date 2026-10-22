@@ -7,11 +7,12 @@
  */
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { coverageProblems, readFiles, readInventory } from '../tools/data-layout.mjs';
-import { defaultClapInclude, defaultLv2Dir, inventories, parseNTriples, readClapHeader } from '../tools/format-inventory.mjs';
+import { defaultClapInclude, defaultLv2Dir, inventories, parseNTriples, readClapHeader, readLv2Bundle } from '../tools/format-inventory.mjs';
 import { DATA, ROOT } from './helpers.mjs';
 
 const INVENTORY = join(ROOT, 'inventory');
@@ -81,6 +82,29 @@ test('the inventory reads N-Triples and CLAP declarations as the tool writes the
 
 const serdi = spawnSync('serdi', ['-v'], { encoding: 'utf8' }).error === undefined;
 const installed = serdi && existsSync(join(defaultLv2Dir(), 'core.lv2')) && existsSync(join(defaultClapInclude(), 'clap', 'clap.h'));
+
+test('readLv2Bundle: a plugin bundle names no specification, and is no term, where a host\'s LV2 dir holds both', { skip: serdi ? false : 'no serdi here' }, () => {
+  const dir = mkdtempSync(join(tmpdir(), 'lv2-bundle-'));
+  try {
+    writeFileSync(join(dir, 'manifest.ttl'), [
+      '@prefix lv2: <http://lv2plug.in/ns/lv2core#> .',
+      '<http://example.org/plugins/x>',
+      '\ta lv2:Plugin ;',
+      '\tlv2:binary <x.so> .',
+      '',
+    ].join('\n'));
+    assert.equal(readLv2Bundle(dir), null);
+    writeFileSync(join(dir, 'manifest.ttl'), [
+      '@prefix lv2: <http://lv2plug.in/ns/lv2core#> .',
+      '<http://example.org/spec/a> a lv2:Specification .',
+      '<http://example.org/spec/b> a lv2:Specification .',
+      '',
+    ].join('\n'));
+    assert.throws(() => readLv2Bundle(dir), /names 2 specifications/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
 
 test('the committed inventory is the installed LV2 and CLAP, where they are installed', { skip: installed ? false : 'no serdi, LV2 bundles or CLAP headers here' }, () => {
   const docs = inventories();
