@@ -12,13 +12,15 @@
         "uri": "http://lv2plug.in/ns/lv2core#AllpassPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family filter"
       },
       "AmplifierPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#AmplifierPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family dynamics"
       },
       "AnalyserPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#AnalyserPlugin",
@@ -44,7 +46,8 @@
         "uri": "http://lv2plug.in/ns/lv2core#BandpassPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family filter"
       },
       "CVPort": {
         "uri": "http://lv2plug.in/ns/lv2core#CVPort",
@@ -68,13 +71,15 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-chorus/generated/omx-chorus.lv2/omx-chorus.ttl"
-        ]
+        ],
+        "word": "family modulator"
       },
       "CombPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#CombPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family filter"
       },
       "CompressorPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#CompressorPlugin",
@@ -83,13 +88,15 @@
         "by": [
           "omx-plugins:plugins/omx-comp/generated/omx-comp.lv2/omx-comp.ttl",
           "openmixer:console"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "ConstantPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#ConstantPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family generator"
       },
       "ControlPort": {
         "uri": "http://lv2plug.in/ns/lv2core#ControlPort",
@@ -105,7 +112,8 @@
         "uri": "http://lv2plug.in/ns/lv2core#ConverterPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family utility"
       },
       "DelayPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#DelayPlugin",
@@ -114,7 +122,8 @@
         "by": [
           "omx-plugins:tools/omx-new-plugin.mjs",
           "omx-plugins:plugins/omx-delay/generated/omx-delay.lv2/omx-delay.ttl"
-        ]
+        ],
+        "word": "family delay"
       },
       "Designation": {
         "uri": "http://lv2plug.in/ns/lv2core#Designation",
@@ -128,7 +137,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-drive/generated/omx-drive.lv2/omx-drive.ttl"
-        ]
+        ],
+        "word": "family distortion"
       },
       "DynamicsPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#DynamicsPlugin",
@@ -138,7 +148,8 @@
           "omx-plugins:tools/omx-new-plugin.mjs",
           "omx-plugins:plugins/omx-transient/generated/omx-transient.lv2/omx-transient.ttl",
           "omx-plugins:plugins/omx-deesser/generated/omx-deesser.lv2/omx-deesser.ttl"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "EQPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#EQPlugin",
@@ -147,19 +158,22 @@
         "by": [
           "omx-plugins:plugins/omx-geq/generated/omx-geq.lv2/omx-geq.ttl",
           "openmixer:console"
-        ]
+        ],
+        "word": "family filter"
       },
       "EnvelopePlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#EnvelopePlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family dynamics"
       },
       "ExpanderPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#ExpanderPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family dynamics"
       },
       "ExtensionData": {
         "uri": "http://lv2plug.in/ns/lv2core#ExtensionData",
@@ -177,7 +191,8 @@
         "uri": "http://lv2plug.in/ns/lv2core#FilterPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family filter"
       },
       "FlangerPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#FlangerPlugin",
@@ -185,13 +200,15 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-flanger/generated/omx-flanger.lv2/omx-flanger.ttl"
-        ]
+        ],
+        "word": "family modulator"
       },
       "FunctionPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#FunctionPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family utility"
       },
       "GatePlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#GatePlugin",
@@ -200,19 +217,22 @@
         "by": [
           "omx-plugins:plugins/omx-keyed-gate/generated/omx-keyed-gate.lv2/omx-keyed-gate.ttl",
           "openmixer:console"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "GeneratorPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#GeneratorPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family generator"
       },
       "HighpassPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#HighpassPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family filter"
       },
       "InputPort": {
         "uri": "http://lv2plug.in/ns/lv2core#InputPort",
@@ -240,19 +260,22 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-limiter/generated/omx-limiter.lv2/omx-limiter.ttl"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "LowpassPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#LowpassPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family filter"
       },
       "MIDIPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#MIDIPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family midi"
       },
       "Markdown": {
         "uri": "http://lv2plug.in/ns/lv2core#Markdown",
@@ -267,7 +290,8 @@
         "by": [
           "omx-plugins:tools/omx-new-plugin.mjs",
           "omx-plugins:plugins/omx-strip/generated/omx-strip.lv2/omx-strip.ttl"
-        ]
+        ],
+        "word": "family utility"
       },
       "ModulatorPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#ModulatorPlugin",
@@ -276,7 +300,8 @@
         "by": [
           "omx-plugins:tools/omx-new-plugin.mjs",
           "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl"
-        ]
+        ],
+        "word": "family modulator"
       },
       "MultiEQPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#MultiEQPlugin",
@@ -284,13 +309,15 @@
         "status": "used",
         "by": [
           "openmixer:console"
-        ]
+        ],
+        "word": "family filter"
       },
       "OscillatorPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#OscillatorPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family generator"
       },
       "OutputPort": {
         "uri": "http://lv2plug.in/ns/lv2core#OutputPort",
@@ -311,7 +338,8 @@
           "omx-plugins:plugins/omx-eq8/generated/omx-eq8.lv2/omx-eq8.ttl",
           "omx-plugins:plugins/omx-eq32/generated/omx-eq32.lv2/omx-eq32.ttl",
           "omx-plugins:plugins/omx-eq16/generated/omx-eq16.lv2/omx-eq16.ttl"
-        ]
+        ],
+        "word": "family filter"
       },
       "Parameter": {
         "uri": "http://lv2plug.in/ns/lv2core#Parameter",
@@ -329,7 +357,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-phaser/generated/omx-phaser.lv2/omx-phaser.ttl"
-        ]
+        ],
+        "word": "family modulator"
       },
       "PitchPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#PitchPlugin",
@@ -337,7 +366,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-pitch/generated/omx-pitch.lv2/omx-pitch.ttl"
-        ]
+        ],
+        "word": "family spectral"
       },
       "Plugin": {
         "uri": "http://lv2plug.in/ns/lv2core#Plugin",
@@ -347,7 +377,8 @@
           "omx-plugins:tools/gen.mjs",
           "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/omx-tremolo.ttl",
           "omx-plugins:plugins/omx-tremolo/generated/omx-tremolo.lv2/manifest.ttl"
-        ]
+        ],
+        "word": "family uncategorised"
       },
       "PluginBase": {
         "uri": "http://lv2plug.in/ns/lv2core#PluginBase",
@@ -385,7 +416,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-reverb/generated/omx-reverb.lv2/omx-reverb.ttl"
-        ]
+        ],
+        "word": "family reverb"
       },
       "ScalePoint": {
         "uri": "http://lv2plug.in/ns/lv2core#ScalePoint",
@@ -397,13 +429,15 @@
         "uri": "http://lv2plug.in/ns/lv2core#SimulatorPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family simulator"
       },
       "SpatialPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#SpatialPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family spatial"
       },
       "Specification": {
         "uri": "http://lv2plug.in/ns/lv2core#Specification",
@@ -415,7 +449,8 @@
         "uri": "http://lv2plug.in/ns/lv2core#SpectralPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family spectral"
       },
       "Symbol": {
         "uri": "http://lv2plug.in/ns/lv2core#Symbol",
@@ -427,13 +462,15 @@
         "uri": "http://lv2plug.in/ns/lv2core#UtilityPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family utility"
       },
       "WaveshaperPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#WaveshaperPlugin",
         "kind": "plugin-class",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family distortion"
       },
       "appliesTo": {
         "uri": "http://lv2plug.in/ns/lv2core#appliesTo",
