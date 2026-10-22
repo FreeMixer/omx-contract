@@ -93,7 +93,7 @@ test('the authored delay states the delay kernel\'s travels, value for value (th
   }
   assert.equal(by.pingpong.kind, 'toggle');
   assert.equal(by.pingpong.default, r.get('FX_DELAY_PINGPONG_DEFAULT').value);
-  assert.deepEqual(d.controls.map((c) => c.meaning), ['delay', 'feedback', 'tone', 'wetDryRatio', undefined]);
+  assert.deepEqual(d.controls.map((c) => c.meaning), ['delay', 'feedback', 'tone', 'wetDryRatio', 'pingpong']);
   assert.deepEqual(d.controls.map((c) => c.id), [0, 1, 2, 3, 4]);
   assert.deepEqual(d.latency, { reports: true, frames: 0 });
 });
@@ -105,7 +105,9 @@ test('the built instrument: notes in, audio out, its voices, needs and the words
   assert.deepEqual(d.ports.map((p) => [p.kind, p.direction]), [['note', 'in'], ['audio', 'out']]);
   assert.deepEqual(d.ports[0].dialects, ['clap', 'midi']);
   assert.deepEqual(d.needs.extensions, { required: ['clap.note-ports'], optional: ['clap.voice-info'] });
-  assert.deepEqual(d.controls.map((c) => c.kind), ['travel', 'travel', 'travel', 'travel', 'choice', 'travel', 'trigger', 'travel']);
+  assert.deepEqual(d.controls.map((c) => c.kind), ['travel', 'travel', 'travel', 'travel', 'choice', 'travel', 'trigger', 'travel', 'choice']);
+  const slope = d.controls.find((c) => c.name === 'filterSlope');
+  assert.deepEqual([slope.unit, slope.values, slope.ids], ['dB/oct', [12, 24], ['12', '24']]);
   const glide = d.controls.find((c) => c.name === 'glide');
   assert.deepEqual([glide.travel.unit, glide.travel.scale, glide.meaning], ['unknown', 'unknown', 'unknown']);
   assert.deepEqual(d.controls.find((c) => c.name === 'pulseWidth').when, { control: 'waveform', is: 'square' });
@@ -132,14 +134,15 @@ test('the scanned LV2 plugin: its units, a unit with no word as unknown, a side-
 
 test('the words are the closed lists of docs/descriptors.md', () => {
   const $ = SCHEMA.$defs;
-  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown'] }]);
-  for (const u of ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
+  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'm', 'dBu', 'dB/oct', 'unknown'] }]);
+  for (const u of ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'm', 'dBu', 'dB/oct', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
   assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', ''], 'the items\' units are as they were');
   assert.deepEqual($.meaning.enum, [
     'gain', 'threshold', 'ratio', 'attack', 'release', 'hold', 'decay', 'frequency', 'cutoffFrequency', 'resonance', 'bypass',
     'wetDryRatio', 'delay', 'enabled',
     'range', 'knee', 'hysteresis', 'makeup', 'lookahead', 'ceiling', 'output', 'q', 'slope', 'width', 'drive', 'tone', 'rate',
     'depth', 'feedback', 'spread', 'predelay', 'size', 'damping', 'lowCut', 'highCut', 'shift', 'fine', 'sync', 'division', 'listen',
+    'speed', 'shape', 'model', 'algorithm', 'mode', 'type', 'on', 'pingpong',
     'unknown',
   ]);
   assert.deepEqual($.descriptor.properties.origin.enum, ['authored', 'built', 'scanned']);
@@ -152,7 +155,7 @@ test('the words are the closed lists of docs/descriptors.md', () => {
   assert.deepEqual(Object.keys($.descriptor.properties), ['$schema', 'requires', 'origin', 'plugin', 'controls', 'ports', 'instrument', 'needs', 'latency', 'extensions', 'source']);
   assert.deepEqual(PARAM_SCALE_IDS, ['linear', 'log', 'stepped']);
   const doc = readFileSync(join(ROOT, 'docs/descriptors.md'), 'utf8');
-  for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
+  for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'm', 'dBu', 'dB/oct', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
 });
 
 test('a word the schema does not have is contract.file.invalid, never skipped', () => {
@@ -169,6 +172,8 @@ test('a word the schema does not have is contract.file.invalid, never skipped', 
     ['a trigger with a default', (d) => { d.controls[4].kind = 'trigger'; }],
     ['a travel without its unit', (d) => { delete d.controls[0].travel.unit; }],
     ['a travel without its scale', (d) => { delete d.controls[0].travel.scale; }],
+    ['a travel with a top-level unit (that is travel.unit\'s)', (d) => { d.controls[0].unit = 'dB/oct'; }],
+    ['a toggle with a unit', (d) => { d.controls[4].unit = ''; }],
     ['a control without its id', (d) => { delete d.controls[0].id; }],
     ['a symbol that is no identifier', (d) => { d.controls[0].symbol = 'fx delay'; }],
   ];
@@ -179,6 +184,8 @@ test('a word the schema does not have is contract.file.invalid, never skipped', 
   }
   const midi1 = broken(BUILT, (d) => { d.ports[0].dialects = ['midi1']; });
   assert.deepEqual(codesOf(midi1), ['schema'], 'midi1 is CLAP\'s midi');
+  const sloppedUnit = broken(BUILT, (d) => { d.controls.find((c) => c.name === 'filterSlope').unit = 'volts'; });
+  assert.deepEqual(codesOf(sloppedUnit), ['schema'], 'a choice unit with no word');
 });
 
 /** One arm per descriptor code: the fixture, the break, the code it is refused with. */
