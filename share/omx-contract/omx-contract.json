@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "items": {
     "CLAP_COLOR_TERMS": {
       "rel": "data/formats/clap/color.json",
@@ -6797,6 +6797,20 @@
         96000,
         176400,
         192000
+      ]
+    },
+    "STANDARD_QUANTA": {
+      "rel": "data/rates.json",
+      "kind": "list",
+      "doc": "The quantum sizes (frames per processing block) the desk recognises, the same six values the console's own LATENCY_QUANTA names: one source of truth for a measurement grid's quantum axis, so plugin-qualify and the probe runner read it from here instead of each keeping its own literal list. plugin-qualify's own grid (QUALIFY_QUANTA) is its choice, a subset of this one.",
+      "unit": "samples",
+      "value": [
+        32,
+        64,
+        128,
+        256,
+        512,
+        1024
       ]
     },
     "RT_HARD_TARGET": {
