@@ -129,6 +129,17 @@ test('read back through the reader, omx-contract renders c, ts and json byte for
   assert.equal(main(['fmt', '--check', '--contract-dir', root]), 0);
 });
 
+test('the json render names the owning package of every item (docs/kernel-files.md)', () => {
+  const root = installed();
+  addPackage(root, 'omx-dsp', { 'a.json': owned({ DSP_THING: scalar(3) }) });
+  const data = loadContractDir({ dir: root });
+  const resolved = resolveData(data);
+  const json = JSON.parse(renderJson(resolved, contractVersion(data, 'none'))[0].text);
+  assert.equal(json.items.DSP_THING.package, 'omx-dsp');
+  assert.equal(json.items.STANDARD_SAMPLE_RATES.package, 'omx-contract');
+  assert.ok(Object.values(json.items).every((it) => typeof it.package === 'string'), 'every item carries package');
+});
+
 test('a perturbed installed value moves every render: the reader reads the directory, not data/', () => {
   const root = installed();
   const p = join(pkgDir(root, 'omx-contract'), 'rates.json');

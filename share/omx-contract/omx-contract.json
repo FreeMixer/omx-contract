@@ -4,6 +4,7 @@
   "items": {
     "CLAP_COLOR_TERMS": {
       "rel": "data/formats/clap/color.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/color.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -20,6 +21,7 @@
     },
     "CLAP_EVENTS_TERMS": {
       "rel": "data/formats/clap/events.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/events.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -291,6 +293,7 @@
     },
     "CLAP_EXT_AMBISONIC_TERMS": {
       "rel": "data/formats/clap/ext/ambisonic.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/ambisonic.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -364,6 +367,7 @@
     },
     "CLAP_EXT_AUDIO_PORTS_ACTIVATION_TERMS": {
       "rel": "data/formats/clap/ext/audio-ports-activation.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/audio-ports-activation.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -388,6 +392,7 @@
     },
     "CLAP_EXT_AUDIO_PORTS_CONFIG_TERMS": {
       "rel": "data/formats/clap/ext/audio-ports-config.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/audio-ports-config.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -419,6 +424,7 @@
     },
     "CLAP_EXT_AUDIO_PORTS_TERMS": {
       "rel": "data/formats/clap/ext/audio-ports.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/audio-ports.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -529,6 +535,7 @@
     },
     "CLAP_EXT_CONFIGURABLE_AUDIO_PORTS_TERMS": {
       "rel": "data/formats/clap/ext/configurable-audio-ports.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/configurable-audio-ports.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -553,6 +560,7 @@
     },
     "CLAP_EXT_CONTEXT_MENU_TERMS": {
       "rel": "data/formats/clap/ext/context-menu.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/context-menu.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -625,6 +633,7 @@
     },
     "CLAP_EXT_DRAFT_BACKGROUND_ACTIVATION_TERMS": {
       "rel": "data/formats/clap/ext/draft/background-activation.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/background-activation.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -642,6 +651,7 @@
     },
     "CLAP_EXT_DRAFT_BACKGROUND_PROGRESS_TERMS": {
       "rel": "data/formats/clap/ext/draft/background-progress.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/background-progress.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -659,6 +669,7 @@
     },
     "CLAP_EXT_DRAFT_BACKGROUND_STATE_CONTEXT_TERMS": {
       "rel": "data/formats/clap/ext/draft/background-state-context.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/background-state-context.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -676,6 +687,7 @@
     },
     "CLAP_EXT_DRAFT_EXTENSIBLE_AUDIO_PORTS_TERMS": {
       "rel": "data/formats/clap/ext/draft/extensible-audio-ports.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/extensible-audio-ports.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -693,6 +705,7 @@
     },
     "CLAP_EXT_DRAFT_FLUSH_EVENTS_TERMS": {
       "rel": "data/formats/clap/ext/draft/flush-events.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/flush-events.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -710,6 +723,7 @@
     },
     "CLAP_EXT_DRAFT_GAIN_ADJUSTMENT_METERING_TERMS": {
       "rel": "data/formats/clap/ext/draft/gain-adjustment-metering.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/gain-adjustment-metering.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -729,6 +743,7 @@
     },
     "CLAP_EXT_DRAFT_MINI_CURVE_DISPLAY_TERMS": {
       "rel": "data/formats/clap/ext/draft/mini-curve-display.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/mini-curve-display.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -794,6 +809,7 @@
     },
     "CLAP_EXT_DRAFT_OCTAVE_NUMBER_TERMS": {
       "rel": "data/formats/clap/ext/draft/octave-number.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/octave-number.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -811,6 +827,7 @@
     },
     "CLAP_EXT_DRAFT_PARAM_HOVERED_TERMS": {
       "rel": "data/formats/clap/ext/draft/param-hovered.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/param-hovered.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -828,6 +845,7 @@
     },
     "CLAP_EXT_DRAFT_PARAMS_ORIGIN_TERMS": {
       "rel": "data/formats/clap/ext/draft/params-origin.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/params-origin.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -845,6 +863,7 @@
     },
     "CLAP_EXT_DRAFT_PROJECT_LOCATION_TERMS": {
       "rel": "data/formats/clap/ext/draft/project-location.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/project-location.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -934,6 +953,7 @@
     },
     "CLAP_EXT_DRAFT_RESOURCE_DIRECTORY_TERMS": {
       "rel": "data/formats/clap/ext/draft/resource-directory.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/resource-directory.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -951,6 +971,7 @@
     },
     "CLAP_EXT_DRAFT_SCRATCH_MEMORY_TERMS": {
       "rel": "data/formats/clap/ext/draft/scratch-memory.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/scratch-memory.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -968,6 +989,7 @@
     },
     "CLAP_EXT_DRAFT_TRANSPORT_CONTROL_TERMS": {
       "rel": "data/formats/clap/ext/draft/transport-control.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/transport-control.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -985,6 +1007,7 @@
     },
     "CLAP_EXT_DRAFT_TRIGGERS_TERMS": {
       "rel": "data/formats/clap/ext/draft/triggers.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/triggers.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1056,6 +1079,7 @@
     },
     "CLAP_EXT_DRAFT_TUNING_TERMS": {
       "rel": "data/formats/clap/ext/draft/tuning.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/tuning.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1073,6 +1097,7 @@
     },
     "CLAP_EXT_DRAFT_UNDO_TERMS": {
       "rel": "data/formats/clap/ext/draft/undo.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/undo.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1104,6 +1129,7 @@
     },
     "CLAP_EXT_DRAFT_WEBVIEW_TERMS": {
       "rel": "data/formats/clap/ext/draft/webview.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/draft/webview.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1128,6 +1154,7 @@
     },
     "CLAP_EXT_EVENT_REGISTRY_TERMS": {
       "rel": "data/formats/clap/ext/event-registry.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/event-registry.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1145,6 +1172,7 @@
     },
     "CLAP_EXT_GUI_TERMS": {
       "rel": "data/formats/clap/ext/gui.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/gui.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1197,6 +1225,7 @@
     },
     "CLAP_EXT_LATENCY_TERMS": {
       "rel": "data/formats/clap/ext/latency.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/latency.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1219,6 +1248,7 @@
     },
     "CLAP_EXT_LOG_TERMS": {
       "rel": "data/formats/clap/ext/log.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/log.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1286,6 +1316,7 @@
     },
     "CLAP_EXT_NOTE_NAME_TERMS": {
       "rel": "data/formats/clap/ext/note-name.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/note-name.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1306,6 +1337,7 @@
     },
     "CLAP_EXT_NOTE_PORTS_TERMS": {
       "rel": "data/formats/clap/ext/note-ports.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/note-ports.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1387,6 +1419,7 @@
     },
     "CLAP_EXT_PARAM_INDICATION_TERMS": {
       "rel": "data/formats/clap/ext/param-indication.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/param-indication.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1441,6 +1474,7 @@
     },
     "CLAP_EXT_PARAMS_TERMS": {
       "rel": "data/formats/clap/ext/params.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/params.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1677,6 +1711,7 @@
     },
     "CLAP_EXT_POSIX_FD_SUPPORT_TERMS": {
       "rel": "data/formats/clap/ext/posix-fd-support.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/posix-fd-support.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1712,6 +1747,7 @@
     },
     "CLAP_EXT_PRESET_LOAD_TERMS": {
       "rel": "data/formats/clap/ext/preset-load.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/preset-load.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1743,6 +1779,7 @@
     },
     "CLAP_EXT_REMOTE_CONTROLS_TERMS": {
       "rel": "data/formats/clap/ext/remote-controls.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/remote-controls.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1784,6 +1821,7 @@
     },
     "CLAP_EXT_RENDER_TERMS": {
       "rel": "data/formats/clap/ext/render.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/render.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1813,6 +1851,7 @@
     },
     "CLAP_EXT_STATE_CONTEXT_TERMS": {
       "rel": "data/formats/clap/ext/state-context.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/state-context.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1848,6 +1887,7 @@
     },
     "CLAP_EXT_STATE_TERMS": {
       "rel": "data/formats/clap/ext/state.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/state.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -1869,6 +1909,7 @@
     },
     "CLAP_EXT_SURROUND_TERMS": {
       "rel": "data/formats/clap/ext/surround.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/surround.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2023,6 +2064,7 @@
     },
     "CLAP_EXT_TAIL_TERMS": {
       "rel": "data/formats/clap/ext/tail.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/tail.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2040,6 +2082,7 @@
     },
     "CLAP_EXT_THREAD_CHECK_TERMS": {
       "rel": "data/formats/clap/ext/thread-check.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/thread-check.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2061,6 +2104,7 @@
     },
     "CLAP_EXT_THREAD_POOL_TERMS": {
       "rel": "data/formats/clap/ext/thread-pool.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/thread-pool.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2078,6 +2122,7 @@
     },
     "CLAP_EXT_TIMER_SUPPORT_TERMS": {
       "rel": "data/formats/clap/ext/timer-support.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/timer-support.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2095,6 +2140,7 @@
     },
     "CLAP_EXT_TRACK_INFO_TERMS": {
       "rel": "data/formats/clap/ext/track-info.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/track-info.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2178,6 +2224,7 @@
     },
     "CLAP_EXT_VOICE_INFO_TERMS": {
       "rel": "data/formats/clap/ext/voice-info.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/ext/voice-info.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2209,6 +2256,7 @@
     },
     "CLAP_FACTORY_DRAFT_PLUGIN_INVALIDATION_TERMS": {
       "rel": "data/formats/clap/factory/draft/plugin-invalidation.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/factory/draft/plugin-invalidation.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2226,6 +2274,7 @@
     },
     "CLAP_FACTORY_DRAFT_PLUGIN_STATE_CONVERTER_TERMS": {
       "rel": "data/formats/clap/factory/draft/plugin-state-converter.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/factory/draft/plugin-state-converter.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2243,6 +2292,7 @@
     },
     "CLAP_FACTORY_PLUGIN_FACTORY_TERMS": {
       "rel": "data/formats/clap/factory/plugin-factory.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/factory/plugin-factory.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2264,6 +2314,7 @@
     },
     "CLAP_FACTORY_PRESET_DISCOVERY_TERMS": {
       "rel": "data/formats/clap/factory/preset-discovery.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/factory/preset-discovery.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2329,6 +2380,7 @@
     },
     "CLAP_FIXEDPOINT_TERMS": {
       "rel": "data/formats/clap/fixedpoint.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/fixedpoint.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2356,6 +2408,7 @@
     },
     "CLAP_ID_TERMS": {
       "rel": "data/formats/clap/id.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/id.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2376,6 +2429,7 @@
     },
     "CLAP_PLUGIN_FEATURES_TERMS": {
       "rel": "data/formats/clap/plugin-features.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/plugin-features.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2724,6 +2778,7 @@
     },
     "CLAP_PROCESS_TERMS": {
       "rel": "data/formats/clap/process.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/process.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2772,6 +2827,7 @@
     },
     "CLAP_STRING_SIZES_TERMS": {
       "rel": "data/formats/clap/string-sizes.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/string-sizes.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2798,6 +2854,7 @@
     },
     "CLAP_TIMESTAMP_TERMS": {
       "rel": "data/formats/clap/timestamp.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/timestamp.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2814,6 +2871,7 @@
     },
     "CLAP_VERSION_TERMS": {
       "rel": "data/formats/clap/version.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The identifiers of the CLAP header clap/version.h (clap 1.2.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "clap",
@@ -2850,6 +2908,7 @@
     },
     "LV2_ATOM_TERMS": {
       "rel": "data/formats/lv2/atom.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Atom specification (atom.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -3089,6 +3148,7 @@
     },
     "LV2_BUF_SIZE_TERMS": {
       "rel": "data/formats/lv2/buf-size.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Buf Size specification (buf-size.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -3179,6 +3239,7 @@
     },
     "LV2_CORE_TERMS": {
       "rel": "data/formats/lv2/core.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 specification (core.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -3959,6 +4020,7 @@
     },
     "LV2_DATA_ACCESS_TERMS": {
       "rel": "data/formats/lv2/data-access.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the data access specification (data-access.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -3977,6 +4039,7 @@
     },
     "LV2_DYNMANIFEST_TERMS": {
       "rel": "data/formats/lv2/dynmanifest.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Dyn Manifest specification (dynmanifest.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -3999,6 +4062,7 @@
     },
     "LV2_EVENT_TERMS": {
       "rel": "data/formats/lv2/event.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Event specification (event.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -4083,6 +4147,7 @@
     },
     "LV2_INSTANCE_ACCESS_TERMS": {
       "rel": "data/formats/lv2/instance-access.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the instance access specification (instance-access.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -4101,6 +4166,7 @@
     },
     "LV2_LOG_TERMS": {
       "rel": "data/formats/lv2/log.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Log specification (log.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -4167,6 +4233,7 @@
     },
     "LV2_MIDI_TERMS": {
       "rel": "data/formats/lv2/midi.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 MIDI specification (midi.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -4437,6 +4504,7 @@
     },
     "LV2_MORPH_TERMS": {
       "rel": "data/formats/lv2/morph.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Morph specification (morph.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -4477,6 +4545,7 @@
     },
     "LV2_OPTIONS_TERMS": {
       "rel": "data/formats/lv2/options.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Options specification (options.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -4530,6 +4599,7 @@
     },
     "LV2_PARAMETERS_TERMS": {
       "rel": "data/formats/lv2/parameters.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Parameters specification (parameters.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -4739,6 +4809,7 @@
     },
     "LV2_PATCH_TERMS": {
       "rel": "data/formats/lv2/patch.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Patch specification (patch.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -4940,6 +5011,7 @@
     },
     "LV2_PORT_GROUPS_TERMS": {
       "rel": "data/formats/lv2/port-groups.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Port Groups specification (port-groups.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -5358,6 +5430,7 @@
     },
     "LV2_PORT_PROPS_TERMS": {
       "rel": "data/formats/lv2/port-props.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Port Properties specification (port-props.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -5461,6 +5534,7 @@
     },
     "LV2_PRESETS_TERMS": {
       "rel": "data/formats/lv2/presets.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Presets specification (presets.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -5514,6 +5588,7 @@
     },
     "LV2_RESIZE_PORT_TERMS": {
       "rel": "data/formats/lv2/resize-port.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Resize Port specification (resize-port.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -5552,6 +5627,7 @@
     },
     "LV2_STATE_TERMS": {
       "rel": "data/formats/lv2/state.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 State specification (state.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -5637,6 +5713,7 @@
     },
     "LV2_TIME_TERMS": {
       "rel": "data/formats/lv2/time.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Time specification (time.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -5752,6 +5829,7 @@
     },
     "LV2_UI_TERMS": {
       "rel": "data/formats/lv2/ui.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 UI specification (ui.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -5987,6 +6065,7 @@
     },
     "LV2_UNITS_TERMS": {
       "rel": "data/formats/lv2/units.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Units specification (units.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -6283,6 +6362,7 @@
     },
     "LV2_URI_MAP_TERMS": {
       "rel": "data/formats/lv2/uri-map.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 URI Map specification (uri-map.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -6301,6 +6381,7 @@
     },
     "LV2_URID_TERMS": {
       "rel": "data/formats/lv2/urid.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 URID specification (urid.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -6340,6 +6421,7 @@
     },
     "LV2_WORKER_TERMS": {
       "rel": "data/formats/lv2/worker.json",
+      "package": "omx-contract",
       "kind": "terms",
       "doc": "The terms of the LV2 Worker specification (worker.lv2, from lv2 1.18.10), each mapped under its own name with its status for us (docs/data-layout.md).",
       "format": "lv2",
@@ -6377,6 +6459,7 @@
     },
     "MACHINE_CLASS_FIELDS": {
       "rel": "data/machine-class.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "What identifies the machine a figure was taken on (plugin-qualify#115): a verdict for a host profile reads only figures of the class it names.",
       "value": {
@@ -6408,6 +6491,7 @@
     },
     "MACHINE_PROFILE_FIELDS": {
       "rel": "data/machine-class.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "How the machine was set when a figure was taken: the frequency policy and isolation a figure depends on.",
       "value": {
@@ -6430,6 +6514,7 @@
     },
     "MACHINE_CORE_BANDS": {
       "rel": "data/machine-class.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "The bands a machine's core count falls in, ascending.",
       "value": {
@@ -6455,6 +6540,7 @@
     },
     "MACHINE_CLOCK_BANDS": {
       "rel": "data/machine-class.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "The bands a machine's clock falls in, ascending.",
       "value": {
@@ -6477,6 +6563,7 @@
     },
     "MACHINE_ARCHES": {
       "rel": "data/machine-class.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "The architectures a host profile names, as uname -m spells them.",
       "value": {
@@ -6490,6 +6577,7 @@
     },
     "MACHINE_CLASSES": {
       "rel": "data/machine-class.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "The machine classes a host profile budgets for (plugin-qualify#114, #115): the desk, and the Raspberry Pi 4 and 5 a small console runs on.",
       "value": {
@@ -6509,6 +6597,7 @@
     },
     "MEASUREMENT_DIMENSIONS": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "The measurable dimensions a measurement document declares it covers: latency and cost since the format's 1.0, stability, RT safety and features since 1.1, for the hosting verdict.",
       "value": {
@@ -6531,6 +6620,7 @@
     },
     "MEASUREMENT_UNMEASURED_KINDS": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "What an absent figure means for a merge, the one distinction that changes behaviour: a property of the plugin, a failure of this run, or a dimension the run did not cover.",
       "value": {
@@ -6550,6 +6640,7 @@
     },
     "MEASUREMENT_UNMEASURED_REASONS": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "Every reason a figure may be absent, each of its kind: an outcome a sweep produced, never a hypothetical. A reader that meets a reason it does not know treats it as probe-failed.",
       "groups": "MEASUREMENT_UNMEASURED_KINDS",
@@ -6643,6 +6734,7 @@
     },
     "MEASUREMENT_LATENCY_METHODS": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "How a latency figure was taken. note-onset is an instrument's: a held note's first sound.",
       "value": {
@@ -6666,6 +6758,7 @@
     },
     "MEASUREMENT_COST_METHODS": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "How a cost figure was taken.",
       "value": {
@@ -6677,6 +6770,7 @@
     },
     "MEASUREMENT_LATENCY_SCALING": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "How latency moves with the sample rate, derived from readings at several rates, never assumed from a plugin's name.",
       "value": {
@@ -6708,6 +6802,7 @@
     },
     "MEASUREMENT_LATENCY_SCALING_NOTES": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "Why a derived scaling class is not the naive fit over every reading.",
       "value": {
@@ -6723,6 +6818,7 @@
     },
     "MEASUREMENT_LATENCY_EXCLUSIONS": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "Why one rate's reading was left out of the fit and of every rate resolution.",
       "value": {
@@ -6734,6 +6830,7 @@
     },
     "MEASUREMENT_VOICE_BASES": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "Where the number of notes an instrument's cost was measured with came from: the voice capacity the plugin declares (CLAP voice-info), or a count the caller gave.",
       "value": {
@@ -6750,6 +6847,7 @@
     },
     "MEASUREMENT_VERDICT_RATINGS": {
       "rel": "data/measurement.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "The four ratings a verdict speaks, in order from the best.",
       "value": {
@@ -6769,6 +6867,7 @@
     },
     "PARAM_SCALES": {
       "rel": "data/primitives.json",
+      "package": "omx-contract",
       "kind": "set",
       "doc": "How a host draws a parameter: linear, logarithmic (a frequency, a time) or in discrete steps. The words omx-plugins' declarations and plugin-hostd's protocol use; a travel names its own with `scale`.",
       "default": "linear",
@@ -6780,6 +6879,7 @@
     },
     "READOUT_RATE_HZ": {
       "rel": "data/primitives.json",
+      "package": "omx-contract",
       "kind": "scalar",
       "doc": "How often a readout's value is published: 50 Hz, one value every 20 ms, the rate a host sends a moving meter at. Every readout reads it as its `rateHz` (docs/readouts.md).",
       "unit": "Hz",
@@ -6787,6 +6887,7 @@
     },
     "STANDARD_SAMPLE_RATES": {
       "rel": "data/rates.json",
+      "package": "omx-contract",
       "kind": "list",
       "doc": "The standard sample rates (Hz) the desk recognises — the pro-audio superset. One source of truth for the clock controller's `clock.allowed-rates` seed, the force row's validation ceiling and the device-rate probe fallback. What the operator is OFFERED is always the DEVICE's own `supportedRates` — this is the ceiling a write is refused by, never a menu.",
       "unit": "Hz",
@@ -6801,6 +6902,7 @@
     },
     "RT_HARD_TARGET": {
       "rel": "data/rates.json",
+      "package": "omx-contract",
       "kind": "sheet",
       "doc": "THE declaration: 192 kHz at quantum 128.",
       "value": {
@@ -6810,6 +6912,7 @@
     },
     "ORACLE_FLOOR_RATES": {
       "rel": "data/rates.json",
+      "package": "omx-contract",
       "kind": "list",
       "doc": "The four rates every kernel oracle runs at, whatever STANDARD_SAMPLE_RATES says: a declared list missing one of them stops a suite instead of testing less (omx-dsp, omx-plugins and omx-clap-host run their oracles at these).",
       "unit": "Hz",
@@ -6822,6 +6925,7 @@
     },
     "ORACLE_FULL_RATES": {
       "rel": "data/rates.json",
+      "package": "omx-contract",
       "kind": "list",
       "doc": "The full grid of rates a professional interface can clock at, nine of them from 32 to 192 kHz: where ORACLE_FLOOR_RATES is the four rates every kernel oracle must run at, this is the whole grid an oracle runs at when it runs at all of them. STANDARD_SAMPLE_RATES is a subset of it; an oracle that runs here also covers 32, 64 and 128 kHz, where a kernel still has to meet its closed form even though the console never asks for them.",
       "unit": "Hz",
@@ -6839,6 +6943,7 @@
     },
     "RESOURCE_KINDS": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "Every resource a host plans a plugin for (FreeMixer/plugin-qualify#116): each measured per machine class, judged per host profile, and unknown, never a pass, when it has no figure.",
       "value": {
@@ -6933,6 +7038,7 @@
     },
     "RESOURCE_UNITS": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "The units a resource figure is given in; an LV2 unit's name where LV2 has one.",
       "value": {
@@ -6973,6 +7079,7 @@
     },
     "RESOURCE_BASES": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "How a resource figure was known: what the plugin declares, what a run measured, or a count the caller gave the probe.",
       "value": {
@@ -6989,6 +7096,7 @@
     },
     "RESOURCE_MEMORY_PHASES": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "When a plugin's memory is read, per instance (plugin-qualify#114): after instantiate, after activate, at rest after processing, with notes held, and for a second instance, so a shared one-time load is told apart from the per-instance cost.",
       "value": {
@@ -7011,6 +7119,7 @@
     },
     "RESOURCE_UNMEASURED_REASONS": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "Why a resource has no figure a host profile can read, beside the measurement's own reasons (MEASUREMENT_UNMEASURED_REASONS).",
       "value": {
@@ -7026,6 +7135,7 @@
     },
     "RESOURCE_BUDGET_SCOPES": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "What a host profile's budget for a resource is counted over (plugin-qualify#114, #115): one plugin instance, or the whole console.",
       "value": {
@@ -7039,6 +7149,7 @@
     },
     "RESOURCE_HOST_ISOLATIONS": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "How a host runs its plugins.",
       "value": {
@@ -7055,6 +7166,7 @@
     },
     "RESOURCE_HOST_LATENCY_HANDLING": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "Whether a host aligns on a plugin's reported latency or only passes it on.",
       "value": {
@@ -7068,6 +7180,7 @@
     },
     "RESOURCE_THREAD_SCHEDULING": {
       "rel": "data/resource-profile.json",
+      "package": "omx-contract",
       "kind": "words",
       "doc": "The scheduling class a host gives its plugin's threads, as the probe output records it.",
       "value": {
