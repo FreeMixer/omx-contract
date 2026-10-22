@@ -13,7 +13,8 @@
         "value": "ambisonic",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "layout ambisonic"
       },
       "analyzer": {
         "id": "CLAP_PLUGIN_FEATURE_ANALYZER",
@@ -43,7 +44,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h"
-        ]
+        ],
+        "word": "family modulator"
       },
       "compressor": {
         "id": "CLAP_PLUGIN_FEATURE_COMPRESSOR",
@@ -52,7 +54,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "de-esser": {
         "id": "CLAP_PLUGIN_FEATURE_DEESSER",
@@ -61,7 +64,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-deesser/generated/omx_deesser_params.h"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "delay": {
         "id": "CLAP_PLUGIN_FEATURE_DELAY",
@@ -70,7 +74,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-delay/generated/omx_delay_params.h"
-        ]
+        ],
+        "word": "family delay"
       },
       "distortion": {
         "id": "CLAP_PLUGIN_FEATURE_DISTORTION",
@@ -79,7 +84,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-drive/generated/omx_drive_params.h"
-        ]
+        ],
+        "word": "family distortion"
       },
       "drum": {
         "id": "CLAP_PLUGIN_FEATURE_DRUM",
@@ -88,14 +94,16 @@
         "status": "used",
         "by": [
           "openmixer:console"
-        ]
+        ],
+        "word": "family generator"
       },
       "drum-machine": {
         "id": "CLAP_PLUGIN_FEATURE_DRUM_MACHINE",
         "value": "drum-machine",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family generator"
       },
       "equalizer": {
         "id": "CLAP_PLUGIN_FEATURE_EQUALIZER",
@@ -105,7 +113,8 @@
         "by": [
           "omx-plugins:plugins/omx-eq16/generated/omx_eq16_params.h",
           "omx-plugins:plugins/omx-eq32/generated/omx_eq32_params.h"
-        ]
+        ],
+        "word": "family filter"
       },
       "expander": {
         "id": "CLAP_PLUGIN_FEATURE_EXPANDER",
@@ -115,7 +124,8 @@
         "by": [
           "openmixer:console",
           "omx-plugins:tools/gen-presets.mjs"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "filter": {
         "id": "CLAP_PLUGIN_FEATURE_FILTER",
@@ -124,7 +134,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
-        ]
+        ],
+        "word": "family filter"
       },
       "flanger": {
         "id": "CLAP_PLUGIN_FEATURE_FLANGER",
@@ -133,14 +144,16 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-flanger/generated/omx_flanger_params.h"
-        ]
+        ],
+        "word": "family modulator"
       },
       "frequency-shifter": {
         "id": "CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER",
         "value": "frequency-shifter",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family spectral"
       },
       "gate": {
         "id": "CLAP_PLUGIN_FEATURE_GATE",
@@ -150,21 +163,24 @@
         "by": [
           "omx-plugins:plugins/omx-keyed-gate/generated/omx_gate_params.h",
           "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "glitch": {
         "id": "CLAP_PLUGIN_FEATURE_GLITCH",
         "value": "glitch",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family spectral"
       },
       "granular": {
         "id": "CLAP_PLUGIN_FEATURE_GRANULAR",
         "value": "granular",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family spectral"
       },
       "instrument": {
         "id": "CLAP_PLUGIN_FEATURE_INSTRUMENT",
@@ -183,14 +199,16 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-limiter/generated/omx_limiter_params.h"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "mastering": {
         "id": "CLAP_PLUGIN_FEATURE_MASTERING",
         "value": "mastering",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family mastering"
       },
       "mixing": {
         "id": "CLAP_PLUGIN_FEATURE_MIXING",
@@ -199,7 +217,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-strip/generated/omx_strip_params.h"
-        ]
+        ],
+        "word": "family utility"
       },
       "mono": {
         "id": "CLAP_PLUGIN_FEATURE_MONO",
@@ -209,21 +228,24 @@
         "by": [
           "openmixer:console",
           "omx-plugins:tools/descriptor.mjs"
-        ]
+        ],
+        "word": "layout mono"
       },
       "multi-effects": {
         "id": "CLAP_PLUGIN_FEATURE_MULTI_EFFECTS",
         "value": "multi-effects",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family multiEffects"
       },
       "note-detector": {
         "id": "CLAP_PLUGIN_FEATURE_NOTE_DETECTOR",
         "value": "note-detector",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family noteDetector"
       },
       "note-effect": {
         "id": "CLAP_PLUGIN_FEATURE_NOTE_EFFECT",
@@ -240,7 +262,8 @@
         "value": "phase-vocoder",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family spectral"
       },
       "phaser": {
         "id": "CLAP_PLUGIN_FEATURE_PHASER",
@@ -249,14 +272,16 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-phaser/generated/omx_phaser_params.h"
-        ]
+        ],
+        "word": "family modulator"
       },
       "pitch-correction": {
         "id": "CLAP_PLUGIN_FEATURE_PITCH_CORRECTION",
         "value": "pitch-correction",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family spectral"
       },
       "pitch-shifter": {
         "id": "CLAP_PLUGIN_FEATURE_PITCH_SHIFTER",
@@ -272,7 +297,8 @@
         "value": "restoration",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "family utility"
       },
       "reverb": {
         "id": "CLAP_PLUGIN_FEATURE_REVERB",
@@ -281,7 +307,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-reverb/generated/omx_reverb_params.h"
-        ]
+        ],
+        "word": "family reverb"
       },
       "sampler": {
         "id": "CLAP_PLUGIN_FEATURE_SAMPLER",
@@ -290,7 +317,8 @@
         "status": "used",
         "by": [
           "openmixer:console"
-        ]
+        ],
+        "word": "family generator"
       },
       "stereo": {
         "id": "CLAP_PLUGIN_FEATURE_STEREO",
@@ -300,14 +328,16 @@
         "by": [
           "omx-plugins:plugins/omx-chorus/generated/omx_chorus_params.h",
           "omx-plugins:plugins/omx-comp/generated/omx_comp_params.h"
-        ]
+        ],
+        "word": "layout stereo"
       },
       "surround": {
         "id": "CLAP_PLUGIN_FEATURE_SURROUND",
         "value": "surround",
         "kind": "plugin-feature",
         "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "issue": "FreeMixer/omx-contract#120",
+        "word": "layout surround"
       },
       "synthesizer": {
         "id": "CLAP_PLUGIN_FEATURE_SYNTHESIZER",
@@ -316,7 +346,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-test-sine-voice/generated/omx_test_sine_voice_decl.h"
-        ]
+        ],
+        "word": "family generator"
       },
       "transient-shaper": {
         "id": "CLAP_PLUGIN_FEATURE_TRANSIENT_SHAPER",
@@ -325,7 +356,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-transient/generated/omx_transient_params.h"
-        ]
+        ],
+        "word": "family dynamics"
       },
       "tremolo": {
         "id": "CLAP_PLUGIN_FEATURE_TREMOLO",
@@ -334,7 +366,8 @@
         "status": "used",
         "by": [
           "omx-plugins:plugins/omx-tremolo/generated/omx_tremolo_params.h"
-        ]
+        ],
+        "word": "family modulator"
       },
       "utility": {
         "id": "CLAP_PLUGIN_FEATURE_UTILITY",
@@ -344,7 +377,8 @@
         "by": [
           "omx-plugins:plugins/omx-test-note-echo/generated/omx_test_note_echo_decl.h",
           "omx-plugins:plugins/omx-test-transport-probe/generated/omx_test_transport_probe_decl.h"
-        ]
+        ],
+        "word": "family utility"
       }
     }
   }
