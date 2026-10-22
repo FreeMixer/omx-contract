@@ -36,6 +36,7 @@ test('readouts are valid beside the controls, and refused by shape, schema and m
   assert.match(problems(withReadouts([readout({ min: 0 })])), /gate\.readouts\.gainReductionDb:readout-range:.*min 0 is not below max 0/);
   assert.match(problems(withReadouts([readout({ rateHz: 0 })])), /gate\.readouts\.gainReductionDb:readout-rate:.*rateHz 0 is not positive/);
   assert.match(problems(withReadouts([readout({ max: { ref: 'GATE_LIMITS.nothing' } })])), /reference GATE_LIMITS\.nothing: GATE_LIMITS has no nothing/);
+  assert.match(problems(withReadouts([readout({ rateHz: { ref: 'FX_DELAY_PINGPONG_DEFAULT' } })])), /gate\.readouts\.gainReductionDb:finite:.*rateHz resolves to false/);
   assert.match(problems(withReadouts([readout()], (d) => { d['data/rates.json'].READOUTS = { kind: 'scalar', doc: 'x', unit: '', value: 1 }; })), /READOUTS:readouts-name/);
 });
 

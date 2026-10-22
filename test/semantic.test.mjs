@@ -19,6 +19,24 @@ test('a byKind default outside its travel is refused', () => {
   assert.ok(has(texts((d, at) => { at('data/kernels/delay.json', 'DELAY_MIX_RANGE').travel.byKind.fxReturn = 2; }), 'DELAY_MIX_RANGE', 'default-inside'));
 });
 
+test('a travel whose min sits above its max is refused', () => {
+  const t = texts((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.thresholdDb').min = 10; });
+  assert.ok(has(t, 'GATE_LIMITS', 'travel-order'));
+  assert.match(problems(t).find((p) => p.rule === 'travel-order').message, /GATE_LIMITS\.thresholdDb: min 10 > max 0/);
+});
+
+test('a travel with a negative step is refused', () => {
+  const t = texts((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.thresholdDb').step = -1; });
+  assert.ok(has(t, 'GATE_LIMITS', 'step'));
+  assert.match(problems(t).find((p) => p.rule === 'step').message, /GATE_LIMITS\.thresholdDb: step -1 < 0/);
+});
+
+test('a travel field that resolves to anything but a finite number is refused', () => {
+  const t = texts((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.thresholdDb').max = { ref: 'FX_DELAY_PINGPONG_DEFAULT' }; });
+  assert.ok(has(t, 'GATE_LIMITS', 'finite'));
+  assert.match(problems(t).find((p) => p.rule === 'finite').message, /GATE_LIMITS\.thresholdDb\.max resolves to false/);
+});
+
 test('a reference that does not resolve is refused', () => {
   assert.ok(has(texts((d) => { d[relOf('XOVER_LIMITS')].XOVER_LIMITS.value.lr4SectionQ = { ref: 'BUTTERWORTH_QQ' }; }), 'XOVER_LIMITS', 'reference'));
 });
