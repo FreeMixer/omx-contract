@@ -81,6 +81,13 @@ Shapes a kernel file's items take beyond the sketch:
 `omx-contract validate` refuses any other key, a constant that is a travel or a set, and a kernel file written
 as a flat item map (the 1.x shape). `rates.json` and `primitives.json` stay item maps.
 
+## The JSON render's package
+
+Every item of `share/omx-contract/omx-contract.json` carries `package`, the package that declares it: `omx-contract`
+for a plain `data/` tree (one package, implicitly its own) or a contract directory's reader of one package alone;
+the installing package's name (`omx-dsp`, `omx-plugins`, …) for an item merged in from a contract directory of
+several (`docs/contract-dir.md`). A consumer of the merged read tells an item's owner without a side lookup (3.1.0).
+
 ## The JSON render's kernels
 
 Beside `items`, `share/omx-contract/omx-contract.json` carries `kernels`: for every kernel file, its controls in

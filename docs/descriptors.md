@@ -55,6 +55,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | `plugin` | `doc` | The plugin's one-line description, one word for both faces: CLAP `clap_plugin_descriptor.description`, LV2 `rdfs:comment`. Optional; one line | new (3.0.0) |
 | control | `name`, `doc`, `kind`, `ids`, `labels`, `values`, `default`, `count`, `when` | As in kernel files; `name` is the plugin's own name for the control | existing |
 | control | `kind`: `travel`, `choice` | A continuous or stepped travel; a list of named values | existing |
+| control | `unit` | A `choice`'s unit, beside its `values` (below); a travel's own unit is `travel.unit`, never this one | new (3.1.0) |
 | control | `kind`: `toggle`, `trigger` | On or off (LV2 `lv2:toggled`); a momentary action (LV2 `pprops:trigger`) | new |
 | control | `travel.min`, `.max`, `.step`, `.unit`, `.default`, `.defaultFrom`, `.scale` | Range, unit, scale (an id of `PARAM_SCALES`) and the come-up value | existing |
 | control | `id` | The host's handle: the CLAP `clap_id` (an integer) or the LV2 port symbol | new |
@@ -64,7 +65,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | control | `meaning` | What the control does, from the closed list below. A skin binds by meaning, never by id | new |
 | control | `hidden`, `readonly`, `automatable` | CLAP `IS_HIDDEN`, `IS_READONLY`, `IS_AUTOMATABLE`; LV2 `pprops:notOnGUI`, an output control | new |
 | control | `source` | The control's own links, in the place of the file's | existing |
-| `travel` | units `frames`, `bpm`, `midiNote`, `LUFS`, `deg`, `ratio` | Units a plugin uses that no item does (below) | new; `ratio` 3.0.0 |
+| `travel`, `choice` | units `frames`, `bpm`, `midiNote`, `LUFS`, `deg`, `ratio`, `m`, `dBu`, `dB/oct` | Units a plugin uses that no item does (below) | new; `ratio` 3.0.0, `m`/`dBu`/`dB/oct` 3.1.0 |
 | `travel` | `unit: "unknown"`, `scale: "unknown"` | The plugin states no unit or scale, or one with no word here | new |
 | `ports[]` | `id`, `name`, `kind` (`audio`, `midi`, `note`, `cv`), `direction` (`in`, `out`) | One entry per port, in the plugin's order | new |
 | `ports[]` | `role` (`main`, `sidechain`, `aux`), `channels`, `layout` (`mono`, `stereo`, `surround`) | An audio port's layout: CLAP audio ports (`IS_MAIN`, channel count, port type), LV2 `pg:` groups and `lv2:isSideChain` | new |
@@ -83,14 +84,14 @@ measurements of one machine and belong to a qualification record, which no descr
 | `kind` | Carries | Leaves out |
 |---|---|---|
 | `travel` | `travel`, with `unit` and `scale` always stated | `ids`, `labels`, `values` |
-| `choice` | `ids`; optionally `labels` (one per id), `values` (one number per id: the value the plugin reads for it) and a `default` among the ids | `travel` |
+| `choice` | `ids`; optionally `labels` (one per id), `values` and `unit` (one number per id, in `unit`: the value the plugin reads for it) and a `default` among the ids | `travel` |
 | `toggle` | optionally a boolean `default` | `travel`, `ids` |
 | `trigger` | nothing more: a trigger has no state, so no `default` | `travel`, `ids`, `default` |
 
 ### Units
 
-A descriptor's `travel.unit` is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x` and `""`), one of
-the six below, or `unknown`.
+A descriptor's `travel.unit`, and a `choice`'s own `unit` beside its `values`, is a unit of the item list (`dB dBFS
+ms s min Hz oct cents st % x` and `""`), one of the nine below, or `unknown`.
 
 | Unit | Taken from |
 |---|---|
@@ -100,9 +101,12 @@ the six below, or `unknown`.
 | `LUFS` | No LV2 unit: loudness, ITU-R BS.1770 |
 | `deg` | LV2 `units:degree`, whose symbol is `deg` |
 | `ratio` | No LV2 unit: a ratio `n:1`, a compressor's or a de-esser's (`""` says no unit, and an LV2 face writes none for it, so a scan could not tell the two apart) |
+| `m` | LV2 `units:m`, whose symbol is `m`: a distance a control measures (a reverb's room size, a modelled mic's placement) |
+| `dBu` | No LV2 unit: a level referenced to 0.775 V RMS, an audio interface's analogue headroom |
+| `dB/oct` | No LV2 unit: a filter's slope, a `choice`'s value (the EQ's `lpfSlope`/`hpfSlope`: `12`, `24`) |
 | `unknown` | The plugin states no unit (every CLAP parameter; an LV2 port without `units:unit`), or one with no word here; the LV2 unit stays in `source` |
 
-The item list stays the units the items use; these seven are for descriptors only.
+The item list stays the units the items use; these ten are for descriptors only.
 
 ### Scales
 
@@ -120,6 +124,7 @@ has the term, the meaning carries its name.
 | `delay` (a delay time) | `param:delay` |
 | `enabled` (on when the control is on; the inverse of `bypass`) | `lv2:enabled` |
 | `range`, `knee`, `hysteresis`, `makeup`, `lookahead`, `ceiling`, `output`, `q`, `slope`, `width`, `drive`, `tone`, `rate`, `depth`, `feedback`, `spread`, `predelay`, `size`, `damping`, `lowCut`, `highCut`, `shift`, `fine`, `sync`, `division`, `listen` | none |
+| `speed`, `shape`, `model`, `algorithm`, `mode`, `type`, `on`, `pingpong` | none (3.1.0): a rotary's speed, an EQ band's shape, a reverb's model, a drive's algorithm, a tremolo's or a de-esser's mode, an EQ band's type, a band or a section switched `on` (unlike `enabled`, the whole plugin's bypass inverse), a delay's ping-pong |
 | `unknown` | The plugin states no meaning |
 
 A control with no meaning in the list leaves `meaning` out and is shown by its `group` and `name`. A new meaning is
