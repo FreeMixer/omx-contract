@@ -12,7 +12,7 @@ vocabulary is mapped beside them, so a word is there before a consumer asks for 
 ```
 data/
   codes.json                   CONTRACT_CODES, the reader's own refusals (a tool table: not installed, not rendered)
-  primitives.json  rates.json  the parameter scales, the readout rate, the sample rates
+  primitives.json  rates.json  the parameter scales, the readout rate, the sample rates and quanta
   measurement.json             MEASUREMENT_*: how a figure was taken, why it is absent, what a verdict says
   resource-profile.json        RESOURCE_*: what a host plans a plugin for, and the host profile's budget shape
   machine-class.json           MACHINE_*: the machine a figure was taken on, and the classes a profile names
