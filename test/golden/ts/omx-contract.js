@@ -6548,6 +6548,19 @@ export const STANDARD_SAMPLE_RATES = [
 ];
 
 /**
+ * The quantum sizes (frames per processing block) the desk recognises, the same six values the console's own LATENCY_QUANTA names: one source of truth for a measurement grid's quantum axis, so plugin-qualify and the probe runner read it from here instead of each keeping its own literal list. plugin-qualify's own grid (QUALIFY_QUANTA) is its choice, a subset of this one.
+ * @see data/rates.json
+ */
+export const STANDARD_QUANTA = [
+  32,
+  64,
+  128,
+  256,
+  512,
+  1024
+];
+
+/**
  * THE declaration: 192 kHz at quantum 128.
  * @see data/rates.json
  */

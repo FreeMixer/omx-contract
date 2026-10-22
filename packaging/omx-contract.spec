@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.0.0
+Version: 3.1.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -82,6 +82,16 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Thu Oct 22 2026 Pau Aliagas <linuxnow@gmail.com> - 3.1.0-1
+- STANDARD_QUANTA is declared beside STANDARD_SAMPLE_RATES in rates.json: the
+  six quantum sizes (32 to 1024 frames) the console's own LATENCY_QUANTA
+  names, one source of truth for a measurement grid's quantum axis the way
+  STANDARD_SAMPLE_RATES is for its rate axis (#94). The unit list gains
+  samples. No existing define changes; OMX_STANDARD_QUANTA_COUNT and
+  OMX_STANDARD_QUANTA_INIT are new.
+- No owner needs a newer release, so the conflicts stay at omx-dsp-devel
+  0.25.0, omx-clap-core-devel 0.13.0 and omx-plugins-devel 0.13.0.
+
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 3.0.0-1
 - Schema major 3: the word formerly (a list's former name) and the word
   c.alias (a travel's second C spelling) are removed, x-omx-schema-version is

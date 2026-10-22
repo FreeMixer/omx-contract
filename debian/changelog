@@ -1,3 +1,16 @@
+omx-contract (3.1.0) unstable; urgency=medium
+
+  * STANDARD_QUANTA is declared beside STANDARD_SAMPLE_RATES in rates.json:
+    the six quantum sizes (32 to 1024 frames) the console's own LATENCY_QUANTA
+    names, one source of truth for a measurement grid's quantum axis the way
+    STANDARD_SAMPLE_RATES is for its rate axis (#94). The unit list gains
+    samples. No existing define changes; OMX_STANDARD_QUANTA_COUNT and
+    OMX_STANDARD_QUANTA_INIT are new.
+  * No owner needs a newer release, so the conflicts stay at omx-dsp-devel
+    0.25.0, omx-clap-core-devel 0.13.0 and omx-plugins-devel 0.13.0.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Thu, 22 Oct 2026 12:00:00 +0200
+
 omx-contract (3.0.0) unstable; urgency=medium
 
   * Schema major 3: the word formerly (a list's former name) and the word
