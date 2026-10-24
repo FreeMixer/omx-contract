@@ -29,7 +29,8 @@ omx-contract (3.1.0) unstable; urgency=medium
     band6GainDb, band1GainReductionDb to band5GainReductionDb, attackGainDb
     and sustainGainDb, declared by omx-dsp's kernel files.
   * The unit dB/oct, a slope in dB per octave, for the key tilt of the
-    compressor and the gate (FX-2, FX-5); cents was already a unit (FX-8).
+    compressor and the gate (FreeMixer/omx-dsp#188); cents, which the
+    doubler's detune needs, was already a unit.
   * It breaks nothing new: libomxdsp-dev before 0.25.0, libomx-clap-core-dev
     before 0.13.0 and omx-plugins-dev before 0.13.0 stay the floors.
 

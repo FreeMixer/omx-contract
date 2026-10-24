@@ -53,8 +53,8 @@ its map from a kind to the drawing that renders it.
 | `interval-map` | `input-pitch` (st) | `output-pitch` (st) | a pitch effect's input to output pitch |
 
 The first five are the graph kinds the omx-plugins schema carried; the last three are the remaining-FX wave's
-(FX-6). `modulation-shape` is the picture the schema's `lfo` stood for, which no plugin declared: one picture has
-one word, so `lfo` is not declared beside it.
+(FreeMixer/omx-contract#107). `modulation-shape` is the picture the schema's `lfo` stood for, which no plugin
+declared: one picture has one word, so `lfo` is not declared beside it.
 
 Each word of a words item that names `axes` names its `x` and its `y`, each a word of that item; each word of the
 axes item states its `unit` and `scale`. The validator refuses a kind with an axis missing or one that is no axis
