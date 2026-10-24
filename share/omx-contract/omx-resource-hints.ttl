@@ -1,0 +1,98 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+# GENERATED — DO NOT EDIT BY HAND.
+# Produced by `omx-contract render --target lv2` from RESOURCE_HINTS (data/resource-profile.json, docs/resource-hints.md):
+# the hints a plugin declares about its own footprint, as LV2 properties of a plugin.
+@prefix omxres: <https://freemixer.github.io/ns/resource-hints#> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://freemixer.github.io/ns/resource-hints>
+    a owl:Ontology ;
+    rdfs:label "openmixer resource hints" ;
+    rdfs:comment "What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried by the extension below, as the CLAP draft and as LV2 properties. A hint a plugin does not state is unknown, never zero." .
+
+omxres:resource
+    a owl:AnnotationProperty ;
+    rdfs:comment "The resource a hint declares, a word of RESOURCE_KINDS." .
+
+omxres:unit
+    a owl:AnnotationProperty ;
+    rdfs:comment "The unit of a hint's figure, a word of RESOURCE_UNITS." .
+
+omxres:basis
+    a owl:AnnotationProperty ;
+    rdfs:comment "How a hint's figure is known, a word of RESOURCE_BASES." .
+
+omxres:footprintAtRest
+    a rdf:Property , owl:DatatypeProperty ;
+    rdfs:label "footprint-at-rest" ;
+    rdfs:comment "The memory one instance holds at rest, once activated and idle, with no note playing." ;
+    rdfs:domain lv2:Plugin ;
+    rdfs:range xsd:unsignedLong ;
+    omxres:resource "memory" ;
+    omxres:unit "bytes" ;
+    omxres:basis "declared" .
+
+omxres:footprintPerVoice
+    a rdf:Property , owl:DatatypeProperty ;
+    rdfs:label "footprint-per-voice" ;
+    rdfs:comment "The memory each voice adds while it plays, for an instrument." ;
+    rdfs:domain lv2:Plugin ;
+    rdfs:range xsd:unsignedLong ;
+    omxres:resource "memory" ;
+    omxres:unit "bytes" ;
+    omxres:basis "declared" .
+
+omxres:sharedLoad
+    a rdf:Property , owl:DatatypeProperty ;
+    rdfs:label "shared-load" ;
+    rdfs:comment "The one-time load every instance of the plugin shares, counted once however many are instantiated." ;
+    rdfs:domain lv2:Plugin ;
+    rdfs:range xsd:unsignedLong ;
+    omxres:resource "memory" ;
+    omxres:unit "bytes" ;
+    omxres:basis "declared" .
+
+omxres:threadsSpawned
+    a rdf:Property , owl:DatatypeProperty ;
+    rdfs:label "threads-spawned" ;
+    rdfs:comment "The threads the plugin starts itself, apart from any it asks the host pool for." ;
+    rdfs:domain lv2:Plugin ;
+    rdfs:range xsd:unsignedInt ;
+    omxres:resource "threads" ;
+    omxres:unit "count" ;
+    omxres:basis "declared" .
+
+omxres:streamsFromDisk
+    a rdf:Property , owl:DatatypeProperty ;
+    rdfs:label "streams-from-disk" ;
+    rdfs:comment "Whether the plugin reads from disk while it processes." ;
+    rdfs:domain lv2:Plugin ;
+    rdfs:range xsd:boolean ;
+    omxres:resource "disk-io" ;
+    omxres:unit "flag" ;
+    omxres:basis "declared" .
+
+omxres:opensSockets
+    a rdf:Property , owl:DatatypeProperty ;
+    rdfs:label "opens-sockets" ;
+    rdfs:comment "Whether the plugin opens any socket." ;
+    rdfs:domain lv2:Plugin ;
+    rdfs:range xsd:boolean ;
+    omxres:resource "network" ;
+    omxres:unit "flag" ;
+    omxres:basis "declared" .
+
+omxres:activateTime
+    a rdf:Property , owl:DatatypeProperty ;
+    rdfs:label "activate-time" ;
+    rdfs:comment "The wall time of activate and the first block the plugin expects." ;
+    rdfs:domain lv2:Plugin ;
+    rdfs:range xsd:unsignedInt ;
+    omxres:resource "startup" ;
+    omxres:unit "ms" ;
+    omxres:basis "declared" .
