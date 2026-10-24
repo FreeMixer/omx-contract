@@ -7086,7 +7086,7 @@
     "RESOURCE_HINTS": {
       "rel": "data/resource-profile.json",
       "kind": "words",
-      "doc": "What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried as the CLAP draft and as LV2 properties named by extension. A hint a plugin does not state is unknown, never zero.",
+      "doc": "What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried by the extension below, as the CLAP draft and as LV2 properties. A hint a plugin does not state is unknown, never zero.",
       "groups": "RESOURCE_KINDS",
       "units": "RESOURCE_UNITS",
       "bases": "RESOURCE_BASES",

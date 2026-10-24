@@ -6830,7 +6830,7 @@ export const RESOURCE_THREAD_SCHEDULING = {
 };
 
 /**
- * What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried as the CLAP draft and as LV2 properties named by extension. A hint a plugin does not state is unknown, never zero.
+ * What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried by the extension below, as the CLAP draft and as LV2 properties. A hint a plugin does not state is unknown, never zero.
  * @see data/resource-profile.json
  */
 export const RESOURCE_HINTS = {
