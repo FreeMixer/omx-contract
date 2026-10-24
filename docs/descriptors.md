@@ -89,8 +89,8 @@ measurements of one machine and belong to a qualification record, which no descr
 
 ### Units
 
-A descriptor's `travel.unit` is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x` and `""`), one of
-the six below, or `unknown`.
+A descriptor's `travel.unit` is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x`, `""` and, since
+3.1.0, `dB/oct`, a slope such as a key filter's tilt, for which LV2 has no unit), one of the six below, or `unknown`.
 
 | Unit | Taken from |
 |---|---|
