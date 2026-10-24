@@ -96,8 +96,10 @@ test('a kind with an axis missing, an axis that is no axis word, or axes that na
 });
 
 test('an axis with no unit or no scale, or a scale that is no PARAM_SCALES id, is refused', () => {
-  assert.ok(has(texts((d) => { delete d[C].CURVE_AXES.words.frequency.scale; }), 'CURVE_AXES', 'axis'));
-  assert.ok(has(texts((d) => { delete d[C].CURVE_AXES.words.level.unit; delete d[C].CURVE_AXES.words.level.scale; }), 'CURVE_AXES', 'axis'));
+  const axis = (fn) => problems(texts(fn)).filter((p) => p.item === 'CURVE_AXES' && p.rule === 'axis').map((p) => p.message);
+  assert.deepEqual(axis((d) => { delete d[C].CURVE_AXES.words.frequency.scale; }), ['frequency carries a unit and no scale: an axis states both'], 'one fault, one message');
+  assert.deepEqual(axis((d) => { delete d[C].CURVE_AXES.words.magnitude.unit; }), ['magnitude carries a scale and no unit: an axis states both'], 'one fault, one message');
+  assert.deepEqual(axis((d) => { delete d[C].CURVE_AXES.words.level.unit; delete d[C].CURVE_AXES.words.level.scale; }), ['level is an axis of CURVE_KINDS and states no unit and no scale']);
   assert.ok(has(texts((d) => { d[C].CURVE_AXES.words.frequency.scale = 'exp'; }), 'CURVE_AXES', 'scale'));
   assert.match(problems(texts((d) => { d[C].CURVE_AXES.words.frequency.unit = 'volts'; })).map((p) => p.message).join('\n'), /unit must be equal to one of the allowed values/);
 });
