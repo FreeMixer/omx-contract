@@ -92,6 +92,12 @@ whose declarations it builds against.
   unit and scale. The five graph kinds of the omx-plugins schema are kept;
   comb-response, modulation-shape (the picture lfo stood for) and
   interval-map are added for the remaining-FX wave (#107).
+- Per-band readouts (docs/readouts.md): band<n> and the one-band name,
+  numbered from 1 in order with no gap and drawn alike; the validator refuses
+  a gap, a band out of order or a band drawn unlike the others
+  (readout-band). The grammar names the wave's readouts: band1GainDb to
+  band6GainDb, band1GainReductionDb to band5GainReductionDb, attackGainDb and
+  sustainGainDb, declared by omx-dsp's kernel files.
 - It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel
   before 0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
 
