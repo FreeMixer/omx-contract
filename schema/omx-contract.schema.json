@@ -20,8 +20,8 @@
   },
   "$defs": {
     "unit": {
-      "description": "The closed list of units the items use; \"s\" is seconds and \"min\" minutes, \"x\" is a multiplier, \"\" is a ratio or a fraction.",
-      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", ""]
+      "description": "The closed list of units the items use; \"s\" is seconds and \"min\" minutes, \"x\" is a multiplier, \"\" is a ratio or a fraction, \"dB/oct\" a slope in dB per octave (a tilt).",
+      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", "", "dB/oct"]
     },
     "descriptorUnit": {
       "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS and ratio, n:1, have no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
@@ -556,7 +556,7 @@
     "termRef": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*#[A-Za-z0-9][A-Za-z0-9._/+-]*$", "description": "<TERMS item>#<term>: one term of a format's vocabulary (data/formats/), the format word a word of ours borrows its name from." },
     "words": {
       "type": "object",
-      "description": "A closed vocabulary the qualification and its hosts speak (docs/data-layout.md): a lowerCamel name per word, the word as written, optionally the group it falls in (a word of the item `groups` names), its unit and basis (words of the items `units` and `bases` name), the format terms it is name-compatible with and one line of prose. The words and their order are the contract; a word is never reworded.",
+      "description": "A closed vocabulary the qualification and its hosts speak (docs/data-layout.md): a lowerCamel name per word, the word as written, optionally the group it falls in (a word of the item `groups` names), its unit and basis (words of the items `units` and `bases` name), the axes it is drawn on (words of the item `axes` names) or, for an axis, its unit and scale, the format terms it is name-compatible with and one line of prose. The words and their order are the contract; a word is never reworded.",
       "properties": {
         "kind": { "const": "words" },
         "since": { "$ref": "#/$defs/since" },
@@ -564,6 +564,7 @@
         "doc": { "$ref": "#/$defs/text" },
         "why": { "$ref": "#/$defs/text" },
         "groups": { "$ref": "#/$defs/name" },
+        "axes": { "$ref": "#/$defs/name", "description": "The words item whose words are the axes this item's words are drawn on (docs/curves.md): every word then names its x and its y." },
         "units": { "$ref": "#/$defs/name" },
         "bases": { "$ref": "#/$defs/name" },
         "extension": {
@@ -592,6 +593,10 @@
             "properties": {
               "word": { "$ref": "#/$defs/word" },
               "group": { "$ref": "#/$defs/word" },
+              "x": { "$ref": "#/$defs/word", "description": "The horizontal axis: a word of the item `axes` names." },
+              "y": { "$ref": "#/$defs/word", "description": "The vertical axis: a word of the item `axes` names." },
+              "unit": { "$ref": "#/$defs/unit", "description": "An axis word's unit, one of the items' units." },
+              "scale": { "type": "string", "pattern": "^[a-z]+$", "description": "An axis word's scale, how a host draws it: an id of PARAM_SCALES." },
               "figureUnit": { "$ref": "#/$defs/word" },
               "basis": { "$ref": "#/$defs/word" },
               "from": { "type": "array", "items": { "$ref": "#/$defs/termRef" }, "minItems": 1, "uniqueItems": true },

@@ -66,9 +66,31 @@ when the last design in `true` mode asked a section for more than GEQ_DESIGN_GAI
 host shows that the curve could not be met instead of the solve clamping silently. The design step derives it; no
 host writes it.
 
-Not declared yet: the band dynamics and the transient designer (a gain per band, or one that boosts as well as
-cuts, each a readout of its own when a host draws it), a level meter (the strip's input and output peak are the
-strip's, not a kernel's) and the analysers (rta, fbs), whose output is a spectrum, not a value.
+## Per-band readouts
+
+A kernel with bands reports one readout per band, named `band<n>` and the name the one-band readout has with its
+first letter raised: `gainReductionDb` per band is `band1GainReductionDb`, `band2GainReductionDb`, and so on. The
+bands are numbered from 1 with no leading zero and declared in order, with no gap and side by side (no other
+readout between two bands of one name), so band n's meter id is the first band's id plus n - 1, and every band of
+one name is drawn alike (one unit, range, scale and rate), since a host draws them as one row of meters. The
+validator refuses a band 0 or a zero-padded number, a gap, a band out of order, a readout between two bands and a
+band drawn unlike the others (`readout-band`).
+
+The remaining-FX wave's kernel files declare these in omx-dsp (FreeMixer/omx-dsp#188), in this grammar:
+
+| kernel | readouts | unit | range | why |
+|---|---|---|---|---|
+| dyneq, the dynamic EQ | `band1GainDb` … `band6GainDb` | dB | the band's dynamic range travel, −24 to +12 | the gain the band's dynamics applies now, both ways: a cut negative, a boost positive |
+| mbcomp, the multiband compressor | `band1GainReductionDb` … `band5GainReductionDb` | dB | the band threshold's travel to 0 | each band's gain reduction, CLAP's sign as `gainReductionDb` |
+| transient, the transient designer | `attackGainDb`, `sustainGainDb` | dB | `TRANSIENT_LIMITS.attackDb` and `.sustainDb`, −24 to +24 | the gain the attack and the sustain stages apply now, both ways |
+
+The multiband's reduction is `band<n>GainReductionDb`, not an abbreviation such as `band<n>GrDb`: it is the
+compressor's own `gainReductionDb` per band, and one quantity has one spelling. All are `linear` (a dB value is
+already the logarithm) at READOUT_RATE_HZ. The ranges are read off the kernel's own travels in its file, never
+restated here.
+
+Not declared yet: a level meter (the strip's input and output peak are the strip's, not a kernel's) and the
+analysers (rta, fbs), whose output is a spectrum, not a value.
 
 ## scale
 
