@@ -20,13 +20,14 @@ make install-cli PREFIX=/usr DESTDIR=…   # the omx-contract command, its files
 npm ci
 node bin/omx-contract.mjs validate                       # schema + semantic checks
 node bin/omx-contract.mjs fmt [--check]                  # the one formatting
-node bin/omx-contract.mjs render --target c|ts|json --out <dir> [--check]
+node bin/omx-contract.mjs render --target c|ts|json|lv2 --out <dir> [--check]
 node bin/omx-contract.mjs semver <previous tag>          # exit 1 if the version bump is short
 ```
 
 Exit 0 is a pass, 1 a failure naming file, item and rule, 2 a usage or environment error. A change to
 `data/` is followed by `render --target c --out include`, `render --target json --out
-share/omx-contract` and `render --target ts --out test/golden/ts`; CI holds all three to the data.
+share/omx-contract`, `render --target lv2 --out share/omx-contract` and `render --target ts --out test/golden/ts`;
+CI holds all four to the data.
 
 ## Layout
 

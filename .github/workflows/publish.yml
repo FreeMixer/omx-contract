@@ -47,6 +47,7 @@ jobs:
           node bin/omx-contract.mjs validate
           node bin/omx-contract.mjs render --target c --out include --check
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check
+          node bin/omx-contract.mjs render --target lv2 --out share/omx-contract --check
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check
           npm test
           node tools/proof/round-trip.mjs --quiet
