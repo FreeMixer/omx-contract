@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.0.0
+Version: 3.1.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -82,6 +82,19 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sat Oct 24 2026 Pau Aliagas <linuxnow@gmail.com> - 3.1.0-1
+- Schema 3.1.0: a words item may name the item its words are drawn on
+  (axes); a word then names its x and y, and an axis word states its unit
+  and scale. The validator refuses a missing or unknown axis (word-axis) and
+  an axis with no unit or scale (axis).
+- The curve kinds (docs/curves.md): CURVE_KINDS declares the eight kinds of
+  picture a panel draws, each with its two axes, and CURVE_AXES each axis's
+  unit and scale. The five graph kinds of the omx-plugins schema are kept;
+  comb-response, modulation-shape (the picture lfo stood for) and
+  interval-map are added for the remaining-FX wave (#107).
+- It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel
+  before 0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
+
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 3.0.0-1
 - Schema major 3: the word formerly (a list's former name) and the word
   c.alias (a travel's second C spelling) are removed, x-omx-schema-version is

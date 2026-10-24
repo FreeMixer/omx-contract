@@ -1,3 +1,19 @@
+omx-contract (3.1.0) unstable; urgency=medium
+
+  * Schema 3.1.0: a words item may name the item its words are drawn on
+    (axes); a word then names its x and y, and an axis word states its unit
+    and scale. The validator refuses a missing or unknown axis (word-axis)
+    and an axis with no unit or scale (axis).
+  * The curve kinds (docs/curves.md): CURVE_KINDS declares the eight kinds of
+    picture a panel draws, each with its two axes, and CURVE_AXES each axis's
+    unit and scale. The five graph kinds of the omx-plugins schema are kept;
+    comb-response, modulation-shape (the picture lfo stood for) and
+    interval-map are added for the remaining-FX wave (#107).
+  * It breaks nothing new: libomxdsp-dev before 0.25.0, libomx-clap-core-dev
+    before 0.13.0 and omx-plugins-dev before 0.13.0 stay the floors.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Sat, 24 Oct 2026 09:30:00 +0200
+
 omx-contract (3.0.0) unstable; urgency=medium
 
   * Schema major 3: the word formerly (a list's former name) and the word
