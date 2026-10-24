@@ -5,7 +5,7 @@
 /**
  * The axes a curve kind is drawn on, each with its unit and how a host draws it (docs/curves.md). A curve's values are in these units, so the drawn values can be held equal to the closed form a kernel's controls give.
  *
- * Why: A curve kind names its axes (the remaining-FX wave, openmixer docs/design/specs/2026-10-18-remaining-fx.md section 8, L1): an axis is declared once and every kind drawn on it reads the same unit and scale.
+ * Why: A curve kind names its axes (the remaining-FX wave, FreeMixer/omx-contract#107): an axis is declared once and every kind drawn on it reads the same unit and scale.
  * @see data/curves.json
  */
 export const CURVE_AXES = {
@@ -92,7 +92,7 @@ export const CURVE_AXES = {
 /**
  * The kinds of picture a plugin's panel section draws and a console's card shows, each with the two axes it is drawn on (docs/curves.md). A kernel file and a plugin declaration name a kind by its word; a host keeps only its kind-to-drawing map. Append-only: a kind is never renamed, moved or removed while a reader draws it.
  *
- * Why: Declared once here and read by the omx-plugins schema and the console's curve registry (remaining-FX spec, section 10 Q2 and FX-6). The first five are the omx-plugins schema's graph kinds as they were; comb-response, modulation-shape and interval-map are the kinds FX-6 adds. modulation-shape is the picture the schema's unused lfo stood for.
+ * Why: Declared once here and read by the omx-plugins schema and the console's curve registry (the remaining-FX wave, FreeMixer/omx-contract#107, its card FX-6). The first five are the omx-plugins schema's graph kinds as they were; comb-response, modulation-shape and interval-map are the kinds FX-6 adds. modulation-shape is the picture the schema's unused lfo stood for.
  * @see data/curves.json
  */
 export const CURVE_KINDS = {
