@@ -3,14 +3,14 @@
 # GENERATED — DO NOT EDIT BY HAND.
 # Produced by `omx-contract render --target lv2` from RESOURCE_HINTS (data/resource-profile.json, docs/resource-hints.md):
 # the hints a plugin declares about its own footprint, as LV2 properties of a plugin.
-@prefix omxres: <https://freemixer.github.io/ns/resource-hints#> .
+@prefix omxres: <https://www.openmixer.org/ns/resource-hints#> .
 @prefix lv2: <http://lv2plug.in/ns/lv2core#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://freemixer.github.io/ns/resource-hints>
+<https://www.openmixer.org/ns/resource-hints>
     a owl:Ontology ;
     rdfs:label "openmixer resource hints" ;
     rdfs:comment "What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried by the extension below, as the CLAP draft and as LV2 properties. A hint a plugin does not state is unknown, never zero." .
