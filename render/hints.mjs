@@ -6,7 +6,7 @@
  * properties as Turtle (`omx-resource-hints.ttl`, the `lv2` target). Neither restates a hint: the order, the units,
  * the types and the prose are read from the item.
  */
-import { HINT_UNITS, constOf, hintItems, memberOf } from '../lib/hints.mjs';
+import { constOf, hintItems, memberOf, unitOf } from '../lib/hints.mjs';
 import { cStringLiteral } from './c/contract-limits-render.mjs';
 
 const oneLine = (s) => String(s ?? '').replace(/\s+/g, ' ').trim();
@@ -23,7 +23,7 @@ export function renderHintsHeader(resolved) {
   const hints = Object.entries(item.value);
   const id = item.extension.clap;
   const bits = hints.map(([k, w], i) => `#define OMX_RESOURCE_HINT_${constOf(k)} (1u << ${i}) ///< ${oneLine(w.doc)} (${w.figureUnit})`);
-  const members = hints.map(([, w]) => `    ${HINT_UNITS[w.figureUnit].c} ${memberOf(w.word)}; ///< ${oneLine(w.doc)} (${w.figureUnit})`);
+  const members = hints.map(([k, w]) => `    ${unitOf(k, w).c} ${memberOf(w.word)}; ///< ${oneLine(w.doc)} (${w.figureUnit})`);
   return `// SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 #ifndef OMX_RESOURCE_HINTS_H
@@ -102,7 +102,7 @@ export function renderHintsTurtle(resolved) {
       `    rdfs:label ${ttlString(w.word)} ;`,
       `    rdfs:comment ${ttlString(w.doc)} ;`,
       '    rdfs:domain lv2:Plugin ;',
-      `    rdfs:range xsd:${HINT_UNITS[w.figureUnit].xsd} ;`,
+      `    rdfs:range xsd:${unitOf(k, w).xsd} ;`,
       `    ${prefix}:resource ${ttlString(w.group)} ;`,
       `    ${prefix}:unit ${ttlString(w.figureUnit)} ;`,
       `    ${prefix}:basis ${ttlString(w.basis)}`,
