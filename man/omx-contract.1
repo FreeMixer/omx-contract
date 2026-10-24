@@ -12,7 +12,7 @@ omx-contract \- validate, format and render the FreeMixer declarations
 .RI [ input ]
 .br
 .B omx-contract render \-\-target
-.BR c | ts | json
+.BR c | ts | json | lv2
 .B \-\-out
 .I dir
 .RB [ \-\-check ]
@@ -86,7 +86,7 @@ Rewrite the input in the one formatting, or with
 only report the files that differ.
 .TP
 .B render
-Write the C, TypeScript or JSON render of the input into
+Write the C, TypeScript, JSON or LV2 (Turtle) render of the input into
 .IR dir ,
 or with
 .B \-\-check

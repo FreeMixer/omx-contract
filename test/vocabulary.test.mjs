@@ -35,6 +35,16 @@ test('a group that is no word of the item groups names, or a group with no group
   assert.ok(has(texts((d) => { d[M].MEASUREMENT_UNMEASURED_REASONS.groups = 'RT_HARD_TARGET'; }), 'MEASUREMENT_UNMEASURED_REASONS', 'word-group'));
 });
 
+test('a unit or a basis that is no word of the item named, or one with no item named, is refused', () => {
+  const withUnits = (d) => { d[R].RESOURCE_KINDS.units = 'RESOURCE_UNITS'; d[R].RESOURCE_KINDS.bases = 'RESOURCE_BASES'; };
+  // positive control: a unit and a basis the items hold pass, so the red arms below are the rule's and not the setup's
+  assert.deepEqual(problems(texts((d) => { withUnits(d); d[R].RESOURCE_KINDS.words.tail.figureUnit = 'ms'; d[R].RESOURCE_KINDS.words.tail.basis = 'declared'; })), []);
+  assert.ok(has(texts((d) => { withUnits(d); d[R].RESOURCE_KINDS.words.tail.figureUnit = 'furlongs'; }), 'RESOURCE_KINDS', 'word-unit'));
+  assert.ok(has(texts((d) => { withUnits(d); d[R].RESOURCE_KINDS.words.tail.basis = 'guessed'; }), 'RESOURCE_KINDS', 'word-basis'));
+  assert.ok(has(texts((d) => { d[R].RESOURCE_KINDS.words.tail.figureUnit = 'ms'; }), 'RESOURCE_KINDS', 'word-unit'));
+  assert.ok(has(texts((d) => { d[R].RESOURCE_KINDS.bases = 'RT_HARD_TARGET'; d[R].RESOURCE_KINDS.words.tail.basis = 'declared'; }), 'RESOURCE_KINDS', 'word-basis'));
+});
+
 test('a from that names no term, or no terms item, is refused', () => {
   assert.ok(has(texts((d) => { d[R].RESOURCE_KINDS.words.tail.from = ['CLAP_EXT_TAIL_TERMS#tails']; }), 'RESOURCE_KINDS', 'word-from'));
   assert.ok(has(texts((d) => { d[R].RESOURCE_KINDS.words.tail.from = ['RT_HARD_TARGET#tail']; }), 'RESOURCE_KINDS', 'word-from'));

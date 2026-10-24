@@ -5804,6 +5804,10 @@ export declare const RESOURCE_UNITS: {
   readonly ratio: {
     readonly word: "ratio";
   };
+  readonly flag: {
+    readonly word: "flag";
+    readonly doc: "A yes or a no: one when the plugin does the thing, zero when it does not.";
+  };
 };
 
 /**
@@ -5915,6 +5919,62 @@ export declare const RESOURCE_THREAD_SCHEDULING: {
 };
 
 /**
+ * What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried by the extension below, as the CLAP draft and as LV2 properties. A hint a plugin does not state is unknown, never zero.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_HINTS: {
+  readonly footprintAtRest: {
+    readonly word: "footprint-at-rest";
+    readonly group: "memory";
+    readonly figureUnit: "bytes";
+    readonly basis: "declared";
+    readonly doc: "The memory one instance holds at rest, once activated and idle, with no note playing.";
+  };
+  readonly footprintPerVoice: {
+    readonly word: "footprint-per-voice";
+    readonly group: "memory";
+    readonly figureUnit: "bytes";
+    readonly basis: "declared";
+    readonly doc: "The memory each voice adds while it plays, for an instrument.";
+  };
+  readonly sharedLoad: {
+    readonly word: "shared-load";
+    readonly group: "memory";
+    readonly figureUnit: "bytes";
+    readonly basis: "declared";
+    readonly doc: "The one-time load every instance of the plugin shares, counted once however many are instantiated.";
+  };
+  readonly threadsSpawned: {
+    readonly word: "threads-spawned";
+    readonly group: "threads";
+    readonly figureUnit: "count";
+    readonly basis: "declared";
+    readonly doc: "The threads the plugin starts itself, apart from any it asks the host pool for.";
+  };
+  readonly streamsFromDisk: {
+    readonly word: "streams-from-disk";
+    readonly group: "disk-io";
+    readonly figureUnit: "flag";
+    readonly basis: "declared";
+    readonly doc: "Whether the plugin reads from disk while it processes.";
+  };
+  readonly opensSockets: {
+    readonly word: "opens-sockets";
+    readonly group: "network";
+    readonly figureUnit: "flag";
+    readonly basis: "declared";
+    readonly doc: "Whether the plugin opens any socket.";
+  };
+  readonly activateTime: {
+    readonly word: "activate-time";
+    readonly group: "startup";
+    readonly figureUnit: "ms";
+    readonly basis: "declared";
+    readonly doc: "The wall time of activate and the first block the plugin expects.";
+  };
+};
+
+/**
  * The words of MACHINE_CLASS_FIELDS, in their declared order.
  * @see data/machine-class.json
  */
@@ -6020,7 +6080,7 @@ export declare const RESOURCE_KINDS_WORDS: readonly ["cpu", "memory", "scratch-m
  * The words of RESOURCE_UNITS, in their declared order.
  * @see data/resource-profile.json
  */
-export declare const RESOURCE_UNITS_WORDS: readonly ["ns-per-sample", "frames", "ms", "us", "s", "bytes", "count", "ratio"];
+export declare const RESOURCE_UNITS_WORDS: readonly ["ns-per-sample", "frames", "ms", "us", "s", "bytes", "count", "ratio", "flag"];
 
 /**
  * The words of RESOURCE_BASES, in their declared order.
@@ -6063,3 +6123,9 @@ export declare const RESOURCE_HOST_LATENCY_HANDLING_WORDS: readonly ["compensate
  * @see data/resource-profile.json
  */
 export declare const RESOURCE_THREAD_SCHEDULING_WORDS: readonly ["none", "fifo"];
+
+/**
+ * The words of RESOURCE_HINTS, in their declared order.
+ * @see data/resource-profile.json
+ */
+export declare const RESOURCE_HINTS_WORDS: readonly ["footprint-at-rest", "footprint-per-voice", "shared-load", "threads-spawned", "streams-from-disk", "opens-sockets", "activate-time"];
