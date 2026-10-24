@@ -257,7 +257,7 @@
       "clap": "org.openmixer.resource-hints.draft/0",
       "lv2": {
         "prefix": "omxres",
-        "namespace": "https://freemixer.github.io/ns/resource-hints#"
+        "namespace": "https://www.openmixer.org/ns/resource-hints#"
       }
     },
     "words": {
