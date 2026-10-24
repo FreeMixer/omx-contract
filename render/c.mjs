@@ -15,6 +15,7 @@ import {
 import { ownerNames, renderOwnerHeader } from './c/owner-headers.mjs';
 import { doors, isNativeTable } from './doors.mjs';
 import { packageItems } from '../lib/data.mjs';
+import { HINTS_HEADER, renderHintsHeader } from './hints.mjs';
 import { packageVocabularyC, renderVocabularyHeader } from './vocabulary.mjs';
 
 const defined = (text) => new Set([...text.matchAll(/^#define (OMX_\w+)/gm)].map((m) => m[1]));
@@ -220,6 +221,8 @@ export function renderC(resolved, { pkg } = {}) {
   for (const h of ownerHeaders(resolved, { all: true })) if (!h.omx) files.push({ path: `omxcontract/${h.path}`, text: h.text });
   const vocabulary = renderVocabularyHeader(resolved);
   if (vocabulary) files.push({ path: 'omxcontract/omx_vocabulary.h', text: vocabulary });
+  const hints = renderHintsHeader(resolved);
+  if (hints) files.push({ path: HINTS_HEADER, text: hints });
   return files;
 }
 

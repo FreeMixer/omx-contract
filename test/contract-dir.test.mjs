@@ -121,8 +121,8 @@ test('read back through the reader, omx-contract renders c, ts and json byte for
   const json = renderJson(a, contractVersion(fromDir, 'none'));
   assert.equal(contractVersion(fromDir, 'none'), VERSION, 'the json render carries the manifest\'s version');
   assert.equal(json[0].text, readFileSync(join(ROOT, 'share/omx-contract/omx-contract.json'), 'utf8'));
-  for (const target of ['c', 'json', 'ts']) {
-    const out = { c: 'include', json: 'share/omx-contract', ts: 'test/golden/ts' }[target];
+  for (const target of ['c', 'json', 'lv2', 'ts']) {
+    const out = { c: 'include', json: 'share/omx-contract', lv2: 'share/omx-contract', ts: 'test/golden/ts' }[target];
     assert.equal(main(['render', '--target', target, '--out', join(ROOT, out), '--check', '--contract-dir', root]), 0, target);
   }
   assert.equal(main(['validate', '--contract-dir', root]), 0);

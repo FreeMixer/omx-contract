@@ -6858,6 +6858,10 @@ export const RESOURCE_UNITS = {
   },
   "ratio": {
     "word": "ratio"
+  },
+  "flag": {
+    "word": "flag",
+    "doc": "A yes or a no: one when the plugin does the thing, zero when it does not."
   }
 };
 
@@ -6966,6 +6970,62 @@ export const RESOURCE_THREAD_SCHEDULING = {
   },
   "fifo": {
     "word": "fifo"
+  }
+};
+
+/**
+ * What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried by the extension below, as the CLAP draft and as LV2 properties. A hint a plugin does not state is unknown, never zero.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_HINTS = {
+  "footprintAtRest": {
+    "word": "footprint-at-rest",
+    "group": "memory",
+    "figureUnit": "bytes",
+    "basis": "declared",
+    "doc": "The memory one instance holds at rest, once activated and idle, with no note playing."
+  },
+  "footprintPerVoice": {
+    "word": "footprint-per-voice",
+    "group": "memory",
+    "figureUnit": "bytes",
+    "basis": "declared",
+    "doc": "The memory each voice adds while it plays, for an instrument."
+  },
+  "sharedLoad": {
+    "word": "shared-load",
+    "group": "memory",
+    "figureUnit": "bytes",
+    "basis": "declared",
+    "doc": "The one-time load every instance of the plugin shares, counted once however many are instantiated."
+  },
+  "threadsSpawned": {
+    "word": "threads-spawned",
+    "group": "threads",
+    "figureUnit": "count",
+    "basis": "declared",
+    "doc": "The threads the plugin starts itself, apart from any it asks the host pool for."
+  },
+  "streamsFromDisk": {
+    "word": "streams-from-disk",
+    "group": "disk-io",
+    "figureUnit": "flag",
+    "basis": "declared",
+    "doc": "Whether the plugin reads from disk while it processes."
+  },
+  "opensSockets": {
+    "word": "opens-sockets",
+    "group": "network",
+    "figureUnit": "flag",
+    "basis": "declared",
+    "doc": "Whether the plugin opens any socket."
+  },
+  "activateTime": {
+    "word": "activate-time",
+    "group": "startup",
+    "figureUnit": "ms",
+    "basis": "declared",
+    "doc": "The wall time of activate and the first block the plugin expects."
   }
 };
 
@@ -7220,7 +7280,8 @@ export const RESOURCE_UNITS_WORDS = [
   "s",
   "bytes",
   "count",
-  "ratio"
+  "ratio",
+  "flag"
 ];
 
 /**
@@ -7289,4 +7350,18 @@ export const RESOURCE_HOST_LATENCY_HANDLING_WORDS = [
 export const RESOURCE_THREAD_SCHEDULING_WORDS = [
   "none",
   "fifo"
+];
+
+/**
+ * The words of RESOURCE_HINTS, in their declared order.
+ * @see data/resource-profile.json
+ */
+export const RESOURCE_HINTS_WORDS = [
+  "footprint-at-rest",
+  "footprint-per-voice",
+  "shared-load",
+  "threads-spawned",
+  "streams-from-disk",
+  "opens-sockets",
+  "activate-time"
 ];
