@@ -88,6 +88,14 @@ whose declarations it builds against.
   extension and the prefix and namespace of LV2 properties); a word may carry
   a unit and a basis. The validator refuses a unit or basis that is no word of
   the item named (word-unit, word-basis).
+- The resource hints (docs/resource-hints.md): RESOURCE_HINTS declares the
+  seven hints a plugin states about its own footprint, each with its resource,
+  unit and basis, and the flag unit joins RESOURCE_UNITS. The CLAP draft
+  org.openmixer.resource-hints.draft/0 is rendered as
+  omxcontract/omx_resource_hints.h and the LV2 properties of the omxres
+  namespace as share/omx-contract/omx-resource-hints.ttl, by the new render
+  --target lv2. The ts and json renders carry the item. Each carrier has a
+  conformance test with a sabotage.
 
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 3.0.0-1
 - Schema major 3: the word formerly (a list's former name) and the word
