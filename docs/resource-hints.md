@@ -41,7 +41,8 @@ The hints: `footprint-at-rest` and `footprint-per-voice` and `shared-load` (byte
 The CLAP header declares the extension id, one bit per hint in the order of the declaration
 (`OMX_RESOURCE_HINT_<NAME>`), and the structure a plugin fills: one member per hint, typed by its unit (bytes a
 `uint64_t`, a count and a time in milliseconds a `uint32_t`, a flag a `bool`), and `declared`, the mask of the hints
-the plugin states. A hint whose bit is clear is unknown, never zero: a host reads an unknown resource as unknown, and
+the plugin states (a mask name; the word `declared` of `RESOURCE_BASES` is the hint's basis, how a figure is known, and
+the two are unrelated). A hint whose bit is clear is unknown, never zero: a host reads an unknown resource as unknown, and
 omx-clap-core's host reads the structure from the plugin's `get_extension`. The header carries no function the
 plugin must export beyond `get`, and no CLAP code leaves omx-clap-core.
 
