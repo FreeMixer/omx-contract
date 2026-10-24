@@ -98,6 +98,8 @@ whose declarations it builds against.
   (readout-band). The grammar names the wave's readouts: band1GainDb to
   band6GainDb, band1GainReductionDb to band5GainReductionDb, attackGainDb and
   sustainGainDb, declared by omx-dsp's kernel files.
+- The unit dB/oct, a slope in dB per octave, for the key tilt of the
+  compressor and the gate (FX-2, FX-5); cents was already a unit (FX-8).
 - It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel
   before 0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
 
