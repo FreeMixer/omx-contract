@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.0.0
+Version: 3.1.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -82,6 +82,13 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sat Oct 24 2026 Pau Aliagas <linuxnow@gmail.com> - 3.1.0-1
+- Schema 3.1.0: a words item may name the items its words take a unit and a
+  basis from (units, bases) and declare an extension (the id of a CLAP
+  extension and the prefix and namespace of LV2 properties); a word may carry
+  a unit and a basis. The validator refuses a unit or basis that is no word of
+  the item named (word-unit, word-basis).
+
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 3.0.0-1
 - Schema major 3: the word formerly (a list's former name) and the word
   c.alias (a travel's second C spelling) are removed, x-omx-schema-version is
