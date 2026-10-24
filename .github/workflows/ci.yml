@@ -33,6 +33,7 @@ jobs:
         run: |
           node bin/omx-contract.mjs render --target c --out include --check
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check
+          node bin/omx-contract.mjs render --target lv2 --out share/omx-contract --check
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check
       - id: handback-contract-dir
         name: The data installed as the contract directory renders the same bytes, and its links hold
@@ -43,6 +44,7 @@ jobs:
           node bin/omx-contract.mjs fmt --check --contract-dir "$dir"
           node bin/omx-contract.mjs render --target c --out include --check --contract-dir "$dir"
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check --contract-dir "$dir"
+          node bin/omx-contract.mjs render --target lv2 --out share/omx-contract --check --contract-dir "$dir"
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check --contract-dir "$dir"
           node bin/omx-contract.mjs links --check
       - id: handback-installed-cli

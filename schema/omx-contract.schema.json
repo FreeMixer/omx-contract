@@ -556,7 +556,7 @@
     "termRef": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*#[A-Za-z0-9][A-Za-z0-9._/+-]*$", "description": "<TERMS item>#<term>: one term of a format's vocabulary (data/formats/), the format word a word of ours borrows its name from." },
     "words": {
       "type": "object",
-      "description": "A closed vocabulary the qualification and its hosts speak (docs/data-layout.md): a lowerCamel name per word, the word as written, optionally the group it falls in (a word of the item `groups` names), the axes it is drawn on (words of the item `axes` names) or, for an axis, its unit and scale, the format terms it is name-compatible with and one line of prose. The words and their order are the contract; a word is never reworded.",
+      "description": "A closed vocabulary the qualification and its hosts speak (docs/data-layout.md): a lowerCamel name per word, the word as written, optionally the group it falls in (a word of the item `groups` names), its unit and basis (words of the items `units` and `bases` name), the axes it is drawn on (words of the item `axes` names) or, for an axis, its unit and scale, the format terms it is name-compatible with and one line of prose. The words and their order are the contract; a word is never reworded.",
       "properties": {
         "kind": { "const": "words" },
         "since": { "$ref": "#/$defs/since" },
@@ -565,6 +565,26 @@
         "why": { "$ref": "#/$defs/text" },
         "groups": { "$ref": "#/$defs/name" },
         "axes": { "$ref": "#/$defs/name", "description": "The words item whose words are the axes this item's words are drawn on (docs/curves.md): every word then names its x and its y." },
+        "units": { "$ref": "#/$defs/name" },
+        "bases": { "$ref": "#/$defs/name" },
+        "extension": {
+          "type": "object",
+          "description": "The carriers of a words item that declares what a plugin states about itself (docs/resource-hints.md): clap, the id of the CLAP extension, and lv2, the prefix and the namespace of the properties.",
+          "properties": {
+            "clap": { "type": "string", "pattern": "^org\\.[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+/[0-9]+$" },
+            "lv2": {
+              "type": "object",
+              "properties": {
+                "prefix": { "type": "string", "pattern": "^[a-z][a-z0-9]*$" },
+                "namespace": { "type": "string", "pattern": "^https?://[^\\s<>\"]+[#/]$" }
+              },
+              "required": ["prefix", "namespace"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["clap", "lv2"],
+          "additionalProperties": false
+        },
         "words": {
           "type": "object",
           "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
@@ -577,6 +597,8 @@
               "y": { "$ref": "#/$defs/word", "description": "The vertical axis: a word of the item `axes` names." },
               "unit": { "$ref": "#/$defs/unit", "description": "An axis word's unit, one of the items' units." },
               "scale": { "type": "string", "pattern": "^[a-z]+$", "description": "An axis word's scale, how a host draws it: an id of PARAM_SCALES." },
+              "figureUnit": { "$ref": "#/$defs/word" },
+              "basis": { "$ref": "#/$defs/word" },
               "from": { "type": "array", "items": { "$ref": "#/$defs/termRef" }, "minItems": 1, "uniqueItems": true },
               "doc": { "$ref": "#/$defs/text" }
             },

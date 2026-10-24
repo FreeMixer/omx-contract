@@ -14,7 +14,8 @@ data/
   codes.json                   CONTRACT_CODES, the reader's own refusals (a tool table: not installed, not rendered)
   primitives.json  rates.json  the parameter scales, the readout rate, the sample rates
   measurement.json             MEASUREMENT_*: how a figure was taken, why it is absent, what a verdict says
-  resource-profile.json        RESOURCE_*: what a host plans a plugin for, and the host profile's budget shape
+  resource-profile.json        RESOURCE_*: what a host plans a plugin for, the host profile's budget shape and the
+                               hints a plugin declares about itself (docs/resource-hints.md)
   machine-class.json           MACHINE_*: the machine a figure was taken on, and the classes a profile names
   curves.json                  CURVE_*: the kinds of picture a panel draws, and the axes each is drawn on
   formats/lv2/<spec>.json      LV2_<SPEC>_TERMS: the terms of the LV2 specification bundle <spec>.lv2

@@ -83,7 +83,20 @@ whose declarations it builds against.
 
 %changelog
 * Sat Oct 24 2026 Pau Aliagas <linuxnow@gmail.com> - 3.1.0-1
-- Schema 3.1.0: a words item may name the item its words are drawn on
+- Schema 3.1.0: a words item may name the items its words take a unit and a
+  basis from (units, bases) and declare an extension (the id of a CLAP
+  extension and the prefix and namespace of LV2 properties); a word may carry
+  a unit and a basis. The validator refuses a unit or basis that is no word of
+  the item named (word-unit, word-basis).
+- The resource hints (docs/resource-hints.md): RESOURCE_HINTS declares the
+  seven hints a plugin states about its own footprint, each with its resource,
+  unit and basis, and the flag unit joins RESOURCE_UNITS. The CLAP draft
+  org.openmixer.resource-hints.draft/0 is rendered as
+  omxcontract/omx_resource_hints.h and the LV2 properties of the omxres
+  namespace as share/omx-contract/omx-resource-hints.ttl, by the new render
+  --target lv2. The ts and json renders carry the item. Each carrier has a
+  conformance test with a sabotage.
+- Schema 3.1.0 also lets a words item name the item its words are drawn on
   (axes); a word then names its x and y, and an axis word states its unit
   and scale. The validator refuses a missing or unknown axis (word-axis) and
   an axis with no unit or scale (axis).
@@ -100,8 +113,6 @@ whose declarations it builds against.
   sustainGainDb, declared by omx-dsp's kernel files.
 - The unit dB/oct, a slope in dB per octave, for the key tilt of the
   compressor and the gate (FX-2, FX-5); cents was already a unit (FX-8).
-- It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel
-  before 0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
 
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 3.0.0-1
 - Schema major 3: the word formerly (a list's former name) and the word

@@ -215,7 +215,8 @@
         "s",
         "bytes",
         "count",
-        "ratio"
+        "ratio",
+        "flag"
       ]
     },
     "RESOURCE_BASES": {
@@ -270,6 +271,18 @@
       "enum": [
         "none",
         "fifo"
+      ]
+    },
+    "RESOURCE_HINTS": {
+      "description": "What a plugin declares about its own footprint, in openmixer's own hints (FreeMixer/plugin-qualify#116): each a claim plugin-qualify measures and checks, carried by the extension below, as the CLAP draft and as LV2 properties. A hint a plugin does not state is unknown, never zero.",
+      "enum": [
+        "footprint-at-rest",
+        "footprint-per-voice",
+        "shared-load",
+        "threads-spawned",
+        "streams-from-disk",
+        "opens-sockets",
+        "activate-time"
       ]
     }
   }

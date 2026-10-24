@@ -201,8 +201,9 @@
 #define OMX_RESOURCE_UNITS_BYTES "bytes"
 #define OMX_RESOURCE_UNITS_PLAIN_COUNT "count"
 #define OMX_RESOURCE_UNITS_RATIO "ratio"
-#define OMX_RESOURCE_UNITS_COUNT 8u
-#define OMX_RESOURCE_UNITS_INIT { "ns-per-sample", "frames", "ms", "us", "s", "bytes", "count", "ratio" }
+#define OMX_RESOURCE_UNITS_FLAG "flag" ///< A yes or a no: one when the plugin does the thing, zero when it does not.
+#define OMX_RESOURCE_UNITS_COUNT 9u
+#define OMX_RESOURCE_UNITS_INIT { "ns-per-sample", "frames", "ms", "us", "s", "bytes", "count", "ratio", "flag" }
 
 /* RESOURCE_BASES (data/resource-profile.json) */
 #define OMX_RESOURCE_BASES_DECLARED "declared"
@@ -250,5 +251,16 @@
 #define OMX_RESOURCE_THREAD_SCHEDULING_FIFO "fifo"
 #define OMX_RESOURCE_THREAD_SCHEDULING_COUNT 2u
 #define OMX_RESOURCE_THREAD_SCHEDULING_INIT { "none", "fifo" }
+
+/* RESOURCE_HINTS (data/resource-profile.json) */
+#define OMX_RESOURCE_HINTS_FOOTPRINT_AT_REST "footprint-at-rest" ///< The memory one instance holds at rest, once activated and idle, with no note playing.
+#define OMX_RESOURCE_HINTS_FOOTPRINT_PER_VOICE "footprint-per-voice" ///< The memory each voice adds while it plays, for an instrument.
+#define OMX_RESOURCE_HINTS_SHARED_LOAD "shared-load" ///< The one-time load every instance of the plugin shares, counted once however many are instantiated.
+#define OMX_RESOURCE_HINTS_THREADS_SPAWNED "threads-spawned" ///< The threads the plugin starts itself, apart from any it asks the host pool for.
+#define OMX_RESOURCE_HINTS_STREAMS_FROM_DISK "streams-from-disk" ///< Whether the plugin reads from disk while it processes.
+#define OMX_RESOURCE_HINTS_OPENS_SOCKETS "opens-sockets" ///< Whether the plugin opens any socket.
+#define OMX_RESOURCE_HINTS_ACTIVATE_TIME "activate-time" ///< The wall time of activate and the first block the plugin expects.
+#define OMX_RESOURCE_HINTS_COUNT 7u
+#define OMX_RESOURCE_HINTS_INIT { "footprint-at-rest", "footprint-per-voice", "shared-load", "threads-spawned", "streams-from-disk", "opens-sockets", "activate-time" }
 
 #endif /* OMX_VOCABULARY_H */
