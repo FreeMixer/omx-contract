@@ -96,6 +96,24 @@ whose declarations it builds against.
   namespace as share/omx-contract/omx-resource-hints.ttl, by the new render
   --target lv2. The ts and json renders carry the item. Each carrier has a
   conformance test with a sabotage.
+- Schema 3.1.0 also lets a words item name the item its words are drawn on
+  (axes); a word then names its x and y, and an axis word states its unit
+  and scale. The validator refuses a missing or unknown axis (word-axis) and
+  an axis with no unit or scale (axis).
+- The curve kinds (docs/curves.md): CURVE_KINDS declares the eight kinds of
+  picture a panel draws, each with its two axes, and CURVE_AXES each axis's
+  unit and scale. The five graph kinds of the omx-plugins schema are kept;
+  comb-response, modulation-shape (the picture lfo stood for) and
+  interval-map are added for the remaining-FX wave (#107).
+- Per-band readouts (docs/readouts.md): band<n> and the one-band name,
+  numbered from 1 in order with no gap and drawn alike; the validator refuses
+  a gap, a band out of order or a band drawn unlike the others
+  (readout-band). The grammar names the wave's readouts: band1GainDb to
+  band6GainDb, band1GainReductionDb to band5GainReductionDb, attackGainDb and
+  sustainGainDb, declared by omx-dsp's kernel files.
+- The unit dB/oct, a slope in dB per octave, for the key tilt of the
+  compressor and the gate (FreeMixer/omx-dsp#188); cents, which the
+  doubler's detune needs, was already a unit.
 
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 3.0.0-1
 - Schema major 3: the word formerly (a list's former name) and the word

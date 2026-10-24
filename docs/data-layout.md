@@ -17,6 +17,7 @@ data/
   resource-profile.json        RESOURCE_*: what a host plans a plugin for, the host profile's budget shape and the
                                hints a plugin declares about itself (docs/resource-hints.md)
   machine-class.json           MACHINE_*: the machine a figure was taken on, and the classes a profile names
+  curves.json                  CURVE_*: the kinds of picture a panel draws, and the axes each is drawn on
   formats/lv2/<spec>.json      LV2_<SPEC>_TERMS: the terms of the LV2 specification bundle <spec>.lv2
   formats/clap/<header>.json   CLAP_<HEADER>_TERMS: the identifiers of the CLAP header clap/<header>.h
                                (formats/clap/events.json, ext/params.json, ext/draft/scratch-memory.json, ...)
@@ -33,6 +34,7 @@ The hosting codes are not here. Since 3.0.0 they are omx-clap-core's, one file p
 | a word of the measurement format: a method, an absent figure's reason, a rating | `measurement.json` | `MEASUREMENT_<LIST>`, kind `words` |
 | a resource a host plans for, its unit, its basis, a budget's scope | `resource-profile.json` | `RESOURCE_<LIST>`, kind `words` |
 | a field of a machine class, a band, a named class | `machine-class.json` | `MACHINE_<LIST>`, kind `words` |
+| a curve kind a panel draws, or an axis one is drawn on | `curves.json` | `CURVE_KINDS`, `CURVE_AXES`, kind `words` |
 | an LV2 term `<spec URI>#<name>` | `formats/lv2/<spec>.json`, `<spec>` the bundle it is defined in | `LV2_<SPEC>_TERMS`, kind `terms` |
 | a CLAP identifier declared in `clap/<header>.h` | `formats/clap/<header>.json` | `CLAP_<HEADER>_TERMS`, the path in upper snake case |
 
@@ -50,7 +52,7 @@ not the one its path gives.
   omx-contract#130: no backwards compatibility before the first public release); the release's changelog names the
   code that takes its place, if any, and every consumer that still read the key moves in its own pin bump.
 - A `words` item's words keep their declared order, which is part of the contract (a rating's severity, a band's
-  ascent). A word may name its `group`, a word of the item its `groups` names, and the format terms it is
+  ascent). A word may name its `group`, a word of the item its `groups` names, its `x` and `y`, words of the item its `axes` names (an axis word then states its `unit` and `scale`, docs/curves.md), and the format terms it is
   name-compatible with (`from: ["LV2_CORE_TERMS#latency", "CLAP_EXT_LATENCY_TERMS#latency"]`); each resolves.
 - A `terms` item's terms are sorted by name (`omx-contract fmt` sorts them). The name is the format's own: an LV2
   term's local name (the specification's own URI after its bundle, `state.lv2`, apart from the term `state`), a CLAP string constant's text less
