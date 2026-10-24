@@ -70,9 +70,11 @@ host writes it.
 
 A kernel with bands reports one readout per band, named `band<n>` and the name the one-band readout has with its
 first letter raised: `gainReductionDb` per band is `band1GainReductionDb`, `band2GainReductionDb`, and so on. The
-bands are numbered from 1 and declared in order with no gap, so band n's meter id is the first band's id plus
-n - 1, and every band of one name is drawn alike (one unit, range, scale and rate), since a host draws them as one
-row of meters. The validator refuses a gap, a band out of order or a band drawn unlike the others (`readout-band`).
+bands are numbered from 1 with no leading zero and declared in order, with no gap and side by side (no other
+readout between two bands of one name), so band n's meter id is the first band's id plus n - 1, and every band of
+one name is drawn alike (one unit, range, scale and rate), since a host draws them as one row of meters. The
+validator refuses a band 0 or a zero-padded number, a gap, a band out of order, a readout between two bands and a
+band drawn unlike the others (`readout-band`).
 
 The remaining-FX wave's kernel files declare these in omx-dsp (FreeMixer/omx-dsp#188), in this grammar:
 

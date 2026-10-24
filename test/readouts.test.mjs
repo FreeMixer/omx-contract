@@ -172,12 +172,14 @@ test('per-band readouts: the dynamic EQ\'s six band gains and the multiband\'s f
   assert.match(m, /^#define OMX_GATE_READOUT_BAND5_GAIN_REDUCTION_DB_MIN -60\.0f$/m);
 });
 
-test('per-band readouts: a gap, a band out of order, a band 0 or a band drawn unlike the others is refused', () => {
+test('per-band readouts: a gap, a band out of order, a band 0, a zero-padded band, a readout between bands or a band drawn unlike the others is refused', () => {
   const list = dyneq();
   assert.match(problems(withReadouts([list[0], list[2]])), /readout-band:.*the bands run 1, 3, not 1 to 2 in order/);
   assert.match(problems(withReadouts([list[1], list[0]])), /readout-band:.*the bands run 2, 1/);
-  assert.match(problems(withReadouts([readout({ name: 'band0GainDb', min: -24, max: 12 }), ...list])), /readout-band:.*the bands run 0, 1, 2/);
+  assert.match(problems(withReadouts([readout({ name: 'band0GainDb', min: -24, max: 12 }), ...list])), /readout-band:.*band0GainDb: a band is numbered from 1 with no leading zero/);
   assert.match(problems(withReadouts([...list.slice(0, 5), { ...list[5], max: 18 }])), /readout-band:.*band 6 is drawn \["dB",-24,18,"linear",50\], band 1 \["dB",-24,12,"linear",50\]/);
   assert.match(problems(withReadouts([...list.slice(0, 5), { ...list[5], unit: 'dBFS' }])), /readout-band:.*band 6 is drawn/);
   assert.equal(problems(withReadouts([...dyneq(), ...multiband()])), '', 'two stems are two runs');
+  assert.match(problems(withReadouts([list[0], second, list[1]])), /readout-band:.*the bands sit at ids 0, 2, not side by side/);
+  assert.match(problems(withReadouts([readout({ name: 'band01GainDb', min: -24, max: 12 })])), /readout-band:.*band01GainDb: a band is numbered from 1 with no leading zero/);
 });
