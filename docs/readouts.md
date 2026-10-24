@@ -80,9 +80,9 @@ The remaining-FX wave's kernel files declare these in omx-dsp (FreeMixer/omx-dsp
 
 | kernel | readouts | unit | range | why |
 |---|---|---|---|---|
-| dyneq (FX-1) | `band1GainDb` … `band6GainDb` | dB | the band's dynamic range travel, −24 to +12 | the gain the band's dynamics applies now, both ways: a cut negative, a boost positive |
-| mbcomp (FX-3) | `band1GainReductionDb` … `band5GainReductionDb` | dB | the band threshold's travel to 0 | each band's gain reduction, CLAP's sign as `gainReductionDb` |
-| transient (FX-16) | `attackGainDb`, `sustainGainDb` | dB | `TRANSIENT_LIMITS.attackDb` and `.sustainDb`, −24 to +24 | the gain the attack and the sustain stages apply now, both ways |
+| dyneq, the dynamic EQ | `band1GainDb` … `band6GainDb` | dB | the band's dynamic range travel, −24 to +12 | the gain the band's dynamics applies now, both ways: a cut negative, a boost positive |
+| mbcomp, the multiband compressor | `band1GainReductionDb` … `band5GainReductionDb` | dB | the band threshold's travel to 0 | each band's gain reduction, CLAP's sign as `gainReductionDb` |
+| transient, the transient designer | `attackGainDb`, `sustainGainDb` | dB | `TRANSIENT_LIMITS.attackDb` and `.sustainDb`, −24 to +24 | the gain the attack and the sustain stages apply now, both ways |
 
 The multiband's reduction is `band<n>GainReductionDb`, not an abbreviation such as `band<n>GrDb`: it is the
 compressor's own `gainReductionDb` per band, and one quantity has one spelling. All are `linear` (a dB value is

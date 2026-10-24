@@ -112,7 +112,8 @@ whose declarations it builds against.
   band6GainDb, band1GainReductionDb to band5GainReductionDb, attackGainDb and
   sustainGainDb, declared by omx-dsp's kernel files.
 - The unit dB/oct, a slope in dB per octave, for the key tilt of the
-  compressor and the gate (FX-2, FX-5); cents was already a unit (FX-8).
+  compressor and the gate (FreeMixer/omx-dsp#188); cents, which the
+  doubler's detune needs, was already a unit.
 
 * Tue Oct 20 2026 Pau Aliagas <linuxnow@gmail.com> - 3.0.0-1
 - Schema major 3: the word formerly (a list's former name) and the word

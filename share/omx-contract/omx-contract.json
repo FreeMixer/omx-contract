@@ -92,7 +92,7 @@
       "rel": "data/curves.json",
       "kind": "words",
       "doc": "The kinds of picture a plugin's panel section draws and a console's card shows, each with the two axes it is drawn on (docs/curves.md). A kernel file and a plugin declaration name a kind by its word; a host keeps only its kind-to-drawing map. Append-only: a kind is never renamed, moved or removed while a reader draws it.",
-      "why": "Declared once here and read by the omx-plugins schema and the console's curve registry (the remaining-FX wave, FreeMixer/omx-contract#107, its card FX-6). The first five are the omx-plugins schema's graph kinds as they were; comb-response, modulation-shape and interval-map are the kinds FX-6 adds. modulation-shape is the picture the schema's unused lfo stood for.",
+      "why": "Declared once here and read by the omx-plugins schema and the console's curve registry (the remaining-FX wave, FreeMixer/omx-contract#107). The first five are the omx-plugins schema's graph kinds as they were; comb-response, modulation-shape and interval-map are the kinds the wave adds for the modulation and pitch plugins. modulation-shape is the picture the schema's unused lfo stood for.",
       "axes": "CURVE_AXES",
       "value": {
         "eqCurve": {

@@ -153,8 +153,8 @@ test('the C render keeps every 2.3.0 line, byte for byte and in order, and adds 
   ]);
 });
 
-// The per-band readouts of the remaining-FX wave (docs/readouts.md, #107): the dynamic EQ's band gain (FX-1) and the
-// multiband's band gain reduction (FX-3), in the grammar the single-band readouts use.
+// The per-band readouts of the remaining-FX wave (docs/readouts.md, #107): the dynamic EQ's band gain and the multiband's
+// band gain reduction (FreeMixer/omx-dsp#188), in the grammar the single-band readouts use.
 const bands = (n, stem, over = {}) => Array.from({ length: n }, (_, i) => readout({ name: `band${i + 1}${stem}`, doc: `Band ${i + 1}.`, min: -24, max: 12, rateHz: 50, ...over }));
 const dyneq = () => bands(6, 'GainDb');
 const multiband = () => bands(5, 'GainReductionDb', { min: -60, max: 0 });

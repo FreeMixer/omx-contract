@@ -57,7 +57,7 @@ test('the axes: each word, its unit and its scale, in order', () => {
   assert.deepEqual(Object.values(resolved().get('CURVE_AXES').value).map((w) => [w.word, w.unit, w.scale]), AXES);
 });
 
-test('the omx-plugins graph kinds are kept, the unused lfo is the modulation shape, and FX-6 adds three', () => {
+test('the omx-plugins graph kinds are kept, the unused lfo is the modulation shape, and the wave adds three', () => {
   const words = KINDS.map(([w]) => w);
   assert.deepEqual(words.slice(0, 5), ['eq-curve', 'dynamics-curve', 'transfer-curve', 'delay-taps', 'decay-envelope']);
   assert.deepEqual(words.slice(5), ['comb-response', 'modulation-shape', 'interval-map']);
