@@ -1,3 +1,15 @@
+omx-contract (3.2.0) unstable; urgency=medium
+
+  * Schema 3.2.0: a source field names an element of a struct's fixed array as
+    <member>[<index>]; each segment admits one [<digits>] index, so the meter
+    ids of a panel display are omx_clap_panel_display.meter_ids[0] and [1].
+    An empty index, a non-digit, a sign, two indexes, an index alone or a
+    space before it stay refused.
+  * It breaks nothing new: libomxdsp-dev before 0.25.0, libomx-clap-core-dev
+    before 0.13.0 and omx-plugins-dev before 0.13.0 stay the floors.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Sun, 25 Oct 2026 09:00:00 +0200
+
 omx-contract (3.1.0) unstable; urgency=medium
 
   * Schema 3.1.0: a words item may name the items its words take a unit and a

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.1.0
+Version: 3.2.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -82,6 +82,12 @@ whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sun Oct 25 2026 Pau Aliagas <linuxnow@gmail.com> - 3.2.0-1
+- Schema 3.2.0: a source field names an element of a struct's fixed array as
+  <member>[<index>]; each segment admits one [<digits>] index. An empty index,
+  a non-digit, a sign, two indexes, an index alone or a space before it stay
+  refused.
+
 * Sat Oct 24 2026 Pau Aliagas <linuxnow@gmail.com> - 3.1.0-1
 - Schema 3.1.0: a words item may name the items its words take a unit and a
   basis from (units, bases) and declare an extension (the id of a CLAP
