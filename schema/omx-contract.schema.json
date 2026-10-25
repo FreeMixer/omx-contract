@@ -71,7 +71,7 @@
       },
       "minProperties": 1
     },
-    "sourceField": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*([.:#/][A-Za-z0-9_][A-Za-z0-9_-]*)*$", "description": "A field a scan of a format reads, as the format names it: a CLAP struct field (clap_param_info.min_value) or an LV2 predicate (units:unit)." },
+    "sourceField": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\[[0-9]+\\])?([.:#/][A-Za-z0-9_][A-Za-z0-9_-]*(\\[[0-9]+\\])?)*$", "description": "A field a scan of a format reads, as the format names it: a CLAP struct field (clap_param_info.min_value), an element of a struct's fixed array by its index (omx_clap_panel_display.meter_ids[0]) or an LV2 predicate (units:unit)." },
     "plugin": {
       "type": "object",
       "description": "The plugin's identity as it states it: id, the CLAP id or the LV2 URI.",
