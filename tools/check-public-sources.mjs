@@ -43,6 +43,7 @@ export const ALLOW = [
   { file: /^tools\/engine-ts-hook\.mjs$/, why: 'resolves workspace imports inside the extracted engine tree' },
   { file: /^test\/kernel-recipe\.test\.mjs$/, why: 'a synthetic engine tree laid out like the real one, for the importer' },
   { file: /^tools\/check-public-sources\.mjs$/, why: 'this check names what it forbids' },
+  { file: /^tools\/private-refs-check\.sh$/, why: 'the shared gate names what it forbids, in its patterns and its sabotage self-test' },
 ];
 
 /** The offences of one file's text: `[{ line, kind }]`. */
