@@ -137,8 +137,9 @@ value as a word: a fact that has a word is written in the word, never in the bag
 
 A `formatMap` item is one format's mapping table (`PLUGIN_HOSTD_CLAP_MAP`, `PLUGIN_HOSTD_LV2_MAP`, which plugin-hostd
 installs): how each field a scan of that format reads becomes a descriptor, and, read backwards, how a generator
-writes a face from one. Its `rows` are keyed by the source field (`units:unit`, `clap_param_info.min_value`), and each
-row has exactly one class:
+writes a face from one. Its `rows` are keyed by the source field, as the format names it: an LV2 CURIE
+(`units:unit`), a CLAP struct field (`clap_param_info.min_value`), an element of a struct's fixed array by its index
+(`omx_clap_panel_display.meter_ids[0]`, as omx-clap-scan's field dump names it). Each row has exactly one class:
 
 | Class | Carries | Meaning |
 |---|---|---|
