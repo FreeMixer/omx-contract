@@ -89,3 +89,9 @@ inventory-check:
 public-sources:
 	node tools/check-public-sources.mjs --self-test
 	node tools/check-public-sources.mjs
+
+# The same refusal as the shared script every public OpenMixer repository carries, with its sabotage self-test.
+.PHONY: private-refs
+private-refs:
+	tools/private-refs-check.sh
+	tools/private-refs-check.sh --self-test
