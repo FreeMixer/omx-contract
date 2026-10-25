@@ -73,6 +73,23 @@ test('a formatMap: rows keyed by source field, each one class and a term or a fr
   assert.deepEqual(Object.keys(formatted.ACME_LV2_MAP.rows['units:unit']), ['term', 'word']);
 });
 
+test('a source field is the field as the format names it: an element of a fixed array of a struct is <member>[<index>]', () => {
+  const clapMap = (keys) => withMap((rows, it) => {
+    it.format = 'clap';
+    for (const k of Object.keys(rows)) delete rows[k];
+    for (const k of keys) rows[k] = { from: 'omx_clap_ext.h#omx_clap_panel_display', extension: true };
+  });
+  // omx-clap-scan --fields names the two meter ids of a panel display so (omx-clap-core doc/reference.md)
+  assert.deepEqual(problems(clapMap(['omx_clap_panel_display.meter_ids[0]', 'omx_clap_panel_display.meter_ids[1]', 'clap_param_info.min_value'])), []);
+  const doc = authored();
+  doc.extensions = { clap: { 'omx_clap_panel_display.meter_ids[1]': 101 } };
+  assert.deepEqual(problemsOf(doc), []);
+  for (const key of ['omx_clap_panel_display.meter_ids[]', 'omx_clap_panel_display.meter_ids[x]', 'omx_clap_panel_display.meter_ids[0',
+    'omx_clap_panel_display.meter_ids0]', 'omx_clap_panel_display.[0]', 'meter_ids[0][1]', '[0]', 'meter_ids[-1]', 'meter_ids [0]']) {
+    assert.ok(problems(clapMap([key])).some((p) => /^ACME_LV2_MAP:schema:.*must match pattern/.test(p)), key);
+  }
+});
+
 test('a formatMap row is refused with no class, two classes, neither or both of term and from, both values and factor, or code', () => {
   const schema = (edit, why) => assert.ok(problems(withMap(edit)).some((p) => /^ACME_LV2_MAP:schema:/.test(p)), why);
   schema((rows) => { delete rows['units:unit'].word; }, 'no class');
