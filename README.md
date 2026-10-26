@@ -32,6 +32,9 @@ echo "deb [signed-by=/usr/share/keyrings/freemixer.asc] https://freemixer.github
 sudo apt update && sudo apt install libomx-contract-dev
 ```
 
+The development package pulls in omx-contract-data, the files a program reads at run time (the contract directory,
+the schema and the resolved json); a program that only reads them at run time requires omx-contract-data alone.
+
 JavaScript and TypeScript projects (the `ts` render is the main export, the CLI is `omx-contract`):
 
 ```
