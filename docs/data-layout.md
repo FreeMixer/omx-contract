@@ -18,13 +18,15 @@ data/
                                hints a plugin declares about itself (docs/resource-hints.md)
   machine-class.json           MACHINE_*: the machine a figure was taken on, and the classes a profile names
   curves.json                  CURVE_*: the kinds of picture a panel draws, and the axes each is drawn on
+  verbs.json                   VERB_HOSTS: the hosts a package's verbs name in implementedBy (docs/contract-dir.md)
   formats/lv2/<spec>.json      LV2_<SPEC>_TERMS: the terms of the LV2 specification bundle <spec>.lv2
   formats/clap/<header>.json   CLAP_<HEADER>_TERMS: the identifiers of the CLAP header clap/<header>.h
                                (formats/clap/events.json, ext/params.json, ext/draft/scratch-memory.json, ...)
 inventory/lv2.json  clap.json  the formats as installed, written by tools/format-inventory.mjs, never by hand
 ```
 
-The hosting codes are not here. Since 3.0.0 they are omx-clap-core's, one file per dimension in its own
+The verbs are not here either: each package declares its own, in an item of kind `verbs` (docs/contract-dir.md "A
+package's verbs"); `verbs.json` holds only the hosts they name. The hosting codes are not here. Since 3.0.0 they are omx-clap-core's, one file per dimension in its own
 `data/hosting/`, installed as `contract.d/3/omx-clap-core/hosting/` (docs/hosting.md).
 
 ## Where a new word goes
@@ -35,6 +37,7 @@ The hosting codes are not here. Since 3.0.0 they are omx-clap-core's, one file p
 | a resource a host plans for, its unit, its basis, a budget's scope | `resource-profile.json` | `RESOURCE_<LIST>`, kind `words` |
 | a field of a machine class, a band, a named class | `machine-class.json` | `MACHINE_<LIST>`, kind `words` |
 | a curve kind a panel draws, or an axis one is drawn on | `curves.json` | `CURVE_KINDS`, `CURVE_AXES`, kind `words` |
+| a host a verb's `implementedBy` names | `verbs.json` | `VERB_HOSTS`, kind `words` |
 | an LV2 term `<spec URI>#<name>` | `formats/lv2/<spec>.json`, `<spec>` the bundle it is defined in | `LV2_<SPEC>_TERMS`, kind `terms` |
 | a CLAP identifier declared in `clap/<header>.h` | `formats/clap/<header>.json` | `CLAP_<HEADER>_TERMS`, the path in upper snake case |
 
@@ -47,7 +50,7 @@ not the one its path gives.
 ## Inside a file
 
 - A `codes` item's codes are sorted by name; the name is the operator-facing key a consumer reads the code by, and the
-  code is never reworded. A changed code is a MAJOR change, an added one MINOR, a removed one MAJOR outside the
+  code is never reworded. A changed code, or a reply code's changed `resp`, is a MAJOR change, an added one MINOR, a removed one MAJOR outside the
   development phase and MINOR in it (`semver`, as an item's removal). A code its writers stop writing is removed in the next release, never carried as retired (operator ruling 2026-10-20,
   omx-contract#130: no backwards compatibility before the first public release); the release's changelog names the
   code that takes its place, if any, and every consumer that still read the key moves in its own pin bump.

@@ -57,6 +57,22 @@
         "code": "contract.ref.undeclared",
         "doc": "a reference names an item of a package the file does not require"
       },
+      "verbDuplicate": {
+        "code": "contract.verb.duplicate",
+        "doc": "two verbs items, of one package or two, declare one verb: a verb has one owner"
+      },
+      "verbFormat": {
+        "code": "contract.verb.format",
+        "doc": "a verb's format does not start with the verb it declares"
+      },
+      "verbHostUnknown": {
+        "code": "contract.verb.host-unknown",
+        "doc": "a verb's implementedBy names a host that is no word of VERB_HOSTS"
+      },
+      "verbCodeUnknown": {
+        "code": "contract.verb.code-unknown",
+        "doc": "a verb's code names an item that is no codes item, or a name that item does not carry"
+      },
       "packageAbsent": {
         "code": "contract.package.absent",
         "doc": "a package the consumer or a file requires is not installed"
