@@ -1,3 +1,17 @@
+omx-contract (3.3.0) unstable; urgency=medium
+
+  * Schema 3.3.0: a verbs item declares the verbs of a host: the verb, its
+    argument format, its reply, the codes it can answer with and which hosts
+    implement it. A package installs its verbs into its own directory of the
+    contract directory; the C header and TypeScript renders carry them.
+  * The contract directory's files of omx-contract move to the architecture
+    independent package omx-contract-data, which omx-contract and
+    libomx-contract-dev require.
+  * It breaks nothing new: libomxdsp-dev before 0.25.0, libomx-clap-core-dev
+    before 0.13.0 and omx-plugins-dev before 0.13.0 stay the floors.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Mon, 26 Oct 2026 12:00:00 +0200
+
 omx-contract (3.2.0) unstable; urgency=medium
 
   * Schema 3.2.0: a source field names an element of a struct's fixed array as
