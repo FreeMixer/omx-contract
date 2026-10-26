@@ -1,0 +1,294 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+#ifndef OMX_FORMATS_H
+#define OMX_FORMATS_H
+/*
+ * GENERATED — DO NOT EDIT BY HAND.
+ * Produced by `omx-contract render --target c` from FreeMixer/omx-contract's data/formats/: the identifiers and
+ * numbers the CLAP headers declare and the namespaces of the LV2 specifications (docs/data-layout.md). A consumer
+ * writes and compares these, never a literal of its own.
+ */
+
+/* CLAP identifiers: an extension id as get_extension is asked for it, a factory id, a plugin feature, a window API */
+#define OMX_CLAP_PORT_AMBISONIC "ambisonic"
+#define OMX_CLAP_EXT_AMBISONIC_COMPAT "clap.ambisonic.draft/3"
+#define OMX_CLAP_EXT_AMBISONIC "clap.ambisonic/3"
+#define OMX_CLAP_EXT_AUDIO_PORTS_ACTIVATION "clap.audio-ports-activation/2"
+#define OMX_CLAP_EXT_AUDIO_PORTS_ACTIVATION_COMPAT "clap.audio-ports-activation/draft-2"
+#define OMX_CLAP_EXT_AUDIO_PORTS_CONFIG "clap.audio-ports-config"
+#define OMX_CLAP_EXT_AUDIO_PORTS_CONFIG_INFO "clap.audio-ports-config-info/1"
+#define OMX_CLAP_EXT_AUDIO_PORTS_CONFIG_INFO_COMPAT "clap.audio-ports-config-info/draft-0"
+#define OMX_CLAP_EXT_AUDIO_PORTS "clap.audio-ports"
+#define OMX_CLAP_PORT_MONO "mono"
+#define OMX_CLAP_PORT_STEREO "stereo"
+#define OMX_CLAP_EXT_CONFIGURABLE_AUDIO_PORTS_COMPAT "clap.configurable-audio-ports.draft1"
+#define OMX_CLAP_EXT_CONFIGURABLE_AUDIO_PORTS "clap.configurable-audio-ports/1"
+#define OMX_CLAP_EXT_CONTEXT_MENU_COMPAT "clap.context-menu.draft/0"
+#define OMX_CLAP_EXT_CONTEXT_MENU "clap.context-menu/1"
+#define OMX_CLAP_EXT_BACKGROUND_ACTIVATION "clap.background-activation/1"
+#define OMX_CLAP_EXT_BACKGROUND_PROGRESS "clap.background-progress/1"
+#define OMX_CLAP_EXT_BACKGROUND_STATE_CONTEXT "clap.background-state-context/1"
+#define OMX_CLAP_EXT_EXTENSIBLE_AUDIO_PORTS "clap.extensible-audio-ports/1"
+#define OMX_CLAP_EXT_FLUSH_EVENTS "clap.flush-events/1"
+#define OMX_CLAP_EXT_GAIN_ADJUSTMENT_METERING "clap.gain-adjustment-metering/0"
+#define OMX_CLAP_EXT_MINI_CURVE_DISPLAY "clap.mini-curve-display/3"
+#define OMX_CLAP_EXT_OCTAVE_NUMBER "clap.octave-number/1"
+#define OMX_CLAP_EXT_PARAM_HOVERED "clap.param-hovered/1"
+#define OMX_CLAP_EXT_PARAMS_ORIGIN "clap.params-origin/1"
+#define OMX_CLAP_EXT_PROJECT_LOCATION "clap.project-location/2"
+#define OMX_CLAP_EXT_RESOURCE_DIRECTORY "clap.resource-directory/1"
+#define OMX_CLAP_EXT_SCRATCH_MEMORY "clap.scratch-memory/1"
+#define OMX_CLAP_EXT_TRANSPORT_CONTROL "clap.transport-control/2"
+#define OMX_CLAP_EXT_TRIGGERS "clap.triggers/1"
+#define OMX_CLAP_EXT_TUNING "clap.tuning/2"
+#define OMX_CLAP_EXT_UNDO "clap.undo/4"
+#define OMX_CLAP_EXT_UNDO_CONTEXT "clap.undo_context/4"
+#define OMX_CLAP_EXT_UNDO_DELTA "clap.undo_delta/4"
+#define OMX_CLAP_WINDOW_API_WEBVIEW "webview"
+#define OMX_CLAP_EXT_WEBVIEW "clap.webview/3"
+#define OMX_CLAP_EXT_EVENT_REGISTRY "clap.event-registry"
+#define OMX_CLAP_WINDOW_API_COCOA "cocoa"
+#define OMX_CLAP_EXT_GUI "clap.gui"
+#define OMX_CLAP_WINDOW_API_UIKIT "uikit"
+#define OMX_CLAP_WINDOW_API_WAYLAND "wayland"
+#define OMX_CLAP_WINDOW_API_WIN32 "win32"
+#define OMX_CLAP_WINDOW_API_X11 "x11"
+#define OMX_CLAP_EXT_LATENCY "clap.latency"
+#define OMX_CLAP_EXT_LOG "clap.log"
+#define OMX_CLAP_EXT_NOTE_NAME "clap.note-name"
+#define OMX_CLAP_EXT_NOTE_PORTS "clap.note-ports"
+#define OMX_CLAP_EXT_PARAM_INDICATION_COMPAT "clap.param-indication.draft/4"
+#define OMX_CLAP_EXT_PARAM_INDICATION "clap.param-indication/4"
+#define OMX_CLAP_EXT_PARAMS "clap.params"
+#define OMX_CLAP_EXT_POSIX_FD_SUPPORT "clap.posix-fd-support"
+#define OMX_CLAP_EXT_PRESET_LOAD_COMPAT "clap.preset-load.draft/2"
+#define OMX_CLAP_EXT_PRESET_LOAD "clap.preset-load/2"
+#define OMX_CLAP_EXT_REMOTE_CONTROLS_COMPAT "clap.remote-controls.draft/2"
+#define OMX_CLAP_EXT_REMOTE_CONTROLS "clap.remote-controls/2"
+#define OMX_CLAP_EXT_RENDER "clap.render"
+#define OMX_CLAP_EXT_STATE_CONTEXT "clap.state-context/2"
+#define OMX_CLAP_EXT_STATE "clap.state"
+#define OMX_CLAP_PORT_SURROUND "surround"
+#define OMX_CLAP_EXT_SURROUND_COMPAT "clap.surround.draft/4"
+#define OMX_CLAP_EXT_SURROUND "clap.surround/4"
+#define OMX_CLAP_EXT_TAIL "clap.tail"
+#define OMX_CLAP_EXT_THREAD_CHECK "clap.thread-check"
+#define OMX_CLAP_EXT_THREAD_POOL "clap.thread-pool"
+#define OMX_CLAP_EXT_TIMER_SUPPORT "clap.timer-support"
+#define OMX_CLAP_EXT_TRACK_INFO_COMPAT "clap.track-info.draft/1"
+#define OMX_CLAP_EXT_TRACK_INFO "clap.track-info/1"
+#define OMX_CLAP_EXT_VOICE_INFO "clap.voice-info"
+#define OMX_CLAP_PLUGIN_INVALIDATION_FACTORY_ID "clap.plugin-invalidation-factory/1"
+#define OMX_CLAP_PLUGIN_STATE_CONVERTER_FACTORY_ID "clap.plugin-state-converter-factory/1"
+#define OMX_CLAP_PLUGIN_FACTORY_ID "clap.plugin-factory"
+#define OMX_CLAP_PRESET_DISCOVERY_FACTORY_ID "clap.preset-discovery-factory/2"
+#define OMX_CLAP_PRESET_DISCOVERY_FACTORY_ID_COMPAT "clap.preset-discovery-factory/draft-2"
+#define OMX_CLAP_PLUGIN_FEATURE_AMBISONIC "ambisonic"
+#define OMX_CLAP_PLUGIN_FEATURE_ANALYZER "analyzer"
+#define OMX_CLAP_PLUGIN_FEATURE_AUDIO_EFFECT "audio-effect"
+#define OMX_CLAP_PLUGIN_FEATURE_CHORUS "chorus"
+#define OMX_CLAP_PLUGIN_FEATURE_COMPRESSOR "compressor"
+#define OMX_CLAP_PLUGIN_FEATURE_DEESSER "de-esser"
+#define OMX_CLAP_PLUGIN_FEATURE_DELAY "delay"
+#define OMX_CLAP_PLUGIN_FEATURE_DISTORTION "distortion"
+#define OMX_CLAP_PLUGIN_FEATURE_DRUM "drum"
+#define OMX_CLAP_PLUGIN_FEATURE_DRUM_MACHINE "drum-machine"
+#define OMX_CLAP_PLUGIN_FEATURE_EQUALIZER "equalizer"
+#define OMX_CLAP_PLUGIN_FEATURE_EXPANDER "expander"
+#define OMX_CLAP_PLUGIN_FEATURE_FILTER "filter"
+#define OMX_CLAP_PLUGIN_FEATURE_FLANGER "flanger"
+#define OMX_CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER "frequency-shifter"
+#define OMX_CLAP_PLUGIN_FEATURE_GATE "gate"
+#define OMX_CLAP_PLUGIN_FEATURE_GLITCH "glitch"
+#define OMX_CLAP_PLUGIN_FEATURE_GRANULAR "granular"
+#define OMX_CLAP_PLUGIN_FEATURE_INSTRUMENT "instrument"
+#define OMX_CLAP_PLUGIN_FEATURE_LIMITER "limiter"
+#define OMX_CLAP_PLUGIN_FEATURE_MASTERING "mastering"
+#define OMX_CLAP_PLUGIN_FEATURE_MIXING "mixing"
+#define OMX_CLAP_PLUGIN_FEATURE_MONO "mono"
+#define OMX_CLAP_PLUGIN_FEATURE_MULTI_EFFECTS "multi-effects"
+#define OMX_CLAP_PLUGIN_FEATURE_NOTE_DETECTOR "note-detector"
+#define OMX_CLAP_PLUGIN_FEATURE_NOTE_EFFECT "note-effect"
+#define OMX_CLAP_PLUGIN_FEATURE_PHASE_VOCODER "phase-vocoder"
+#define OMX_CLAP_PLUGIN_FEATURE_PHASER "phaser"
+#define OMX_CLAP_PLUGIN_FEATURE_PITCH_CORRECTION "pitch-correction"
+#define OMX_CLAP_PLUGIN_FEATURE_PITCH_SHIFTER "pitch-shifter"
+#define OMX_CLAP_PLUGIN_FEATURE_RESTORATION "restoration"
+#define OMX_CLAP_PLUGIN_FEATURE_REVERB "reverb"
+#define OMX_CLAP_PLUGIN_FEATURE_SAMPLER "sampler"
+#define OMX_CLAP_PLUGIN_FEATURE_STEREO "stereo"
+#define OMX_CLAP_PLUGIN_FEATURE_SURROUND "surround"
+#define OMX_CLAP_PLUGIN_FEATURE_SYNTHESIZER "synthesizer"
+#define OMX_CLAP_PLUGIN_FEATURE_TRANSIENT_SHAPER "transient-shaper"
+#define OMX_CLAP_PLUGIN_FEATURE_TREMOLO "tremolo"
+#define OMX_CLAP_PLUGIN_FEATURE_UTILITY "utility"
+
+/* CLAP numbers the headers declare */
+#define OMX_CLAP_REMOTE_CONTROLS_COUNT 8u
+
+/* The same identifiers as one list, for a reader that walks them: X(<identifier>, <string>) */
+#define OMX_CLAP_IDS(X) \
+  X("CLAP_PORT_AMBISONIC", "ambisonic") \
+  X("CLAP_EXT_AMBISONIC_COMPAT", "clap.ambisonic.draft/3") \
+  X("CLAP_EXT_AMBISONIC", "clap.ambisonic/3") \
+  X("CLAP_EXT_AUDIO_PORTS_ACTIVATION", "clap.audio-ports-activation/2") \
+  X("CLAP_EXT_AUDIO_PORTS_ACTIVATION_COMPAT", "clap.audio-ports-activation/draft-2") \
+  X("CLAP_EXT_AUDIO_PORTS_CONFIG", "clap.audio-ports-config") \
+  X("CLAP_EXT_AUDIO_PORTS_CONFIG_INFO", "clap.audio-ports-config-info/1") \
+  X("CLAP_EXT_AUDIO_PORTS_CONFIG_INFO_COMPAT", "clap.audio-ports-config-info/draft-0") \
+  X("CLAP_EXT_AUDIO_PORTS", "clap.audio-ports") \
+  X("CLAP_PORT_MONO", "mono") \
+  X("CLAP_PORT_STEREO", "stereo") \
+  X("CLAP_EXT_CONFIGURABLE_AUDIO_PORTS_COMPAT", "clap.configurable-audio-ports.draft1") \
+  X("CLAP_EXT_CONFIGURABLE_AUDIO_PORTS", "clap.configurable-audio-ports/1") \
+  X("CLAP_EXT_CONTEXT_MENU_COMPAT", "clap.context-menu.draft/0") \
+  X("CLAP_EXT_CONTEXT_MENU", "clap.context-menu/1") \
+  X("CLAP_EXT_BACKGROUND_ACTIVATION", "clap.background-activation/1") \
+  X("CLAP_EXT_BACKGROUND_PROGRESS", "clap.background-progress/1") \
+  X("CLAP_EXT_BACKGROUND_STATE_CONTEXT", "clap.background-state-context/1") \
+  X("CLAP_EXT_EXTENSIBLE_AUDIO_PORTS", "clap.extensible-audio-ports/1") \
+  X("CLAP_EXT_FLUSH_EVENTS", "clap.flush-events/1") \
+  X("CLAP_EXT_GAIN_ADJUSTMENT_METERING", "clap.gain-adjustment-metering/0") \
+  X("CLAP_EXT_MINI_CURVE_DISPLAY", "clap.mini-curve-display/3") \
+  X("CLAP_EXT_OCTAVE_NUMBER", "clap.octave-number/1") \
+  X("CLAP_EXT_PARAM_HOVERED", "clap.param-hovered/1") \
+  X("CLAP_EXT_PARAMS_ORIGIN", "clap.params-origin/1") \
+  X("CLAP_EXT_PROJECT_LOCATION", "clap.project-location/2") \
+  X("CLAP_EXT_RESOURCE_DIRECTORY", "clap.resource-directory/1") \
+  X("CLAP_EXT_SCRATCH_MEMORY", "clap.scratch-memory/1") \
+  X("CLAP_EXT_TRANSPORT_CONTROL", "clap.transport-control/2") \
+  X("CLAP_EXT_TRIGGERS", "clap.triggers/1") \
+  X("CLAP_EXT_TUNING", "clap.tuning/2") \
+  X("CLAP_EXT_UNDO", "clap.undo/4") \
+  X("CLAP_EXT_UNDO_CONTEXT", "clap.undo_context/4") \
+  X("CLAP_EXT_UNDO_DELTA", "clap.undo_delta/4") \
+  X("CLAP_WINDOW_API_WEBVIEW", "webview") \
+  X("CLAP_EXT_WEBVIEW", "clap.webview/3") \
+  X("CLAP_EXT_EVENT_REGISTRY", "clap.event-registry") \
+  X("CLAP_WINDOW_API_COCOA", "cocoa") \
+  X("CLAP_EXT_GUI", "clap.gui") \
+  X("CLAP_WINDOW_API_UIKIT", "uikit") \
+  X("CLAP_WINDOW_API_WAYLAND", "wayland") \
+  X("CLAP_WINDOW_API_WIN32", "win32") \
+  X("CLAP_WINDOW_API_X11", "x11") \
+  X("CLAP_EXT_LATENCY", "clap.latency") \
+  X("CLAP_EXT_LOG", "clap.log") \
+  X("CLAP_EXT_NOTE_NAME", "clap.note-name") \
+  X("CLAP_EXT_NOTE_PORTS", "clap.note-ports") \
+  X("CLAP_EXT_PARAM_INDICATION_COMPAT", "clap.param-indication.draft/4") \
+  X("CLAP_EXT_PARAM_INDICATION", "clap.param-indication/4") \
+  X("CLAP_EXT_PARAMS", "clap.params") \
+  X("CLAP_EXT_POSIX_FD_SUPPORT", "clap.posix-fd-support") \
+  X("CLAP_EXT_PRESET_LOAD_COMPAT", "clap.preset-load.draft/2") \
+  X("CLAP_EXT_PRESET_LOAD", "clap.preset-load/2") \
+  X("CLAP_EXT_REMOTE_CONTROLS_COMPAT", "clap.remote-controls.draft/2") \
+  X("CLAP_EXT_REMOTE_CONTROLS", "clap.remote-controls/2") \
+  X("CLAP_EXT_RENDER", "clap.render") \
+  X("CLAP_EXT_STATE_CONTEXT", "clap.state-context/2") \
+  X("CLAP_EXT_STATE", "clap.state") \
+  X("CLAP_PORT_SURROUND", "surround") \
+  X("CLAP_EXT_SURROUND_COMPAT", "clap.surround.draft/4") \
+  X("CLAP_EXT_SURROUND", "clap.surround/4") \
+  X("CLAP_EXT_TAIL", "clap.tail") \
+  X("CLAP_EXT_THREAD_CHECK", "clap.thread-check") \
+  X("CLAP_EXT_THREAD_POOL", "clap.thread-pool") \
+  X("CLAP_EXT_TIMER_SUPPORT", "clap.timer-support") \
+  X("CLAP_EXT_TRACK_INFO_COMPAT", "clap.track-info.draft/1") \
+  X("CLAP_EXT_TRACK_INFO", "clap.track-info/1") \
+  X("CLAP_EXT_VOICE_INFO", "clap.voice-info") \
+  X("CLAP_PLUGIN_INVALIDATION_FACTORY_ID", "clap.plugin-invalidation-factory/1") \
+  X("CLAP_PLUGIN_STATE_CONVERTER_FACTORY_ID", "clap.plugin-state-converter-factory/1") \
+  X("CLAP_PLUGIN_FACTORY_ID", "clap.plugin-factory") \
+  X("CLAP_PRESET_DISCOVERY_FACTORY_ID", "clap.preset-discovery-factory/2") \
+  X("CLAP_PRESET_DISCOVERY_FACTORY_ID_COMPAT", "clap.preset-discovery-factory/draft-2") \
+  X("CLAP_PLUGIN_FEATURE_AMBISONIC", "ambisonic") \
+  X("CLAP_PLUGIN_FEATURE_ANALYZER", "analyzer") \
+  X("CLAP_PLUGIN_FEATURE_AUDIO_EFFECT", "audio-effect") \
+  X("CLAP_PLUGIN_FEATURE_CHORUS", "chorus") \
+  X("CLAP_PLUGIN_FEATURE_COMPRESSOR", "compressor") \
+  X("CLAP_PLUGIN_FEATURE_DEESSER", "de-esser") \
+  X("CLAP_PLUGIN_FEATURE_DELAY", "delay") \
+  X("CLAP_PLUGIN_FEATURE_DISTORTION", "distortion") \
+  X("CLAP_PLUGIN_FEATURE_DRUM", "drum") \
+  X("CLAP_PLUGIN_FEATURE_DRUM_MACHINE", "drum-machine") \
+  X("CLAP_PLUGIN_FEATURE_EQUALIZER", "equalizer") \
+  X("CLAP_PLUGIN_FEATURE_EXPANDER", "expander") \
+  X("CLAP_PLUGIN_FEATURE_FILTER", "filter") \
+  X("CLAP_PLUGIN_FEATURE_FLANGER", "flanger") \
+  X("CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER", "frequency-shifter") \
+  X("CLAP_PLUGIN_FEATURE_GATE", "gate") \
+  X("CLAP_PLUGIN_FEATURE_GLITCH", "glitch") \
+  X("CLAP_PLUGIN_FEATURE_GRANULAR", "granular") \
+  X("CLAP_PLUGIN_FEATURE_INSTRUMENT", "instrument") \
+  X("CLAP_PLUGIN_FEATURE_LIMITER", "limiter") \
+  X("CLAP_PLUGIN_FEATURE_MASTERING", "mastering") \
+  X("CLAP_PLUGIN_FEATURE_MIXING", "mixing") \
+  X("CLAP_PLUGIN_FEATURE_MONO", "mono") \
+  X("CLAP_PLUGIN_FEATURE_MULTI_EFFECTS", "multi-effects") \
+  X("CLAP_PLUGIN_FEATURE_NOTE_DETECTOR", "note-detector") \
+  X("CLAP_PLUGIN_FEATURE_NOTE_EFFECT", "note-effect") \
+  X("CLAP_PLUGIN_FEATURE_PHASE_VOCODER", "phase-vocoder") \
+  X("CLAP_PLUGIN_FEATURE_PHASER", "phaser") \
+  X("CLAP_PLUGIN_FEATURE_PITCH_CORRECTION", "pitch-correction") \
+  X("CLAP_PLUGIN_FEATURE_PITCH_SHIFTER", "pitch-shifter") \
+  X("CLAP_PLUGIN_FEATURE_RESTORATION", "restoration") \
+  X("CLAP_PLUGIN_FEATURE_REVERB", "reverb") \
+  X("CLAP_PLUGIN_FEATURE_SAMPLER", "sampler") \
+  X("CLAP_PLUGIN_FEATURE_STEREO", "stereo") \
+  X("CLAP_PLUGIN_FEATURE_SURROUND", "surround") \
+  X("CLAP_PLUGIN_FEATURE_SYNTHESIZER", "synthesizer") \
+  X("CLAP_PLUGIN_FEATURE_TRANSIENT_SHAPER", "transient-shaper") \
+  X("CLAP_PLUGIN_FEATURE_TREMOLO", "tremolo") \
+  X("CLAP_PLUGIN_FEATURE_UTILITY", "utility")
+
+/* LV2 specifications: the URI, and the namespace every term of it is written after (the URI and a #) */
+#define OMX_LV2_SPEC_ATOM "http://lv2plug.in/ns/ext/atom"
+#define OMX_LV2_NS_ATOM "http://lv2plug.in/ns/ext/atom#"
+#define OMX_LV2_SPEC_BUF_SIZE "http://lv2plug.in/ns/ext/buf-size"
+#define OMX_LV2_NS_BUF_SIZE "http://lv2plug.in/ns/ext/buf-size#"
+#define OMX_LV2_SPEC_CORE "http://lv2plug.in/ns/lv2core"
+#define OMX_LV2_NS_CORE "http://lv2plug.in/ns/lv2core#"
+#define OMX_LV2_SPEC_DATA_ACCESS "http://lv2plug.in/ns/ext/data-access"
+#define OMX_LV2_NS_DATA_ACCESS "http://lv2plug.in/ns/ext/data-access#"
+#define OMX_LV2_SPEC_DYNMANIFEST "http://lv2plug.in/ns/ext/dynmanifest"
+#define OMX_LV2_NS_DYNMANIFEST "http://lv2plug.in/ns/ext/dynmanifest#"
+#define OMX_LV2_SPEC_EVENT "http://lv2plug.in/ns/ext/event"
+#define OMX_LV2_NS_EVENT "http://lv2plug.in/ns/ext/event#"
+#define OMX_LV2_SPEC_INSTANCE_ACCESS "http://lv2plug.in/ns/ext/instance-access"
+#define OMX_LV2_NS_INSTANCE_ACCESS "http://lv2plug.in/ns/ext/instance-access#"
+#define OMX_LV2_SPEC_LOG "http://lv2plug.in/ns/ext/log"
+#define OMX_LV2_NS_LOG "http://lv2plug.in/ns/ext/log#"
+#define OMX_LV2_SPEC_MIDI "http://lv2plug.in/ns/ext/midi"
+#define OMX_LV2_NS_MIDI "http://lv2plug.in/ns/ext/midi#"
+#define OMX_LV2_SPEC_MORPH "http://lv2plug.in/ns/ext/morph"
+#define OMX_LV2_NS_MORPH "http://lv2plug.in/ns/ext/morph#"
+#define OMX_LV2_SPEC_OPTIONS "http://lv2plug.in/ns/ext/options"
+#define OMX_LV2_NS_OPTIONS "http://lv2plug.in/ns/ext/options#"
+#define OMX_LV2_SPEC_PARAMETERS "http://lv2plug.in/ns/ext/parameters"
+#define OMX_LV2_NS_PARAMETERS "http://lv2plug.in/ns/ext/parameters#"
+#define OMX_LV2_SPEC_PATCH "http://lv2plug.in/ns/ext/patch"
+#define OMX_LV2_NS_PATCH "http://lv2plug.in/ns/ext/patch#"
+#define OMX_LV2_SPEC_PORT_GROUPS "http://lv2plug.in/ns/ext/port-groups"
+#define OMX_LV2_NS_PORT_GROUPS "http://lv2plug.in/ns/ext/port-groups#"
+#define OMX_LV2_SPEC_PORT_PROPS "http://lv2plug.in/ns/ext/port-props"
+#define OMX_LV2_NS_PORT_PROPS "http://lv2plug.in/ns/ext/port-props#"
+#define OMX_LV2_SPEC_PRESETS "http://lv2plug.in/ns/ext/presets"
+#define OMX_LV2_NS_PRESETS "http://lv2plug.in/ns/ext/presets#"
+#define OMX_LV2_SPEC_RESIZE_PORT "http://lv2plug.in/ns/ext/resize-port"
+#define OMX_LV2_NS_RESIZE_PORT "http://lv2plug.in/ns/ext/resize-port#"
+#define OMX_LV2_SPEC_STATE "http://lv2plug.in/ns/ext/state"
+#define OMX_LV2_NS_STATE "http://lv2plug.in/ns/ext/state#"
+#define OMX_LV2_SPEC_TIME "http://lv2plug.in/ns/ext/time"
+#define OMX_LV2_NS_TIME "http://lv2plug.in/ns/ext/time#"
+#define OMX_LV2_SPEC_UI "http://lv2plug.in/ns/extensions/ui"
+#define OMX_LV2_NS_UI "http://lv2plug.in/ns/extensions/ui#"
+#define OMX_LV2_SPEC_UNITS "http://lv2plug.in/ns/extensions/units"
+#define OMX_LV2_NS_UNITS "http://lv2plug.in/ns/extensions/units#"
+#define OMX_LV2_SPEC_URI_MAP "http://lv2plug.in/ns/ext/uri-map"
+#define OMX_LV2_NS_URI_MAP "http://lv2plug.in/ns/ext/uri-map#"
+#define OMX_LV2_SPEC_URID "http://lv2plug.in/ns/ext/urid"
+#define OMX_LV2_NS_URID "http://lv2plug.in/ns/ext/urid#"
+#define OMX_LV2_SPEC_WORKER "http://lv2plug.in/ns/ext/worker"
+#define OMX_LV2_NS_WORKER "http://lv2plug.in/ns/ext/worker#"
+
+#endif /* OMX_FORMATS_H */

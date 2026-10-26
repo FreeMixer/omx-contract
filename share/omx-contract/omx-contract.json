@@ -1915,6 +1915,7 @@
         },
         "remoteControlsCount": {
           "id": "CLAP_REMOTE_CONTROLS_COUNT",
+          "value": 8,
           "kind": "enum-value",
           "status": "used",
           "by": [

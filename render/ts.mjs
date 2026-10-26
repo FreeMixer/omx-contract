@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+import { formatsExports } from './formats.mjs';
 import { packageVocabularyTs, wordsExports } from './vocabulary.mjs';
 
 /**
@@ -106,7 +107,8 @@ export function renderTs(resolved) {
   const readouts = readoutsExport(resolved);
   const values = setValuesExports(resolved);
   const words = wordsExports(resolved, tsType);
-  const js = BANNER + items.map((r) => itemExport(r, false)).join('') + values.js + words.js + readouts.js;
-  const dts = BANNER + items.map((r) => itemExport(r, true)).join('') + values.dts + words.dts + readouts.dts;
+  const formats = formatsExports(resolved, tsType);
+  const js = BANNER + items.map((r) => itemExport(r, false)).join('') + values.js + words.js + readouts.js + formats.js;
+  const dts = BANNER + items.map((r) => itemExport(r, true)).join('') + values.dts + words.dts + readouts.dts + formats.dts;
   return [{ path: 'omx-contract.js', text: js }, { path: 'omx-contract.d.ts', text: dts }];
 }
