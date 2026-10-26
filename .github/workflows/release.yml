@@ -3,7 +3,8 @@
 name: release
 
 # A version tag v<package.json version> proves the data (tests, the round-trip proof, the semver
-# class against the previous tag), builds omx-contract and omx-contract-devel (RPM) and omx-contract and libomx-contract-dev (DEB)
+# class against the previous tag), builds omx-contract, omx-contract-data and omx-contract-devel (RPM) and omx-contract,
+# omx-contract-data and libomx-contract-dev (DEB)
 # through FreeMixer/.github's shared workflows, attaches them and the `npm pack` tarball to the
 # GitHub release. The npm package is published by publish.yml (npmjs.com trusts that file by name, with the
 # npm-publish environment), on the same tag.
@@ -59,7 +60,7 @@ jobs:
     uses: FreeMixer/.github/.github/workflows/build-rpm.yml@v1
     with:
       package-name: omx-contract
-      binary-names: omx-contract omx-contract-devel
+      binary-names: omx-contract omx-contract-data omx-contract-devel
       publish: ${{ github.event_name == 'push' || inputs.publish == true }}
       needs-mod-host: false
       channel-deps: false
@@ -72,7 +73,7 @@ jobs:
     uses: FreeMixer/.github/.github/workflows/build-deb.yml@v1
     with:
       package-name: omx-contract
-      binary-names: libomx-contract-dev omx-contract
+      binary-names: libomx-contract-dev omx-contract omx-contract-data
       publish: ${{ github.event_name == 'push' || inputs.publish == true }}
       dependencies: ''
       requires: ''
