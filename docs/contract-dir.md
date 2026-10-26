@@ -103,6 +103,53 @@ lacks an item a check names cannot judge it and skips it (omx-dsp's own read nev
 the package that sees every term judges it. A term that resolves to anything but a finite number is refused. The
 package that owns the relation declares it; the tool names none.
 
+## A package's verbs
+
+A host's verbs (the lines of mod-host's protocol a controller sends, the replies and refusals they answer, and what
+each host owes them) are declared by the package that owns them, in an item of kind `verbs` in a file of its own
+directory, `<contractdir>/3/<package>/`. A package adds a verb by adding the file or an entry to it and installing it;
+omx-contract changes for none of it.
+
+```json
+{ "$schema": "../schema/omx-contract.schema.json",
+  "requires": { "omx-contract-schema": ">= 3.3.0" },
+  "OMX_CLAP_CORE_VERBS": { "kind": "verbs", "since": "0.20.0", "doc": "The verbs omx-clap-host answers by instance.",
+    "verbs": {
+      "paramInfo": {
+        "verb": "param_info",
+        "format": "param_info %i %s",
+        "reply": "resp 0 <unit> <scale> <min> <max> <default> <step> <stable_symbol>",
+        "codes": [{ "ref": "MOD_HOST_REPLY_CODES.paramSymbolInvalid" }],
+        "implementedBy": { "plugin-hostd": "optional", "omx-clap-host": "optional", "mod-host": "unsupported" },
+        "since": "0.20.0",
+        "doc": "What a parameter's value means: its unit, its scale, and the symbol it keeps across hosts and versions." } } } }
+```
+
+| Field | Meaning |
+|---|---|
+| `verb` | The word as written on the wire, lower snake case. |
+| `format` | The line as mod-host's `protocol_add_command` takes it: the verb, then `%i` (an integer), `%f` (a number) or `%s` (a word) per argument, and a last `...` for the words that may follow. Its first word is the verb. |
+| `reply` | The reply as the protocol writes it: `resp 0`, `resp <count>`, or `resp 0` and its columns. |
+| `codes` | The refusals it answers besides the reply, each `{ "ref": "<ITEM>.<name>" }` to a code of a `codes` item. A reply code is `reply.<group>.<reason>` and carries `resp`, the negative number of `resp <n>`. The codes of another package are named in `requires`, as any reference is. |
+| `implementedBy` | What each host owes the verb, by a word of `VERB_HOSTS` (`data/verbs.json`: `plugin-hostd`, `omx-clap-host`, `mod-host`): `required` (answered as its grammar says), `optional` (answered or refused, never misread) or `unsupported` (refused on purpose). A host left out owes it nothing. A new host is a word added to `VERB_HOSTS`, an omx-contract minor. |
+| `since`, `doc` | The owner's release that first carried the verb, and one line of prose. |
+
+`MOD_HOST_REPLY_CODES` is a codes item of the same package, `"paramSymbolInvalid": { "code":
+"reply.mod-host.param-symbol-invalid", "resp": -103 }`. The fixture `test/fixtures/package-verbs/` declares four verbs
+this way (track_info, remote_pages, param_info, chain) with the refusals they answer.
+
+A verb has one owner: one word declared twice, by one package or two, is refused. The renders carry every verb of the
+read: the C render writes `omxcontract/omx_host_verbs.h` (and `render --package` the package's own,
+`<stem>_host_verbs.h`, docs/render.md) with `OMX_VERB_<VERB>` (the word), `OMX_VERB_<VERB>_FMT` (the format),
+`OMX_VERB_<VERB>_REPLY`, `OMX_VERB_<VERB>_CODES_INIT` (the refusals' `resp`, in order) and the table
+`<stem>_host_verbs()`, with `<stem>_host_verb_find()` and `<stem>_host_verb_level()`, which a host reads at run time; the ts
+and json renders carry the item, every code resolved to its `code` and `resp`.
+
+Adding the kind is a MINOR change of the schema (3.3.0), as any new kind is. For a verbs item `semver` judges: a verb
+added, a refusal added, or a host given an optional verb it did not owe is MINOR; a verb removed, its word, format or
+reply changed, a refusal removed, or any other move of what a host owes is MAJOR. A verb's hosts and controllers are no
+consumer `DEVELOPMENT_PHASE` names, so a verb's removal is MAJOR in the development phase too.
+
 ## Reading the directory
 
 `loadContractDir()` (`lib/contract-dir.mjs`) and the CLI's `--contract-dir <dir>` (or `--installed`, which looks it
@@ -119,7 +166,9 @@ refusal stops the whole read and nothing is returned, so there is never a partia
    to its own rules, each refused by its own code. A descriptor declares no item.
 4. Merge into one namespace: one name, one declaration. A reference names an item of the same package, of
    omx-contract, or of a package the file's `requires` names.
-5. Check what the consumer needs (`--needs <package>@>=<x.y.z>`, repeatable).
+5. Check every verb (above): one owner, a format that starts with its verb, known hosts, and codes that are codes. A
+   code whose item no file declares was refused at step 4.
+6. Check what the consumer needs (`--needs <package>@>=<x.y.z>`, repeatable).
 
 The files are merged in the order of their reported paths, so omx-contract's own package reads in the order of
 `data/` and every render of it is byte for byte the render of `data/`.
@@ -146,6 +195,10 @@ carry it and it is not installed in the directory.
 | `contract.kernel.duplicate` | Two packages each install a file of one kernel (`kernels/<k>.json`): a kernel's controls are one file's, in its order. |
 | `contract.ref.unresolved` | A reference names no item. |
 | `contract.ref.undeclared` | A reference names an item of a package the file does not require. |
+| `contract.verb.duplicate` | Two verbs items, of one package or two, declare one verb. |
+| `contract.verb.format` | A verb's format does not start with its verb. |
+| `contract.verb.host-unknown` | A verb's `implementedBy` names a host that is no word of `VERB_HOSTS`. |
+| `contract.verb.code-unknown` | A verb's code names an item that is no codes item, or a name that item does not carry. |
 | `contract.package.absent` | A package the consumer or a file requires is not installed. |
 | `contract.package.too-old` | It is installed below the floor. |
 | `contract.origin.misplaced` | A `scanned` plugin descriptor ([descriptors.md](descriptors.md)): a scan is never read as a declaration. |

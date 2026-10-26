@@ -349,10 +349,10 @@ test('a scanned plugin descriptor is no declaration: contract.origin.misplaced, 
   assert.equal(refusalOf({ dir: root }), CONTRACT_CODES.originMisplaced);
 });
 
-// The links codes are raised in test/links.test.mjs and the descriptor codes in test/descriptor.test.mjs; every
-// other reader code must have its arm here.
+// The links codes are raised in test/links.test.mjs, the descriptor codes in test/descriptor.test.mjs and the verb
+// codes in test/verbs.test.mjs; every other reader code must have its arm here.
 test('every reader refusal code was raised by an arm above (a code with no arm is a column with no reader)', () => {
-  const reader = Object.entries(CONTRACT_CODES).filter(([k]) => !k.startsWith('source') && !k.startsWith('descriptor')).map(([, c]) => c);
+  const reader = Object.entries(CONTRACT_CODES).filter(([k]) => !k.startsWith('source') && !k.startsWith('descriptor') && !k.startsWith('verb')).map(([, c]) => c);
   assert.deepEqual(reader.filter((c) => !codesRaised.has(c)), []);
   assert.ok(codesRaised.size >= 14);
 });

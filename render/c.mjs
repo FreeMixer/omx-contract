@@ -17,6 +17,7 @@ import { doors, isNativeTable } from './doors.mjs';
 import { packageItems } from '../lib/data.mjs';
 import { HINTS_HEADER, renderHintsHeader } from './hints.mjs';
 import { packageVocabularyC, renderVocabularyHeader } from './vocabulary.mjs';
+import { VERBS_HEADER, packageVerbsC, renderVerbsHeader, verbCNames } from './verbs.mjs';
 
 const defined = (text) => new Set([...text.matchAll(/^#define (OMX_\w+)/gm)].map((m) => m[1]));
 
@@ -124,6 +125,7 @@ export function cNamesOf(resolved) {
   for (const f of resolved.renders ?? []) {
     for (const h of Array.isArray(f.render.c) ? f.render.c : []) for (const n of f.items) for (const [c] of ownerNames(h, resolved.get(n))) add(n, c);
   }
+  for (const [n, names] of verbCNames(resolved)) for (const c of names) add(n, c);
   return out;
 }
 
@@ -211,11 +213,12 @@ export function ownerHeaders(resolved, { pkg, all = false } = {}) {
 /**
  * Every file of the `c` target: `[{ path, text }]`, paths relative to the output directory. The whole data renders
  * omx_contract_limits.h and, under `omxcontract/` beside it, every declared header that spells no OMX_ name (the
- * layout omx-contract 2.14.0 installed) and omx_vocabulary.h, the vocabulary's codes and words (render/vocabulary.mjs); `{ pkg }` renders every header that package declares, each at its own path,
- * for the owner to commit, and its vocabulary, `<stem>_vocabulary.h` (render/vocabulary.mjs).
+ * layout omx-contract 2.14.0 installed), omx_vocabulary.h, the vocabulary's codes and words (render/vocabulary.mjs), and
+ * omx_host_verbs.h when the read declares verbs (render/verbs.mjs); `{ pkg }` renders every header that package declares, each at its own path,
+ * for the owner to commit, its vocabulary, `<stem>_vocabulary.h` (render/vocabulary.mjs), and its verbs, `<stem>_host_verbs.h`.
  */
 export function renderC(resolved, { pkg } = {}) {
-  if (pkg !== undefined) return [...ownerHeaders(resolved, { pkg }).map(({ path, text }) => ({ path, text })), ...packageVocabularyC(resolved, pkg)];
+  if (pkg !== undefined) return [...ownerHeaders(resolved, { pkg }).map(({ path, text }) => ({ path, text })), ...packageVocabularyC(resolved, pkg), ...packageVerbsC(resolved, pkg)];
   const files = [{ path: 'omxcontract/omx_contract_limits.h', text: renderLimitsHeader(resolved) }];
   // a header of OMX_ names repeats lines of omx_contract_limits.h, which the whole read holds once
   for (const h of ownerHeaders(resolved, { all: true })) if (!h.omx) files.push({ path: `omxcontract/${h.path}`, text: h.text });
@@ -223,6 +226,8 @@ export function renderC(resolved, { pkg } = {}) {
   if (vocabulary) files.push({ path: 'omxcontract/omx_vocabulary.h', text: vocabulary });
   const hints = renderHintsHeader(resolved);
   if (hints) files.push({ path: HINTS_HEADER, text: hints });
+  const verbs = renderVerbsHeader(resolved);
+  if (verbs) files.push({ path: VERBS_HEADER, text: verbs });
   return files;
 }
 
