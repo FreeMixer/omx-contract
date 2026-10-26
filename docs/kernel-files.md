@@ -139,6 +139,9 @@ carries `readouts` too, in their declared order, every reference resolved:
   `defaultFrom`, scale or `byKind` value changed; a readout's range, scale or rate changed.
 - PATCH: doc and why text, and a set's labels.
 
+A verbs item is judged verb by verb (docs/contract-dir.md "A package's verbs"): a verb added is MINOR, a verb removed
+or changed is MAJOR, in the development phase too.
+
 The development phase: while every consumer is one of the FreeMixer repositories `DEVELOPMENT_PHASE` names
 (omx-clap-core, omx-dsp, omx-plugins, plugin-qualify and the console engine), an item, a readout or a code removed is MINOR,
 and a release whose changes the check finds MAJOR passes with a minor bump. The pull request that makes such a change
