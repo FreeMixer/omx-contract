@@ -48,3 +48,11 @@ test('validate names file, item and rule', () => {
   assert.equal(r.status, 1);
   assert.match(r.stderr, /^data\/kernels\/gate\.json: GATE_LIMITS: default-inside: GATE_LIMITS\.thresholdDb: default 5 outside \[-80, 0\]$/m);
 });
+
+test('semver against a commit whose data is unchanged reports no change, the tool files included', (t) => {
+  const git = (...a) => spawnSync('git', ['-C', ROOT, ...a], { encoding: 'utf8' });
+  if (git('rev-parse', '--verify', 'HEAD').status !== 0 || git('diff', '--quiet', 'HEAD', '--', 'data').status !== 0) return t.skip('no clean HEAD to compare against');
+  const r = cli('semver', 'HEAD', '--version', '0.0.0');
+  assert.doesNotMatch(r.stdout, /CONTRACT_CODES/);
+  assert.match(r.stdout, /"changes":0/);
+});
