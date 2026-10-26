@@ -9,7 +9,7 @@
 #   package-files.sh deb <dir of the debs>
 #
 # omx-contract-data holds data/ installed as contract.d/<schema major>/omx-contract/ (less codes.json, with its
-# MANIFEST.json), the schema and the three committed renders under share/omx-contract; the development package the C
+# MANIFEST.json), the schema and the committed renders under share/omx-contract; the development package the C
 # render, omx-contract.pc and install-contract-dir.sh; the command package the command, its tree under
 # /usr/lib/omx-contract and its man page. No file is in two packages, and the command and the development package
 # each require omx-contract-data at their own version. Prints each package's list; exit 0 equal, 1 a difference, 2 usage.
@@ -43,7 +43,7 @@ cli=omx-contract
 # what the tree says each package holds
 (cd data && find . -name '*.json' ! -path ./codes.json | sed "s|^\./|/usr/share/omx-contract/contract.d/$major/omx-contract/|"
   echo "/usr/share/omx-contract/contract.d/$major/omx-contract/MANIFEST.json"
-  for f in omx-contract.json omx-vocabulary.schema.json omx-resource-hints.ttl; do echo "/usr/share/omx-contract/$f"; done
+  for f in omx-contract.json omx-vocabulary.schema.json omx-resource-hints.ttl omx_contract.py; do echo "/usr/share/omx-contract/$f"; done
   echo /usr/share/omx-contract/omx-contract.schema.json) | LC_ALL=C sort > "$tmp/want-$data"
 (for h in include/omxcontract/*.h; do echo "/usr/$h"; done
   echo /usr/share/omx-contract/install-contract-dir.sh
