@@ -20,16 +20,15 @@ definitions, so a knob means the same thing on the console, in a plugin and in a
 Fedora 44:
 
 ```
-sudo dnf config-manager addrepo --from-repofile=https://freemixer.github.io/rpm/freemixer.repo
+sudo dnf install https://www.openmixer.org/rpm/openmixer-release.noarch.rpm
 sudo dnf install omx-contract-devel
 ```
 
 Debian bookworm and trixie (also Raspberry Pi OS and Zynthian):
 
 ```
-curl -fsSL https://freemixer.github.io/deb/freemixer.asc | sudo tee /usr/share/keyrings/freemixer.asc >/dev/null
-echo "deb [signed-by=/usr/share/keyrings/freemixer.asc] https://freemixer.github.io/deb/debian/$(. /etc/os-release; echo $VERSION_CODENAME) ./" | sudo tee /etc/apt/sources.list.d/freemixer.list
-sudo apt update && sudo apt install libomx-contract-dev
+curl -fsSLO https://www.openmixer.org/deb/openmixer-release.deb && sudo apt install ./openmixer-release.deb
+sudo apt install libomx-contract-dev
 ```
 
 The development package pulls in omx-contract-data, the files a program reads at run time (the contract directory,
