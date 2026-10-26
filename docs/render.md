@@ -77,10 +77,16 @@ omx-contract: `render --target c --package omx-contract --out include/omxcontrac
 and omx-clap-core's is `omx_clap_core_vocabulary.h`, guard `OMX_CLAP_CORE_VOCABULARY_H`, so the two include together.
 A package with no such item renders no vocabulary file.
 
+`--package` renders the package's verbs the same way, by kind (docs/contract-dir.md "A package's verbs"): every verb of
+its `verbs` items as `<stem>_host_verbs.h` (guard `<STEM>_HOST_VERBS_H`), omx-clap-core's `omx_clap_core_host_verbs.h`.
+A verb is `OMX_VERB_<VERB>` and `OMX_VERB_<VERB>_FMT`, spelled alike in every header, so the whole read's header and a
+package's include together; the table is `<stem>_host_verbs()`. A package that declares no verb renders no verbs file.
+
 The render of a whole read (no `--package`) writes `omxcontract/omx_contract_limits.h` and, beside it as
 `omxcontract/<header>`, every declared header that spells no `OMX_` name (no `scalars`, no `limits`): the layout
 omx-contract 2.14.0 installed. Beside them it writes `omxcontract/omx_vocabulary.h`, and the json render
-`omx-vocabulary.schema.json`, from every codes and words item of a file with no render word (docs/data-layout.md). An owner's items are items like any other, so their `OMX_` defines are in
+`omx-vocabulary.schema.json`, from every codes and words item of a file with no render word (docs/data-layout.md), and
+`omxcontract/omx_host_verbs.h` when the read declares a verb. An owner's items are items like any other, so their `OMX_` defines are in
 omx_contract_limits.h of a whole read once, not a second time. A define of a package header whose value names another
 package's (a readout's `OMX_PARAM_SCALES_*` scale) needs that package's header included first.
 

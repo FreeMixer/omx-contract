@@ -284,6 +284,14 @@
         "opens-sockets",
         "activate-time"
       ]
+    },
+    "VERB_HOSTS": {
+      "description": "The hosts a verb's implementedBy names (docs/contract-dir.md): the programs a controller sends mod-host's protocol to. A verb states what each one owes it; a host the verb leaves out owes it nothing.",
+      "enum": [
+        "plugin-hostd",
+        "omx-clap-host",
+        "mod-host"
+      ]
     }
   }
 }
