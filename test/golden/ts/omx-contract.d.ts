@@ -6119,6 +6119,27 @@ export declare const RESOURCE_HINTS: {
 };
 
 /**
+ * The hosts a verb's implementedBy names (docs/contract-dir.md): the programs a controller sends mod-host's protocol to. A verb states what each one owes it; a host the verb leaves out owes it nothing.
+ *
+ * Why: A host's verbs were typed twice, in plugin-hostd's protocol.h and in omx-clap-core's command table; a verbs item declares them once, and the hosts it names are a closed list, so a misspelt host is refused rather than read as a host that owes nothing.
+ * @see data/verbs.json
+ */
+export declare const VERB_HOSTS: {
+  readonly pluginHostd: {
+    readonly word: "plugin-hostd";
+    readonly doc: "The daemon that places plugins in workers and answers the verbs it adds itself.";
+  };
+  readonly omxClapHost: {
+    readonly word: "omx-clap-host";
+    readonly doc: "omx-clap-core's worker: a CLAP plugin's host, and an LV2 plugin's through its adapter.";
+  };
+  readonly modHost: {
+    readonly word: "mod-host";
+    readonly doc: "mod-host, the LV2 host whose protocol the others speak.";
+  };
+};
+
+/**
  * The words of CURVE_AXES, in their declared order.
  * @see data/curves.json
  */
@@ -6285,3 +6306,9 @@ export declare const RESOURCE_THREAD_SCHEDULING_WORDS: readonly ["none", "fifo"]
  * @see data/resource-profile.json
  */
 export declare const RESOURCE_HINTS_WORDS: readonly ["footprint-at-rest", "footprint-per-voice", "shared-load", "threads-spawned", "streams-from-disk", "opens-sockets", "activate-time"];
+
+/**
+ * The words of VERB_HOSTS, in their declared order.
+ * @see data/verbs.json
+ */
+export declare const VERB_HOSTS_WORDS: readonly ["plugin-hostd", "omx-clap-host", "mod-host"];
