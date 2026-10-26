@@ -1,0 +1,55 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "requires": {
+    "omx-contract-schema": ">= 3.2.0"
+  },
+  "MOD_HOST_REPLY_CODES": {
+    "kind": "codes",
+    "since": "3.3.0",
+    "doc": "Two of mod-host's own refusals, as the hosts that speak its protocol answer them (mod-host.h).",
+    "codes": {
+      "invalidOperation": {
+        "code": "reply.mod-host.invalid-operation",
+        "resp": -902,
+        "doc": "ERR_INVALID_OPERATION: a word outside the verb's grammar"
+      },
+      "paramSymbolInvalid": {
+        "code": "reply.mod-host.param-symbol-invalid",
+        "resp": -103,
+        "doc": "ERR_LV2_INVALID_PARAM_SYMBOL: a symbol that is not a parameter of the instance"
+      }
+    }
+  },
+  "PLUGIN_HOSTD_REPLY_CODES": {
+    "kind": "codes",
+    "since": "3.3.0",
+    "doc": "The refusals plugin-hostd adds to mod-host's that its param_info and chain answer (protocol.h PHD_ERRORS, plugin-hostd 0.11.0).",
+    "codes": {
+      "noParamContract": {
+        "code": "reply.plugin-hostd.no-param-contract",
+        "resp": -511,
+        "doc": "PHD_ERR_NO_PARAM_CONTRACT: the host holds no checked unit and scale for this parameter"
+      },
+      "chainUnknownInstance": {
+        "code": "reply.plugin-hostd.chain-unknown-instance",
+        "resp": -518,
+        "doc": "PHD_ERR_CHAIN_UNKNOWN_INSTANCE: a member is an instance no add made"
+      },
+      "chainDuplicate": {
+        "code": "reply.plugin-hostd.chain-duplicate",
+        "resp": -519,
+        "doc": "PHD_ERR_CHAIN_DUPLICATE: an instance is named twice in one chain"
+      },
+      "chainInstanceBusy": {
+        "code": "reply.plugin-hostd.chain-instance-busy",
+        "resp": -520,
+        "doc": "PHD_ERR_CHAIN_INSTANCE_BUSY: a member is already in another chain"
+      },
+      "chainMixedFormat": {
+        "code": "reply.plugin-hostd.chain-mixed-format",
+        "resp": -521,
+        "doc": "PHD_ERR_CHAIN_MIXED_FORMAT: no one worker program runs every member"
+      }
+    }
+  }
+}

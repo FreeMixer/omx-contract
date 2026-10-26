@@ -1,0 +1,91 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "requires": {
+    "omx-contract-schema": ">= 3.2.0"
+  },
+  "HOST_VERBS": {
+    "kind": "verbs",
+    "since": "3.3.0",
+    "doc": "Four verbs as plugin-hostd 0.11.0 and omx-clap-core declare them today (protocol.h PHD_INSTANCE_VERBS, PHD_VERBS and PHD_HOST_VERBS; main.c protocol_add_command), declared once.",
+    "verbs": {
+      "trackInfo": {
+        "verb": "track_info",
+        "format": "track_info %i %s %s ...",
+        "reply": "resp 0",
+        "codes": [
+          {
+            "ref": "MOD_HOST_REPLY_CODES.invalidOperation"
+          }
+        ],
+        "implementedBy": {
+          "plugin-hostd": "optional",
+          "omx-clap-host": "optional",
+          "mod-host": "unsupported"
+        },
+        "since": "3.3.0",
+        "doc": "The strip's name, colour and kind: <instance> <name> <#RRGGBB | -> [bus | return | master]; a CLAP plugin reads them through clap.track-info, and the daemon answers an LV2 instance itself."
+      },
+      "remotePages": {
+        "verb": "remote_pages",
+        "format": "remote_pages %i",
+        "reply": "resp <count>",
+        "implementedBy": {
+          "plugin-hostd": "optional",
+          "omx-clap-host": "optional",
+          "mod-host": "unsupported"
+        },
+        "since": "3.3.0",
+        "doc": "The plugin's remote-control pages, from clap.remote-controls; 0 for an LV2 instance."
+      },
+      "paramInfo": {
+        "verb": "param_info",
+        "format": "param_info %i %s",
+        "reply": "resp 0 <unit> <scale> <min> <max> <default> <step> <stable_symbol>",
+        "codes": [
+          {
+            "ref": "MOD_HOST_REPLY_CODES.paramSymbolInvalid"
+          },
+          {
+            "ref": "PLUGIN_HOSTD_REPLY_CODES.noParamContract"
+          }
+        ],
+        "implementedBy": {
+          "plugin-hostd": "optional",
+          "omx-clap-host": "optional",
+          "mod-host": "unsupported"
+        },
+        "since": "3.3.0",
+        "doc": "What a parameter's value means: its unit, its scale, and the symbol it keeps across hosts and versions."
+      },
+      "chain": {
+        "verb": "chain",
+        "format": "chain %i %i ...",
+        "reply": "resp 0",
+        "codes": [
+          {
+            "ref": "PLUGIN_HOSTD_REPLY_CODES.chainUnknownInstance"
+          },
+          {
+            "ref": "PLUGIN_HOSTD_REPLY_CODES.chainDuplicate"
+          },
+          {
+            "ref": "PLUGIN_HOSTD_REPLY_CODES.chainInstanceBusy"
+          },
+          {
+            "ref": "PLUGIN_HOSTD_REPLY_CODES.chainMixedFormat"
+          },
+          {
+            "ref": "MOD_HOST_REPLY_CODES.invalidOperation"
+          }
+        ],
+        "implementedBy": {
+          "plugin-hostd": "required",
+          "omx-clap-host": "required",
+          "mod-host": "unsupported"
+        },
+        "since": "3.3.0",
+        "doc": "The instances, in this order, are one chain run in one worker: <chain> <instance> [<instance> ...]; a worker that runs chains in one client is sent the line with the members it holds."
+      }
+    }
+  }
+}
