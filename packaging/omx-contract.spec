@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.2.0
+Version: 3.3.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -110,6 +110,14 @@ lowest release whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Mon Oct 26 2026 Pau Aliagas <linuxnow@gmail.com> - 3.3.0-1
+- Schema 3.3.0: a verbs item declares the verbs of a host: the verb, its
+  argument format, its reply, the codes it can answer with and which hosts
+  implement it. A package installs its verbs into its own directory of the
+  contract directory, and the C header and TypeScript renders carry them.
+- The contract directory's files of omx-contract move to the noarch package
+  omx-contract-data; omx-contract and omx-contract-devel require it.
+
 * Sun Oct 25 2026 Pau Aliagas <linuxnow@gmail.com> - 3.2.0-1
 - Schema 3.2.0: a source field names an element of a struct's fixed array as
   <member>[<index>]; each segment admits one [<digits>] index. An empty index,
