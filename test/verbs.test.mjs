@@ -14,6 +14,7 @@ import { main } from '../bin/omx-contract.mjs';
 import { CONTRACT_CODES, ContractRefusal } from '../lib/codes.mjs';
 import { SCHEMA_MAJOR, loadContractDir, sha256 } from '../lib/contract-dir.mjs';
 import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
+import { packageVocabularyC } from '../render/vocabulary.mjs';
 import { classify, refusal } from '../lib/semver.mjs';
 import { SCHEMA_VERSION, fileProblems, validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
@@ -272,4 +273,19 @@ test('semver: the verbs kind and a verb added are MINOR; a verb removed is MAJOR
   assert.equal(level((v) => { v.remotePages.codes = [{ ref: 'MOD_HOST_REPLY_CODES.invalidOperation' }]; }).level, 'minor', 'a refusal added');
   assert.equal(level((v) => { v.chain.doc = 'reworded'; }).level, 'patch');
   assert.equal(level((v, d) => { d['errors.json'].MOD_HOST_REPLY_CODES.codes.invalidOperation.resp = -901; }).level, 'major', 'a refusal\'s resp moved');
+});
+
+test('every reply code with a resp is a _RESP macro of its own number in the package vocabulary header, and a code without one has none', () => {
+  const root = installed();
+  const resolved = resolveData(loadContractDir({ dir: root }));
+  const pkg = packageVocabularyC(resolved, PKG)[0].text;
+  const codes = [...resolved.values()].filter((r) => r.kind === 'codes').flatMap((r) => Object.values(r.value));
+  const withResp = codes.filter((c) => c.resp !== undefined);
+  assert.ok(withResp.length >= 2, 'the fixture declares reply codes with a resp: the check can see them');
+  const macros = [...pkg.matchAll(/^#define (OMX_REPLY_\w+_RESP) \((-\d+)\)$/gm)].map((m) => [m[1], Number(m[2])]);
+  for (const c of withResp.filter((x) => pkg.includes(`"${x.code}"`))) {
+    const name = `OMX_${c.code.replace(/[^A-Za-z0-9]+/g, '_').toUpperCase()}_RESP`;
+    assert.deepEqual(macros.find(([m]) => m === name), [name, c.resp], c.code);
+  }
+  assert.equal(macros.length, withResp.filter((x) => pkg.includes(`"${x.code}"`)).length, 'one _RESP per code that has a resp');
 });
