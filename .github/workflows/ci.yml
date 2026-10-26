@@ -35,6 +35,7 @@ jobs:
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check
           node bin/omx-contract.mjs render --target lv2 --out share/omx-contract --check
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check
+          node bin/omx-contract.mjs render --target py --out share/omx-contract --check
       - id: handback-contract-dir
         name: The data installed as the contract directory renders the same bytes, and its links hold
         run: |
@@ -46,6 +47,7 @@ jobs:
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check --contract-dir "$dir"
           node bin/omx-contract.mjs render --target lv2 --out share/omx-contract --check --contract-dir "$dir"
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check --contract-dir "$dir"
+          node bin/omx-contract.mjs render --target py --out share/omx-contract --check --contract-dir "$dir"
           node bin/omx-contract.mjs links --check
       - id: handback-verbs
         name: A package's verbs, installed beside the data, validate and render the committed fixture headers

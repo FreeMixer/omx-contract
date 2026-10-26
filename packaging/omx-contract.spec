@@ -100,6 +100,7 @@ lowest release whose declarations it builds against.
 %{_datadir}/omx-contract/omx-contract.schema.json
 %{_datadir}/omx-contract/omx-contract.json
 %{_datadir}/omx-contract/omx-vocabulary.schema.json
+%{_datadir}/omx-contract/omx_contract.py
 %{_datadir}/omx-contract/omx-resource-hints.ttl
 
 %files devel

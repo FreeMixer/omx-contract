@@ -622,7 +622,7 @@
       "properties": {
         "uri": { "type": "string", "pattern": "^https?://[^\\s]+$" },
         "id": { "type": "string", "pattern": "^CLAP_[A-Z0-9_]+$" },
-        "value": { "type": "string" },
+        "value": { "type": ["string", "integer"], "minimum": 0 },
         "kind": {
           "enum": [
             "specification", "class", "plugin-class", "property", "datatype", "port-property", "feature", "extension-data", "option",
