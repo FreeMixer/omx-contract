@@ -18,6 +18,8 @@ BuildRequires: tar
 BuildRequires: gzip
 
 Requires: nodejs
+# the command reads the installed contract directory, omx-contract's own files among them
+Requires: %{name}-data = %{version}-%{release}
 # --installed finds the contract directory through pkg-config
 Recommends: /usr/bin/pkg-config
 Provides: bundled(nodejs-ajv) = 8.20.0
@@ -38,10 +40,25 @@ This package holds the omx-contract command, which validates, formats and
 renders the declarations, and reads the contract directory the packages
 install their definitions into as one checked set.
 
+%package data
+License: GPL-3.0-or-later
+Summary: The FreeMixer declarations a reader reads at run time: contract directory, schema, json
+# the files every reader of the contract directory reads at run time, the same on every architecture
+
+%description data
+The files a program reads at run time to know the FreeMixer declarations:
+omx-contract's own package of the contract directory
+(share/omx-contract/contract.d/3/omx-contract/, where every owner installs its
+definitions beside it), the JSON Schema, the resolved json render, the
+vocabulary's schema fragment and the resource hints' Turtle, under
+share/omx-contract. A package that reads them at run time requires this one,
+never the development package.
+
 %package devel
 License: GPL-3.0-or-later
-Summary: Headers, JSON data and schema to build on the FreeMixer declarations
-# the C headers and the resolved json need no node; the union of the contract directory is read by the command
+Summary: Headers and pkg-config file to build on the FreeMixer declarations
+# the C headers need no node; the union of the contract directory is read by the command
+Requires: %{name}-data = %{version}-%{release}
 Recommends: %{name} = %{version}-%{release}
 Provides: %{name}-static = %{version}-%{release}
 # the owners' releases before schema 3 read words and names this release no longer carries
@@ -50,10 +67,12 @@ Conflicts: omx-clap-core-devel < 0.13.0~
 Conflicts: omx-plugins-devel < 0.13.0~
 
 %description devel
-Everything you need to build against omx-contract: the C render of omx-contract under include/omxcontract (the limits header), the resolved json
-render and the JSON Schema under share/omx-contract, and omx-contract.pc
-(version, datadir). A consumer requires it at a floor, the lowest release
-whose declarations it builds against.
+Everything you need to build against omx-contract: the C render of
+omx-contract under include/omxcontract (the limits header), omx-contract.pc
+(version, datadir, contractdir) and install-contract-dir.sh, which an owner's
+build installs its definitions with. The data it builds against is
+omx-contract-data, which it requires. A consumer requires it at a floor, the
+lowest release whose declarations it builds against.
 
 %prep
 %autosetup
@@ -74,11 +93,20 @@ whose declarations it builds against.
 %{_prefix}/lib/omx-contract/
 %{_mandir}/man1/omx-contract.1*
 
+%files data
+%license LICENSE
+%dir %{_datadir}/omx-contract
+%{_datadir}/omx-contract/contract.d/
+%{_datadir}/omx-contract/omx-contract.schema.json
+%{_datadir}/omx-contract/omx-contract.json
+%{_datadir}/omx-contract/omx-vocabulary.schema.json
+%{_datadir}/omx-contract/omx-resource-hints.ttl
+
 %files devel
 %license LICENSE
 %doc README.md
 %{_includedir}/omxcontract/
-%{_datadir}/omx-contract/
+%{_datadir}/omx-contract/install-contract-dir.sh
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog

@@ -7,10 +7,30 @@ Standards-Version: 4.6.2
 Homepage: https://github.com/FreeMixer/omx-contract
 Rules-Requires-Root: no
 
+Package: omx-contract-data
+Architecture: all
+Multi-Arch: foreign
+Section: misc
+Depends: ${misc:Depends}
+Breaks: libomx-contract-dev (<< ${source:Version})
+Replaces: libomx-contract-dev (<< ${source:Version})
+Description: FreeMixer declarations read at run time: contract directory, schema
+ A fader range, a default, a plugin parameter, a supported sample rate: in
+ FreeMixer each of these is written down once, in omx-contract, and everything
+ else reads it. The declarations are plain JSON with a JSON Schema.
+ .
+ This package holds the files a program reads at run time: omx-contract's
+ own package of the contract directory
+ (/usr/share/omx-contract/contract.d/3/omx-contract/, where every owner
+ installs its definitions beside it), the JSON Schema, the resolved json
+ render, the vocabulary's schema fragment and the resource hints' Turtle,
+ under /usr/share/omx-contract. A package that reads them at run time
+ depends on this one, never on the development package.
+
 Package: libomx-contract-dev
 Architecture: all
 Multi-Arch: foreign
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, omx-contract-data (= ${source:Version})
 Recommends: omx-contract (= ${source:Version})
 Breaks: libomxdsp-dev (<< 0.25.0~), libomx-clap-core-dev (<< 0.13.0~), omx-plugins-dev (<< 0.13.0~)
 Description: one shared source of truth for every FreeMixer knob, range, default
@@ -21,15 +41,16 @@ Description: one shared source of truth for every FreeMixer knob, range, default
  a JSON Schema, so tools in any language can read them, and they are rendered
  as C headers for the code that is built from them.
  .
- This package holds the c render under /usr/include/omxcontract, the
- resolved json render and the schema under /usr/share/omx-contract, and
- omx-contract.pc. A consumer requires it at a floor, the lowest release
- whose declarations it builds against.
+ This package holds the c render under /usr/include/omxcontract,
+ omx-contract.pc and install-contract-dir.sh, which an owner's build
+ installs its definitions with. The data it builds against is
+ omx-contract-data, which it depends on. A consumer requires it at a floor,
+ the lowest release whose declarations it builds against.
 
 Package: omx-contract
 Architecture: all
 Section: devel
-Depends: ${misc:Depends}, nodejs
+Depends: ${misc:Depends}, nodejs, omx-contract-data (= ${source:Version})
 Recommends: pkgconf | pkg-config
 Description: command that checks and renders the FreeMixer declarations
  A fader range, a default, a plugin parameter, a supported sample rate: in

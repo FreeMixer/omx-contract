@@ -85,6 +85,66 @@ jobs:
         name: The headers compile with no node (what a release build runs)
         run: make check
 
+  # The packages of a release, built as the release builds them (FreeMixer/.github's build-rpm and build-deb actions),
+  # each file held to the package it belongs in (tools/package-files.sh, BUILDING.md), and the command run on the
+  # installed data with no development package.
+  rpm:
+    name: RPMs (fc44), which file lands in which package
+    runs-on: ${{ github.event.repository.private && 'arc-freemixer' || 'ubuntu-latest' }}
+    timeout-minutes: 20
+    container:
+      image: fedora:44
+    steps:
+      - name: Install the build tools
+        run: dnf install -y --setopt=install_weak_deps=False git rpm-build dnf5-plugins
+      - uses: actions/checkout@v4
+      - uses: FreeMixer/.github/.github/actions/build-rpm@v1
+      - id: handback-rpm-files
+        name: Which file lands in which package
+        run: sh tools/package-files.sh rpm rpms
+      - id: handback-rpm-runtime
+        name: The command reads the installed contract directory with omx-contract-data and no development package
+        run: |
+          set -eu
+          dnf install -y --setopt=install_weak_deps=False rpms/omx-contract-[0-9]*.noarch.rpm rpms/omx-contract-data-[0-9]*.noarch.rpm
+          if rpm -q omx-contract-devel; then echo '::error::the development package came along'; exit 1; fi
+          omx-contract validate --contract-dir /usr/share/omx-contract/contract.d
+          omx-contract render --target json --contract-dir /usr/share/omx-contract/contract.d --out /tmp/json
+          cmp /tmp/json/omx-contract.json /usr/share/omx-contract/omx-contract.json
+
+  deb:
+    name: DEBs (${{ matrix.suite }}), linted, which file lands in which package
+    runs-on: ${{ github.event.repository.private && 'arc-freemixer' || 'ubuntu-latest' }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [bookworm, trixie]
+    defaults:
+      run:
+        shell: bash
+    container:
+      image: debian:${{ matrix.suite }}
+    steps:
+      - name: Install the build tools
+        run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends ca-certificates git dpkg-dev debhelper build-essential lintian
+      - uses: actions/checkout@v4
+      - uses: FreeMixer/.github/.github/actions/build-deb@v1
+      - id: handback-deb-files
+        name: Which file lands in which package
+        run: sh tools/package-files.sh deb debs
+      - id: handback-deb-runtime
+        name: The command reads the installed contract directory with omx-contract-data and no development package
+        run: |
+          set -eu
+          apt-get install -y --no-install-recommends ./debs/omx-contract_*_all.deb ./debs/omx-contract-data_*_all.deb
+          if dpkg -s libomx-contract-dev; then echo '::error::the development package came along'; exit 1; fi
+          omx-contract validate --contract-dir /usr/share/omx-contract/contract.d
+          omx-contract render --target json --contract-dir /usr/share/omx-contract/contract.d --out /tmp/json
+          cmp /tmp/json/omx-contract.json /usr/share/omx-contract/omx-contract.json
+
   # A commit message is published like a file. A pull request's own commits must carry no
   # AI-attribution line (tools/ai-trace-commit-check.sh); what is already on the base is not read.
   ai-trace:
