@@ -21,6 +21,9 @@ export function vocabularyItems(resolved) {
 /** A code's C name: OMX_ and the code in upper snake case (hosting.rt-safety.unmeasured is OMX_HOSTING_RT_SAFETY_UNMEASURED). */
 export const codeMacro = (code) => `OMX_${constCase(code)}`;
 
+/** A reply code's resp number as C: the code's macro and _RESP (reply.host.pin-absent is OMX_REPLY_HOST_PIN_ABSENT_RESP, -508). */
+export const respMacro = (code) => `${codeMacro(code)}_RESP`;
+
 /** A word's C name: OMX_<ITEM>_<NAME>. */
 export const wordMacro = (item, name) => `OMX_${item}_${constCase(name)}`;
 
@@ -46,7 +49,10 @@ export function renderVocabularyHeader(resolved, pkg) {
   const blocks = items.map((r) => {
     const lines = [`/* ${r.name} (${r.rel}) */`];
     if (r.kind === 'codes') {
-      for (const c of Object.values(r.value)) lines.push(`#define ${codeMacro(c.code)} ${cStringLiteral(c.code)}${trailing(c.doc)}`);
+      for (const c of Object.values(r.value)) {
+        lines.push(`#define ${codeMacro(c.code)} ${cStringLiteral(c.code)}${trailing(c.doc)}`);
+        if (Number.isInteger(c.resp)) lines.push(`#define ${respMacro(c.code)} (${c.resp})`);
+      }
     } else {
       for (const [n, w] of Object.entries(r.value)) lines.push(`#define ${wordMacro(r.name, n)} ${cStringLiteral(w.word)}${trailing(w.doc)}`);
       lines.push(`#define OMX_${r.name}_COUNT ${Object.keys(r.value).length}u`);
@@ -61,7 +67,7 @@ export function renderVocabularyHeader(resolved, pkg) {
 /*
  * GENERATED — DO NOT EDIT BY HAND.
  * Produced by \`omx-contract render --target c\` from FreeMixer/${pkg ?? 'omx-contract'}'s data/: the vocabulary
- * (docs/data-layout.md). A code is OMX_ and the code in upper snake case; a word is OMX_<ITEM>_<NAME>, each words
+ * (docs/data-layout.md). A code is OMX_ and the code in upper snake case, and a reply code that carries a resp has it as that name and _RESP; a word is OMX_<ITEM>_<NAME>, each words
  * item with its _COUNT and an _INIT of its words in their order. A consumer writes and compares these, never a
  * literal of its own.
  */
