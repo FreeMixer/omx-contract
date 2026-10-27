@@ -3,3 +3,4 @@ usr/share/omx-contract/omx-contract.schema.json
 usr/share/omx-contract/omx-contract.json
 usr/share/omx-contract/omx-vocabulary.schema.json
 usr/share/omx-contract/omx-resource-hints.ttl
+usr/share/omx-contract/omx_contract.py
