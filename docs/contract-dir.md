@@ -32,6 +32,11 @@ stays the default input of every command; the directory is read only when it is 
   files were installed from: a file's reported path is `<tree>/<file>`, the path in the tree that owns it, so the
   renders cite the same file whether they read the tree or the installed copy.
 - A file name carries no version.
+- A past minor's schema stays frozen under `schema/history/<major>.<minor>.0.schema.json` (never the current
+  minor, which is `schema/omx-contract.schema.json` itself): the reader checks a file against the schema at its
+  stated floor with it (`contract.schema.floor-understated`, below). A release that bumps `x-omx-schema-version`
+  freezes the minor it leaves as a new file here; the vocabulary never changes at a patch, so a floor's patch
+  names no schema of its own.
 - `tools/install-contract-dir.sh <package> <version> <from> <to>` installs one package: it copies every `.json`
   under `<from>` to `<to>/<package>/`, writes `$schema` in its installed form (below) and writes the manifest. It
   is plain shell and coreutils, so a release build runs no node. `make install` installs omx-contract's own
@@ -163,7 +168,10 @@ refusal stops the whole read and nothing is returned, so there is never a partia
 3. Check each file's `$schema` major and its `requires.omx-contract-schema` floor against the reader's schema,
    then validate the file against the schema and the kernel-file shape. A plugin descriptor
    ([descriptors.md](descriptors.md)) of origin `scanned` is refused here; any other is held to the schema and then
-   to its own rules, each refused by its own code. A descriptor declares no item.
+   to its own rules, each refused by its own code. A descriptor declares no item. Then, when the floor names an
+   older minor, validate the file again against the schema frozen at that minor (`schema/history/`, above): a
+   file that fails there while it passed against the reader's own schema understates its floor
+   (`contract.schema.floor-understated`) — it needs the vocabulary of a minor newer than the one it states.
 4. Merge into one namespace: one name, one declaration. A reference names an item of the same package, of
    omx-contract, or of a package the file's `requires` names.
 5. Check every verb (above): one owner, a format that starts with its verb, known hosts, and codes that are codes. A
@@ -189,6 +197,7 @@ carry it and it is not installed in the directory.
 | `contract.schema.major` | A file's `$schema` major is not the reader's, or `$schema` is not the installed form. |
 | `contract.schema.too-old` | A file's `requires.omx-contract-schema` floor is above the reader's schema. |
 | `contract.schema.floor-absent` | An installed file of another package than omx-contract with no schema floor. |
+| `contract.schema.floor-understated` | A file does not validate against the schema at its `requires.omx-contract-schema` floor, only against a newer one. |
 | `contract.file.not-json` | A file that does not parse. |
 | `contract.file.invalid` | A schema or shape violation, an unknown key or word included. |
 | `contract.item.duplicate` | Two files declare one name. |

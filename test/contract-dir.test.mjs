@@ -226,6 +226,20 @@ test('contract.schema.major, contract.schema.too-old and contract.schema.floor-a
   assert.equal(refusalOf({ dir: root }), CONTRACT_CODES.fileInvalid, 'a floor is written >= x.y.z');
 });
 
+test('contract.schema.floor-understated: a file does not validate against the schema at its stated floor', () => {
+  // "dB/oct" is a unit schema 3.3.0 added (CHANGELOG 3.3.0); schema 3.0.0 has no such unit.
+  let root = installed();
+  addPackage(root, 'omx-dsp', { 'x.json': owned({ TEST_A: scalar(1, { unit: 'dB/oct' }) }, { 'omx-contract-schema': '>= 3.0.0' }) });
+  assert.equal(refusalOf({ dir: root }), CONTRACT_CODES.schemaFloorUnderstated);
+  root = installed();
+  addPackage(root, 'omx-dsp', { 'x.json': owned({ TEST_A: scalar(1, { unit: 'dB/oct' }) }, { 'omx-contract-schema': '>= 3.3.0' }) });
+  assert.equal(loadContractDir({ dir: root }).items.get('TEST_A').pkg, 'omx-dsp', 'a floor at the minor that carries the unit is not understated');
+  // A floor of an older minor that states nothing newer than it is not refused.
+  root = installed();
+  addPackage(root, 'omx-dsp', { 'x.json': owned({ TEST_A: scalar(1) }, { 'omx-contract-schema': '>= 3.0.0' }) });
+  assert.equal(loadContractDir({ dir: root }).items.get('TEST_A').pkg, 'omx-dsp', 'a floor an ordinary file reaches is not refused');
+});
+
 test('contract.file.not-json and contract.file.invalid', () => {
   let root = installed();
   addPackage(root, 'omx-dsp', { 'x.json': '{ "TEST_A": ' });
