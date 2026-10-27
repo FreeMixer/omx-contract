@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.3.0
+Version: 3.4.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -111,6 +111,13 @@ lowest release whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Tue Oct 27 2026 Pau Aliagas <linuxnow@gmail.com> - 3.4.0-1
+- A reply code that carries a resp number renders as OMX_REPLY_<CODE>_RESP, so a
+  host defines no refusal number by hand.
+- The format identifiers render to C, TypeScript and Python.
+- validate() is exported.
+- omx_contract.py lands in omx-contract-data.
+
 * Mon Oct 26 2026 Pau Aliagas <linuxnow@gmail.com> - 3.3.0-1
 - Schema 3.3.0: a verbs item declares the verbs of a host: the verb, its
   argument format, its reply, the codes it can answer with and which hosts
