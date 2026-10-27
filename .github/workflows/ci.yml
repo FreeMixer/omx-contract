@@ -76,6 +76,7 @@ jobs:
       - id: handback-contract-dir
         name: The data installed as the contract directory renders the same bytes, and its links hold
         run: |
+          : "${RUNNER_TEMP:=$(mktemp -d)}"
           make install DESTDIR="$RUNNER_TEMP/inst" PREFIX=/usr DATADIR=/usr/share INCLUDEDIR=/usr/include
           dir="$RUNNER_TEMP/inst/usr/share/omx-contract/contract.d"
           node bin/omx-contract.mjs validate --contract-dir "$dir"
@@ -89,6 +90,7 @@ jobs:
       - id: handback-verbs
         name: A package's verbs, installed beside the data, validate and render the committed fixture headers
         run: |
+          : "${RUNNER_TEMP:=$(mktemp -d)}"
           vdir="$RUNNER_TEMP/verbs"
           cp -r "$RUNNER_TEMP/inst/usr/share/omx-contract/contract.d" "$vdir"
           sh tools/install-contract-dir.sh verbs-fixture 1.0.0 3 test/fixtures/package-verbs "$vdir" data
@@ -100,13 +102,17 @@ jobs:
       - id: handback-installed-cli
         name: The installed omx-contract command, with its vendored dependencies only, reads the installed directory
         run: |
+          : "${RUNNER_TEMP:=$(mktemp -d)}"
+          : "${GITHUB_WORKSPACE:=$PWD}"
           make install-cli DESTDIR="$RUNNER_TEMP/inst" PREFIX=/usr DATADIR=/usr/share
           cli="$RUNNER_TEMP/inst/usr/lib/omx-contract/bin/omx-contract.mjs"
           dir="$RUNNER_TEMP/inst/usr/share/omx-contract/contract.d"
-          cd "$RUNNER_TEMP"
-          node "$cli" validate --contract-dir "$dir"
-          node "$cli" render --target json --out "$RUNNER_TEMP/cli-json" --contract-dir "$dir"
-          cmp "$RUNNER_TEMP/cli-json/omx-contract.json" "$GITHUB_WORKSPACE/share/omx-contract/omx-contract.json"
+          (
+            cd "$RUNNER_TEMP"
+            node "$cli" validate --contract-dir "$dir"
+            node "$cli" render --target json --out "$RUNNER_TEMP/cli-json" --contract-dir "$dir"
+            cmp "$RUNNER_TEMP/cli-json/omx-contract.json" "$GITHUB_WORKSPACE/share/omx-contract/omx-contract.json"
+          )
       - id: handback-test
         name: Tests (schema, semantic checks, goldens, perturbation, semver, round trip)
         run: npm test
