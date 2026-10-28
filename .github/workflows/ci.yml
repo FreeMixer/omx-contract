@@ -10,7 +10,44 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # A new push to a pull request cancels the run it supersedes. Every other run (main, a tag) has a group of its own
+  # and is never cancelled; the run id keeps two pushes to main from replacing each other while one is queued.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  # The packages are built from the whole tree but the pages (docs/, the top-level *.md) and the licence: a pull request that
+  # changes only those skips them. main and tags run them always. The private copy runs on its own runners, as test does.
+  changes:
+    name: what the pull request changes
+    runs-on: ${{ github.event.repository.private && 'arc-freemixer' || 'ubuntu-latest' }}
+    timeout-minutes: 5
+    outputs:
+      packages: ${{ steps.diff.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      # The checkout of a pull request is its merge commit and the first parent is the base, so this diff is what the
+      # pull request adds. Any other event, or a diff that cannot be read, says true: main and tags always run it.
+      - id: diff
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT" != pull_request ] || ! changed=$(git diff --name-only HEAD^1 HEAD) || [ -z "$changed" ]; then
+            echo "packages=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          printf '%s\n' "$changed"
+          if grep -qvE '^(docs/|[^/]*\.md$|LICENSE$)' <<<"$changed"; then
+            echo "packages=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "packages=false" >> "$GITHUB_OUTPUT"
+          fi
+
   test:
     # the private development copy runs on FreeMixer's own runners (hosted runners are refused there); the public
     # repository runs on GitHub's
@@ -35,6 +72,7 @@ jobs:
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check
           node bin/omx-contract.mjs render --target lv2 --out share/omx-contract --check
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check
+          node bin/omx-contract.mjs render --target py --out share/omx-contract --check
       - id: handback-contract-dir
         name: The data installed as the contract directory renders the same bytes, and its links hold
         run: |
@@ -46,6 +84,7 @@ jobs:
           node bin/omx-contract.mjs render --target json --out share/omx-contract --check --contract-dir "$dir"
           node bin/omx-contract.mjs render --target lv2 --out share/omx-contract --check --contract-dir "$dir"
           node bin/omx-contract.mjs render --target ts --out test/golden/ts --check --contract-dir "$dir"
+          node bin/omx-contract.mjs render --target py --out share/omx-contract --check --contract-dir "$dir"
           node bin/omx-contract.mjs links --check
       - id: handback-verbs
         name: A package's verbs, installed beside the data, validate and render the committed fixture headers
@@ -101,6 +140,8 @@ jobs:
   # installed data with no development package.
   rpm:
     name: RPMs (fc44), which file lands in which package
+    needs: changes
+    if: needs.changes.outputs.packages == 'true'
     runs-on: ${{ github.event.repository.private && 'arc-freemixer' || 'ubuntu-latest' }}
     timeout-minutes: 20
     container:
@@ -117,7 +158,17 @@ jobs:
         name: The command reads the installed contract directory with omx-contract-data and no development package
         run: |
           set -eu
-          dnf install -y --setopt=install_weak_deps=False rpms/omx-contract-[0-9]*.noarch.rpm rpms/omx-contract-data-[0-9]*.noarch.rpm
+          # a mirror that fails in mid-transfer (curl 56, zchunk checksums) is tried again; a real install error fails the
+          # third attempt with its own output on the log
+          dnf_retry() {
+            local n
+            for n in 1 2 3; do
+              dnf install -y --setopt=retries=5 "$@" && return 0
+              [ "$n" -lt 3 ] && { echo "::warning::dnf install failed, attempt $n of 3"; sleep 15; }
+            done
+            return 1
+          }
+          dnf_retry --setopt=install_weak_deps=False rpms/omx-contract-[0-9]*.noarch.rpm rpms/omx-contract-data-[0-9]*.noarch.rpm
           if rpm -q omx-contract-devel; then echo '::error::the development package came along'; exit 1; fi
           omx-contract validate --contract-dir /usr/share/omx-contract/contract.d
           omx-contract render --target json --contract-dir /usr/share/omx-contract/contract.d --out /tmp/json
@@ -125,6 +176,8 @@ jobs:
 
   deb:
     name: DEBs (${{ matrix.suite }}), linted, which file lands in which package
+    needs: changes
+    if: needs.changes.outputs.packages == 'true'
     runs-on: ${{ github.event.repository.private && 'arc-freemixer' || 'ubuntu-latest' }}
     timeout-minutes: 20
     strategy:
