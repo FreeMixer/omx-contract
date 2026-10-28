@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "The FreeMixer declarations as data: a JSON Schema, the data, and one CLI that renders them into C, TypeScript and JSON",
   "type": "module",
   "license": "GPL-3.0-or-later",
@@ -18,6 +18,7 @@
       "types": "./dist/ts/omx-contract.d.ts",
       "import": "./dist/ts/omx-contract.js"
     },
+    "./validate": "./lib/schema-validate.mjs",
     "./resolved.json": "./share/omx-contract/omx-contract.json",
     "./schema.json": "./schema/omx-contract.schema.json",
     "./package.json": "./package.json"
