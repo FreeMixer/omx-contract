@@ -221,7 +221,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
-      # @main until FreeMixer/.github moves v1 past the action
-      - uses: FreeMixer/.github/.github/actions/ai-trace-check@main
+      - uses: FreeMixer/.github/.github/actions/ai-trace-check@v1
         with:
           base-ref: ${{ github.event.pull_request.base.ref }}
