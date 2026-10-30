@@ -6693,6 +6693,19 @@ export const STANDARD_SAMPLE_RATES = [
 ];
 
 /**
+ * The quanta (buffer sizes, in frames, a count with no unit of its own) the console offers: the set a measurement grid or a probe takes its quanta from, beside the rates STANDARD_SAMPLE_RATES lists. A consumer that measures at fewer quanta takes a subset of this list and states it; it never keeps a list of its own. What the operator is OFFERED is still the engine's own choice, this is the ceiling a request is refused by.
+ * @see data/rates.json
+ */
+export const STANDARD_QUANTA = [
+  32,
+  64,
+  128,
+  256,
+  512,
+  1024
+];
+
+/**
  * THE declaration: 192 kHz at quantum 128.
  * @see data/rates.json
  */
