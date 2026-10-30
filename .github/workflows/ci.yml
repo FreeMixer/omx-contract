@@ -148,7 +148,7 @@ jobs:
       image: fedora:44
     steps:
       - name: Install the build tools
-        run: dnf install -y --setopt=install_weak_deps=False git rpm-build dnf5-plugins
+        run: dnf install -y --setopt=install_weak_deps=False git rpm-build dnf5-plugins python3
       - uses: actions/checkout@v4
       - uses: FreeMixer/.github/.github/actions/build-rpm@v1
       - id: handback-rpm-files
@@ -193,7 +193,7 @@ jobs:
       - name: Install the build tools
         run: |
           apt-get update -qq
-          apt-get install -y --no-install-recommends ca-certificates git dpkg-dev debhelper build-essential lintian
+          apt-get install -y --no-install-recommends ca-certificates git dpkg-dev debhelper build-essential lintian python3
       - uses: actions/checkout@v4
       - uses: FreeMixer/.github/.github/actions/build-deb@v1
       - id: handback-deb-files
@@ -210,9 +210,9 @@ jobs:
           cmp /tmp/json/omx-contract.json /usr/share/omx-contract/omx-contract.json
 
   # A commit message is published like a file. A pull request's own commits must carry no
-  # AI-attribution line (tools/ai-trace-commit-check.sh); what is already on the base is not read.
-  ai-trace:
-    name: commit messages carry no AI attribution
+  # attribution line (the commit-message-check action of FreeMixer/.github); what is already on the base is not read.
+  commit-message-check:
+    name: commit messages pass the message check
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -221,7 +221,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: The checker catches a fixture and goes blind when its patterns are removed
-        run: tools/ai-trace-commit-check.sh --selftest
-      - name: Scan the commits of the pull request
-        run: tools/ai-trace-commit-check.sh origin/${{ github.event.pull_request.base.ref }}..HEAD
+      - uses: FreeMixer/.github/.github/actions/commit-message-check@main
+        with:
+          base-ref: ${{ github.event.pull_request.base.ref }}
