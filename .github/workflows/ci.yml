@@ -148,7 +148,7 @@ jobs:
       image: fedora:44
     steps:
       - name: Install the build tools
-        run: dnf install -y --setopt=install_weak_deps=False git rpm-build dnf5-plugins
+        run: dnf install -y --setopt=install_weak_deps=False git rpm-build dnf5-plugins python3
       - uses: actions/checkout@v4
       - uses: FreeMixer/.github/.github/actions/build-rpm@v1
       - id: handback-rpm-files
@@ -193,7 +193,7 @@ jobs:
       - name: Install the build tools
         run: |
           apt-get update -qq
-          apt-get install -y --no-install-recommends ca-certificates git dpkg-dev debhelper build-essential lintian
+          apt-get install -y --no-install-recommends ca-certificates git dpkg-dev debhelper build-essential lintian python3
       - uses: actions/checkout@v4
       - uses: FreeMixer/.github/.github/actions/build-deb@v1
       - id: handback-deb-files
