@@ -33,6 +33,10 @@
         "code": "contract.schema.floor-absent",
         "doc": "an installed file of a package other than omx-contract states no schema floor"
       },
+      "schemaFloorUnderstated": {
+        "code": "contract.schema.floor-understated",
+        "doc": "a file does not validate against the schema at its requires.omx-contract-schema floor, only against a newer one: the floor understates what it needs"
+      },
       "fileNotJson": {
         "code": "contract.file.not-json",
         "doc": "a file does not parse"
