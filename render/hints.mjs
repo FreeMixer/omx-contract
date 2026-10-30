@@ -29,7 +29,7 @@ export function renderHintsHeader(resolved) {
 #ifndef OMX_RESOURCE_HINTS_H
 #define OMX_RESOURCE_HINTS_H
 /*
- * GENERATED — DO NOT EDIT BY HAND.
+ * GENERATED: DO NOT EDIT BY HAND.
  * Produced by \`omx-contract render --target c\` from ${item.name} (${item.rel}, docs/resource-hints.md):
  * the CLAP extension ${id}, the hints a plugin declares about its own footprint. A hint is a claim:
  * plugin-qualify measures the same resource and a declared figure the measurement does not bear out is a finding.
@@ -114,7 +114,7 @@ export function renderHintsTurtle(resolved) {
   const annotations = [['resource', 'The resource a hint declares, a word of RESOURCE_KINDS.'], ['unit', 'The unit of a hint\'s figure, a word of RESOURCE_UNITS.'], ['basis', 'How a hint\'s figure is known, a word of RESOURCE_BASES.']].map(([n, d]) => `${prefix}:${n}\n    a owl:AnnotationProperty ;\n    rdfs:comment ${ttlString(d)} .`);
   return `# SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-# GENERATED — DO NOT EDIT BY HAND.
+# GENERATED: DO NOT EDIT BY HAND.
 # Produced by \`omx-contract render --target lv2\` from ${item.name} (${item.rel}, docs/resource-hints.md):
 # the hints a plugin declares about its own footprint, as LV2 properties of a plugin.
 @prefix ${prefix}: <${namespace}> .

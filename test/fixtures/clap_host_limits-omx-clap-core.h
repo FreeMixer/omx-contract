@@ -21,7 +21,7 @@
 #ifndef CLAP_HOST_LIMITS_H
 #define CLAP_HOST_LIMITS_H
 /*
- * GENERATED — DO NOT EDIT BY HAND.
+ * GENERATED: DO NOT EDIT BY HAND.
  * Rendered from HOSTED_STAGE_LIMITS and HOSTING_CODES of data/hosting.json, where this library declares
  * its stage limits and hosting refusal codes. The rendered file is kept in this repository so the library
  * builds on its own; the numbers and codes are changed where they are declared and the file is re-rendered,

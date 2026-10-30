@@ -3,7 +3,7 @@
 #ifndef OMX_CONTRACT_LIMITS_H
 #define OMX_CONTRACT_LIMITS_H
 /*
- * GENERATED — DO NOT EDIT BY HAND.
+ * GENERATED: DO NOT EDIT BY HAND.
  * Produced by harness/contract-limits-gen.mjs from packages/core/src/channel-contract.ts's
  * `laws` column (R-056), every table packages/core/src/native-limit-tables.ts's registry
  * holds, packages/core/src/control-bounds.ts's CORE_LIMITS for the pan/delay/reverb/drive

@@ -21,7 +21,7 @@
 #ifndef HOSTED_STAGE_LIMITS_H
 #define HOSTED_STAGE_LIMITS_H
 /*
- * GENERATED — DO NOT EDIT BY HAND.
+ * GENERATED: DO NOT EDIT BY HAND.
  * Rendered from HOSTED_STAGE_LIMITS of data/hosting.json, every number spelled OMX_HOSTED_STAGE_<FIELD> as
  * omx-contract's omx_contract_limits.h spelled it, the worker fields included, for a host that reads those
  * names. The rendered file is kept in this repository so the library builds on its own; the numbers are
