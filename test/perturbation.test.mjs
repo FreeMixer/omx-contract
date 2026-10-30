@@ -7,6 +7,7 @@
  */
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { readFileSync } from 'node:fs';
 import { main } from '../bin/omx-contract.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
@@ -54,6 +55,17 @@ test('move the sample rates: the list, the rate block and RT target readers foll
   assert.match(h, /^#define OMX_STANDARD_SAMPLE_RATES_COUNT 7u$/m);
   assert.match(h, /^#define OMX_DECLARED_RATE_COUNT 7u$/m);
   assert.match(h, /384000\.0f \};$/m);
+});
+
+test('declare the quanta: the console set is the contract\'s, and the readers follow a moved one', () => {
+  const quanta = JSON.parse(readFileSync(`${DATA}/rates.json`, 'utf8')).STANDARD_QUANTA.values;
+  assert.deepEqual(quanta, [32, 64, 128, 256, 512, 1024], 'the quanta decided on omx-contract#94');
+  assert.ok(quanta.includes(JSON.parse(readFileSync(`${DATA}/rates.json`, 'utf8')).RT_HARD_TARGET.value.quantum), 'the hard target is one of them');
+  const dir = scratchData();
+  editData(dir, 'rates.json', (d) => { d.STANDARD_QUANTA.values.push(2048); });
+  const h = renderC(resolveData(loadData(dir)))[0].text;
+  assert.match(h, /^#define OMX_STANDARD_QUANTA_COUNT 7u$/m);
+  assert.match(h, /^#define OMX_STANDARD_QUANTA_INIT \{ 32, 64, 128, 256, 512, 1024, 2048 \}$/m);
 });
 
 test('the unperturbed data passes every check', () => {
