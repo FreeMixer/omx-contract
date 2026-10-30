@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// 2.9.0 (#28): the compressor's detector oversampling ids are the console's, auto, off, 4x (operator ruling,
+// 2.9.0 (#28): the compressor's detector oversampling ids are the console's, auto, off, 4x (decided
 // 2026-10-13, option a), in omx-dsp's index order, so the console re-exports DETECTOR_OVERSAMPLINGS and its wire and
 // stored sessions are unchanged. The released 2.10.0 header keeps every line of the released 2.9.0 header but the third
 // enumerator, which is spelled from the id: OMX_DETECTOR_OVERSAMPLINGS_4X, still 2.

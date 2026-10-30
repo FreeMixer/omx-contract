@@ -113,7 +113,7 @@ export function answersProblems(answers, kernel) {
     seen.add(it?.name);
     const s = it?.source;
     if (typeof s?.origin === 'string') {
-      // an item the engine does not declare (yet): its first declaration is a ruling or another repository's
+      // an item the engine does not declare (yet): its first declaration is a decision or another repository's
       // code, named in words; only the value is held, there is no engine source to read it from again
       if (!s.origin.trim() || Object.keys(s).length !== 1) bad.push(`${at}: an origin source is the one non-empty sentence \`origin\``);
     } else if (typeof s?.path !== 'string' || !s.path || (typeof s.export !== 'string') === (typeof s.define !== 'string')) {

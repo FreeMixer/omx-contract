@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// 2.9.0 (#29): the drive's hf roll-off ids are the console's, off, 12000, 16000 (operator ruling, 2026-10-13), each
+// 2.9.0 (#29): the drive's hf roll-off ids are the console's, off, 12000, 16000 (decided 2026-10-13), each
 // carrying its corner in Hz as its value and off none, so no 0 Hz doubles as "no roll-off". The console re-exports
 // DRIVE_HF_ROLLOFFS; a kernel reads the corner from the id with omx_drive_hf_rolloffs_value(). The C render keeps
 // every line of the released 2.10.0 header but the roll-off set's, the hosted stage's numbers (2.12.0) and the EQ curve grid's (2.13.0).

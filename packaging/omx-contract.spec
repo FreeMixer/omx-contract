@@ -187,7 +187,7 @@ lowest release whose declarations it builds against.
 - Descriptor words: extensions (a per-format bag, carried verbatim),
   plugin.doc, the ratio unit, and the item kind formatMap (a format's source
   fields, each mapped to a word, carried as an extension or dropped by a named
-  ruling).
+  decision).
 - It conflicts with omx-dsp-devel before 0.25.0, omx-clap-core-devel before
   0.13.0 and omx-plugins-devel before 0.13.0, the releases built against
   schema 3.
@@ -495,7 +495,7 @@ lowest release whose declarations it builds against.
   with the frozen delay header it was proved against: omx-plugins renders its
   own parameter headers.
 - The kernel wizard cites an item the engine does not declare by an `origin`
-  sentence (the omx-dsp header or the ruling that first declares it) and takes
+  sentence (the omx-dsp header or the decision that first declares it) and takes
   a doc for a value that shares its comment, and the importer resolves
   `@openmixer/omx-contract` from the engine's installed copy.
 

@@ -97,7 +97,7 @@ omx-contract (3.0.0) unstable; urgency=medium
   * Descriptor words: extensions (a per-format bag, carried verbatim),
     plugin.doc, the ratio unit, and the item kind formatMap (a format's
     source fields, each mapped to a word, carried as an extension or dropped
-    by a named ruling).
+    by a named decision).
   * It breaks libomxdsp-dev before 0.25.0, libomx-clap-core-dev before 0.13.0
     and omx-plugins-dev before 0.13.0, the releases built against schema 3.
 
@@ -503,7 +503,7 @@ omx-contract (1.3.0) unstable; urgency=medium
     with the frozen delay header it was proved against: omx-plugins renders
     its own parameter headers.
   * The kernel wizard cites an item the engine does not declare by an `origin`
-    sentence (the omx-dsp header or the ruling that first declares it) and
+    sentence (the omx-dsp header or the decision that first declares it) and
     takes a doc for a value that shares its comment, and the importer resolves
     `@openmixer/omx-contract` from the engine's installed copy.
 
