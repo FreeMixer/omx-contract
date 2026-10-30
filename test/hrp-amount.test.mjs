@@ -2,7 +2,7 @@
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
  * #30, #64: the HRP corrector's amount is declared once, here, with its come-up value: HRP_AMOUNT_RANGE, 0..1,
- * continuous, coming up at 0.5 from the desk (operator ruling 2026-10-13: the default lives in the contract and every
+ * continuous, coming up at 0.5 from the desk (decided 2026-10-13: the default lives in the contract and every
  * consumer derives from it). The readers take it by name, never as a number of their own:
  *
  * - omx-dsp (0f23bed) include/omxdsp/analysis/omx_hrp_correct.h:103 defines OMX_HRP_DEFAULT_AMOUNT as

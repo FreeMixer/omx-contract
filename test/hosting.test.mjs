@@ -78,7 +78,7 @@ test('semver: a code reworded is MAJOR, one removed MAJOR outside the developmen
   const base = resolvedOf(texts());
   const level = (fn) => classify(base, resolvedOf(texts(fn))).level;
   const released = (fn) => classify(base, resolvedOf(texts(fn)), { developmentPhase: null }).level;
-  // a code its writers stop writing is removed, never carried (operator ruling 2026-10-20, omx-contract#130)
+  // a code its writers stop writing is removed, never carried (decided 2026-10-20, omx-contract#130)
   assert.equal(level((d) => { delete d[hosting].HOSTING_CODES.codes.noteInput; }), 'minor');
   assert.equal(released((d) => { delete d[hosting].HOSTING_CODES.codes.noteInput; }), 'major');
   assert.equal(level((d) => { d[hosting].HOSTING_CODES.codes.noteInput.code = 'hosting.clap.note-input-x'; }), 'major');

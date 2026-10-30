@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// 2.9.0 (#26): an EQ band comes up off (operator ruling, 2026-10-13). The contract declares bandOn's come-up value,
+// 2.9.0 (#26): an EQ band comes up off (decided 2026-10-13). The contract declares bandOn's come-up value,
 // EQ_BAND_ONS defaults to off, and every strip reads it from here: an omx-eq plugin already brings its bands up off,
 // and the console's channel EQ follows. The released 2.9.0 header keeps every line of the released 2.8.0 header and adds only the
 // set's default.
