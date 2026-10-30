@@ -2,7 +2,8 @@
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { DATA, ROOT, scratchData } from './helpers.mjs';
@@ -55,4 +56,27 @@ test('semver against a commit whose data is unchanged reports no change, the too
   const r = cli('semver', 'HEAD', '--version', '0.0.0');
   assert.doesNotMatch(r.stdout, /CONTRACT_CODES/);
   assert.match(r.stdout, /"changes":0/);
+});
+
+test('no render output carries an em dash, the committed renders and every target alike', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'omx-dash-'));
+  try {
+    const found = [];
+    const scan = (d) => {
+      for (const e of readdirSync(d, { withFileTypes: true })) {
+        const p = join(d, e.name);
+        if (e.isDirectory()) scan(p);
+        else if (readFileSync(p, 'utf8').includes('—')) found.push(p.replace(`${dir}/`, '').replace(`${ROOT}/`, ''));
+      }
+    };
+    for (const target of ['c', 'ts', 'json', 'lv2', 'py']) {
+      const out = join(dir, target);
+      assert.equal(cli('render', '--target', target, '--out', out).status, 0, target);
+      scan(out);
+    }
+    for (const d of ['include', 'share/omx-contract', 'test/golden']) scan(join(ROOT, d));
+    assert.deepEqual(found, []);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

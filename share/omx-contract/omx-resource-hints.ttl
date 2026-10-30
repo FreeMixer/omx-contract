@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-# GENERATED — DO NOT EDIT BY HAND.
+# GENERATED: DO NOT EDIT BY HAND.
 # Produced by `omx-contract render --target lv2` from RESOURCE_HINTS (data/resource-profile.json, docs/resource-hints.md):
 # the hints a plugin declares about its own footprint, as LV2 properties of a plugin.
 @prefix omxres: <https://www.openmixer.org/ns/resource-hints#> .

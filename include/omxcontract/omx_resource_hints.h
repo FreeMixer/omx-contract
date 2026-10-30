@@ -3,7 +3,7 @@
 #ifndef OMX_RESOURCE_HINTS_H
 #define OMX_RESOURCE_HINTS_H
 /*
- * GENERATED — DO NOT EDIT BY HAND.
+ * GENERATED: DO NOT EDIT BY HAND.
  * Produced by `omx-contract render --target c` from RESOURCE_HINTS (data/resource-profile.json, docs/resource-hints.md):
  * the CLAP extension org.openmixer.resource-hints.draft/0, the hints a plugin declares about its own footprint. A hint is a claim:
  * plugin-qualify measures the same resource and a declared figure the measurement does not bear out is a finding.

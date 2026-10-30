@@ -99,7 +99,7 @@ export function renderOwnerHeader(spec, items, blocks) {
   return `${licence(spec.project)}#ifndef ${spec.guard}
 #define ${spec.guard}
 /*
- * GENERATED — DO NOT EDIT BY HAND.
+ * GENERATED: DO NOT EDIT BY HAND.
 ${spec.banner.map((l) => ` * ${l}`).join('\n')}
  */
 

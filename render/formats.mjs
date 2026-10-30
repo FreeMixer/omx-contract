@@ -66,7 +66,7 @@ export function renderFormatsHeader(resolved) {
 #ifndef OMX_FORMATS_H
 #define OMX_FORMATS_H
 /*
- * GENERATED — DO NOT EDIT BY HAND.
+ * GENERATED: DO NOT EDIT BY HAND.
  * Produced by \`omx-contract render --target c\` from FreeMixer/omx-contract's data/formats/: the identifiers and
  * numbers the CLAP headers declare and the namespaces of the LV2 specifications (docs/data-layout.md). A consumer
  * writes and compares these, never a literal of its own.
