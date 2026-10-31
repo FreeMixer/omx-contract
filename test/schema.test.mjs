@@ -19,7 +19,7 @@ test('data/ holds the union less the files their owners install: 8 of the 229 it
   const owners = new Set([...loadData(UNION).items.keys()].filter((n) => !own.includes(n) && !VOCABULARY.has(n)));
   assert.deepEqual(own.sort(), ['OMX_PARAM_CONTRACT_UNITS', 'ORACLE_FLOOR_RATES', 'ORACLE_FULL_RATES', 'PARAM_SCALES', 'READOUT_RATE_HZ', 'RT_HARD_TARGET', 'STANDARD_QUANTA', 'STANDARD_SAMPLE_RATES']);
   assert.equal(owners.size, 222);
-  assert.equal(loadData(UNION).items.size, 229 + VOCABULARY.size);
+  assert.equal(loadData(UNION).items.size, 229 + 1 + VOCABULARY.size); // the 2.14.0 items, the param-contract units (3.6.0), the vocabulary
   for (const n of ['GATE_LIMITS', 'HOSTED_STAGE_LIMITS', 'HOSTING_CODES', 'FX_DELAY_TIME_RANGE', 'PAN_RANGE', 'EQ_MAX_BANDS', 'BUTTERWORTH_Q', 'OUTPUT_DELAY_RANGE']) assert.ok(owners.has(n), `${n} is an owner's`);
 });
 
