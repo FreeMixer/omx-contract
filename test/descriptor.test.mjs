@@ -273,6 +273,11 @@ test('easy names a plugin\'s Easy face in order, by each control\'s key, at most
   d.easy = [keys[1], keys[0]];
   assert.deepEqual(problemsOf(d).filter((p) => p.name === 'descriptorEasy'), []);
   assert.equal(SCHEMA.$defs.descriptor.properties.easy.maxItems, 8);
+  const nine = fixture(AUTHORED);
+  nine.easy = Array.from({ length: 9 }, () => nine.controls[0].symbol ?? nine.controls[0].id);
+  const refused = problemsOf(nine);
+  assert.ok(refused.length > 0, 'more than eight keys is refused');
+  assert.ok(refused.some((p) => /easy/.test(`${p.item} ${p.message}`)), JSON.stringify(refused));
   const scan = fixture(SCANNED_CLAP);
   scan.easy = [scan.controls[0].id];
   assert.ok(problemsOf(scan).some((p) => p.name === 'descriptorEasy'), 'a scan has nothing to read it from');
