@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.4.0
+Version: 3.5.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -111,6 +111,14 @@ lowest release whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sat Oct 31 2026 Pau Aliagas <linuxnow@gmail.com> - 3.5.0-1
+- STANDARD_QUANTA declares the buffer sizes the console offers (32 to 1024
+  frames), beside STANDARD_SAMPLE_RATES.
+- A file whose schema floor understates what it needs is refused
+  (contract.schema.floor-understated); past minors keep a frozen schema under
+  schema/history.
+- No render carries an em dash.
+
 * Tue Oct 27 2026 Pau Aliagas <linuxnow@gmail.com> - 3.4.0-1
 - A reply code that carries a resp number renders as OMX_REPLY_<CODE>_RESP, so a
   host defines no refusal number by hand.
