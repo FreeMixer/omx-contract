@@ -39,7 +39,7 @@ changes.
 
 A file is a descriptor when it carries `origin`; it then declares no item, and only the words below may stand at
 its top: `$schema`, `requires`, `origin`, `plugin`, `controls`, `ports`, `instrument`, `needs`, `latency`,
-`extensions`, `source`.
+`easy`, `extensions`, `source`.
 Any other key or word is `contract.file.invalid`, never skipped.
 
 ## The words
@@ -72,6 +72,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | `instrument` | `voices`, `polyphonic` | Present exactly when `features` holds `instrument`: notes in, audio out. `voices` only when the plugin states it (CLAP voice info) | new |
 | `needs` | `transport`, `tempo`, `extensions.required`, `extensions.optional` | What the host must give: CLAP host extensions, LV2 `lv2:requiredFeature` and `lv2:optionalFeature`, a `time:Position` input | new |
 | `latency` | `reports`, `frames` | `reports: true` when the plugin reports its latency; `frames` only for a constant the plugin defines, never a measured figure | new |
+| file | `easy` | The controls of the plugin's Easy face, in order, at most eight, each by its `symbol`, else its `id`: what a host opens the plugin on, with every control one click away. Optional; never in a `scanned` descriptor, whose scan has nothing to read it from. With none, a host's panel layout picks them from the roles (omx-panel `docs/panel-layout.md`) | new (minor) |
 | `extensions` | `clap`, `lv2`: each `{ <source field>: <value> }` | The extension bag: a format's facts no word of ours carries, carried verbatim (below) | new (3.0.0) |
 | `source` | `from`, `impl`, `at` | As in [contract-dir.md](contract-dir.md); for a scan, links into the `.ttl` or the CLAP binary | existing |
 

@@ -54,6 +54,10 @@
         "instrument": { "$ref": "#/$defs/instrument" },
         "needs": { "$ref": "#/$defs/needs" },
         "latency": { "$ref": "#/$defs/latency" },
+        "easy": {
+          "type": "array", "minItems": 1, "maxItems": 8, "items": { "type": ["string", "integer"] },
+          "description": "The controls of the plugin's Easy face, in order, each by its symbol, else its id (docs/descriptors.md). Optional, and never in a scanned descriptor; with none, a host's panel layout picks them from the roles."
+        },
         "extensions": { "$ref": "#/$defs/extensions" },
         "source": { "$ref": "#/$defs/source" }
       },

@@ -101,6 +101,10 @@
         "code": "contract.descriptor.control-duplicate",
         "doc": "two controls of a descriptor with one id, one name or one symbol"
       },
+      "descriptorEasy": {
+        "code": "contract.descriptor.easy",
+        "doc": "an easy list that names no control, names one twice or a hidden or read-only one, or stands in a scanned descriptor"
+      },
       "descriptorPortDuplicate": {
         "code": "contract.descriptor.port-duplicate",
         "doc": "two ports of a descriptor of one kind and direction with one id"
