@@ -5,8 +5,7 @@
 // `omx_<set>_value(id, &out)`, so a kernel reads the number from the id it is handed.
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { loadData, resolveData } from '../lib/data.mjs';
@@ -14,7 +13,7 @@ import { validateData } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { texts } from './helpers.mjs';
+import { texts, scratchDir } from './helpers.mjs';
 
 // the comp's kinds (comp, limiter) planted with values: the limiter carries 4, the comp none
 const planted = () => resolveData(loadData(null, texts((d, at) => { const s = at('data/kernels/comp.json', 'COMP_KINDS'); s.values = [null, 4]; s.unit = 'x'; })));
@@ -40,7 +39,7 @@ test('c: the value of each id that carries one, and no define for an id that car
 const cc = (process.env.CC ?? 'cc').split(' ');
 test('c: the lookup returns an id\'s value, or 0 for an id that carries none', { skip: spawnSync(cc[0], [...cc.slice(1), '--version']).status !== 0 && 'no cc' }, () => {
   const h = renderC(planted())[0].text;
-  const dir = mkdtempSync(join(tmpdir(), 'omx-set-values-'));
+  const dir = scratchDir('omx-set-values-');
   mkdirSync(join(dir, 'omxcontract'));
   writeFileSync(join(dir, 'omxcontract/omx_contract_limits.h'), h);
   writeFileSync(join(dir, 'main.c'), [

@@ -7,12 +7,12 @@
  */
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { coverageProblems, readFiles, readInventory } from '../tools/data-layout.mjs';
-import { defaultClapInclude, defaultLv2Dir, inventories, parseNTriples, readClapHeader } from '../tools/format-inventory.mjs';
-import { DATA, ROOT } from './helpers.mjs';
+import { defaultClapInclude, defaultLv2Dir, inventories, parseNTriples, readClapHeader, readLv2, readLv2Dir } from '../tools/format-inventory.mjs';
+import { DATA, ROOT, scratchDir } from './helpers.mjs';
 
 const INVENTORY = join(ROOT, 'inventory');
 const files = () => structuredClone(readFiles(DATA));
@@ -87,4 +87,25 @@ test('the committed inventory is the installed LV2 and CLAP, where they are inst
   const inv = readInventory(INVENTORY);
   assert.deepEqual(JSON.parse(docs['lv2.json']), inv.lv2, 'inventory/lv2.json: run node tools/format-inventory.mjs and map what changed');
   assert.deepEqual(JSON.parse(docs['clap.json']), inv.clap, 'inventory/clap.json: run node tools/format-inventory.mjs and map what changed');
+});
+
+test('a bundle that is no specification is recorded as unread, and the others are still read (#143)', { skip: serdi ? false : 'no serdi' }, () => {
+  const dir = scratchDir('omx-lv2-bundles-');
+  const bundle = (name, manifest, extra = {}) => {
+    mkdirSync(join(dir, `${name}.lv2`));
+    writeFileSync(join(dir, `${name}.lv2`, 'manifest.ttl'), manifest);
+    for (const [f, t] of Object.entries(extra)) writeFileSync(join(dir, `${name}.lv2`, f), t);
+  };
+  const pfx = '@prefix lv2: <http://lv2plug.in/ns/lv2core#> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n';
+  bundle('thing', `${pfx}<http://example.org/thing> a lv2:Specification ; lv2:minorVersion 1 ; lv2:microVersion 2 ; rdfs:seeAlso <thing.ttl> .\n`,
+    { 'thing.ttl': `${pfx}<http://example.org/thing#t> a lv2:Feature ; rdfs:label "t" .\n` });
+  bundle('Airwindows', `${pfx}<urn:airwindows:a> a lv2:Plugin ; lv2:binary <a.so> ; rdfs:seeAlso <a.ttl> .\n<urn:airwindows:b> a lv2:Plugin ; lv2:binary <a.so> ; rdfs:seeAlso <a.ttl> .\n`);
+  bundle('empty', `${pfx}<urn:x> rdfs:label "x" .\n`);
+  const { specs, unread } = readLv2Dir(dir);
+  assert.deepEqual(Object.keys(specs), ['thing']);
+  assert.equal(specs.thing.version, '1.2');
+  assert.deepEqual(unread.map((u) => u.bundle), ['Airwindows', 'empty']);
+  assert.match(unread[0].reason, /plugin bundle/);
+  assert.match(unread[1].reason, /names 0 specifications/);
+  assert.deepEqual(Object.keys(readLv2(dir)), ['thing']);
 });

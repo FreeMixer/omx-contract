@@ -4,8 +4,7 @@
 // used to type by hand are rendered to C, ts and py from the mapped terms, and the one validate() is exported.
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { pathToFileURL } from 'node:url';
@@ -14,7 +13,7 @@ import { validate } from '../lib/schema-validate.mjs';
 import { renderFormatsHeader, renderFormatsPy } from '../render/formats.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, editData, scratchData } from './helpers.mjs';
+import { DATA, ROOT, editData, scratchData, scratchDir } from './helpers.mjs';
 
 const own = () => resolveData(loadData(DATA));
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -28,7 +27,7 @@ test('golden: omx_formats.h and omx_contract.py are the render of data/formats/'
 test('the remote controls page size is the number 8, in C, ts and py', async () => {
   assert.match(renderFormatsHeader(own()), /^#define OMX_CLAP_REMOTE_CONTROLS_COUNT 8u$/m);
   assert.match(renderFormatsPy(own()), /^ {4}"CLAP_REMOTE_CONTROLS_COUNT": 8,$/m);
-  const dir = mkdtempSync(join(tmpdir(), 'omx-formats-'));
+  const dir = scratchDir('omx-formats-');
   for (const f of renderTs(own())) writeFileSync(join(dir, f.path), f.text);
   const mod = await import(pathToFileURL(join(dir, 'omx-contract.js')).href);
   assert.equal(mod.CLAP_NUMBERS.CLAP_REMOTE_CONTROLS_COUNT, 8);
@@ -61,7 +60,7 @@ test('the identifiers are unique: no define twice, no key twice', () => {
 
 const cc = (process.env.CC ?? 'cc').split(' ');
 test('the header compiles, and a C reader sees the values and walks the list', { skip: spawnSync(cc[0], [...cc.slice(1), '--version']).status !== 0 && 'no cc' }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'omx-formats-c-'));
+  const dir = scratchDir('omx-formats-c-');
   writeFileSync(join(dir, 't.c'), `#include <stdio.h>
 #include <string.h>
 #include <omxcontract/omx_formats.h>
@@ -86,7 +85,7 @@ test('the py render runs and holds the values', { skip: spawnSync('python3', ['-
 test('render --target py --check: the committed module is the render, and drift is named', () => {
   const run = (...a) => spawnSync('node', [join(ROOT, 'bin/omx-contract.mjs'), 'render', '--target', 'py', '--out', ...a], { encoding: 'utf8' });
   assert.equal(run(join(ROOT, 'share/omx-contract'), '--check').status, 0);
-  const dir = mkdtempSync(join(tmpdir(), 'omx-py-'));
+  const dir = scratchDir('omx-py-');
   writeFileSync(join(dir, 'omx_contract.py'), `${read('share/omx-contract/omx_contract.py')}# drift\n`);
   const bad = run(dir, '--check');
   assert.equal(bad.status, 1);

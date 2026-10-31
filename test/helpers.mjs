@@ -42,13 +42,19 @@ export const ALIAS_NAMES = (() => {
  */
 export const OWNERS = join(ROOT, 'test/fixtures/owners-2.14.0');
 
-const unions = [];
-process.on('exit', () => { for (const d of unions) rmSync(d, { recursive: true, force: true }); });
+const scratch = [];
+process.on('exit', () => { for (const d of scratch) rmSync(d, { recursive: true, force: true }); });
+
+/** A scratch directory in TMPDIR, removed when the test process exits: a test never leaves one behind (#169). */
+export function scratchDir(prefix) {
+  const dir = mkdtempSync(join(tmpdir(), prefix));
+  scratch.push(dir);
+  return dir;
+}
 
 /** A scratch data directory holding data/ and the owners' fixture files at their 2.14.0 paths (schema/ beside it). */
 export function scratchUnion() {
-  const dir = mkdtempSync(join(tmpdir(), 'omx-contract-union-'));
-  unions.push(dir);
+  const dir = scratchDir('omx-contract-union-');
   cpSync(DATA, join(dir, 'data'), { recursive: true });
   cpSync(OWNERS, join(dir, 'data'), { recursive: true });
   cpSync(join(ROOT, 'schema'), join(dir, 'schema'), { recursive: true });
@@ -74,8 +80,7 @@ export const scratchData = scratchUnion;
  * perturbed union's `render --check` is held against, as the committed renders hold data/.
  */
 export const RENDERS = (() => {
-  const dir = mkdtempSync(join(tmpdir(), 'omx-contract-renders-'));
-  unions.push(dir);
+  const dir = scratchDir('omx-contract-renders-');
   const resolved = resolveData(loadData(UNION));
   const files = [
     ...renderC(resolved).map((f) => ['include', f]),

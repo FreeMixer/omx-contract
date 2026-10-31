@@ -4,21 +4,20 @@
 // wizard's importer and declare step over a small engine checkout made here.
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { ROOT, completeness, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
 import { asData, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
 import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
-import { RENDERS, UNION, declOf } from './helpers.mjs';
+import { RENDERS, UNION, declOf, scratchDir } from './helpers.mjs';
 
 /**
  * A scratch tree of everything the recipe's checkers read, over the union of data/ and the owners' fixture (the
  * kernels the arms break) and their answers, with the union's renders in the place of the committed ones.
  */
 function scratchTree() {
-  const dir = mkdtempSync(join(tmpdir(), 'omx-kernel-recipe-'));
+  const dir = scratchDir('omx-kernel-recipe-');
   for (const p of ['schema', 'recipes', 'package.json']) cpSync(join(ROOT, p), join(dir, p), { recursive: true });
   cpSync(UNION, join(dir, 'data'), { recursive: true });
   cpSync(join(ROOT, 'test/fixtures/answers-2.14.0'), join(dir, 'recipes/answers'), { recursive: true });
@@ -133,7 +132,7 @@ test('a C define is read only when it is one plain number', () => {
 });
 
 function engineCheckout() {
-  const dir = mkdtempSync(join(tmpdir(), 'omx-engine-'));
+  const dir = scratchDir('omx-engine-');
   mkdirSync(join(dir, 'packages/core/src'), { recursive: true });
   mkdirSync(join(dir, 'packages/pipewire-native/src'), { recursive: true });
   writeFileSync(join(dir, 'packages/core/src/base.ts'), 'export const WOBBLE_BASE = { min: 0, max: 10, step: 0.5, unit: \'Hz\' as const };\n');
