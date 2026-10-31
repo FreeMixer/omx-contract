@@ -1,3 +1,12 @@
+omx-contract (3.5.1) unstable; urgency=medium
+
+  * The installed command carries schema/history, so a reader of the installed
+    package validates a file at an older floor (3.5.0 left it out).
+  * It breaks nothing new: libomxdsp-dev before 0.25.0, libomx-clap-core-dev
+    before 0.13.0 and omx-plugins-dev before 0.13.0 stay the floors.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Sat, 31 Oct 2026 14:00:00 +0100
+
 omx-contract (3.5.0) unstable; urgency=medium
 
   * STANDARD_QUANTA declares the buffer sizes the console offers (32 to 1024

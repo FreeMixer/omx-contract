@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.5.0
+Version: 3.5.1
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -111,6 +111,12 @@ lowest release whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sat Oct 31 2026 Pau Aliagas <linuxnow@gmail.com> - 3.5.1-1
+- The installed command carries schema/history, so a reader of the installed
+  package validates a file at an older floor (3.5.0 left it out).
+- It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel before
+  0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
+
 * Sat Oct 31 2026 Pau Aliagas <linuxnow@gmail.com> - 3.5.0-1
 - STANDARD_QUANTA declares the buffer sizes the console offers (32 to 1024
   frames), beside STANDARD_SAMPLE_RATES.
