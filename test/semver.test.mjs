@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { test } from 'node:test';
 import { main } from '../bin/omx-contract.mjs';
-import { DEVELOPMENT_PHASE, bumpOf, classify, refusal } from '../lib/semver.mjs';
-import { DATA, dropDecl, editData, relOf, resolvedOf, scratchData, texts } from './helpers.mjs';
+import { DEVELOPMENT_PHASE, bumpOf, classify, classifySchema, refusal } from '../lib/semver.mjs';
+import { DATA, ROOT, dropDecl, editData, relOf, resolvedOf, scratchData, texts } from './helpers.mjs';
 
 const base = resolvedOf(texts());
 const level = (fn) => classify(base, resolvedOf(texts(fn))).level;
@@ -74,4 +77,37 @@ test('a set id that changes type is visible in the change message (#29)', () => 
 // declarations read the C header and the rates as omx-dsp and omx-plugins do (FreeMixer/omx-contract#108).
 test('the development phase names every FreeMixer repository that reads the contract', () => {
   assert.deepEqual([...DEVELOPMENT_PHASE.consumers].sort(), ['omx-clap-core', 'omx-dsp', 'omx-plugins', 'openmixer', 'plugin-qualify']);
+});
+
+// ---- the schema is classified too (#92)
+
+const SCHEMA = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
+const schemaLevel = (fn) => { const next = structuredClone(SCHEMA); fn(next); return classifySchema(SCHEMA, next); };
+
+test('schema: no change is none, a description is patch, the schema version is no change', () => {
+  assert.equal(classifySchema(SCHEMA, SCHEMA).level, 'none');
+  assert.equal(schemaLevel((n) => { n['x-omx-schema-version'] = '9.9.9'; }).level, 'none');
+  assert.equal(schemaLevel((n) => { n.$defs.render.description = 'reworded'; }).level, 'patch');
+});
+
+test('schema: a property or an enum member added is minor; a property or an enum member removed, a constraint added or changed is major', () => {
+  assert.equal(schemaLevel((n) => { n.$defs.renderHeader.properties.extra = { type: 'string' }; }).level, 'minor');
+  assert.equal(schemaLevel((n) => { n.$defs.renderHeader.properties.scope.enum.push('tree'); }).level, 'minor');
+  const gone = schemaLevel((n) => { delete n.$defs.renderHeader.properties.guard; });
+  assert.equal(gone.level, 'major');
+  assert.match(gone.changes[0].what, /renderHeader\.properties\.guard removed/);
+  assert.equal(schemaLevel((n) => { n.$defs.renderHeader.properties.scope.enum.pop(); }).level, 'major');
+  assert.equal(schemaLevel((n) => { n.$defs.renderHeader.properties.guard.pattern = '^X$'; }).level, 'major');
+  assert.equal(schemaLevel((n) => { n.$defs.renderHeader.required.push('includes'); }).level, 'major');
+  assert.equal(schemaLevel((n) => { n.$defs.renderHeader.required.pop(); }).level, 'minor');
+});
+
+test('the CLI against a tag reads the schema too, and --report names the level without refusing the bump', () => {
+  const git = spawnSync('git', ['-C', ROOT, 'rev-parse', '--verify', 'v3.5.1^{commit}']);
+  if (git.status !== 0) return;   // no tags in this checkout
+  assert.equal(main(['semver', 'v3.5.1', '--report', '--version', '3.5.1']), 0);
+  const dir = scratchData();
+  editData(dir, 'kernels/gate.json', (d, at) => { at('GATE_LIMITS.ratio').max = 50; });
+  assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.0.1', '--report']), 0);
+  assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.0.1']), 1);
 });

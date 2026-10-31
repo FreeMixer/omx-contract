@@ -7,7 +7,7 @@
  *   omx-contract validate [<input>]                            schema + semantic checks
  *   omx-contract fmt [--check] [<input>]                       the one formatting
  *   omx-contract render --target c|ts|json|lv2|py --out <dir> [--check] [<input> [--package <name>] | --sheet <fixture>]
- *   omx-contract semver <previous tag> | --from-dir <data dir> --from-version <x.y.z>
+ *   omx-contract semver <previous tag> [--report] | --from-dir <data dir> --from-version <x.y.z>
  *   omx-contract links [--check] [--root <tree>] [<input>] [--package <name>] [--at <package>=<tree>]... [--require-impl]
  *
  * <input> is `--data <dir>` (the bundled data/ by default), or a contract directory (docs/contract-dir.md):
@@ -26,7 +26,7 @@ import { contractVersion, loadContractDir } from '../lib/contract-dir.mjs';
 import { KERNEL_SECTIONS, TOOL_FILES, isKernelFile, kernelDocOf, loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { checkLinks, linksOf, sourcesOf } from '../lib/links.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
-import { classify, refusal } from '../lib/semver.mjs';
+import { classify, classifySchema, refusal } from '../lib/semver.mjs';
 import { fileProblems, validateData } from '../lib/validate.mjs';
 import { renderC, renderSheetC } from '../render/c.mjs';
 import { renderFormatsPy } from '../render/formats.mjs';
@@ -212,9 +212,13 @@ function dataAtTag(tag) {
   return texts;
 }
 
+const RANKS = { none: 0, patch: 1, minor: 2, major: 3 };
+
 function cmdSemver(argv) {
   const fromDir = opt(argv, '--from-dir');
+  const report = argv.includes('--report');
   let prev;
+  let prevSchema;
   let from;
   if (fromDir) {
     from = opt(argv, '--from-version');
@@ -225,11 +229,25 @@ function cmdSemver(argv) {
     if (!tag || tag.startsWith('--')) throw new Usage('semver needs the previous tag');
     from = tag;
     prev = loadData(null, dataAtTag(tag));
+    try {
+      prevSchema = JSON.parse(execFileSync('git', ['-C', ROOT, 'show', `${tag}:schema/omx-contract.schema.json`], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
+    } catch { prevSchema = undefined; }
   }
   const to = opt(argv, '--version') ?? packageVersion(ROOT);
-  const { level, changes } = classify(resolveData(prev), resolveData(load(argv)));
+  const data = classify(resolveData(prev), resolveData(load(argv)));
+  const changes = [...data.changes];
+  let level = data.level;
+  let schemaWhy = null;
+  if (prevSchema) {
+    const nextSchema = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
+    const sc = classifySchema(prevSchema, nextSchema);
+    changes.push(...sc.changes);
+    if (RANKS[sc.level] > RANKS[level]) level = sc.level;
+    // the schema carries its own version: a changed schema needs it bumped by what its changes need, once the package is
+    if (sc.level !== 'none' && to !== from.replace(/^v/, '')) schemaWhy = refusal(sc.level, prevSchema['x-omx-schema-version'], nextSchema['x-omx-schema-version']);
+  }
   for (const c of changes) console.log(`${c.level.toUpperCase()} ${c.item}: ${c.what}`);
-  const why = refusal(level, from, to);
+  const why = report ? null : (refusal(level, from, to) ?? (schemaWhy && `the schema: ${schemaWhy}`));
   console.log(JSON.stringify({ from: from.replace(/^v/, ''), to, level, changes: changes.length, ok: !why }));
   if (why) { console.error(`omx-contract semver: ${why}`); return 1; }
   return 0;
@@ -270,7 +288,7 @@ function cmdLinks(argv) {
 const USAGE = `usage: omx-contract validate [<input>]
        omx-contract fmt [--check] [<input>]
        omx-contract render --target c|ts|json|lv2|py --out <dir> [--check] [<input> [--package <name>] | --sheet <fixture.json>]
-       omx-contract semver <previous tag> | --from-dir <data dir> --from-version <x.y.z> [--version <x.y.z>]
+       omx-contract semver <previous tag> [--report] | --from-dir <data dir> --from-version <x.y.z> [--version <x.y.z>]
        omx-contract links [--check] [--root <tree>] [<input>] [--package <name>] [--at <package>=<tree>]... [--require-impl] [--json]
   <input>: --data <dir> | --contract-dir <dir> | --installed, a contract directory with [--needs <package>@'>= x.y.z']... [--json]`;
 
