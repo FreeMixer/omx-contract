@@ -5808,6 +5808,42 @@ export declare const MEASUREMENT_VERDICT_RATINGS: {
 };
 
 /**
+ * The units of org.openmixer.param-contract/1, the code its get() reports for a parameter's plain value, by token: the LV2 unit a face writes for a descriptor unit (units:db is db), 0..24 the LV2 units one to one, 0x100 and up the vendor block of units LV2 has none for, append-only. A token is served when it has a code here; none is 0.
+ * @see data/param-contract.json
+ */
+export declare const OMX_PARAM_CONTRACT_UNITS: {
+  readonly none: 0;
+  readonly s: 1;
+  readonly ms: 2;
+  readonly min: 3;
+  readonly bar: 4;
+  readonly beat: 5;
+  readonly frame: 6;
+  readonly m: 7;
+  readonly cm: 8;
+  readonly mm: 9;
+  readonly km: 10;
+  readonly inch: 11;
+  readonly mile: 12;
+  readonly db: 13;
+  readonly pc: 14;
+  readonly coef: 15;
+  readonly hz: 16;
+  readonly khz: 17;
+  readonly mhz: 18;
+  readonly bpm: 19;
+  readonly oct: 20;
+  readonly cent: 21;
+  readonly semitone12TET: 22;
+  readonly degree: 23;
+  readonly midiNote: 24;
+  readonly dbfs: 256;
+  readonly dbu: 257;
+  readonly ratio: 258;
+  readonly lufs: 259;
+};
+
+/**
  * How a host draws a parameter: linear, logarithmic (a frequency, a time) or in discrete steps. The words omx-plugins' declarations and plugin-hostd's protocol use; a travel names its own with `scale`.
  * @see data/primitives.json
  */

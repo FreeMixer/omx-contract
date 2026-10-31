@@ -31,7 +31,7 @@ const defines = (text) => text.split('\n').filter((l) => l.startsWith('#define O
 test('render --package omx-contract is omx_vocabulary.h byte for byte, and its ts module exports every vocabulary item', async () => {
   const out = join(SCRATCH, `c-${n++}`);
   assert.equal(quiet(() => main(['render', '--target', 'c', '--package', 'omx-contract', '--out', out])), 0);
-  assert.deepEqual(readdirSync(out), ['omx_vocabulary.h']);
+  assert.deepEqual(readdirSync(out), ['omx_param_units.h', 'omx_vocabulary.h']);
   assert.equal(readFileSync(join(out, 'omx_vocabulary.h'), 'utf8'), COMMITTED);
   assert.equal(quiet(() => main(['render', '--target', 'c', '--package', 'omx-contract', '--out', join(ROOT, 'include/omxcontract'), '--check'])), 0);
   const ts = join(SCRATCH, `ts-${n++}`);

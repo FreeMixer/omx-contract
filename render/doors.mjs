@@ -39,7 +39,7 @@ export function doors(resolved) {
   const byMacro = new Map();
   for (const r of items) {
     if (isNativeTable(r) || r.kind === 'list' || r.kind === 'set') continue;
-    const leaves = numberLeaves(r.value, r.name, r.name.replace(/_(KERNEL|LIMITS)$/, ''));
+    const leaves = numberLeaves(r.value, r.name, r.name.replace(/^OMX_/, '').replace(/_(KERNEL|LIMITS)$/, ''));
     if (leaves === undefined) continue;
     for (const s of leaves) {
       const seen = byMacro.get(s.macro);

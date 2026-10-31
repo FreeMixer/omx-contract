@@ -6911,6 +6911,42 @@
         }
       }
     },
+    "OMX_PARAM_CONTRACT_UNITS": {
+      "rel": "data/param-contract.json",
+      "kind": "sheet",
+      "doc": "The units of org.openmixer.param-contract/1, the code its get() reports for a parameter's plain value, by token: the LV2 unit a face writes for a descriptor unit (units:db is db), 0..24 the LV2 units one to one, 0x100 and up the vendor block of units LV2 has none for, append-only. A token is served when it has a code here; none is 0.",
+      "value": {
+        "none": 0,
+        "s": 1,
+        "ms": 2,
+        "min": 3,
+        "bar": 4,
+        "beat": 5,
+        "frame": 6,
+        "m": 7,
+        "cm": 8,
+        "mm": 9,
+        "km": 10,
+        "inch": 11,
+        "mile": 12,
+        "db": 13,
+        "pc": 14,
+        "coef": 15,
+        "hz": 16,
+        "khz": 17,
+        "mhz": 18,
+        "bpm": 19,
+        "oct": 20,
+        "cent": 21,
+        "semitone12TET": 22,
+        "degree": 23,
+        "midiNote": 24,
+        "dbfs": 256,
+        "dbu": 257,
+        "ratio": 258,
+        "lufs": 259
+      }
+    },
     "PARAM_SCALES": {
       "rel": "data/primitives.json",
       "kind": "set",

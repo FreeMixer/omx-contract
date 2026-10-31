@@ -27,7 +27,7 @@ test('the render is the header omx-clap-core commits, byte for byte, its banner 
 test('render --package omx-clap-core: both headers it commits, the OMX_HOSTED_STAGE_ one with the worker fields, byte for byte', () => {
   const own = renderC(resolvedOf(texts()), { pkg: 'omx-clap-core' });
   // and, a data directory being the package named whole, its vocabulary (test/package-vocabulary.test.mjs)
-  assert.deepEqual(own.map((f) => f.path), ['clap_host_limits.h', 'hosted_stage_limits.h', 'omx_clap_core_vocabulary.h']);
+  assert.deepEqual(own.map((f) => f.path), ['clap_host_limits.h', 'hosted_stage_limits.h', 'omx_param_units.h', 'omx_clap_core_vocabulary.h']);
   assert.equal(own[0].text, readFileSync(join(ROOT, 'test/fixtures/clap_host_limits-omx-clap-core.h'), 'utf8'));
   assert.equal(own[1].text, readFileSync(join(ROOT, 'test/fixtures/hosted_stage_limits-omx-clap-core.h'), 'utf8'));
   assert.equal(own[1].text.split('\n').filter((l) => l.startsWith('#define OMX_HOSTED_STAGE_')).length, 20);
