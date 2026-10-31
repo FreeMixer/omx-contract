@@ -100,7 +100,7 @@ export function renderHintsTurtle(resolved) {
       `${prefix}:${k}`,
       '    a rdf:Property , owl:DatatypeProperty ;',
       `    rdfs:label ${ttlString(w.word)} ;`,
-      `    rdfs:comment ${ttlString(w.doc)} ;`,
+      `    rdfs:comment ${ttlString(unitOf(k, w).bound ? `${w.doc} The figure is ${unitOf(k, w).bound}.` : w.doc)} ;`,
       '    rdfs:domain lv2:Plugin ;',
       `    rdfs:range xsd:${unitOf(k, w).xsd} ;`,
       `    ${prefix}:resource ${ttlString(w.group)} ;`,
@@ -111,7 +111,7 @@ export function renderHintsTurtle(resolved) {
     if (see.length) { lines[lines.length - 1] += ' ;'; lines.push(`    rdfs:seeAlso ${see.join(' , ')}`); }
     return `${lines.join('\n')} .`;
   });
-  const annotations = [['resource', 'The resource a hint declares, a word of RESOURCE_KINDS.'], ['unit', 'The unit of a hint\'s figure, a word of RESOURCE_UNITS.'], ['basis', 'How a hint\'s figure is known, a word of RESOURCE_BASES.']].map(([n, d]) => `${prefix}:${n}\n    a owl:AnnotationProperty ;\n    rdfs:comment ${ttlString(d)} .`);
+  const annotations = [['resource', 'The resource a hint declares, a word of RESOURCE_KINDS.'], ['unit', 'The unit of a hint\'s figure, a word of RESOURCE_UNITS.'], ['basis', 'How a hint\'s figure is known, a word of RESOURCE_BASES.']].map(([n, d]) => `${prefix}:${n}\n    a owl:AnnotationProperty ;\n    rdfs:label ${ttlString(n)} ;\n    rdfs:comment ${ttlString(d)} .`);
   return `# SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 # GENERATED: DO NOT EDIT BY HAND.
