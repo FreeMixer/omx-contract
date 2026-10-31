@@ -9,9 +9,9 @@
  */
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { after, test } from 'node:test';
 import { pathToFileURL } from 'node:url';
 import { loadData, resolveData } from '../lib/data.mjs';
@@ -29,7 +29,7 @@ const HINTS = Object.entries(DECL.words);
 const dirs = [];
 // What the declaration's units mean in each carrier, written out here and not read from the renderer's table, so the
 // renderer's table is held to something.
-const HINT_UNITS = { bytes: { c: 'uint64_t', xsd: 'unsignedLong' }, count: { c: 'uint32_t', xsd: 'unsignedInt' }, ms: { c: 'uint32_t', xsd: 'unsignedInt' }, flag: { c: 'bool', xsd: 'boolean' } };
+const HINT_UNITS = { bytes: { c: 'uint64_t', xsd: 'integer' }, count: { c: 'uint32_t', xsd: 'integer' }, ms: { c: 'uint32_t', xsd: 'integer' }, flag: { c: 'bool', xsd: 'boolean' } };
 const constOf = (key) => key.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toUpperCase();
 const memberOf = (word) => word.replace(/-/g, '_');
 after(() => dirs.forEach((d) => rmSync(d, { recursive: true, force: true })));
@@ -161,10 +161,38 @@ test('the LV2 Turtle parses as Turtle where a parser is installed, and links the
   assert.notEqual(spawnSync('serdi', ['-i', 'turtle', '-o', 'ntriples', join(dir, 'bad.ttl')]).status, 0);
 });
 
+test('every term of the Turtle has a label, and no range is a datatype lilv does not know (#144)', () => {
+  const t = turtleText();
+  const terms = t.split(/\n\n/).filter((b) => /^omxres:\w+\n/.test(b));
+  assert.equal(terms.length, 3 + HINTS.length);
+  for (const b of terms) assert.match(b, /rdfs:label "[^"]+" ;/, b.split('\n')[0]);
+  // lilv reads xsd:integer and xsd:boolean; it logs "Unknown datatype" for xsd:unsignedLong and xsd:unsignedInt
+  assert.deepEqual([...new Set([...t.matchAll(/rdfs:range xsd:(\w+)/g)].map((m) => m[1]))].sort(), ['boolean', 'integer']);
+  assert.doesNotMatch(t, /unsigned/);
+  assert.doesNotMatch(t.replace('xsd:integer', ''), /rdfs:label ""/);
+});
+
+test('sord_validate finds nothing to say about the hints vocabulary, where it is installed', () => {
+  const lv2 = ['/usr/lib64/lv2', '/usr/lib/lv2', '/usr/local/lib/lv2'].find((d) => existsSync(join(d, 'core.lv2')) && existsSync(join(d, 'schemas.lv2')));
+  const probe = spawnSync('sord_validate', [], { encoding: 'utf8' });
+  if (!lv2 || probe.error?.code === 'ENOENT') return;
+  const files = [...readdirSync(join(lv2, 'schemas.lv2')).filter((f) => f.endsWith('.ttl') && f !== 'manifest.ttl').map((f) => join(lv2, 'schemas.lv2', f)),
+    ...readdirSync(join(lv2, 'core.lv2')).filter((f) => f.endsWith('.ttl') && f !== 'manifest.ttl').map((f) => join(lv2, 'core.lv2', f)), join(ROOT, 'share/omx-contract/omx-resource-hints.ttl')];
+  const out = spawnSync('sord_validate', files, { encoding: 'utf8' });
+  const ours = out.stderr.split(/\n(?=error|warning)/).filter((e) => e.includes('openmixer.org/ns/resource-hints'));
+  assert.deepEqual(ours, []);
+  // the control: the validator does read the file, so a term without a label is named
+  const bad = join(mkdtempSync(join(tmpdir(), 'omx-ttl-')), 'bad.ttl');
+  dirs.push(dirname(bad));
+  writeFileSync(bad, turtleText().replace(/ {4}rdfs:label "resource" ;\n/, ''));
+  const control = spawnSync('sord_validate', [...files.slice(0, -1), bad], { encoding: 'utf8' });
+  assert.match(control.stderr, /resource-hints#resource> has no label/);
+});
+
 test('sabotage: a lost property, a changed range, a changed unit and a changed namespace are each named', () => {
   const t = turtleText();
   assert.ok(checkTurtle(t.replace(/omxres:opensSockets\n[\s\S]*?basis "declared" \.\n\n/, '')).length > 0, 'a property lost');
-  assert.ok(checkTurtle(t.replace('xsd:unsignedLong', 'xsd:unsignedInt')).length > 0, 'a range changed');
+  assert.ok(checkTurtle(t.replace('xsd:integer', 'xsd:decimal')).length > 0, 'a range changed');
   assert.ok(checkTurtle(t.replace('omxres:unit "ms"', 'omxres:unit "s"')).length > 0, 'a unit changed');
   assert.ok(checkTurtle(t.replace(/(@prefix omxres: <)[^>]*/, '$1https://example.org/x#')).length > 0, 'the namespace changed');
 });

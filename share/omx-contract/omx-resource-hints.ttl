@@ -17,22 +17,25 @@
 
 omxres:resource
     a owl:AnnotationProperty ;
+    rdfs:label "resource" ;
     rdfs:comment "The resource a hint declares, a word of RESOURCE_KINDS." .
 
 omxres:unit
     a owl:AnnotationProperty ;
+    rdfs:label "unit" ;
     rdfs:comment "The unit of a hint's figure, a word of RESOURCE_UNITS." .
 
 omxres:basis
     a owl:AnnotationProperty ;
+    rdfs:label "basis" ;
     rdfs:comment "How a hint's figure is known, a word of RESOURCE_BASES." .
 
 omxres:footprintAtRest
     a rdf:Property , owl:DatatypeProperty ;
     rdfs:label "footprint-at-rest" ;
-    rdfs:comment "The memory one instance holds at rest, once activated and idle, with no note playing." ;
+    rdfs:comment "The memory one instance holds at rest, once activated and idle, with no note playing. The figure is a non-negative integer, at most 2^64 - 1." ;
     rdfs:domain lv2:Plugin ;
-    rdfs:range xsd:unsignedLong ;
+    rdfs:range xsd:integer ;
     omxres:resource "memory" ;
     omxres:unit "bytes" ;
     omxres:basis "declared" .
@@ -40,9 +43,9 @@ omxres:footprintAtRest
 omxres:footprintPerVoice
     a rdf:Property , owl:DatatypeProperty ;
     rdfs:label "footprint-per-voice" ;
-    rdfs:comment "The memory each voice adds while it plays, for an instrument." ;
+    rdfs:comment "The memory each voice adds while it plays, for an instrument. The figure is a non-negative integer, at most 2^64 - 1." ;
     rdfs:domain lv2:Plugin ;
-    rdfs:range xsd:unsignedLong ;
+    rdfs:range xsd:integer ;
     omxres:resource "memory" ;
     omxres:unit "bytes" ;
     omxres:basis "declared" .
@@ -50,9 +53,9 @@ omxres:footprintPerVoice
 omxres:sharedLoad
     a rdf:Property , owl:DatatypeProperty ;
     rdfs:label "shared-load" ;
-    rdfs:comment "The one-time load every instance of the plugin shares, counted once however many are instantiated." ;
+    rdfs:comment "The one-time load every instance of the plugin shares, counted once however many are instantiated. The figure is a non-negative integer, at most 2^64 - 1." ;
     rdfs:domain lv2:Plugin ;
-    rdfs:range xsd:unsignedLong ;
+    rdfs:range xsd:integer ;
     omxres:resource "memory" ;
     omxres:unit "bytes" ;
     omxres:basis "declared" .
@@ -60,9 +63,9 @@ omxres:sharedLoad
 omxres:threadsSpawned
     a rdf:Property , owl:DatatypeProperty ;
     rdfs:label "threads-spawned" ;
-    rdfs:comment "The threads the plugin starts itself, apart from any it asks the host pool for." ;
+    rdfs:comment "The threads the plugin starts itself, apart from any it asks the host pool for. The figure is a non-negative integer, at most 2^32 - 1." ;
     rdfs:domain lv2:Plugin ;
-    rdfs:range xsd:unsignedInt ;
+    rdfs:range xsd:integer ;
     omxres:resource "threads" ;
     omxres:unit "count" ;
     omxres:basis "declared" .
@@ -90,9 +93,9 @@ omxres:opensSockets
 omxres:activateTime
     a rdf:Property , owl:DatatypeProperty ;
     rdfs:label "activate-time" ;
-    rdfs:comment "The wall time of activate and the first block the plugin expects." ;
+    rdfs:comment "The wall time of activate and the first block the plugin expects. The figure is a non-negative integer, at most 2^32 - 1." ;
     rdfs:domain lv2:Plugin ;
-    rdfs:range xsd:unsignedInt ;
+    rdfs:range xsd:integer ;
     omxres:resource "startup" ;
     omxres:unit "ms" ;
     omxres:basis "declared" .
