@@ -2,8 +2,7 @@
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { pathToFileURL } from 'node:url';
@@ -11,7 +10,7 @@ import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
+import { DATA, RENDERS, ROOT, UNION, editData, scratchData, scratchDir } from './helpers.mjs';
 
 const resolved = () => resolveData(loadData(UNION));
 const own = () => resolveData(loadData(DATA));
@@ -34,7 +33,7 @@ test('a render is idempotent: no time, path or host in its bytes', () => {
 });
 
 test('the ts module exports every item with the resolved value', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'omx-ts-'));
+  const dir = scratchDir('omx-ts-');
   for (const f of renderTs(resolved())) writeFileSync(join(dir, f.path), f.text);
   const mod = await import(pathToFileURL(join(dir, 'omx-contract.js')).href);
   const json = JSON.parse(renderJson(resolved(), '0.0.0')[0].text).items;
@@ -48,7 +47,7 @@ test('the ts module exports every item with the resolved value', async () => {
 const cc = (process.env.CC ?? 'cc').split(' ');
 
 test('the c headers of the union compile, and a C reader sees the declared values', { skip: spawnSync(cc[0], [...cc.slice(1), '--version']).status !== 0 && 'no cc' }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'omx-c-'));
+  const dir = scratchDir('omx-c-');
   const src = join(dir, 't.c');
   writeFileSync(src, `#include <stdio.h>
 #include <omxcontract/omx_contract_limits.h>

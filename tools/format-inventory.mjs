@@ -108,14 +108,33 @@ export function readLv2Bundle(dir) {
   return out;
 }
 
-/** Every LV2 specification under `dir`, by bundle name (the bundle's name less `.lv2`). */
-export function readLv2(dir) {
+/**
+ * Every LV2 bundle under `dir` read: `{ specs, unread }`. `specs` is the specifications by bundle name (the bundle's
+ * name less `.lv2`); `unread` is `[{ bundle, reason }]` for each bundle that is no specification: a plugin bundle
+ * (lv2-airwindows lists plugins in its manifest and names no specification, which is legal LV2) or one the reader
+ * cannot read. A bundle never stops the others from being read (#143).
+ */
+export function readLv2Dir(dir) {
   const bundles = readdirSync(dir).filter((b) => b.endsWith('.lv2') && !NOT_SPECS.includes(b) && existsSync(join(dir, b, 'manifest.ttl'))).sort();
   if (!bundles.length) throw new Error(`no LV2 bundle under ${dir}`);
   const specs = {};
-  for (const b of bundles) specs[b.replace(/\.lv2$/, '')] = readLv2Bundle(join(dir, b));
-  return specs;
+  const unread = [];
+  for (const b of bundles) {
+    const name = b.replace(/\.lv2$/, '');
+    try {
+      const manifest = turtle(join(dir, b, 'manifest.ttl'));
+      const names = (type) => manifest.filter(([, p, o]) => p === `${RDF}type` && o === type).length;
+      if (names(`${LV2}Specification`) === 0 && names(`${LV2}Plugin`) > 0) { unread.push({ bundle: name, reason: 'a plugin bundle: its manifest names plugins and no specification' }); continue; }
+      specs[name] = readLv2Bundle(join(dir, b));
+    } catch (e) {
+      unread.push({ bundle: name, reason: String(e.message).replace(`${join(dir, b)}: `, '') });
+    }
+  }
+  return { specs, unread };
 }
+
+/** Every LV2 specification under `dir`, by bundle name; a bundle that is none is left out (readLv2Dir says which and why). */
+export const readLv2 = (dir) => readLv2Dir(dir).specs;
 
 const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
 
