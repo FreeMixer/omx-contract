@@ -104,6 +104,9 @@ jobs:
           cli="$RUNNER_TEMP/inst/usr/lib/omx-contract/bin/omx-contract.mjs"
           dir="$RUNNER_TEMP/inst/usr/share/omx-contract/contract.d"
           cd "$RUNNER_TEMP"
+          for f in "$GITHUB_WORKSPACE"/schema/history/*.schema.json; do
+            test -f "$RUNNER_TEMP/inst/usr/lib/omx-contract/schema/history/$(basename "$f")" || { echo "not installed: $f"; exit 1; }
+          done
           node "$cli" validate --contract-dir "$dir"
           node "$cli" render --target json --out "$RUNNER_TEMP/cli-json" --contract-dir "$dir"
           cmp "$RUNNER_TEMP/cli-json/omx-contract.json" "$GITHUB_WORKSPACE/share/omx-contract/omx-contract.json"
