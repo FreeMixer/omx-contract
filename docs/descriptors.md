@@ -39,7 +39,7 @@ changes.
 
 A file is a descriptor when it carries `origin`; it then declares no item, and only the words below may stand at
 its top: `$schema`, `requires`, `origin`, `plugin`, `controls`, `ports`, `instrument`, `needs`, `latency`,
-`extensions`, `source`.
+`easy`, `extensions`, `source`.
 Any other key or word is `contract.file.invalid`, never skipped.
 
 ## The words
@@ -72,6 +72,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | `instrument` | `voices`, `polyphonic` | Present exactly when `features` holds `instrument`: notes in, audio out. `voices` only when the plugin states it (CLAP voice info) | new |
 | `needs` | `transport`, `tempo`, `extensions.required`, `extensions.optional` | What the host must give: CLAP host extensions, LV2 `lv2:requiredFeature` and `lv2:optionalFeature`, a `time:Position` input | new |
 | `latency` | `reports`, `frames` | `reports: true` when the plugin reports its latency; `frames` only for a constant the plugin defines, never a measured figure | new |
+| file | `easy` | The controls of the plugin's Easy face, in order, at most eight, each by its `symbol`, else its `id`: what a host opens the plugin on, with every control one click away. Optional; never in a `scanned` descriptor, whose scan has nothing to read it from. With none, a host's panel layout picks them from the roles (omx-panel `docs/panel-layout.md`) | new (minor) |
 | `extensions` | `clap`, `lv2`: each `{ <source field>: <value> }` | The extension bag: a format's facts no word of ours carries, carried verbatim (below) | new (3.0.0) |
 | `source` | `from`, `impl`, `at` | As in [contract-dir.md](contract-dir.md); for a scan, links into the `.ttl` or the CLAP binary | existing |
 
@@ -90,19 +91,19 @@ measurements of one machine and belong to a qualification record, which no descr
 ### Units
 
 A descriptor's `travel.unit` is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x`, `""` and, since
-3.1.0, `dB/oct`, a slope such as a key filter's tilt, for which LV2 has no unit), one of the six below, or `unknown`.
+3.1.0, `dB/oct`, a slope such as a key filter's tilt, for which LV2 has no unit, and since 3.7.0 `LUFS`, a loudness, and `dB/s`, a gain change per second), one of the six below, or `unknown`.
 
 | Unit | Taken from |
 |---|---|
 | `frames` | LV2 `units:frame`, whose symbol is `frames` |
 | `bpm` | LV2 `units:bpm` (its symbol is `BPM`) |
 | `midiNote` | LV2 `units:midiNote` (its symbol is `note`) |
-| `LUFS` | No LV2 unit: loudness, ITU-R BS.1770 |
+| `LUFS` | No LV2 unit: loudness, ITU-R BS.1770. Also an item unit since 3.7.0 |
 | `deg` | LV2 `units:degree`, whose symbol is `deg` |
 | `ratio` | No LV2 unit: a ratio `n:1`, a compressor's or a de-esser's (`""` says no unit, and an LV2 face writes none for it, so a scan could not tell the two apart) |
 | `unknown` | The plugin states no unit (every CLAP parameter; an LV2 port without `units:unit`), or one with no word here; the LV2 unit stays in `source` |
 
-The item list stays the units the items use; these seven are for descriptors only.
+The item list is the units the items use; these seven are for descriptors, `LUFS` also being an item unit since 3.7.0.
 
 ### Scales
 
@@ -119,11 +120,25 @@ has the term, the meaning carries its name.
 | `wetDryRatio` (the mix of a wet and a dry signal) | `param:wetDryRatio` |
 | `delay` (a delay time) | `param:delay` |
 | `enabled` (on when the control is on; the inverse of `bypass`) | `lv2:enabled` |
-| `range`, `knee`, `hysteresis`, `makeup`, `lookahead`, `ceiling`, `output`, `q`, `slope`, `width`, `drive`, `tone`, `rate`, `depth`, `feedback`, `spread`, `predelay`, `size`, `damping`, `lowCut`, `highCut`, `shift`, `fine`, `sync`, `division`, `listen` | none |
+| `range`, `knee`, `hysteresis`, `makeup`, `lookahead`, `ceiling`, `output`, `q`, `slope`, `width`, `drive`, `tone`, `rate`, `depth`, `feedback`, `spread`, `predelay`, `size`, `damping`, `lowCut`, `highCut`, `shift`, `fine`, `sync`, `division`, `listen`, `shape`, `model`, `algorithm`, `mode`, `type`, `pingpong` | none |
 | `unknown` | The plugin states no meaning |
 
 A control with no meaning in the list leaves `meaning` out and is shown by its `group` and `name`. A new meaning is
-a schema minor.
+a schema minor. One word per meaning, no synonyms: `on` is `enabled` and `speed` is `rate`, so neither is a
+meaning, and the validator names the word to use when a file writes one. `shape`, `model`, `algorithm`, `mode` and
+`type` (a choice of which one) and `pingpong` (a delay's bounce) came with 3.7.0.
+
+### Plugin features
+
+`plugin.features` holds the four words `audio-effect`, `instrument`, `note-effect` and `analyzer`. Every CLAP plugin
+feature (`clap/plugin-features.h`, 39 in clap 1.2.10) and every LV2 plugin class (lv2core, `lv2:*Plugin`) is mapped
+onto one of them, or onto `other` for what fits none, in five items of `data/plugin-features.json`:
+`PLUGIN_FEATURE_AUDIO_EFFECT`, `_INSTRUMENT`, `_NOTE_EFFECT`, `_ANALYZER` and `_OTHER`. A word of an item is the source
+term (`clap.reverb`, `lv2.Allpass`) and its `from` the term of `data/formats/`. A kind of effect (a compressor, a
+reverb, a filter) is an `audio-effect`; the kind itself stays in the extension bag as the source states it. `other`
+is a table target, never a word of `plugin.features`: a feature or class mapped to it, and one no row names, is not
+written in `features`. The instrument rule stands: only a plugin that takes notes is an `instrument`, so a LV2
+generator or oscillator is `other`. A test holds the items to the terms: every feature and class has exactly one row.
 
 ### The extension bag
 
@@ -132,6 +147,9 @@ source field and carried verbatim: `{ "clap": { "clap_plugin_descriptor.features
 "rdf:type": "lv2:CompressorPlugin" } }`. An `authored` descriptor may carry the extras its faces write (CLAP's open
 features, the LV2 class); a `scanned` one carries what its format map classes `extension`. A reader never reads a bag
 value as a word: a fact that has a word is written in the word, never in the bag.
+
+The corrections a person or a measurement makes to a scanned descriptor are an override file, applied by one
+function ([overrides.md](overrides.md)).
 
 ## The format maps
 

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.6.0
+Version: 3.7.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -111,6 +111,19 @@ lowest release whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sun Nov 01 2026 Pau Aliagas <linuxnow@gmail.com> - 3.7.0-1
+- Overrides: $defs.override, the contract.override.* codes and applyOverride,
+  which lays override files over a scanned descriptor (docs/overrides.md, #105).
+- Descriptors: easy, the controls of a plugin's Easy face; the meanings shape,
+  model, algorithm, mode, type and pingpong (on and speed are not meanings);
+  every CLAP plugin feature and LV2 plugin class mapped onto the four feature
+  words or other (#100, #120).
+- The panel families and widgets and the names of the scan documents and field
+  dump scopes are declared (#157). The units LUFS and dB/s join the items'.
+- CI runs the live-owner check against the latest omx-dsp release (#109).
+- It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel before
+  0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
+
 * Sat Oct 31 2026 Pau Aliagas <linuxnow@gmail.com> - 3.6.0-1
 - The unit codes of org.openmixer.param-contract/1 are declared here
   (OMX_PARAM_CONTRACT_UNITS, data/param-contract.json) and rendered to

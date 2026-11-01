@@ -23,6 +23,10 @@ make install PREFIX=/usr DESTDIR=…   # headers, JSON render, schema, the contr
 make install-cli PREFIX=/usr DESTDIR=…   # the omx-contract command, its files under CLIDIR (/usr/lib/omx-contract), its man page
 ```
 
+The goldens run over the frozen 2.14.0 kernels; CI also fetches the latest omx-dsp release (`tools/live-owner-data.sh`) and
+sets `OMX_LIVE_OWNER_DATA` to its `data/`, so `test/live-owners.test.mjs` checks every kernel of the freeze against a live
+owner and is red, not skipped, when it finds none. Locally: `OMX_LIVE_OWNER_DATA=$(sh tools/live-owner-data.sh /tmp/omx-dsp) npm test`.
+
 ## The CLI
 
 ```

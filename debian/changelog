@@ -1,3 +1,25 @@
+omx-contract (3.7.0) unstable; urgency=medium
+
+  * Overrides: $defs.override, the contract.override.* codes and applyOverride,
+    which lays override files over a scanned descriptor, lowest layer first
+    (docs/overrides.md, #105).
+  * Descriptors: easy, the controls of a plugin's Easy face. The meanings shape,
+    model, algorithm, mode, type and pingpong; on and speed are not meanings, the
+    validator names enabled and rate (#100). Every CLAP plugin feature and LV2
+    plugin class maps onto the four feature words or other, as data (#120).
+  * The panel families and widgets, and the names of the scan documents and of
+    the field dump scopes, are declared (#157). The owners keep their code.
+  * The units LUFS and dB/s are units of the items; the omx-dsp 0.28.0 readouts
+    are listed in docs/readouts.md. The delay tap factor controls (tap1Factor to
+    tap3Factor) are omx-dsp's own declaration.
+  * CI fetches the latest omx-dsp release and runs the live-owner check, red and
+    never skipped (#109).
+  * It breaks nothing new: libomxdsp-dev before 0.25.0, libomx-clap-core-dev
+    before 0.13.0 and omx-plugins-dev before 0.13.0 stay the floors. The schema
+    is 3.7.0; the 3.5.0 schema is frozen in schema/history.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Sun, 01 Nov 2026 12:00:00 +0100
+
 omx-contract (3.6.0) unstable; urgency=medium
 
   * The unit codes of org.openmixer.param-contract/1 are declared here

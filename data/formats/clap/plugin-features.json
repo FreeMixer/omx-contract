@@ -12,8 +12,10 @@
         "id": "CLAP_PLUGIN_FEATURE_AMBISONIC",
         "value": "ambisonic",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "analyzer": {
         "id": "CLAP_PLUGIN_FEATURE_ANALYZER",
@@ -94,8 +96,10 @@
         "id": "CLAP_PLUGIN_FEATURE_DRUM_MACHINE",
         "value": "drum-machine",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "equalizer": {
         "id": "CLAP_PLUGIN_FEATURE_EQUALIZER",
@@ -139,8 +143,10 @@
         "id": "CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER",
         "value": "frequency-shifter",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "gate": {
         "id": "CLAP_PLUGIN_FEATURE_GATE",
@@ -156,15 +162,19 @@
         "id": "CLAP_PLUGIN_FEATURE_GLITCH",
         "value": "glitch",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "granular": {
         "id": "CLAP_PLUGIN_FEATURE_GRANULAR",
         "value": "granular",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "instrument": {
         "id": "CLAP_PLUGIN_FEATURE_INSTRUMENT",
@@ -189,8 +199,10 @@
         "id": "CLAP_PLUGIN_FEATURE_MASTERING",
         "value": "mastering",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "mixing": {
         "id": "CLAP_PLUGIN_FEATURE_MIXING",
@@ -215,15 +227,19 @@
         "id": "CLAP_PLUGIN_FEATURE_MULTI_EFFECTS",
         "value": "multi-effects",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "note-detector": {
         "id": "CLAP_PLUGIN_FEATURE_NOTE_DETECTOR",
         "value": "note-detector",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "note-effect": {
         "id": "CLAP_PLUGIN_FEATURE_NOTE_EFFECT",
@@ -239,8 +255,10 @@
         "id": "CLAP_PLUGIN_FEATURE_PHASE_VOCODER",
         "value": "phase-vocoder",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "phaser": {
         "id": "CLAP_PLUGIN_FEATURE_PHASER",
@@ -255,8 +273,10 @@
         "id": "CLAP_PLUGIN_FEATURE_PITCH_CORRECTION",
         "value": "pitch-correction",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "pitch-shifter": {
         "id": "CLAP_PLUGIN_FEATURE_PITCH_SHIFTER",
@@ -271,8 +291,10 @@
         "id": "CLAP_PLUGIN_FEATURE_RESTORATION",
         "value": "restoration",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "reverb": {
         "id": "CLAP_PLUGIN_FEATURE_REVERB",
@@ -306,8 +328,10 @@
         "id": "CLAP_PLUGIN_FEATURE_SURROUND",
         "value": "surround",
         "kind": "plugin-feature",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "synthesizer": {
         "id": "CLAP_PLUGIN_FEATURE_SYNTHESIZER",

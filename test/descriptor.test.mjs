@@ -133,13 +133,14 @@ test('the scanned LV2 plugin: its units, a unit with no word as unknown, a side-
 test('the words are the closed lists of docs/descriptors.md', () => {
   const $ = SCHEMA.$defs;
   assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown'] }]);
-  for (const u of ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
-  assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', '', 'dB/oct'], 'the items\' units are as they were, dB/oct appended in 3.1.0');
+  for (const u of ['frames', 'bpm', 'midiNote', 'deg', 'ratio', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
+  assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', '', 'dB/oct', 'LUFS', 'dB/s'], 'the items\' units are as they were, dB/oct appended in 3.1.0, LUFS and dB/s in 3.7.0');
   assert.deepEqual($.meaning.enum, [
     'gain', 'threshold', 'ratio', 'attack', 'release', 'hold', 'decay', 'frequency', 'cutoffFrequency', 'resonance', 'bypass',
     'wetDryRatio', 'delay', 'enabled',
     'range', 'knee', 'hysteresis', 'makeup', 'lookahead', 'ceiling', 'output', 'q', 'slope', 'width', 'drive', 'tone', 'rate',
     'depth', 'feedback', 'spread', 'predelay', 'size', 'damping', 'lowCut', 'highCut', 'shift', 'fine', 'sync', 'division', 'listen',
+    'shape', 'model', 'algorithm', 'mode', 'type', 'pingpong',
     'unknown',
   ]);
   assert.deepEqual($.descriptor.properties.origin.enum, ['authored', 'built', 'scanned']);
@@ -149,7 +150,7 @@ test('the words are the closed lists of docs/descriptors.md', () => {
   assert.deepEqual($.port.properties.layout.enum, ['mono', 'stereo', 'surround']);
   assert.deepEqual($.port.properties.dialects.items.enum, ['clap', 'midi', 'midiMpe', 'midi2']);
   assert.deepEqual($.plugin.properties.features.items.enum, ['audio-effect', 'instrument', 'note-effect', 'analyzer']);
-  assert.deepEqual(Object.keys($.descriptor.properties), ['$schema', 'requires', 'origin', 'plugin', 'controls', 'ports', 'instrument', 'needs', 'latency', 'extensions', 'source']);
+  assert.deepEqual(Object.keys($.descriptor.properties), ['$schema', 'requires', 'origin', 'plugin', 'controls', 'ports', 'instrument', 'needs', 'latency', 'easy', 'extensions', 'source']);
   assert.deepEqual(PARAM_SCALE_IDS, ['linear', 'log', 'stepped']);
   const doc = readFileSync(join(ROOT, 'docs/descriptors.md'), 'utf8');
   for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
@@ -188,6 +189,9 @@ const ARMS = [
   ['an authored unit of unknown', AUTHORED, (d) => { d.controls[0].travel.unit = 'unknown'; }, 'descriptorUnknownAuthored'],
   ['an authored scale of unknown', AUTHORED, (d) => { d.controls[1].travel.scale = 'unknown'; }, 'descriptorUnknownAuthored'],
   ['an authored meaning of unknown', AUTHORED, (d) => { d.controls[2].meaning = 'unknown'; }, 'descriptorUnknownAuthored'],
+  ['an easy key that names no control', AUTHORED, (d) => { d.easy = ['nothing']; }, 'descriptorEasy'],
+  ['an easy key named twice', AUTHORED, (d) => { const k = d.controls[0].symbol ?? d.controls[0].id; d.easy = [k, k]; }, 'descriptorEasy'],
+  ['an easy read-only control', AUTHORED, (d) => { d.controls[0].readonly = true; d.easy = [d.controls[0].symbol ?? d.controls[0].id]; }, 'descriptorEasy'],
   ['two controls with one id', AUTHORED, (d) => { d.controls[1].id = 0; }, 'descriptorControlDuplicate'],
   ['two controls with one name', SCANNED_CLAP, (d) => { d.controls[1].name = 'shape'; }, 'descriptorControlDuplicate'],
   ['two controls with one symbol', AUTHORED, (d) => { d.controls[1].symbol = d.controls[0].symbol; }, 'descriptorControlDuplicate'],
@@ -245,7 +249,7 @@ const ELSEWHERE = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/codes-raised
 
 test('every descriptor code was raised by an arm above, through validation and through the reader', () => {
   const descriptor = Object.entries(CONTRACT_CODES).filter(([k]) => k.startsWith('descriptor')).map(([, c]) => c).filter((c) => !(c in ELSEWHERE));
-  assert.equal(descriptor.length, 10);
+  assert.equal(descriptor.length, 11);
   assert.deepEqual(descriptor.filter((c) => !raised.has(c)), []);
   assert.ok(raised.has(CONTRACT_CODES.originMisplaced));
 });
@@ -262,4 +266,20 @@ test('every code raised elsewhere is registered, names its raiser, and is raised
     assert.equal(raised.has(code), false, `${code} is raised here: give it an arm instead`);
   }
   assert.ok(codes.has('contract.descriptor.face-differs') && 'contract.descriptor.face-differs' in ELSEWHERE);
+});
+
+test('easy names a plugin\'s Easy face in order, by each control\'s key, at most eight', () => {
+  const d = fixture(AUTHORED);
+  const keys = d.controls.map((c) => c.symbol ?? c.id);
+  d.easy = [keys[1], keys[0]];
+  assert.deepEqual(problemsOf(d).filter((p) => p.name === 'descriptorEasy'), []);
+  assert.equal(SCHEMA.$defs.descriptor.properties.easy.maxItems, 8);
+  const nine = fixture(AUTHORED);
+  nine.easy = Array.from({ length: 9 }, () => nine.controls[0].symbol ?? nine.controls[0].id);
+  const refused = problemsOf(nine);
+  assert.ok(refused.length > 0, 'more than eight keys is refused');
+  assert.ok(refused.some((p) => /easy/.test(`${p.item} ${p.message}`)), JSON.stringify(refused));
+  const scan = fixture(SCANNED_CLAP);
+  scan.easy = [scan.controls[0].id];
+  assert.ok(problemsOf(scan).some((p) => p.name === 'descriptorEasy'), 'a scan has nothing to read it from');
 });
