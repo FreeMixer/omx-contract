@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.5.1
+Version: 3.6.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -111,6 +111,24 @@ lowest release whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sat Oct 31 2026 Pau Aliagas <linuxnow@gmail.com> - 3.6.0-1
+- The unit codes of org.openmixer.param-contract/1 are declared here
+  (OMX_PARAM_CONTRACT_UNITS, data/param-contract.json) and rendered to
+  omxcontract/omx_param_units.h as OMX_CLAP_UNIT_* defines. omx-plugins includes
+  the header and omx-panel reads the item from omx-contract-data, so omx-panel
+  no longer reads anything of omx-plugins (#145). The codes are the ones
+  omx-plugins shipped.
+- A sheet whose name starts with OMX_ is spelled once in omx_contract_limits.h.
+- omx-resource-hints.ttl validates with sord_validate (a label on every term) and
+  states its integer figures as xsd:integer, which lilv reads (#144).
+- semver classifies the schema too and has --report; every pull request runs it
+  (#92). The tests leave no scratch directory in TMPDIR (#116); the LV2 inventory
+  records a bundle that is no specification (#143).
+- It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel before
+  0.13.0 and omx-plugins-devel before 0.13.0 stay the floors. omx-plugins before
+  the release that includes omx_param_units.h declares the same item in its own
+  contract directory: installed together, the reader refuses the twin.
+
 * Sat Oct 31 2026 Pau Aliagas <linuxnow@gmail.com> - 3.5.1-1
 - The installed command carries schema/history, so a reader of the installed
   package validates a file at an older floor (3.5.0 left it out).
