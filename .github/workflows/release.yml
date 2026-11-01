@@ -48,6 +48,8 @@ jobs:
         run: |
           want="v$(node -p 'require("./package.json").version')"
           [ "$TAG" = "$want" ] || { echo "::error::tag $TAG is not $want (package.json)"; exit 1; }
+      - name: The live owner's data, so the live-owner check runs here too (tools/live-owner-data.sh)
+        run: echo "OMX_LIVE_OWNER_DATA=$(sh tools/live-owner-data.sh "$RUNNER_TEMP/omx-dsp")" >> "$GITHUB_ENV"
       - run: npm test
       - run: node tools/proof/round-trip.mjs --quiet
       - name: The bump covers every change since the previous tag

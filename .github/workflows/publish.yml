@@ -41,6 +41,8 @@ jobs:
           npm install -g npm@'^11'
           npm --version
       - run: npm ci
+      - name: The live owner's data, so the live-owner check runs here too (tools/live-owner-data.sh)
+        run: echo "OMX_LIVE_OWNER_DATA=$(sh tools/live-owner-data.sh "$RUNNER_TEMP/omx-dsp")" >> "$GITHUB_ENV"
       - name: The data is proven before it is published
         run: |
           set -o pipefail
