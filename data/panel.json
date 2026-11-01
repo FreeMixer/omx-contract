@@ -1,0 +1,125 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "PANEL_FAMILIES": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The panel families of a plugin (omx-panel docs/panel-layout.md): the kind of processor its panel is laid out for. The words and their order are the contract; omx-panel's tools/panel-description.mjs FAMILIES and the skin package schema read them, and keep their code.",
+    "why": "Panel families and widgets are declarations, so they live here (vocabulary-owner rule, FreeMixer/omx-contract#157).",
+    "words": {
+      "none": {
+        "word": "none",
+        "doc": "a plugin with no family: its panel is laid out from its groups and roles"
+      },
+      "gate": {
+        "word": "gate",
+        "doc": "a gate or expander"
+      },
+      "dynamics": {
+        "word": "dynamics",
+        "doc": "a compressor"
+      },
+      "limiter": {
+        "word": "limiter",
+        "doc": "a limiter"
+      },
+      "deesser": {
+        "word": "deesser",
+        "doc": "a de-esser"
+      },
+      "eq": {
+        "word": "eq",
+        "doc": "an equaliser, parametric or graphic"
+      },
+      "filter": {
+        "word": "filter",
+        "doc": "a filter"
+      },
+      "drive": {
+        "word": "drive",
+        "doc": "a saturator or distortion"
+      },
+      "modulation": {
+        "word": "modulation",
+        "doc": "a chorus, flanger, phaser or tremolo"
+      },
+      "delay": {
+        "word": "delay",
+        "doc": "a delay"
+      },
+      "reverb": {
+        "word": "reverb",
+        "doc": "a reverb"
+      },
+      "pitch": {
+        "word": "pitch",
+        "doc": "a pitch shifter"
+      }
+    }
+  },
+  "PANEL_STANDARD_WIDGETS": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The standard widgets a panel picks from a descriptor and a representation (a skin) draws, in the order omx-panel's tools/panel-description.mjs STANDARD_WIDGETS lists them.",
+    "words": {
+      "knob": {
+        "word": "knob",
+        "doc": "a travel"
+      },
+      "fader": {
+        "word": "fader",
+        "doc": "a travel drawn long"
+      },
+      "switch": {
+        "word": "switch",
+        "doc": "a toggle"
+      },
+      "selector": {
+        "word": "selector",
+        "doc": "an integer travel or labelled values"
+      },
+      "meter": {
+        "word": "meter",
+        "doc": "a readout"
+      },
+      "curve": {
+        "word": "curve",
+        "doc": "a response or transfer curve"
+      },
+      "xy": {
+        "word": "xy",
+        "doc": "two controls drawn as one point"
+      },
+      "display": {
+        "word": "display",
+        "doc": "a value shown as text"
+      }
+    }
+  },
+  "PANEL_WIDGETS": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The widgets a declared panel may name for a control, and the extension serves (org.openmixer.panel-description/1): auto leaves the choice to the panel layout. The four others are the shared widgets of omx-panel's schema/panel.schema.json.",
+    "words": {
+      "auto": {
+        "word": "auto",
+        "doc": "left out of a panel declaration: the layout picks the widget from the control"
+      },
+      "knob": {
+        "word": "knob",
+        "doc": "a rotary control"
+      },
+      "fader": {
+        "word": "fader",
+        "doc": "a linear control"
+      },
+      "switch": {
+        "word": "switch",
+        "doc": "a two-state control"
+      },
+      "selector": {
+        "word": "selector",
+        "doc": "a control that picks one of a few values"
+      }
+    }
+  }
+}

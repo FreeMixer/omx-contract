@@ -20,12 +20,12 @@
   },
   "$defs": {
     "unit": {
-      "description": "The closed list of units the items use; \"s\" is seconds and \"min\" minutes, \"x\" is a multiplier, \"\" is a ratio or a fraction, \"dB/oct\" a slope in dB per octave (a tilt).",
-      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", "", "dB/oct"]
+      "description": "The closed list of units the items use; \"s\" is seconds and \"min\" minutes, \"x\" is a multiplier, \"\" is a ratio or a fraction, \"dB/oct\" a slope in dB per octave (a tilt), \"LUFS\" a loudness (ITU-R BS.1770) and \"dB/s\" a gain change per second.",
+      "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", "", "dB/oct", "LUFS", "dB/s"]
     },
     "descriptorUnit": {
-      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS and ratio, n:1, have no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
-      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "ratio", "unknown"] }]
+      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, deg, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; ratio, n:1, has no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
+      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "deg", "ratio", "unknown"] }]
     },
     "meaning": {
       "description": "What a control does, the closed list seeded from the panel roles; the LV2 param: or lv2:designation name where LV2 has the term (docs/descriptors.md). unknown: the plugin states none.",
@@ -34,6 +34,7 @@
         "wetDryRatio", "delay", "enabled",
         "range", "knee", "hysteresis", "makeup", "lookahead", "ceiling", "output", "q", "slope", "width", "drive", "tone", "rate",
         "depth", "feedback", "spread", "predelay", "size", "damping", "lowCut", "highCut", "shift", "fine", "sync", "division", "listen",
+        "shape", "model", "algorithm", "mode", "type", "pingpong",
         "unknown"
       ]
     },

@@ -11,14 +11,18 @@
       "AllpassPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#AllpassPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "AmplifierPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#AmplifierPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "AnalyserPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#AnalyserPlugin",
@@ -43,8 +47,10 @@
       "BandpassPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#BandpassPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "CVPort": {
         "uri": "http://lv2plug.in/ns/lv2core#CVPort",
@@ -73,8 +79,10 @@
       "CombPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#CombPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "CompressorPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#CompressorPlugin",
@@ -88,8 +96,10 @@
       "ConstantPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#ConstantPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "ControlPort": {
         "uri": "http://lv2plug.in/ns/lv2core#ControlPort",
@@ -104,8 +114,10 @@
       "ConverterPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#ConverterPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "DelayPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#DelayPlugin",
@@ -152,14 +164,18 @@
       "EnvelopePlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#EnvelopePlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "ExpanderPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#ExpanderPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "ExtensionData": {
         "uri": "http://lv2plug.in/ns/lv2core#ExtensionData",
@@ -176,8 +192,10 @@
       "FilterPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#FilterPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "FlangerPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#FlangerPlugin",
@@ -190,8 +208,10 @@
       "FunctionPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#FunctionPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "GatePlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#GatePlugin",
@@ -205,14 +225,18 @@
       "GeneratorPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#GeneratorPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "HighpassPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#HighpassPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "InputPort": {
         "uri": "http://lv2plug.in/ns/lv2core#InputPort",
@@ -245,14 +269,18 @@
       "LowpassPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#LowpassPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "MIDIPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#MIDIPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "Markdown": {
         "uri": "http://lv2plug.in/ns/lv2core#Markdown",
@@ -289,8 +317,10 @@
       "OscillatorPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#OscillatorPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "OutputPort": {
         "uri": "http://lv2plug.in/ns/lv2core#OutputPort",
@@ -396,14 +426,18 @@
       "SimulatorPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#SimulatorPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "SpatialPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#SpatialPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "Specification": {
         "uri": "http://lv2plug.in/ns/lv2core#Specification",
@@ -414,8 +448,10 @@
       "SpectralPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#SpectralPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "Symbol": {
         "uri": "http://lv2plug.in/ns/lv2core#Symbol",
@@ -426,14 +462,18 @@
       "UtilityPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#UtilityPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "WaveshaperPlugin": {
         "uri": "http://lv2plug.in/ns/lv2core#WaveshaperPlugin",
         "kind": "plugin-class",
-        "status": "supported-later",
-        "issue": "FreeMixer/omx-contract#120"
+        "status": "used",
+        "by": [
+          "omx-contract:data/plugin-features.json"
+        ]
       },
       "appliesTo": {
         "uri": "http://lv2plug.in/ns/lv2core#appliesTo",

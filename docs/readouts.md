@@ -92,6 +92,23 @@ restated here.
 Not declared yet: a level meter (the strip's input and output peak are the strip's, not a kernel's) and the
 analysers (rta, fbs), whose output is a spectrum, not a value.
 
+## The readouts of omx-dsp 0.28.0
+
+Declared in omx-dsp's own kernel files (`data/kernels/`), in the grammar above, all `linear` at READOUT_RATE_HZ. This
+release lists them and adds the two units they and the loudness controls need, `LUFS` and `dB/s`.
+
+| kernel | readout | unit | range | what it reads |
+|---|---|---|---|---|
+| clipper | `gainReductionDb` | dB | -60 to 0 | the most the clip took off the block's loudest sample, CLAP's sign |
+| glue | `gainReductionDb` | dB | -40 to 0 | the compressor slot's deepest gain of the block, make-up included, CLAP's sign |
+| upward | `gainDb` | dB | 0 to `UPWARD_RANGE_DB_RANGE.max` | what the block's loudest sample rose by |
+| loudlevel | `loudnessLufs` | dB until the owner moves it, then LUFS | -70 to 0 | the loudness the detector reads, before the gain |
+| loudlevel | `gainDb` | dB | -24 to `LOUDLEVEL_RANGE_DB_RANGE.max` | the gain applied now |
+| balancer | `band1GainDb` … `band4GainDb` | dB | -12 to 12 | each band's gain now (the per-band grammar) |
+
+`LUFS` and `dB/s` are units of the items: `loudlevel.targetLufs` and `loudlevel.gateLufs` state LUFS,
+`loudlevel.speedDbPerS` and `balancer.speedDbPerS` state dB/s. A descriptor states `LUFS` as before.
+
 ## scale
 
 PARAM_SCALES stays and has two readers: EQ_CONTINUOUS_TRAVELS names `log` on the EQ's three frequency travels,

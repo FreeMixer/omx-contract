@@ -132,14 +132,15 @@ test('the scanned LV2 plugin: its units, a unit with no word as unknown, a side-
 
 test('the words are the closed lists of docs/descriptors.md', () => {
   const $ = SCHEMA.$defs;
-  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown'] }]);
-  for (const u of ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
-  assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', '', 'dB/oct'], 'the items\' units are as they were, dB/oct appended in 3.1.0');
+  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'deg', 'ratio', 'unknown'] }]);
+  for (const u of ['frames', 'bpm', 'midiNote', 'deg', 'ratio', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
+  assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', '', 'dB/oct', 'LUFS', 'dB/s'], 'the items\' units are as they were, dB/oct appended in 3.1.0, LUFS and dB/s in 3.7.0');
   assert.deepEqual($.meaning.enum, [
     'gain', 'threshold', 'ratio', 'attack', 'release', 'hold', 'decay', 'frequency', 'cutoffFrequency', 'resonance', 'bypass',
     'wetDryRatio', 'delay', 'enabled',
     'range', 'knee', 'hysteresis', 'makeup', 'lookahead', 'ceiling', 'output', 'q', 'slope', 'width', 'drive', 'tone', 'rate',
     'depth', 'feedback', 'spread', 'predelay', 'size', 'damping', 'lowCut', 'highCut', 'shift', 'fine', 'sync', 'division', 'listen',
+    'shape', 'model', 'algorithm', 'mode', 'type', 'pingpong',
     'unknown',
   ]);
   assert.deepEqual($.descriptor.properties.origin.enum, ['authored', 'built', 'scanned']);

@@ -17,7 +17,7 @@ const json = () => JSON.parse(renderJson(resolveData(loadData(UNION)), '0.0.0')[
  * union is data/ and the frozen 2.14.0 owners), with the issue that brings that user. Each must stay unused here:
  * a unit this tree starts to use leaves the table.
  */
-const AWAITING_USER = { 'dB/oct': 'FreeMixer/omx-dsp#188' };
+const AWAITING_USER = { 'dB/oct': 'FreeMixer/omx-dsp#188', LUFS: 'FreeMixer/omx-contract#145', 'dB/s': 'FreeMixer/omx-contract#145' };
 
 test('the schema unit enum lists exactly the units the items and readouts use', () => {
   const schema = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));

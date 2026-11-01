@@ -64,7 +64,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | control | `meaning` | What the control does, from the closed list below. A skin binds by meaning, never by id | new |
 | control | `hidden`, `readonly`, `automatable` | CLAP `IS_HIDDEN`, `IS_READONLY`, `IS_AUTOMATABLE`; LV2 `pprops:notOnGUI`, an output control | new |
 | control | `source` | The control's own links, in the place of the file's | existing |
-| `travel` | units `frames`, `bpm`, `midiNote`, `LUFS`, `deg`, `ratio` | Units a plugin uses that no item does (below) | new; `ratio` 3.0.0 |
+| `travel` | units `frames`, `bpm`, `midiNote`, `deg`, `ratio` | Units a plugin uses that no item does (below) | new; `ratio` 3.0.0 |
 | `travel` | `unit: "unknown"`, `scale: "unknown"` | The plugin states no unit or scale, or one with no word here | new |
 | `ports[]` | `id`, `name`, `kind` (`audio`, `midi`, `note`, `cv`), `direction` (`in`, `out`) | One entry per port, in the plugin's order | new |
 | `ports[]` | `role` (`main`, `sidechain`, `aux`), `channels`, `layout` (`mono`, `stereo`, `surround`) | An audio port's layout: CLAP audio ports (`IS_MAIN`, channel count, port type), LV2 `pg:` groups and `lv2:isSideChain` | new |
@@ -90,19 +90,18 @@ measurements of one machine and belong to a qualification record, which no descr
 ### Units
 
 A descriptor's `travel.unit` is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x`, `""` and, since
-3.1.0, `dB/oct`, a slope such as a key filter's tilt, for which LV2 has no unit), one of the six below, or `unknown`.
+3.1.0, `dB/oct`, a slope such as a key filter's tilt, for which LV2 has no unit, and since 3.7.0 `LUFS`, a loudness, and `dB/s`, a gain change per second), one of the five below, or `unknown`.
 
 | Unit | Taken from |
 |---|---|
 | `frames` | LV2 `units:frame`, whose symbol is `frames` |
 | `bpm` | LV2 `units:bpm` (its symbol is `BPM`) |
 | `midiNote` | LV2 `units:midiNote` (its symbol is `note`) |
-| `LUFS` | No LV2 unit: loudness, ITU-R BS.1770 |
 | `deg` | LV2 `units:degree`, whose symbol is `deg` |
 | `ratio` | No LV2 unit: a ratio `n:1`, a compressor's or a de-esser's (`""` says no unit, and an LV2 face writes none for it, so a scan could not tell the two apart) |
 | `unknown` | The plugin states no unit (every CLAP parameter; an LV2 port without `units:unit`), or one with no word here; the LV2 unit stays in `source` |
 
-The item list stays the units the items use; these seven are for descriptors only.
+The item list is the units the items use; these five are for descriptors only. `LUFS` moved to the item list in 3.7.0, a descriptor still states it.
 
 ### Scales
 
@@ -119,11 +118,25 @@ has the term, the meaning carries its name.
 | `wetDryRatio` (the mix of a wet and a dry signal) | `param:wetDryRatio` |
 | `delay` (a delay time) | `param:delay` |
 | `enabled` (on when the control is on; the inverse of `bypass`) | `lv2:enabled` |
-| `range`, `knee`, `hysteresis`, `makeup`, `lookahead`, `ceiling`, `output`, `q`, `slope`, `width`, `drive`, `tone`, `rate`, `depth`, `feedback`, `spread`, `predelay`, `size`, `damping`, `lowCut`, `highCut`, `shift`, `fine`, `sync`, `division`, `listen` | none |
+| `range`, `knee`, `hysteresis`, `makeup`, `lookahead`, `ceiling`, `output`, `q`, `slope`, `width`, `drive`, `tone`, `rate`, `depth`, `feedback`, `spread`, `predelay`, `size`, `damping`, `lowCut`, `highCut`, `shift`, `fine`, `sync`, `division`, `listen`, `shape`, `model`, `algorithm`, `mode`, `type`, `pingpong` | none |
 | `unknown` | The plugin states no meaning |
 
 A control with no meaning in the list leaves `meaning` out and is shown by its `group` and `name`. A new meaning is
-a schema minor.
+a schema minor. One word per meaning, no synonyms: `on` is `enabled` and `speed` is `rate`, so neither is a
+meaning, and the validator names the word to use when a file writes one. `shape`, `model`, `algorithm`, `mode` and
+`type` (a choice of which one) and `pingpong` (a delay's bounce) came with 3.7.0.
+
+### Plugin features
+
+`plugin.features` holds the four words `audio-effect`, `instrument`, `note-effect` and `analyzer`. Every CLAP plugin
+feature (`clap/plugin-features.h`, 39 in clap 1.2.10) and every LV2 plugin class (lv2core, `lv2:*Plugin`) is mapped
+onto one of them, or onto `other` for what fits none, in five items of `data/plugin-features.json`:
+`PLUGIN_FEATURE_AUDIO_EFFECT`, `_INSTRUMENT`, `_NOTE_EFFECT`, `_ANALYZER` and `_OTHER`. A word of an item is the source
+term (`clap.reverb`, `lv2.Allpass`) and its `from` the term of `data/formats/`. A kind of effect (a compressor, a
+reverb, a filter) is an `audio-effect`; the kind itself stays in the extension bag as the source states it. `other`
+is a table target, never a word of `plugin.features`: a feature or class mapped to it, and one no row names, is not
+written in `features`. The instrument rule stands: only a plugin that takes notes is an `instrument`, so a LV2
+generator or oscillator is `other`. A test holds the items to the terms: every feature and class has exactly one row.
 
 ### The extension bag
 

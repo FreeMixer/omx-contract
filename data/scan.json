@@ -1,0 +1,78 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "SCAN_DOCUMENTS": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The documents a plugin scan writes, named here and owned elsewhere: the contract names them so the writers and readers cite one word, and keeps no shape of its own for them.",
+    "why": "omx-clap-core and plugin-qualify write one scan document (FreeMixer/omx-contract#157).",
+    "words": {
+      "clapScanDocument": {
+        "word": "CLAP_SCAN_DOCUMENT",
+        "doc": "The JSON document of omx-clap-scan, one entry per file with its plugins, parameters and ports. Owned by omx-clap-core, which writes it; its shape is omx-clap-core's reference."
+      },
+      "fieldDump": {
+        "word": "FIELD_DUMP",
+        "doc": "The field dump of omx-clap-scan --fields: the line `# omx-clap-scan --fields 1`, the format's version, then one `<scope> TAB <field> TAB <value>` record per field a plugin states. Its scopes are SCAN_FIELD_SCOPES."
+      }
+    }
+  },
+  "SCAN_FIELD_SCOPES": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The scopes of a field dump record, as written before the first TAB; an indexed scope is followed by `:<index>`. Named here, owned by plugin-qualify: the owner keeps the code that writes and reads them.",
+    "words": {
+      "plugin": {
+        "word": "plugin",
+        "doc": "the plugin as a whole"
+      },
+      "param": {
+        "word": "param",
+        "doc": "a CLAP parameter, indexed in get_info order"
+      },
+      "audioIn": {
+        "word": "audio_in",
+        "doc": "an audio input port, indexed"
+      },
+      "audioOut": {
+        "word": "audio_out",
+        "doc": "an audio output port, indexed"
+      },
+      "noteIn": {
+        "word": "note_in",
+        "doc": "a note input port, indexed"
+      },
+      "noteOut": {
+        "word": "note_out",
+        "doc": "a note output port, indexed"
+      },
+      "port": {
+        "word": "port",
+        "doc": "an LV2 port, indexed by lv2:index"
+      },
+      "panel": {
+        "word": "panel",
+        "doc": "the panel description of a plugin that serves org.openmixer.panel-description/1: its family and fingerprint"
+      },
+      "section": {
+        "word": "section",
+        "doc": "a section of the panel description, indexed"
+      },
+      "control": {
+        "word": "control",
+        "doc": "a control of the panel description, indexed"
+      },
+      "role": {
+        "word": "role",
+        "doc": "a role of the panel description, indexed"
+      },
+      "display": {
+        "word": "display",
+        "doc": "a display of the panel description, indexed"
+      },
+      "placementDefault": {
+        "word": "placement_default",
+        "doc": "a per-placement come-up value of the panel description, indexed"
+      }
+    }
+  }
+}

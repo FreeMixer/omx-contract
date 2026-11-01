@@ -1,0 +1,507 @@
+{
+  "$schema": "../schema/omx-contract.schema.json",
+  "PLUGIN_FEATURE_AUDIO_EFFECT": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The CLAP plugin features and LV2 plugin classes that become the descriptor feature audio-effect: every kind of effect, a filter, a dynamics processor, a modulation or a space, and the channel-less roles of a processor (utility, mixing, mastering).",
+    "why": "The four feature words stay; every CLAP plugin feature and LV2 plugin class is mapped onto them, or onto other, as data (FreeMixer/omx-contract#120). One item per target, so a word is the source term and is named once; a test holds the five items to the terms.",
+    "words": {
+      "clapAudioEffect": {
+        "word": "clap.audio-effect",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#audio-effect"
+        ]
+      },
+      "clapChorus": {
+        "word": "clap.chorus",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#chorus"
+        ]
+      },
+      "clapCompressor": {
+        "word": "clap.compressor",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#compressor"
+        ]
+      },
+      "clapDeEsser": {
+        "word": "clap.de-esser",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#de-esser"
+        ]
+      },
+      "clapDelay": {
+        "word": "clap.delay",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#delay"
+        ]
+      },
+      "clapDistortion": {
+        "word": "clap.distortion",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#distortion"
+        ]
+      },
+      "clapEqualizer": {
+        "word": "clap.equalizer",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#equalizer"
+        ]
+      },
+      "clapExpander": {
+        "word": "clap.expander",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#expander"
+        ]
+      },
+      "clapFilter": {
+        "word": "clap.filter",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#filter"
+        ]
+      },
+      "clapFlanger": {
+        "word": "clap.flanger",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#flanger"
+        ]
+      },
+      "clapFrequencyShifter": {
+        "word": "clap.frequency-shifter",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#frequency-shifter"
+        ]
+      },
+      "clapGate": {
+        "word": "clap.gate",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#gate"
+        ]
+      },
+      "clapGlitch": {
+        "word": "clap.glitch",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#glitch"
+        ]
+      },
+      "clapGranular": {
+        "word": "clap.granular",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#granular"
+        ]
+      },
+      "clapLimiter": {
+        "word": "clap.limiter",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#limiter"
+        ]
+      },
+      "clapMastering": {
+        "word": "clap.mastering",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#mastering"
+        ]
+      },
+      "clapMixing": {
+        "word": "clap.mixing",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#mixing"
+        ]
+      },
+      "clapMultiEffects": {
+        "word": "clap.multi-effects",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#multi-effects"
+        ]
+      },
+      "clapPhaseVocoder": {
+        "word": "clap.phase-vocoder",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#phase-vocoder"
+        ]
+      },
+      "clapPhaser": {
+        "word": "clap.phaser",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#phaser"
+        ]
+      },
+      "clapPitchCorrection": {
+        "word": "clap.pitch-correction",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#pitch-correction"
+        ]
+      },
+      "clapPitchShifter": {
+        "word": "clap.pitch-shifter",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#pitch-shifter"
+        ]
+      },
+      "clapRestoration": {
+        "word": "clap.restoration",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#restoration"
+        ]
+      },
+      "clapReverb": {
+        "word": "clap.reverb",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#reverb"
+        ]
+      },
+      "clapTransientShaper": {
+        "word": "clap.transient-shaper",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#transient-shaper"
+        ]
+      },
+      "clapTremolo": {
+        "word": "clap.tremolo",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#tremolo"
+        ]
+      },
+      "clapUtility": {
+        "word": "clap.utility",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#utility"
+        ]
+      },
+      "lv2Allpass": {
+        "word": "lv2.Allpass",
+        "from": [
+          "LV2_CORE_TERMS#AllpassPlugin"
+        ]
+      },
+      "lv2Amplifier": {
+        "word": "lv2.Amplifier",
+        "from": [
+          "LV2_CORE_TERMS#AmplifierPlugin"
+        ]
+      },
+      "lv2Bandpass": {
+        "word": "lv2.Bandpass",
+        "from": [
+          "LV2_CORE_TERMS#BandpassPlugin"
+        ]
+      },
+      "lv2Chorus": {
+        "word": "lv2.Chorus",
+        "from": [
+          "LV2_CORE_TERMS#ChorusPlugin"
+        ]
+      },
+      "lv2Comb": {
+        "word": "lv2.Comb",
+        "from": [
+          "LV2_CORE_TERMS#CombPlugin"
+        ]
+      },
+      "lv2Compressor": {
+        "word": "lv2.Compressor",
+        "from": [
+          "LV2_CORE_TERMS#CompressorPlugin"
+        ]
+      },
+      "lv2Converter": {
+        "word": "lv2.Converter",
+        "from": [
+          "LV2_CORE_TERMS#ConverterPlugin"
+        ]
+      },
+      "lv2Delay": {
+        "word": "lv2.Delay",
+        "from": [
+          "LV2_CORE_TERMS#DelayPlugin"
+        ]
+      },
+      "lv2Distortion": {
+        "word": "lv2.Distortion",
+        "from": [
+          "LV2_CORE_TERMS#DistortionPlugin"
+        ]
+      },
+      "lv2Dynamics": {
+        "word": "lv2.Dynamics",
+        "from": [
+          "LV2_CORE_TERMS#DynamicsPlugin"
+        ]
+      },
+      "lv2EQ": {
+        "word": "lv2.EQ",
+        "from": [
+          "LV2_CORE_TERMS#EQPlugin"
+        ]
+      },
+      "lv2Envelope": {
+        "word": "lv2.Envelope",
+        "from": [
+          "LV2_CORE_TERMS#EnvelopePlugin"
+        ]
+      },
+      "lv2Expander": {
+        "word": "lv2.Expander",
+        "from": [
+          "LV2_CORE_TERMS#ExpanderPlugin"
+        ]
+      },
+      "lv2Filter": {
+        "word": "lv2.Filter",
+        "from": [
+          "LV2_CORE_TERMS#FilterPlugin"
+        ]
+      },
+      "lv2Flanger": {
+        "word": "lv2.Flanger",
+        "from": [
+          "LV2_CORE_TERMS#FlangerPlugin"
+        ]
+      },
+      "lv2Gate": {
+        "word": "lv2.Gate",
+        "from": [
+          "LV2_CORE_TERMS#GatePlugin"
+        ]
+      },
+      "lv2Highpass": {
+        "word": "lv2.Highpass",
+        "from": [
+          "LV2_CORE_TERMS#HighpassPlugin"
+        ]
+      },
+      "lv2Limiter": {
+        "word": "lv2.Limiter",
+        "from": [
+          "LV2_CORE_TERMS#LimiterPlugin"
+        ]
+      },
+      "lv2Lowpass": {
+        "word": "lv2.Lowpass",
+        "from": [
+          "LV2_CORE_TERMS#LowpassPlugin"
+        ]
+      },
+      "lv2Mixer": {
+        "word": "lv2.Mixer",
+        "from": [
+          "LV2_CORE_TERMS#MixerPlugin"
+        ]
+      },
+      "lv2Modulator": {
+        "word": "lv2.Modulator",
+        "from": [
+          "LV2_CORE_TERMS#ModulatorPlugin"
+        ]
+      },
+      "lv2MultiEQ": {
+        "word": "lv2.MultiEQ",
+        "from": [
+          "LV2_CORE_TERMS#MultiEQPlugin"
+        ]
+      },
+      "lv2ParaEQ": {
+        "word": "lv2.ParaEQ",
+        "from": [
+          "LV2_CORE_TERMS#ParaEQPlugin"
+        ]
+      },
+      "lv2Phaser": {
+        "word": "lv2.Phaser",
+        "from": [
+          "LV2_CORE_TERMS#PhaserPlugin"
+        ]
+      },
+      "lv2Pitch": {
+        "word": "lv2.Pitch",
+        "from": [
+          "LV2_CORE_TERMS#PitchPlugin"
+        ]
+      },
+      "lv2Reverb": {
+        "word": "lv2.Reverb",
+        "from": [
+          "LV2_CORE_TERMS#ReverbPlugin"
+        ]
+      },
+      "lv2Simulator": {
+        "word": "lv2.Simulator",
+        "from": [
+          "LV2_CORE_TERMS#SimulatorPlugin"
+        ]
+      },
+      "lv2Spatial": {
+        "word": "lv2.Spatial",
+        "from": [
+          "LV2_CORE_TERMS#SpatialPlugin"
+        ]
+      },
+      "lv2Spectral": {
+        "word": "lv2.Spectral",
+        "from": [
+          "LV2_CORE_TERMS#SpectralPlugin"
+        ]
+      },
+      "lv2Utility": {
+        "word": "lv2.Utility",
+        "from": [
+          "LV2_CORE_TERMS#UtilityPlugin"
+        ]
+      },
+      "lv2Waveshaper": {
+        "word": "lv2.Waveshaper",
+        "from": [
+          "LV2_CORE_TERMS#WaveshaperPlugin"
+        ]
+      }
+    }
+  },
+  "PLUGIN_FEATURE_INSTRUMENT": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The CLAP plugin features and LV2 plugin classes that become the descriptor feature instrument: notes in, audio out.",
+    "words": {
+      "clapDrum": {
+        "word": "clap.drum",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#drum"
+        ]
+      },
+      "clapDrumMachine": {
+        "word": "clap.drum-machine",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#drum-machine"
+        ]
+      },
+      "clapInstrument": {
+        "word": "clap.instrument",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#instrument"
+        ]
+      },
+      "clapSampler": {
+        "word": "clap.sampler",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#sampler"
+        ]
+      },
+      "clapSynthesizer": {
+        "word": "clap.synthesizer",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#synthesizer"
+        ]
+      },
+      "lv2Instrument": {
+        "word": "lv2.Instrument",
+        "from": [
+          "LV2_CORE_TERMS#InstrumentPlugin"
+        ]
+      }
+    }
+  },
+  "PLUGIN_FEATURE_NOTE_EFFECT": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The CLAP plugin features and LV2 plugin classes that become the descriptor feature note-effect: notes in, notes out.",
+    "words": {
+      "clapNoteEffect": {
+        "word": "clap.note-effect",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#note-effect"
+        ]
+      },
+      "lv2MIDI": {
+        "word": "lv2.MIDI",
+        "from": [
+          "LV2_CORE_TERMS#MIDIPlugin"
+        ]
+      }
+    }
+  },
+  "PLUGIN_FEATURE_ANALYZER": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The CLAP plugin features and LV2 plugin classes that become the descriptor feature analyzer: audio in, a reading out (a note detector reads pitch from audio).",
+    "words": {
+      "clapAnalyzer": {
+        "word": "clap.analyzer",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#analyzer"
+        ]
+      },
+      "clapNoteDetector": {
+        "word": "clap.note-detector",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#note-detector"
+        ]
+      },
+      "lv2Analyser": {
+        "word": "lv2.Analyser",
+        "from": [
+          "LV2_CORE_TERMS#AnalyserPlugin"
+        ]
+      }
+    }
+  },
+  "PLUGIN_FEATURE_OTHER": {
+    "kind": "words",
+    "since": "3.7.0",
+    "doc": "The CLAP plugin features and LV2 plugin classes that fit none of the four feature words: a channel layout stated as a feature (mono, stereo, surround, ambisonic), and the LV2 classes of a generator, an oscillator, a constant and a function, which take no notes and so are no instrument. A scan carries them in the extension bag.",
+    "words": {
+      "clapAmbisonic": {
+        "word": "clap.ambisonic",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#ambisonic"
+        ]
+      },
+      "clapMono": {
+        "word": "clap.mono",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#mono"
+        ]
+      },
+      "clapStereo": {
+        "word": "clap.stereo",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#stereo"
+        ]
+      },
+      "clapSurround": {
+        "word": "clap.surround",
+        "from": [
+          "CLAP_PLUGIN_FEATURES_TERMS#surround"
+        ]
+      },
+      "lv2Constant": {
+        "word": "lv2.Constant",
+        "from": [
+          "LV2_CORE_TERMS#ConstantPlugin"
+        ]
+      },
+      "lv2Function": {
+        "word": "lv2.Function",
+        "from": [
+          "LV2_CORE_TERMS#FunctionPlugin"
+        ]
+      },
+      "lv2Generator": {
+        "word": "lv2.Generator",
+        "from": [
+          "LV2_CORE_TERMS#GeneratorPlugin"
+        ]
+      },
+      "lv2Oscillator": {
+        "word": "lv2.Oscillator",
+        "from": [
+          "LV2_CORE_TERMS#OscillatorPlugin"
+        ]
+      },
+      "lv2Plugin": {
+        "word": "lv2.Plugin",
+        "from": [
+          "LV2_CORE_TERMS#Plugin"
+        ]
+      }
+    }
+  }
+}

@@ -2096,8 +2096,8 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_AMBISONIC";
     readonly value: "ambisonic";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly analyzer: {
     readonly id: "CLAP_PLUGIN_FEATURE_ANALYZER";
@@ -2161,8 +2161,8 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_DRUM_MACHINE";
     readonly value: "drum-machine";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly equalizer: {
     readonly id: "CLAP_PLUGIN_FEATURE_EQUALIZER";
@@ -2196,8 +2196,8 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER";
     readonly value: "frequency-shifter";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly gate: {
     readonly id: "CLAP_PLUGIN_FEATURE_GATE";
@@ -2210,15 +2210,15 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_GLITCH";
     readonly value: "glitch";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly granular: {
     readonly id: "CLAP_PLUGIN_FEATURE_GRANULAR";
     readonly value: "granular";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly instrument: {
     readonly id: "CLAP_PLUGIN_FEATURE_INSTRUMENT";
@@ -2239,8 +2239,8 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_MASTERING";
     readonly value: "mastering";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly mixing: {
     readonly id: "CLAP_PLUGIN_FEATURE_MIXING";
@@ -2260,15 +2260,15 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_MULTI_EFFECTS";
     readonly value: "multi-effects";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly "note-detector": {
     readonly id: "CLAP_PLUGIN_FEATURE_NOTE_DETECTOR";
     readonly value: "note-detector";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly "note-effect": {
     readonly id: "CLAP_PLUGIN_FEATURE_NOTE_EFFECT";
@@ -2282,8 +2282,8 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_PHASE_VOCODER";
     readonly value: "phase-vocoder";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly phaser: {
     readonly id: "CLAP_PLUGIN_FEATURE_PHASER";
@@ -2296,8 +2296,8 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_PITCH_CORRECTION";
     readonly value: "pitch-correction";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly "pitch-shifter": {
     readonly id: "CLAP_PLUGIN_FEATURE_PITCH_SHIFTER";
@@ -2310,8 +2310,8 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_RESTORATION";
     readonly value: "restoration";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly reverb: {
     readonly id: "CLAP_PLUGIN_FEATURE_REVERB";
@@ -2338,8 +2338,8 @@ export declare const CLAP_PLUGIN_FEATURES_TERMS: {
     readonly id: "CLAP_PLUGIN_FEATURE_SURROUND";
     readonly value: "surround";
     readonly kind: "plugin-feature";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly synthesizer: {
     readonly id: "CLAP_PLUGIN_FEATURE_SYNTHESIZER";
@@ -2741,14 +2741,14 @@ export declare const LV2_CORE_TERMS: {
   readonly AllpassPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#AllpassPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly AmplifierPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#AmplifierPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly AnalyserPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#AnalyserPlugin";
@@ -2767,8 +2767,8 @@ export declare const LV2_CORE_TERMS: {
   readonly BandpassPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#BandpassPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly CVPort: {
     readonly uri: "http://lv2plug.in/ns/lv2core#CVPort";
@@ -2792,8 +2792,8 @@ export declare const LV2_CORE_TERMS: {
   readonly CombPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#CombPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly CompressorPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#CompressorPlugin";
@@ -2804,8 +2804,8 @@ export declare const LV2_CORE_TERMS: {
   readonly ConstantPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ConstantPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly ControlPort: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ControlPort";
@@ -2816,8 +2816,8 @@ export declare const LV2_CORE_TERMS: {
   readonly ConverterPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ConverterPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly DelayPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#DelayPlugin";
@@ -2852,14 +2852,14 @@ export declare const LV2_CORE_TERMS: {
   readonly EnvelopePlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#EnvelopePlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly ExpanderPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ExpanderPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly ExtensionData: {
     readonly uri: "http://lv2plug.in/ns/lv2core#ExtensionData";
@@ -2876,8 +2876,8 @@ export declare const LV2_CORE_TERMS: {
   readonly FilterPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#FilterPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly FlangerPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#FlangerPlugin";
@@ -2888,8 +2888,8 @@ export declare const LV2_CORE_TERMS: {
   readonly FunctionPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#FunctionPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly GatePlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#GatePlugin";
@@ -2900,14 +2900,14 @@ export declare const LV2_CORE_TERMS: {
   readonly GeneratorPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#GeneratorPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly HighpassPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#HighpassPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly InputPort: {
     readonly uri: "http://lv2plug.in/ns/lv2core#InputPort";
@@ -2932,14 +2932,14 @@ export declare const LV2_CORE_TERMS: {
   readonly LowpassPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#LowpassPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly MIDIPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#MIDIPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly Markdown: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Markdown";
@@ -2968,8 +2968,8 @@ export declare const LV2_CORE_TERMS: {
   readonly OscillatorPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#OscillatorPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly OutputPort: {
     readonly uri: "http://lv2plug.in/ns/lv2core#OutputPort";
@@ -3053,14 +3053,14 @@ export declare const LV2_CORE_TERMS: {
   readonly SimulatorPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#SimulatorPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly SpatialPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#SpatialPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly Specification: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Specification";
@@ -3071,8 +3071,8 @@ export declare const LV2_CORE_TERMS: {
   readonly SpectralPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#SpectralPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly Symbol: {
     readonly uri: "http://lv2plug.in/ns/lv2core#Symbol";
@@ -3083,14 +3083,14 @@ export declare const LV2_CORE_TERMS: {
   readonly UtilityPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#UtilityPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly WaveshaperPlugin: {
     readonly uri: "http://lv2plug.in/ns/lv2core#WaveshaperPlugin";
     readonly kind: "plugin-class";
-    readonly status: "supported-later";
-    readonly issue: "FreeMixer/omx-contract#120";
+    readonly status: "used";
+    readonly by: readonly ["omx-contract:data/plugin-features.json"];
   };
   readonly appliesTo: {
     readonly uri: "http://lv2plug.in/ns/lv2core#appliesTo";
@@ -5808,6 +5808,129 @@ export declare const MEASUREMENT_VERDICT_RATINGS: {
 };
 
 /**
+ * The panel families of a plugin (omx-panel docs/panel-layout.md): the kind of processor its panel is laid out for. The words and their order are the contract; omx-panel's tools/panel-description.mjs FAMILIES and the skin package schema read them, and keep their code.
+ *
+ * Why: Panel families and widgets are declarations, so they live here (vocabulary-owner rule, FreeMixer/omx-contract#157).
+ * @see data/panel.json
+ */
+export declare const PANEL_FAMILIES: {
+  readonly none: {
+    readonly word: "none";
+    readonly doc: "a plugin with no family: its panel is laid out from its groups and roles";
+  };
+  readonly gate: {
+    readonly word: "gate";
+    readonly doc: "a gate or expander";
+  };
+  readonly dynamics: {
+    readonly word: "dynamics";
+    readonly doc: "a compressor";
+  };
+  readonly limiter: {
+    readonly word: "limiter";
+    readonly doc: "a limiter";
+  };
+  readonly deesser: {
+    readonly word: "deesser";
+    readonly doc: "a de-esser";
+  };
+  readonly eq: {
+    readonly word: "eq";
+    readonly doc: "an equaliser, parametric or graphic";
+  };
+  readonly filter: {
+    readonly word: "filter";
+    readonly doc: "a filter";
+  };
+  readonly drive: {
+    readonly word: "drive";
+    readonly doc: "a saturator or distortion";
+  };
+  readonly modulation: {
+    readonly word: "modulation";
+    readonly doc: "a chorus, flanger, phaser or tremolo";
+  };
+  readonly delay: {
+    readonly word: "delay";
+    readonly doc: "a delay";
+  };
+  readonly reverb: {
+    readonly word: "reverb";
+    readonly doc: "a reverb";
+  };
+  readonly pitch: {
+    readonly word: "pitch";
+    readonly doc: "a pitch shifter";
+  };
+};
+
+/**
+ * The standard widgets a panel picks from a descriptor and a representation (a skin) draws, in the order omx-panel's tools/panel-description.mjs STANDARD_WIDGETS lists them.
+ * @see data/panel.json
+ */
+export declare const PANEL_STANDARD_WIDGETS: {
+  readonly knob: {
+    readonly word: "knob";
+    readonly doc: "a travel";
+  };
+  readonly fader: {
+    readonly word: "fader";
+    readonly doc: "a travel drawn long";
+  };
+  readonly switch: {
+    readonly word: "switch";
+    readonly doc: "a toggle";
+  };
+  readonly selector: {
+    readonly word: "selector";
+    readonly doc: "an integer travel or labelled values";
+  };
+  readonly meter: {
+    readonly word: "meter";
+    readonly doc: "a readout";
+  };
+  readonly curve: {
+    readonly word: "curve";
+    readonly doc: "a response or transfer curve";
+  };
+  readonly xy: {
+    readonly word: "xy";
+    readonly doc: "two controls drawn as one point";
+  };
+  readonly display: {
+    readonly word: "display";
+    readonly doc: "a value shown as text";
+  };
+};
+
+/**
+ * The widgets a declared panel may name for a control, and the extension serves (org.openmixer.panel-description/1): auto leaves the choice to the panel layout. The four others are the shared widgets of omx-panel's schema/panel.schema.json.
+ * @see data/panel.json
+ */
+export declare const PANEL_WIDGETS: {
+  readonly auto: {
+    readonly word: "auto";
+    readonly doc: "left out of a panel declaration: the layout picks the widget from the control";
+  };
+  readonly knob: {
+    readonly word: "knob";
+    readonly doc: "a rotary control";
+  };
+  readonly fader: {
+    readonly word: "fader";
+    readonly doc: "a linear control";
+  };
+  readonly switch: {
+    readonly word: "switch";
+    readonly doc: "a two-state control";
+  };
+  readonly selector: {
+    readonly word: "selector";
+    readonly doc: "a control that picks one of a few values";
+  };
+};
+
+/**
  * The units of org.openmixer.param-contract/1, the code its get() reports for a parameter's plain value, by token: the LV2 unit a face writes for a descriptor unit (units:db is db), 0..24 the LV2 units one to one, 0x100 and up the vendor block of units LV2 has none for, append-only. A token is served when it has a code here; none is 0.
  * @see data/param-contract.json
  */
@@ -5841,6 +5964,355 @@ export declare const OMX_PARAM_CONTRACT_UNITS: {
   readonly dbu: 257;
   readonly ratio: 258;
   readonly lufs: 259;
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that become the descriptor feature audio-effect: every kind of effect, a filter, a dynamics processor, a modulation or a space, and the channel-less roles of a processor (utility, mixing, mastering).
+ *
+ * Why: The four feature words stay; every CLAP plugin feature and LV2 plugin class is mapped onto them, or onto other, as data (FreeMixer/omx-contract#120). One item per target, so a word is the source term and is named once; a test holds the five items to the terms.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_AUDIO_EFFECT: {
+  readonly clapAudioEffect: {
+    readonly word: "clap.audio-effect";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#audio-effect"];
+  };
+  readonly clapChorus: {
+    readonly word: "clap.chorus";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#chorus"];
+  };
+  readonly clapCompressor: {
+    readonly word: "clap.compressor";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#compressor"];
+  };
+  readonly clapDeEsser: {
+    readonly word: "clap.de-esser";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#de-esser"];
+  };
+  readonly clapDelay: {
+    readonly word: "clap.delay";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#delay"];
+  };
+  readonly clapDistortion: {
+    readonly word: "clap.distortion";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#distortion"];
+  };
+  readonly clapEqualizer: {
+    readonly word: "clap.equalizer";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#equalizer"];
+  };
+  readonly clapExpander: {
+    readonly word: "clap.expander";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#expander"];
+  };
+  readonly clapFilter: {
+    readonly word: "clap.filter";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#filter"];
+  };
+  readonly clapFlanger: {
+    readonly word: "clap.flanger";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#flanger"];
+  };
+  readonly clapFrequencyShifter: {
+    readonly word: "clap.frequency-shifter";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#frequency-shifter"];
+  };
+  readonly clapGate: {
+    readonly word: "clap.gate";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#gate"];
+  };
+  readonly clapGlitch: {
+    readonly word: "clap.glitch";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#glitch"];
+  };
+  readonly clapGranular: {
+    readonly word: "clap.granular";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#granular"];
+  };
+  readonly clapLimiter: {
+    readonly word: "clap.limiter";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#limiter"];
+  };
+  readonly clapMastering: {
+    readonly word: "clap.mastering";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#mastering"];
+  };
+  readonly clapMixing: {
+    readonly word: "clap.mixing";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#mixing"];
+  };
+  readonly clapMultiEffects: {
+    readonly word: "clap.multi-effects";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#multi-effects"];
+  };
+  readonly clapPhaseVocoder: {
+    readonly word: "clap.phase-vocoder";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#phase-vocoder"];
+  };
+  readonly clapPhaser: {
+    readonly word: "clap.phaser";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#phaser"];
+  };
+  readonly clapPitchCorrection: {
+    readonly word: "clap.pitch-correction";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#pitch-correction"];
+  };
+  readonly clapPitchShifter: {
+    readonly word: "clap.pitch-shifter";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#pitch-shifter"];
+  };
+  readonly clapRestoration: {
+    readonly word: "clap.restoration";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#restoration"];
+  };
+  readonly clapReverb: {
+    readonly word: "clap.reverb";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#reverb"];
+  };
+  readonly clapTransientShaper: {
+    readonly word: "clap.transient-shaper";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#transient-shaper"];
+  };
+  readonly clapTremolo: {
+    readonly word: "clap.tremolo";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#tremolo"];
+  };
+  readonly clapUtility: {
+    readonly word: "clap.utility";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#utility"];
+  };
+  readonly lv2Allpass: {
+    readonly word: "lv2.Allpass";
+    readonly from: readonly ["LV2_CORE_TERMS#AllpassPlugin"];
+  };
+  readonly lv2Amplifier: {
+    readonly word: "lv2.Amplifier";
+    readonly from: readonly ["LV2_CORE_TERMS#AmplifierPlugin"];
+  };
+  readonly lv2Bandpass: {
+    readonly word: "lv2.Bandpass";
+    readonly from: readonly ["LV2_CORE_TERMS#BandpassPlugin"];
+  };
+  readonly lv2Chorus: {
+    readonly word: "lv2.Chorus";
+    readonly from: readonly ["LV2_CORE_TERMS#ChorusPlugin"];
+  };
+  readonly lv2Comb: {
+    readonly word: "lv2.Comb";
+    readonly from: readonly ["LV2_CORE_TERMS#CombPlugin"];
+  };
+  readonly lv2Compressor: {
+    readonly word: "lv2.Compressor";
+    readonly from: readonly ["LV2_CORE_TERMS#CompressorPlugin"];
+  };
+  readonly lv2Converter: {
+    readonly word: "lv2.Converter";
+    readonly from: readonly ["LV2_CORE_TERMS#ConverterPlugin"];
+  };
+  readonly lv2Delay: {
+    readonly word: "lv2.Delay";
+    readonly from: readonly ["LV2_CORE_TERMS#DelayPlugin"];
+  };
+  readonly lv2Distortion: {
+    readonly word: "lv2.Distortion";
+    readonly from: readonly ["LV2_CORE_TERMS#DistortionPlugin"];
+  };
+  readonly lv2Dynamics: {
+    readonly word: "lv2.Dynamics";
+    readonly from: readonly ["LV2_CORE_TERMS#DynamicsPlugin"];
+  };
+  readonly lv2EQ: {
+    readonly word: "lv2.EQ";
+    readonly from: readonly ["LV2_CORE_TERMS#EQPlugin"];
+  };
+  readonly lv2Envelope: {
+    readonly word: "lv2.Envelope";
+    readonly from: readonly ["LV2_CORE_TERMS#EnvelopePlugin"];
+  };
+  readonly lv2Expander: {
+    readonly word: "lv2.Expander";
+    readonly from: readonly ["LV2_CORE_TERMS#ExpanderPlugin"];
+  };
+  readonly lv2Filter: {
+    readonly word: "lv2.Filter";
+    readonly from: readonly ["LV2_CORE_TERMS#FilterPlugin"];
+  };
+  readonly lv2Flanger: {
+    readonly word: "lv2.Flanger";
+    readonly from: readonly ["LV2_CORE_TERMS#FlangerPlugin"];
+  };
+  readonly lv2Gate: {
+    readonly word: "lv2.Gate";
+    readonly from: readonly ["LV2_CORE_TERMS#GatePlugin"];
+  };
+  readonly lv2Highpass: {
+    readonly word: "lv2.Highpass";
+    readonly from: readonly ["LV2_CORE_TERMS#HighpassPlugin"];
+  };
+  readonly lv2Limiter: {
+    readonly word: "lv2.Limiter";
+    readonly from: readonly ["LV2_CORE_TERMS#LimiterPlugin"];
+  };
+  readonly lv2Lowpass: {
+    readonly word: "lv2.Lowpass";
+    readonly from: readonly ["LV2_CORE_TERMS#LowpassPlugin"];
+  };
+  readonly lv2Mixer: {
+    readonly word: "lv2.Mixer";
+    readonly from: readonly ["LV2_CORE_TERMS#MixerPlugin"];
+  };
+  readonly lv2Modulator: {
+    readonly word: "lv2.Modulator";
+    readonly from: readonly ["LV2_CORE_TERMS#ModulatorPlugin"];
+  };
+  readonly lv2MultiEQ: {
+    readonly word: "lv2.MultiEQ";
+    readonly from: readonly ["LV2_CORE_TERMS#MultiEQPlugin"];
+  };
+  readonly lv2ParaEQ: {
+    readonly word: "lv2.ParaEQ";
+    readonly from: readonly ["LV2_CORE_TERMS#ParaEQPlugin"];
+  };
+  readonly lv2Phaser: {
+    readonly word: "lv2.Phaser";
+    readonly from: readonly ["LV2_CORE_TERMS#PhaserPlugin"];
+  };
+  readonly lv2Pitch: {
+    readonly word: "lv2.Pitch";
+    readonly from: readonly ["LV2_CORE_TERMS#PitchPlugin"];
+  };
+  readonly lv2Reverb: {
+    readonly word: "lv2.Reverb";
+    readonly from: readonly ["LV2_CORE_TERMS#ReverbPlugin"];
+  };
+  readonly lv2Simulator: {
+    readonly word: "lv2.Simulator";
+    readonly from: readonly ["LV2_CORE_TERMS#SimulatorPlugin"];
+  };
+  readonly lv2Spatial: {
+    readonly word: "lv2.Spatial";
+    readonly from: readonly ["LV2_CORE_TERMS#SpatialPlugin"];
+  };
+  readonly lv2Spectral: {
+    readonly word: "lv2.Spectral";
+    readonly from: readonly ["LV2_CORE_TERMS#SpectralPlugin"];
+  };
+  readonly lv2Utility: {
+    readonly word: "lv2.Utility";
+    readonly from: readonly ["LV2_CORE_TERMS#UtilityPlugin"];
+  };
+  readonly lv2Waveshaper: {
+    readonly word: "lv2.Waveshaper";
+    readonly from: readonly ["LV2_CORE_TERMS#WaveshaperPlugin"];
+  };
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that become the descriptor feature instrument: notes in, audio out.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_INSTRUMENT: {
+  readonly clapDrum: {
+    readonly word: "clap.drum";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#drum"];
+  };
+  readonly clapDrumMachine: {
+    readonly word: "clap.drum-machine";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#drum-machine"];
+  };
+  readonly clapInstrument: {
+    readonly word: "clap.instrument";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#instrument"];
+  };
+  readonly clapSampler: {
+    readonly word: "clap.sampler";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#sampler"];
+  };
+  readonly clapSynthesizer: {
+    readonly word: "clap.synthesizer";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#synthesizer"];
+  };
+  readonly lv2Instrument: {
+    readonly word: "lv2.Instrument";
+    readonly from: readonly ["LV2_CORE_TERMS#InstrumentPlugin"];
+  };
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that become the descriptor feature note-effect: notes in, notes out.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_NOTE_EFFECT: {
+  readonly clapNoteEffect: {
+    readonly word: "clap.note-effect";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#note-effect"];
+  };
+  readonly lv2MIDI: {
+    readonly word: "lv2.MIDI";
+    readonly from: readonly ["LV2_CORE_TERMS#MIDIPlugin"];
+  };
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that become the descriptor feature analyzer: audio in, a reading out (a note detector reads pitch from audio).
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_ANALYZER: {
+  readonly clapAnalyzer: {
+    readonly word: "clap.analyzer";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#analyzer"];
+  };
+  readonly clapNoteDetector: {
+    readonly word: "clap.note-detector";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#note-detector"];
+  };
+  readonly lv2Analyser: {
+    readonly word: "lv2.Analyser";
+    readonly from: readonly ["LV2_CORE_TERMS#AnalyserPlugin"];
+  };
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that fit none of the four feature words: a channel layout stated as a feature (mono, stereo, surround, ambisonic), and the LV2 classes of a generator, an oscillator, a constant and a function, which take no notes and so are no instrument. A scan carries them in the extension bag.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_OTHER: {
+  readonly clapAmbisonic: {
+    readonly word: "clap.ambisonic";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#ambisonic"];
+  };
+  readonly clapMono: {
+    readonly word: "clap.mono";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#mono"];
+  };
+  readonly clapStereo: {
+    readonly word: "clap.stereo";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#stereo"];
+  };
+  readonly clapSurround: {
+    readonly word: "clap.surround";
+    readonly from: readonly ["CLAP_PLUGIN_FEATURES_TERMS#surround"];
+  };
+  readonly lv2Constant: {
+    readonly word: "lv2.Constant";
+    readonly from: readonly ["LV2_CORE_TERMS#ConstantPlugin"];
+  };
+  readonly lv2Function: {
+    readonly word: "lv2.Function";
+    readonly from: readonly ["LV2_CORE_TERMS#FunctionPlugin"];
+  };
+  readonly lv2Generator: {
+    readonly word: "lv2.Generator";
+    readonly from: readonly ["LV2_CORE_TERMS#GeneratorPlugin"];
+  };
+  readonly lv2Oscillator: {
+    readonly word: "lv2.Oscillator";
+    readonly from: readonly ["LV2_CORE_TERMS#OscillatorPlugin"];
+  };
+  readonly lv2Plugin: {
+    readonly word: "lv2.Plugin";
+    readonly from: readonly ["LV2_CORE_TERMS#Plugin"];
+  };
 };
 
 /**
@@ -6162,6 +6634,82 @@ export declare const RESOURCE_HINTS: {
 };
 
 /**
+ * The documents a plugin scan writes, named here and owned elsewhere: the contract names them so the writers and readers cite one word, and keeps no shape of its own for them.
+ *
+ * Why: omx-clap-core and plugin-qualify write one scan document (FreeMixer/omx-contract#157).
+ * @see data/scan.json
+ */
+export declare const SCAN_DOCUMENTS: {
+  readonly clapScanDocument: {
+    readonly word: "CLAP_SCAN_DOCUMENT";
+    readonly doc: "The JSON document of omx-clap-scan, one entry per file with its plugins, parameters and ports. Owned by omx-clap-core, which writes it; its shape is omx-clap-core's reference.";
+  };
+  readonly fieldDump: {
+    readonly word: "FIELD_DUMP";
+    readonly doc: "The field dump of omx-clap-scan --fields: the line `# omx-clap-scan --fields 1`, the format's version, then one `<scope> TAB <field> TAB <value>` record per field a plugin states. Its scopes are SCAN_FIELD_SCOPES.";
+  };
+};
+
+/**
+ * The scopes of a field dump record, as written before the first TAB; an indexed scope is followed by `:<index>`. Named here, owned by plugin-qualify: the owner keeps the code that writes and reads them.
+ * @see data/scan.json
+ */
+export declare const SCAN_FIELD_SCOPES: {
+  readonly plugin: {
+    readonly word: "plugin";
+    readonly doc: "the plugin as a whole";
+  };
+  readonly param: {
+    readonly word: "param";
+    readonly doc: "a CLAP parameter, indexed in get_info order";
+  };
+  readonly audioIn: {
+    readonly word: "audio_in";
+    readonly doc: "an audio input port, indexed";
+  };
+  readonly audioOut: {
+    readonly word: "audio_out";
+    readonly doc: "an audio output port, indexed";
+  };
+  readonly noteIn: {
+    readonly word: "note_in";
+    readonly doc: "a note input port, indexed";
+  };
+  readonly noteOut: {
+    readonly word: "note_out";
+    readonly doc: "a note output port, indexed";
+  };
+  readonly port: {
+    readonly word: "port";
+    readonly doc: "an LV2 port, indexed by lv2:index";
+  };
+  readonly panel: {
+    readonly word: "panel";
+    readonly doc: "the panel description of a plugin that serves org.openmixer.panel-description/1: its family and fingerprint";
+  };
+  readonly section: {
+    readonly word: "section";
+    readonly doc: "a section of the panel description, indexed";
+  };
+  readonly control: {
+    readonly word: "control";
+    readonly doc: "a control of the panel description, indexed";
+  };
+  readonly role: {
+    readonly word: "role";
+    readonly doc: "a role of the panel description, indexed";
+  };
+  readonly display: {
+    readonly word: "display";
+    readonly doc: "a display of the panel description, indexed";
+  };
+  readonly placementDefault: {
+    readonly word: "placement_default";
+    readonly doc: "a per-placement come-up value of the panel description, indexed";
+  };
+};
+
+/**
  * The hosts a verb's implementedBy names (docs/contract-dir.md): the programs a controller sends mod-host's protocol to. A verb states what each one owes it; a host the verb leaves out owes it nothing.
  *
  * Why: A host's verbs were typed twice, in plugin-hostd's protocol.h and in omx-clap-core's command table; a verbs item declares them once, and the hosts it names are a closed list, so a misspelt host is refused rather than read as a host that owes nothing.
@@ -6291,6 +6839,54 @@ export declare const MEASUREMENT_VOICE_BASES_WORDS: readonly ["declared", "probe
 export declare const MEASUREMENT_VERDICT_RATINGS_WORDS: readonly ["suitable", "conditional", "unknown", "unsuitable"];
 
 /**
+ * The words of PANEL_FAMILIES, in their declared order.
+ * @see data/panel.json
+ */
+export declare const PANEL_FAMILIES_WORDS: readonly ["none", "gate", "dynamics", "limiter", "deesser", "eq", "filter", "drive", "modulation", "delay", "reverb", "pitch"];
+
+/**
+ * The words of PANEL_STANDARD_WIDGETS, in their declared order.
+ * @see data/panel.json
+ */
+export declare const PANEL_STANDARD_WIDGETS_WORDS: readonly ["knob", "fader", "switch", "selector", "meter", "curve", "xy", "display"];
+
+/**
+ * The words of PANEL_WIDGETS, in their declared order.
+ * @see data/panel.json
+ */
+export declare const PANEL_WIDGETS_WORDS: readonly ["auto", "knob", "fader", "switch", "selector"];
+
+/**
+ * The words of PLUGIN_FEATURE_AUDIO_EFFECT, in their declared order.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_AUDIO_EFFECT_WORDS: readonly ["clap.audio-effect", "clap.chorus", "clap.compressor", "clap.de-esser", "clap.delay", "clap.distortion", "clap.equalizer", "clap.expander", "clap.filter", "clap.flanger", "clap.frequency-shifter", "clap.gate", "clap.glitch", "clap.granular", "clap.limiter", "clap.mastering", "clap.mixing", "clap.multi-effects", "clap.phase-vocoder", "clap.phaser", "clap.pitch-correction", "clap.pitch-shifter", "clap.restoration", "clap.reverb", "clap.transient-shaper", "clap.tremolo", "clap.utility", "lv2.Allpass", "lv2.Amplifier", "lv2.Bandpass", "lv2.Chorus", "lv2.Comb", "lv2.Compressor", "lv2.Converter", "lv2.Delay", "lv2.Distortion", "lv2.Dynamics", "lv2.EQ", "lv2.Envelope", "lv2.Expander", "lv2.Filter", "lv2.Flanger", "lv2.Gate", "lv2.Highpass", "lv2.Limiter", "lv2.Lowpass", "lv2.Mixer", "lv2.Modulator", "lv2.MultiEQ", "lv2.ParaEQ", "lv2.Phaser", "lv2.Pitch", "lv2.Reverb", "lv2.Simulator", "lv2.Spatial", "lv2.Spectral", "lv2.Utility", "lv2.Waveshaper"];
+
+/**
+ * The words of PLUGIN_FEATURE_INSTRUMENT, in their declared order.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_INSTRUMENT_WORDS: readonly ["clap.drum", "clap.drum-machine", "clap.instrument", "clap.sampler", "clap.synthesizer", "lv2.Instrument"];
+
+/**
+ * The words of PLUGIN_FEATURE_NOTE_EFFECT, in their declared order.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_NOTE_EFFECT_WORDS: readonly ["clap.note-effect", "lv2.MIDI"];
+
+/**
+ * The words of PLUGIN_FEATURE_ANALYZER, in their declared order.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_ANALYZER_WORDS: readonly ["clap.analyzer", "clap.note-detector", "lv2.Analyser"];
+
+/**
+ * The words of PLUGIN_FEATURE_OTHER, in their declared order.
+ * @see data/plugin-features.json
+ */
+export declare const PLUGIN_FEATURE_OTHER_WORDS: readonly ["clap.ambisonic", "clap.mono", "clap.stereo", "clap.surround", "lv2.Constant", "lv2.Function", "lv2.Generator", "lv2.Oscillator", "lv2.Plugin"];
+
+/**
  * The words of RESOURCE_KINDS, in their declared order.
  * @see data/resource-profile.json
  */
@@ -6349,6 +6945,18 @@ export declare const RESOURCE_THREAD_SCHEDULING_WORDS: readonly ["none", "fifo"]
  * @see data/resource-profile.json
  */
 export declare const RESOURCE_HINTS_WORDS: readonly ["footprint-at-rest", "footprint-per-voice", "shared-load", "threads-spawned", "streams-from-disk", "opens-sockets", "activate-time"];
+
+/**
+ * The words of SCAN_DOCUMENTS, in their declared order.
+ * @see data/scan.json
+ */
+export declare const SCAN_DOCUMENTS_WORDS: readonly ["CLAP_SCAN_DOCUMENT", "FIELD_DUMP"];
+
+/**
+ * The words of SCAN_FIELD_SCOPES, in their declared order.
+ * @see data/scan.json
+ */
+export declare const SCAN_FIELD_SCOPES_WORDS: readonly ["plugin", "param", "audio_in", "audio_out", "note_in", "note_out", "port", "panel", "section", "control", "role", "display", "placement_default"];
 
 /**
  * The words of VERB_HOSTS, in their declared order.

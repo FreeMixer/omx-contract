@@ -2369,8 +2369,10 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_AMBISONIC",
     "value": "ambisonic",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "analyzer": {
     "id": "CLAP_PLUGIN_FEATURE_ANALYZER",
@@ -2451,8 +2453,10 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_DRUM_MACHINE",
     "value": "drum-machine",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "equalizer": {
     "id": "CLAP_PLUGIN_FEATURE_EQUALIZER",
@@ -2496,8 +2500,10 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_FREQUENCY_SHIFTER",
     "value": "frequency-shifter",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "gate": {
     "id": "CLAP_PLUGIN_FEATURE_GATE",
@@ -2513,15 +2519,19 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_GLITCH",
     "value": "glitch",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "granular": {
     "id": "CLAP_PLUGIN_FEATURE_GRANULAR",
     "value": "granular",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "instrument": {
     "id": "CLAP_PLUGIN_FEATURE_INSTRUMENT",
@@ -2546,8 +2556,10 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_MASTERING",
     "value": "mastering",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "mixing": {
     "id": "CLAP_PLUGIN_FEATURE_MIXING",
@@ -2572,15 +2584,19 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_MULTI_EFFECTS",
     "value": "multi-effects",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "note-detector": {
     "id": "CLAP_PLUGIN_FEATURE_NOTE_DETECTOR",
     "value": "note-detector",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "note-effect": {
     "id": "CLAP_PLUGIN_FEATURE_NOTE_EFFECT",
@@ -2596,8 +2612,10 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_PHASE_VOCODER",
     "value": "phase-vocoder",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "phaser": {
     "id": "CLAP_PLUGIN_FEATURE_PHASER",
@@ -2612,8 +2630,10 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_PITCH_CORRECTION",
     "value": "pitch-correction",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "pitch-shifter": {
     "id": "CLAP_PLUGIN_FEATURE_PITCH_SHIFTER",
@@ -2628,8 +2648,10 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_RESTORATION",
     "value": "restoration",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "reverb": {
     "id": "CLAP_PLUGIN_FEATURE_REVERB",
@@ -2663,8 +2685,10 @@ export const CLAP_PLUGIN_FEATURES_TERMS = {
     "id": "CLAP_PLUGIN_FEATURE_SURROUND",
     "value": "surround",
     "kind": "plugin-feature",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "synthesizer": {
     "id": "CLAP_PLUGIN_FEATURE_SYNTHESIZER",
@@ -3150,14 +3174,18 @@ export const LV2_CORE_TERMS = {
   "AllpassPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#AllpassPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "AmplifierPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#AmplifierPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "AnalyserPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#AnalyserPlugin",
@@ -3182,8 +3210,10 @@ export const LV2_CORE_TERMS = {
   "BandpassPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#BandpassPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "CVPort": {
     "uri": "http://lv2plug.in/ns/lv2core#CVPort",
@@ -3212,8 +3242,10 @@ export const LV2_CORE_TERMS = {
   "CombPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#CombPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "CompressorPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#CompressorPlugin",
@@ -3227,8 +3259,10 @@ export const LV2_CORE_TERMS = {
   "ConstantPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#ConstantPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "ControlPort": {
     "uri": "http://lv2plug.in/ns/lv2core#ControlPort",
@@ -3243,8 +3277,10 @@ export const LV2_CORE_TERMS = {
   "ConverterPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#ConverterPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "DelayPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#DelayPlugin",
@@ -3291,14 +3327,18 @@ export const LV2_CORE_TERMS = {
   "EnvelopePlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#EnvelopePlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "ExpanderPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#ExpanderPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "ExtensionData": {
     "uri": "http://lv2plug.in/ns/lv2core#ExtensionData",
@@ -3315,8 +3355,10 @@ export const LV2_CORE_TERMS = {
   "FilterPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#FilterPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "FlangerPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#FlangerPlugin",
@@ -3329,8 +3371,10 @@ export const LV2_CORE_TERMS = {
   "FunctionPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#FunctionPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "GatePlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#GatePlugin",
@@ -3344,14 +3388,18 @@ export const LV2_CORE_TERMS = {
   "GeneratorPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#GeneratorPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "HighpassPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#HighpassPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "InputPort": {
     "uri": "http://lv2plug.in/ns/lv2core#InputPort",
@@ -3384,14 +3432,18 @@ export const LV2_CORE_TERMS = {
   "LowpassPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#LowpassPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "MIDIPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#MIDIPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "Markdown": {
     "uri": "http://lv2plug.in/ns/lv2core#Markdown",
@@ -3428,8 +3480,10 @@ export const LV2_CORE_TERMS = {
   "OscillatorPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#OscillatorPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "OutputPort": {
     "uri": "http://lv2plug.in/ns/lv2core#OutputPort",
@@ -3535,14 +3589,18 @@ export const LV2_CORE_TERMS = {
   "SimulatorPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#SimulatorPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "SpatialPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#SpatialPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "Specification": {
     "uri": "http://lv2plug.in/ns/lv2core#Specification",
@@ -3553,8 +3611,10 @@ export const LV2_CORE_TERMS = {
   "SpectralPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#SpectralPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "Symbol": {
     "uri": "http://lv2plug.in/ns/lv2core#Symbol",
@@ -3565,14 +3625,18 @@ export const LV2_CORE_TERMS = {
   "UtilityPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#UtilityPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "WaveshaperPlugin": {
     "uri": "http://lv2plug.in/ns/lv2core#WaveshaperPlugin",
     "kind": "plugin-class",
-    "status": "supported-later",
-    "issue": "FreeMixer/omx-contract#120"
+    "status": "used",
+    "by": [
+      "omx-contract:data/plugin-features.json"
+    ]
   },
   "appliesTo": {
     "uri": "http://lv2plug.in/ns/lv2core#appliesTo",
@@ -6664,6 +6728,129 @@ export const MEASUREMENT_VERDICT_RATINGS = {
 };
 
 /**
+ * The panel families of a plugin (omx-panel docs/panel-layout.md): the kind of processor its panel is laid out for. The words and their order are the contract; omx-panel's tools/panel-description.mjs FAMILIES and the skin package schema read them, and keep their code.
+ *
+ * Why: Panel families and widgets are declarations, so they live here (vocabulary-owner rule, FreeMixer/omx-contract#157).
+ * @see data/panel.json
+ */
+export const PANEL_FAMILIES = {
+  "none": {
+    "word": "none",
+    "doc": "a plugin with no family: its panel is laid out from its groups and roles"
+  },
+  "gate": {
+    "word": "gate",
+    "doc": "a gate or expander"
+  },
+  "dynamics": {
+    "word": "dynamics",
+    "doc": "a compressor"
+  },
+  "limiter": {
+    "word": "limiter",
+    "doc": "a limiter"
+  },
+  "deesser": {
+    "word": "deesser",
+    "doc": "a de-esser"
+  },
+  "eq": {
+    "word": "eq",
+    "doc": "an equaliser, parametric or graphic"
+  },
+  "filter": {
+    "word": "filter",
+    "doc": "a filter"
+  },
+  "drive": {
+    "word": "drive",
+    "doc": "a saturator or distortion"
+  },
+  "modulation": {
+    "word": "modulation",
+    "doc": "a chorus, flanger, phaser or tremolo"
+  },
+  "delay": {
+    "word": "delay",
+    "doc": "a delay"
+  },
+  "reverb": {
+    "word": "reverb",
+    "doc": "a reverb"
+  },
+  "pitch": {
+    "word": "pitch",
+    "doc": "a pitch shifter"
+  }
+};
+
+/**
+ * The standard widgets a panel picks from a descriptor and a representation (a skin) draws, in the order omx-panel's tools/panel-description.mjs STANDARD_WIDGETS lists them.
+ * @see data/panel.json
+ */
+export const PANEL_STANDARD_WIDGETS = {
+  "knob": {
+    "word": "knob",
+    "doc": "a travel"
+  },
+  "fader": {
+    "word": "fader",
+    "doc": "a travel drawn long"
+  },
+  "switch": {
+    "word": "switch",
+    "doc": "a toggle"
+  },
+  "selector": {
+    "word": "selector",
+    "doc": "an integer travel or labelled values"
+  },
+  "meter": {
+    "word": "meter",
+    "doc": "a readout"
+  },
+  "curve": {
+    "word": "curve",
+    "doc": "a response or transfer curve"
+  },
+  "xy": {
+    "word": "xy",
+    "doc": "two controls drawn as one point"
+  },
+  "display": {
+    "word": "display",
+    "doc": "a value shown as text"
+  }
+};
+
+/**
+ * The widgets a declared panel may name for a control, and the extension serves (org.openmixer.panel-description/1): auto leaves the choice to the panel layout. The four others are the shared widgets of omx-panel's schema/panel.schema.json.
+ * @see data/panel.json
+ */
+export const PANEL_WIDGETS = {
+  "auto": {
+    "word": "auto",
+    "doc": "left out of a panel declaration: the layout picks the widget from the control"
+  },
+  "knob": {
+    "word": "knob",
+    "doc": "a rotary control"
+  },
+  "fader": {
+    "word": "fader",
+    "doc": "a linear control"
+  },
+  "switch": {
+    "word": "switch",
+    "doc": "a two-state control"
+  },
+  "selector": {
+    "word": "selector",
+    "doc": "a control that picks one of a few values"
+  }
+};
+
+/**
  * The units of org.openmixer.param-contract/1, the code its get() reports for a parameter's plain value, by token: the LV2 unit a face writes for a descriptor unit (units:db is db), 0..24 the LV2 units one to one, 0x100 and up the vendor block of units LV2 has none for, append-only. A token is served when it has a code here; none is 0.
  * @see data/param-contract.json
  */
@@ -6697,6 +6884,511 @@ export const OMX_PARAM_CONTRACT_UNITS = {
   "dbu": 257,
   "ratio": 258,
   "lufs": 259
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that become the descriptor feature audio-effect: every kind of effect, a filter, a dynamics processor, a modulation or a space, and the channel-less roles of a processor (utility, mixing, mastering).
+ *
+ * Why: The four feature words stay; every CLAP plugin feature and LV2 plugin class is mapped onto them, or onto other, as data (FreeMixer/omx-contract#120). One item per target, so a word is the source term and is named once; a test holds the five items to the terms.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_AUDIO_EFFECT = {
+  "clapAudioEffect": {
+    "word": "clap.audio-effect",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#audio-effect"
+    ]
+  },
+  "clapChorus": {
+    "word": "clap.chorus",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#chorus"
+    ]
+  },
+  "clapCompressor": {
+    "word": "clap.compressor",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#compressor"
+    ]
+  },
+  "clapDeEsser": {
+    "word": "clap.de-esser",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#de-esser"
+    ]
+  },
+  "clapDelay": {
+    "word": "clap.delay",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#delay"
+    ]
+  },
+  "clapDistortion": {
+    "word": "clap.distortion",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#distortion"
+    ]
+  },
+  "clapEqualizer": {
+    "word": "clap.equalizer",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#equalizer"
+    ]
+  },
+  "clapExpander": {
+    "word": "clap.expander",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#expander"
+    ]
+  },
+  "clapFilter": {
+    "word": "clap.filter",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#filter"
+    ]
+  },
+  "clapFlanger": {
+    "word": "clap.flanger",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#flanger"
+    ]
+  },
+  "clapFrequencyShifter": {
+    "word": "clap.frequency-shifter",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#frequency-shifter"
+    ]
+  },
+  "clapGate": {
+    "word": "clap.gate",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#gate"
+    ]
+  },
+  "clapGlitch": {
+    "word": "clap.glitch",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#glitch"
+    ]
+  },
+  "clapGranular": {
+    "word": "clap.granular",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#granular"
+    ]
+  },
+  "clapLimiter": {
+    "word": "clap.limiter",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#limiter"
+    ]
+  },
+  "clapMastering": {
+    "word": "clap.mastering",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#mastering"
+    ]
+  },
+  "clapMixing": {
+    "word": "clap.mixing",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#mixing"
+    ]
+  },
+  "clapMultiEffects": {
+    "word": "clap.multi-effects",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#multi-effects"
+    ]
+  },
+  "clapPhaseVocoder": {
+    "word": "clap.phase-vocoder",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#phase-vocoder"
+    ]
+  },
+  "clapPhaser": {
+    "word": "clap.phaser",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#phaser"
+    ]
+  },
+  "clapPitchCorrection": {
+    "word": "clap.pitch-correction",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#pitch-correction"
+    ]
+  },
+  "clapPitchShifter": {
+    "word": "clap.pitch-shifter",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#pitch-shifter"
+    ]
+  },
+  "clapRestoration": {
+    "word": "clap.restoration",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#restoration"
+    ]
+  },
+  "clapReverb": {
+    "word": "clap.reverb",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#reverb"
+    ]
+  },
+  "clapTransientShaper": {
+    "word": "clap.transient-shaper",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#transient-shaper"
+    ]
+  },
+  "clapTremolo": {
+    "word": "clap.tremolo",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#tremolo"
+    ]
+  },
+  "clapUtility": {
+    "word": "clap.utility",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#utility"
+    ]
+  },
+  "lv2Allpass": {
+    "word": "lv2.Allpass",
+    "from": [
+      "LV2_CORE_TERMS#AllpassPlugin"
+    ]
+  },
+  "lv2Amplifier": {
+    "word": "lv2.Amplifier",
+    "from": [
+      "LV2_CORE_TERMS#AmplifierPlugin"
+    ]
+  },
+  "lv2Bandpass": {
+    "word": "lv2.Bandpass",
+    "from": [
+      "LV2_CORE_TERMS#BandpassPlugin"
+    ]
+  },
+  "lv2Chorus": {
+    "word": "lv2.Chorus",
+    "from": [
+      "LV2_CORE_TERMS#ChorusPlugin"
+    ]
+  },
+  "lv2Comb": {
+    "word": "lv2.Comb",
+    "from": [
+      "LV2_CORE_TERMS#CombPlugin"
+    ]
+  },
+  "lv2Compressor": {
+    "word": "lv2.Compressor",
+    "from": [
+      "LV2_CORE_TERMS#CompressorPlugin"
+    ]
+  },
+  "lv2Converter": {
+    "word": "lv2.Converter",
+    "from": [
+      "LV2_CORE_TERMS#ConverterPlugin"
+    ]
+  },
+  "lv2Delay": {
+    "word": "lv2.Delay",
+    "from": [
+      "LV2_CORE_TERMS#DelayPlugin"
+    ]
+  },
+  "lv2Distortion": {
+    "word": "lv2.Distortion",
+    "from": [
+      "LV2_CORE_TERMS#DistortionPlugin"
+    ]
+  },
+  "lv2Dynamics": {
+    "word": "lv2.Dynamics",
+    "from": [
+      "LV2_CORE_TERMS#DynamicsPlugin"
+    ]
+  },
+  "lv2EQ": {
+    "word": "lv2.EQ",
+    "from": [
+      "LV2_CORE_TERMS#EQPlugin"
+    ]
+  },
+  "lv2Envelope": {
+    "word": "lv2.Envelope",
+    "from": [
+      "LV2_CORE_TERMS#EnvelopePlugin"
+    ]
+  },
+  "lv2Expander": {
+    "word": "lv2.Expander",
+    "from": [
+      "LV2_CORE_TERMS#ExpanderPlugin"
+    ]
+  },
+  "lv2Filter": {
+    "word": "lv2.Filter",
+    "from": [
+      "LV2_CORE_TERMS#FilterPlugin"
+    ]
+  },
+  "lv2Flanger": {
+    "word": "lv2.Flanger",
+    "from": [
+      "LV2_CORE_TERMS#FlangerPlugin"
+    ]
+  },
+  "lv2Gate": {
+    "word": "lv2.Gate",
+    "from": [
+      "LV2_CORE_TERMS#GatePlugin"
+    ]
+  },
+  "lv2Highpass": {
+    "word": "lv2.Highpass",
+    "from": [
+      "LV2_CORE_TERMS#HighpassPlugin"
+    ]
+  },
+  "lv2Limiter": {
+    "word": "lv2.Limiter",
+    "from": [
+      "LV2_CORE_TERMS#LimiterPlugin"
+    ]
+  },
+  "lv2Lowpass": {
+    "word": "lv2.Lowpass",
+    "from": [
+      "LV2_CORE_TERMS#LowpassPlugin"
+    ]
+  },
+  "lv2Mixer": {
+    "word": "lv2.Mixer",
+    "from": [
+      "LV2_CORE_TERMS#MixerPlugin"
+    ]
+  },
+  "lv2Modulator": {
+    "word": "lv2.Modulator",
+    "from": [
+      "LV2_CORE_TERMS#ModulatorPlugin"
+    ]
+  },
+  "lv2MultiEQ": {
+    "word": "lv2.MultiEQ",
+    "from": [
+      "LV2_CORE_TERMS#MultiEQPlugin"
+    ]
+  },
+  "lv2ParaEQ": {
+    "word": "lv2.ParaEQ",
+    "from": [
+      "LV2_CORE_TERMS#ParaEQPlugin"
+    ]
+  },
+  "lv2Phaser": {
+    "word": "lv2.Phaser",
+    "from": [
+      "LV2_CORE_TERMS#PhaserPlugin"
+    ]
+  },
+  "lv2Pitch": {
+    "word": "lv2.Pitch",
+    "from": [
+      "LV2_CORE_TERMS#PitchPlugin"
+    ]
+  },
+  "lv2Reverb": {
+    "word": "lv2.Reverb",
+    "from": [
+      "LV2_CORE_TERMS#ReverbPlugin"
+    ]
+  },
+  "lv2Simulator": {
+    "word": "lv2.Simulator",
+    "from": [
+      "LV2_CORE_TERMS#SimulatorPlugin"
+    ]
+  },
+  "lv2Spatial": {
+    "word": "lv2.Spatial",
+    "from": [
+      "LV2_CORE_TERMS#SpatialPlugin"
+    ]
+  },
+  "lv2Spectral": {
+    "word": "lv2.Spectral",
+    "from": [
+      "LV2_CORE_TERMS#SpectralPlugin"
+    ]
+  },
+  "lv2Utility": {
+    "word": "lv2.Utility",
+    "from": [
+      "LV2_CORE_TERMS#UtilityPlugin"
+    ]
+  },
+  "lv2Waveshaper": {
+    "word": "lv2.Waveshaper",
+    "from": [
+      "LV2_CORE_TERMS#WaveshaperPlugin"
+    ]
+  }
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that become the descriptor feature instrument: notes in, audio out.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_INSTRUMENT = {
+  "clapDrum": {
+    "word": "clap.drum",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#drum"
+    ]
+  },
+  "clapDrumMachine": {
+    "word": "clap.drum-machine",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#drum-machine"
+    ]
+  },
+  "clapInstrument": {
+    "word": "clap.instrument",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#instrument"
+    ]
+  },
+  "clapSampler": {
+    "word": "clap.sampler",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#sampler"
+    ]
+  },
+  "clapSynthesizer": {
+    "word": "clap.synthesizer",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#synthesizer"
+    ]
+  },
+  "lv2Instrument": {
+    "word": "lv2.Instrument",
+    "from": [
+      "LV2_CORE_TERMS#InstrumentPlugin"
+    ]
+  }
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that become the descriptor feature note-effect: notes in, notes out.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_NOTE_EFFECT = {
+  "clapNoteEffect": {
+    "word": "clap.note-effect",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#note-effect"
+    ]
+  },
+  "lv2MIDI": {
+    "word": "lv2.MIDI",
+    "from": [
+      "LV2_CORE_TERMS#MIDIPlugin"
+    ]
+  }
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that become the descriptor feature analyzer: audio in, a reading out (a note detector reads pitch from audio).
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_ANALYZER = {
+  "clapAnalyzer": {
+    "word": "clap.analyzer",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#analyzer"
+    ]
+  },
+  "clapNoteDetector": {
+    "word": "clap.note-detector",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#note-detector"
+    ]
+  },
+  "lv2Analyser": {
+    "word": "lv2.Analyser",
+    "from": [
+      "LV2_CORE_TERMS#AnalyserPlugin"
+    ]
+  }
+};
+
+/**
+ * The CLAP plugin features and LV2 plugin classes that fit none of the four feature words: a channel layout stated as a feature (mono, stereo, surround, ambisonic), and the LV2 classes of a generator, an oscillator, a constant and a function, which take no notes and so are no instrument. A scan carries them in the extension bag.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_OTHER = {
+  "clapAmbisonic": {
+    "word": "clap.ambisonic",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#ambisonic"
+    ]
+  },
+  "clapMono": {
+    "word": "clap.mono",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#mono"
+    ]
+  },
+  "clapStereo": {
+    "word": "clap.stereo",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#stereo"
+    ]
+  },
+  "clapSurround": {
+    "word": "clap.surround",
+    "from": [
+      "CLAP_PLUGIN_FEATURES_TERMS#surround"
+    ]
+  },
+  "lv2Constant": {
+    "word": "lv2.Constant",
+    "from": [
+      "LV2_CORE_TERMS#ConstantPlugin"
+    ]
+  },
+  "lv2Function": {
+    "word": "lv2.Function",
+    "from": [
+      "LV2_CORE_TERMS#FunctionPlugin"
+    ]
+  },
+  "lv2Generator": {
+    "word": "lv2.Generator",
+    "from": [
+      "LV2_CORE_TERMS#GeneratorPlugin"
+    ]
+  },
+  "lv2Oscillator": {
+    "word": "lv2.Oscillator",
+    "from": [
+      "LV2_CORE_TERMS#OscillatorPlugin"
+    ]
+  },
+  "lv2Plugin": {
+    "word": "lv2.Plugin",
+    "from": [
+      "LV2_CORE_TERMS#Plugin"
+    ]
+  }
 };
 
 /**
@@ -7080,6 +7772,82 @@ export const RESOURCE_HINTS = {
 };
 
 /**
+ * The documents a plugin scan writes, named here and owned elsewhere: the contract names them so the writers and readers cite one word, and keeps no shape of its own for them.
+ *
+ * Why: omx-clap-core and plugin-qualify write one scan document (FreeMixer/omx-contract#157).
+ * @see data/scan.json
+ */
+export const SCAN_DOCUMENTS = {
+  "clapScanDocument": {
+    "word": "CLAP_SCAN_DOCUMENT",
+    "doc": "The JSON document of omx-clap-scan, one entry per file with its plugins, parameters and ports. Owned by omx-clap-core, which writes it; its shape is omx-clap-core's reference."
+  },
+  "fieldDump": {
+    "word": "FIELD_DUMP",
+    "doc": "The field dump of omx-clap-scan --fields: the line `# omx-clap-scan --fields 1`, the format's version, then one `<scope> TAB <field> TAB <value>` record per field a plugin states. Its scopes are SCAN_FIELD_SCOPES."
+  }
+};
+
+/**
+ * The scopes of a field dump record, as written before the first TAB; an indexed scope is followed by `:<index>`. Named here, owned by plugin-qualify: the owner keeps the code that writes and reads them.
+ * @see data/scan.json
+ */
+export const SCAN_FIELD_SCOPES = {
+  "plugin": {
+    "word": "plugin",
+    "doc": "the plugin as a whole"
+  },
+  "param": {
+    "word": "param",
+    "doc": "a CLAP parameter, indexed in get_info order"
+  },
+  "audioIn": {
+    "word": "audio_in",
+    "doc": "an audio input port, indexed"
+  },
+  "audioOut": {
+    "word": "audio_out",
+    "doc": "an audio output port, indexed"
+  },
+  "noteIn": {
+    "word": "note_in",
+    "doc": "a note input port, indexed"
+  },
+  "noteOut": {
+    "word": "note_out",
+    "doc": "a note output port, indexed"
+  },
+  "port": {
+    "word": "port",
+    "doc": "an LV2 port, indexed by lv2:index"
+  },
+  "panel": {
+    "word": "panel",
+    "doc": "the panel description of a plugin that serves org.openmixer.panel-description/1: its family and fingerprint"
+  },
+  "section": {
+    "word": "section",
+    "doc": "a section of the panel description, indexed"
+  },
+  "control": {
+    "word": "control",
+    "doc": "a control of the panel description, indexed"
+  },
+  "role": {
+    "word": "role",
+    "doc": "a role of the panel description, indexed"
+  },
+  "display": {
+    "word": "display",
+    "doc": "a display of the panel description, indexed"
+  },
+  "placementDefault": {
+    "word": "placement_default",
+    "doc": "a per-placement come-up value of the panel description, indexed"
+  }
+};
+
+/**
  * The hosts a verb's implementedBy names (docs/contract-dir.md): the programs a controller sends mod-host's protocol to. A verb states what each one owes it; a host the verb leaves out owes it nothing.
  *
  * Why: A host's verbs were typed twice, in plugin-hostd's protocol.h and in omx-clap-core's command table; a verbs item declares them once, and the hosts it names are a closed list, so a misspelt host is refused rather than read as a host that owes nothing.
@@ -7319,6 +8087,165 @@ export const MEASUREMENT_VERDICT_RATINGS_WORDS = [
 ];
 
 /**
+ * The words of PANEL_FAMILIES, in their declared order.
+ * @see data/panel.json
+ */
+export const PANEL_FAMILIES_WORDS = [
+  "none",
+  "gate",
+  "dynamics",
+  "limiter",
+  "deesser",
+  "eq",
+  "filter",
+  "drive",
+  "modulation",
+  "delay",
+  "reverb",
+  "pitch"
+];
+
+/**
+ * The words of PANEL_STANDARD_WIDGETS, in their declared order.
+ * @see data/panel.json
+ */
+export const PANEL_STANDARD_WIDGETS_WORDS = [
+  "knob",
+  "fader",
+  "switch",
+  "selector",
+  "meter",
+  "curve",
+  "xy",
+  "display"
+];
+
+/**
+ * The words of PANEL_WIDGETS, in their declared order.
+ * @see data/panel.json
+ */
+export const PANEL_WIDGETS_WORDS = [
+  "auto",
+  "knob",
+  "fader",
+  "switch",
+  "selector"
+];
+
+/**
+ * The words of PLUGIN_FEATURE_AUDIO_EFFECT, in their declared order.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_AUDIO_EFFECT_WORDS = [
+  "clap.audio-effect",
+  "clap.chorus",
+  "clap.compressor",
+  "clap.de-esser",
+  "clap.delay",
+  "clap.distortion",
+  "clap.equalizer",
+  "clap.expander",
+  "clap.filter",
+  "clap.flanger",
+  "clap.frequency-shifter",
+  "clap.gate",
+  "clap.glitch",
+  "clap.granular",
+  "clap.limiter",
+  "clap.mastering",
+  "clap.mixing",
+  "clap.multi-effects",
+  "clap.phase-vocoder",
+  "clap.phaser",
+  "clap.pitch-correction",
+  "clap.pitch-shifter",
+  "clap.restoration",
+  "clap.reverb",
+  "clap.transient-shaper",
+  "clap.tremolo",
+  "clap.utility",
+  "lv2.Allpass",
+  "lv2.Amplifier",
+  "lv2.Bandpass",
+  "lv2.Chorus",
+  "lv2.Comb",
+  "lv2.Compressor",
+  "lv2.Converter",
+  "lv2.Delay",
+  "lv2.Distortion",
+  "lv2.Dynamics",
+  "lv2.EQ",
+  "lv2.Envelope",
+  "lv2.Expander",
+  "lv2.Filter",
+  "lv2.Flanger",
+  "lv2.Gate",
+  "lv2.Highpass",
+  "lv2.Limiter",
+  "lv2.Lowpass",
+  "lv2.Mixer",
+  "lv2.Modulator",
+  "lv2.MultiEQ",
+  "lv2.ParaEQ",
+  "lv2.Phaser",
+  "lv2.Pitch",
+  "lv2.Reverb",
+  "lv2.Simulator",
+  "lv2.Spatial",
+  "lv2.Spectral",
+  "lv2.Utility",
+  "lv2.Waveshaper"
+];
+
+/**
+ * The words of PLUGIN_FEATURE_INSTRUMENT, in their declared order.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_INSTRUMENT_WORDS = [
+  "clap.drum",
+  "clap.drum-machine",
+  "clap.instrument",
+  "clap.sampler",
+  "clap.synthesizer",
+  "lv2.Instrument"
+];
+
+/**
+ * The words of PLUGIN_FEATURE_NOTE_EFFECT, in their declared order.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_NOTE_EFFECT_WORDS = [
+  "clap.note-effect",
+  "lv2.MIDI"
+];
+
+/**
+ * The words of PLUGIN_FEATURE_ANALYZER, in their declared order.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_ANALYZER_WORDS = [
+  "clap.analyzer",
+  "clap.note-detector",
+  "lv2.Analyser"
+];
+
+/**
+ * The words of PLUGIN_FEATURE_OTHER, in their declared order.
+ * @see data/plugin-features.json
+ */
+export const PLUGIN_FEATURE_OTHER_WORDS = [
+  "clap.ambisonic",
+  "clap.mono",
+  "clap.stereo",
+  "clap.surround",
+  "lv2.Constant",
+  "lv2.Function",
+  "lv2.Generator",
+  "lv2.Oscillator",
+  "lv2.Plugin"
+];
+
+/**
  * The words of RESOURCE_KINDS, in their declared order.
  * @see data/resource-profile.json
  */
@@ -7435,6 +8362,35 @@ export const RESOURCE_HINTS_WORDS = [
   "streams-from-disk",
   "opens-sockets",
   "activate-time"
+];
+
+/**
+ * The words of SCAN_DOCUMENTS, in their declared order.
+ * @see data/scan.json
+ */
+export const SCAN_DOCUMENTS_WORDS = [
+  "CLAP_SCAN_DOCUMENT",
+  "FIELD_DUMP"
+];
+
+/**
+ * The words of SCAN_FIELD_SCOPES, in their declared order.
+ * @see data/scan.json
+ */
+export const SCAN_FIELD_SCOPES_WORDS = [
+  "plugin",
+  "param",
+  "audio_in",
+  "audio_out",
+  "note_in",
+  "note_out",
+  "port",
+  "panel",
+  "section",
+  "control",
+  "role",
+  "display",
+  "placement_default"
 ];
 
 /**

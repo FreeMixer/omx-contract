@@ -186,6 +186,149 @@
         "unsuitable"
       ]
     },
+    "PANEL_FAMILIES": {
+      "description": "The panel families of a plugin (omx-panel docs/panel-layout.md): the kind of processor its panel is laid out for. The words and their order are the contract; omx-panel's tools/panel-description.mjs FAMILIES and the skin package schema read them, and keep their code.",
+      "enum": [
+        "none",
+        "gate",
+        "dynamics",
+        "limiter",
+        "deesser",
+        "eq",
+        "filter",
+        "drive",
+        "modulation",
+        "delay",
+        "reverb",
+        "pitch"
+      ]
+    },
+    "PANEL_STANDARD_WIDGETS": {
+      "description": "The standard widgets a panel picks from a descriptor and a representation (a skin) draws, in the order omx-panel's tools/panel-description.mjs STANDARD_WIDGETS lists them.",
+      "enum": [
+        "knob",
+        "fader",
+        "switch",
+        "selector",
+        "meter",
+        "curve",
+        "xy",
+        "display"
+      ]
+    },
+    "PANEL_WIDGETS": {
+      "description": "The widgets a declared panel may name for a control, and the extension serves (org.openmixer.panel-description/1): auto leaves the choice to the panel layout. The four others are the shared widgets of omx-panel's schema/panel.schema.json.",
+      "enum": [
+        "auto",
+        "knob",
+        "fader",
+        "switch",
+        "selector"
+      ]
+    },
+    "PLUGIN_FEATURE_AUDIO_EFFECT": {
+      "description": "The CLAP plugin features and LV2 plugin classes that become the descriptor feature audio-effect: every kind of effect, a filter, a dynamics processor, a modulation or a space, and the channel-less roles of a processor (utility, mixing, mastering).",
+      "enum": [
+        "clap.audio-effect",
+        "clap.chorus",
+        "clap.compressor",
+        "clap.de-esser",
+        "clap.delay",
+        "clap.distortion",
+        "clap.equalizer",
+        "clap.expander",
+        "clap.filter",
+        "clap.flanger",
+        "clap.frequency-shifter",
+        "clap.gate",
+        "clap.glitch",
+        "clap.granular",
+        "clap.limiter",
+        "clap.mastering",
+        "clap.mixing",
+        "clap.multi-effects",
+        "clap.phase-vocoder",
+        "clap.phaser",
+        "clap.pitch-correction",
+        "clap.pitch-shifter",
+        "clap.restoration",
+        "clap.reverb",
+        "clap.transient-shaper",
+        "clap.tremolo",
+        "clap.utility",
+        "lv2.Allpass",
+        "lv2.Amplifier",
+        "lv2.Bandpass",
+        "lv2.Chorus",
+        "lv2.Comb",
+        "lv2.Compressor",
+        "lv2.Converter",
+        "lv2.Delay",
+        "lv2.Distortion",
+        "lv2.Dynamics",
+        "lv2.EQ",
+        "lv2.Envelope",
+        "lv2.Expander",
+        "lv2.Filter",
+        "lv2.Flanger",
+        "lv2.Gate",
+        "lv2.Highpass",
+        "lv2.Limiter",
+        "lv2.Lowpass",
+        "lv2.Mixer",
+        "lv2.Modulator",
+        "lv2.MultiEQ",
+        "lv2.ParaEQ",
+        "lv2.Phaser",
+        "lv2.Pitch",
+        "lv2.Reverb",
+        "lv2.Simulator",
+        "lv2.Spatial",
+        "lv2.Spectral",
+        "lv2.Utility",
+        "lv2.Waveshaper"
+      ]
+    },
+    "PLUGIN_FEATURE_INSTRUMENT": {
+      "description": "The CLAP plugin features and LV2 plugin classes that become the descriptor feature instrument: notes in, audio out.",
+      "enum": [
+        "clap.drum",
+        "clap.drum-machine",
+        "clap.instrument",
+        "clap.sampler",
+        "clap.synthesizer",
+        "lv2.Instrument"
+      ]
+    },
+    "PLUGIN_FEATURE_NOTE_EFFECT": {
+      "description": "The CLAP plugin features and LV2 plugin classes that become the descriptor feature note-effect: notes in, notes out.",
+      "enum": [
+        "clap.note-effect",
+        "lv2.MIDI"
+      ]
+    },
+    "PLUGIN_FEATURE_ANALYZER": {
+      "description": "The CLAP plugin features and LV2 plugin classes that become the descriptor feature analyzer: audio in, a reading out (a note detector reads pitch from audio).",
+      "enum": [
+        "clap.analyzer",
+        "clap.note-detector",
+        "lv2.Analyser"
+      ]
+    },
+    "PLUGIN_FEATURE_OTHER": {
+      "description": "The CLAP plugin features and LV2 plugin classes that fit none of the four feature words: a channel layout stated as a feature (mono, stereo, surround, ambisonic), and the LV2 classes of a generator, an oscillator, a constant and a function, which take no notes and so are no instrument. A scan carries them in the extension bag.",
+      "enum": [
+        "clap.ambisonic",
+        "clap.mono",
+        "clap.stereo",
+        "clap.surround",
+        "lv2.Constant",
+        "lv2.Function",
+        "lv2.Generator",
+        "lv2.Oscillator",
+        "lv2.Plugin"
+      ]
+    },
     "RESOURCE_KINDS": {
       "description": "Every resource a host plans a plugin for (FreeMixer/plugin-qualify#116): each measured per machine class, judged per host profile, and unknown, never a pass, when it has no figure.",
       "enum": [
@@ -283,6 +426,31 @@
         "streams-from-disk",
         "opens-sockets",
         "activate-time"
+      ]
+    },
+    "SCAN_DOCUMENTS": {
+      "description": "The documents a plugin scan writes, named here and owned elsewhere: the contract names them so the writers and readers cite one word, and keeps no shape of its own for them.",
+      "enum": [
+        "CLAP_SCAN_DOCUMENT",
+        "FIELD_DUMP"
+      ]
+    },
+    "SCAN_FIELD_SCOPES": {
+      "description": "The scopes of a field dump record, as written before the first TAB; an indexed scope is followed by `:<index>`. Named here, owned by plugin-qualify: the owner keeps the code that writes and reads them.",
+      "enum": [
+        "plugin",
+        "param",
+        "audio_in",
+        "audio_out",
+        "note_in",
+        "note_out",
+        "port",
+        "panel",
+        "section",
+        "control",
+        "role",
+        "display",
+        "placement_default"
       ]
     },
     "VERB_HOSTS": {
