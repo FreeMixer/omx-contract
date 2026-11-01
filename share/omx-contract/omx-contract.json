@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "items": {
     "CURVE_AXES": {
       "rel": "data/curves.json",
