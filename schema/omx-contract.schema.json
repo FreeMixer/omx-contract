@@ -24,8 +24,8 @@
       "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", "", "dB/oct", "LUFS", "dB/s"]
     },
     "descriptorUnit": {
-      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, deg, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; ratio, n:1, has no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
-      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "deg", "ratio", "unknown"] }]
+      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS and ratio, n:1, have no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
+      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "ratio", "unknown"] }]
     },
     "meaning": {
       "description": "What a control does, the closed list seeded from the panel roles; the LV2 param: or lv2:designation name where LV2 has the term (docs/descriptors.md). unknown: the plugin states none.",
@@ -73,6 +73,83 @@
       "minProperties": 1
     },
     "sourceField": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\[[0-9]+\\])?([.:#/][A-Za-z0-9_][A-Za-z0-9_-]*(\\[[0-9]+\\])?)*$", "description": "A field a scan of a format reads, as the format names it: a CLAP struct field (clap_param_info.min_value), an element of a struct's fixed array by its index (omx_clap_panel_display.meter_ids[0]) or an LV2 predicate (units:unit)." },
+    "overrideTravel": {
+      "type": "object",
+      "description": "A correction of a control's travel: the unit and scale of the plugin's plain value, a narrower range, a come-up value. Never wider than the plugin states (docs/overrides.md).",
+      "properties": {
+        "unit": { "allOf": [{ "$ref": "#/$defs/descriptorUnit" }, { "not": { "const": "unknown" } }] },
+        "scale": { "enum": ["linear", "log", "stepped"] },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "default": { "type": "number" }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "overrideMap": {
+      "type": "object",
+      "description": "The plain value is not the physical quantity: a table of [plain value, quantity] points, in the plain value's order, with the quantity's unit and scale.",
+      "properties": {
+        "points": { "type": "array", "minItems": 2, "items": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } } },
+        "unit": { "allOf": [{ "$ref": "#/$defs/descriptorUnit" }, { "not": { "const": "unknown" } }] },
+        "scale": { "enum": ["linear", "log", "stepped"] }
+      },
+      "required": ["points", "unit", "scale"],
+      "additionalProperties": false
+    },
+    "overrideControl": {
+      "type": "object",
+      "description": "One control's entry of an override file, keyed by the control's id.",
+      "properties": {
+        "label": { "$ref": "#/$defs/text" },
+        "group": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
+        "meaning": { "allOf": [{ "$ref": "#/$defs/meaning" }, { "not": { "const": "unknown" } }] },
+        "band": { "type": "integer", "minimum": 0 },
+        "hidden": { "type": "boolean" },
+        "travel": { "$ref": "#/$defs/overrideTravel" },
+        "map": { "$ref": "#/$defs/overrideMap" },
+        "basis": { "enum": ["person", "measured", "starter"], "description": "Who decided the entry." },
+        "evidence": {
+          "type": "object",
+          "properties": { "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" } },
+          "required": ["sha256"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["basis"],
+      "additionalProperties": false
+    },
+    "override": {
+      "type": "object",
+      "description": "An override file: what a person or a measurement corrected about one external plugin's descriptor (docs/overrides.md). It declares no item and the engine never sees it; applyOverride lays its layers over a scanned descriptor.",
+      "properties": {
+        "$schema": { "type": "string" },
+        "requires": { "$ref": "#/$defs/requires" },
+        "override": { "const": 1, "description": "The override format's major." },
+        "plugin": {
+          "type": "object",
+          "properties": { "id": { "$ref": "#/$defs/text" }, "format": { "enum": ["clap", "lv2"] } },
+          "required": ["id", "format"],
+          "additionalProperties": false
+        },
+        "against": {
+          "type": "object",
+          "description": "The plugin version and the descriptor's paramsFingerprint when the file was last written.",
+          "properties": { "version": { "$ref": "#/$defs/text" }, "paramsFingerprint": { "$ref": "#/$defs/text" } },
+          "required": ["paramsFingerprint"],
+          "additionalProperties": false
+        },
+        "family": { "enum": ["none", "gate", "dynamics", "limiter", "deesser", "eq", "filter", "drive", "modulation", "delay", "reverb", "pitch"], "description": "One word of PANEL_FAMILIES." },
+        "controls": { "type": "object", "propertyNames": { "pattern": "^[A-Za-z0-9_]+$" }, "additionalProperties": { "$ref": "#/$defs/overrideControl" } },
+        "made": {
+          "type": "object",
+          "properties": { "at": { "$ref": "#/$defs/text" }, "by": { "$ref": "#/$defs/text" }, "tool": { "$ref": "#/$defs/text" } },
+          "additionalProperties": false
+        }
+      },
+      "required": ["override", "plugin"],
+      "additionalProperties": false
+    },
     "plugin": {
       "type": "object",
       "description": "The plugin's identity as it states it: id, the CLAP id or the LV2 URI.",

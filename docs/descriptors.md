@@ -64,7 +64,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | control | `meaning` | What the control does, from the closed list below. A skin binds by meaning, never by id | new |
 | control | `hidden`, `readonly`, `automatable` | CLAP `IS_HIDDEN`, `IS_READONLY`, `IS_AUTOMATABLE`; LV2 `pprops:notOnGUI`, an output control | new |
 | control | `source` | The control's own links, in the place of the file's | existing |
-| `travel` | units `frames`, `bpm`, `midiNote`, `deg`, `ratio` | Units a plugin uses that no item does (below) | new; `ratio` 3.0.0 |
+| `travel` | units `frames`, `bpm`, `midiNote`, `LUFS`, `deg`, `ratio` | Units a plugin uses that no item does (below) | new; `ratio` 3.0.0 |
 | `travel` | `unit: "unknown"`, `scale: "unknown"` | The plugin states no unit or scale, or one with no word here | new |
 | `ports[]` | `id`, `name`, `kind` (`audio`, `midi`, `note`, `cv`), `direction` (`in`, `out`) | One entry per port, in the plugin's order | new |
 | `ports[]` | `role` (`main`, `sidechain`, `aux`), `channels`, `layout` (`mono`, `stereo`, `surround`) | An audio port's layout: CLAP audio ports (`IS_MAIN`, channel count, port type), LV2 `pg:` groups and `lv2:isSideChain` | new |
@@ -90,18 +90,19 @@ measurements of one machine and belong to a qualification record, which no descr
 ### Units
 
 A descriptor's `travel.unit` is a unit of the item list (`dB dBFS ms s min Hz oct cents st % x`, `""` and, since
-3.1.0, `dB/oct`, a slope such as a key filter's tilt, for which LV2 has no unit, and since 3.7.0 `LUFS`, a loudness, and `dB/s`, a gain change per second), one of the five below, or `unknown`.
+3.1.0, `dB/oct`, a slope such as a key filter's tilt, for which LV2 has no unit, and since 3.7.0 `LUFS`, a loudness, and `dB/s`, a gain change per second), one of the six below, or `unknown`.
 
 | Unit | Taken from |
 |---|---|
 | `frames` | LV2 `units:frame`, whose symbol is `frames` |
 | `bpm` | LV2 `units:bpm` (its symbol is `BPM`) |
 | `midiNote` | LV2 `units:midiNote` (its symbol is `note`) |
+| `LUFS` | No LV2 unit: loudness, ITU-R BS.1770. Also an item unit since 3.7.0 |
 | `deg` | LV2 `units:degree`, whose symbol is `deg` |
 | `ratio` | No LV2 unit: a ratio `n:1`, a compressor's or a de-esser's (`""` says no unit, and an LV2 face writes none for it, so a scan could not tell the two apart) |
 | `unknown` | The plugin states no unit (every CLAP parameter; an LV2 port without `units:unit`), or one with no word here; the LV2 unit stays in `source` |
 
-The item list is the units the items use; these five are for descriptors only. `LUFS` moved to the item list in 3.7.0, a descriptor still states it.
+The item list is the units the items use; these seven are for descriptors, `LUFS` also being an item unit since 3.7.0.
 
 ### Scales
 
@@ -145,6 +146,9 @@ source field and carried verbatim: `{ "clap": { "clap_plugin_descriptor.features
 "rdf:type": "lv2:CompressorPlugin" } }`. An `authored` descriptor may carry the extras its faces write (CLAP's open
 features, the LV2 class); a `scanned` one carries what its format map classes `extension`. A reader never reads a bag
 value as a word: a fact that has a word is written in the word, never in the bag.
+
+The corrections a person or a measurement makes to a scanned descriptor are an override file, applied by one
+function ([overrides.md](overrides.md)).
 
 ## The format maps
 

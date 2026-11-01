@@ -132,7 +132,7 @@ test('the scanned LV2 plugin: its units, a unit with no word as unknown, a side-
 
 test('the words are the closed lists of docs/descriptors.md', () => {
   const $ = SCHEMA.$defs;
-  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'deg', 'ratio', 'unknown'] }]);
+  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown'] }]);
   for (const u of ['frames', 'bpm', 'midiNote', 'deg', 'ratio', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
   assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', '', 'dB/oct', 'LUFS', 'dB/s'], 'the items\' units are as they were, dB/oct appended in 3.1.0, LUFS and dB/s in 3.7.0');
   assert.deepEqual($.meaning.enum, [

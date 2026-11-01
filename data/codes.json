@@ -133,6 +133,38 @@
         "code": "contract.descriptor.face-differs",
         "doc": "a plugin's built face, scanned as a host scans it, states other than its authored descriptor; raised by the owner's face check, since the reader compares no faces"
       },
+      "overridePluginMismatch": {
+        "code": "contract.override.plugin-mismatch",
+        "doc": "an override file whose plugin id or format is not the plugin it is applied to: the file is refused whole"
+      },
+      "overrideControlAbsent": {
+        "code": "contract.override.control-absent",
+        "doc": "an override entry that names a control the descriptor does not have: the entry is dropped"
+      },
+      "overrideWidens": {
+        "code": "contract.override.widens",
+        "doc": "an override entry whose travel end lies outside the plugin's ends, or whose default lies outside the travel: the entry is dropped"
+      },
+      "overrideKindMismatch": {
+        "code": "contract.override.kind-mismatch",
+        "doc": "an override entry with a word that does not fit the control's kind (a travel or a map on a choice) or its family (a band without family eq and an EQ meaning): the entry is dropped"
+      },
+      "overrideScaleFloor": {
+        "code": "contract.override.scale-floor",
+        "doc": "an override entry with a log scale over a floor that is not positive: the entry is dropped"
+      },
+      "overrideMapInvalid": {
+        "code": "contract.override.map-invalid",
+        "doc": "an override map that is not strictly monotonic, does not cover the plugin's ends or lies outside them: the entry is dropped"
+      },
+      "overrideBasisEvidence": {
+        "code": "contract.override.basis-evidence",
+        "doc": "an override entry with basis measured and no evidence, or evidence with another basis: the entry is dropped"
+      },
+      "overrideFingerprintDiffers": {
+        "code": "contract.override.fingerprint-differs",
+        "doc": "an override file written against another control list than the descriptor's: a warning, the entries that still hold are applied"
+      },
       "sourceAbsent": {
         "code": "contract.source.absent",
         "doc": "a link's path does not exist"
