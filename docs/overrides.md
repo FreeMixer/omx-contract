@@ -3,9 +3,8 @@
 # Overrides
 
 An override file corrects what a scan could not say about one external plugin: a unit, a scale, a meaning, a label,
-a narrower range, a hidden control. It is the contract's half of the override module (openmixer
-`docs/design/specs/2026-10-17-override-module.md`, ruled 2026-10-24); the console resolves the layers and the module
-writes the files. Since 3.7.0 the contract holds the file's words and the one function that applies it, so every
+a narrower range, a hidden control. It is the contract's half of the override module: the console resolves the layers
+and the module writes the files. Since 3.7.0 the contract holds the file's words and the one function that applies it, so every
 consumer gets the same answer.
 
 The engine, plugin-hostd and a session never see an override. An override never changes the scan's
