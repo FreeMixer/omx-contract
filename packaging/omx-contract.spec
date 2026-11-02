@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.7.0
+Version: 3.7.1
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -111,6 +111,13 @@ lowest release whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Sun Nov 01 2026 Pau Aliagas <linuxnow@gmail.com> - 3.7.1-1
+- 3.7.0 was tagged but not published: the release proof lacked
+  OMX_LIVE_OWNER_DATA, fixed in #187. Everything 3.7.0 carries is in this release;
+  the release and publish workflows fetch the live owner's data as ci does.
+- It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel before
+  0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
+
 * Sun Nov 01 2026 Pau Aliagas <linuxnow@gmail.com> - 3.7.0-1
 - Overrides: $defs.override, the contract.override.* codes and applyOverride,
   which lays override files over a scanned descriptor (docs/overrides.md, #105).
