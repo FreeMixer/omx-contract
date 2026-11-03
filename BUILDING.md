@@ -23,9 +23,11 @@ make install PREFIX=/usr DESTDIR=…   # headers, JSON render, schema, the contr
 make install-cli PREFIX=/usr DESTDIR=…   # the omx-contract command, its files under CLIDIR (/usr/lib/omx-contract), its man page
 ```
 
-The goldens run over the frozen 2.14.0 kernels; CI also fetches the latest omx-dsp release (`tools/live-owner-data.sh`) and
-sets `OMX_LIVE_OWNER_DATA` to its `data/`, so `test/live-owners.test.mjs` checks every kernel of the freeze against a live
-owner and is red, not skipped, when it finds none. Locally: `OMX_LIVE_OWNER_DATA=$(sh tools/live-owner-data.sh /tmp/omx-dsp) npm test`.
+The tool's tests run over invented kernels (`test/fixtures/tool-kernels/`); CI also fetches the latest omx-dsp release
+(`tools/live-owner-data.sh`) and sets `OMX_LIVE_OWNER_DATA` to its `data/`, so `test/live-owners.test.mjs` reads, validates
+and renders a live owner's data with this tool, and is red, not skipped, when it finds none. The owner's own values are its
+own tests' (omx-dsp: `make contract-proof` and `make contract-tests`). Locally:
+`OMX_LIVE_OWNER_DATA=$(sh tools/live-owner-data.sh /tmp/omx-dsp) npm test`.
 
 ## The CLI
 
@@ -55,8 +57,8 @@ render/                      the c, ts and json renderers
 include/omxcontract/         the committed c render (what omx-contract-devel installs)
 share/omx-contract/          the committed json render (resolved data, what omx-contract-data installs)
 test/                        schema, semantic checks, goldens, perturbation, semver, round trip
-  fixtures/owners-2.14.0/    the definitions omx-dsp, omx-clap-core and the console now hold, at their 2.14.0 bytes (the hosting file less the two codes 3.0.0 removed): what the tests read kernels from
-  fixtures/tool-kernels/     invented kernels and their answers, which the kernel recipe's tests break (no owner's data)
+  fixtures/owners-2.14.0/    omx-clap-core's hosting file at its 2.14.0 bytes, less the two codes 3.0.0 removed, until omx-clap-core carries its own proof (#192)
+  fixtures/tool-kernels/     invented kernels, primitives and answers: every shape the tool's tests read and break (no owner's data)
   fixtures/package-codes/    omx-clap-core's hosting/cost.json as omx-contract held it until 2.20.0: the codes kind's fixture
 recipes/kernel.recipe.json   what a complete kernel has; an owner's recipes/answers/ records where each value comes from
 tools/omx-new-kernel.mjs     the kernel wizard and importer; tools/kernel-recipe.mjs the completeness check an owner runs
