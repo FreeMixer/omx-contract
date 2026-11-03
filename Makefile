@@ -95,8 +95,9 @@ public-sources:
 	node tools/check-public-sources.mjs --self-test
 	node tools/check-public-sources.mjs
 
-# The same refusal as the shared script every public OpenMixer repository carries, with its sabotage self-test.
+# FreeMixer/.github's private-refs check, from a checkout of it (FREEMIXER_DOTGITHUB, else ../freemixer-dotgithub); CI
+# runs it through the public-sources-check workflow.
+FREEMIXER_DOTGITHUB ?= ../freemixer-dotgithub
 .PHONY: private-refs
 private-refs:
-	tools/private-refs-check.sh
-	tools/private-refs-check.sh --self-test
+	$(FREEMIXER_DOTGITHUB)/.github/actions/private-refs-check/check.sh .

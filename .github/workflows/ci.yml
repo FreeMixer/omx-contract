@@ -133,9 +133,6 @@ jobs:
       - id: handback-public-sources
         name: No tracked file points into a private repository, branch, issue or path
         run: make public-sources
-      - id: handback-private-refs
-        name: The shared private-refs gate agrees, and each sabotage goes red
-        run: make private-refs
       - id: handback-round-trip
         name: The round-trip proof against omx-dsp v0.1.3's headers (spec 4.4 steps 1 and 2)
         run: node tools/proof/round-trip.mjs --quiet
@@ -223,18 +220,7 @@ jobs:
           omx-contract render --target json --contract-dir /usr/share/omx-contract/contract.d --out /tmp/json
           cmp /tmp/json/omx-contract.json /usr/share/omx-contract/omx-contract.json
 
-  # A commit message is published like a file. A pull request's own commits must carry no
-  # attribution line (the commit-message-check action of FreeMixer/.github); what is already on the base is not read.
-  commit-message-check:
-    name: commit messages pass the message check
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-      - uses: FreeMixer/.github/.github/actions/commit-message-check@main
-        with:
-          base-ref: ${{ github.event.pull_request.base.ref }}
+  # the checks every FreeMixer repository runs on what it publishes: commit messages, private references, and no
+  # local copy of either (FreeMixer/.github's public-sources-check)
+  public-sources:
+    uses: FreeMixer/.github/.github/workflows/public-sources-check.yml@v1
