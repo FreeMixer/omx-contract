@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "TOOL_READ_ORDER": {
+    "kind": "scalar",
+    "doc": "An invented read order.",
+    "unit": "",
+    "value": 2
+  },
+  "TOOL_READ_L1": {
+    "kind": "scalar",
+    "doc": "The L1 norm of the invented read.",
+    "unit": "",
+    "value": {
+      "derive": "lagrangeReadL1",
+      "order": {
+        "ref": "TOOL_READ_ORDER"
+      }
+    }
+  }
+}

@@ -20,8 +20,8 @@ const problems = (t) => validateData(loadData(null, t));
 // The control facts the items do not carry, published in the json render's `kernels` and in no item: `rearms`
 // (behaviour: changing the control re-arms the kernel's state), `count` (the item counting a per-band control), `of`
 // and `when` (the travel another control reaches while a choice holds an id), and a use (a control taking the item
-// another control declares), which adds no item. A control whose item a use shares (the EQ's hpfSlope, whose
-// FILTER_SLOPES lpfSlope uses) is named after the item: no item says which of its controls declares it.
+// another control declares), which adds no item. A control whose item a use shares (the contour's slope, whose
+// CONTOUR_SLOPES highSlope uses) is named after the item: no item says which of its controls declares it.
 const withoutRearms = (body) => {
   const shared = new Set((body.controls ?? []).filter(isUse).map((c) => c.global));
   const named = (c) => (shared.has(c.global) ? { ...c, name: c.global.toLowerCase().replace(/_([a-z0-9])/g, (_, x) => x.toUpperCase()).replace(/s$/, '') } : c);
@@ -31,9 +31,9 @@ const withoutRearms = (body) => {
   };
 };
 
-test('every shipped kernel file is the kernel-file shape, and kernelDocOf writes each back exactly (the control facts no item carries aside)', () => {
+test('every kernel file is the kernel-file shape, and kernelDocOf writes each back exactly (the control facts no item carries aside)', () => {
   const files = kernels();
-  assert.ok(files.length >= 20, `${files.length} kernel files: a short list proves nothing`);
+  assert.ok(files.length >= 5, `${files.length} kernel files: a short list proves nothing`);
   for (const f of files) {
     const { $schema, ...body } = f.doc;
     assert.deepEqual(Object.keys(body).filter((k) => !['controls', 'readouts', 'tables', 'aggregates', 'constants'].includes(k)), [], `${f.rel} holds only the four sections and its readouts`);
@@ -52,31 +52,31 @@ test('a flat item map restated by kernelDocOf expands to the same items (how sem
 
 test('a kernel file written as a flat item map is refused, naming the file and the four sections', () => {
   const t = texts((d) => {
-    const f = d['data/kernels/chorus.json'];
+    const f = d['data/kernels/echo.json'];
     const { $schema } = f;
-    d['data/kernels/chorus.json'] = { $schema, ...Object.fromEntries(entriesOf('data/kernels/chorus.json', f)) };
+    d['data/kernels/echo.json'] = { $schema, ...Object.fromEntries(entriesOf('data/kernels/echo.json', f)) };
   });
   const p = problems(t).filter((x) => x.rule === 'shape');
-  assert.deepEqual(p.map((x) => [x.file, x.message]), [['data/kernels/chorus.json', 'data/kernels/chorus.json is a flat item map (the 1.x shape): a kernel file declares its items under controls, tables, aggregates, constants']]);
-  assert.equal(loadData(null, t).items.has('CHORUS_SPREAD_RANGE'), false, 'nothing reads a flat kernel file');
+  assert.deepEqual(p.map((x) => [x.file, x.message]), [['data/kernels/echo.json', 'data/kernels/echo.json is a flat item map (the 1.x shape): a kernel file declares its items under controls, tables, aggregates, constants']]);
+  assert.equal(loadData(null, t).items.has('ECHO_FEEDBACK_RANGE'), false, 'nothing reads a flat kernel file');
 });
 
 test('validate on a hand-written flat kernel file exits 1 and says to use the four sections', () => {
   const dir = scratchData();
-  const p = join(dir, 'kernels/rta.json');
+  const p = join(dir, 'kernels/contour.json');
   const doc = JSON.parse(readFileSync(p, 'utf8'));
   writeFileSync(p, formatDoc({ $schema: doc.$schema, ...doc.constants }));
   const r = spawnSync(process.execPath, [join(ROOT, 'bin/omx-contract.mjs'), 'validate', '--data', dir], { encoding: 'utf8' });
   assert.equal(r.status, 1);
-  assert.match(r.stderr, /^data\/kernels\/rta\.json: -: shape: data\/kernels\/rta\.json is a flat item map \(the 1\.x shape\): a kernel file declares its items under controls, tables, aggregates, constants$/m);
+  assert.match(r.stderr, /^data\/kernels\/contour\.json: -: shape: data\/kernels\/contour\.json is a flat item map \(the 1\.x shape\): a kernel file declares its items under controls, tables, aggregates, constants$/m);
 });
 
 test('a key beside the four sections, a constant that is a travel, an undeclared table and an aggregate of nothing are refused', () => {
   const shape = (fn) => problems(texts(fn)).filter((x) => x.rule === 'shape').map((x) => x.message).join('\n');
-  assert.match(shape((d) => { d['data/kernels/gate.json'].GATE_LIMITS = { kind: 'scalar', doc: 'x', unit: '', value: 1 }; }), /unknown top-level key GATE_LIMITS: a kernel file holds controls, readouts, tables, aggregates, constants/);
-  assert.match(shape((d) => { d['data/kernels/rta.json'].constants.RTA_X_RANGE = { kind: 'travels', doc: 'x', travel: { min: 0, max: 1 } }; }), /constant RTA_X_RANGE: kind "travels" is not scalar, list or sheet \(a travel or a set is a control\)/);
-  assert.throws(() => loadData(null, texts((d) => { d['data/kernels/gate.json'].aggregates = { GATE_ALL: { doc: 'x', fields: ['nothing'] } }; })), /aggregate GATE_ALL names control nothing, which is not declared/);
-  assert.throws(() => loadData(null, texts((d) => { d['data/kernels/gate.json'].controls[1].table = 'NO_TABLE'; })), /control thresholdDb names table NO_TABLE, which is not declared/);
+  assert.match(shape((d) => { d['data/kernels/swell.json'].SWELL_LIMITS = { kind: 'scalar', doc: 'x', unit: '', value: 1 }; }), /unknown top-level key SWELL_LIMITS: a kernel file holds controls, readouts, tables, aggregates, constants/);
+  assert.match(shape((d) => { d['data/kernels/contour.json'].constants.CONTOUR_X_RANGE = { kind: 'travels', doc: 'x', travel: { min: 0, max: 1 } }; }), /constant CONTOUR_X_RANGE: kind "travels" is not scalar, list or sheet \(a travel or a set is a control\)/);
+  assert.throws(() => loadData(null, texts((d) => { d['data/kernels/swell.json'].aggregates = { SWELL_ALL: { doc: 'x', fields: ['nothing'] } }; })), /aggregate SWELL_ALL names control nothing, which is not declared/);
+  assert.throws(() => loadData(null, texts((d) => { d['data/kernels/swell.json'].controls[1].table = 'NO_TABLE'; })), /control thresholdDb names table NO_TABLE, which is not declared/);
 });
 
 test('kernelDocOf refuses a table that mixes references with travels, and an aggregate field not named by its control', () => {
@@ -90,11 +90,11 @@ test('kernelDocOf refuses a table that mixes references with travels, and an agg
 
 test('fmt has one spelling of a kernel file: sections in order, a control\'s keys in schema order', () => {
   for (const f of kernels()) assert.equal(formatDoc(f.doc), f.text, `${f.rel} is in the one formatting`);
-  const gate = kernels().find((f) => f.rel === 'data/kernels/gate.json');
-  const { $schema, controls, ...rest } = gate.doc;
+  const swell = kernels().find((f) => f.rel === 'data/kernels/swell.json');
+  const { $schema, controls, ...rest } = swell.doc;
   const scrambled = { $schema, ...rest, controls: controls.map((c) => Object.fromEntries(Object.entries(c).reverse())) };
-  assert.notEqual(JSON.stringify(scrambled, null, 2) + '\n', gate.text);
-  assert.equal(formatDoc(scrambled), gate.text);
+  assert.notEqual(JSON.stringify(scrambled, null, 2) + '\n', swell.text);
+  assert.equal(formatDoc(scrambled), swell.text);
 });
 
 test('a travels table with fields of its own lives in an item file beside the kernels, never in a kernel\'s constants', () => {

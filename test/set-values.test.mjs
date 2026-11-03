@@ -15,25 +15,25 @@ import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
 import { texts, scratchDir } from './helpers.mjs';
 
-// the comp's kinds (comp, limiter) planted with values: the limiter carries 4, the comp none
-const planted = () => resolveData(loadData(null, texts((d, at) => { const s = at('data/kernels/comp.json', 'COMP_KINDS'); s.values = [null, 4]; s.unit = 'x'; })));
+// the swell's kinds (soft, hard) planted with values: hard carries 4, soft none
+const planted = () => resolveData(loadData(null, texts((d, at) => { const s = at('data/kernels/swell.json', 'SWELL_KINDS'); s.values = [null, 4]; s.unit = 'x'; })));
 
 test('json: the set carries its values and unit', () => {
-  const it = JSON.parse(renderJson(planted(), '0.0.0')[0].text).items.COMP_KINDS;
-  assert.deepEqual([it.value, it.values, it.unit], [['comp', 'limiter'], [null, 4], 'x']);
+  const it = JSON.parse(renderJson(planted(), '0.0.0')[0].text).items.SWELL_KINDS;
+  assert.deepEqual([it.value, it.values, it.unit], [['soft', 'hard'], [null, 4], 'x']);
 });
 
 test('ts: <SET>_VALUES maps each id to its value, null for none', () => {
   const [js, dts] = renderTs(planted()).map((f) => f.text);
-  assert.match(js, /^export const COMP_KINDS_VALUES = \{\n {2}"comp": null,\n {2}"limiter": 4\n\};$/m);
-  assert.match(dts, /^export declare const COMP_KINDS_VALUES: \{\n {2}readonly comp: null;\n {2}readonly limiter: 4;\n\};$/m);
-  assert.match(js, /^export const COMP_KINDS = \[\n {2}"comp",\n {2}"limiter"\n\];$/m, 'the set itself is still its ids');
+  assert.match(js, /^export const SWELL_KINDS_VALUES = \{\n {2}"soft": null,\n {2}"hard": 4\n\};$/m);
+  assert.match(dts, /^export declare const SWELL_KINDS_VALUES: \{\n {2}readonly soft: null;\n {2}readonly hard: 4;\n\};$/m);
+  assert.match(js, /^export const SWELL_KINDS = \[\n {2}"soft",\n {2}"hard"\n\];$/m, 'the set itself is still its ids');
 });
 
 test('c: the value of each id that carries one, and no define for an id that carries none', () => {
   const h = renderC(planted())[0].text;
-  assert.match(h, /^#define OMX_COMP_KINDS_UNIT "x"\n#define OMX_COMP_KINDS_LIMITER_VALUE 4\.0f\nstatic inline int omx_comp_kinds_value\(int id, float \*out\) \{$/m);
-  assert.doesNotMatch(h, /OMX_COMP_KINDS_COMP_VALUE/);
+  assert.match(h, /^#define OMX_SWELL_KINDS_UNIT "x"\n#define OMX_SWELL_KINDS_HARD_VALUE 4\.0f\nstatic inline int omx_swell_kinds_value\(int id, float \*out\) \{$/m);
+  assert.doesNotMatch(h, /OMX_SWELL_KINDS_SOFT_VALUE/);
 });
 
 const cc = (process.env.CC ?? 'cc').split(' ');
@@ -46,9 +46,9 @@ test('c: the lookup returns an id\'s value, or 0 for an id that carries none', {
     '#include <omxcontract/omx_contract_limits.h>',
     'int main(void) {',
     '  float v = -1.0f;',
-    '  if (omx_comp_kinds_value(OMX_COMP_KINDS_COMP, &v) != 0 || v != -1.0f) return 1;',
-    '  if (omx_comp_kinds_value(OMX_COMP_KINDS_LIMITER, &v) != 1 || v != 4.0f) return 2;',
-    '  if (omx_comp_kinds_value(OMX_COMP_KINDS_COUNT, &v) != 0) return 3;',
+    '  if (omx_swell_kinds_value(OMX_SWELL_KINDS_SOFT, &v) != 0 || v != -1.0f) return 1;',
+    '  if (omx_swell_kinds_value(OMX_SWELL_KINDS_HARD, &v) != 1 || v != 4.0f) return 2;',
+    '  if (omx_swell_kinds_value(OMX_SWELL_KINDS_COUNT, &v) != 0) return 3;',
     '  return 0;',
     '}',
   ].join('\n'));
@@ -58,10 +58,10 @@ test('c: the lookup returns an id\'s value, or 0 for an id that carries none', {
 
 test('validate: no item may take the name of a set\'s values export', () => {
   const problems = validateData(loadData(null, texts((d, at) => {
-    const s = at('data/kernels/comp.json', 'COMP_KINDS');
+    const s = at('data/kernels/swell.json', 'SWELL_KINDS');
     s.values = [null, 4];
     s.unit = 'x';
-    d['data/rates.json'].COMP_KINDS_VALUES = { kind: 'scalar', doc: 'a clash', unit: '', value: 1 };
+    d['data/rates.json'].SWELL_KINDS_VALUES = { kind: 'scalar', doc: 'a clash', unit: '', value: 1 };
   })));
-  assert.ok(problems.some((p) => p.rule === 'set-values' && /COMP_KINDS_VALUES is the ts render's export/.test(p.message)));
+  assert.ok(problems.some((p) => p.rule === 'set-values' && /SWELL_KINDS_VALUES is the ts render's export/.test(p.message)));
 });

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "TOOL_Q": {
+    "kind": "scalar",
+    "doc": "An invented Q: a square root.",
+    "unit": "",
+    "value": {
+      "derive": "sqrt",
+      "of": 0.36
+    }
+  }
+}

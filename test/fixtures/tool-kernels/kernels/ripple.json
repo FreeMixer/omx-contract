@@ -4,7 +4,6 @@
     {
       "name": "rate",
       "kind": "travel",
-      "global": "RIPPLE_RATE_RANGE",
       "doc": "The ripple rate: an invented travel the tool tests break.",
       "travel": {
         "min": 0,

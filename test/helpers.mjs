@@ -35,12 +35,16 @@ export const ALIAS_NAMES = (() => {
 })();
 
 /**
- * The definitions omx-contract carried until 2.14.0 and their owners now install (omx-dsp's kernels, omx-clap-core's
- * hosting file with its render word, less the two refusal codes 3.0.0 removed), frozen at their 2.14.0 bytes: the
- * fixture the tool's tests read real-shaped kernels and an owner's render word from, so no owner's tree is needed.
- * They test the tool, not the owners' values, which each owner's own CI holds.
+ * The invented kernels and primitives of test/fixtures/tool-kernels/: the shapes the tool's tests read and break, no owner's values.
+ * The definitions themselves are held by their owners' own CI (omx-dsp's `make contract-proof` and contract tests).
  */
-export const OWNERS = join(ROOT, 'test/fixtures/owners-2.14.0');
+export const TOOL_KERNELS = join(ROOT, 'test/fixtures/tool-kernels');
+
+/**
+ * omx-clap-core's hosting file, frozen at its 2.14.0 bytes, with its render word: kept until omx-clap-core carries its
+ * own proof (omx-contract#192).
+ */
+export const HOSTING = join(ROOT, 'test/fixtures/owners-2.14.0/hosting.json');
 
 const scratch = [];
 process.on('exit', () => { for (const d of scratch) rmSync(d, { recursive: true, force: true }); });
@@ -52,16 +56,17 @@ export function scratchDir(prefix) {
   return dir;
 }
 
-/** A scratch data directory holding data/ and the owners' fixture files at their 2.14.0 paths (schema/ beside it). */
+/** A scratch data directory holding data/, the tool kernels in kernels/ and the hosting file (schema/ beside it). */
 export function scratchUnion() {
   const dir = scratchDir('omx-contract-union-');
   cpSync(DATA, join(dir, 'data'), { recursive: true });
-  cpSync(OWNERS, join(dir, 'data'), { recursive: true });
+  for (const d of ['kernels', 'primitives']) cpSync(join(TOOL_KERNELS, d), join(dir, 'data', d), { recursive: true });
+  cpSync(HOSTING, join(dir, 'data/hosting.json'));
   cpSync(join(ROOT, 'schema'), join(dir, 'schema'), { recursive: true });
   return join(dir, 'data');
 }
 
-/** The union of data/ and the owners' fixture, read like a data directory: the 2.14.0 set of 228 items. */
+/** The union of data/, the tool kernels and the hosting file, read like a data directory. */
 export const UNION = scratchUnion();
 
 const unionItems = loadData(UNION).items;

@@ -1,0 +1,14 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "TOOL_SPLIT": {
+    "kind": "sheet",
+    "doc": "An invented split: one field by reference.",
+    "value": {
+      "lowQ": 0.5,
+      "highQ": {
+        "ref": "TOOL_Q"
+      },
+      "tolerance": 0.001
+    }
+  }
+}

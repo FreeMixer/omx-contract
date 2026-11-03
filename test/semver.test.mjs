@@ -14,15 +14,15 @@ const level = (fn) => classify(base, resolvedOf(texts(fn))).level;
 
 test('no change is none', () => assert.equal(classify(base, base).level, 'none'));
 test('doc text is PATCH', () => assert.equal(level((d) => { d['data/rates.json'].RT_HARD_TARGET.doc = 'reworded'; }), 'patch'));
-test('a default moved inside its travel is MINOR', () => assert.equal(level((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.ratio').default = 10; }), 'minor'));
-test('a travel widened is MINOR', () => assert.equal(level((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.ratio').max = 200; }), 'minor'));
-test('a travel narrowed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.ratio').max = 50; }), 'major'));
-test('a unit changed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/gate.json', 'GATE_LIMITS.ratio').unit = '%'; }), 'major'));
-test('a kernel constant changed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/transient.json', 'TRANSIENT_REF_DB').value = 7; }), 'major'));
-test('a derived constant changed is MAJOR', () => assert.equal(level((d) => { d[relOf('FDELAY_MOD_READ_ORDER')].FDELAY_MOD_READ_ORDER.value = 5; }), 'major'));
+test('a default moved inside its travel is MINOR', () => assert.equal(level((d, at) => { at('data/kernels/swell.json', 'SWELL_LIMITS.ratio').default = 10; }), 'minor'));
+test('a travel widened is MINOR', () => assert.equal(level((d, at) => { at('data/kernels/swell.json', 'SWELL_LIMITS.ratio').max = 200; }), 'minor'));
+test('a travel narrowed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/swell.json', 'SWELL_LIMITS.ratio').max = 30; }), 'major'));
+test('a unit changed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/swell.json', 'SWELL_LIMITS.ratio').unit = '%'; }), 'major'));
+test('a kernel constant changed is MAJOR', () => assert.equal(level((d, at) => { at('data/kernels/echo.json', 'ECHO_RISE_DB').value = 7; }), 'major'));
+test('a derived constant changed is MAJOR', () => assert.equal(level((d) => { d[relOf('TOOL_READ_ORDER')].TOOL_READ_ORDER.value = 5; }), 'major'));
 test('an item added is MINOR, removed is MINOR in the development phase and MAJOR after it', () => {
   assert.equal(level((d) => { d['data/rates.json'].NEW_RATE = { kind: 'scalar', doc: 'new', unit: 'Hz', value: 1 }; }), 'minor');
-  const gone = texts((d) => { dropDecl('data/kernels/chorus.json', d['data/kernels/chorus.json'], 'CHORUS_SPREAD_RANGE'); });
+  const gone = texts((d) => { dropDecl('data/kernels/echo.json', d['data/kernels/echo.json'], 'ECHO_FEEDBACK_RANGE'); });
   const r = classify(resolvedOf(texts()), resolvedOf(gone));
   assert.equal(r.level, 'minor');
   assert.ok(r.changes[0].what.includes(`development phase: every consumer is ${DEVELOPMENT_PHASE.consumers.join(', ')}`), r.changes[0].what);
@@ -41,7 +41,7 @@ test('the bump must cover the class', () => {
 
 test('the CLI refuses a short bump and passes a sufficient one; a MAJOR class takes a minor in the development phase', () => {
   const dir = scratchData();
-  editData(dir, 'kernels/gate.json', (d, at) => { at('GATE_LIMITS.ratio').max = 50; });
+  editData(dir, 'kernels/swell.json', (d, at) => { at('SWELL_LIMITS.ratio').max = 30; });
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.0.1']), 1);
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.1.0']), 0);
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '2.0.0']), 0);
@@ -49,12 +49,12 @@ test('the CLI refuses a short bump and passes a sufficient one; a MAJOR class ta
 
 test('a set\'s values added is MINOR, a value changed or the values removed is MAJOR (#29)', () => {
   const withValues = (s) => { s.values = [null, 4]; s.unit = 'x'; };
-  const valued = resolvedOf(texts((d, at) => withValues(at('data/kernels/comp.json', 'COMP_KINDS'))));
+  const valued = resolvedOf(texts((d, at) => withValues(at('data/kernels/swell.json', 'SWELL_KINDS'))));
   assert.equal(classify(base, valued).level, 'minor');
   assert.equal(classify(valued, base).level, 'major');
-  const moved = resolvedOf(texts((d, at) => { const s = at('data/kernels/comp.json', 'COMP_KINDS'); withValues(s); s.values[1] = 8; }));
+  const moved = resolvedOf(texts((d, at) => { const s = at('data/kernels/swell.json', 'SWELL_KINDS'); withValues(s); s.values[1] = 8; }));
   assert.equal(classify(valued, moved).level, 'major');
-  assert.deepEqual(classify(valued, moved).changes.map((c) => c.what), ['COMP_KINDS: the value of limiter: 4 -> 8 (a constant a kernel computes with)']);
+  assert.deepEqual(classify(valued, moved).changes.map((c) => c.what), ['SWELL_KINDS: the value of hard: 4 -> 8 (a constant a kernel computes with)']);
 });
 
 test('refusal: a MAJOR class needs a minor bump in the development phase and a major bump after it', () => {
@@ -65,11 +65,11 @@ test('refusal: a MAJOR class needs a minor bump in the development phase and a m
 });
 
 test('a set id that changes type is visible in the change message (#29)', () => {
-  // the roll-off set as 2.10.1 declared it: numeric ids, no values
-  const numeric = resolvedOf(texts((d, at) => { const s = at('data/kernels/drive.json', 'DRIVE_HF_ROLLOFFS'); s.ids = [0, 12000, 16000]; s.default = 0; delete s.values; delete s.unit; }));
-  const what = classify(numeric, base).changes.filter((c) => c.item === 'DRIVE_HF_ROLLOFFS').map((c) => c.what);
-  assert.ok(what.includes('DRIVE_HF_ROLLOFFS[1]: 12000 -> "12000"'), what.join('\n'));
-  assert.ok(what.includes('DRIVE_HF_ROLLOFFS[0]: 0 -> "off"'));
+  // a roll-off set declared with numeric ids and no values, as 2.10.1 declared one
+  const numeric = resolvedOf(texts((d, at) => { const s = at('data/kernels/contour.json', 'CONTOUR_ROLLOFFS'); s.ids = [0, 9000, 14000]; s.default = 0; delete s.values; delete s.unit; }));
+  const what = classify(numeric, base).changes.filter((c) => c.item === 'CONTOUR_ROLLOFFS').map((c) => c.what);
+  assert.ok(what.includes('CONTOUR_ROLLOFFS[1]: 9000 -> "9000"'), what.join('\n'));
+  assert.ok(what.includes('CONTOUR_ROLLOFFS[0]: 0 -> "off"'));
 });
 
 // Every repository whose main reads a name the contract renders (a header define, a TypeScript export or the json
@@ -107,7 +107,7 @@ test('the CLI against a tag reads the schema too, and --report names the level w
   if (git.status !== 0) return;   // no tags in this checkout
   assert.equal(main(['semver', 'v3.5.1', '--report', '--version', '3.5.1']), 0);
   const dir = scratchData();
-  editData(dir, 'kernels/gate.json', (d, at) => { at('GATE_LIMITS.ratio').max = 50; });
+  editData(dir, 'kernels/swell.json', (d, at) => { at('SWELL_LIMITS.ratio').max = 30; });
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.0.1', '--report']), 0);
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.0.1']), 1);
 });

@@ -18,7 +18,7 @@ import { fileProblems } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, UNION } from './helpers.mjs';
+import { DATA, ROOT } from './helpers.mjs';
 
 const FIXTURES = join(ROOT, 'examples/descriptors');
 const SCHEMA = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
@@ -81,18 +81,11 @@ test('the four example descriptors, one per origin and one stating unknown, are 
   assert.deepEqual([AUTHORED, BUILT, SCANNED_LV2, SCANNED_CLAP].map((x) => fixture(x).origin), ['authored', 'built', 'scanned', 'scanned']);
 });
 
-test('the authored delay states the delay kernel\'s travels, value for value (the owners\' fixture)', () => {
-  const r = resolveData(loadData(UNION));
+// The example states travels of its own: the delay kernel's values are omx-dsp's, held by its own tests.
+test('the authored delay: its travels on a linear scale, a toggle, the meanings, ids and latency it states', () => {
   const d = fixture(AUTHORED);
-  const by = Object.fromEntries(d.controls.map((c) => [c.name, c]));
-  for (const [control, item] of [['fxDelayTime', 'FX_DELAY_TIME_RANGE'], ['fxDelayFeedback', 'FX_DELAY_FEEDBACK_RANGE'], ['tone', 'DELAY_TONE_RANGE'], ['mix', 'DELAY_MIX_RANGE']]) {
-    const { scale, ...t } = by[control].travel;
-    const { byKind, ...want } = r.get(item).value;
-    assert.deepEqual(t, want, `${control} is ${item}`);
-    assert.equal(scale, 'linear');
-  }
-  assert.equal(by.pingpong.kind, 'toggle');
-  assert.equal(by.pingpong.default, r.get('FX_DELAY_PINGPONG_DEFAULT').value);
+  for (const c of d.controls.filter((x) => x.kind === 'travel')) assert.equal(c.travel.scale, 'linear', c.name);
+  assert.equal(d.controls.find((c) => c.name === 'pingpong').kind, 'toggle');
   assert.deepEqual(d.controls.map((c) => c.meaning), ['delay', 'feedback', 'tone', 'wetDryRatio', undefined]);
   assert.deepEqual(d.controls.map((c) => c.id), [0, 1, 2, 3, 4]);
   assert.deepEqual(d.latency, { reports: true, frames: 0 });

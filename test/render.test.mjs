@@ -22,10 +22,10 @@ test('golden: the ts render of data/ is test/golden/ts/', () => golden('test/gol
 
 test('c: a <PREFIX>_LIMITS field with no default renders its MIN and MAX and no DEFAULT', () => {
   const dir = scratchData();
-  editData(dir, 'kernels/gate.json', (d, at) => { delete at('GATE_LIMITS.ratio').default; delete at('GATE_LIMITS.ratio').defaultFrom; });
+  editData(dir, 'kernels/swell.json', (d, at) => { delete at('SWELL_LIMITS.releaseMs').default; delete at('SWELL_LIMITS.releaseMs').defaultFrom; });
   const h = renderC(resolveData(loadData(dir)))[0].text;
-  assert.match(h, /^#define OMX_GATE_RATIO_MIN 1\.0f\n#define OMX_GATE_RATIO_MAX 100\.0f\n\n/m);
-  assert.doesNotMatch(h, /OMX_GATE_RATIO_DEFAULT|undefined/);
+  assert.match(h, /^#define OMX_SWELL_RELEASE_MS_MIN 5\.0f\n#define OMX_SWELL_RELEASE_MS_MAX 2000\.0f\n\n/m);
+  assert.doesNotMatch(h, /OMX_SWELL_RELEASE_MS_DEFAULT|undefined/);
 });
 
 test('a render is idempotent: no time, path or host in its bytes', () => {
@@ -41,7 +41,7 @@ test('the ts module exports every item with the resolved value', async () => {
     assert.deepEqual(mod[name], item.value, name);
   }
   const dts = readFileSync(join(dir, 'omx-contract.d.ts'), 'utf8');
-  assert.match(dts, /export declare const GATE_LIMITS: \{\n {2}readonly thresholdDb: \{\n {4}readonly min: -80;/);
+  assert.match(dts, /export declare const SWELL_LIMITS: \{\n {2}readonly thresholdDb: \{\n {4}readonly min: -70;/);
 });
 
 const cc = (process.env.CC ?? 'cc').split(' ');
@@ -52,14 +52,14 @@ test('the c headers of the union compile, and a C reader sees the declared value
   writeFileSync(src, `#include <stdio.h>
 #include <omxcontract/omx_contract_limits.h>
 int main(void) {
-  printf("%g %g %d %u %g %d %d\\n", (double)OMX_GATE_THRESHOLD_DB_MIN, OMX_BUTTERWORTH_Q_DOUBLE, OMX_GEQ_BANDS,
-         OMX_DECLARED_RATE_COUNT, (double)OMX_GEQ_BAND_Q, (int)OMX_ROTARY_CROSSOVER_HZ,
-         (int)OMX_FX_DELAY_TIME_RANGE_MAX);
+  printf("%g %g %d %u %g %d %d\\n", (double)OMX_SWELL_THRESHOLD_DB_MIN, OMX_TOOL_Q_DOUBLE, OMX_CONTOUR_CENTRE_COUNT,
+         OMX_DECLARED_RATE_COUNT, (double)OMX_CONTOUR_SHELF_GAIN_DB, (int)OMX_CONTOUR_MAX_BANDS,
+         (int)OMX_ECHO_TIME_RANGE_MAX);
   return 0;
 }
 `);
   execFileSync(cc[0], [...cc.slice(1), '-std=c11', '-Wall', '-Wextra', '-Werror', '-Wno-unused-function', '-I', join(RENDERS, 'include'), src, '-o', join(dir, 't'), '-lm']);
-  assert.equal(execFileSync(join(dir, 't'), { encoding: 'utf8' }), '-80 0.707107 31 6 4.3 800 2000\n');
+  assert.equal(execFileSync(join(dir, 't'), { encoding: 'utf8' }), '-70 0.6 3 6 3 12 1500\n');
 });
 
 // The C header's rate tail says where the list it renders is declared: the data file that declares
