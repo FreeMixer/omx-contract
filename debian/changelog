@@ -1,3 +1,16 @@
+omx-contract (3.8.0) unstable; urgency=medium
+
+  * The example descriptors are published with the package, under
+    examples/descriptors/, and exported as
+    @openmixer/omx-contract/examples/descriptors/*. A package that tests
+    against them reads them from here instead of keeping its own copy (#193).
+  * The commit message and private reference checks run from the shared
+    FreeMixer/.github workflow; the local copies of both are gone (#190).
+  * It breaks nothing: the RPMs and debs install the same files, and the floors
+    stay where 3.7.1 put them.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Tue, 03 Nov 2026 13:30:00 +0100
+
 omx-contract (3.7.1) unstable; urgency=medium
 
   * 3.7.0 was tagged but not published: the release proof lacked
