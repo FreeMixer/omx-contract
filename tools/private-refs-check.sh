@@ -21,13 +21,7 @@ ALLOW=(
   "tools/private-refs-check.sh"   # it spells the patterns it looks for
   "tools/check-public-sources.mjs" # its patterns and self-test spell the same names
   # the exemptions tools/check-public-sources.mjs already carries, each with its reason
-  "test/fixtures/omx-dsp-v0.1.3/omx_contract_limits.h"             # frozen byte-for-byte copies of released omx-dsp headers,
-  "test/fixtures/omx-dsp-v0.1.5-8-g4108494/omx_contract_limits.h"  # compared with the render by the round-trip tests
-  "test/fixtures/omx-dsp-91beb6d/omx_dyn_topology.h"               # frozen copy of an omx-dsp header: stays until omx-dsp rewrites the comment
-  "render/c/contract-limits-render.mjs"                            # its header template is emitted verbatim and must reproduce those frozen headers
-  "recipes/kernel.recipe.json"                                     # the engine archive directories the importer extracts from a checkout the caller supplies
   "tools/engine-ts-hook.mjs"                                       # resolves workspace imports inside the extracted engine tree
-  "test/kernel-recipe.test.mjs"                                    # a synthetic engine tree laid out like the real one, for the importer
 )
 EXTRA_PATHSPEC=()                 # the self-test sets a bad one, to prove a git grep error is red
 

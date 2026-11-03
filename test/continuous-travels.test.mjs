@@ -40,7 +40,7 @@ test('a source moved without its continuous form, or a continuous form given a s
 });
 
 test('the trim travel is the TRIM_RANGE omx-dsp\'s header spells, coming up at 0 dB', () => {
-  const header = readFileSync(join(ROOT, 'test/fixtures/omx-dsp-v0.1.5-8-g4108494/omx_contract_limits.h'), 'utf8');
+  const header = readFileSync(join(ROOT, 'test/fixtures/limits-0.1.5-8/omx_contract_limits.h'), 'utf8');
   const define = (name) => Number(new RegExp(`^#define ${name} (\\S+?)f?$`, 'm').exec(header)[1]);
   const t = resolveData(loadData(UNION)).get('TRIM_TRAVELS').value.trimDb;
   assert.deepEqual(t, {

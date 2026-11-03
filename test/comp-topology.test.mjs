@@ -2,7 +2,7 @@
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // 2.5.0 (#40): the comp's detector topology is a control, detectorTopology (DETECTOR_TOPOLOGY: feedforward, feedback),
 // and the feedback loop's one-sample delay is a constant, DYN_FB_LOOP_DELAY_SAMPLES. omx-dsp's feedback compressor
-// (lane/salvage-ssl-bus-comp at 91beb6d, frozen under test/fixtures/omx-dsp-91beb6d/) defined both locally; its values
+// (its defines kept under test/fixtures/dyn-topology/) defined both locally; its values
 // are the render's. The set is named for its control, so C spells omx-dsp's OMX_DYN_TOPOLOGY_* as OMX_DETECTOR_TOPOLOGY_*.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -19,7 +19,7 @@ const resolved = (dir = UNION) => resolveData(loadData(dir));
 const header = (dir) => renderC(resolved(dir))[0].text;
 const json = (dir) => JSON.parse(renderJson(resolved(dir), '0.0.0')[0].text);
 const ts = (dir) => renderTs(resolved(dir)).map((f) => f.text).join('\n');
-const dsp = new Map([...readFileSync(join(ROOT, 'test/fixtures/omx-dsp-91beb6d/omx_dyn_topology.h'), 'utf8')
+const dsp = new Map([...readFileSync(join(ROOT, 'test/fixtures/dyn-topology/omx_dyn_topology.h'), 'utf8')
   .matchAll(/^#define (OMX_\w+) (\d+)u?$/gm)].map((m) => [m[1], Number(m[2])]));
 /** The value the c render gives a name: an enumerator's or a define's. */
 const cValue = (h, name) => {

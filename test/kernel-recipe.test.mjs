@@ -9,6 +9,9 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { ROOT, completeness, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
 import { asData, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
+
+/** The test engine's source directories, given to the importer as --archive gives them. */
+const ARCHIVE = ['engine/core', 'engine/declarations', 'engine/native'];
 import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
 import { RENDERS, UNION, declOf, scratchDir } from './helpers.mjs';
 
@@ -133,10 +136,10 @@ test('a C define is read only when it is one plain number', () => {
 
 function engineCheckout() {
   const dir = scratchDir('omx-engine-');
-  mkdirSync(join(dir, 'packages/core/src'), { recursive: true });
-  mkdirSync(join(dir, 'packages/pipewire-native/src'), { recursive: true });
-  writeFileSync(join(dir, 'packages/core/src/base.ts'), 'export const WOBBLE_BASE = { min: 0, max: 10, step: 0.5, unit: \'Hz\' as const };\n');
-  writeFileSync(join(dir, 'packages/core/src/wobble.ts'), [
+  mkdirSync(join(dir, 'engine/core'), { recursive: true });
+  mkdirSync(join(dir, 'engine/native'), { recursive: true });
+  writeFileSync(join(dir, 'engine/core/base.ts'), 'export const WOBBLE_BASE = { min: 0, max: 10, step: 0.5, unit: \'Hz\' as const };\n');
+  writeFileSync(join(dir, 'engine/core/wobble.ts'), [
     "import { WOBBLE_BASE } from './base.js';",
     'type T = { min: number; max: number };',
     '/** The wobble rate: the base travel, coming up at 2 Hz. */',
@@ -148,7 +151,7 @@ function engineCheckout() {
     'export const WOBBLE_TRAVELS = { rateHz: WOBBLE_RATE_RANGE } as const;',
     '',
   ].join('\n'));
-  writeFileSync(join(dir, 'packages/pipewire-native/src/mix_wobble.h'), '/** The wobble ring, in samples. */\n#define WOBBLE_RING 4096u\n');
+  writeFileSync(join(dir, 'engine/native/mix_wobble.h'), '/** The wobble ring, in samples. */\n#define WOBBLE_RING 4096u\n');
   const git = (...a) => execFileSync('git', ['-C', dir, ...a], { stdio: 'ignore' });
   git('init', '-q');
   git('add', '.');
@@ -160,7 +163,7 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   const root = scratchTree();
   const engine = engineCheckout();
   const { answers } = await importKernel({
-    kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD',
+    archive: ARCHIVE, kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD',
     names: 'WOBBLE_RATE_RANGE,WOBBLE_DEPTH_MAX,WOBBLE_RING,WOBBLE_TRAVELS',
     unit: ['WOBBLE_DEPTH_MAX=', 'WOBBLE_RING='], set: ['WOBBLE_DEPTH_MAX={"derive":"sqrt","of":0.5}'],
   }, root);
@@ -184,9 +187,9 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
   assert.deepEqual(completeness(root, ['wobble']).gaps, []);
   assert.deepEqual(completeness(root).gaps, [], 'the released kernels stay complete');
 
-  assert.deepEqual(await verifyAnswers(answers, engine, root), [], 'the answers read again at their commit');
+  assert.deepEqual(await verifyAnswers(answers, engine, root, ARCHIVE), [], 'the answers read again at their commit');
   const tampered = { ...answers, items: answers.items.map((i) => (i.name === 'WOBBLE_RING' ? { ...i, value: 4097 } : i)) };
-  assert.deepEqual(await verifyAnswers(tampered, engine, root), ['WOBBLE_RING: the answers hold 4097, mix_wobble.h gives 4096']);
+  assert.deepEqual(await verifyAnswers(tampered, engine, root, ARCHIVE), ['WOBBLE_RING: the answers hold 4097, mix_wobble.h gives 4096']);
 
   const { plan, stray } = commitPlan(loadRecipe(root), ['recipes/answers/wobble.json', ...written], { kernel: 'wobble', repo: 'r', commit12: 'c' });
   assert.deepEqual(plan.map((c) => c.layer), ['answers', 'data', 'render']);
@@ -196,7 +199,7 @@ test('the importer reads each value by evaluating the engine, cites it, and the 
 test('items added to a released kernel carry their own since and are added to its file', async () => {
   const root = scratchTree();
   const engine = engineCheckout();
-  const base = { kernel: 'wobble', engine, ref: 'HEAD' };
+  const base = { archive: ARCHIVE, kernel: 'wobble', engine, ref: 'HEAD' };
   await importKernel({ ...base, since: '1.8.0', names: 'WOBBLE_RATE_RANGE' }, root);
   declare(join(root, 'recipes/answers/wobble.json'), root);
   const before = readFileSync(join(root, 'data/kernels/wobble.json'), 'utf8');
@@ -222,11 +225,13 @@ test('items added to a released kernel carry their own since and are added to it
 test('the importer refuses what it cannot read, naming the item', async () => {
   const root = scratchTree();
   const engine = engineCheckout();
-  const base = { kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD' };
+  const base = { archive: ARCHIVE, kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD' };
   await assert.rejects(importKernel({ ...base, names: 'WOBBLE_NOWHERE' }, root), /WOBBLE_NOWHERE: the engine declares no export const or #define/);
+  // the engine's layout is the caller's: with no --archive there is nothing to read, and the importer says so
+  await assert.rejects(importKernel({ ...base, archive: undefined, names: 'WOBBLE_RING' }, root), /--archive <dir>\[,<dir>\.\.\.\] is required/);
   await assert.rejects(importKernel({ ...base, names: 'WOBBLE_UNDOCUMENTED', unit: ['WOBBLE_UNDOCUMENTED='] }, root), /WOBBLE_UNDOCUMENTED: .* has no doc comment/);
   await assert.rejects(importKernel({ ...base, names: 'WOBBLE_DEPTH_MAX' }, root), /WOBBLE_DEPTH_MAX: a scalar carries a unit the engine does not declare/);
-  await assert.rejects(importKernel({ ...base, names: 'WOBBLE_RING', from: ['WOBBLE_RING=packages/pipewire-native/src/mix_wobble.h'] }, root), /--from WOBBLE_RING=.*: give <path>:<export or define>/);
+  await assert.rejects(importKernel({ ...base, names: 'WOBBLE_RING', from: ['WOBBLE_RING=engine/native/mix_wobble.h'] }, root), /--from WOBBLE_RING=.*: give <path>:<export or define>/);
 });
 
 // Two archive directories each hold an index.ts: the console's core package (which node cannot evaluate here: a
@@ -235,14 +240,14 @@ test('the importer refuses what it cannot read, naming the item', async () => {
 // directory whose file declares the item, on import and on verify alike (FreeMixer/omx-contract#84).
 function twoIndexCheckout() {
   const dir = engineCheckout();
-  mkdirSync(join(dir, 'packages/declarations/src'), { recursive: true });
-  writeFileSync(join(dir, 'packages/core/src/index.ts'), [
+  mkdirSync(join(dir, 'engine/declarations'), { recursive: true });
+  writeFileSync(join(dir, 'engine/core/index.ts'), [
     'export class Holder { constructor(private readonly n: number) {} }',
     '/** Not the span: a name the core package declares for itself. */',
     'export const WOBBLE_CORE_ONLY = 1;',
     '',
   ].join('\n'));
-  writeFileSync(join(dir, 'packages/declarations/src/index.ts'), '/** The wobble span, in steps. */\nexport const WOBBLE_SPAN = 7;\n');
+  writeFileSync(join(dir, 'engine/declarations/index.ts'), '/** The wobble span, in steps. */\nexport const WOBBLE_SPAN = 7;\n');
   const git = (...a) => execFileSync('git', ['-C', dir, ...a], { stdio: 'ignore' });
   git('add', '.');
   git('-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'commit.gpgsign=false', 'commit', '-q', '-m', 'two index.ts');
@@ -252,23 +257,23 @@ function twoIndexCheckout() {
 test('a bare index.ts resolves to the archive directory whose file declares the item, on import and on verify', async () => {
   const root = scratchTree();
   const engine = twoIndexCheckout();
-  const { answers } = await importKernel({ kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD', names: 'WOBBLE_SPAN', unit: ['WOBBLE_SPAN='] }, root);
+  const { answers } = await importKernel({ archive: ARCHIVE, kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD', names: 'WOBBLE_SPAN', unit: ['WOBBLE_SPAN='] }, root);
   assert.deepEqual(answers.items.map((i) => [i.source, i.value, i.doc]), [[{ path: 'index.ts', export: 'WOBBLE_SPAN' }, 7, 'The wobble span, in steps.']]);
-  assert.deepEqual(await verifyAnswers(answers, engine, root), []);
+  assert.deepEqual(await verifyAnswers(answers, engine, root, ARCHIVE), []);
   const moved = { ...answers, items: answers.items.map((i) => ({ ...i, value: 8 })) };
-  assert.deepEqual(await verifyAnswers(moved, engine, root), ['WOBBLE_SPAN: the answers hold 8, index.ts gives 7']);
+  assert.deepEqual(await verifyAnswers(moved, engine, root, ARCHIVE), ['WOBBLE_SPAN: the answers hold 8, index.ts gives 7']);
   const nowhere = { ...answers, items: answers.items.map((i) => ({ ...i, source: { path: 'index.ts', export: 'WOBBLE_GONE' } })) };
-  await assert.rejects(verifyAnswers(nowhere, engine, root), /WOBBLE_SPAN: no index\.ts of the engine at [0-9a-f]{40} declares WOBBLE_GONE/);
+  await assert.rejects(verifyAnswers(nowhere, engine, root, ARCHIVE), /WOBBLE_SPAN: no index\.ts of the engine at [0-9a-f]{40} declares WOBBLE_GONE/);
 });
 
 test('a file name two archive directories declare the item in is refused, naming both', async () => {
   const root = scratchTree();
   const engine = twoIndexCheckout();
-  writeFileSync(join(engine, 'packages/core/src/index.ts'), '/** The span, again. */\nexport const WOBBLE_SPAN = 7;\n');
+  writeFileSync(join(engine, 'engine/core/index.ts'), '/** The span, again. */\nexport const WOBBLE_SPAN = 7;\n');
   execFileSync('git', ['-C', engine, '-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'commit.gpgsign=false', 'commit', '-q', '-am', 'twice'], { stdio: 'ignore' });
-  const base = { kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD', names: 'WOBBLE_SPAN', unit: ['WOBBLE_SPAN='] };
-  await assert.rejects(importKernel(base, root), /WOBBLE_SPAN: declared in packages\/core\/src\/index\.ts and packages\/declarations\/src\/index\.ts; name the one with --from/);
+  const base = { archive: ARCHIVE, kernel: 'wobble', since: '1.1.0', engine, ref: 'HEAD', names: 'WOBBLE_SPAN', unit: ['WOBBLE_SPAN='] };
+  await assert.rejects(importKernel(base, root), /WOBBLE_SPAN: declared in engine\/core\/index\.ts and engine\/declarations\/index\.ts; name the one with --from/);
   const cited = { kernel: 'wobble', since: '1.1.0', engine: { repo: 'r', ref: 'HEAD', commit: execFileSync('git', ['-C', engine, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim() },
     items: [{ name: 'WOBBLE_SPAN', source: { path: 'index.ts', export: 'WOBBLE_SPAN' }, value: 7, unit: '', doc: 'd' }] };
-  await assert.rejects(verifyAnswers(cited, engine, root), /WOBBLE_SPAN: index\.ts declares WOBBLE_SPAN in packages\/core\/src and packages\/declarations\/src; cite it with --from/);
+  await assert.rejects(verifyAnswers(cited, engine, root, ARCHIVE), /WOBBLE_SPAN: index\.ts declares WOBBLE_SPAN in engine\/core and engine\/declarations; cite it with --from/);
 });
