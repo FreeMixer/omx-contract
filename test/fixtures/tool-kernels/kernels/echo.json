@@ -1,0 +1,181 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "controls": [
+    {
+      "name": "time",
+      "kind": "travel",
+      "doc": "The echo time: an invented travel with an integer ceiling.",
+      "travel": {
+        "min": 1,
+        "max": 1500,
+        "step": 1,
+        "unit": "ms",
+        "default": 300,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "feedback",
+      "kind": "travel",
+      "doc": "The echo feedback: an invented travel.",
+      "travel": {
+        "min": 0,
+        "max": 0.95,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.3,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "mix",
+      "kind": "travel",
+      "doc": "The echo wet/dry: an invented travel with a come-up value by kind.",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0,
+        "unit": "",
+        "default": 0.4,
+        "defaultFrom": "desk",
+        "byKind": {
+          "send": 1
+        }
+      }
+    },
+    {
+      "name": "taps",
+      "kind": "travel",
+      "doc": "The echo tap count: an invented integer travel.",
+      "travel": {
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "unit": "",
+        "default": 1,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap0Gain",
+      "kind": "travel",
+      "table": "ECHO_TAP_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 1,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap0Pan",
+      "kind": "travel",
+      "table": "ECHO_TAP_LIMITS",
+      "travel": {
+        "min": -1,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap1Gain",
+      "kind": "travel",
+      "table": "ECHO_TAP_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.6,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap1Pan",
+      "kind": "travel",
+      "table": "ECHO_TAP_LIMITS",
+      "travel": {
+        "min": -1,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": -0.4,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap2Gain",
+      "kind": "travel",
+      "table": "ECHO_TAP_LIMITS",
+      "travel": {
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.3,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "tap2Pan",
+      "kind": "travel",
+      "table": "ECHO_TAP_LIMITS",
+      "travel": {
+        "min": -1,
+        "max": 1,
+        "step": 0.01,
+        "unit": "",
+        "default": 0.4,
+        "defaultFrom": "desk"
+      }
+    }
+  ],
+  "tables": {
+    "ECHO_TAP_LIMITS": {
+      "doc": "The echo taps: an invented table keyed by field."
+    }
+  },
+  "constants": {
+    "ECHO_TAP_NUMS": {
+      "kind": "list",
+      "doc": "The echo tap factors, numerators: an invented integer list.",
+      "unit": "",
+      "values": [
+        1,
+        2,
+        3
+      ]
+    },
+    "ECHO_TAP_DENS": {
+      "kind": "list",
+      "doc": "The echo tap factors, denominators: an invented integer list.",
+      "unit": "",
+      "values": [
+        3,
+        3,
+        2
+      ]
+    },
+    "ECHO_RISE_DB": {
+      "kind": "scalar",
+      "doc": "The echo rise: an invented scalar a sheet refers to.",
+      "unit": "dB",
+      "value": 4
+    },
+    "ECHO_THRESHOLDS": {
+      "kind": "sheet",
+      "doc": "The echo thresholds: an invented sheet, one field by reference.",
+      "value": {
+        "floorDb": -50,
+        "riseDb": {
+          "ref": "ECHO_RISE_DB"
+        }
+      }
+    }
+  }
+}

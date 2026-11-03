@@ -4,7 +4,7 @@
 // wizard's importer and declare step over a small engine checkout made here.
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { join } from 'node:path';
 import { test } from 'node:test';
@@ -23,14 +23,15 @@ import { declOf, scratchDir } from './helpers.mjs';
 const TOOL_KERNELS = join(ROOT, 'test/fixtures/tool-kernels');
 
 /**
- * A scratch tree of everything the recipe's checkers read: data/ with the invented kernels (the ones the arms break),
- * their answers, and the tree's renders in the place of the committed ones.
+ * A scratch tree of everything the recipe's checkers read: data/ with the invented kernels that have answers (the ones
+ * the arms break), their answers, and the tree's renders in the place of the committed ones.
  */
 function scratchTree() {
   const dir = scratchDir('omx-kernel-recipe-');
   for (const p of ['schema', 'recipes', 'package.json']) cpSync(join(ROOT, p), join(dir, p), { recursive: true });
   cpSync(join(ROOT, 'data'), join(dir, 'data'), { recursive: true });
-  cpSync(join(TOOL_KERNELS, 'kernels'), join(dir, 'data/kernels'), { recursive: true });
+  mkdirSync(join(dir, 'data/kernels'), { recursive: true });
+  for (const f of readdirSync(join(TOOL_KERNELS, 'answers'))) cpSync(join(TOOL_KERNELS, 'kernels', f), join(dir, 'data/kernels', f));
   cpSync(join(TOOL_KERNELS, 'answers'), join(dir, 'recipes/answers'), { recursive: true });
   const resolved = resolveData(loadData(join(dir, 'data')));
   const files = [
