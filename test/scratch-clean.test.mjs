@@ -17,10 +17,11 @@ for (const name of FILES) {
   test(`${name}.test.mjs leaves no scratch directory in TMPDIR`, () => {
     const tmp = mkdtempSync(join(tmpdir(), 'omx-scratch-clean-'));
     try {
-      // NODE_TEST_CONTEXT makes a nested `node --test` run nothing and exit 0; the child must be a real run.
+      // NODE_TEST_CONTEXT makes a nested `node --test` run nothing and exit 0; the child must be a real run. The tap
+      // reporter is named: the default one differs by node version and terminal (node 24 prints `ℹ pass`, not `# pass`).
       const env = { ...process.env, TMPDIR: tmp };
       delete env.NODE_TEST_CONTEXT;
-      const run = spawnSync('node', ['--test', join(ROOT, `test/${name}.test.mjs`)], { encoding: 'utf8', env });
+      const run = spawnSync('node', ['--test', '--test-reporter=tap', join(ROOT, `test/${name}.test.mjs`)], { encoding: 'utf8', env });
       assert.equal(run.status, 0, run.stdout.slice(-2000));
       assert.match(run.stdout, /^# pass [1-9]/m, 'the child ran tests');
       assert.deepEqual(readdirSync(tmp), []);
