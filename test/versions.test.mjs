@@ -25,7 +25,7 @@ test('versions: the schema is no newer than the package, and nothing shipped nee
     }
   };
   walk('data');
-  walk('test/fixtures/descriptors');
+  walk('examples/descriptors');
   assert.ok(floors.length > 0, 'positive control: the descriptor fixtures state a floor');
   for (const [f, floor] of floors) assert.ok(n(floor) <= n(schema), `${f} requires schema ${floor}, newer than ${schema}`);
 });

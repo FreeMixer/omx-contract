@@ -20,7 +20,7 @@ import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
 import { DATA, ROOT, UNION } from './helpers.mjs';
 
-const FIXTURES = join(ROOT, 'test/fixtures/descriptors');
+const FIXTURES = join(ROOT, 'examples/descriptors');
 const SCHEMA = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
 const fixture = (name) => JSON.parse(readFileSync(join(FIXTURES, `${name}.json`), 'utf8'));
 const AUTHORED = 'authored-omx-delay';

@@ -11,7 +11,7 @@ import { PARAM_SCALE_IDS, applyOverride, overrideSchemaProblems } from '../lib/d
 import { ROOT } from './helpers.mjs';
 
 const read = (rel) => JSON.parse(readFileSync(join(ROOT, rel), 'utf8'));
-const descriptor = () => read('test/fixtures/descriptors/scanned-clap-unknown.json');
+const descriptor = () => read('examples/descriptors/scanned-clap-unknown.json');
 const override = (name) => read(`test/fixtures/overrides/${name}.json`);
 const FINGERPRINT = '5f0c';
 const apply = (layers, d = descriptor()) => applyOverride(d, layers, { paramsFingerprint: FINGERPRINT });

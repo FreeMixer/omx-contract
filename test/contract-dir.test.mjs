@@ -358,7 +358,7 @@ test('the codes are data: data/codes.json holds every code once, valid and in th
 
 test('a scanned plugin descriptor is no declaration: contract.origin.misplaced, the whole read', () => {
   const root = installed();
-  const scanned = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/descriptors/scanned-clap-unknown.json'), 'utf8'));
+  const scanned = JSON.parse(readFileSync(join(ROOT, 'examples/descriptors/scanned-clap-unknown.json'), 'utf8'));
   addPackage(root, 'omx-plugins', { 'plugins/a.json': owned({ TEST_A: scalar(1) }), 'plugins/b.json': scanned });
   assert.equal(refusalOf({ dir: root }), CONTRACT_CODES.originMisplaced);
 });
