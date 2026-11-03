@@ -1,0 +1,47 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "controls": [
+    {
+      "name": "rate",
+      "kind": "travel",
+      "global": "RIPPLE_RATE_RANGE",
+      "doc": "The ripple rate: an invented travel the tool tests break.",
+      "travel": {
+        "min": 0,
+        "max": 10,
+        "step": 0.5,
+        "unit": "Hz",
+        "default": 2,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "mode",
+      "kind": "choice",
+      "doc": "The ripple mode: an invented choice, cited by an origin sentence.",
+      "ids": [
+        "ripple",
+        "swell"
+      ],
+      "default": "ripple"
+    }
+  ],
+  "constants": {
+    "RIPPLE_RING_MS": {
+      "kind": "scalar",
+      "doc": "The ripple ring: an invented scalar with a unit.",
+      "unit": "ms",
+      "value": 20
+    },
+    "RIPPLE_FACTORS": {
+      "kind": "list",
+      "doc": "The ripple factors: an invented integer list.",
+      "unit": "",
+      "values": [
+        1,
+        2,
+        3
+      ]
+    }
+  }
+}

@@ -5,26 +5,43 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname } from 'node:path';
 import { join } from 'node:path';
 import { test } from 'node:test';
-import { ROOT, completeness, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
+import { ROOT, completeness, itemSince, kernelNames, loadRecipe } from '../tools/kernel-recipe.mjs';
+import { loadData, packageVersion, resolveData } from '../lib/data.mjs';
+import { renderC } from '../render/c.mjs';
+import { renderJson } from '../render/json.mjs';
+import { renderTs } from '../render/ts.mjs';
 import { asData, commitPlan, declare, defineValue, importKernel, verifyAnswers } from '../tools/omx-new-kernel.mjs';
 
 /** The test engine's source directories, given to the importer as --archive gives them. */
 const ARCHIVE = ['engine/core', 'engine/declarations', 'engine/native'];
-import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
-import { RENDERS, UNION, declOf, scratchDir } from './helpers.mjs';
+import { declOf, scratchDir } from './helpers.mjs';
+
+/** The invented kernels and their answers (test/fixtures/tool-kernels/README.md): no owner's data. */
+const TOOL_KERNELS = join(ROOT, 'test/fixtures/tool-kernels');
 
 /**
- * A scratch tree of everything the recipe's checkers read, over the union of data/ and the owners' fixture (the
- * kernels the arms break) and their answers, with the union's renders in the place of the committed ones.
+ * A scratch tree of everything the recipe's checkers read: data/ with the invented kernels (the ones the arms break),
+ * their answers, and the tree's renders in the place of the committed ones.
  */
 function scratchTree() {
   const dir = scratchDir('omx-kernel-recipe-');
   for (const p of ['schema', 'recipes', 'package.json']) cpSync(join(ROOT, p), join(dir, p), { recursive: true });
-  cpSync(UNION, join(dir, 'data'), { recursive: true });
-  cpSync(join(ROOT, 'test/fixtures/answers-2.14.0'), join(dir, 'recipes/answers'), { recursive: true });
-  for (const p of ['include', 'share', 'test/golden']) cpSync(join(RENDERS, p), join(dir, p), { recursive: true });
+  cpSync(join(ROOT, 'data'), join(dir, 'data'), { recursive: true });
+  cpSync(join(TOOL_KERNELS, 'kernels'), join(dir, 'data/kernels'), { recursive: true });
+  cpSync(join(TOOL_KERNELS, 'answers'), join(dir, 'recipes/answers'), { recursive: true });
+  const resolved = resolveData(loadData(join(dir, 'data')));
+  const files = [
+    ...renderC(resolved).map((f) => ['include', f]),
+    ...renderJson(resolved, packageVersion(ROOT)).map((f) => ['share/omx-contract', f]),
+    ...renderTs(resolved).map((f) => ['test/golden/ts', f]),
+  ];
+  for (const [d, f] of files) {
+    mkdirSync(dirname(join(dir, d, f.path)), { recursive: true });
+    writeFileSync(join(dir, d, f.path), f.text);
+  }
   return dir;
 }
 /** Edit one file of a scratch tree: `fn(doc, at)`, `at(name)` locating an item's declaration in a data file (declOf). */
@@ -39,28 +56,28 @@ const gapsOf = (root) => completeness(root).gaps.join('\n');
 test('every kernel of the tree, the released ones included, has every artifact of the recipe', () => {
   assert.deepEqual(completeness(ROOT).gaps, ['no kernel under data/kernels: a check over nothing proves nothing'], 'omx-contract holds no kernel, and the check says so');
   const union = scratchTree();
-  assert.deepEqual(completeness(union).gaps, [], 'and over the owners\' kernels of the fixture');
-  assert.equal(kernelNames(union).length, 28);
+  assert.deepEqual(completeness(union).gaps, [], 'and over the invented kernels');
+  assert.deepEqual(kernelNames(union), ['flutter', 'ripple']);
 });
 
 test('a kernel without its answers is a gap naming the import step', () => {
   const root = scratchTree();
-  rmSync(join(root, 'recipes/answers/gate.json'));
-  assert.match(gapsOf(root), /gate: artifact answers \(wizard step 'import'\): recipes\/answers\/gate\.json is missing/);
+  rmSync(join(root, 'recipes/answers/flutter.json'));
+  assert.match(gapsOf(root), /flutter: artifact answers \(wizard step 'import'\): recipes\/answers\/flutter\.json is missing/);
 });
 
 test('a kernel value moved away from its engine source is a gap naming both', () => {
   const root = scratchTree();
-  edit(root, 'data/kernels/delay.json', (d, at) => { at('FX_DELAY_TIME_RANGE').travel.max = 2001; });
-  assert.match(gapsOf(root), /delay: artifact value-citations .*FX_DELAY_TIME_RANGE resolves to .*"max":2001.*strip-fx-limits\.ts FX_DELAY_TIME_RANGE is .*"max":2000/);
+  edit(root, 'data/kernels/ripple.json', (d, at) => { at('RIPPLE_RATE_RANGE').travel.max = 11; });
+  assert.match(gapsOf(root), /ripple: artifact value-citations .*RIPPLE_RATE_RANGE resolves to .*"max":11.*ripple-limits\.ts RIPPLE_RATE_RANGE is .*"max":10/);
 });
 
 test('an item the answers do not cite, and an answer the kernel does not declare, are gaps', () => {
   const root = scratchTree();
-  edit(root, 'recipes/answers/transient.json', (a) => { a.items = a.items.filter((i) => i.name !== 'TRANSIENT_REF_DB'); a.items.push({ ...a.items[0], name: 'TRANSIENT_GHOST' }); });
+  edit(root, 'recipes/answers/ripple.json', (a) => { a.items = a.items.filter((i) => i.name !== 'RIPPLE_RING_MS'); a.items.push({ ...a.items[0], name: 'RIPPLE_GHOST' }); });
   const g = gapsOf(root);
-  assert.match(g, /TRANSIENT_REF_DB has no citation/);
-  assert.match(g, /TRANSIENT_GHOST is answered but not in the kernel file/);
+  assert.match(g, /RIPPLE_RING_MS has no citation/);
+  assert.match(g, /RIPPLE_GHOST is answered but not in the kernel file/);
 });
 
 test('a stale render is a gap naming the render command', () => {
@@ -71,37 +88,37 @@ test('a stale render is a gap naming the render command', () => {
 
 test('a hand-formatted kernel file is a gap', () => {
   const root = scratchTree();
-  const p = join(root, 'data/kernels/chorus.json');
+  const p = join(root, 'data/kernels/flutter.json');
   writeFileSync(p, JSON.stringify(JSON.parse(readFileSync(p, 'utf8'))));
-  assert.match(gapsOf(root), /chorus: artifact kernel-file .*not in the one formatting/);
+  assert.match(gapsOf(root), /flutter: artifact kernel-file .*not in the one formatting/);
 });
 
 test('a unit or c block that differs between the kernel file and the answers is a gap', () => {
   const root = scratchTree();
-  edit(root, 'recipes/answers/transient.json', (a) => { a.items.find((i) => i.name === 'TRANSIENT_FAST_ATTACK_MS').unit = 's'; });
+  edit(root, 'recipes/answers/ripple.json', (a) => { a.items.find((i) => i.name === 'RIPPLE_RING_MS').unit = 's'; });
   // a list keeps `c: { render: false }` to leave it out of the C render; the answers do not track that word
-  edit(root, 'data/kernels/delay.json', (d, at) => { at('DELAY_TAP_FACTOR_NUMS').c = { render: false }; });
+  edit(root, 'data/kernels/ripple.json', (d, at) => { at('RIPPLE_FACTORS').c = { render: false }; });
   const g = gapsOf(root);
-  assert.match(g, /TRANSIENT_FAST_ATTACK_MS: unit "ms" in the kernel file, "s" in the answers/);
-  assert.match(g, /DELAY_TAP_FACTOR_NUMS: c .* in the kernel file, undefined in the answers/);
+  assert.match(g, /RIPPLE_RING_MS: unit "ms" in the kernel file, "s" in the answers/);
+  assert.match(g, /RIPPLE_FACTORS: c .* in the kernel file, undefined in the answers/);
 });
 
 test('an item the engine does not declare is cited by an origin sentence, and a set\'s default and labels are held to the answers', () => {
   const root = scratchTree();
-  assert.deepEqual(completeness(root, ['tremolo']).gaps, [], 'TREMOLO_MODES is cited by origin');
-  edit(root, 'recipes/answers/tremolo.json', (a) => { a.items.find((i) => i.name === 'TREMOLO_MODES').default = 'pan'; });
-  assert.match(gapsOf(root), /TREMOLO_MODES: default or labels differ between the kernel file and the answers/);
-  edit(root, 'recipes/answers/tremolo.json', (a) => { a.items.find((i) => i.name === 'TREMOLO_MODES').default = 'tremolo'; a.items.find((i) => i.name === 'TREMOLO_MODES').source = { origin: '' }; });
+  assert.deepEqual(completeness(root, ['ripple']).gaps, [], 'RIPPLE_MODES is cited by origin');
+  edit(root, 'recipes/answers/ripple.json', (a) => { a.items.find((i) => i.name === 'RIPPLE_MODES').default = 'swell'; });
+  assert.match(gapsOf(root), /RIPPLE_MODES: default or labels differ between the kernel file and the answers/);
+  edit(root, 'recipes/answers/ripple.json', (a) => { a.items.find((i) => i.name === 'RIPPLE_MODES').default = 'ripple'; a.items.find((i) => i.name === 'RIPPLE_MODES').source = { origin: '' }; });
   assert.match(gapsOf(root), /an origin source is the one non-empty sentence/);
-  edit(root, 'recipes/answers/tremolo.json', (a) => { a.items.find((i) => i.name === 'TREMOLO_MODES').source = { origin: 'x', path: 'y' }; });
+  edit(root, 'recipes/answers/ripple.json', (a) => { a.items.find((i) => i.name === 'RIPPLE_MODES').source = { origin: 'x', path: 'y' }; });
   assert.match(gapsOf(root), /an origin source is the one non-empty sentence/);
 });
 
 test('a set\'s values are held to the answers (#29)', () => {
   const root = scratchTree();
-  edit(root, 'data/kernels/comp.json', (d, at) => { const k = at('COMP_KINDS'); k.values = [null, 4]; k.unit = 'x'; });
-  edit(root, 'recipes/answers/comp.json', (a) => { const k = a.items.find((i) => i.name === 'COMP_KINDS'); k.values = [null, 2]; k.unit = 'x'; });
-  assert.match(gapsOf(root), /COMP_KINDS: values \[null,4\] in the kernel file, \[null,2\] in the answers/);
+  edit(root, 'data/kernels/ripple.json', (d, at) => { const k = at('RIPPLE_MODES'); k.values = [null, 4]; k.unit = 'x'; });
+  edit(root, 'recipes/answers/ripple.json', (a) => { const k = a.items.find((i) => i.name === 'RIPPLE_MODES'); k.values = [null, 2]; k.unit = 'x'; });
+  assert.match(gapsOf(root), /RIPPLE_MODES: values \[null,4\] in the kernel file, \[null,2\] in the answers/);
 });
 
 test('a value JSON cannot carry unchanged is refused, not recorded', () => {
@@ -120,12 +137,12 @@ test('an entry added to the recipe is required of every kernel at once', () => {
 
 test('a kernel file holding a plugin item breaks the own-items law', () => {
   const root = scratchTree();
-  edit(root, 'data/kernels/chorus.json', (d, at) => { at('CHORUS_BASE_MS').kind = 'plugin'; });
-  assert.match(gapsOf(root), /chorus: law own-items-only .*CHORUS_BASE_MS is a plugin item/);
-  assert.match(gapsOf(root), /chorus: artifact kernel-file .*constant CHORUS_BASE_MS: kind "plugin" is not scalar, list or sheet/);
+  edit(root, 'data/kernels/flutter.json', (d, at) => { at('FLUTTER_BASE_MS').kind = 'plugin'; });
+  assert.match(gapsOf(root), /flutter: law own-items-only .*FLUTTER_BASE_MS is a plugin item/);
+  assert.match(gapsOf(root), /flutter: artifact kernel-file .*constant FLUTTER_BASE_MS: kind "plugin" is not scalar, list or sheet/);
   const control = scratchTree();
-  edit(control, 'data/kernels/chorus.json', (d, at) => { at('CHORUS_SPREAD_RANGE').kind = 'plugin'; });
-  assert.match(gapsOf(control), /chorus: artifact kernel-file .*spread: kind "plugin" is neither travel nor choice/);
+  edit(control, 'data/kernels/flutter.json', (d, at) => { at('FLUTTER_SPREAD_RANGE').kind = 'plugin'; });
+  assert.match(gapsOf(control), /flutter: artifact kernel-file .*spread: kind "plugin" is neither travel nor choice/);
 });
 
 test('a C define is read only when it is one plain number', () => {
@@ -207,7 +224,7 @@ test('items added to a released kernel carry their own since and are added to it
   const { answers } = await importKernel({ ...base, since: '1.9.0', names: 'WOBBLE_RATE_RANGE,WOBBLE_RING', unit: ['WOBBLE_RING='] }, root);
   assert.equal(answers.since, '1.8.0', 'the kernel keeps the release that first carried it');
   assert.deepEqual(answers.items.map((i) => [i.name, i.since]), [['WOBBLE_RATE_RANGE', undefined], ['WOBBLE_RING', '1.9.0']]);
-  assert.ok(addedAfterFirstRelease(root).has('WOBBLE_RING'), 'the proof reads the item\'s own since');
+  assert.equal(itemSince(answers, answers.items[1]), '1.9.0', 'an owner\'s proof reads the item\'s own since');
 
   const { written } = declare(join(root, 'recipes/answers/wobble.json'), root);
   assert.ok(written.includes('data/kernels/wobble.json'));
