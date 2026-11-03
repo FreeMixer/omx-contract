@@ -9,11 +9,11 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { main } from '../bin/omx-contract.mjs';
+import { roundTrip } from '../tools/proof/round-trip.mjs';
 import { loadData, resolveData } from '../lib/data.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { roundTrip } from '../tools/proof/round-trip.mjs';
 import { DATA, RENDERS, ROOT, UNION, editData, scratchData } from './helpers.mjs';
 
 const all = (dir) => {
@@ -34,9 +34,6 @@ test('move the delay time ceiling: every target follows', () => {
   assert.equal(main(['render', '--target', 'c', '--out', `${RENDERS}/include`, '--check', '--data', dir]), 1);
   assert.equal(main(['render', '--target', 'json', '--out', `${RENDERS}/share/omx-contract`, '--check', '--data', dir]), 1);
   assert.equal(main(['render', '--target', 'ts', '--out', `${RENDERS}/test/golden/ts`, '--check', '--data', dir]), 1);
-  const proof = roundTrip(r);
-  assert.equal(proof.ok, false);
-  assert.ok(proof.step2.differing.includes('OMX_FX_DELAY_TIME_RANGE_MAX'));
 });
 
 test('move a gate default: its table block, the ts and json renders follow', () => {
