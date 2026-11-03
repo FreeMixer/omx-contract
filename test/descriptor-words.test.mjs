@@ -15,7 +15,7 @@ import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
 import { ROOT, texts } from './helpers.mjs';
 
-const authored = () => JSON.parse(readFileSync(join(ROOT, 'test/fixtures/descriptors/authored-omx-delay.json'), 'utf8'));
+const authored = () => JSON.parse(readFileSync(join(ROOT, 'examples/descriptors/authored-omx-delay.json'), 'utf8'));
 const problemsOf = (doc) => fileProblems({ rel: 'descriptors/x.json', text: '', doc, installed: true }).map((p) => `${p.code ?? p.rule}:${p.message}`);
 
 test('a descriptor carries the extension bag per format, a one-line plugin.doc and the ratio unit', () => {

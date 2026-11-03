@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.7.1
+Version: 3.8.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -111,6 +111,15 @@ lowest release whose declarations it builds against.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Tue Nov 03 2026 Pau Aliagas <linuxnow@gmail.com> - 3.8.0-1
+- The example descriptors are published with the package, under
+  examples/descriptors/, and exported as
+  @openmixer/omx-contract/examples/descriptors/* (#193).
+- The commit message and private reference checks run from the shared
+  FreeMixer/.github workflow; the local copies are gone (#190).
+- It breaks nothing: the RPMs and debs install the same files, and the floors
+  stay where 3.7.1 put them.
+
 * Sun Nov 01 2026 Pau Aliagas <linuxnow@gmail.com> - 3.7.1-1
 - 3.7.0 was tagged but not published: the release proof lacked
   OMX_LIVE_OWNER_DATA, fixed in #187. Everything 3.7.0 carries is in this release;
