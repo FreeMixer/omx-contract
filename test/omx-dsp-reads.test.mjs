@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 // omx-dsp can build against the c render: every limit its sources, tests and tools read from its
-// committed header (frozen under test/fixtures/omx-dsp-v0.1.5-8-g4108494/, omx-dsp main at 4108494)
+// committed header (its units kept under test/fixtures/limits-0.1.5-8/, as omx-dsp main at 4108494 held them)
 // is defined by the render, byte for byte, so with the same value and the same literal. (Until 1.2.x the
 // three EQ band budget names stayed in openmixer; 1.3.0 carries them.)
 import assert from 'node:assert/strict';
@@ -13,7 +13,7 @@ import { renderC } from '../render/c.mjs';
 import { limitUnits } from '../tools/proof/limit-units.mjs';
 import { ALIAS_NAMES, ROOT, UNION, dropDecl, editData, scratchData } from './helpers.mjs';
 
-const FIX = join(ROOT, 'test/fixtures/omx-dsp-v0.1.5-8-g4108494');
+const FIX = join(ROOT, 'test/fixtures/limits-0.1.5-8');
 const units = (t) => new Map(limitUnits(t).filter((u) => u.frame === undefined).map((u) => [u.key, u.lines.join('\n')]));
 const pin = units(readFileSync(join(FIX, 'omx_contract_limits.h'), 'utf8'));
 const reads = JSON.parse(readFileSync(join(FIX, 'read-units.json'), 'utf8')).read.map((r) => r.key);

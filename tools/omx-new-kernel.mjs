@@ -6,7 +6,7 @@
  *
  *   node tools/omx-new-kernel.mjs --questions
  *       the questions, read off the recipe
- *   node tools/omx-new-kernel.mjs --import --kernel <k> --since <x.y.z> --engine <checkout> --ref <git ref>
+ *   node tools/omx-new-kernel.mjs --import --kernel <k> --since <x.y.z> --engine <checkout> --archive <dir>[,<dir>...] --ref <git ref>
  *       [--names A,B,...] [--unit NAME=<unit>] [--set NAME[.path]=<json>] [--c NAME=<json>] [--from NAME=<path>:<export|define>]
  *       [--doc NAME=<text>] (the doc, for a value whose engine declaration shares its comment with the one above it)
  *       the IMPORTER: reads each item where the engine declares it at <ref> and writes recipes/answers/<k>.json.
@@ -16,7 +16,7 @@
  *       references, derivations and `c` blocks are read from it, so a released kernel is cited without
  *       being rewritten. When the kernel is already answered it keeps its `since`, and a name it did
  *       not answer before is an item added by the release --since names, which it carries as its own.
- *   node tools/omx-new-kernel.mjs --verify --engine <checkout> [<answers file> ...]
+ *   node tools/omx-new-kernel.mjs --verify --engine <checkout> --archive <dir>[,<dir>...] [<answers file> ...]
  *       reads every cited value again at its answers' commit and compares (all answers by default)
  *   node tools/omx-new-kernel.mjs --answers recipes/answers/<k>.json
  *       writes the kernel file from the answers, in the kernel-file shape (controls, tables, aggregates,
@@ -208,9 +208,8 @@ async function readSource(eng, name, source) {
  * holds the kernel file to the answers, this holds the answers to the engine. Returns the
  * differences, one sentence each; empty is a match.
  */
-export async function verifyAnswers(answers, checkout, root = ROOT) {
-  const recipe = loadRecipe(root);
-  const eng = extractEngine(resolve(checkout), answers.engine.commit, recipe.engine.archive);
+export async function verifyAnswers(answers, checkout, root = ROOT, archive = refuse('--archive <dir>[,<dir>...] is required')) {
+  const eng = extractEngine(resolve(checkout), answers.engine.commit, archiveDirs(archive));
   try {
     const bad = [];
     for (const it of answers.items) {
@@ -222,6 +221,13 @@ export async function verifyAnswers(answers, checkout, root = ROOT) {
   } finally {
     eng.cleanup();
   }
+}
+
+/** The engine checkout's source directories, from --archive (a comma list, or a list): the engine's layout is the caller's to give. */
+export function archiveDirs(archive) {
+  const dirs = (Array.isArray(archive) ? archive : String(archive ?? '').split(',')).map((d) => d.trim().replace(/\/+$/, '')).filter(Boolean);
+  if (!dirs.length) refuse('--archive <dir>[,<dir>...] is required: the engine checkout\'s source directories');
+  return dirs;
 }
 
 /** The importer: every item read from the engine, cited, into the answers. */
@@ -247,7 +253,8 @@ export async function importKernel(o, root = ROOT) {
   const cs = pairs(o.c, true);
   const froms = pairs(o.from);
   const docs = pairs(o.doc);
-  const eng = extractEngine(checkout, ref, recipe.engine.archive);
+  const archive = archiveDirs(o.archive);
+  const eng = extractEngine(checkout, ref, archive);
   try {
     const items = [];
     const raws = new Map();
@@ -257,7 +264,7 @@ export async function importKernel(o, root = ROOT) {
         const [path, sym] = froms.get(name).split(':');
         if (!path || !sym) refuse(`--from ${name}=${froms.get(name)}: give <path>:<export or define>`);
         source = path.endsWith('.h') ? { path, define: sym } : { path, export: sym };
-      } else source = findSource(eng.tree, recipe.engine.archive, name);
+      } else source = findSource(eng.tree, archive, name);
       const { text, value, raw } = await readSource(eng, name, source);
       if (raw !== null && typeof raw === 'object') raws.set(name, raw);
       const k = kept?.get(name) ?? {};
@@ -419,7 +426,7 @@ async function main(argv) {
     let bad = 0;
     for (const f of o._.length ? o._ : readdirSync(join(ROOT, recipe.tree.answersDir)).map((x) => join(ROOT, recipe.tree.answersDir, x))) {
       const a = JSON.parse(readFileSync(f, 'utf8'));
-      const diff = await verifyAnswers(a, o.engine ?? refuse('--verify needs --engine <checkout>'));
+      const diff = await verifyAnswers(a, o.engine ?? refuse('--verify needs --engine <checkout>'), ROOT, o.archive);
       bad += diff.length;
       console.log(`${diff.length ? 'FAIL' : 'PASS'} ${a.kernel}: ${a.items.length} values at ${a.engine.commit.slice(0, 12)}${diff.map((d) => `\n  ${d}`).join('')}`);
     }
@@ -437,7 +444,7 @@ async function main(argv) {
     if (stray.length) console.log(`  outside the recipe: ${stray.join(', ')}`);
     return v.ok ? 0 : 1;
   }
-  console.error('usage: omx-new-kernel.mjs --questions | --verify --engine <checkout> [files] | --import --kernel <k> --since <x.y.z> --engine <checkout> --ref <ref> [...] | --answers <file>');
+  console.error('usage: omx-new-kernel.mjs --questions | --verify --engine <checkout> --archive <dirs> [files] | --import --kernel <k> --since <x.y.z> --engine <checkout> --archive <dirs> --ref <ref> [...] | --answers <file>');
   return 2;
 }
 

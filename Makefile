@@ -91,9 +91,7 @@ inventory-check:
 	node tools/format-inventory.mjs --check
 
 # No tracked file points into a private repository, branch, issue or path (the few exemptions are listed in the tool).
-public-sources:
-	node tools/check-public-sources.mjs --self-test
-	node tools/check-public-sources.mjs
+public-sources: private-refs
 
 # FreeMixer/.github's private-refs check, from a checkout of it (FREEMIXER_DOTGITHUB, else ../freemixer-dotgithub); CI
 # runs it through the public-sources-check workflow.
