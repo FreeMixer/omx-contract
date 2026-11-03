@@ -26,6 +26,8 @@ Description: FreeMixer declarations read at run time: contract directory, schema
  render, the vocabulary's schema fragment and the resource hints' Turtle,
  under /usr/share/omx-contract. A package that reads them at run time
  depends on this one, never on the development package.
+ .
+ Its documentation is on openmixer.org.
 
 Package: libomx-contract-dev
 Architecture: all
@@ -46,6 +48,8 @@ Description: one shared source of truth for every FreeMixer knob, range, default
  installs its definitions with. The data it builds against is
  omx-contract-data, which it depends on. A consumer requires it at a floor,
  the lowest release whose declarations it builds against.
+ .
+ Its documentation is on openmixer.org.
 
 Package: omx-contract
 Architecture: all
@@ -62,3 +66,5 @@ Description: command that checks and renders the FreeMixer declarations
  install their definitions into as one checked set. It carries the npm
  packages it runs on (ajv and its dependencies), so it needs node and
  nothing else.
+ .
+ Its documentation is on openmixer.org.

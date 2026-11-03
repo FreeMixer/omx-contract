@@ -35,6 +35,7 @@ else reads it. That is why the console, the DSP library and the plugins agree
 on what a knob does and how far it turns. The declarations are plain JSON with
 a JSON Schema, so tools in any language can read them, and they are rendered
 as C headers for the code that is built from them.
+Its documentation is on openmixer.org.
 
 This package holds the omx-contract command, which validates, formats and
 renders the declarations, and reads the contract directory the packages
@@ -53,6 +54,7 @@ definitions beside it), the JSON Schema, the resolved json render, the
 vocabulary's schema fragment and the resource hints' Turtle, under
 share/omx-contract. A package that reads them at run time requires this one,
 never the development package.
+Its documentation is on openmixer.org.
 
 %package devel
 License: GPL-3.0-or-later
@@ -73,6 +75,7 @@ omx-contract under include/omxcontract (the limits header), omx-contract.pc
 build installs its definitions with. The data it builds against is
 omx-contract-data, which it requires. A consumer requires it at a floor, the
 lowest release whose declarations it builds against.
+Its documentation is on openmixer.org.
 
 %prep
 %autosetup
@@ -105,7 +108,6 @@ lowest release whose declarations it builds against.
 
 %files devel
 %license LICENSE
-%doc README.md
 %{_includedir}/omxcontract/
 %{_datadir}/omx-contract/install-contract-dir.sh
 %{_datadir}/pkgconfig/omx-contract.pc
