@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "controls": [
+    {
+      "name": "spread",
+      "kind": "travel",
+      "doc": "The flutter spread: an invented travel.",
+      "travel": {
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 50,
+        "defaultFrom": "desk"
+      }
+    }
+  ],
+  "constants": {
+    "FLUTTER_BASE_MS": {
+      "kind": "scalar",
+      "doc": "The flutter base delay: an invented scalar.",
+      "unit": "ms",
+      "value": 5
+    }
+  }
+}

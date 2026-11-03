@@ -5,7 +5,6 @@ import { test } from 'node:test';
 import { loadData } from '../lib/data.mjs';
 import { validateData } from '../lib/validate.mjs';
 import { DATA, ROOT, UNION, VOCABULARY, relOf, texts } from './helpers.mjs';
-import { addedAfterFirstRelease } from '../tools/proof/round-trip.mjs';
 
 const rules = (t) => validateData(loadData(null, t)).map((p) => `${p.item}:${p.rule}`);
 
@@ -21,23 +20,6 @@ test('data/ holds the union less the files their owners install: 8 of the 229 it
   assert.equal(owners.size, 222);
   assert.equal(loadData(UNION).items.size, 229 + 1 + VOCABULARY.size); // the 2.14.0 items, the param-contract units (3.6.0), the vocabulary
   for (const n of ['GATE_LIMITS', 'HOSTED_STAGE_LIMITS', 'HOSTING_CODES', 'FX_DELAY_TIME_RANGE', 'PAN_RANGE', 'EQ_MAX_BANDS', 'BUTTERWORTH_Q', 'OUTPUT_DELAY_RANGE']) assert.ok(owners.has(n), `${n} is an owner's`);
-});
-
-test('the shipped data holds exactly the specified items and the items of the kernels added since', () => {
-  const want = ['GATE_LIMITS', 'COMP_LIMITS', 'LIMITER_LIMITS', 'TRANSIENT_LIMITS', 'PITCH_LIMITS', 'TRANSIENT_FAST_ATTACK_MS',
-    'TRANSIENT_FAST_RELEASE_MS', 'TRANSIENT_REF_DB', 'TRANSIENT_FLOOR_LIN', 'PROGRAM_RELEASE', 'PITCH_KERNEL', 'BUTTERWORTH_Q',
-    'ALLPASS_LIMITS', 'XOVER_LIMITS', 'FDELAY_MOD_READ_ORDER', 'FDELAY_READ_L1_NORM', 'FX_DELAY_TIME_RANGE', 'FX_DELAY_FEEDBACK_RANGE',
-    'DELAY_TONE_RANGE', 'DELAY_MIX_RANGE', 'FX_DELAY_PINGPONG_DEFAULT', 'CHORUS_SPREAD_RANGE', 'REVERB_PLATE_MOD_DEPTH_RANGE',
-    'DRIVE_BIAS_MAX', 'DSP_KNOB_REFERENCE_RATE', 'EQ_MAX_BANDS', 'ISO_THIRD_OCTAVE_CENTRES_HZ', 'GEQ_BANDS', 'STANDARD_SAMPLE_RATES',
-    'RT_HARD_TARGET'];
-  const later = [...addedAfterFirstRelease(ROOT)];
-  // the one 1.0.0 item counted as added later is the list whose C render 1.3.0 switched on (`renderedSince`)
-  assert.deepEqual(later.filter((n) => want.includes(n)), ['ISO_THIRD_OCTAVE_CENTRES_HZ'], 'no other 1.0.0 item is counted as added later');
-  for (const n of later) if (!want.includes(n)) want.push(n);
-  // the shared items added since, which no kernel answers and that carry no release of their own:
-  // 1.2.0's plugin-face travels in primitives.json (TRIM_TRAVELS moved to the trim kernel in 2.3.0)
-  want.push('GATE_CONTINUOUS_TRAVELS', 'COMP_CONTINUOUS_TRAVELS');
-  assert.deepEqual([...loadData(UNION).items.keys()].filter((n) => !VOCABULARY.has(n)).sort(), want.filter((n) => !VOCABULARY.has(n)).sort());
 });
 
 test('a unit outside the closed list is refused', () => {

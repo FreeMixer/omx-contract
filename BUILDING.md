@@ -56,10 +56,11 @@ include/omxcontract/         the committed c render (what omx-contract-devel ins
 share/omx-contract/          the committed json render (resolved data, what omx-contract-data installs)
 test/                        schema, semantic checks, goldens, perturbation, semver, round trip
   fixtures/owners-2.14.0/    the definitions omx-dsp, omx-clap-core and the console now hold, at their 2.14.0 bytes (the hosting file less the two codes 3.0.0 removed): what the tests read kernels from
-  fixtures/answers-2.14.0/   the kernels' answers that went with them; `make completeness` runs over both
+  fixtures/tool-kernels/     invented kernels and their answers, which the kernel recipe's tests break (no owner's data)
   fixtures/package-codes/    omx-clap-core's hosting/cost.json as omx-contract held it until 2.20.0: the codes kind's fixture
 recipes/kernel.recipe.json   what a complete kernel has; an owner's recipes/answers/ records where each value comes from
-tools/omx-new-kernel.mjs     the kernel wizard and importer; tools/kernel-recipe.mjs is `make completeness`
+tools/omx-new-kernel.mjs     the kernel wizard and importer; tools/kernel-recipe.mjs the completeness check an owner runs
+                             over its own tree (omx-dsp: make contract-proof, with the round-trip over its definitions)
 packaging/ debian/           omx-contract-data (RPM and deb), the run-time data; omx-contract-devel (RPM) and libomx-contract-dev (deb),
                              the headers and pc file; omx-contract (RPM and deb), the command
 ```
