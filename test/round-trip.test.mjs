@@ -45,7 +45,7 @@ test('step 2: a unit omx-dsp lacks is refused when its item shipped in the first
 test('step 2: the 63 units omx-dsp reads are all among them', () => {
   // the v0.1.3 pin held one c.alias spelling among its reads, OMX_DELAY_TIME_MS_MAX; 3.0.0 removes the word outright,
   // and an omx-dsp old enough to read that spelling is before 0.25.0, which omx-contract-devel 3.0.0 conflicts with,
-  // so the frozen fixture (test/fixtures/omx-dsp-v0.1.3/read-units.json) leaves it out: 64 minus that one.
+  // so the frozen fixture (test/fixtures/limits-0.1.3/read-units.json) leaves it out: 64 minus that one.
   assert.equal(r.step2.read, 64 - 1);
   assert.deepEqual(r.step2.readMissing, []);
 });

@@ -3,7 +3,7 @@
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
  * The round-trip proof, against omx-dsp v0.1.3's committed
- * headers frozen under test/fixtures/omx-dsp-v0.1.3/:
+ * header as test/fixtures/limits-0.1.3/ holds it (its units, under the render's own comments):
  *
  *   1. the frozen sheet (test/fixtures/frozen-limits-sheet.json) renders the limits header
  *      byte for byte;
@@ -90,8 +90,8 @@ export function addedAfterFirstRelease(root = ROOT) {
 
 /** The proof over `resolved` (default: proofData()). Returns the report; `ok` is the verdict. */
 export function roundTrip(resolved = resolveData(proofData())) {
-  const pinLimits = readFileSync(join(FIX, 'omx-dsp-v0.1.3/omx_contract_limits.h'), 'utf8');
-  const readUnits = JSON.parse(readFileSync(join(FIX, 'omx-dsp-v0.1.3/read-units.json'), 'utf8')).read.map((r) => r.key);
+  const pinLimits = readFileSync(join(FIX, 'limits-0.1.3/omx_contract_limits.h'), 'utf8');
+  const readUnits = JSON.parse(readFileSync(join(FIX, 'limits-0.1.3/read-units.json'), 'utf8')).read.map((r) => r.key);
 
   // step 1
   const sheet = renderSheetC(JSON.parse(readFileSync(join(FIX, 'frozen-limits-sheet.json'), 'utf8')));

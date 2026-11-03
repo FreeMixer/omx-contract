@@ -36,12 +36,7 @@ const PRIVATE = [
 
 /** Exemptions: `file` matches the path, `line` (optional) the offending line; `why` is the reason. */
 export const ALLOW = [
-  { file: /^test\/fixtures\/omx-dsp-v[^/]*\//, why: 'frozen byte-for-byte copies of released omx-dsp headers; the round-trip and omx-dsp-reads tests compare the render to them' },
-  { file: /^test\/fixtures\/omx-dsp-91beb6d\//, why: 'frozen copy of an omx-dsp header at that commit' },
-  { file: /^render\/c\/contract-limits-render\.mjs$/, why: 'its header template is emitted verbatim and must reproduce the frozen omx-dsp headers byte for byte' },
-  { file: /^recipes\/kernel\.recipe\.json$/, line: /^\s+"packages\/[a-z-]+\/src",?$/, why: 'the engine archive directories the importer extracts from a private checkout' },
   { file: /^tools\/engine-ts-hook\.mjs$/, why: 'resolves workspace imports inside the extracted engine tree' },
-  { file: /^test\/kernel-recipe\.test\.mjs$/, why: 'a synthetic engine tree laid out like the real one, for the importer' },
   { file: /^tools\/check-public-sources\.mjs$/, why: 'this check names what it forbids' },
   { file: /^tools\/private-refs-check\.sh$/, why: 'the shared gate names what it forbids, in its patterns and its sabotage self-test' },
 ];
@@ -80,7 +75,7 @@ function selfTest() {
   const clean = ['libomx-contract-dev and omx-contract-devel', '@openmixer/omx-contract', 'the OpenMixer console engine', 'omx-dsp#12', 'disintegration/x'];
   for (const [f, t] of Object.entries(hits)) if (scan(f, t).length !== 1) throw new Error(`self-test: ${f} not caught`);
   for (const t of clean) if (scan('k.md', t).length) throw new Error(`self-test: ${t} flagged`);
-  if (scan('test/fixtures/omx-dsp-v0.1.3/x.h', hits['f.mjs']).length) throw new Error('self-test: allowlist ignored');
+  if (scan('tools/engine-ts-hook.mjs', hits['f.mjs']).length) throw new Error('self-test: allowlist ignored');
   console.log('public sources self-test: every private name is caught, public names pass, the allowlist holds');
 }
 

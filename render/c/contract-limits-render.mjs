@@ -274,18 +274,14 @@ export function renderContractLimits({
 #define OMX_CONTRACT_LIMITS_H
 /*
  * GENERATED: DO NOT EDIT BY HAND.
- * Produced by harness/contract-limits-gen.mjs from packages/core/src/channel-contract.ts's
- * \`laws\` column (R-056), every table packages/core/src/native-limit-tables.ts's registry
- * holds, packages/core/src/control-bounds.ts's CORE_LIMITS for the pan/delay/reverb/drive
- * facts, EVERY declared scalar and all-number sheet packages/core/src/declared-scalars.ts
- * discovers over the core barrel and @freemixer/declarations (dsp-primitives §7), and
- * packages/core/src/row-codecs.ts's STANDARD_SAMPLE_RATES. Regenerate:
- * \`node harness/contract-limits-gen.mjs\`, then commit the result — see this file's own
- * generator for why it is committed rather than gitignored.
+ * Rendered by omx-contract from its data: each channel fact's laws, the travels of every
+ * registered limit table, the pan/delay/reverb/drive limits, every declared scalar and
+ * all-number sheet, and the standard sample rates. Regenerate with
+ * \`omx-contract render --target c\`; the header is committed, so a build needs no generator.
  *
  * A C contract (OMX_PRE/OMX_POST/OMX_INVARIANT) reads a limit from HERE, never a literal:
- * packages/server/src/contract-limits-generated-conformance.test.ts refuses both a stale
- * header and a C literal that duplicates a number this file already declares.
+ * a conformance test refuses both a stale header and a C literal that duplicates a number this
+ * file already declares.
  */
 
 /* The closed law vocabulary (core's LAW_KINDS, fact-declaration.ts) — one member per law. */
@@ -294,12 +290,12 @@ ${enumLines.join('\n')}
 } omx_contract_law_t;
 
 /* Per-stage law lists, one per channel fact whose row declares \`laws\` — the SAME array
- * harness/contracts-scaffold.mjs's applier and the MCP contract_laws tool read; a stage's
+ * the contract scaffold and the contract_laws query read; a stage's
  * OMX_POST tokens implement one or more of these, never a second spelling of the law. */
 ${stageBlocks.join('\n\n')}
 
 /* Per-parameter numeric travel, one block per table registered in
- * packages/core/src/native-limit-tables.ts (GATE/COMP today; a kernel that registers a table
+ * the limit-table registry (GATE/COMP today; a kernel that registers a table
  * lands here because it is REGISTERED, not because this generator names it). */
 ${NATIVE_LIMIT_TABLES.map(([prefix, table]) => genLimitBlock(prefix, table)).join('\n\n')}
 
@@ -311,28 +307,28 @@ ${NATIVE_LIMIT_TABLES.map(([prefix, table]) => genLimitBlock(prefix, table)).joi
  * read by a stage. */
 ${CORE_STAGE_FACTS.map((f) => genCoreLimitBlock(CORE_LIMITS, f)).join('\n\n')}
 
-/* EVERY declared scalar and sheet leaf (packages/core/src/declared-scalars.ts over the core barrel
+/* EVERY declared scalar and sheet leaf (the declared scalars over the core barrel
  * and @freemixer/declarations; dsp-primitives §7 the scalar door) — one block, sorted by macro,
  * named by nobody: a kernel's constants are its exports (ROTARY_*, TRANSIENT_*, PITCH_KERNEL,
  * PROGRAM_RELEASE, HOSTED_STAGE_LIMITS, ALLPASS/XOVER_LIMITS, the fdelay kernel's norm and order, …).
  * An integer value is an integer literal, any other a float literal AND its OMX_<macro>_DOUBLE spelling. */
 ${scalarsBlock}
 
-/* The CLAP host object's extension ids (packages/plugin-qualify/src/hosting-suitability.ts,
- * OMX_CLAP_HOST_EXTENSIONS; 2026-09-26-clap-hosting-path.md §5) — read by mix_clap_host.c. */
+/* The CLAP host object's extension ids (OMX_CLAP_HOST_EXTENSIONS, the extensions the host
+ * object offers a plugin) — read by mix_clap_host.c. */
 ${clapBlock}
 
-/* EVERY declared record set (packages/core/src/declared-sets.ts over the core barrel and
+/* EVERY declared record set (the declared sets over the core barrel and
  * @freemixer/declarations; dsp-primitives §7) — one block, sorted by set, named by nobody: HOST_VERBS
- * (2026-09-29-host-backend-one-contract.md §4, read by mix_host_backend.test.c against the fork's
+ * (the host backend's verbs, read by mix_host_backend.test.c against the fork's
  * scenario list), … OMX_<SET>_INIT is one { … } row per declared row, fields in declaration order: a
  * string as a C string literal, a boolean as 0/1, a number as the scalar literal. */
 ${setsBlock}
 
-/* EVERY declared number list (packages/core/src/declared-lists.ts; dsp-primitives §7) — sorted by
+/* EVERY declared number list (the declared lists; dsp-primitives §7) — sorted by
  * list, named by nobody: LATENCY_QUANTA (the quantum grid a bench iterates), STANDARD_SAMPLE_RATES,
  * … A C grid is int qs[OMX_<LIST>_COUNT] = OMX_<LIST>_INIT; a script reads the _INIT line through
- * harness/lib/declared-list.sh. */
+ * the declared-list reader. */
 ${listsBlock}
 
 /* The running check (dsp-primitives §7): every declared scalar by name with the macro ITSELF, so an
