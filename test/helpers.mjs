@@ -42,6 +42,12 @@ export const ALIAS_NAMES = (() => {
  */
 export const OWNERS = join(ROOT, 'test/fixtures/owners-2.14.0');
 
+/**
+ * omx-clap-core's hosting file, frozen at its 2.14.0 bytes, with its render word: kept until omx-clap-core carries its
+ * own proof (omx-contract#192).
+ */
+export const HOSTING = join(OWNERS, 'hosting.json');
+
 const scratch = [];
 process.on('exit', () => { for (const d of scratch) rmSync(d, { recursive: true, force: true }); });
 
