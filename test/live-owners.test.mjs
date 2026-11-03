@@ -68,9 +68,9 @@ const AWAITING_USER = { LUFS: 'FreeMixer/omx-contract#145', 'dB/s': 'FreeMixer/o
 
 /**
  * A unit whose one user declares it outside any contract data, with where. `min` is FBS_COOLDOWN_MINUTES_RANGE's, which
- * stayed with the console's packages/declarations when fbs moved to omx-dsp (omx-dsp f8b816e: no omx-dsp source reads it).
+ * stayed with the console's own declarations when fbs moved to omx-dsp (omx-dsp f8b816e: no omx-dsp source reads it).
  */
-const USED_OUTSIDE = { min: 'openmixer packages/declarations FBS_COOLDOWN_MINUTES_RANGE (omx-dsp f8b816e)' };
+const USED_OUTSIDE = { min: 'the console\'s declarations, FBS_COOLDOWN_MINUTES_RANGE (omx-dsp f8b816e)' };
 
 test('the schema unit enum lists exactly the units the live items and readouts use', { skip }, () => {
   const schema = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
