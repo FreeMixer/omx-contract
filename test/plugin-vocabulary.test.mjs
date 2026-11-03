@@ -12,7 +12,7 @@ import { fileProblems } from '../lib/validate.mjs';
 import { ROOT } from './helpers.mjs';
 
 const read = (rel) => JSON.parse(readFileSync(join(ROOT, rel), 'utf8'));
-const authored = () => read('test/fixtures/descriptors/authored-omx-delay.json');
+const authored = () => read('examples/descriptors/authored-omx-delay.json');
 const problemsOf = (doc) => fileProblems({ rel: 'descriptors/x.json', text: '', doc, installed: true }).map((p) => p.message);
 
 test('shape, model, algorithm, mode, type and pingpong are meanings', () => {
