@@ -5187,6 +5187,7 @@ export declare const LV2_UNITS_TERMS: {
     readonly kind: "unit";
     readonly status: "used";
     readonly by: readonly ["omx-plugins:plugins/omx-rotary/generated/omx-rotary.lv2/omx-rotary.ttl"];
+    readonly word: "x";
   };
   readonly conversion: {
     readonly uri: "http://lv2plug.in/ns/extensions/units#conversion";

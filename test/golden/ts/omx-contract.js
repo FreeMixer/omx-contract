@@ -6023,7 +6023,8 @@ export const LV2_UNITS_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-rotary/generated/omx-rotary.lv2/omx-rotary.ttl"
-    ]
+    ],
+    "word": "x"
   },
   "conversion": {
     "uri": "http://lv2plug.in/ns/extensions/units#conversion",
