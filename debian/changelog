@@ -6,8 +6,9 @@ omx-contract (3.8.0) unstable; urgency=medium
     against them reads them from here instead of keeping its own copy (#193).
   * The commit message and private reference checks run from the shared
     FreeMixer/.github workflow; the local copies of both are gone (#190).
-  * It breaks nothing: the RPMs and debs install the same files, and the floors
-    stay where 3.7.1 put them.
+  * It breaks nothing: the RPMs and debs install the same files, and
+    libomxdsp-dev before 0.25.0, libomx-clap-core-dev before 0.13.0 and
+    omx-plugins-dev before 0.13.0 stay the floors.
 
  -- Pau Aliagas <linuxnow@gmail.com>  Tue, 03 Nov 2026 13:30:00 +0100
 
