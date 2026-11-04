@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 #
-# Installs the committed renders (include/omxcontract/, share/omx-contract/omx-contract.json), the
+# Installs the committed renders (include/omxcontract/, share/omx-contract/omx-contract.json), the hand-written C of
+# src/omxcontract/ (omx_json_write.h, the one JSON string writer) beside them, the
 # schema, omx-contract.pc, and data/ as the package omx-contract of the contract directory
 # (CONTRACTDIR/<schema major>/omx-contract/, docs/contract-dir.md) with tools/install-contract-dir.sh, which is
 # installed beside the schema for the packages that install their own definitions. No node runs here: a release build (RPM, deb) installs what
@@ -20,11 +21,12 @@ CONTRACTDIR ?= $(DATADIR)/omx-contract/contract.d
 BINDIR ?= $(PREFIX)/bin
 CLIDIR ?= $(PREFIX)/lib/omx-contract
 MANDIR ?= $(DATADIR)/man
+RPMMACRODIR ?= $(PREFIX)/lib/rpm/macros.d
 SCHEMA_MAJOR := $(shell sed -n 's/^  "x-omx-schema-version": "\([0-9]*\)\..*",$$/\1/p' schema/omx-contract.schema.json)
 CC ?= cc
 VERSION := $(shell sed -n 's/^  "version": "\(.*\)",$$/\1/p' package.json)
 
-.PHONY: all check inventory-check layout public-sources install install-cli test
+.PHONY: all check inventory-check layout public-sources install install-cli install-rpm-macros test
 
 all:
 	@test -n "$(VERSION)" || { echo "no version in package.json" >&2; exit 1; }
@@ -32,8 +34,8 @@ all:
 
 # The headers compile on their own, warnings as errors: the committed renders and the verbs fixture's (test/golden/verbs/).
 check: all
-	printf '#include <omxcontract/omx_contract_limits.h>\n#include <omxcontract/omx_vocabulary.h>\n#include <omxcontract/omx_resource_hints.h>\n#include <omxcontract/omx_param_units.h>\n#include <omxcontract/omx_plugin_face_ids.h>\n#include <omxcontract/omx_formats.h>\nstatic const char *const voice_bases[] = OMX_MEASUREMENT_VOICE_BASES_INIT;\nint main(void) { return OMX_READOUT_RATE_HZ > 0 && OMX_DECLARED_RATE_COUNT > 0 && OMX_PARAM_SCALES_LINEAR < OMX_PARAM_SCALES_COUNT && sizeof voice_bases / sizeof voice_bases[0] == OMX_MEASUREMENT_VOICE_BASES_COUNT && OMX_MACHINE_CLASS_FIELDS_ARCH[0] == 0x61 && OMX_RESOURCE_HINT_COUNT > 0u && OMX_CLAP_REMOTE_CONTROLS_COUNT == 8u && OMX_CLAP_UNIT_DBFS == 256u && OMX_PLUGIN_FACE_BYPASS_CLAP_ID == 0x7FFF0000u ? 0 : 1; }\n' > check-headers.c
-	$(CC) -std=c11 -Wall -Wextra -Werror -Wno-unused-function -Iinclude check-headers.c -o check-headers
+	printf '#include <omxcontract/omx_contract_limits.h>\n#include <omxcontract/omx_vocabulary.h>\n#include <omxcontract/omx_resource_hints.h>\n#include <omxcontract/omx_param_units.h>\n#include <omxcontract/omx_plugin_face_ids.h>\n#include <omxcontract/omx_formats.h>\n#include <omxcontract/omx_json_write.h>\nstatic const char *const voice_bases[] = OMX_MEASUREMENT_VOICE_BASES_INIT;\nint main(void) { return OMX_READOUT_RATE_HZ > 0 && OMX_DECLARED_RATE_COUNT > 0 && OMX_PARAM_SCALES_LINEAR < OMX_PARAM_SCALES_COUNT && sizeof voice_bases / sizeof voice_bases[0] == OMX_MEASUREMENT_VOICE_BASES_COUNT && OMX_MACHINE_CLASS_FIELDS_ARCH[0] == 0x61 && OMX_RESOURCE_HINT_COUNT > 0u && OMX_CLAP_REMOTE_CONTROLS_COUNT == 8u && OMX_CLAP_UNIT_DBFS == 256u && OMX_PLUGIN_FACE_BYPASS_CLAP_ID == 0x7FFF0000u && omx_json_string(0, 0, "a") == 3 ? 0 : 1; }\n' > check-headers.c
+	$(CC) -std=c11 -Wall -Wextra -Werror -Wno-unused-function -Iinclude -Isrc check-headers.c -o check-headers
 	./check-headers
 	printf '#include "omx_host_verbs.h"\n#include "c/verbs_fixture_host_verbs.h"\n#include "c/verbs_fixture_vocabulary.h"\nint main(void) { return omx_host_verb_level(OMX_VERB_CHAIN, OMX_HOST_VERB_HOST_PLUGIN_HOSTD) == OMX_HOST_VERB_REQUIRED && verbs_fixture_host_verb_find(OMX_VERB_PARAM_INFO) != NULL ? 0 : 1; }\n' > check-headers.c
 	$(CC) -std=c11 -Wall -Wextra -Werror -Wno-unused-function -Itest/golden/verbs check-headers.c -o check-headers
@@ -42,14 +44,21 @@ check: all
 
 install: all
 	install -d $(DESTDIR)$(INCLUDEDIR)/omxcontract $(DESTDIR)$(DATADIR)/omx-contract $(DESTDIR)$(PKGCONFIGDIR)
-	install -m 0644 include/omxcontract/*.h $(DESTDIR)$(INCLUDEDIR)/omxcontract/
+	install -m 0644 include/omxcontract/*.h src/omxcontract/*.h $(DESTDIR)$(INCLUDEDIR)/omxcontract/
 	install -m 0644 share/omx-contract/omx-contract.json share/omx-contract/omx-vocabulary.schema.json share/omx-contract/omx-resource-hints.ttl share/omx-contract/omx_contract.py schema/omx-contract.schema.json $(DESTDIR)$(DATADIR)/omx-contract/
 	install -m 0755 tools/install-contract-dir.sh $(DESTDIR)$(DATADIR)/omx-contract/
 	sh tools/install-contract-dir.sh -x codes.json omx-contract $(VERSION) $(SCHEMA_MAJOR) data $(DESTDIR)$(CONTRACTDIR) data
 	sed -e 's|@PREFIX@|$(PREFIX)|' -e 's|@INCLUDEDIR@|$(INCLUDEDIR)|' -e 's|@DATADIR@|$(DATADIR)|' -e 's|@VERSION@|$(VERSION)|' \
-	  -e 's|@CONTRACTDIR@|$(CONTRACTDIR)|' \
+	  -e 's|@CONTRACTDIR@|$(CONTRACTDIR)|' -e 's|@SCHEMA_MAJOR@|$(SCHEMA_MAJOR)|' \
 	  omx-contract.pc.in > $(DESTDIR)$(PKGCONFIGDIR)/omx-contract.pc
 	chmod 0644 $(DESTDIR)$(PKGCONFIGDIR)/omx-contract.pc
+
+# The RPM macros of the contract directory (packaging/macros.omx-contract.in): an owner's spec says
+# %{omx_contract_dir}/<owner>/ and never types the schema major. The RPM build installs them into the devel package.
+install-rpm-macros: all
+	install -d $(DESTDIR)$(RPMMACRODIR)
+	sed -e 's|@SCHEMA_MAJOR@|$(SCHEMA_MAJOR)|' packaging/macros.omx-contract.in > $(DESTDIR)$(RPMMACRODIR)/macros.omx-contract
+	chmod 0644 $(DESTDIR)$(RPMMACRODIR)/macros.omx-contract
 
 install-cli: all
 	install -d $(DESTDIR)$(CLIDIR)/bin $(DESTDIR)$(CLIDIR)/lib $(DESTDIR)$(CLIDIR)/render/c $(DESTDIR)$(CLIDIR)/schema \

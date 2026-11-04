@@ -112,7 +112,12 @@ jobs:
           cmp "$RUNNER_TEMP/cli-json/omx-contract.json" "$GITHUB_WORKSPACE/share/omx-contract/omx-contract.json"
       - id: handback-live-owner
         name: The live owner's data, the omx-dsp release the release-consumers row names, so the live-owner check runs and is never skipped
-        run: echo "OMX_LIVE_OWNER_DATA=$(sh tools/live-owner-data.sh "$RUNNER_TEMP/omx-dsp")" >> "$GITHUB_ENV"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          data=$(sh tools/live-owner-data.sh "$RUNNER_TEMP/omx-dsp")
+          test -n "$data"
+          echo "OMX_LIVE_OWNER_DATA=$data" >> "$GITHUB_ENV"
       - id: handback-test
         name: Tests (schema, semantic checks, goldens, perturbation, semver, round trip)
         run: npm test
