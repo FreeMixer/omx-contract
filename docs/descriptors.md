@@ -39,7 +39,7 @@ changes.
 
 A file is a descriptor when it carries `origin`; it then declares no item, and only the words below may stand at
 its top: `$schema`, `requires`, `origin`, `plugin`, `controls`, `ports`, `instrument`, `needs`, `latency`,
-`easy`, `extensions`, `source`.
+`easy`, `meters`, `extensions`, `source`.
 Any other key or word is `contract.file.invalid`, never skipped.
 
 ## The words
@@ -73,6 +73,7 @@ Any other key or word is `contract.file.invalid`, never skipped.
 | `needs` | `transport`, `tempo`, `extensions.required`, `extensions.optional` | What the host must give: CLAP host extensions, LV2 `lv2:requiredFeature` and `lv2:optionalFeature`, a `time:Position` input | new |
 | `latency` | `reports`, `frames` | `reports: true` when the plugin reports its latency; `frames` only for a constant the plugin defines, never a measured figure | new |
 | file | `easy` | The controls of the plugin's Easy face, in order, at most eight, each by its `symbol`, else its `id`: what a host opens the plugin on, with every control one click away. Optional; never in a `scanned` descriptor, whose scan has nothing to read it from. With none, a host's panel layout picks them from the roles (omx-panel `docs/panel-layout.md`) | new (minor) |
+| `meters[]` | `id`, `symbol`, `name`, `doc`, `kind` (`gain-reduction`, `level`), `channels`, `unit`, `min`, `max`, `scale`, `group`, `source` | A value the plugin publishes while it runs, which a host draws and never writes: CLAP `clap.meters/1` (`id` the meter id, `symbol` its `clap_meter_info.name`), LV2 output control ports. `symbol` is what a host reads it by: the LV2 port's symbol and the output symbol omx-clap-core derives from the CLAP name; a meter of more than one channel has one per channel, `<symbol>_<channel>` from 0. `min`, `max` and `scale` are the display range and scale, a kernel readout's ([readouts.md](readouts.md)) when `source.from` links one. Optional, in the plugin's order; no two meters share an id or a symbol, and no meter answers to a control's symbol | new (minor) |
 | `extensions` | `clap`, `lv2`: each `{ <source field>: <value> }` | The extension bag: a format's facts no word of ours carries, carried verbatim (below) | new (3.0.0) |
 | `source` | `from`, `impl`, `at` | As in [contract-dir.md](contract-dir.md); for a scan, links into the `.ttl` or the CLAP binary | existing |
 

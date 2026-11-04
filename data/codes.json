@@ -105,6 +105,10 @@
         "code": "contract.descriptor.easy",
         "doc": "an easy list that names no control, names one twice or a hidden or read-only one, or stands in a scanned descriptor"
       },
+      "descriptorMeter": {
+        "code": "contract.descriptor.meter",
+        "doc": "a meter of a descriptor with the id or a symbol of another meter, a symbol a control answers to, a range whose min is not below its max, or a scale that is no id of PARAM_SCALES"
+      },
       "descriptorPortDuplicate": {
         "code": "contract.descriptor.port-duplicate",
         "doc": "two ports of a descriptor of one kind and direction with one id"
