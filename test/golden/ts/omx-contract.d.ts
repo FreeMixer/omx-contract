@@ -5968,6 +5968,16 @@ export declare const OMX_PARAM_CONTRACT_UNITS: {
 };
 
 /**
+ * The ids a plugin face gives the controls that are the face's and not the declaration's, the same in every plugin and never moved: the CLAP id of the host's bypass parameter, outside every declaration's ids (0 up, in declaration order), and the LV2 port indices of enabled and latency, the first two ports, before the audio ports and the declared controls, so appending a control or a port moves neither. A host keeps bypass automation by this id; LV2 presets and sessions name ports by symbol and are unaffected by the indices.
+ * @see data/plugin-face.json
+ */
+export declare const OMX_PLUGIN_FACE_IDS: {
+  readonly bypassClapId: 2147418112;
+  readonly enabledLv2Index: 0;
+  readonly latencyLv2Index: 1;
+};
+
+/**
  * The CLAP plugin features and LV2 plugin classes that become the descriptor feature audio-effect: every kind of effect, a filter, a dynamics processor, a modulation or a space, and the channel-less roles of a processor (utility, mixing, mastering).
  *
  * Why: The four feature words stay; every CLAP plugin feature and LV2 plugin class is mapped onto them, or onto other, as data (FreeMixer/omx-contract#120). One item per target, so a word is the source term and is named once; a test holds the five items to the terms.
