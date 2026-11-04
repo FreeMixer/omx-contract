@@ -60,4 +60,12 @@
 #define OMX_CLAP_UNIT_RATIO 258u
 #define OMX_CLAP_UNIT_LUFS 259u
 
+/** every field of the sheet as X(value, "field"), in its declared order, for a table a consumer builds at run time */
+#define OMX_PARAM_UNITS(X) \
+    X(0u, "none") X(1u, "s") X(2u, "ms") X(3u, "min") X(4u, "bar") X(5u, "beat") \
+    X(6u, "frame") X(7u, "m") X(8u, "cm") X(9u, "mm") X(10u, "km") X(11u, "inch") \
+    X(12u, "mile") X(13u, "db") X(14u, "pc") X(15u, "coef") X(16u, "hz") X(17u, "khz") \
+    X(18u, "mhz") X(19u, "bpm") X(20u, "oct") X(21u, "cent") X(22u, "semitone12TET") X(23u, "degree") \
+    X(24u, "midiNote") X(256u, "dbfs") X(257u, "dbu") X(258u, "ratio") X(259u, "lufs")
+
 #endif /* OMX_PARAM_UNITS_H */

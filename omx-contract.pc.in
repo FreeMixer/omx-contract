@@ -5,6 +5,8 @@ includedir=@INCLUDEDIR@
 datadir=@DATADIR@/omx-contract
 # the contract directory (docs/contract-dir.md): <contractdir>/<schema major>/<package>/
 contractdir=@CONTRACTDIR@
+# the schema major the contract directory is read under: <contractdir>/<schema_major>/<package>/
+schema_major=@SCHEMA_MAJOR@
 
 Name: omx-contract
 Description: The FreeMixer declarations as data, rendered as C headers (omxcontract/)

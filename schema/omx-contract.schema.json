@@ -3,7 +3,7 @@
   "$id": "https://github.com/FreeMixer/omx-contract/raw/main/schema/omx-contract.schema.json",
   "title": "omx-contract data file",
   "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet, a list, a set, codes, words, a format's terms or a host's verbs. GPL-3.0-or-later.",
-  "x-omx-schema-version": "3.7.0",
+  "x-omx-schema-version": "3.9.0",
   "type": "object",
   "if": { "required": ["origin"] },
   "then": { "$ref": "#/$defs/descriptor" },
@@ -402,7 +402,7 @@
     "renderGlob": { "type": "string", "pattern": "^\\*?[A-Za-z][A-Za-z0-9]*\\*?$", "description": "A field name, its start (`worker*`), its end (`*Dbfs`) or a part of it (`*Ring*`)." },
     "renderHeader": {
       "type": "object",
-      "description": "One C header: its path, include guard, the project its licence block names, the banner under GENERATED, the @file brief, the system headers it includes, which items it reads (scope: the file's, the default, or the package's) and its sections. numbers: every sheet, each field <prefix><FIELD> with a u literal, a level field (levels) a float one, the omitted fields left out, each with its docs line. codes: every codes item, <prefix><NAME> its code string. scalars: every number spelled OMX_<macro> as omx_contract_limits.h spells it, sorted by macro. limits: every section of omx_contract_limits.h, the same defines.",
+      "description": "One C header: its path, include guard, the project its licence block names, the banner under GENERATED, the @file brief, the system headers it includes, which items it reads (scope: the file's, the default, or the package's) and its sections. numbers: every sheet, each field <prefix><FIELD> with a u literal, a level field (levels) a float one, the omitted fields left out, each with its docs line; with table, the same fields once more as the X-macro table <table>(X), X(<value>, \"<field>\") each. codes: every codes item, <prefix><NAME> its code string. scalars: every number spelled OMX_<macro> as omx_contract_limits.h spells it, sorted by macro. limits: every section of omx_contract_limits.h, the same defines.",
       "properties": {
         "header": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(/[a-z][a-z0-9_]*)*\\.h$" },
         "guard": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*_H$" },
@@ -417,7 +417,8 @@
             "comment": { "$ref": "#/$defs/renderLine" },
             "prefix": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*_$" },
             "omit": { "type": "array", "items": { "$ref": "#/$defs/renderGlob" }, "uniqueItems": true },
-            "levels": { "$ref": "#/$defs/renderGlob" }
+            "levels": { "$ref": "#/$defs/renderGlob" },
+            "table": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" }
           },
           "required": ["comment", "prefix"],
           "additionalProperties": false

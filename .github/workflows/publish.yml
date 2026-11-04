@@ -42,7 +42,12 @@ jobs:
           npm --version
       - run: npm ci
       - name: The live owner's data, so the live-owner check runs here too (tools/live-owner-data.sh)
-        run: echo "OMX_LIVE_OWNER_DATA=$(sh tools/live-owner-data.sh "$RUNNER_TEMP/omx-dsp")" >> "$GITHUB_ENV"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          data=$(sh tools/live-owner-data.sh "$RUNNER_TEMP/omx-dsp")
+          test -n "$data"
+          echo "OMX_LIVE_OWNER_DATA=$data" >> "$GITHUB_ENV"
       - name: The data is proven before it is published
         run: |
           set -o pipefail
