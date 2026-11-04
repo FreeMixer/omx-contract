@@ -9,7 +9,8 @@
  * none of their items.
  */
 import assert from 'node:assert/strict';
-import { cpSync, existsSync, readFileSync, readdirSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { entriesOf, isUse, kernelDocOf, loadData, resolveData } from '../lib/data.mjs';
@@ -106,4 +107,58 @@ test('the tool names no item an owner installs: the owner\'s file is the only pl
   // The default EQ rule, the EQ band counts' rule and the band budget were the last (#1841): the rule left for omx-dsp,
   // the counts are the generic count and sheet-default rules, the budget a check its owner declares (docs/contract-dir.md).
   assert.deepEqual(named, [], 'no rule, render or comment of the tool names an owner\'s item');
+});
+
+// The step that fetches the owner's data, in each workflow that runs the tests. It sends the token, since the releases
+// API answered a run without one with a 403, and it fails where the fetch fails: `echo "X=$(cmd)"` takes echo's status,
+// so a failed cmd passes the step with an empty X and only the tests above go red.
+const WORKFLOWS = readdirSync(join(ROOT, '.github/workflows')).filter((f) => f.endsWith('.yml'));
+const workflow = (f) => readFileSync(join(ROOT, '.github/workflows', f), 'utf8');
+const ownerStep = (f) => {
+  const step = workflow(f).split(/^ {6}- /m).find((s) => s.includes('sh tools/live-owner-data.sh'));
+  if (!step) return null;
+  const lines = step.split('\n');
+  const at = lines.findIndex((l) => /^ +run:/.test(l));
+  const head = lines[at].replace(/^ +run: */, '');
+  const indent = lines[at].search(/\S/);
+  const body = [];
+  for (const l of lines.slice(at + 1)) {
+    if (l.trim() !== '' && l.search(/\S/) <= indent) break;
+    body.push(l.trim());
+  }
+  return { step, run: head === '|' ? body.join('\n') : head };
+};
+const OWNER_WORKFLOWS = WORKFLOWS.filter((f) => ownerStep(f));
+
+test('the live-owner step is in the workflows that run the tests', () => {
+  assert.deepEqual(OWNER_WORKFLOWS.sort(), ['ci.yml', 'publish.yml', 'release.yml']);
+});
+
+test('the live-owner step sends the token to tools/live-owner-data.sh', () => {
+  for (const f of OWNER_WORKFLOWS) assert.match(ownerStep(f).step, /^ +GITHUB_TOKEN: \$\{\{ github\.token \}\}$/m, f);
+});
+
+test('the live-owner step fails on a failed fetch and on an empty answer, and writes the path on a good one', () => {
+  const cases = [
+    { name: 'a failed fetch', script: 'exit 1', ok: false },
+    { name: 'an empty answer', script: 'exit 0', ok: false },
+    { name: 'a good fetch (the positive control)', script: 'echo /owner/data', ok: true },
+  ];
+  for (const f of OWNER_WORKFLOWS) for (const c of cases) {
+    const dir = scratchDir('omx-owner-step-');
+    mkdirSync(join(dir, 'tools'));
+    writeFileSync(join(dir, 'tools/live-owner-data.sh'), `${c.script}\n`);
+    const env = join(dir, 'env');
+    writeFileSync(env, '');
+    // the runner's own shell for a step with no `shell:` key
+    const r = spawnSync('bash', ['-e', '-c', ownerStep(f).run], { cwd: dir, env: { ...process.env, GITHUB_ENV: env, RUNNER_TEMP: dir } });
+    assert.equal(r.status === 0, c.ok, `${f}, ${c.name}: the step exited ${r.status}`);
+    assert.equal(readFileSync(env, 'utf8'), c.ok ? 'OMX_LIVE_OWNER_DATA=/owner/data\n' : '', `${f}, ${c.name}: what the step wrote`);
+  }
+});
+
+test('no workflow writes a command substitution straight into GITHUB_ENV or GITHUB_OUTPUT', () => {
+  const shape = /\becho\b.*\$\(.*>>\s*"?\$\{?GITHUB_(ENV|OUTPUT)/;
+  assert.ok(shape.test('echo "X=$(cmd)" >> "$GITHUB_ENV"'), 'positive control: the pattern sees the shape');
+  for (const f of WORKFLOWS) for (const [i, l] of workflow(f).split('\n').entries()) assert.doesNotMatch(l, shape, `${f}:${i + 1}`);
 });
