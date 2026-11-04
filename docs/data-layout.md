@@ -20,6 +20,8 @@ data/
   curves.json                  CURVE_*: the kinds of picture a panel draws, and the axes each is drawn on
   param-contract.json          OMX_PARAM_CONTRACT_*: the unit codes of org.openmixer.param-contract/1, rendered to
                                omx_param_units.h, read as data by omx-panel and plugin-hostd
+  plugin-face.json             OMX_PLUGIN_FACE_*: the permanent CLAP bypass id and LV2 enabled and latency indices of
+                               every plugin face, rendered to omx_plugin_face_ids.h
   plugin-features.json         PLUGIN_FEATURE_*: every CLAP plugin feature and LV2 plugin class onto a descriptor feature word, or other
   panel.json                   PANEL_*: the panel families and widgets
   scan.json                    SCAN_*: the names of the scan documents and the scopes of the field dump (owned elsewhere)
@@ -43,6 +45,7 @@ package's verbs"); `verbs.json` holds only the hosts they name. The hosting code
 | a field of a machine class, a band, a named class | `machine-class.json` | `MACHINE_<LIST>`, kind `words` |
 | a curve kind a panel draws, or an axis one is drawn on | `curves.json` | `CURVE_KINDS`, `CURVE_AXES`, kind `words` |
 | a unit code of the parameter contract extension | `param-contract.json` | `OMX_PARAM_CONTRACT_UNITS`, kind `sheet`, append-only |
+| an id a plugin face gives its own controls (bypass, enabled, latency) | `plugin-face.json` | `OMX_PLUGIN_FACE_IDS`, kind `sheet`, never changed |
 | a CLAP feature or LV2 class and the feature word it becomes | `plugin-features.json` | `PLUGIN_FEATURE_<WORD>`, kind `words`, one item per target |
 | a panel family or widget | `panel.json` | `PANEL_<LIST>`, kind `words` |
 | a document a scan writes, or a scope of its field dump | `scan.json` | `SCAN_<LIST>`, kind `words`; named here, owned by the writer |
