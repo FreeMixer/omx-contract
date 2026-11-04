@@ -104,3 +104,17 @@ test('a travels table with fields of its own lives in an item file beside the ke
   const k = { $schema: '../../schema/omx-contract.schema.json', controls: [{ name: 'a', kind: 'travel', doc: 'a', travel: { min: 0, max: 1, unit: '' } }], constants: { X_CONTINUOUS_TRAVELS: table } };
   assert.ok(valid({ 'data/kernels/x.json': JSON.stringify(k) }).includes('data/kernels/x.json:shape'), 'a kernel\'s constant is a scalar, a list or a sheet');
 });
+
+test('a use may take another kernel\'s item, so two kernels read one declaration; it must name an item of its kind', () => {
+  const use = (global, kind = 'choice') => (d) => { d['data/kernels/swell.json'].controls.push({ name: 'shared', kind, global }); };
+  // swell takes contour's CONTOUR_SLOPES: valid, and no item is added (the declaration stays contour's alone)
+  const t = texts(use('CONTOUR_SLOPES'));
+  assert.deepEqual(problems(t), []);
+  const items = loadData(null, t).items;
+  assert.equal(items.get('CONTOUR_SLOPES').rel, 'data/kernels/contour.json');
+  assert.ok(![...items.keys()].some((n) => n.startsWith('SWELL_SHARED')), 'the use declares no copy');
+  // a use naming nothing, and a choice naming a travel, are refused by their name
+  const said = (fn) => problems(texts(fn)).filter((x) => x.rule === 'use').map((x) => `${x.file} ${x.item}: ${x.message}`);
+  assert.deepEqual(said(use('NO_SUCH_SET')), ['data/kernels/swell.json shared: uses NO_SUCH_SET, which no control of any kernel declares']);
+  assert.deepEqual(said(use('CONTOUR_FREQ_RANGE')), ['data/kernels/swell.json shared: a choice that uses CONTOUR_FREQ_RANGE, which is no set']);
+});
