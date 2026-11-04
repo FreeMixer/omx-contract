@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.8.0
+Version: 3.9.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -116,6 +116,23 @@ Its documentation is on openmixer.org.
 %{_datadir}/pkgconfig/omx-contract.pc
 
 %changelog
+* Wed Nov 04 2026 Pau Aliagas <linuxnow@gmail.com> - 3.9.0-1
+- A descriptor may list its meters, the values a plugin publishes while it
+  runs: host id, output symbol, kind, channels, unit, display range and scale,
+  and the kernel readout it publishes; contract.descriptor.meter refuses a
+  repeated id or symbol, or a control's symbol (#198).
+- A kernel's use may take another kernel's item, so two kernels share one
+  declaration; a use whose item nothing declares, or of another kind, is
+  refused (#199).
+- OMX_PLUGIN_FACE_IDS (omxcontract/omx_plugin_face_ids.h): one permanent CLAP
+  bypass id, 0x7FFF0000, and the LV2 enabled and latency port indices (#200).
+- The contract-limits renderer and its split are exported for consumers.
+- units:coef carries the word x.
+- The tests over omx-dsp's data move to omx-dsp.
+- The packages install their licence and a short README and no other markdown.
+- It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel before
+  0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
+
 * Tue Nov 03 2026 Pau Aliagas <linuxnow@gmail.com> - 3.8.0-1
 - The example descriptors are published with the package, under
   examples/descriptors/, and exported as

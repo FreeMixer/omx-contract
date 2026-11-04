@@ -1,3 +1,31 @@
+omx-contract (3.9.0) unstable; urgency=medium
+
+  * A descriptor may list its meters: the values a plugin publishes while it
+    runs, which a host draws and never writes. Each states its host id, the
+    output symbol a host reads it by, its kind, channels and unit, its display
+    range and scale, and the kernel readout it publishes.
+    contract.descriptor.meter refuses a meter that repeats an id or a symbol,
+    or takes a control's symbol (#198).
+  * A kernel's use may take another kernel's item, so two kernels share one
+    declaration instead of each keeping a copy. A use whose item nothing
+    declares, or whose item is of another kind, is refused (#199).
+  * OMX_PLUGIN_FACE_IDS, rendered to omxcontract/omx_plugin_face_ids.h: one
+    permanent CLAP bypass id, 0x7FFF0000, and the LV2 enabled and latency port
+    indices, 0 and 1. A plugin's bypass id no longer moves when a parameter is
+    appended (#200).
+  * The contract-limits renderer and its split by owner are exported as
+    @openmixer/omx-contract/contract-limits-render and contract-limits-split,
+    so a consumer renders its declarations with this package's code.
+  * units:coef carries the word x, so omx-rotary's unit reads back.
+  * The definitions' half of the round-trip and the tests over omx-dsp's data
+    move to omx-dsp; this package's tests run over invented kernels.
+  * The packages install their licence and a short README and no other
+    markdown; their descriptions point to openmixer.org.
+  * It breaks nothing: libomxdsp-dev before 0.25.0, libomx-clap-core-dev before
+    0.13.0 and omx-plugins-dev before 0.13.0 stay the floors.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Wed, 04 Nov 2026 18:00:00 +0100
+
 omx-contract (3.8.0) unstable; urgency=medium
 
   * The example descriptors are published with the package, under
