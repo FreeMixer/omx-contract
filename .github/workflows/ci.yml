@@ -124,6 +124,8 @@ jobs:
           test -n "$tag"
           node bin/omx-contract.mjs semver "$tag" --report | tee "$RUNNER_TEMP/semver.txt"
           { echo "### Changes since $tag"; echo '```'; cat "$RUNNER_TEMP/semver.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          # the schema's version moves with the schema, in the change, since consumers' floors are read against it
+          node bin/omx-contract.mjs semver "$tag" --schema-version
       - id: handback-layout
         name: Every word in the file its rule places it; every installed LV2 and CLAP term mapped with a status
         run: make layout

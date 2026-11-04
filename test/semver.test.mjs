@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { main } from '../bin/omx-contract.mjs';
-import { DEVELOPMENT_PHASE, bumpOf, classify, classifySchema, refusal } from '../lib/semver.mjs';
+import { DEVELOPMENT_PHASE, bumpOf, classify, classifySchema, refusal, schemaVersionProblem } from '../lib/semver.mjs';
 import { DATA, ROOT, dropDecl, editData, relOf, resolvedOf, scratchData, texts } from './helpers.mjs';
 
 const base = resolvedOf(texts());
@@ -100,6 +100,23 @@ test('schema: a property or an enum member added is minor; a property or an enum
   assert.equal(schemaLevel((n) => { n.$defs.renderHeader.properties.guard.pattern = '^X$'; }).level, 'major');
   assert.equal(schemaLevel((n) => { n.$defs.renderHeader.required.push('includes'); }).level, 'major');
   assert.equal(schemaLevel((n) => { n.$defs.renderHeader.required.pop(); }).level, 'minor');
+});
+
+test('the version a schema states moves with the schema, by what its changes need', () => {
+  const was = { 'x-omx-schema-version': '3.7.0', $defs: { a: { type: 'object', properties: { x: { type: 'string' } } } } };
+  const grown = (version) => ({ ...structuredClone(was), 'x-omx-schema-version': version, $defs: { a: { type: 'object', properties: { x: { type: 'string' }, y: { type: 'string' } } } } });
+  assert.equal(schemaVersionProblem(was, structuredClone(was)), null, 'nothing changed, nothing to state');
+  assert.equal(schemaVersionProblem(was, grown('3.9.0')), null, 'a member added, a minor stated');
+  assert.match(schemaVersionProblem(was, grown('3.7.0')), /MINOR/, 'a member added, the version left');
+  assert.match(schemaVersionProblem(was, grown('3.7.1')), /MINOR/, 'a member added, a patch stated');
+  assert.match(schemaVersionProblem(was, { ...structuredClone(was), 'x-omx-schema-version': '3.9.0' }), /is what 3\.7\.0 was/, 'the version moved alone');
+});
+
+test('--schema-version holds the tree to its last tag, and is red when the schema is not what it states', () => {
+  const git = spawnSync('git', ['-C', ROOT, 'rev-parse', '--verify', 'v3.5.0^{commit}']);
+  if (git.status !== 0) return;   // no tags in this checkout; CI's semver step runs it against the last tag, always
+  // 3.5.0 to this tree, whose schema has grown since and states so
+  assert.equal(main(['semver', 'v3.5.0', '--schema-version']), 0);
 });
 
 test('the CLI against a tag reads the schema too, and --report names the level without refusing the bump', () => {
