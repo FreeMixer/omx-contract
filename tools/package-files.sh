@@ -10,7 +10,7 @@
 #
 # omx-contract-data holds data/ installed as contract.d/<schema major>/omx-contract/ (less codes.json, with its
 # MANIFEST.json), the schema and the committed renders under share/omx-contract; the development package the C
-# render, omx-contract.pc and install-contract-dir.sh; the command package the command, its tree under
+# render, the hand-written C beside it, omx-contract.pc, install-contract-dir.sh and (RPM) the rpm macros; the command package the command, its tree under
 # /usr/lib/omx-contract and its man page. No file is in two packages, and the command and the development package
 # each require omx-contract-data at their own version. Prints each package's list; exit 0 equal, 1 a difference, 2 usage.
 set -eu
@@ -45,9 +45,12 @@ cli=omx-contract
   echo "/usr/share/omx-contract/contract.d/$major/omx-contract/MANIFEST.json"
   for f in omx-contract.json omx-vocabulary.schema.json omx-resource-hints.ttl omx_contract.py; do echo "/usr/share/omx-contract/$f"; done
   echo /usr/share/omx-contract/omx-contract.schema.json) | LC_ALL=C sort > "$tmp/want-$data"
-(for h in include/omxcontract/*.h; do echo "/usr/$h"; done
+# the renders and the hand-written C (src/omxcontract/) both land under include/omxcontract; the RPM macros of the
+# contract directory are the RPM's alone (a deb has no rpm macros directory)
+(for h in include/omxcontract/*.h src/omxcontract/*.h; do echo "/usr/include/omxcontract/$(basename "$h")"; done
   echo /usr/share/omx-contract/install-contract-dir.sh
-  echo /usr/share/pkgconfig/omx-contract.pc) | LC_ALL=C sort > "$tmp/want-$devel"
+  echo /usr/share/pkgconfig/omx-contract.pc
+  [ "$kind" = rpm ] && echo /usr/lib/rpm/macros.d/macros.omx-contract) | LC_ALL=C sort > "$tmp/want-$devel"
 
 bad=0
 for pkg in "$data" "$devel" "$cli"; do
