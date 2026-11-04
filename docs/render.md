@@ -41,7 +41,7 @@ and one section or more, in this order:
 
 | Section | What it renders |
 |---|---|
-| `numbers` `{ comment, prefix, omit?, levels? }` | Every sheet: field `f` as `<prefix><F>`, `F` in upper snake case; a field matching `levels` (a glob) is a level, a float literal, every other a non-negative integer, an unsigned literal; fields matching `omit` are left out. Each define carries the field's `docs` line as a trailing `///<` comment. |
+| `numbers` `{ comment, prefix, omit?, levels?, table? }` | Every sheet: field `f` as `<prefix><F>`, `F` in upper snake case; a field matching `levels` (a glob) is a level, a float literal, every other a non-negative integer, an unsigned literal; fields matching `omit` are left out. Each define carries the field's `docs` line as a trailing `///<` comment. With `table`, the same fields once more as the X-macro `<table>(X)`, one `X(<value>, "<field>")` per field in the sheet's order: a consumer that names a value at run time (omx-clap-core's unit words) expands it instead of typing the table again. |
 | `codes` `{ comment, prefix }` | Every codes item: code `n` as `<prefix><N>`, a string literal, with its `doc`. |
 | `scalars` `{ comment }` | Every number spelled `OMX_<macro>` as `omx_contract_limits.h` spells it, sorted by macro. |
 | `limits` `{ comment? }` | Every section of `omx_contract_limits.h`, the same defines under the same comments: the tables, scalars, lists, sets and readouts. With `scope: package` this is an owner's whole header (omx-dsp's `omxdsp/omxdsp_definitions.h`). |

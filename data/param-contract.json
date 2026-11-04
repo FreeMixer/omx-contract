@@ -13,7 +13,8 @@
         "brief": "The unit codes of the parameter contract extension, one OMX_CLAP_UNIT_ define per token.",
         "numbers": {
           "comment": "the unit of a parameter's plain value: 0..24 the LV2 units one to one, 0x100 and up the vendor block",
-          "prefix": "OMX_CLAP_UNIT_"
+          "prefix": "OMX_CLAP_UNIT_",
+          "table": "OMX_PARAM_UNITS"
         }
       }
     ]

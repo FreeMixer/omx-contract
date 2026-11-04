@@ -85,6 +85,7 @@ Its documentation is on openmixer.org.
 
 %install
 %make_install PREFIX=%{_prefix} INCLUDEDIR=%{_includedir} DATADIR=%{_datadir}
+%{__make} install-rpm-macros DESTDIR=%{buildroot} PREFIX=%{_prefix} RPMMACRODIR=%{_rpmmacrodir}
 %{__make} install-cli DESTDIR=%{buildroot} PREFIX=%{_prefix} DATADIR=%{_datadir} BINDIR=%{_bindir} CLIDIR=%{_prefix}/lib/omx-contract MANDIR=%{_mandir}
 
 %check
@@ -114,6 +115,7 @@ Its documentation is on openmixer.org.
 %{_includedir}/omxcontract/
 %{_datadir}/omx-contract/install-contract-dir.sh
 %{_datadir}/pkgconfig/omx-contract.pc
+%{_rpmmacrodir}/macros.omx-contract
 
 %changelog
 * Tue Nov 03 2026 Pau Aliagas <linuxnow@gmail.com> - 3.8.0-1
