@@ -92,12 +92,14 @@ Its documentation is on openmixer.org.
 
 %files
 %license LICENSE
+%doc README.md
 %{_bindir}/omx-contract
 %{_prefix}/lib/omx-contract/
 %{_mandir}/man1/omx-contract.1*
 
 %files data
 %license LICENSE
+%doc README.md
 %dir %{_datadir}/omx-contract
 %{_datadir}/omx-contract/contract.d/
 %{_datadir}/omx-contract/omx-contract.schema.json
@@ -108,6 +110,7 @@ Its documentation is on openmixer.org.
 
 %files devel
 %license LICENSE
+%doc README.md
 %{_includedir}/omxcontract/
 %{_datadir}/omx-contract/install-contract-dir.sh
 %{_datadir}/pkgconfig/omx-contract.pc

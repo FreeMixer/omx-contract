@@ -9,7 +9,7 @@
 #
 # `make install-cli` installs the omx-contract command, which needs node at run time: the CLI's own files under
 # CLIDIR with its runtime dependencies unpacked from the npm tarballs in vendor/ (no network, no npm) and their
-# development files (dot files, tests, benchmarks, lint and TypeScript configuration) left out, the command in
+# development files (dot files, tests, benchmarks, lint and TypeScript configuration) and their markdown left out, the command in
 # BINDIR and its man page.
 
 PREFIX ?= /usr/local
@@ -68,6 +68,7 @@ install-cli: all
 	  install -d $(DESTDIR)$(CLIDIR)/node_modules/$$m && tar -xzf $$t --no-same-owner --strip-components=1 -C $(DESTDIR)$(CLIDIR)/node_modules/$$m || exit 1; \
 	  find $(DESTDIR)$(CLIDIR)/node_modules/$$m -mindepth 1 -maxdepth 1 \( -name '.*' -o -name test -o -name spec -o -name benchmark \
 	    -o -name 'eslint.config.*' -o -name 'tsconfig*.json' \) -exec rm -rf {} + || exit 1; \
+	  find $(DESTDIR)$(CLIDIR)/node_modules/$$m -type f -iname '*.md' -delete || exit 1; \
 	done
 	printf '#!/bin/sh\nexec node %s/bin/omx-contract.mjs "$$@"\n' '$(CLIDIR)' > $(DESTDIR)$(BINDIR)/omx-contract
 	chmod 0755 $(DESTDIR)$(BINDIR)/omx-contract
