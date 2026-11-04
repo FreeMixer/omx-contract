@@ -25,11 +25,11 @@ test('a list carrying formerly is refused by the schema', () => {
 
 test('a kernel control carrying c.alias on its travel is refused by the schema', () => {
   assert.ok(refusesSchema(texts((d, at) => {
-    at('data/kernels/delay.json', 'FX_DELAY_TIME_RANGE').c = { alias: { fact: 'delay', field: 'timeMs' } };
-  }), 'FX_DELAY_TIME_RANGE'));
+    at('data/kernels/echo.json', 'ECHO_TIME_RANGE').c = { alias: { fact: 'echo', field: 'timeMs' } };
+  }), 'ECHO_TIME_RANGE'));
   assert.ok(refusesSchema(texts((d, at) => {
-    at('data/kernels/balance.json', 'PAN_RANGE').c = { alias: { fact: 'pan', field: 'pan' } };
-  }), 'PAN_RANGE'));
+    at('data/kernels/wave.json', 'WAVE_RATE_RANGE').c = { alias: { fact: 'wave', field: 'rate' } };
+  }), 'WAVE_RATE_RANGE'));
 });
 
 test('the json render of the union has no formerNames', () => {

@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+#
+# omx-contract's contract directory (docs/contract-dir.md) for the spec of an owner that installs its own package of
+# it: the schema major as this omx-contract reads it, and the directory a -contract subpackage's %files names,
+#   %{omx_contract_dir}/<owner>/
+# so no spec types the major a second time. Installed by omx-contract-devel; the same number is pkg-config's
+# schema_major variable of omx-contract.pc.
+%omx_contract_schema_major @SCHEMA_MAJOR@
+%omx_contract_dir %{_datadir}/omx-contract/contract.d/%{omx_contract_schema_major}

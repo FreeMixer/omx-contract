@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.8.0
+Version: 3.9.0
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -35,6 +35,7 @@ else reads it. That is why the console, the DSP library and the plugins agree
 on what a knob does and how far it turns. The declarations are plain JSON with
 a JSON Schema, so tools in any language can read them, and they are rendered
 as C headers for the code that is built from them.
+Its documentation is on openmixer.org.
 
 This package holds the omx-contract command, which validates, formats and
 renders the declarations, and reads the contract directory the packages
@@ -53,6 +54,7 @@ definitions beside it), the JSON Schema, the resolved json render, the
 vocabulary's schema fragment and the resource hints' Turtle, under
 share/omx-contract. A package that reads them at run time requires this one,
 never the development package.
+Its documentation is on openmixer.org.
 
 %package devel
 License: GPL-3.0-or-later
@@ -73,6 +75,7 @@ omx-contract under include/omxcontract (the limits header), omx-contract.pc
 build installs its definitions with. The data it builds against is
 omx-contract-data, which it requires. A consumer requires it at a floor, the
 lowest release whose declarations it builds against.
+Its documentation is on openmixer.org.
 
 %prep
 %autosetup
@@ -82,6 +85,7 @@ lowest release whose declarations it builds against.
 
 %install
 %make_install PREFIX=%{_prefix} INCLUDEDIR=%{_includedir} DATADIR=%{_datadir}
+%{__make} install-rpm-macros DESTDIR=%{buildroot} PREFIX=%{_prefix} RPMMACRODIR=%{_rpmmacrodir}
 %{__make} install-cli DESTDIR=%{buildroot} PREFIX=%{_prefix} DATADIR=%{_datadir} BINDIR=%{_bindir} CLIDIR=%{_prefix}/lib/omx-contract MANDIR=%{_mandir}
 
 %check
@@ -89,12 +93,14 @@ lowest release whose declarations it builds against.
 
 %files
 %license LICENSE
+%doc README.md
 %{_bindir}/omx-contract
 %{_prefix}/lib/omx-contract/
 %{_mandir}/man1/omx-contract.1*
 
 %files data
 %license LICENSE
+%doc README.md
 %dir %{_datadir}/omx-contract
 %{_datadir}/omx-contract/contract.d/
 %{_datadir}/omx-contract/omx-contract.schema.json
@@ -109,8 +115,26 @@ lowest release whose declarations it builds against.
 %{_includedir}/omxcontract/
 %{_datadir}/omx-contract/install-contract-dir.sh
 %{_datadir}/pkgconfig/omx-contract.pc
+%{_rpmmacrodir}/macros.omx-contract
 
 %changelog
+* Wed Nov 04 2026 Pau Aliagas <linuxnow@gmail.com> - 3.9.0-1
+- A descriptor may list its meters, the values a plugin publishes while it
+  runs: host id, output symbol, kind, channels, unit, display range and scale,
+  and the kernel readout it publishes; contract.descriptor.meter refuses a
+  repeated id or symbol, or a control's symbol (#198).
+- A kernel's use may take another kernel's item, so two kernels share one
+  declaration; a use whose item nothing declares, or of another kind, is
+  refused (#199).
+- OMX_PLUGIN_FACE_IDS (omxcontract/omx_plugin_face_ids.h): one permanent CLAP
+  bypass id, 0x7FFF0000, and the LV2 enabled and latency port indices (#200).
+- The contract-limits renderer and its split are exported for consumers.
+- units:coef carries the word x.
+- The tests over omx-dsp's data move to omx-dsp.
+- The packages install their licence and a short README and no other markdown.
+- It breaks nothing new: omx-dsp-devel before 0.25.0, omx-clap-core-devel before
+  0.13.0 and omx-plugins-devel before 0.13.0 stay the floors.
+
 * Tue Nov 03 2026 Pau Aliagas <linuxnow@gmail.com> - 3.8.0-1
 - The example descriptors are published with the package, under
   examples/descriptors/, and exported as

@@ -1,0 +1,195 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "controls": [
+    {
+      "name": "slope",
+      "kind": "choice",
+      "doc": "The contour slopes: an invented set of numeric ids, each its own value.",
+      "ids": [
+        6,
+        18
+      ],
+      "default": 6
+    },
+    {
+      "name": "highSlope",
+      "kind": "choice",
+      "global": "CONTOUR_SLOPES"
+    },
+    {
+      "name": "bandType",
+      "kind": "choice",
+      "doc": "The contour band shapes: an invented set with labels and a default.",
+      "ids": [
+        "peak",
+        "lowShelf",
+        "highShelf",
+        "cut"
+      ],
+      "default": "peak",
+      "labels": [
+        "Peak",
+        "Low Shelf",
+        "High Shelf",
+        "Cut"
+      ],
+      "count": "CONTOUR_BAND_COUNTS"
+    },
+    {
+      "name": "freq",
+      "kind": "travel",
+      "doc": "The contour band frequency: an invented per-band travel.",
+      "travel": {
+        "min": 30,
+        "max": 16000,
+        "step": 5,
+        "unit": "Hz"
+      },
+      "count": "CONTOUR_BAND_COUNTS"
+    },
+    {
+      "name": "q",
+      "kind": "travel",
+      "doc": "The contour band Q: an invented per-band travel.",
+      "travel": {
+        "min": 0.2,
+        "max": 12,
+        "step": 0.1,
+        "unit": ""
+      },
+      "count": "CONTOUR_BAND_COUNTS"
+    },
+    {
+      "name": "cutQ",
+      "kind": "travel",
+      "doc": "The Q a cut band reaches: an invented conditional travel.",
+      "travel": {
+        "min": 0.2,
+        "max": 60,
+        "step": 1,
+        "unit": ""
+      },
+      "of": "q",
+      "when": {
+        "control": "bandType",
+        "is": "cut"
+      }
+    },
+    {
+      "name": "bandOn",
+      "kind": "choice",
+      "doc": "A contour band switch: an invented per-band set.",
+      "ids": [
+        "off",
+        "on"
+      ],
+      "default": "off",
+      "labels": [
+        "Off",
+        "On"
+      ],
+      "count": "CONTOUR_BAND_COUNTS"
+    },
+    {
+      "name": "oversample",
+      "kind": "choice",
+      "doc": "The contour oversampling factor: an invented set of numeric ids.",
+      "ids": [
+        1,
+        2,
+        8
+      ],
+      "default": 1,
+      "labels": [
+        "1x",
+        "2x",
+        "8x"
+      ]
+    },
+    {
+      "name": "rolloff",
+      "kind": "choice",
+      "doc": "The contour roll-off: an invented set whose ids carry a value, one none.",
+      "unit": "Hz",
+      "ids": [
+        "off",
+        "9000",
+        "14000"
+      ],
+      "default": "off",
+      "labels": [
+        "Off",
+        "9 kHz",
+        "14 kHz"
+      ],
+      "values": [
+        null,
+        9000,
+        14000
+      ]
+    }
+  ],
+  "constants": {
+    "CONTOUR_MAX_BANDS": {
+      "kind": "scalar",
+      "doc": "The most bands a contour holds: an invented count.",
+      "unit": "",
+      "value": 12
+    },
+    "CONTOUR_RESERVE": {
+      "kind": "scalar",
+      "doc": "The contour bands kept back: an invented count a declared check sums.",
+      "unit": "",
+      "value": 5
+    },
+    "CONTOUR_BAND_COUNTS": {
+      "kind": "sheet",
+      "doc": "How many bands each invented variant starts with and holds.",
+      "value": {
+        "desk": {
+          "default": 3,
+          "max": {
+            "ref": "CONTOUR_MAX_BANDS"
+          }
+        },
+        "small": {
+          "default": 2,
+          "max": 2
+        },
+        "wide": {
+          "default": 6,
+          "max": 6
+        }
+      }
+    },
+    "CONTOUR_CENTRES_HZ": {
+      "kind": "list",
+      "doc": "The contour centres: an invented list.",
+      "unit": "Hz",
+      "values": [
+        100,
+        1000,
+        10000
+      ]
+    },
+    "CONTOUR_CENTRE_COUNT": {
+      "kind": "scalar",
+      "doc": "How many centres: an invented count derived from the list.",
+      "unit": "",
+      "value": {
+        "derive": "count",
+        "of": "CONTOUR_CENTRES_HZ"
+      }
+    },
+    "CONTOUR_SHELF": {
+      "kind": "sheet",
+      "doc": "The contour shelf: an invented sheet reading a primitive.",
+      "value": {
+        "q": {
+          "ref": "TOOL_Q"
+        },
+        "gainDb": 3
+      }
+    }
+  }
+}

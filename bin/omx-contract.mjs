@@ -26,7 +26,7 @@ import { contractVersion, loadContractDir } from '../lib/contract-dir.mjs';
 import { KERNEL_SECTIONS, TOOL_FILES, isKernelFile, kernelDocOf, loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { checkLinks, linksOf, sourcesOf } from '../lib/links.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
-import { classify, classifySchema, refusal } from '../lib/semver.mjs';
+import { classify, classifySchema, refusal, schemaVersionProblem } from '../lib/semver.mjs';
 import { fileProblems, validateData } from '../lib/validate.mjs';
 import { renderC, renderSheetC } from '../render/c.mjs';
 import { renderFormatsPy } from '../render/formats.mjs';
@@ -232,6 +232,16 @@ function cmdSemver(argv) {
     try {
       prevSchema = JSON.parse(execFileSync('git', ['-C', ROOT, 'show', `${tag}:schema/omx-contract.schema.json`], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
     } catch { prevSchema = undefined; }
+  }
+  // --schema-version: only whether the version the schema states carries its changes since the tag. The package's own
+  // version moves at the release; this one moves with the change, so it holds on any commit
+  if (argv.includes('--schema-version')) {
+    if (!prevSchema) throw new Usage(`semver --schema-version: no schema at ${from}`);
+    const nextSchema = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
+    const problem = schemaVersionProblem(prevSchema, nextSchema);
+    console.log(JSON.stringify({ from: prevSchema['x-omx-schema-version'], to: nextSchema['x-omx-schema-version'], ok: !problem }));
+    if (problem) { console.error(`omx-contract semver: ${problem}`); return 1; }
+    return 0;
   }
   const to = opt(argv, '--version') ?? packageVersion(ROOT);
   const data = classify(resolveData(prev), resolveData(load(argv)));

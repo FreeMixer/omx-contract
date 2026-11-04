@@ -6023,7 +6023,8 @@ export const LV2_UNITS_TERMS = {
     "status": "used",
     "by": [
       "omx-plugins:plugins/omx-rotary/generated/omx-rotary.lv2/omx-rotary.ttl"
-    ]
+    ],
+    "word": "x"
   },
   "conversion": {
     "uri": "http://lv2plug.in/ns/extensions/units#conversion",
@@ -6884,6 +6885,16 @@ export const OMX_PARAM_CONTRACT_UNITS = {
   "dbu": 257,
   "ratio": 258,
   "lufs": 259
+};
+
+/**
+ * The ids a plugin face gives the controls that are the face's and not the declaration's, the same in every plugin and never moved: the CLAP id of the host's bypass parameter, outside every declaration's ids (0 up, in declaration order), and the LV2 port indices of enabled and latency, the first two ports, before the audio ports and the declared controls, so appending a control or a port moves neither. A host keeps bypass automation by this id; LV2 presets and sessions name ports by symbol and are unaffected by the indices.
+ * @see data/plugin-face.json
+ */
+export const OMX_PLUGIN_FACE_IDS = {
+  "bypassClapId": 2147418112,
+  "enabledLv2Index": 0,
+  "latencyLv2Index": 1
 };
 
 /**

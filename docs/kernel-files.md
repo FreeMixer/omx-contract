@@ -33,8 +33,11 @@ and nothing else. A sketch, values abridged
   kernel's state, so it is not a smooth parameter (the limiter's `lookaheadMs`: omx-dsp's limiter face re-arms
   the state and restarts the gain at unity when the look-ahead moves by a frame). It is a boolean, only on a
   control; it is no item, so the C and TypeScript renders do not carry it.
-- A USE is a control with a `global` and no `travel` or `ids`: it takes the item another control of the kernel
-  declares, of its kind, and adds no item (the EQ's `lpfSlope` takes FILTER_SLOPES, which `hpfSlope` declares).
+- A USE is a control with a `global` and no `travel` or `ids`: it takes the item another control declares, of its
+  kind, and adds no item (the EQ's `lpfSlope` takes FILTER_SLOPES, which `hpfSlope` declares). The declaring control
+  may be another kernel's, so two kernels read ONE declaration and neither carries a copy (glue's `detectorTopology`
+  takes comp's DETECTOR_TOPOLOGY). Validation, and the read of a contract directory, refuse a use whose item no
+  kernel declares or is not of its kind (a choice takes a set, a travel a single travel).
 - `count` names the item that counts a control the kernel takes once per band: a positive integer scalar
   (`GEQ_BANDS`), or a sheet whose every variant gives its count as `max` (`EQ_BAND_COUNTS.eq8.max`), a positive
   integer, and the count it starts with as `default`, where it states one, a positive integer too. In every sheet, a

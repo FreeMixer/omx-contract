@@ -1,9 +1,0 @@
-{
-  "$schema": "../../schema/omx-contract.schema.json",
-  "FDELAY_MOD_READ_ORDER": {
-    "kind": "scalar",
-    "doc": "The order the chorus and flanger construct their lines with (four taps).",
-    "unit": "",
-    "value": 3
-  }
-}

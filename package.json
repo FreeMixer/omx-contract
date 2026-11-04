@@ -1,6 +1,6 @@
 {
   "name": "@openmixer/omx-contract",
-  "version": "3.8.0",
+  "version": "3.9.0",
   "description": "The FreeMixer declarations as data: a JSON Schema, the data, and one CLI that renders them into C, TypeScript and JSON",
   "type": "module",
   "license": "GPL-3.0-or-later",
@@ -22,6 +22,14 @@
     "./resolved.json": "./share/omx-contract/omx-contract.json",
     "./schema.json": "./schema/omx-contract.schema.json",
     "./examples/descriptors/*": "./examples/descriptors/*",
+    "./contract-limits-render": {
+      "types": "./render/c/contract-limits-render.d.mts",
+      "import": "./render/c/contract-limits-render.mjs"
+    },
+    "./contract-limits-split": {
+      "types": "./render/c/contract-limits-split.d.mts",
+      "import": "./render/c/contract-limits-split.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [

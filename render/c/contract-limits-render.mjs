@@ -221,6 +221,19 @@ function genDeclaredListsBlock(DECLARED_LISTS, definedElsewhere) {
  * door. The generator and every render test build the sheet here, so a new door is added once,
  * never appended to a hand list per caller.
  */
+/** The comment over the `coreLimits` blocks: the four facts' own text, else the facts a caller names. */
+function coreStageFactsComment(facts) {
+  if (facts.join() === CORE_STAGE_FACTS.join()) {
+    return `/* The four coreLimits-sourced facts with a native meaning — pan, delay, reverb, drive
+ * (CORE_LIMITS, control-bounds.ts; F7). Not every field here has a C-side literal to replace:
+ * the reverb cut corners and the drive stage's five numerics are clamped only on the TS side
+ * today (mix_reverb.h's own header comment: "there is no 20 kHz anywhere in the C"), so those
+ * defines exist for completeness and for the day a native clamp is added, without yet being
+ * read by a stage. */`;
+  }
+  return `/* The coreLimits-sourced fact${facts.length === 1 ? '' : 's'} with a native meaning — ${facts.join(', ')} (CORE_LIMITS; F7). */`;
+}
+
 export function contractLimitsSheet(coreNs, declarations, extra = {}) {
   return {
     ...coreNs,
@@ -234,7 +247,7 @@ export function contractLimitsSheet(coreNs, declarations, extra = {}) {
 
 export function renderContractLimits({
   CHANNEL_CONTRACT, LAW_KINDS, NATIVE_LIMIT_TABLES, DECLARED_SCALARS, CORE_LIMITS, OMX_CLAP_HOST_EXTENSIONS, STANDARD_SAMPLE_RATES,
-  DECLARED_SETS, DECLARED_LISTS,
+  DECLARED_SETS, DECLARED_LISTS, coreStageFacts = CORE_STAGE_FACTS,
 }) {
   if (!Array.isArray(NATIVE_LIMIT_TABLES) || NATIVE_LIMIT_TABLES.length === 0) {
     throw new Error('contract-limits-gen: the native limit table registry is empty — nothing registered');
@@ -258,7 +271,7 @@ export function renderContractLimits({
 
   const above = [
     ...NATIVE_LIMIT_TABLES.map(([prefix, table]) => genLimitBlock(prefix, table)),
-    ...CORE_STAGE_FACTS.map((f) => genCoreLimitBlock(CORE_LIMITS, f)),
+    ...coreStageFacts.map((f) => genCoreLimitBlock(CORE_LIMITS, f)),
   ].join('\n');
   const definedAbove = new Set([...above.matchAll(/^#define (OMX_\w+) /gm)].map((m) => m[1]));
   const scalarsBlock = genDeclaredScalarsBlock(DECLARED_SCALARS, definedAbove);
@@ -299,13 +312,8 @@ ${stageBlocks.join('\n\n')}
  * lands here because it is REGISTERED, not because this generator names it). */
 ${NATIVE_LIMIT_TABLES.map(([prefix, table]) => genLimitBlock(prefix, table)).join('\n\n')}
 
-/* The four coreLimits-sourced facts with a native meaning — pan, delay, reverb, drive
- * (CORE_LIMITS, control-bounds.ts; F7). Not every field here has a C-side literal to replace:
- * the reverb cut corners and the drive stage's five numerics are clamped only on the TS side
- * today (mix_reverb.h's own header comment: "there is no 20 kHz anywhere in the C"), so those
- * defines exist for completeness and for the day a native clamp is added, without yet being
- * read by a stage. */
-${CORE_STAGE_FACTS.map((f) => genCoreLimitBlock(CORE_LIMITS, f)).join('\n\n')}
+${coreStageFactsComment(coreStageFacts)}
+${coreStageFacts.map((f) => genCoreLimitBlock(CORE_LIMITS, f)).join('\n\n')}
 
 /* EVERY declared scalar and sheet leaf (the declared scalars over the core barrel
  * and @freemixer/declarations; dsp-primitives §7 the scalar door) — one block, sorted by macro,

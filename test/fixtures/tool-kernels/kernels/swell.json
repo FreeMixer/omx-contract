@@ -1,0 +1,129 @@
+{
+  "$schema": "../../schema/omx-contract.schema.json",
+  "controls": [
+    {
+      "name": "keySource",
+      "kind": "choice",
+      "doc": "Where the swell reads its level from: an invented choice with no default.",
+      "ids": [
+        "self",
+        "side"
+      ]
+    },
+    {
+      "name": "thresholdDb",
+      "kind": "travel",
+      "table": "SWELL_LIMITS",
+      "travel": {
+        "min": -70,
+        "max": 0,
+        "step": 0.5,
+        "unit": "dB",
+        "default": -30,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "rangeDb",
+      "kind": "travel",
+      "table": "SWELL_LIMITS",
+      "travel": {
+        "min": -80,
+        "max": 0,
+        "step": 1,
+        "unit": "dB",
+        "default": -40,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "ratio",
+      "kind": "travel",
+      "table": "SWELL_LIMITS",
+      "travel": {
+        "min": 1,
+        "max": 40,
+        "step": 0.1,
+        "unit": "",
+        "default": 4,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "lookaheadMs",
+      "kind": "travel",
+      "table": "SWELL_LIMITS",
+      "rearms": true,
+      "travel": {
+        "min": 0,
+        "max": 8,
+        "step": 0.1,
+        "unit": "ms",
+        "default": 2,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "releaseMs",
+      "kind": "travel",
+      "table": "SWELL_LIMITS",
+      "travel": {
+        "min": 5,
+        "max": 2000,
+        "step": 1,
+        "unit": "ms",
+        "default": 150,
+        "defaultFrom": "desk"
+      }
+    },
+    {
+      "name": "kind",
+      "kind": "choice",
+      "doc": "The swell kinds: an invented set of named ids.",
+      "ids": [
+        "soft",
+        "hard"
+      ],
+      "default": "soft"
+    },
+    {
+      "name": "oversampling",
+      "kind": "choice",
+      "doc": "The swell detector oversampling: an invented set whose ids start with a digit.",
+      "ids": [
+        "1x",
+        "2x",
+        "8x"
+      ],
+      "default": "1x"
+    }
+  ],
+  "readouts": [
+    {
+      "name": "gainReductionDb",
+      "doc": "The swell gain reduction: an invented readout bounded by a travel.",
+      "unit": "dB",
+      "min": {
+        "ref": "SWELL_LIMITS.rangeDb.min"
+      },
+      "max": 0,
+      "scale": "linear",
+      "rateHz": {
+        "ref": "READOUT_RATE_HZ"
+      }
+    }
+  ],
+  "tables": {
+    "SWELL_LIMITS": {
+      "doc": "The swell fields: an invented table."
+    }
+  },
+  "constants": {
+    "SWELL_PLANT_BANDS": {
+      "kind": "scalar",
+      "doc": "The bands the swell may plant: an invented count a declared check sums.",
+      "unit": "",
+      "value": 2
+    }
+  }
+}

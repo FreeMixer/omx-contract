@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
-// #5: the schema's unit list is the units the declared items use, and no item keeps a placeholder doc.
+// #5: no item keeps a placeholder doc (the unit list is held in test/live-owners.test.mjs).
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -12,32 +12,7 @@ import { DATA, ROOT, UNION, texts } from './helpers.mjs';
 
 const json = () => JSON.parse(renderJson(resolveData(loadData(UNION)), '0.0.0')[0].text);
 
-/**
- * A unit the contract declares ahead of its first user, which lives in an owner's tree this test cannot see (the
- * union is data/ and the frozen 2.14.0 owners), with the issue that brings that user. Each must stay unused here:
- * a unit this tree starts to use leaves the table.
- */
-const AWAITING_USER = { 'dB/oct': 'FreeMixer/omx-dsp#188', LUFS: 'FreeMixer/omx-contract#145', 'dB/s': 'FreeMixer/omx-contract#145' };
-
-test('the schema unit enum lists exactly the units the items and readouts use', () => {
-  const schema = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
-  const listed = new Set(schema.$defs.unit.enum);
-  const used = new Set();
-  const walk = (o) => {
-    if (!o || typeof o !== 'object') return;
-    for (const [k, v] of Object.entries(o)) {
-      if (k === 'unit' && typeof v === 'string') used.add(v);
-      walk(v);
-    }
-  };
-  const j = json();
-  walk(j.items);
-  walk(j.kernels);
-  assert.ok(used.size >= 8, 'the probe sees the units in use');
-  assert.deepEqual([...listed].filter((u) => !used.has(u) && !Object.hasOwn(AWAITING_USER, u)), [], 'a unit nothing uses is in the enum');
-  assert.deepEqual(Object.keys(AWAITING_USER).filter((u) => used.has(u) || !listed.has(u)), [], 'a unit awaiting its user is in the enum and unused here');
-  assert.deepEqual([...used].filter((u) => !listed.has(u)), [], 'a unit in use is missing from the enum');
-});
+// The unit list against the units in use is held against the live owners' data: test/live-owners.test.mjs.
 
 test('no item carries a placeholder doc that only names where it came from', () => {
   const items = json().items;

@@ -1,0 +1,64 @@
+{
+  "kernel": "ripple",
+  "since": "1.0.0",
+  "engine": {
+    "repo": "an invented engine",
+    "ref": "main",
+    "commit": "0000000000000000000000000000000000000000"
+  },
+  "items": [
+    {
+      "name": "RIPPLE_RATE_RANGE",
+      "source": {
+        "path": "ripple-limits.ts",
+        "export": "RIPPLE_RATE_RANGE"
+      },
+      "value": {
+        "min": 0,
+        "max": 10,
+        "step": 0.5,
+        "unit": "Hz",
+        "default": 2,
+        "defaultFrom": "desk"
+      },
+      "doc": "The ripple rate: an invented travel the tool tests break."
+    },
+    {
+      "name": "RIPPLE_MODES",
+      "source": {
+        "origin": "invented for the tool tests: ripple.json declares it"
+      },
+      "value": [
+        "ripple",
+        "swell"
+      ],
+      "kind": "set",
+      "default": "ripple",
+      "doc": "The ripple mode: an invented choice, cited by an origin sentence."
+    },
+    {
+      "name": "RIPPLE_RING_MS",
+      "source": {
+        "path": "ripple-limits.ts",
+        "export": "RIPPLE_RING_MS"
+      },
+      "value": 20,
+      "unit": "ms",
+      "doc": "The ripple ring: an invented scalar with a unit."
+    },
+    {
+      "name": "RIPPLE_FACTORS",
+      "source": {
+        "path": "ripple-limits.ts",
+        "export": "RIPPLE_FACTORS"
+      },
+      "value": [
+        1,
+        2,
+        3
+      ],
+      "unit": "",
+      "doc": "The ripple factors: an invented integer list."
+    }
+  ]
+}

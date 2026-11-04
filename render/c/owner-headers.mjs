@@ -73,7 +73,21 @@ function numbersSection(spec, items, header) {
     }
   }
   if (!lines.length) throw new Error(`${header}: a numbers section with no sheet to render`);
-  return `/** ${spec.comment} */\n${lines.join('\n')}`;
+  const defines = `/** ${spec.comment} */\n${lines.join('\n')}`;
+  return spec.table ? `${defines}\n\n${tableOf(spec, items, header)}` : defines;
+}
+
+/**
+ * numbers.table: the same fields once more as one X-macro, `X(<value>, "<field>")` per field in the sheet's order, for
+ * a consumer that names a value at run time (omx-clap-core's unit words) without typing the table a second time.
+ */
+function tableOf(spec, items, header) {
+  const rows = items.filter((x) => x.kind === 'sheet').flatMap((r) =>
+    ownerNames({ numbers: spec }, r).map(([, field]) => `X(${r.value[field]}u, ${JSON.stringify(field)})`));
+  if (!rows.length) throw new Error(`${header}: a table with no field to render`);
+  const body = [];
+  for (let i = 0; i < rows.length; i += 6) body.push(`    ${rows.slice(i, i + 6).join(' ')}`);
+  return `/** every field of the sheet as X(value, "field"), in its declared order, for a table a consumer builds at run time */\n#define ${spec.table}(X) \\\n${body.join(' \\\n')}`;
 }
 
 /** codes: every codes item, a code per define. */

@@ -43,11 +43,11 @@ test('fmt --check refuses a file out of the one formatting, fmt fixes it', () =>
 
 test('validate names file, item and rule', () => {
   const dir = scratchData();
-  const p = join(dir, 'kernels/gate.json');
+  const p = join(dir, 'kernels/swell.json');
   writeFileSync(p, readFileSync(p, 'utf8').replace('"default": -40', '"default": 5'));
   const r = cli('validate', '--data', dir);
   assert.equal(r.status, 1);
-  assert.match(r.stderr, /^data\/kernels\/gate\.json: GATE_LIMITS: default-inside: GATE_LIMITS\.thresholdDb: default 5 outside \[-80, 0\]$/m);
+  assert.match(r.stderr, /^data\/kernels\/swell\.json: SWELL_LIMITS: default-inside: SWELL_LIMITS\.rangeDb: default 5 outside \[-80, 0\]$/m);
 });
 
 test('semver against a commit whose data is unchanged reports no change, the tool files included', (t) => {

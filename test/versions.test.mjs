@@ -9,11 +9,32 @@ import { ROOT } from './helpers.mjs';
 
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 
-test('versions: the schema is no newer than the package, and nothing shipped needs a newer schema than it is', () => {
+// A branch holds the next release's code at the last release's version, and the schema's version moves with the schema,
+// so it may name that next release and no further; the release gate (semver against the last tag) then holds the
+// package to at least that bump
+const schemaFits = (schema, v) => {
+  const [sa, si, sp] = schema.split('.').map(Number);
+  const [va, vi] = v.split('.').map(Number);
+  const n = (x) => x.split('.').map(Number).reduce((a, b) => a * 1000 + b, 0);
+  return n(schema) <= n(v) || (sa === va && si === vi + 1 && sp === 0);
+};
+
+test('versions: what the schema may state against the package', () => {
+  for (const [schema, v, want] of [['3.7.0', '3.8.0', true], ['3.8.0', '3.8.0', true], ['3.9.0', '3.8.0', true], ['3.9.0', '3.9.0', true],
+    ['3.10.0', '3.8.0', false], ['3.9.1', '3.8.0', false], ['4.0.0', '3.8.0', false]]) assert.equal(schemaFits(schema, v), want, `${schema} against ${v}`);
+});
+
+test('versions: the schema is no newer than the next release, the minor it left is frozen, and nothing shipped needs a newer schema than it is', () => {
   const v = packageVersion(ROOT);
   const schema = JSON.parse(read('schema/omx-contract.schema.json'))['x-omx-schema-version'];
   const n = (x) => x.split('.').map(Number).reduce((a, b) => a * 1000 + b, 0);
-  assert.ok(n(schema) <= n(v), `x-omx-schema-version ${schema} is newer than the package ${v}`);
+  assert.ok(schemaFits(schema, v), `x-omx-schema-version ${schema} is past the next release of the package ${v}`);
+  const frozen = readdirSync(join(ROOT, 'schema/history')).map((f) => f.replace('.schema.json', ''));
+  assert.ok(!frozen.includes(schema), `schema/history/ holds the current minor ${schema}`);
+  for (const f of frozen) {
+    assert.equal(JSON.parse(read(`schema/history/${f}.schema.json`))['x-omx-schema-version'], f, `schema/history/${f} is that minor's`);
+    assert.ok(n(f) < n(schema), `schema/history/${f} is not past`);
+  }
   const floors = [];
   const walk = (d) => {
     for (const f of readdirSync(join(ROOT, d), { withFileTypes: true })) {

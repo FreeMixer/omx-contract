@@ -18,12 +18,14 @@ import { fileProblems } from '../lib/validate.mjs';
 import { renderC } from '../render/c.mjs';
 import { renderJson } from '../render/json.mjs';
 import { renderTs } from '../render/ts.mjs';
-import { DATA, ROOT, UNION } from './helpers.mjs';
+import { DATA, ROOT } from './helpers.mjs';
 
 const FIXTURES = join(ROOT, 'examples/descriptors');
 const SCHEMA = JSON.parse(readFileSync(join(ROOT, 'schema/omx-contract.schema.json'), 'utf8'));
 const fixture = (name) => JSON.parse(readFileSync(join(FIXTURES, `${name}.json`), 'utf8'));
 const AUTHORED = 'authored-omx-delay';
+/** A well-formed meter: a gain reduction read off a kernel readout. */
+const METER = () => ({ id: 0, symbol: 'gr', name: 'Gain reduction', kind: 'gain-reduction', channels: 1, unit: 'dB', min: -60, max: 0, scale: 'linear' });
 const BUILT = 'built-wrapped-synth';
 const SCANNED_LV2 = 'scanned-lv2-compressor';
 const SCANNED_CLAP = 'scanned-clap-unknown';
@@ -81,18 +83,11 @@ test('the four example descriptors, one per origin and one stating unknown, are 
   assert.deepEqual([AUTHORED, BUILT, SCANNED_LV2, SCANNED_CLAP].map((x) => fixture(x).origin), ['authored', 'built', 'scanned', 'scanned']);
 });
 
-test('the authored delay states the delay kernel\'s travels, value for value (the owners\' fixture)', () => {
-  const r = resolveData(loadData(UNION));
+// The example states travels of its own: the delay kernel's values are omx-dsp's, held by its own tests.
+test('the authored delay: its travels on a linear scale, a toggle, the meanings, ids and latency it states', () => {
   const d = fixture(AUTHORED);
-  const by = Object.fromEntries(d.controls.map((c) => [c.name, c]));
-  for (const [control, item] of [['fxDelayTime', 'FX_DELAY_TIME_RANGE'], ['fxDelayFeedback', 'FX_DELAY_FEEDBACK_RANGE'], ['tone', 'DELAY_TONE_RANGE'], ['mix', 'DELAY_MIX_RANGE']]) {
-    const { scale, ...t } = by[control].travel;
-    const { byKind, ...want } = r.get(item).value;
-    assert.deepEqual(t, want, `${control} is ${item}`);
-    assert.equal(scale, 'linear');
-  }
-  assert.equal(by.pingpong.kind, 'toggle');
-  assert.equal(by.pingpong.default, r.get('FX_DELAY_PINGPONG_DEFAULT').value);
+  for (const c of d.controls.filter((x) => x.kind === 'travel')) assert.equal(c.travel.scale, 'linear', c.name);
+  assert.equal(d.controls.find((c) => c.name === 'pingpong').kind, 'toggle');
   assert.deepEqual(d.controls.map((c) => c.meaning), ['delay', 'feedback', 'tone', 'wetDryRatio', undefined]);
   assert.deepEqual(d.controls.map((c) => c.id), [0, 1, 2, 3, 4]);
   assert.deepEqual(d.latency, { reports: true, frames: 0 });
@@ -150,8 +145,9 @@ test('the words are the closed lists of docs/descriptors.md', () => {
   assert.deepEqual($.port.properties.layout.enum, ['mono', 'stereo', 'surround']);
   assert.deepEqual($.port.properties.dialects.items.enum, ['clap', 'midi', 'midiMpe', 'midi2']);
   assert.deepEqual($.plugin.properties.features.items.enum, ['audio-effect', 'instrument', 'note-effect', 'analyzer']);
-  assert.deepEqual(Object.keys($.descriptor.properties), ['$schema', 'requires', 'origin', 'plugin', 'controls', 'ports', 'instrument', 'needs', 'latency', 'easy', 'extensions', 'source']);
+  assert.deepEqual(Object.keys($.descriptor.properties), ['$schema', 'requires', 'origin', 'plugin', 'controls', 'ports', 'instrument', 'needs', 'latency', 'easy', 'meters', 'extensions', 'source']);
   assert.deepEqual(PARAM_SCALE_IDS, ['linear', 'log', 'stepped']);
+  assert.deepEqual($.descriptorMeter.properties.kind.enum, ['gain-reduction', 'level']);
   const doc = readFileSync(join(ROOT, 'docs/descriptors.md'), 'utf8');
   for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
 });
@@ -192,6 +188,12 @@ const ARMS = [
   ['an easy key that names no control', AUTHORED, (d) => { d.easy = ['nothing']; }, 'descriptorEasy'],
   ['an easy key named twice', AUTHORED, (d) => { const k = d.controls[0].symbol ?? d.controls[0].id; d.easy = [k, k]; }, 'descriptorEasy'],
   ['an easy read-only control', AUTHORED, (d) => { d.controls[0].readonly = true; d.easy = [d.controls[0].symbol ?? d.controls[0].id]; }, 'descriptorEasy'],
+  ['two meters with one id', AUTHORED, (d) => { d.meters = [METER(), { ...METER(), symbol: 'other' }]; }, 'descriptorMeter'],
+  ['two meters with one symbol', AUTHORED, (d) => { d.meters = [METER(), { ...METER(), id: 1 }]; }, 'descriptorMeter'],
+  ['a meter on a control\'s symbol', AUTHORED, (d) => { d.meters = [{ ...METER(), symbol: d.controls[0].symbol }]; }, 'descriptorMeter'],
+  ['a two-channel meter whose channel symbol is another meter\'s', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', channels: 2, symbol: 'lvl', unit: 'dBFS' }, { ...METER(), id: 1, symbol: 'lvl_1' }]; }, 'descriptorMeter'],
+  ['a meter whose min is not below its max', AUTHORED, (d) => { d.meters = [{ ...METER(), min: 0, max: 0 }]; }, 'descriptorMeter'],
+  ['a meter scale no PARAM_SCALES id names', AUTHORED, (d) => { d.meters = [{ ...METER(), scale: 'squiggly' }]; }, 'descriptorMeter'],
   ['two controls with one id', AUTHORED, (d) => { d.controls[1].id = 0; }, 'descriptorControlDuplicate'],
   ['two controls with one name', SCANNED_CLAP, (d) => { d.controls[1].name = 'shape'; }, 'descriptorControlDuplicate'],
   ['two controls with one symbol', AUTHORED, (d) => { d.controls[1].symbol = d.controls[0].symbol; }, 'descriptorControlDuplicate'],
@@ -249,7 +251,7 @@ const ELSEWHERE = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/codes-raised
 
 test('every descriptor code was raised by an arm above, through validation and through the reader', () => {
   const descriptor = Object.entries(CONTRACT_CODES).filter(([k]) => k.startsWith('descriptor')).map(([, c]) => c).filter((c) => !(c in ELSEWHERE));
-  assert.equal(descriptor.length, 11);
+  assert.equal(descriptor.length, 12);
   assert.deepEqual(descriptor.filter((c) => !raised.has(c)), []);
   assert.ok(raised.has(CONTRACT_CODES.originMisplaced));
 });
@@ -282,4 +284,14 @@ test('easy names a plugin\'s Easy face in order, by each control\'s key, at most
   const scan = fixture(SCANNED_CLAP);
   scan.easy = [scan.controls[0].id];
   assert.ok(problemsOf(scan).some((p) => p.name === 'descriptorEasy'), 'a scan has nothing to read it from');
+});
+
+test('meters name what a plugin publishes while it runs, each by the output symbol a host reads it by', () => {
+  const d = fixture(AUTHORED);
+  d.meters = [METER(), { ...METER(), id: 1, symbol: 'level', name: 'Output', kind: 'level', channels: 2, unit: 'dBFS', min: -60, max: 6 }];
+  assert.deepEqual(problemsOf(d), [], 'positive control: two meters, one of two channels, pass');
+  assert.deepEqual(SCHEMA.$defs.descriptorMeter.required, ['id', 'symbol', 'kind', 'channels', 'unit', 'min', 'max', 'scale']);
+  const unknown = fixture(AUTHORED);
+  unknown.meters = [{ ...METER(), unit: 'unknown' }];
+  assert.ok(problemsOf(unknown).length > 0, 'a meter states its unit');
 });
