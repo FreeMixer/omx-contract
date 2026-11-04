@@ -62,3 +62,30 @@ test('sabotage: a unit whose code changed in the data is not the shipped code, a
   const text = renderC(resolvedOf(t)).find((f) => f.path === 'omxcontract/omx_param_units.h').text;
   assert.notEqual(text, header());
 });
+
+test('the header spells the same units once more as OMX_PARAM_UNITS(X), every declared unit in order, no other', () => {
+  const v = declared().value;
+  const table = /^#define OMX_PARAM_UNITS\(X\) \\\n((?:.*\\\n)*.*)$/m.exec(header());
+  assert.ok(table, 'the X-macro table is rendered');
+  const rows = [...table[1].matchAll(/X\((\d+)u, "([^"]+)"\)/g)].map((m) => [m[2], Number(m[1])]);
+  assert.deepEqual(rows, Object.entries(v), 'one X(code, "token") per declared unit, in the declared order');
+  assert.equal(table[1].match(/X\(/g).length, rows.length, 'no row of another shape');
+});
+
+test('the table expands in C to the word of each code: a consumer names a unit without typing the table', () => {
+  const dir = scratchDir('param-units-table');
+  const src = join(dir, 'table.c');
+  writeFileSync(src, `#include <omxcontract/omx_param_units.h>
+#include <string.h>
+#define ROW(code, word) { code, word },
+static const struct { unsigned code; const char *word; } units[] = { OMX_PARAM_UNITS(ROW) };
+int main(void) {
+  unsigned i;
+  for (i = 0; i < sizeof units / sizeof units[0]; i++) if (units[i].code == OMX_CLAP_UNIT_SEMITONE12_TET) return strcmp(units[i].word, "semitone12TET");
+  return 1;
+}
+`);
+  const cc = spawnSync('cc', ['-std=c11', '-Wall', '-Wextra', '-Werror', `-I${join(ROOT, 'include')}`, src, '-o', join(dir, 'table')], { encoding: 'utf8' });
+  assert.equal(cc.status, 0, cc.stderr);
+  assert.equal(spawnSync(join(dir, 'table')).status, 0, 'OMX_CLAP_UNIT_SEMITONE12_TET names semitone12TET through the table');
+});
