@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 /**
- * src/omxcontract/omx_json_write.h (installed as omxcontract/omx_json_write.h), the one JSON string writer of the C programs (omx-contract#158): what it writes is a
+ * include/omxcontract/omx_json_write.h, the one JSON string writer of the C programs (omx-contract#158): what it writes is a
  * JSON string literal JSON.parse reads back to the bytes given, for every byte; the buffer form reports the length the
  * way snprintf does and cuts without overrunning.
  */

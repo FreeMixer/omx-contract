@@ -45,9 +45,9 @@ cli=omx-contract
   echo "/usr/share/omx-contract/contract.d/$major/omx-contract/MANIFEST.json"
   for f in omx-contract.json omx-vocabulary.schema.json omx-resource-hints.ttl omx_contract.py; do echo "/usr/share/omx-contract/$f"; done
   echo /usr/share/omx-contract/omx-contract.schema.json) | LC_ALL=C sort > "$tmp/want-$data"
-# the renders and the hand-written C (src/omxcontract/) both land under include/omxcontract; the RPM macros of the
+# the renders and the hand-written C (omx_json_write.h) both live in include/omxcontract; the RPM macros of the
 # contract directory are the RPM's alone (a deb has no rpm macros directory)
-(for h in include/omxcontract/*.h src/omxcontract/*.h; do echo "/usr/include/omxcontract/$(basename "$h")"; done
+(for h in include/omxcontract/*.h; do echo "/usr/include/omxcontract/$(basename "$h")"; done
   echo /usr/share/omx-contract/install-contract-dir.sh
   echo /usr/share/pkgconfig/omx-contract.pc
   [ "$kind" = rpm ] && echo /usr/lib/rpm/macros.d/macros.omx-contract) | LC_ALL=C sort > "$tmp/want-$devel"
