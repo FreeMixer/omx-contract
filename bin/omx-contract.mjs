@@ -175,6 +175,8 @@ function cmdRender(argv) {
     // An owner's header sits in its own tree among files the render does not write: only the whole render owns its directory.
     const scope = target === 'c' ? 'omxcontract' : '';
     const named = new Set(files.map((f) => f.path));
+    // include/omxcontract/ also holds the hand-written C of the package (not rendered), which the npm tarball and the -devel packages ship beside the renders
+    if (target === 'c') named.add('omxcontract/omx_json_write.h');
     // the json, lv2 and py renders are committed side by side (share/omx-contract/): each knows the others' files
     if (['json', 'lv2', 'py'].includes(target)) for (const t of ['json', 'lv2', 'py']) for (const f of renderTarget(t, argv)) named.add(f.path);
     if (opt(argv, '--package') === undefined) for (const rel of filesUnder(join(dir, scope))) if (!named.has(join(scope, rel))) bad.push(`${join(scope, rel)} is extra`);

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 Name: omx-contract
-Version: 3.9.0
+Version: 3.9.1
 Release: 1%{?dist}
 # the command carries ajv and its dependencies (vendor/): MIT, and BSD-3-Clause for fast-uri
 License: GPL-3.0-or-later AND MIT AND BSD-3-Clause
@@ -118,6 +118,14 @@ Its documentation is on openmixer.org.
 %{_rpmmacrodir}/macros.omx-contract
 
 %changelog
+* Thu Nov 05 2026 Pau Aliagas <linuxnow@gmail.com> - 3.9.1-1
+- The npm package now carries every header the -devel packages install:
+  omxcontract/omx_json_write.h moved from src/ to include/omxcontract/, so the
+  tarball's include/ holds it. A test compares the tarball's header list with
+  what make install puts in the -devel packages.
+- It breaks nothing: the floors of omx-dsp-devel 0.25.0, omx-clap-core-devel
+  0.13.0 and omx-plugins-devel 0.13.0 stay.
+
 * Wed Nov 04 2026 Pau Aliagas <linuxnow@gmail.com> - 3.9.0-1
 - A descriptor may list its meters, the values a plugin publishes while it
   runs: host id, output symbol, kind, channels, unit, display range and scale,

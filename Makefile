@@ -2,7 +2,7 @@
 # Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
 #
 # Installs the committed renders (include/omxcontract/, share/omx-contract/omx-contract.json), the hand-written C of
-# src/omxcontract/ (omx_json_write.h, the one JSON string writer) beside them, the
+# include/omxcontract/omx_json_write.h (hand-written, the one JSON string writer) beside them, the
 # schema, omx-contract.pc, and data/ as the package omx-contract of the contract directory
 # (CONTRACTDIR/<schema major>/omx-contract/, docs/contract-dir.md) with tools/install-contract-dir.sh, which is
 # installed beside the schema for the packages that install their own definitions. No node runs here: a release build (RPM, deb) installs what
@@ -44,7 +44,7 @@ check: all
 
 install: all
 	install -d $(DESTDIR)$(INCLUDEDIR)/omxcontract $(DESTDIR)$(DATADIR)/omx-contract $(DESTDIR)$(PKGCONFIGDIR)
-	install -m 0644 include/omxcontract/*.h src/omxcontract/*.h $(DESTDIR)$(INCLUDEDIR)/omxcontract/
+	install -m 0644 include/omxcontract/*.h $(DESTDIR)$(INCLUDEDIR)/omxcontract/
 	install -m 0644 share/omx-contract/omx-contract.json share/omx-contract/omx-vocabulary.schema.json share/omx-contract/omx-resource-hints.ttl share/omx-contract/omx_contract.py schema/omx-contract.schema.json $(DESTDIR)$(DATADIR)/omx-contract/
 	install -m 0755 tools/install-contract-dir.sh $(DESTDIR)$(DATADIR)/omx-contract/
 	sh tools/install-contract-dir.sh -x codes.json omx-contract $(VERSION) $(SCHEMA_MAJOR) data $(DESTDIR)$(CONTRACTDIR) data

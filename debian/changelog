@@ -1,3 +1,15 @@
+omx-contract (3.9.1) unstable; urgency=medium
+
+  * The npm package now carries every header the -devel packages install:
+    omxcontract/omx_json_write.h moved from src/ to include/omxcontract/, so
+    the tarball's include/ holds it and consumers that fetch headers from the
+    tarball no longer fail. A test compares the tarball's header list with
+    what make install puts in the -devel packages.
+  * It breaks nothing: libomxdsp-dev before 0.25.0, libomx-clap-core-dev before
+    0.13.0 and omx-plugins-dev before 0.13.0 stay the floors.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Thu, 05 Nov 2026 03:28:06 +0100
+
 omx-contract (3.9.0) unstable; urgency=medium
 
   * A descriptor may list its meters: the values a plugin publishes while it
