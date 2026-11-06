@@ -23,7 +23,7 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ContractRefusal } from '../lib/codes.mjs';
 import { contractVersion, loadContractDir } from '../lib/contract-dir.mjs';
-import { KERNEL_SECTIONS, TOOL_FILES, isKernelFile, kernelDocOf, loadData, packageVersion, resolveData } from '../lib/data.mjs';
+import { KERNEL_SECTIONS, SIDE_FILES, TOOL_FILES, isKernelFile, kernelDocOf, loadData, packageVersion, resolveData } from '../lib/data.mjs';
 import { checkLinks, linksOf, sourcesOf } from '../lib/links.mjs';
 import { formatDoc } from '../lib/fmt.mjs';
 import { classify, classifySchema, refusal, schemaVersionProblem } from '../lib/semver.mjs';
@@ -202,7 +202,7 @@ function dataAtTag(tag) {
   const git = (...a) => execFileSync('git', ['-C', ROOT, ...a], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   try { git('rev-parse', '--verify', `${tag}^{commit}`); } catch { throw new Usage(`no tag ${tag} in ${ROOT}`); }
   const texts = {};
-  const isData = (p) => p.endsWith('.json') && !TOOL_FILES.some((f) => p === `data/${f}`);
+  const isData = (p) => p.endsWith('.json') && ![...TOOL_FILES, ...SIDE_FILES].some((f) => p === `data/${f}`);
   for (const rel of git('ls-tree', '-r', '--name-only', tag, '--', 'data').split('\n').filter(isData)) {
     const text = git('show', `${tag}:${rel}`);
     let doc;

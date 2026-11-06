@@ -1,0 +1,160 @@
+{
+  "ulp": 2.220446049250313e-16,
+  "doc": "Golden vectors of the position law of each scale word (docs/scale-position.md): per law its travel and the rows [value, p], the ends, the middle and three interior points. Computed in 60-digit decimal arithmetic, never by the library. Both directions are held within one ulp (relative 2.220446049250313e-16); a row with valueAtP names the value at the stored p, which a rounded p cannot give back as the plain value. 20 Hz to 20 kHz puts 1 kHz at 0.5663 (four digits).",
+  "laws": {
+    "linear": {
+      "travel": {
+        "scale": "linear",
+        "min": -12,
+        "max": 12
+      },
+      "rows": [
+        {
+          "value": -12,
+          "p": 0
+        },
+        {
+          "value": 12,
+          "p": 1
+        },
+        {
+          "value": 0,
+          "p": 0.5
+        },
+        {
+          "value": -9,
+          "p": 0.125
+        },
+        {
+          "value": -3,
+          "p": 0.375
+        },
+        {
+          "value": 6,
+          "p": 0.75
+        }
+      ]
+    },
+    "log": {
+      "travel": {
+        "scale": "log",
+        "min": 20,
+        "max": 20000
+      },
+      "rows": [
+        {
+          "value": 20,
+          "p": 0
+        },
+        {
+          "value": 20000,
+          "p": 1
+        },
+        {
+          "value": 632.4555320336759,
+          "p": 0.5
+        },
+        {
+          "value": 112.46826503806982,
+          "p": 0.25
+        },
+        {
+          "value": 3556.5588200778457,
+          "p": 0.75
+        },
+        {
+          "value": 47.4274741132331,
+          "p": 0.125
+        },
+        {
+          "value": 1000,
+          "p": 0.5663233347786729,
+          "valueAtP": 999.9999999999999
+        }
+      ]
+    },
+    "stepped": {
+      "travel": {
+        "scale": "stepped",
+        "min": 10,
+        "max": 90,
+        "step": 10
+      },
+      "rows": [
+        {
+          "value": 10,
+          "p": 0
+        },
+        {
+          "value": 90,
+          "p": 1
+        },
+        {
+          "value": 50,
+          "p": 0.5
+        },
+        {
+          "value": 20,
+          "p": 0.125
+        },
+        {
+          "value": 40,
+          "p": 0.375
+        },
+        {
+          "value": 70,
+          "p": 0.75
+        }
+      ]
+    },
+    "map": {
+      "travel": {
+        "scale": "map",
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            10,
+            100
+          ],
+          [
+            20,
+            150
+          ],
+          [
+            100,
+            250
+          ]
+        ]
+      },
+      "rows": [
+        {
+          "value": 0,
+          "p": 0
+        },
+        {
+          "value": 250,
+          "p": 1
+        },
+        {
+          "value": 187.5,
+          "p": 0.5
+        },
+        {
+          "value": 100,
+          "p": 0.1
+        },
+        {
+          "value": 150,
+          "p": 0.2
+        },
+        {
+          "value": 218.75,
+          "p": 0.75
+        }
+      ]
+    }
+  }
+}

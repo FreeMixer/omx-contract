@@ -8,7 +8,7 @@
 #   package-files.sh rpm <dir of the RPMs>
 #   package-files.sh deb <dir of the debs>
 #
-# omx-contract-data holds data/ installed as contract.d/<schema major>/omx-contract/ (less codes.json, with its
+# omx-contract-data holds data/ installed as contract.d/<schema major>/omx-contract/ (less codes.json and scale-vectors.json, with its
 # MANIFEST.json), the schema and the committed renders under share/omx-contract; the development package the C
 # render, the hand-written C beside it, omx-contract.pc, install-contract-dir.sh and (RPM) the rpm macros; the command package the command, its tree under
 # /usr/lib/omx-contract and its man page. No file is in two packages, and the command and the development package
@@ -41,9 +41,9 @@ if [ "$kind" = rpm ]; then data=omx-contract-data devel=omx-contract-devel; else
 cli=omx-contract
 
 # what the tree says each package holds
-(cd data && find . -name '*.json' ! -path ./codes.json | sed "s|^\./|/usr/share/omx-contract/contract.d/$major/omx-contract/|"
+(cd data && find . -name '*.json' ! -path ./codes.json ! -path ./scale-vectors.json | sed "s|^\./|/usr/share/omx-contract/contract.d/$major/omx-contract/|"
   echo "/usr/share/omx-contract/contract.d/$major/omx-contract/MANIFEST.json"
-  for f in omx-contract.json omx-vocabulary.schema.json omx-resource-hints.ttl omx_contract.py; do echo "/usr/share/omx-contract/$f"; done
+  for f in omx-contract.json omx-vocabulary.schema.json omx-resource-hints.ttl omx_contract.py scale-vectors.json; do echo "/usr/share/omx-contract/$f"; done
   echo /usr/share/omx-contract/omx-contract.schema.json) | LC_ALL=C sort > "$tmp/want-$data"
 # the renders and the hand-written C (omx_json_write.h) both live in include/omxcontract; the RPM macros of the
 # contract directory are the RPM's alone (a deb has no rpm macros directory)

@@ -166,7 +166,7 @@ test('two files that declare one header are refused, naming both', () => {
 /** A contract directory: omx-contract's data/ as installed, and the package acme holding the fixture file. */
 function directory() {
   const root = join(SCRATCH, `cd-${n++}`);
-  execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), '-x', 'codes.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data'], { stdio: 'ignore' });
+  execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), '-x', 'codes.json', '-x', 'scale-vectors.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data'], { stdio: 'ignore' });
   const dir = join(root, String(SCHEMA_MAJOR), 'acme');
   const doc = { ...acme(), $schema: installedSchemaUrl(SCHEMA_MAJOR), requires: { 'omx-contract-schema': `>= ${SCHEMA_VERSION}` } };
   const text = `${JSON.stringify(doc, null, 2)}\n`;
@@ -267,7 +267,7 @@ test('a package-scope limits header frames the OMX_* defines of every item of it
 
 test('a package-scope header is cut to its package in a contract directory', () => {
   const root = join(SCRATCH, `cd-${n++}`);
-  execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), '-x', 'codes.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data'], { stdio: 'ignore' });
+  execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), '-x', 'codes.json', '-x', 'scale-vectors.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data'], { stdio: 'ignore' });
   const dir = join(root, String(SCHEMA_MAJOR), 'acme');
   const files = {};
   for (const [rel, text] of Object.entries(omxOwner())) {

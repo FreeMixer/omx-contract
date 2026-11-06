@@ -19,6 +19,11 @@
       "import": "./dist/ts/omx-contract.js"
     },
     "./validate": "./lib/schema-validate.mjs",
+    "./scale": {
+      "types": "./lib/scale.d.mts",
+      "import": "./lib/scale.mjs"
+    },
+    "./scale-vectors.json": "./data/scale-vectors.json",
     "./resolved.json": "./share/omx-contract/omx-contract.json",
     "./schema.json": "./schema/omx-contract.schema.json",
     "./examples/descriptors/*": "./examples/descriptors/*",
