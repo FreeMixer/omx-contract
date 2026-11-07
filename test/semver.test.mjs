@@ -128,3 +128,16 @@ test('the CLI against a tag reads the schema too, and --report names the level w
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.0.1', '--report']), 0);
   assert.equal(main(['semver', '--from-dir', DATA, '--from-version', '1.0.0', '--data', dir, '--version', '1.0.1']), 1);
 });
+
+test('schema: an anyOf that gains a member, or whose enum member gains a value, is minor; one that loses either, or has a member rewritten, is major', () => {
+  const of = (anyOf) => ({ $defs: { u: { anyOf } } });
+  const ref = { $ref: '#/$defs/unit' };
+  const units = (...v) => ({ enum: v });
+  const level = (a, b) => classifySchema(of(a), of(b)).level;
+  assert.equal(level([ref, units('a', 'b')], [ref, units('a', 'b', 'c')]), 'minor', 'a value added inside a member');
+  assert.equal(level([ref, units('a')], [ref, units('a'), units('z')]), 'minor', 'a member added');
+  assert.equal(level([ref, units('a', 'b')], [ref, units('a')]), 'major', 'a value removed inside a member');
+  assert.equal(level([ref, units('a')], [ref]), 'major', 'a member removed');
+  assert.equal(level([ref, units('a')], [{ $ref: '#/$defs/other' }, units('a')]), 'major', 'a member rewritten');
+  assert.equal(level([ref, units('a')], [units('a'), ref]), 'major', 'members reordered into different ones');
+});

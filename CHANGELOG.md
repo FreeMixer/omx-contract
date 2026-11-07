@@ -18,3 +18,6 @@ The releases are in `debian/changelog` and `packaging/omx-contract.spec`. This f
 - `descriptorMeter` gains `measurement` (`peak`, `true-peak`, `lufs-m`, `lufs-s`, `lufs-i`, `lra`, `gain-reduction`), optional.
   `true-peak` is in dBTP, `lufs-*` in LUFS, `lra` in LU, `peak` in dBFS; `gain-reduction` is the one measurement of a
   gain-reduction meter. A measurement in another unit is refused with `contract.descriptor.meter`.
+- The schema states `x-omx-schema-version` 3.10.0 (the vocabulary's own number, as 4e85a8d did for 3.9.0; not a release).
+  The semver command reads an `anyOf` member by member: a value added to an enum inside it, or a member appended, is
+  MINOR; a member removed or rewritten is still MAJOR.
