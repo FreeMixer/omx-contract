@@ -11,6 +11,17 @@
 
 const constCase = (s) => String(s).replace(/([a-z0-9])([A-Z])/g, '$1_$2').toUpperCase();
 
+/**
+ * A code's sentence as defines, when the code has one: <MACRO>_TEXT_EN and _TEXT_CA the two sentences, with _ARGS_COUNT and
+ * _ARGS_INIT the placeholder names in order (docs/data-layout.md). `literal` spells a string.
+ */
+export function codeTextDefines(macro, c, literal) {
+  if (c.text === undefined) return [];
+  const lines = [`#define ${macro}_TEXT_EN ${literal(c.text.en)}`, `#define ${macro}_TEXT_CA ${literal(c.text.ca)}`];
+  if (c.args?.length) lines.push(`#define ${macro}_ARGS_COUNT ${c.args.length}u`, `#define ${macro}_ARGS_INIT { ${c.args.map(literal).join(', ')} }`);
+  return lines;
+}
+
 /** A glob of the schema's renderGlob: a name, `pre*`, `*post` or `*mid*`. */
 export function globMatch(glob, name) {
   const lead = glob.startsWith('*');
@@ -93,7 +104,7 @@ function tableOf(spec, items, header) {
 /** codes: every codes item, a code per define. */
 function codesSection(spec, items, header) {
   const lines = items.filter((x) => x.kind === 'codes').flatMap((r) =>
-    ownerNames({ codes: spec }, r).map(([name, n]) => documented(`#define ${name} ${JSON.stringify(r.value[n].code)}`, r.value[n].doc, `${r.name}.${n}.doc`)));
+    ownerNames({ codes: spec }, r).flatMap(([name, n]) => [documented(`#define ${name} ${JSON.stringify(r.value[n].code)}`, r.value[n].doc, `${r.name}.${n}.doc`), ...codeTextDefines(name, r.value[n], JSON.stringify)]));
   if (!lines.length) throw new Error(`${header}: a codes section with no codes item to render`);
   return `/** ${spec.comment} */\n${lines.join('\n')}`;
 }

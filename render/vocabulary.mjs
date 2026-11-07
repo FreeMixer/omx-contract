@@ -8,6 +8,7 @@
  * package's vocabulary the same way, by kind (docs/render.md).
  */
 import { packageItems } from '../lib/data.mjs';
+import { codeTextDefines } from './c/owner-headers.mjs';
 import { cStringLiteral } from './c/contract-limits-render.mjs';
 
 const constCase = (s) => String(s).replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/[^A-Za-z0-9]+/g, '_').toUpperCase();
@@ -52,6 +53,7 @@ export function renderVocabularyHeader(resolved, pkg) {
       for (const c of Object.values(r.value)) {
         lines.push(`#define ${codeMacro(c.code)} ${cStringLiteral(c.code)}${trailing(c.doc)}`);
         if (Number.isInteger(c.resp)) lines.push(`#define ${respMacro(c.code)} (${c.resp})`);
+        lines.push(...codeTextDefines(codeMacro(c.code), c, cStringLiteral));
       }
     } else {
       for (const [n, w] of Object.entries(r.value)) lines.push(`#define ${wordMacro(r.name, n)} ${cStringLiteral(w.word)}${trailing(w.doc)}`);
@@ -94,6 +96,10 @@ export function renderVocabularySchema(resolved, version) {
       description: r.doc,
       enum: r.kind === 'codes' ? Object.values(r.value).map((c) => c.code) : wordsOf(r),
     };
+    if (r.kind === 'codes') {
+      const texts = Object.fromEntries(Object.values(r.value).filter((c) => c.text !== undefined).map((c) => [c.code, { text: c.text, args: c.args ?? [] }]));
+      if (Object.keys(texts).length) defs[r.name]['x-omx-texts'] = texts;
+    }
   }
   const doc = {
     $schema: 'https://json-schema.org/draft/2020-12/schema',
