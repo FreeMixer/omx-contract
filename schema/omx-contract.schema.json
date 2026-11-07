@@ -3,7 +3,7 @@
   "$id": "https://github.com/FreeMixer/omx-contract/raw/main/schema/omx-contract.schema.json",
   "title": "omx-contract data file",
   "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet, a list, a set, codes, words, a format's terms or a host's verbs. GPL-3.0-or-later.",
-  "x-omx-schema-version": "3.9.0",
+  "x-omx-schema-version": "3.10.0",
   "type": "object",
   "if": { "required": ["origin"] },
   "then": { "$ref": "#/$defs/descriptor" },
@@ -24,8 +24,8 @@
       "enum": ["dB", "dBFS", "ms", "s", "min", "Hz", "oct", "cents", "st", "%", "x", "", "dB/oct", "LUFS", "dB/s"]
     },
     "descriptorUnit": {
-      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, ratio: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS and ratio, n:1, have no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
-      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "ratio", "unknown"] }]
+      "description": "A descriptor's unit: a unit of the items, a unit only plugins use (frames, bpm, midiNote, LUFS, deg, ratio, dBTP, LU: LV2 units:frame, units:bpm, units:midiNote, units:degree; LUFS, ratio, n:1, dBTP (true peak) and LU (loudness range) have no LV2 unit), or unknown, the plugin states none (docs/descriptors.md).",
+      "anyOf": [{ "$ref": "#/$defs/unit" }, { "enum": ["frames", "bpm", "midiNote", "LUFS", "deg", "ratio", "dBTP", "LU", "unknown"] }]
     },
     "meaning": {
       "description": "What a control does, the closed list seeded from the panel roles; the LV2 param: or lv2:designation name where LV2 has the term (docs/descriptors.md). unknown: the plugin states none.",
@@ -249,7 +249,7 @@
     },
     "descriptorMeter": {
       "type": "object",
-      "description": "One value a plugin publishes while it runs: its host id, the output symbol a host reads it by (the LV2 output control port's symbol; a meter of more than one channel has one symbol per channel, <symbol>_<channel> from 0), its kind, channels and display range, and the kernel readout it publishes.",
+      "description": "One value a plugin publishes while it runs: its host id, the output symbol a host reads it by (the LV2 output control port's symbol; a meter of more than one channel has one symbol per channel, <symbol>_<channel> from 0), its kind, channels and display range, what it measures, whether the plugin holds the block value until the host reads it, whether a level meter carries a sticky clip word, and the kernel readout it publishes.",
       "properties": {
         "id": { "$ref": "#/$defs/handle" },
         "symbol": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
@@ -261,6 +261,9 @@
         "min": { "type": "number" },
         "max": { "type": "number" },
         "scale": { "type": "string", "pattern": "^[a-z]+$" },
+        "measurement": { "enum": ["peak", "true-peak", "lufs-m", "lufs-s", "lufs-i", "lra", "gain-reduction"], "description": "What the meter measures: a level is a peak (dBFS), a true-peak (dBTP), a momentary, short-term or integrated loudness (lufs-m, lufs-s, lufs-i; LUFS) or a loudness range (lra; LU); a gain reduction is its own. rms, vu and ppm are not words." },
+        "held": { "type": "boolean", "description": "The plugin holds the block value until the host reads it; a foreign plugin that holds nothing is false and its meter is called unheld." },
+        "clip": { "type": "boolean", "description": "A level meter carries a sticky clip word, latched by the reader; false declares it absent. Only a level meter in dBFS or dBTP can say true." },
         "group": { "type": "array", "items": { "$ref": "#/$defs/text" }, "minItems": 1 },
         "source": { "$ref": "#/$defs/source" }
       },

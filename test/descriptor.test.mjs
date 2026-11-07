@@ -127,7 +127,7 @@ test('the scanned LV2 plugin: its units, a unit with no word as unknown, a side-
 
 test('the words are the closed lists of docs/descriptors.md', () => {
   const $ = SCHEMA.$defs;
-  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'unknown'] }]);
+  assert.deepEqual($.descriptorUnit.anyOf, [{ $ref: '#/$defs/unit' }, { enum: ['frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'dBTP', 'LU', 'unknown'] }]);
   for (const u of ['frames', 'bpm', 'midiNote', 'deg', 'ratio', 'unknown']) assert.ok(!$.unit.enum.includes(u), `${u} is no unit of the items`);
   assert.deepEqual($.unit.enum, ['dB', 'dBFS', 'ms', 's', 'min', 'Hz', 'oct', 'cents', 'st', '%', 'x', '', 'dB/oct', 'LUFS', 'dB/s'], 'the items\' units are as they were, dB/oct appended in 3.1.0, LUFS and dB/s in 3.7.0');
   assert.deepEqual($.meaning.enum, [
@@ -149,7 +149,7 @@ test('the words are the closed lists of docs/descriptors.md', () => {
   assert.deepEqual(PARAM_SCALE_IDS, ['linear', 'log', 'stepped']);
   assert.deepEqual($.descriptorMeter.properties.kind.enum, ['gain-reduction', 'level']);
   const doc = readFileSync(join(ROOT, 'docs/descriptors.md'), 'utf8');
-  for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
+  for (const w of [...$.meaning.enum, 'frames', 'bpm', 'midiNote', 'LUFS', 'deg', 'ratio', 'dBTP', 'LU', 'midiMpe', 'midi2']) assert.ok(doc.includes(`\`${w}\``), `docs/descriptors.md names ${w}`);
 });
 
 test('a word the schema does not have is contract.file.invalid, never skipped', () => {
@@ -194,6 +194,16 @@ const ARMS = [
   ['a two-channel meter whose channel symbol is another meter\'s', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', channels: 2, symbol: 'lvl', unit: 'dBFS' }, { ...METER(), id: 1, symbol: 'lvl_1' }]; }, 'descriptorMeter'],
   ['a meter whose min is not below its max', AUTHORED, (d) => { d.meters = [{ ...METER(), min: 0, max: 0 }]; }, 'descriptorMeter'],
   ['a meter scale no PARAM_SCALES id names', AUTHORED, (d) => { d.meters = [{ ...METER(), scale: 'squiggly' }]; }, 'descriptorMeter'],
+  ['a clip word on a gain-reduction meter', AUTHORED, (d) => { d.meters = [{ ...METER(), clip: false }]; }, 'descriptorMeter'],
+  ['a clip word that is true on a loudness meter', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'LUFS', clip: true }]; }, 'descriptorMeter'],
+  ['a gain-reduction meter in dBFS', AUTHORED, (d) => { d.meters = [{ ...METER(), unit: 'dBFS' }]; }, 'descriptorMeter'],
+  ['a level meter in dB', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'dB' }]; }, 'descriptorMeter'],
+  ['a true-peak measurement in dBFS', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'dBFS', measurement: 'true-peak' }]; }, 'descriptorMeter'],
+  ['a lufs-m measurement in dBFS', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'dBFS', measurement: 'lufs-m' }]; }, 'descriptorMeter'],
+  ['an lra measurement in LUFS', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'LUFS', measurement: 'lra' }]; }, 'descriptorMeter'],
+  ['a peak measurement in LUFS', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'LUFS', measurement: 'peak' }]; }, 'descriptorMeter'],
+  ['a level meter whose measurement is gain-reduction', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'dBFS', measurement: 'gain-reduction' }]; }, 'descriptorMeter'],
+  ['a gain-reduction meter whose measurement is peak', AUTHORED, (d) => { d.meters = [{ ...METER(), measurement: 'peak' }]; }, 'descriptorMeter'],
   ['two controls with one id', AUTHORED, (d) => { d.controls[1].id = 0; }, 'descriptorControlDuplicate'],
   ['two controls with one name', SCANNED_CLAP, (d) => { d.controls[1].name = 'shape'; }, 'descriptorControlDuplicate'],
   ['two controls with one symbol', AUTHORED, (d) => { d.controls[1].symbol = d.controls[0].symbol; }, 'descriptorControlDuplicate'],
@@ -294,4 +304,34 @@ test('meters name what a plugin publishes while it runs, each by the output symb
   const unknown = fixture(AUTHORED);
   unknown.meters = [{ ...METER(), unit: 'unknown' }];
   assert.ok(problemsOf(unknown).length > 0, 'a meter states its unit');
+});
+
+test('a meter says whether the plugin holds its value and whether it carries a clip word; the kinds are the measured ones', () => {
+  const ok = (m) => { const d = fixture(AUTHORED); d.meters = [m]; return problemsOf(d); };
+  const level = { ...METER(), kind: 'level', unit: 'dBFS', min: -60, max: 6 };
+  assert.deepEqual(ok({ ...level, held: true, clip: true }), [], 'positive control: a held level meter with a clip word');
+  assert.deepEqual(ok({ ...level, held: false, clip: false }), [], 'a foreign plugin\'s meter is unheld and says no clip');
+  assert.deepEqual(ok({ ...METER(), held: true }), [], 'a gain reduction may be held');
+  for (const unit of ['dBTP', 'LUFS', 'LU']) assert.deepEqual(ok({ ...level, unit, clip: false }), [], `${unit} is a level unit`);
+  assert.deepEqual(ok({ ...level, unit: 'dBTP', clip: true }), [], 'a true-peak meter may clip');
+  const $ = SCHEMA.$defs.descriptorMeter.properties;
+  assert.equal($.held.type, 'boolean');
+  assert.equal($.clip.type, 'boolean');
+  assert.ok(!SCHEMA.$defs.descriptorMeter.required.includes('held') && !SCHEMA.$defs.descriptorMeter.required.includes('clip'), 'optional: a descriptor written before the words stays valid');
+  for (const [word, value] of [['held', 'yes'], ['held', 1], ['held', null], ['clip', 'true'], ['clip', 0]]) {
+    assert.ok(ok({ ...level, [word]: value }).length > 0, `${word}: ${JSON.stringify(value)} is no boolean`);
+  }
+  for (const kind of ['rms', 'vu', 'ppm', 'peak', 'true-peak', 'lufs-m']) assert.ok(ok({ ...level, kind }).length > 0, `${kind} is no meter kind: the kinds are level and gain-reduction`);
+  assert.ok(ok({ ...level, rms: true }).length > 0, 'no other word');
+});
+
+test('a meter names its measurement: the six of a level, the one of a gain reduction, each in its unit', () => {
+  const ok = (m) => { const d = fixture(AUTHORED); d.meters = [m]; return problemsOf(d); };
+  const level = { ...METER(), kind: 'level', unit: 'dBFS', min: -60, max: 6 };
+  const UNIT = { peak: 'dBFS', 'true-peak': 'dBTP', 'lufs-m': 'LUFS', 'lufs-s': 'LUFS', 'lufs-i': 'LUFS', lra: 'LU' };
+  for (const [measurement, unit] of Object.entries(UNIT)) assert.deepEqual(ok({ ...level, measurement, unit }), [], `${measurement} in ${unit}`);
+  assert.deepEqual(ok({ ...METER(), measurement: 'gain-reduction' }), [], 'a gain reduction\'s own');
+  assert.deepEqual(ok(level), [], 'optional: a meter written before the word stays valid');
+  assert.deepEqual(SCHEMA.$defs.descriptorMeter.properties.measurement.enum, [...Object.keys(UNIT), 'gain-reduction']);
+  for (const measurement of ['rms', 'vu', 'ppm', 'lufs', 5]) assert.ok(ok({ ...level, measurement }).length > 0, `${measurement} is no measurement`);
 });
