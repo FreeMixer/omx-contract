@@ -4,6 +4,9 @@ The releases are in `debian/changelog` and `packaging/omx-contract.spec`. This f
 
 ## Unreleased
 
+- A code gains `text` (`en` and `ca`, both required) and `args` (the `{name}` placeholders), written by the code's owner; the
+  validator refuses differing placeholder sets and a placeholder outside `args`, and the c, json and vocabulary-schema renders carry
+  them (docs/data-layout.md). Schema 3.11.0.
 - `scalePosition(travel, value)` and `scaleValue(travel, p)` (`lib/scale.mjs`, exported as `@openmixer/omx-contract/scale`):
   what `linear`, `log` and `stepped`, and the override `map`, mean as a position (docs/scale-position.md).
 - `data/scale-vectors.json`: the golden vectors of each law, installed as `share/omx-contract/scale-vectors.json`; 20 Hz

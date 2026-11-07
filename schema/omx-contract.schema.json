@@ -3,7 +3,7 @@
   "$id": "https://github.com/FreeMixer/omx-contract/raw/main/schema/omx-contract.schema.json",
   "title": "omx-contract data file",
   "description": "A map from an export name to one item: a scalar, a travels table or travel, a sheet, a list, a set, codes, words, a format's terms or a host's verbs. GPL-3.0-or-later.",
-  "x-omx-schema-version": "3.10.0",
+  "x-omx-schema-version": "3.11.0",
   "type": "object",
   "if": { "required": ["origin"] },
   "then": { "$ref": "#/$defs/descriptor" },
@@ -623,7 +623,20 @@
             "properties": {
               "code": { "type": "string", "pattern": "^(hosting(\\.[a-z0-9]+(-[a-z0-9]+)*){1,}|(contract|reply)(\\.[a-z0-9]+(-[a-z0-9]+)*){2,})$" },
               "resp": { "type": "integer", "maximum": -1, "description": "The number a host's reply carries for this refusal, the n of `resp <n>`: a reply code only." },
-              "doc": { "$ref": "#/$defs/text" }
+              "doc": { "$ref": "#/$defs/text" },
+              "text": {
+                "type": "object",
+                "description": "The one sentence a person sees for this refusal, one per language, written by the code's owner and never kept by a surface. Both languages are required, and both use the same `{name}` placeholders, each one of `args`.",
+                "properties": { "en": { "$ref": "#/$defs/text" }, "ca": { "$ref": "#/$defs/text" } },
+                "required": ["en", "ca"],
+                "additionalProperties": false
+              },
+              "args": {
+                "type": "array",
+                "description": "The ordered placeholder names the sentence may use, each as `{name}` in `text`.",
+                "items": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
+                "uniqueItems": true
+              }
             },
             "required": ["code"],
             "if": { "properties": { "code": { "type": "string", "pattern": "^reply\\." } } },

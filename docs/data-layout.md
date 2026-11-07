@@ -66,6 +66,15 @@ not the one its path gives.
   development phase and MINOR in it (`semver`, as an item's removal). A code its writers stop writing is removed in the next release, never carried as retired (operator ruling 2026-10-20,
   omx-contract#130: no backwards compatibility before the first public release); the release's changelog names the
   code that takes its place, if any, and every consumer that still read the key moves in its own pin bump.
+- A code may carry the one sentence a person sees for it: `text`, an object with `en` and `ca` (both required, one sentence
+  each), and `args`, the ordered placeholder names the sentence may use, written `{name}`. The code's owner writes the
+  sentence beside the code, in its own file and its own lane; a surface renders it and never keeps one of its own. The
+  validator refuses a `text` without both languages (the schema), an `en` and a `ca` that use different placeholders
+  (`code-text-placeholders`) and a placeholder that is not in `args` (`code-text-arg`); a code with no `text` stays valid,
+  so owners add theirs when they get to it. Adding a `text` is a MINOR change, rewording one a PATCH, and removing one or
+  changing `args` is MAJOR. The renders carry both where they carry the code: `omx_vocabulary.h` and an owner header's codes
+  section as `<CODE>_TEXT_EN`, `<CODE>_TEXT_CA`, `<CODE>_ARGS_COUNT` and `<CODE>_ARGS_INIT`, `omx-contract.json` as the item's
+  `text` and `args`, and `omx-vocabulary.schema.json` as `x-omx-texts` per codes item; the json render is what consumers fold at build.
 - A `words` item's words keep their declared order, which is part of the contract (a rating's severity, a band's
   ascent). A word may name its `group`, a word of the item its `groups` names, its `x` and `y`, words of the item its `axes` names (an axis word then states its `unit` and `scale`, docs/curves.md), and the format terms it is
   name-compatible with (`from: ["LV2_CORE_TERMS#latency", "CLAP_EXT_LATENCY_TERMS#latency"]`); each resolves.
