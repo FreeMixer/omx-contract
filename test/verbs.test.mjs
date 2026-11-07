@@ -42,7 +42,7 @@ const install = (pkg, from, root, version = '1.0.0') => execFileSync('sh', [join
 /** A contract directory holding omx-contract's data/ and the fixture package, each as its install writes it. */
 function installed() {
   const root = join(SCRATCH, `cd-${n++}`);
-  execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), '-x', 'codes.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data'], { stdio: 'ignore' });
+  execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), '-x', 'codes.json', '-x', 'scale-vectors.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data'], { stdio: 'ignore' });
   install(PKG, FIXTURE, root);
   return root;
 }
@@ -73,7 +73,7 @@ function refusalOf(root) {
 /** The contract directory of omx-contract and the fixture with `edit` applied; `extra` installs more packages. */
 function brokenDir(edit, extra = () => {}) {
   const root = join(SCRATCH, `cd-${n++}`);
-  execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), '-x', 'codes.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data'], { stdio: 'ignore' });
+  execFileSync('sh', [join(ROOT, 'tools/install-contract-dir.sh'), '-x', 'codes.json', '-x', 'scale-vectors.json', 'omx-contract', packageVersion(ROOT), String(SCHEMA_MAJOR), DATA, root, 'data'], { stdio: 'ignore' });
   install(PKG, fixtureWith(edit), root);
   extra(root);
   return root;
