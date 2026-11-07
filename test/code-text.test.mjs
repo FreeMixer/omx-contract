@@ -23,11 +23,12 @@ test('a code with no text stays green', () => assert.deepEqual(problems(() => {}
 test('a code with en and ca and the same placeholders, all in args, is green', () => assert.deepEqual(problems((d) => { withText(d); }), []));
 
 test('fixture en-without-ca: a code with en and no ca is red', () => {
-  const p = problems((d) => { delete withText(d).text.ca; });
+  // no placeholder in the sentence, so only the schema's `required` can refuse it (a missing ca would otherwise differ in placeholders)
+  const p = problems((d) => { const c = withText(d); c.text = { en: 'No directory' }; delete c.args; });
   assert.ok(p.some((x) => x.startsWith('HOSTING_CODES')), p.join());
 });
 
-test('fixture ca-without-en: a code with ca and no en is red', () => assert.ok(problems((d) => { delete withText(d).text.en; }).length > 0));
+test('fixture ca-without-en: a code with ca and no en is red', () => assert.ok(problems((d) => { const c = withText(d); c.text = { ca: 'Cap directori' }; delete c.args; }).length > 0));
 
 test('fixture placeholder-sets-differ: en and ca using different placeholder sets is red', () => {
   assert.ok(problems((d) => { withText(d).text.ca = 'No hi ha cap directori'; }).includes('HOSTING_CODES:code-text-placeholders'));
