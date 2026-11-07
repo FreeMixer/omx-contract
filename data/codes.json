@@ -107,7 +107,7 @@
       },
       "descriptorMeter": {
         "code": "contract.descriptor.meter",
-        "doc": "a meter of a descriptor with the id or a symbol of another meter, a symbol a control answers to, a range whose min is not below its max, or a scale that is no id of PARAM_SCALES"
+        "doc": "a meter of a descriptor with the id or a symbol of another meter, a symbol a control answers to, a range whose min is not below its max, a scale that is no id of PARAM_SCALES, a unit the kind does not measure in (level: dBFS, dBTP, LUFS, LU; gain-reduction: dB), or a clip word on a gain reduction or a true clip on a loudness"
       },
       "descriptorPortDuplicate": {
         "code": "contract.descriptor.port-duplicate",

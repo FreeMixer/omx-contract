@@ -10,3 +10,8 @@ The releases are in `debian/changelog` and `packaging/omx-contract.spec`. This f
   to 20 kHz puts 1 kHz at 0.5663.
 - A log travel over a floor that is not positive is served linear by the library; the validator already drops an
   override entry that asks for one (`contract.override.scale-floor`), and a test holds both outcomes.
+- `descriptorMeter` gains `held` (the plugin holds the block value until the host reads it; a foreign plugin is false and
+  its meter unheld) and `clip` (a level meter carries a sticky clip word; false declares it absent), both optional booleans.
+  The kinds stay `level` and `gain-reduction`; a level is in dBFS, dBTP, LUFS or LU and a gain reduction in dB, so
+  `dBTP` and `LU` join the plugin-only units. A clip word on a gain reduction, or `clip: true` on a loudness unit, is
+  refused with `contract.descriptor.meter`. `rms`, `vu` and `ppm` are not meter kinds.
