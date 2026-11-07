@@ -15,3 +15,6 @@ The releases are in `debian/changelog` and `packaging/omx-contract.spec`. This f
   The kinds stay `level` and `gain-reduction`; a level is in dBFS, dBTP, LUFS or LU and a gain reduction in dB, so
   `dBTP` and `LU` join the plugin-only units. A clip word on a gain reduction, or `clip: true` on a loudness unit, is
   refused with `contract.descriptor.meter`. `rms`, `vu` and `ppm` are not meter kinds.
+- `descriptorMeter` gains `measurement` (`peak`, `true-peak`, `lufs-m`, `lufs-s`, `lufs-i`, `lra`, `gain-reduction`), optional.
+  `true-peak` is in dBTP, `lufs-*` in LUFS, `lra` in LU, `peak` in dBFS; `gain-reduction` is the one measurement of a
+  gain-reduction meter. A measurement in another unit is refused with `contract.descriptor.meter`.

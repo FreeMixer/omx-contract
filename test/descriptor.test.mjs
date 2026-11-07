@@ -198,6 +198,12 @@ const ARMS = [
   ['a clip word that is true on a loudness meter', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'LUFS', clip: true }]; }, 'descriptorMeter'],
   ['a gain-reduction meter in dBFS', AUTHORED, (d) => { d.meters = [{ ...METER(), unit: 'dBFS' }]; }, 'descriptorMeter'],
   ['a level meter in dB', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'dB' }]; }, 'descriptorMeter'],
+  ['a true-peak measurement in dBFS', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'dBFS', measurement: 'true-peak' }]; }, 'descriptorMeter'],
+  ['a lufs-m measurement in dBFS', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'dBFS', measurement: 'lufs-m' }]; }, 'descriptorMeter'],
+  ['an lra measurement in LUFS', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'LUFS', measurement: 'lra' }]; }, 'descriptorMeter'],
+  ['a peak measurement in LUFS', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'LUFS', measurement: 'peak' }]; }, 'descriptorMeter'],
+  ['a level meter whose measurement is gain-reduction', AUTHORED, (d) => { d.meters = [{ ...METER(), kind: 'level', unit: 'dBFS', measurement: 'gain-reduction' }]; }, 'descriptorMeter'],
+  ['a gain-reduction meter whose measurement is peak', AUTHORED, (d) => { d.meters = [{ ...METER(), measurement: 'peak' }]; }, 'descriptorMeter'],
   ['two controls with one id', AUTHORED, (d) => { d.controls[1].id = 0; }, 'descriptorControlDuplicate'],
   ['two controls with one name', SCANNED_CLAP, (d) => { d.controls[1].name = 'shape'; }, 'descriptorControlDuplicate'],
   ['two controls with one symbol', AUTHORED, (d) => { d.controls[1].symbol = d.controls[0].symbol; }, 'descriptorControlDuplicate'],
@@ -317,4 +323,15 @@ test('a meter says whether the plugin holds its value and whether it carries a c
   }
   for (const kind of ['rms', 'vu', 'ppm', 'peak', 'true-peak', 'lufs-m']) assert.ok(ok({ ...level, kind }).length > 0, `${kind} is no meter kind: the kinds are level and gain-reduction`);
   assert.ok(ok({ ...level, rms: true }).length > 0, 'no other word');
+});
+
+test('a meter names its measurement: the six of a level, the one of a gain reduction, each in its unit', () => {
+  const ok = (m) => { const d = fixture(AUTHORED); d.meters = [m]; return problemsOf(d); };
+  const level = { ...METER(), kind: 'level', unit: 'dBFS', min: -60, max: 6 };
+  const UNIT = { peak: 'dBFS', 'true-peak': 'dBTP', 'lufs-m': 'LUFS', 'lufs-s': 'LUFS', 'lufs-i': 'LUFS', lra: 'LU' };
+  for (const [measurement, unit] of Object.entries(UNIT)) assert.deepEqual(ok({ ...level, measurement, unit }), [], `${measurement} in ${unit}`);
+  assert.deepEqual(ok({ ...METER(), measurement: 'gain-reduction' }), [], 'a gain reduction\'s own');
+  assert.deepEqual(ok(level), [], 'optional: a meter written before the word stays valid');
+  assert.deepEqual(SCHEMA.$defs.descriptorMeter.properties.measurement.enum, [...Object.keys(UNIT), 'gain-reduction']);
+  for (const measurement of ['rms', 'vu', 'ppm', 'lufs', 5]) assert.ok(ok({ ...level, measurement }).length > 0, `${measurement} is no measurement`);
 });
